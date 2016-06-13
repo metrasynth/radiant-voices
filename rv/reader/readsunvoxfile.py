@@ -86,7 +86,7 @@ class Reader(object):
                           '[signed {2:d} {2:#x} {2:#b}] '
                           '[unsigned {3:d} {3:#x} {3:#b}])',
                           method_name, data, value, uvalue)
-            elif len(data) < 128:
+            elif len(data) <= 256:
                 self.warn('no handler for {}({})', method_name, data)
             else:
                 self.warn('no handler for {}({} bytes)', method_name, len(data))
