@@ -1,2 +1,4 @@
 class Module(object):
-    pass
+
+    def __init__(self):
+        self.controller_values = []

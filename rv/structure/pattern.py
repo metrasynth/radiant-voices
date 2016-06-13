@@ -1,0 +1,2 @@
+class Pattern(object):
+    pass

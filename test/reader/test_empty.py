@@ -19,9 +19,3 @@ def test_empty():
     assert output.relative_note == 0
     assert output.z == 0
     assert base2_to_base10(output.scale) == 100
-    assert output.visualization.background == Opacity.NORMAL
-    assert output.visualization.shadow == Opacity.OFF
-    assert output.visualization.level_meter == LevelMeter.MONO
-    assert output.visualization.level_orientation == LevelOrientation.HORIZONTAL
-    assert output.visualization.oscilloscope == Oscilloscope.POINTS
-    assert output.visualization.oscilloscope_buffer_size_ms == 12
