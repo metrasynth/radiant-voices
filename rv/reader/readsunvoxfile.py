@@ -70,7 +70,7 @@ class Reader(object):
             return str(type(self.current).__name__).lower()
 
     def process(self, chunk):
-        chunk_name = chunk.getname().decode('ascii').lower().strip()
+        chunk_name = chunk.getname().decode('cp1251').lower().strip()
         class_name = self.current_class_name
         self.last_chunk_name = chunk_name
         method_name = 'process_{}_{}'.format(class_name, chunk_name)
@@ -137,7 +137,7 @@ class Reader(object):
 
     def process_sunvoxfile_name(self, chunk):
         """Project / Name"""
-        name = chunk.read().rstrip(b'\0').decode('ascii')
+        name = chunk.read().rstrip(b'\0').decode('cp1251')
         self.current.project.name = name
         self.debug('name = {!r}', name)
 
@@ -285,12 +285,12 @@ class Reader(object):
 
     def process_module_snam(self, chunk):
         """Module / Name"""
-        self.current.name = chunk.read().decode('ascii').rstrip('\0')
+        self.current.name = chunk.read().decode('cp1251').rstrip('\0')
         self.debug('name = {!r}', self.current.name)
 
     def process_module_styp(self, chunk):
         """Module / Type"""
-        self.current.type = chunk.read().decode('ascii').rstrip('\0')
+        self.current.type = chunk.read().decode('cp1251').rstrip('\0')
         self.debug('type = {!r}', self.current.type)
 
     def process_module_sfin(self, chunk):
@@ -335,7 +335,10 @@ class Reader(object):
             links = []
             while True:
                 index = len(links)
-                source, = struct.unpack('<i', chunk.read(4))
+                data = chunk.read(4)
+                if len(data) == 0:
+                    break
+                source, = struct.unpack('<i', data)
                 if source > -1:
                     links.append(source)
                     self.debug('incoming_links[{}] = {:#04x}', index, source)
@@ -359,7 +362,7 @@ class Reader(object):
 
     def process_module_smin(self, chunk):
         """Module / Midi Out Name"""
-        name = chunk.read().decode('ascii').rstrip('\0')
+        name = chunk.read().decode('cp1251').rstrip('\0')
         self.current.midi_out_name = name
         self.debug('midi_out_name = {!r}', name)
 
