@@ -8,6 +8,8 @@ class Controller(object):
 
     def __init__(self, index, value_type):
         self.index = index
+        if isinstance(value_type, tuple):
+            value_type = Range(*value_type)
         self.value_type = value_type
 
 

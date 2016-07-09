@@ -1,6 +1,6 @@
 from enum import IntEnum
 
-from rv.structure.controller import Controller, Range
+from rv.structure.controller import Controller
 from rv.structure.module import GenericModule
 
 
@@ -27,13 +27,13 @@ class GeneratorModule(GenericModule):
     # TODO: CHNK, CHNM, CHDT, CHFF, CHFR
 
     class controller_types:
-        volume = Controller(0x01, Range(0, 256))
+        volume = Controller(0x01, (0, 256))
         waveform = Controller(0x02, Waveform)
-        panning = Controller(0x03, Range(-128, 128))
-        attack = Controller(0x04, Range(0, 512))
-        release = Controller(0x05, Range(0, 512))
-        polyphony_ch = Controller(0x06, Range(1, 16))
+        panning = Controller(0x03, (-128, 128))
+        attack = Controller(0x04, (0, 512))
+        release = Controller(0x05, (0, 512))
+        polyphony_ch = Controller(0x06, (1, 16))
         mode = Controller(0x07, Mode)
         sustain = Controller(0x08, bool)
-        freq_modulation_input = Controller(0x09, Range(0, 256))
-        duty_cycle = Controller(0x0a, Range(0, 1022))
+        freq_modulation_input = Controller(0x09, (0, 256))
+        duty_cycle = Controller(0x0a, (0, 1022))
