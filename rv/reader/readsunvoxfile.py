@@ -9,6 +9,10 @@ from rv.structure.conversions import base2_to_base10
 from rv.structure.module import Module
 from rv.structure.pattern import Pattern
 from rv.structure.sunvoxfile import SunvoxFile
+from rv.structure.sunsynthfile import SunsynthFile
+
+
+ENCODING = 'cp1251'
 
 
 def read_sunvox_file(filename):
@@ -31,14 +35,15 @@ class Reader(object):
         self.current = None
         self.last = None
         self.top = None
-        self.last_chunk_name = '----'
+        self.last_chunk_name = None
         for chunk in chunks(f):
             self.process(chunk)
+        self.specialize_modules()
 
     def _log_message(self, message):
         """Indent log message according to object depth"""
         indent = '  ' * len(self.objects)
-        return '{}({:>10s}/{:4s}) {}'.format(
+        return '{}({:>12s}/{:4s}) {}'.format(
             indent, self.current_class_name,
             self.last_chunk_name.upper(), message)
 
@@ -70,7 +75,7 @@ class Reader(object):
             return str(type(self.current).__name__).lower()
 
     def process(self, chunk):
-        chunk_name = chunk.getname().decode('cp1251').lower().strip()
+        chunk_name = chunk.getname().decode(ENCODING).lower().strip()
         class_name = self.current_class_name
         self.last_chunk_name = chunk_name
         method_name = 'process_{}_{}'.format(class_name, chunk_name)
@@ -91,10 +96,20 @@ class Reader(object):
             else:
                 self.warn('no handler for {}({} bytes)', method_name, len(data))
 
+    def specialize_modules(self):
+        if hasattr(self.top, 'modules'):
+            self.top._modules = [m.specialized() if m is not None else None
+                                 for m in self.top.modules]
+
     def process_initial_svox(self, _):
         """Project / Start"""
         self.debug('sunvox file start')
         self.push(SunvoxFile())
+
+    def process_initial_ssyn(self, _):
+        """Synth / Start"""
+        self.debug('sunsynth file start')
+        self.push(SunsynthFile())
 
     def process_initial_send(self, _):
         """Empty module"""
@@ -109,6 +124,8 @@ class Reader(object):
         version = tuple(reversed(unpacked))
         self.current.project.sunvox_version = version
         self.debug('sunvox_version = {}', version)
+
+    process_sunsynthfile_vers = process_sunvoxfile_vers
 
     def process_sunvoxfile_bver(self, chunk):
         """Project / Based-on Version"""
@@ -137,7 +154,7 @@ class Reader(object):
 
     def process_sunvoxfile_name(self, chunk):
         """Project / Name"""
-        name = chunk.read().rstrip(b'\0').decode('cp1251')
+        name = chunk.read().rstrip(b'\0').decode(ENCODING)
         self.current.project.name = name
         self.debug('name = {!r}', name)
 
@@ -227,6 +244,8 @@ class Reader(object):
         self.push(module)
         self.debug('flags = {:#010b}', flags)
 
+    process_sunsynthfile_sfff = process_sunvoxfile_sfff
+
     def process_pattern_pxxx(self, chunk):
         """Pattern / X position"""
         x, = struct.unpack('<i', chunk.read())
@@ -257,15 +276,14 @@ class Reader(object):
         self.current.selection_flags = flags
         self.current.selected = bool(flags & 0b10)
         self.debug('selection_flags = {:#010b}', flags)
-        self.debug('selected = {}', self.current.selected)
+        self.debug('is_selected == {}', self.current.is_selected)
 
     def process_pattern_pflg(self, chunk):
         """Pattern / Property Flags"""
         flags, = struct.unpack('<I', chunk.read())
         self.current.property_flags = flags
-        self.current.has_no_icon = bool(flags & 1)
         self.debug('property_flags = {:#010b}', flags)
-        self.debug('has_no_icon = {}', self.current.has_no_icon)
+        self.debug('has_no_icon == {}', self.current.has_no_icon)
 
     def process_pattern_pico(self, chunk):
         """Pattern / Icon"""
@@ -285,12 +303,12 @@ class Reader(object):
 
     def process_module_snam(self, chunk):
         """Module / Name"""
-        self.current.name = chunk.read().decode('cp1251').rstrip('\0')
+        self.current.name = chunk.read().decode(ENCODING).rstrip('\0')
         self.debug('name = {!r}', self.current.name)
 
     def process_module_styp(self, chunk):
         """Module / Type"""
-        self.current.type = chunk.read().decode('cp1251').rstrip('\0')
+        self.current.type = chunk.read().decode(ENCODING).rstrip('\0')
         self.debug('type = {!r}', self.current.type)
 
     def process_module_sfin(self, chunk):
@@ -362,7 +380,7 @@ class Reader(object):
 
     def process_module_smin(self, chunk):
         """Module / Midi Out Name"""
-        name = chunk.read().decode('cp1251').rstrip('\0')
+        name = chunk.read().decode(ENCODING).rstrip('\0')
         self.current.midi_out_name = name
         self.debug('midi_out_name = {!r}', name)
 
@@ -385,10 +403,24 @@ class Reader(object):
         self.current.controller_values.append(value)
         self.debug('controller_values[{}] = {} ({:#06x})', index, value, value)
 
+    def process_module_cmid(self, chunk):
+        """Module / Controller MIDI Inputs
+
+        Requires `process_module_cval` to have been processed.
+        """
+        for i in range(len(self.current.controller_values)):
+            data = chunk.read(8)
+            self.debug('controller_midi_inputs[{}] = {!r}', i, data)
+            self.current.midi_inputs.append(data)
+
+    def process_module_svpr(self, chunk):
+        params, = struct.unpack('<I', chunk.read())
+        self.current.visualization_params = params
+        self.debug('visualization_params = {:#010x}', params)
+
     def process_module_send(self, _):
         """Module / End"""
         self.pop()
         self.debug('module end {:#04x}', len(self.current._modules) - 1)
 
     # TODO: process_module_svpr: visualization parameters
-    # TODO: process_module_cmid: controller MIDI input
