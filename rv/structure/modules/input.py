@@ -6,7 +6,7 @@ from rv.structure.module import GenericModule
 
 class InputModule(GenericModule):
 
-    class controller_types(object):
+    class controller_types:
         volume = Controller(0x01, Range(0, 1024))
         channels = Controller(0x02, Channels)
 

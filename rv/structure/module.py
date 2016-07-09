@@ -105,7 +105,7 @@ class MidiInputList(list):
 
 class GenericModule(SimpleDelegator):
 
-    class controller_types(object):
+    class controller_types:
         pass
 
     def __init__(self, obj):

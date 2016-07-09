@@ -10,7 +10,7 @@ class AnalogGeneratorModule(GenericModule):
 
     # TODO: CHNK, CHNM, CHDT, CHFF, CHFR
 
-    class controller_types(object):
+    class controller_types:
         volume = Controller(0x01, Range(0, 256))
         waveform = Controller(0x02, Waveform)
         panning = Controller(0x03, Range(-128, 128))

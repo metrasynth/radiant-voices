@@ -6,7 +6,7 @@ from .enums import Mode
 
 class FmModule(GenericModule):
 
-    class controller_types(object):
+    class controller_types:
         c_volume = Controller(0x01, Range(0, 256))
         m_volume = Controller(0x02, Range(0, 256))
         panning = Controller(0x03, Range(-128, 128))
