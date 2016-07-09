@@ -18,4 +18,4 @@ class Range(object):
         self.max = max
 
     def __call__(self, raw_value):
-        return raw_value + self.min
+        return raw_value + self.min if self.min < 0 else raw_value
