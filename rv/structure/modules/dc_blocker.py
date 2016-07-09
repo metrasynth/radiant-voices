@@ -1,13 +1,6 @@
-from enum import IntEnum
-
 from rv.structure.controller import Controller
 from rv.structure.module import GenericModule
-
-
-class Channels(IntEnum):
-
-    STEREO = 0
-    MONO = 1
+from .enums import Channels
 
 
 class DcBlockerModule(GenericModule):

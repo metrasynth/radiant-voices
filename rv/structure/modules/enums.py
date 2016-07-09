@@ -1,6 +1,12 @@
 from enum import IntEnum
 
 
+class Channels(IntEnum):
+
+    STEREO = 0
+    MONO = 1
+
+
 class Mode(IntEnum):
 
     HQ = 0
