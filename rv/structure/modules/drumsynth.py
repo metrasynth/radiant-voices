@@ -4,7 +4,7 @@ from rv.structure.module import GenericModule
 
 class DrumsynthModule(GenericModule):
 
-    class controllers(object):
+    class controller_types(object):
         volume = Controller(0x01, Range(0, 512))
         panning = Controller(0x02, Range(-128, 128))
         polyphony_ch = Controller(0x03, Range(1, 8))

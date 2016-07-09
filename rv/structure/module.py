@@ -1,5 +1,6 @@
 from enum import IntEnum
 from importlib import import_module
+from operator import itemgetter
 import struct
 
 from rv.lib.delegator import SimpleDelegator
@@ -104,29 +105,42 @@ class MidiInputList(list):
 
 class GenericModule(SimpleDelegator):
 
-    class controllers(object):
+    class controller_types(object):
         pass
 
-    def __getattr__(self, name):
-        controller_cls = getattr(self.controllers, name, None)
-        if controller_cls is not None:
-            i = controller_cls.index - 1
-            raw_value = self.controller_values[i]
-            return controller_cls.value_type(raw_value)
-        else:
-            return super(GenericModule, self).__getattr__(name)
+    def __init__(self, obj):
+        super().__init__(obj)
+        self.controllers = ControllerValues(self)
 
     def __getstate__(self):
+        controllers = sorted([
+            dict(
+                index=controller.index,
+                name=name,
+                value=_value_or_name(getattr(self.controllers, name)),
+            )
+            for name, controller
+            in self.controller_types.__dict__.items()
+            if isinstance(controller, Controller)
+        ], key=itemgetter('index'))
         return dict(
             self.delegate_sd_obj.__getstate__(),
-            controllers=dict(
-                (name, _value_or_name(getattr(self, name)))
-                for name, controller_cls
-                in self.controllers.__dict__.items()
-                if isinstance(controller_cls, Controller)
-            ),
+            controllers=controllers,
         )
 
 
 def _value_or_name(value):
     return getattr(value, 'name', value)
+
+
+class ControllerValues(object):
+
+    def __init__(self, module):
+        self.module = module
+
+    def __getattr__(self, item):
+        """Return the adjusted value for the controller."""
+        controller = getattr(self.module.controller_types, item)
+        i = controller.index - 1
+        raw_value = self.module.controller_values[i]
+        return controller.value_type(raw_value)
