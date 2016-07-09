@@ -3,6 +3,8 @@ from enum import IntEnum
 from rv.structure.controller import Controller, Range
 from rv.structure.module import GenericModule
 
+from .enums import Mode
+
 
 class AnalogGeneratorModule(GenericModule):
 
@@ -62,9 +64,3 @@ class FilterEnvelope(IntEnum):
     SUSTAIN_ON = 2
 
 
-class Mode(IntEnum):
-
-    HQ = 0
-    HQ_MONO = 1
-    LQ = 2
-    LQ_MONO =3
