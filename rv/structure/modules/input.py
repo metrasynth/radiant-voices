@@ -1,13 +1,17 @@
-from rv.structure.controller import Controller, Choices, Range
+from enum import IntEnum
+
+from rv.structure.controller import Controller, Range
 from rv.structure.module import GenericModule
+
+
+class Channels(IntEnum):
+
+    MONO = 0
+    STEREO = 1
 
 
 class InputModule(GenericModule):
 
     class controllers(object):
-
-        volume = Controller(
-            0x01, 'Volume', 0, 1024, Range(0, 1024))
-
-        channels = Controller(
-            0x02, 'Channels', 0, 1, Choices('mono', 'stereo'))
+        volume = Controller(0x01, Range(0, 1024))
+        channels = Controller(0x02, Channels)

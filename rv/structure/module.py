@@ -17,9 +17,9 @@ class Module(object):
 
     def specialized(self):
         if self.type is not None:
-            type_name = self.type.replace(' ', '')
-            class_name = type_name + 'Module'
-            module_name = 'rv.structure.modules.{}'.format(type_name.lower())
+            class_name = self.type.title().replace(' ', '') + 'Module'
+            module_name = 'rv.structure.modules.{}'.format(
+                self.type.lower().replace(' ', '_'))
             try:
                 module = import_module(module_name)
             except ImportError:
@@ -34,7 +34,7 @@ class Module(object):
     def __getstate__(self):
         return dict(
             controller_values=self.controller_values,
-            midi_inputs=self.midi_inputs,
+            midi_inputs=list(i.__getstate__() for i in self.midi_inputs),
             flags=self.flags,
             type=self.type,
             x=self.x,
@@ -111,7 +111,8 @@ class GenericModule(SimpleDelegator):
         controller_cls = getattr(self.controllers, name, None)
         if controller_cls is not None:
             i = controller_cls.index - 1
-            return self.controller_values[i]
+            raw_value = self.controller_values[i]
+            return controller_cls.value_type(raw_value)
         else:
             return super(GenericModule, self).__getattr__(name)
 
@@ -119,9 +120,13 @@ class GenericModule(SimpleDelegator):
         return dict(
             self.delegate_sd_obj.__getstate__(),
             controllers=dict(
-                (name, self.controller_values[controller_cls.index - 1])
+                (name, _value_or_name(getattr(self, name)))
                 for name, controller_cls
                 in self.controllers.__dict__.items()
                 if isinstance(controller_cls, Controller)
             ),
         )
+
+
+def _value_or_name(value):
+    return getattr(value, 'name', value)

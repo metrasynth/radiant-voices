@@ -6,24 +6,9 @@ class _Definition(object):
 
 class Controller(object):
 
-    def __init__(self, index, name, min, max, range):
+    def __init__(self, index, value_type):
         self.index = index
-        self.name = name
-        self.min = min
-        self.max = max
-        self.range = range
-
-
-class Choices(object):
-
-    def __init__(self, *choices):
-        self.choices = choices
-
-
-class OnOff(Choices):
-
-    def __init__(self):
-        super().__init__(False, True)
+        self.value_type = value_type
 
 
 class Range(object):
@@ -31,3 +16,6 @@ class Range(object):
     def __init__(self, min, max):
         self.min = min
         self.max = max
+
+    def __call__(self, raw_value):
+        return raw_value + self.min
