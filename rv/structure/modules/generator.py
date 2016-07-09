@@ -24,6 +24,8 @@ class Mode(IntEnum):
 
 class GeneratorModule(GenericModule):
 
+    # TODO: CHNK, CHNM, CHDT, CHFF, CHFR
+
     class controller_types(object):
         volume = Controller(0x01, Range(0, 256))
         waveform = Controller(0x02, Waveform)
