@@ -1,5 +1,3 @@
-from enum import IntEnum
-
 from rv.structure.controller import Controller
 from rv.structure.module import GenericModule
 
