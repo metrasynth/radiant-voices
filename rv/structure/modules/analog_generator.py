@@ -2,7 +2,14 @@ from enum import IntEnum
 
 from rv.structure.controller import Controller
 from rv.structure.module import GenericModule
-from .enums import Mode
+
+
+class Mode(IntEnum):
+
+    HQ = 0
+    HQ_MONO = 1
+    LQ = 2
+    LQ_MONO = 3
 
 
 class AnalogGeneratorModule(GenericModule):

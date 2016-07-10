@@ -2,7 +2,12 @@ from enum import IntEnum
 
 from rv.structure.controller import Controller
 from rv.structure.module import GenericModule
-from .enums import Channels
+
+
+class Channels(IntEnum):
+
+    STEREO = 0
+    MONO = 1
 
 
 class DelayUnits(IntEnum):
