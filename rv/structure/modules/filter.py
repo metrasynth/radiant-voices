@@ -61,7 +61,7 @@ class FilterModule(GenericModule):
         mix = Controller(0x08, (0, 256))
         lfo_freq = Controller(0x09, (0, 1024))
         lfo_amp = Controller(0x0a, (0, 256))
-        set_lfo_phase = Controller(0x0b, (0, 256))  # used to reset module?
+        set_lfo_phase = Controller(0x0b, (0, 256))  # used to reset module
         exponential_freq = Controller(0x0c, bool)
         roll_off = Controller(0x0d, RollOff)
         lfo_freq_unit = Controller(0x0e, LfoFreqUnit)
