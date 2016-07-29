@@ -3,7 +3,7 @@ Radiant Voice wraps the SunVox DLL.
 """
 from setuptools import find_packages, setup
 
-dependencies = ['logutils', 'pyyaml']
+dependencies = ['logutils', 'hexdump', 'pyyaml']
 test_dependencies = ['py', 'pytest', 'pytest-watch']
 
 setup(

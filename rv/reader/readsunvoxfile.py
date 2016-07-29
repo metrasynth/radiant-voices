@@ -4,6 +4,8 @@ log = logging.getLogger(__name__)
 
 import struct
 
+from hexdump import hexdump
+
 from rv.reader.chunks import chunks
 from rv.structure.conversions import base2_to_base10
 from rv.structure.module import Module
@@ -91,10 +93,9 @@ class Reader(object):
                           '[signed {2:d} {2:#x} {2:#b}] '
                           '[unsigned {3:d} {3:#x} {3:#b}])',
                           method_name, data, value, uvalue)
-            elif len(data) <= 256:
-                self.warn('no handler for {}({})', method_name, data)
             else:
-                self.warn('no handler for {}({} bytes)', method_name, len(data))
+                self.warn('no handler for {}({} bytes)\n{}', method_name,
+                          len(data), hexdump(data, 'return'))
 
     def specialize_modules(self):
         if hasattr(self.top, 'modules'):
