@@ -8,9 +8,9 @@ dependencies = ['logutils', 'hexdump', 'pyyaml']
 test_dependencies = ['py', 'pytest', 'pytest-watch']
 
 setup(
-    name='rv',
+    name='radiant-voices',
     version='0.1.0',
-    url='https://github.com/gldnspud/rv',
+    url='https://github.com/metrasynth/radiant-voices',
     license='MIT',
     author='Matthew Scott',
     author_email='matt@11craft.com',
