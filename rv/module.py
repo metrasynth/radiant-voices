@@ -29,7 +29,7 @@ class Module(object, metaclass=ModuleMeta):
     """
 
     name = None
-    type = None
+    mtype = None  # module type
     flags = b'\x49\x00\x00\x00'
 
     controllers = OrderedDict()
@@ -71,8 +71,8 @@ class Module(object, metaclass=ModuleMeta):
         """Yield all chunks needed for a module."""
         yield (b'SFFF', self.flags)
         yield (b'SNAM', self.name.encode(ENCODING)[:32].ljust(32, b'\0'))
-        if self.type is not None:
-            yield (b'STYP', self.type.encode(ENCODING) + b'\0')
+        if self.mtype is not None:
+            yield (b'STYP', self.mtype.encode(ENCODING) + b'\0')
         yield (b'SFIN', pack('<i', self.finetune))
         yield (b'SREL', pack('<i', self.relative_note))
         yield (b'SXXX', pack('<i', self.x_position))

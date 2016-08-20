@@ -12,7 +12,7 @@ class Channels(IntEnum):
 
 class InputModule(Module):
 
-    name = type = 'Input'
+    name = mtype = 'Input'
 
     volume = Controller((0, 1024), 256)
     channels = Controller(Channels, Channels.MONO)

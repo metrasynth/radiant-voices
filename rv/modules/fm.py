@@ -14,7 +14,7 @@ class Mode(IntEnum):
 
 class FmModule(Module):
 
-    name = type = 'FM'
+    name = mtype = 'FM'
 
     c_volume = Controller((0, 256), 128)
     m_volume = Controller((0, 256), 48)
