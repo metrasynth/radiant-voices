@@ -1,4 +1,5 @@
 .cache
-/*.sunvox
 *.dump
-*.dump.orig
+
+/*.sunvox
+examples/*.sunvox
