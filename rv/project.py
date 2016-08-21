@@ -80,7 +80,7 @@ class Project(object):
         yield (b'PATL', pack('<I', self.current_line))
         for i, module in enumerate(self.modules):
             if module is not None:
-                for chunk in module.chunks():
+                for chunk in module.iff_chunks():
                     yield chunk
                 connections = self.module_connections[i]
                 if len(connections) > 0:

@@ -1,7 +1,7 @@
 MODULE_CLASSES = {}
 
 # Must come first to avoid circular imports.
-from rv.modules.module import Module
+from rv.modules.module import Chunk, Module
 
 from rv.modules.amplifier import Amplifier
 from rv.modules.analoggenerator import AnalogGenerator

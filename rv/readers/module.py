@@ -1,13 +1,11 @@
 import logging
-
 from logutils import BraceMessage as _F
-
 log = logging.getLogger(__name__)
 
 from struct import unpack
 
 from rv import ENCODING
-from rv.modules import MODULE_CLASSES, Module
+from rv.modules import MODULE_CLASSES, Chunk, Module
 from rv.modules.output import Output
 from rv.readers.reader import Reader, ReaderFinished
 
@@ -18,6 +16,7 @@ class ModuleReader(Reader):
         super(ModuleReader, self).__init__(f)
         self._index = index
         self._current_controller = 0
+        self._current_chunk = None
 
     def process_chunks(self):
         if self._index > 0:
@@ -88,11 +87,27 @@ class ModuleReader(Reader):
         raw_value, = unpack('<i', data)
         if self._current_controller < len(self._controller_keys):
             controller_name = self._controller_keys[self._current_controller]
+            log.debug(_F('Setting {} from raw {}', controller_name, raw_value))
             self.object.set_raw(controller_name, raw_value)
         else:
             log.warn(_F('Unsupported controller at index {} with raw value {}',
                         self._current_controller, raw_value))
         self._current_controller += 1
+
+    def process_chnm(self, data):
+        self._current_chunk = Chunk()
+        self._current_chunk.chnm = data
+
+    def process_chdt(self, data):
+        self._current_chunk.chdt = data
+
+    def process_chff(self, data):
+        self._current_chunk.chff = data
+
+    def process_chfr(self, data):
+        self._current_chunk.chfr = data
+        self.object.load_chunk(self._current_chunk)
+        self._current_chunk = None
 
     def process_send(self, data):
         raise ReaderFinished()

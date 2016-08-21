@@ -1,8 +1,21 @@
+import logging
+from logutils import BraceMessage as _F
+log = logging.getLogger(__name__)
+
 from collections import OrderedDict
 from struct import pack
 
 from rv import ENCODING
 from rv.modules.meta import ModuleMeta
+
+
+class Chunk(object):
+    """A chunk of custom data related to a module."""
+
+    __slots__ = ['chnm', 'chdt', 'chff', 'chfr']
+
+    def __init__(self):
+        self.chnm = self.chdt = self.chff = self.chfr = None
 
 
 class Module(object, metaclass=ModuleMeta):
@@ -50,10 +63,11 @@ class Module(object, metaclass=ModuleMeta):
         """Set the value for the named controller based on given raw value."""
         controller = self.controllers[name]
         value_type = controller.value_type
-        value = value_type(raw_value)
+        from_raw_value = getattr(value_type, 'from_raw_value', int)
+        value = value_type(from_raw_value(raw_value))
         setattr(self, name, value)
 
-    def chunks(self):
+    def iff_chunks(self):
         """Yield all chunks needed for a module."""
         yield (b'SFFF', pack('<I', self.flags))
         yield (b'SNAM', self.name.encode(ENCODING)[:32].ljust(32, b'\0'))
@@ -70,12 +84,17 @@ class Module(object, metaclass=ModuleMeta):
         yield (b'SMIC', pack('<i', self.midi_out_channel))
         yield (b'SMIB', pack('<i', self.midi_out_bank))
         yield (b'SMIP', pack('<i', self.midi_out_program))
-        for chunk in self.specialized_chunks():
+        for chunk in self.specialized_iff_chunks():
             yield chunk
 
-    def specialized_chunks(self):
+    def specialized_iff_chunks(self):
         """Yield specialized chunks needed for a module, if applicable.
 
         Override this in module subclasses as needed.
         """
         yield (None, None)
+
+    def load_chunk(self, chunk):
+        """Load a CHNK/CHNM/CHDT/CHFF/CHFR block into this module."""
+        log.warn(_F('load_chunk not implemented for {}',
+                    self.__class__.__name__))

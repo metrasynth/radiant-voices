@@ -1,6 +1,7 @@
 from collections import OrderedDict
 
 from rv.controller import Controller
+from rv.modules import MODULE_CLASSES
 
 
 class ModuleMeta(type):
@@ -17,3 +18,5 @@ class ModuleMeta(type):
             v.name = k
             v.number = i
             cls.controllers[k] = v
+        if class_dict.get('mtype') is not None:
+            MODULE_CLASSES[class_dict['mtype']] = cls
