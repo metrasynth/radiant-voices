@@ -23,3 +23,19 @@ def chunks(f):
             c.skip()
         except EOFError:
             break
+
+
+if __name__ == '__main__':
+    import argparse
+    from hexdump import hexdump
+    from rv import ENCODING
+    parser = argparse.ArgumentParser()
+    parser.add_argument('filename', metavar='FILE', type=str, nargs=1,
+                        help='File to load and dump')
+    args = parser.parse_args()
+    filename = args.filename[0]
+    with open(filename, 'rb') as f:
+        for name, data in chunks(f):
+            print(name.decode(ENCODING).rstrip())
+            hexdump(data)
+            print()
