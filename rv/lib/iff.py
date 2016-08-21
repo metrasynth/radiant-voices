@@ -36,6 +36,13 @@ if __name__ == '__main__':
     filename = args.filename[0]
     with open(filename, 'rb') as f:
         for name, data in chunks(f):
-            print(name.decode(ENCODING).rstrip())
-            hexdump(data)
+            print(name.decode(ENCODING), end='  ')
+            i = None
+            for i, line in enumerate(hexdump(data, 'generator')):
+                if i > 0:
+                    print('      ' + line)
+                else:
+                    print(line)
+            if i is None:
+                print()
             print()
