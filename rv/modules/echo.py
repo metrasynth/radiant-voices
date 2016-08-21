@@ -6,7 +6,7 @@ from rv.modules import Module
 
 class Echo(Module):
 
-    type = name = 'Echo'
+    name = mtype = 'Echo'
     mgroup = 'Effect'
 
     class Channels(IntEnum):
