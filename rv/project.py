@@ -4,7 +4,7 @@ from struct import pack
 
 from rv import ENCODING
 from rv.lib.iff import write_chunk
-from rv.modules.output import OutputModule
+from rv.modules.output import Output
 
 
 class Project(object):
@@ -18,7 +18,7 @@ class Project(object):
 
     def __init__(self):
         self.module_connections = defaultdict(list)
-        self.output = OutputModule()
+        self.output = Output()
         self.modules = [self.output]
         self.sunvox_version = (1, 9, 1, 0)
         self.based_on_version = (1, 9, 1, 0)

@@ -6,7 +6,7 @@ then loading that projet into sunvox-dll-python and playing a note.
 """
 
 from rv import ENCODING
-from rv.modules.fm import FmModule
+from rv.modules import Fm
 from rv.project import Project
 import sunvox
 
@@ -14,7 +14,7 @@ import sunvox
 def hello_world():
     print('Building project')
     project = Project()
-    fm_synth = project.new_module(FmModule, m_feedback=42)
+    fm_synth = project.new_module(Fm, m_feedback=42)
     project.connect(fm_synth, project.output)
 
     print('Writing project to output.sunvox')

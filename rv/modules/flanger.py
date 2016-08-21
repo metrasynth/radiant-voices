@@ -2,30 +2,25 @@ from enum import IntEnum
 
 from rv.controller import Controller
 from rv.modules import Module
-from rv.modules import register
 
 
-class LfoWaveform(IntEnum):
-
-    HSIN = 0
-    SIN = 1
-
-
-class LfoFreqUnit(IntEnum):
-
-    HZ_0_05 = 0     # Hz * 0.05
-    MS = 1
-    HZ = 2
-    TICK = 3
-    LINE = 4
-    LINE_2 = 5      # line / 2
-    LINE_3 = 6      # line / 3
-
-
-@register
-class FlangerModule(Module):
+class Flanger(Module):
 
     name = mtype = 'Flanger'
+    mgroup = 'Effect'
+
+    class LfoWaveform(IntEnum):
+        HSIN = 0
+        SIN = 1
+
+    class LfoFreqUnit(IntEnum):
+        HZ_0_05 = 0  # Hz * 0.05
+        MS = 1
+        HZ = 2
+        TICK = 3
+        LINE = 4
+        LINE_2 = 5  # line / 2
+        LINE_3 = 6  # line / 3
 
     dry = Controller((0, 256), 256)
     wet = Controller((0, 256), 128)

@@ -2,21 +2,18 @@ from enum import IntEnum
 
 from rv.controller import Controller
 from rv.modules import Module
-from rv.modules import register
 
 
-class Mode(IntEnum):
-
-    HQ = 0
-    HQ_MONO = 1
-    LQ = 2
-    LQ_MONO = 3
-
-
-@register
-class FmModule(Module):
+class Fm(Module):
 
     name = mtype = 'FM'
+    mgroup = 'Synth'
+
+    class Mode(IntEnum):
+        HQ = 0
+        HQ_MONO = 1
+        LQ = 2
+        LQ_MONO = 3
 
     c_volume = Controller((0, 256), 128)
     m_volume = Controller((0, 256), 48)

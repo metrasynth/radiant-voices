@@ -1,9 +1,8 @@
 from rv.modules import Module
-from rv.modules import register
 
 
-@register
-class OutputModule(Module):
+class Output(Module):
 
     name = mtype = 'Output'
+    mgroup = 'System'
     flags = 0x00000043

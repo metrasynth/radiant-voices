@@ -2,45 +2,36 @@ from enum import IntEnum
 
 from rv.controller import Controller
 from rv.modules import Module
-from rv.modules import register
 
 
-class Type(IntEnum):
-
-    AMPLITUDE = 0
-    PANNING = 1
-
-
-class Waveform(IntEnum):
-
-    SIN = 0
-    SQUARE = 1
-    SIN2 = 2
-    SAW = 3
-    SAW2 = 4
-
-
-class Channels(IntEnum):
-
-    STEREO = 0
-    MONO = 1
-
-
-class FrequencyUnit(IntEnum):
-
-    HZ_64 = 0       # Hz / 64
-    MS = 1
-    HZ = 2
-    TICK = 3
-    LINE = 4
-    LINE_2 = 5      # line / 2
-    LINE_3 = 6      # line / 3
-
-
-@register
-class LfoModule(Module):
+class Lfo(Module):
 
     name = mtype = 'LFO'
+    mgroup = 'Effect'
+
+    class Type(IntEnum):
+        AMPLITUDE = 0
+        PANNING = 1
+
+    class Waveform(IntEnum):
+        SIN = 0
+        SQUARE = 1
+        SIN2 = 2
+        SAW = 3
+        SAW2 = 4
+
+    class Channels(IntEnum):
+        STEREO = 0
+        MONO = 1
+
+    class FrequencyUnit(IntEnum):
+        HZ_64 = 0  # Hz / 64
+        MS = 1
+        HZ = 2
+        TICK = 3
+        LINE = 4
+        LINE_2 = 5  # line / 2
+        LINE_3 = 6  # line / 3
 
     volume = Controller((0, 512), 256)
     type = Controller(Type, Type.AMPLITUDE)

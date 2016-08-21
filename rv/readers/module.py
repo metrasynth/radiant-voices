@@ -8,7 +8,7 @@ from struct import unpack
 
 from rv import ENCODING
 from rv.modules import MODULE_CLASSES, Module
-from rv.modules.output import OutputModule
+from rv.modules.output import Output
 from rv.readers.reader import Reader, ReaderFinished
 
 
@@ -23,7 +23,7 @@ class ModuleReader(Reader):
         if self._index > 0:
             self.object = Module()
         else:
-            self.object = OutputModule()
+            self.object = Output()
         super().process_chunks()
 
     def process_sfff(self, data):

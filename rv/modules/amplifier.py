@@ -1,12 +1,11 @@
 from rv.controller import Controller
 from rv.modules import Module
-from rv.modules import register
 
 
-@register
-class AmplifierModule(Module):
+class Amplifier(Module):
 
     name = mtype = 'Amplifier'
+    mgroup = 'Effect'
 
     volume = Controller((0, 1024), 256)
     panning = Controller((-128, 128), 0)

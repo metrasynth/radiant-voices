@@ -2,21 +2,18 @@ from enum import IntEnum
 
 from rv.controller import Controller
 from rv.modules import Module
-from rv.modules import register
 
 
-class Mode(IntEnum):
-
-    HQ = 0
-    HQ_MONO = 1
-    LQ = 2
-    LQ_MONO = 3
-
-
-@register
-class PitchShifterModule(Module):
+class PitchShifter(Module):
 
     name = mtype = 'Pitch shifter'
+    mgroup = 'Effect'
+
+    class Mode(IntEnum):
+        HQ = 0
+        HQ_MONO = 1
+        LQ = 2
+        LQ_MONO = 3
 
     volume = Controller((0, 512), 256)
     pitch = Controller((-600, 600), 0)

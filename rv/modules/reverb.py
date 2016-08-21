@@ -2,21 +2,18 @@ from enum import IntEnum
 
 from rv.controller import Controller
 from rv.modules import Module
-from rv.modules import register
 
 
-class Mode(IntEnum):
-
-    HQ = 0
-    HQ_MONO = 1
-    LQ = 2
-    LQ_MONO = 3
-
-
-@register
-class ReverbModule(Module):
+class Reverb(Module):
 
     name = mtype = 'Reverb'
+    mgroup = 'Effect'
+
+    class Mode(IntEnum):
+        HQ = 0
+        HQ_MONO = 1
+        LQ = 2
+        LQ_MONO = 3
 
     dry = Controller((0, 256), 256)
     wet = Controller((0, 256), 64)

@@ -2,19 +2,16 @@ from enum import IntEnum
 
 from rv.controller import Controller
 from rv.modules import Module
-from rv.modules import register
 
 
-class Waveform(IntEnum):
-
-    TRIANGLE = 0
-    SQUARE = 1
-
-
-@register
-class KickerModule(Module):
+class Kicker(Module):
 
     name = mtype = 'Kicker'
+    mgroup = 'Synth'
+
+    class Waveform(IntEnum):
+        TRIANGLE = 0
+        SQUARE = 1
 
     volume = Controller((0, 256), 256)
     waveform = Controller(Waveform, Waveform.TRIANGLE)

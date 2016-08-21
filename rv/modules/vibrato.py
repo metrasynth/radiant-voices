@@ -2,30 +2,25 @@ from enum import IntEnum
 
 from rv.controller import Controller
 from rv.modules import Module
-from rv.modules import register
 
 
-class Channels(IntEnum):
-
-    STEREO = 0
-    MONO = 1
-
-
-class FrequencyUnit(IntEnum):
-
-    HZ_64 = 0       # Hz / 64
-    MS = 1
-    HZ = 2
-    TICK = 3
-    LINE = 4
-    LINE_2 = 5      # line / 2
-    LINE_3 = 6      # line / 3
-
-
-@register
-class VibratoModule(Module):
+class Vibrato(Module):
 
     name = mtype = 'Vibrato'
+    mgroup = 'Effect'
+
+    class Channels(IntEnum):
+        STEREO = 0
+        MONO = 1
+
+    class FrequencyUnit(IntEnum):
+        HZ_64 = 0  # Hz / 64
+        MS = 1
+        HZ = 2
+        TICK = 3
+        LINE = 4
+        LINE_2 = 5  # line / 2
+        LINE_3 = 6  # line / 3
 
     volume = Controller((0, 256), 256)
     amplitude = Controller((0, 256), 16)

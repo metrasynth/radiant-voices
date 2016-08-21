@@ -1,12 +1,11 @@
 from rv.controller import Controller
 from rv.modules import Module
-from rv.modules import register
 
 
-@register
-class GlideModule(Module):
+class Glide(Module):
 
     name = mtype = 'Glide'
+    mgroup = 'Misc'
 
     response = Controller((0, 1000), 500)
     sample_rate_hz = Controller((1, 32768), 150)

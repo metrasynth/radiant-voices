@@ -2,27 +2,22 @@ from enum import IntEnum
 
 from rv.controller import Controller
 from rv.modules import Module
-from rv.modules import register
 
 
-class VoiceType(IntEnum):
-
-    SOPRANO = 0
-    ALTO = 1
-    TENOR = 2
-    BASS = 3
-
-
-class Channels(IntEnum):
-
-    STEREO = 0
-    MONO = 1
-
-
-@register
-class VocalFilterModule(Module):
+class VocalFilter(Module):
 
     name = mtype = 'Vocal filter'
+    mgroup = 'Effect'
+
+    class VoiceType(IntEnum):
+        SOPRANO = 0
+        ALTO = 1
+        TENOR = 2
+        BASS = 3
+
+    class Channels(IntEnum):
+        STEREO = 0
+        MONO = 1
 
     volume = Controller((0, 512), 256)
     formant_width_hz = Controller((0, 256), 128)

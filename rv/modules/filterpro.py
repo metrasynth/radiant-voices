@@ -2,60 +2,49 @@ from enum import IntEnum
 
 from rv.controller import Controller
 from rv.modules import Module
-from rv.modules import register
 
 
-class Type(IntEnum):
-
-    LP = 0
-    HP = 1
-    BP_CONST_SKIRT_GAIN = 2
-    BP_CONST_PEAK_GAIN = 3
-    NOTCH = 4
-    ALL_PASS = 5
-    PEAKING = 6
-    LOW_SHELF = 7
-    HIGH_SHELF = 8
-
-
-class RollOff(IntEnum):
-
-    DB_12 = 0
-    DB_24 = 1
-    DB_36 = 2
-    DB_48 = 3
-
-
-class Mode(IntEnum):
-
-    STEREO = 0
-    MONO = 1
-
-
-class LfoWaveform(IntEnum):
-
-    SIN = 0
-    SAW = 1
-    SAW2 = 2
-    SQUARE = 3
-    RANDOM = 4
-
-
-class LfoFreqUnit(IntEnum):
-
-    HZ_0_02 = 0     # Hz * 0.02
-    MS = 1
-    HZ = 2
-    TICK = 3
-    LINE = 4
-    LINE_2 = 5      # line / 2
-    LINE_3 = 6      # line / 3
-
-
-@register
-class FilterProModule(Module):
+class FilterPro(Module):
 
     name = mtype = 'Filter Pro'
+    mgroup = 'Effect'
+
+    class Type(IntEnum):
+        LP = 0
+        HP = 1
+        BP_CONST_SKIRT_GAIN = 2
+        BP_CONST_PEAK_GAIN = 3
+        NOTCH = 4
+        ALL_PASS = 5
+        PEAKING = 6
+        LOW_SHELF = 7
+        HIGH_SHELF = 8
+
+    class RollOff(IntEnum):
+        DB_12 = 0
+        DB_24 = 1
+        DB_36 = 2
+        DB_48 = 3
+
+    class Mode(IntEnum):
+        STEREO = 0
+        MONO = 1
+
+    class LfoWaveform(IntEnum):
+        SIN = 0
+        SAW = 1
+        SAW2 = 2
+        SQUARE = 3
+        RANDOM = 4
+
+    class LfoFreqUnit(IntEnum):
+        HZ_0_02 = 0  # Hz * 0.02
+        MS = 1
+        HZ = 2
+        TICK = 3
+        LINE = 4
+        LINE_2 = 5  # line / 2
+        LINE_3 = 6  # line / 3
 
     volume = Controller((0, 32768), 32768)
     type = Controller(Type, Type.LP)

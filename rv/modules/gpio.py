@@ -1,12 +1,11 @@
 from rv.controller import Controller
 from rv.modules import Module
-from rv.modules import register
 
 
-@register
-class GpioModule(Module):
+class Gpio(Module):
 
     name = mtype = 'GPIO'
+    mgroup = 'Misc'
 
     out = Controller(bool, False)
     out_pin = Controller((0, 64), 0)
