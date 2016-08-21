@@ -2,7 +2,7 @@
 "Hello World"
 
 This shows the construction of a SunVox project using Radiant Voices,
-then loading that projet into sunvox-dll-python and playing a note.
+then loading that project into sunvox-dll-python and playing a note.
 """
 
 from rv.modules import Fm
