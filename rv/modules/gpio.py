@@ -1,7 +1,9 @@
 from rv.controller import Controller
-from rv.module import Module
+from rv.modules import Module
+from rv.modules import register
 
 
+@register
 class GpioModule(Module):
 
     name = mtype = 'GPIO'

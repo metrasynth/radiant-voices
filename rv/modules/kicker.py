@@ -1,7 +1,8 @@
 from enum import IntEnum
 
 from rv.controller import Controller
-from rv.module import Module
+from rv.modules import Module
+from rv.modules import register
 
 
 class Waveform(IntEnum):
@@ -10,6 +11,7 @@ class Waveform(IntEnum):
     SQUARE = 1
 
 
+@register
 class KickerModule(Module):
 
     name = mtype = 'Kicker'

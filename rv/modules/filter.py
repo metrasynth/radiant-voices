@@ -1,7 +1,8 @@
 from enum import IntEnum
 
 from rv.controller import Controller
-from rv.module import Module
+from rv.modules import Module
+from rv.modules import register
 
 
 class Type(IntEnum):
@@ -48,6 +49,7 @@ class LfoWaveform(IntEnum):
     RANDOM = 4
 
 
+@register
 class FilterModule(Module):
 
     name = mtype = 'Filter'

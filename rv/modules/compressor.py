@@ -1,7 +1,8 @@
 from enum import IntEnum
 
 from rv.controller import Controller
-from rv.module import Module
+from rv.modules import Module
+from rv.modules import register
 
 
 class Mode(IntEnum):
@@ -10,6 +11,7 @@ class Mode(IntEnum):
     RMS = 1
 
 
+@register
 class CompressorModule(Module):
 
     type = name = 'Compressor'

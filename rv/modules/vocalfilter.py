@@ -1,7 +1,8 @@
 from enum import IntEnum
 
 from rv.controller import Controller
-from rv.module import Module
+from rv.modules import Module
+from rv.modules import register
 
 
 class VoiceType(IntEnum):
@@ -18,6 +19,7 @@ class Channels(IntEnum):
     MONO = 1
 
 
+@register
 class VocalFilterModule(Module):
 
     name = mtype = 'Vocal filter'

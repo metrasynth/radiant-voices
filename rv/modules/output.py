@@ -1,8 +1,9 @@
-from rv.module import Module
+from rv.modules import Module
+from rv.modules import register
 
 
+@register
 class OutputModule(Module):
 
-    name = 'Output'
-    mtype = None
-    flags = b'\x43\x00\x00\x00'
+    name = mtype = 'Output'
+    flags = 0x00000043

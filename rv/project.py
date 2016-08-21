@@ -20,7 +20,7 @@ class Project(object):
         self.module_connections = defaultdict(list)
         self.output = OutputModule()
         self.modules = [self.output]
-        self.version = (1, 9, 1, 0)
+        self.sunvox_version = (1, 9, 1, 0)
         self.based_on_version = (1, 9, 1, 0)
         self.initial_bpm = 125
         self.initial_tpl = 6
@@ -40,9 +40,12 @@ class Project(object):
 
     def attach_module(self, module):
         """Attach the module to the project."""
-        if module not in self.modules:
+        if module is None:
+            self.modules.append(module)
+        elif module not in self.modules:
             self.modules.append(module)
             module.index = self.module_index(module)
+            self.module_connections[module.index] = module.incoming_links
 
     def connect(self, from_module, to_module):
         """Establish a connection from one module to another."""
@@ -52,12 +55,13 @@ class Project(object):
         if from_idx in connections:
             raise ValueError('Modules are already connected')
         connections.append(from_idx)
+        to_module.incoming_links = connections
 
     def chunks(self):
         """Generate chunks necessary to encode project as a .sunvox file"""
         yield self.MAGIC_CHUNK
-        yield (b'VERS', pack('BBBB', *reversed(self.version)))
-        yield (b'BVER', pack('BBBB', *reversed(self.version)))
+        yield (b'VERS', pack('BBBB', *reversed(self.sunvox_version)))
+        yield (b'BVER', pack('BBBB', *reversed(self.based_on_version)))
         yield (b'BPM ', pack('<I', self.initial_bpm))
         yield (b'SPED', pack('<I', self.initial_tpl))
         yield (b'GVOL', pack('<I', self.global_volume))
@@ -79,9 +83,12 @@ class Project(object):
                 for chunk in module.chunks():
                     yield chunk
                 connections = self.module_connections[i]
-                links = b''.join(pack('<I', from_idx) for from_idx in connections)
-                if len(links):
-                    links += b'\xff\xff\xff\xff'
+                if len(connections) > 0:
+                    connections.append(-1)
+                    structure = '<' + 'i' * len(connections)
+                    links = pack(structure, *connections)
+                else:
+                    links = b''
                 yield (b'SLNK', links)
                 for name in module.controllers:
                     raw_value = module.get_raw(name)

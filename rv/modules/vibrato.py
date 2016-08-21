@@ -1,7 +1,8 @@
 from enum import IntEnum
 
 from rv.controller import Controller
-from rv.module import Module
+from rv.modules import Module
+from rv.modules import register
 
 
 class Channels(IntEnum):
@@ -21,6 +22,7 @@ class FrequencyUnit(IntEnum):
     LINE_3 = 6      # line / 3
 
 
+@register
 class VibratoModule(Module):
 
     name = mtype = 'Vibrato'

@@ -6,33 +6,79 @@ import struct
 
 from hexdump import hexdump
 
-from rv.reader.chunks import chunks
-from rv.structure.conversions import base2_to_base10
-from rv.structure.module import Module
-from rv.structure.pattern import Pattern
-from rv.structure.sunvoxfile import SunvoxFile
-from rv.structure.sunsynthfile import SunsynthFile
+from rv import ENCODING
+from rv.lib.conversions import base2_to_base10
+from rv.lib.iff import chunks
+from rv.project import Project
 
 
-ENCODING = 'cp1251'
-
-
-def read_sunvox_file(filename):
-    console = logging.StreamHandler()
-    console.setLevel(logging.DEBUG)
-    formatter = logging.Formatter('%(levelname)7s  |  %(message)s')
-    console.setFormatter(formatter)
-    log.addHandler(console)
-    log.setLevel(logging.DEBUG)
-    with open(filename, 'rb') as f:
-        reader = Reader(f)
-        return reader.top
+def read_sunvox_file(file_or_name):
+    from rv.readers.initial import InitialReader
+    close = False
+    if isinstance(file_or_name, str):
+        file_or_name = open(file_or_name, 'rb')
+        close = True
+    try:
+        reader = InitialReader(file_or_name)
+        return reader.object
+    finally:
+        if close:
+            file_or_name.close()
 
 
 class Reader(object):
+    """Abstract base class for reading SunVox and SunSynth IFF files"""
 
     def __init__(self, f):
         self.f = f
+        self._object = None
+
+    @property
+    def object(self):
+        if self._object is None:
+            self.process_chunks()
+        return self._object
+
+    @object.setter
+    def object(self, value):
+        if self._object is None:
+            self._object = value
+        else:
+            raise AttributeError('object was already set')
+
+    def process_chunks(self):
+        try:
+            for name, data in chunks(self.f):
+                name = name.decode(ENCODING).strip().lower()
+                method_name = 'process_{}'.format(name)
+                method = getattr(self, method_name, None)
+                log_args = (self.__class__.__name__, method_name)
+                if callable(method):
+                    log.debug(_F('-> {}.{}', *log_args))
+                    method(data)
+                else:
+                    log.warn(_F('no {}.{} method', *log_args))
+            self.process_end_of_file()
+        except ReaderFinished:
+            pass
+
+    def rewind(self, data):
+        new_pos = self.f.tell() - len(data) - 8
+        self.f.seek(new_pos)
+
+    def process_end_of_file(self):
+        raise RuntimeError('Found end of file without a handler')
+
+
+class ReaderFinished(Exception):
+    """A reader is finished processing its relevant chunks."""
+
+
+class OldReader(object):
+
+    def __init__(self, f):
+        self.f = f
+        self.project = Project()
         self.objects = []
         self.current = None
         self.last = None
@@ -121,7 +167,7 @@ class Reader(object):
 
     def process_sunvoxfile_vers(self, chunk):
         """Project / Version"""
-        unpacked = struct.unpack('<BBBB', chunk.read())
+        unpacked = struct.unpack('BBBB', chunk.read())
         version = tuple(reversed(unpacked))
         self.current.project.sunvox_version = version
         self.debug('sunvox_version = {}', version)
@@ -130,7 +176,7 @@ class Reader(object):
 
     def process_sunvoxfile_bver(self, chunk):
         """Project / Based-on Version"""
-        unpacked = struct.unpack('<BBBB', chunk.read())
+        unpacked = struct.unpack('BBBB', chunk.read())
         version = tuple(reversed(unpacked))
         self.current.project.based_on_version = version
         self.debug('based_on_version = {}', version)
@@ -261,13 +307,13 @@ class Reader(object):
 
     def process_pattern_pfgc(self, chunk):
         """Pattern / Foreground color"""
-        color = struct.unpack('<BBB', chunk.read())
+        color = struct.unpack('BBB', chunk.read())
         self.current.fg_color = color
         self.debug('fg_color = {}', color)
 
     def process_pattern_pbgc(self, chunk):
         """Pattern / Background color"""
-        color = struct.unpack('<BBB', chunk.read())
+        color = struct.unpack('BBB', chunk.read())
         self.current.bg_color = color
         self.debug('bg_color = {}', color)
 
@@ -344,7 +390,7 @@ class Reader(object):
 
     def process_module_scol(self, chunk):
         """Module / Color (R, G, B)"""
-        color = struct.unpack('<BBB', chunk.read())
+        color = struct.unpack('BBB', chunk.read())
         self.current.color = color
         self.debug('color = {}', color)
 

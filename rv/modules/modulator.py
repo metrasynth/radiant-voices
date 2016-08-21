@@ -1,7 +1,8 @@
 from enum import IntEnum
 
 from rv.controller import Controller
-from rv.module import Module
+from rv.modules import Module
+from rv.modules import register
 
 
 class ModulationType(IntEnum):
@@ -17,6 +18,7 @@ class Channels(IntEnum):
     MONO = 1
 
 
+@register
 class ModulatorModule(Module):
 
     name = mtype = 'Modulator'

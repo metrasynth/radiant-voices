@@ -1,7 +1,8 @@
 from enum import IntEnum
 
 from rv.controller import Controller
-from rv.module import Module
+from rv.modules import Module
+from rv.modules import register
 
 
 class Mode(IntEnum):
@@ -12,6 +13,7 @@ class Mode(IntEnum):
     LQ_MONO = 3
 
 
+@register
 class PitchShifterModule(Module):
 
     name = mtype = 'Pitch shifter'

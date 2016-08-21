@@ -2,23 +2,7 @@ from collections import OrderedDict
 from struct import pack
 
 from rv import ENCODING
-from rv.controller import Controller
-
-
-class ModuleMeta(type):
-    """Ensures controllers are set up in the order they are defined."""
-
-    def __init__(cls, class_name, bases, class_dict):
-        type.__init__(cls, class_name, bases, class_dict)
-        ordered_controllers = [(k, v) for k, v in class_dict.items()
-                               if isinstance(v, Controller)]
-        ordered_controllers.sort(key=lambda x: x[1]._order)
-        cls.controllers = OrderedDict()
-        for i, (k, v) in enumerate(ordered_controllers, 1):
-            v.label = k.replace('_', ' ').title()
-            v.name = k
-            v.number = i
-            cls.controllers[k] = v
+from rv.modules.meta import ModuleMeta
 
 
 class Module(object, metaclass=ModuleMeta):
@@ -30,7 +14,7 @@ class Module(object, metaclass=ModuleMeta):
 
     name = None
     mtype = None  # module type
-    flags = b'\x49\x00\x00\x00'
+    flags = 0x00000049
 
     controllers = OrderedDict()
 
@@ -48,8 +32,10 @@ class Module(object, metaclass=ModuleMeta):
         self.scale = 256
         self.color = (255, 255, 255)
         self.midi_out_channel = 0
-        self.midi_out_bank = 0xffffffff
-        self.midi_out_program = 0xffffffff
+        self.midi_out_bank = -1
+        self.midi_out_program = -1
+        self.visualization = 0x000c0101
+        self.incoming_links = []
 
     def get_raw(self, name):
         """Return the raw (unsigned) value for the named controller."""
@@ -69,7 +55,7 @@ class Module(object, metaclass=ModuleMeta):
 
     def chunks(self):
         """Yield all chunks needed for a module."""
-        yield (b'SFFF', self.flags)
+        yield (b'SFFF', pack('<I', self.flags))
         yield (b'SNAM', self.name.encode(ENCODING)[:32].ljust(32, b'\0'))
         if self.mtype is not None:
             yield (b'STYP', self.mtype.encode(ENCODING) + b'\0')
@@ -80,10 +66,10 @@ class Module(object, metaclass=ModuleMeta):
         yield (b'SZZZ', pack('<i', self.layer))
         yield (b'SSCL', pack('<I', self.scale))
         yield (b'SVPR', b'\x01\x01\x0c\x00')  # ?
-        yield (b'SCOL', pack('<BBB', *self.color))
-        yield (b'SMIC', pack('<I', self.midi_out_channel))
-        yield (b'SMIB', pack('<I', self.midi_out_bank))
-        yield (b'SMIP', pack('<I', self.midi_out_program))
+        yield (b'SCOL', pack('BBB', *self.color))
+        yield (b'SMIC', pack('<i', self.midi_out_channel))
+        yield (b'SMIB', pack('<i', self.midi_out_bank))
+        yield (b'SMIP', pack('<i', self.midi_out_program))
         for chunk in self.specialized_chunks():
             yield chunk
 
