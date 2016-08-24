@@ -3,11 +3,12 @@ from io import BytesIO
 from struct import pack
 
 from rv import ENCODING
+from rv.container import Container
 from rv.lib.iff import write_chunk
 from rv.modules.output import Output
 
 
-class Project(object):
+class Project(Container):
     """SunVox project comprised of metadata, modules, and patterns
 
     A Project can be saved as a ``.sunvox`` file,
@@ -106,12 +107,3 @@ class Project(object):
         module = cls(*args, **kw)
         self.attach_module(module)
         return module
-
-    def read(self):
-        with BytesIO() as file:
-            self.write_to(file)
-            return file.getvalue()
-
-    def write_to(self, file):
-        for chunk in self.chunks():
-            write_chunk(file, *chunk)
