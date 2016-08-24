@@ -67,7 +67,7 @@ class Reader(object):
         self.f.seek(new_pos)
 
     def process_end_of_file(self):
-        raise RuntimeError('Found end of file without a handler')
+        raise RuntimeError('Reached end of file without a handler')
 
 
 class ReaderFinished(Exception):
