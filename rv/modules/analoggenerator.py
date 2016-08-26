@@ -62,3 +62,27 @@ class AnalogGenerator(Module):
     polyphony_ch = Controller((1, 32), 16)
     mode = Controller(Mode, Mode.HQ)
     noise = Controller((0, 256), 0)
+
+
+"""
+CHNK: 00000010
+
+CHNM: 0
+CHDT: <32 signed bytes, representing dirty waveform>
+        default: 009CA6005A89EC2D 02EC6FE9029E3C20
+                 643200CE41623220 A688645A3B150036
+CHFF: 0 (8-bit sample)
+CHFR: 44100 (AC44)
+
+CHNM: 1
+CHDT: options (64 bytes)
+        0: volume_envelope_scaling_per_key
+        1: filter_envelope_scaling_per_key
+        2: volume_scaling_per_key
+        3: filter_freq_scaling_per_key
+        4: velocity_dependent_filter_freq_scaling
+        5: frequency_div_2
+        6: unsmooth_frequency_change
+        7: filter_freq_scaling_per_key_reverse
+        8-63: zero padding
+"""

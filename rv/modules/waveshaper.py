@@ -23,3 +23,13 @@ class WaveShaper(Module):
     symmetric = Controller(bool, True)
     mode = Controller(Mode, Mode.HQ)
     dc_blocker = Controller(bool, True)
+
+
+"""
+CHNK: 00000010
+
+CHNM: 0
+CHDT: <256 shorts representing waveshaper table>
+CHFF: 00000000
+CHFR: 00000000
+"""

@@ -16,3 +16,24 @@ class MultiSynth(Module):
     random_phase = Controller((0, 32768), 0)
     random_velocity = Controller((0, 32768), 0)
     phase = Controller((0, 32768), 0)
+
+
+"""
+CHNK: 00000010
+CHFF: 00000000
+CHFR: 00000000
+
+CHNM: 0
+CHDT: <128 bytes representing velocity curve (x = note in, y = velocity out)
+
+CHNM: 1
+CHDT: options, 64 bytes:
+        0: use static note C5
+        1: ignore notes with zero velocity
+        2: velocity/velocity curve active
+        3:
+        4-63: zero padding
+
+CHNM: 2
+CHDT: <257 bytes representing velocity curve (x = velocity in, y = velocity out)
+"""

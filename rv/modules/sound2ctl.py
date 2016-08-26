@@ -28,3 +28,14 @@ class Sound2Ctl(Module):
     out_min = Controller((0, 32768), 0)
     out_max = Controller((0, 32768), 32768)
     out_controller = Controller((0, 32), 0)
+
+
+"""
+CHNK: 00000010
+CHNM: 0
+CHDT: options, 64 bytes:
+        0: record values
+        1-63: zero padding
+CHFF: 00000000
+CHFR: 00000000
+"""

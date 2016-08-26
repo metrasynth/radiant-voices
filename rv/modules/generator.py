@@ -36,3 +36,15 @@ class Generator(Module):
     sustain = Controller(bool, True)
     freq_modulation_input = Controller((0, 256), 0)
     duty_cycle = Controller((0, 1022), 511)
+
+
+"""
+CHNK: 00000010
+
+CHNM: 0
+CHDT: <32 signed bytes, representing dirty waveform>
+        default: 009CA6005A89EC2D 02EC6FE9029E3C20
+                 643200CE41623220 A688645A3B150036
+CHFF: 0 (8-bit sample)
+CHFR: 44100 (AC44)
+"""

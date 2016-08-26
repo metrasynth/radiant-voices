@@ -49,3 +49,22 @@ class SpectraVoice(Module):
     h_volume = Controller((0, 255), 255)
     h_width = Controller((0, 255), 3)
     h_type = Controller(HarmonicType, HarmonicType.HSIN)
+
+
+"""
+CHNK: 00000010
+CHFF: 00000000
+CHFR: 00000000
+
+CHNM: 0
+CHDT: <16 shorts representing h_freq_hz value for each harmonic>
+
+CHNM: 1
+CHDT: <16 bytes representing h_volume value for each harmonic>
+
+CHNM: 2
+CHDT: <16 bytes representing h_width value for each harmonic>
+
+CHNM: 3
+CHDT: <16 bytes representing h_type value for each harmonic>
+"""
