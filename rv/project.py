@@ -1,10 +1,8 @@
 from collections import defaultdict
-from io import BytesIO
 from struct import pack
 
 from rv import ENCODING
 from rv.container import Container
-from rv.lib.iff import write_chunk
 from rv.modules.output import Output
 
 
@@ -38,6 +36,7 @@ class Project(Container):
         self.current_pattern = 0
         self.current_track = 0
         self.current_line = 1
+        self.patterns = []
 
     def attach_module(self, module):
         """Attach the module to the project."""
@@ -47,6 +46,10 @@ class Project(Container):
             self.modules.append(module)
             module.index = self.module_index(module)
             self.module_connections[module.index] = module.incoming_links
+
+    def attach_pattern(self, pattern):
+        """Attach the pattern to the project."""
+        self.patterns.append(pattern)
 
     def connect(self, from_module, to_module):
         """Establish a connection from one module to another."""
@@ -79,6 +82,10 @@ class Project(Container):
         yield (b'PATN', pack('<I', self.current_pattern))
         yield (b'PATT', pack('<I', self.current_track))
         yield (b'PATL', pack('<I', self.current_line))
+        for pattern in self.patterns:
+            for chunk in pattern.iff_chunks():
+                yield chunk
+            yield (b'PEND', b'')
         for i, module in enumerate(self.modules):
             if module is not None:
                 for chunk in module.iff_chunks():

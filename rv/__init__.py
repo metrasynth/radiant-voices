@@ -2,6 +2,8 @@
 ENCODING = 'cp1251'
 
 import rv.modules
+from rv.note import NOTECMD, Note
+from rv.pattern import Pattern, PatternClone
 from rv.project import Project
 from rv.readers.reader import read_sunvox_file
 from rv.synth import Synth

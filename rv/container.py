@@ -1,3 +1,5 @@
+from io import BytesIO
+
 from rv.lib.iff import write_chunk
 
 

@@ -3,6 +3,7 @@ from struct import unpack
 from rv import ENCODING
 from rv.project import Project
 from rv.readers.module import ModuleReader
+from rv.readers.pattern import PatternReader, PatternCloneReader
 from rv.readers.reader import Reader, ReaderFinished
 
 
@@ -66,6 +67,16 @@ class SunVoxReader(Reader):
 
     def process_patl(self, data):
         self.object.current_line, = unpack('<I', data)
+
+    def process_pdta(self, data):
+        self.rewind(data)
+        pattern = PatternReader(self.f).object
+        self.object.attach_pattern(pattern)
+
+    def process_ppar(self, data):
+        self.rewind(data)
+        pattern = PatternCloneReader(self.f).object
+        self.object.attach_pattern(pattern)
 
     def process_sfff(self, data):
         self.rewind(data)

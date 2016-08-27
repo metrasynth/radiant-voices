@@ -4,7 +4,7 @@ create, manipulate, and write SunVox song and synth files.
 """
 from setuptools import find_packages, setup
 
-dependencies = ['logutils', 'hexdump', 'pyyaml']
+dependencies = ['attrs', 'logutils', 'hexdump', 'pyyaml']
 test_dependencies = ['py', 'pytest', 'pytest-watch']
 
 setup(
