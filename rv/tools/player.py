@@ -23,7 +23,7 @@ from rv import ENCODING, Project, Synth, read_sunvox_file
 parser = argparse.ArgumentParser(description='Radiant Voices Player')
 parser.add_argument('filename', metavar='FILE', type=str, nargs=1,
                     help='File to load and play')
-parser.add_argument('--skip-rv', dest='skip_rv', action='store_const',
+parser.add_argument('--bypass-rv', dest='skip_rv', action='store_const',
                     const=True, default=False,
                     help='Skip Radiant Voices and play directly using SunVox')
 parser.add_argument('--send-event', dest='send_event', action='store',
