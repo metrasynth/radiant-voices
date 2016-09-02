@@ -5,7 +5,6 @@ create, manipulate, and write SunVox song and synth files.
 from setuptools import find_packages, setup
 
 dependencies = ['attrs', 'logutils', 'hexdump', 'pyyaml']
-test_dependencies = ['py', 'pytest', 'pytest-watch']
 
 setup(
     name='radiant-voices',
@@ -21,7 +20,6 @@ setup(
     zip_safe=False,
     platforms='any',
     install_requires=dependencies,
-    tests_require=test_dependencies,
     entry_points={},
     classifiers=[
         # As from http://pypi.python.org/pypi?%3Aaction=list_classifiers
