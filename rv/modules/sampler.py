@@ -147,6 +147,7 @@ CHDT: 00000000: C7 08 00 00 00 00 00 00  00 00 00 00 40 64 00 80  ............@d
                                                         -- finetune (-128-127, 0x00-0xFF, signed, center=0x00)
                                                            -- 0x_0 = no loop
                                                            -- 0x_1 = loop
+                                                           -- 0x_2 = ping-pong loop
                                                            -- 0x0_ = 8-bit mono
                                                            -- 0x1_ = 16-bit mono
                                                            -- 0x2_ = 32-bit mono
