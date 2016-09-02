@@ -13,9 +13,8 @@ log = logging.getLogger(__name__)
 
 import argparse
 from os import unlink
+import sys
 from tempfile import mkstemp
-
-import sunvox
 
 from rv import ENCODING, Project, Synth, read_sunvox_file
 
@@ -34,6 +33,12 @@ parser.add_argument('--send-event', dest='send_event', action='store',
 
 def main():
     logging.basicConfig(level=logging.DEBUG)
+    try:
+        import sunvox
+    except ImportError:
+        log.error('Please install sunvox-dll-python to use rv.tools.player')
+        log.error('https://github.com/metrasynth/sunvox-dll-python')
+        return 1
     args = parser.parse_args()
     filename = args.filename[0]
     if args.skip_rv:
@@ -87,4 +92,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    sys.exit(main())
