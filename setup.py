@@ -15,7 +15,7 @@ setup(
     author_email='matt@11craft.com',
     description='Create, read, modify, and write SunVox files',
     long_description=__doc__,
-    packages=find_packages(exclude=['tests']),
+    packages=find_packages(exclude=['docs', 'examples', 'tests']),
     include_package_data=True,
     zip_safe=False,
     platforms='any',
@@ -38,8 +38,8 @@ setup(
         'Operating System :: Unix',
         'Operating System :: Windows',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.5',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ]
 )
