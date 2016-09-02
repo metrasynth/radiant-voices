@@ -3,3 +3,5 @@
 
 /*.sunvox
 examples/*.sunvox
+
+docs/_build
