@@ -1,0 +1,4 @@
+:py:mod:`rv.modules.waveshaper`
+===============================
+
+..  autoclass:: rv.modules.waveshaper.WaveShaper

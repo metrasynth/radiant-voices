@@ -1,3 +1,14 @@
+"""
+Convenient access to classes that represent all SunVox module types.
+
+Although the list below refers to the full Python module names that contain
+each class, you can use a shorthand notation for easier access.
+
+For example, to refer to the "Analog Generator" SunVox module, you
+only need to refer to ``rv.modules.AnalogGenerator`` (instead of
+``rv.modules.analoggenerator.AnalogGenerator``).
+"""
+
 MODULE_CLASSES = {}
 
 # Must come first to avoid circular imports.

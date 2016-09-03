@@ -1,0 +1,4 @@
+:py:mod:`rv.modules.input`
+==========================
+
+..  autoclass:: rv.modules.input.Input

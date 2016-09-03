@@ -1,10 +1,13 @@
-Welcome to Radiant Voices's documentation!
-==========================================
+Radiant Voices documentation
+============================
 
 Contents:
 
-.. toctree::
-   :maxdepth: 2
+..  toctree::
+    :maxdepth: 2
+
+    installation
+    api-reference/index
 
 
 Indices and tables
