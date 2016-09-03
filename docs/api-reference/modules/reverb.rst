@@ -2,3 +2,7 @@
 ===========================
 
 ..  autoclass:: rv.modules.reverb.Reverb
+
+..  autoclass:: rv.modules.reverb.Mode
+    :members:
+    :undoc-members:

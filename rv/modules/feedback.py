@@ -15,3 +15,6 @@ class Feedback(Module):
 
     volume = Controller((0, 10000), 1000)
     channels = Controller(Channels, Channels.STEREO)
+
+
+Channels = Feedback.Channels

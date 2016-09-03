@@ -2,3 +2,7 @@
 =============================
 
 ..  autoclass:: rv.modules.feedback.Feedback
+
+..  autoclass:: rv.modules.feedback.Channels
+    :members:
+    :undoc-members:

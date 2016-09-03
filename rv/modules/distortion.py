@@ -19,3 +19,6 @@ class Distortion(Module):
     bit_depth = Controller((1, 16), 16)
     freq_hz = Controller((0, 44100), 44100)
     noise = Controller((0, 256), 0)
+
+
+Type = Distortion.Type

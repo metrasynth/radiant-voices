@@ -17,3 +17,6 @@ class Loop(Module):
     delay = Controller((0, 256), 256)  # line / 128
     channels = Controller(Channels, Channels.STEREO)
     repeats = Controller((0, 64), 0)
+
+
+Channels = Loop.Channels

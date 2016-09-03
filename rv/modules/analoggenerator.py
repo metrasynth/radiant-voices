@@ -64,6 +64,16 @@ class AnalogGenerator(Module):
     noise = Controller((0, 256), 0)
 
 
+Filter = AnalogGenerator.Filter
+FilterEnvelope = AnalogGenerator.FilterEnvelope
+Mode = AnalogGenerator.Mode
+Waveform = AnalogGenerator.Waveform
+
+
+"""
+"""
+
+
 """
 CHNK: 00000010
 

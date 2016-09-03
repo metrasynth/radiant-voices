@@ -22,3 +22,6 @@ class Kicker(Module):
     env_acceleration = Controller((0, 1024), 256)
     polyphony_ch = Controller((1, 4), 1)
     anticlick = Controller(bool, False)
+
+
+Waveform = Kicker.Waveform

@@ -21,3 +21,6 @@ class PitchShifter(Module):
     feedback = Controller((0, 256), 0)
     grain_size = Controller((0, 256), 64)
     mode = Controller(Mode, Mode.HQ)
+
+
+Mode = PitchShifter.Mode

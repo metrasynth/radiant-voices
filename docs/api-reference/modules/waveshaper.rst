@@ -2,3 +2,7 @@
 ===============================
 
 ..  autoclass:: rv.modules.waveshaper.WaveShaper
+
+..  autoclass:: rv.modules.waveshaper.Mode
+    :members:
+    :undoc-members:

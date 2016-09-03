@@ -51,6 +51,14 @@ class SpectraVoice(Module):
     h_type = Controller(HarmonicType, HarmonicType.HSIN)
 
 
+HarmonicType = SpectraVoice.HarmonicType
+Mode = SpectraVoice.Mode
+
+
+"""
+"""
+
+
 """
 CHNK: 00000010
 CHFF: 00000000

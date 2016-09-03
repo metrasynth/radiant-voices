@@ -3,6 +3,11 @@ from rv.modules import Module
 
 
 class MetaModule(Module):
+    """
+    In addition to standard controllers, you can assign zero or more
+    user-defined controllers which map to module/controller pairs
+    in the project embedded within the MetaModule.
+    """
 
     name = mtype = 'MetaModule'
     mgroup = 'Misc'

@@ -14,3 +14,6 @@ class DcBlocker(Module):
         MONO = 1
 
     channels = Controller(Channels, Channels.STEREO)
+
+
+Channels = DcBlocker.Channels

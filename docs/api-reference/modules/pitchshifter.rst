@@ -2,3 +2,7 @@
 =================================
 
 ..  autoclass:: rv.modules.pitchshifter.PitchShifter
+
+..  autoclass:: rv.modules.pitchshifter.Mode
+    :members:
+    :undoc-members:

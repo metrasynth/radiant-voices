@@ -26,3 +26,7 @@ class VocalFilter(Module):
     vowel = Controller((0, 256), 0)
     voice_type = Controller(VoiceType, VoiceType.SOPRANO)
     channels = Controller(Channels, Channels.STEREO)
+
+
+Channels = VocalFilter.Channels
+VoiceType = VocalFilter.VoiceType

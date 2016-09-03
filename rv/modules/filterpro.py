@@ -63,3 +63,10 @@ class FilterPro(Module):
     lfo_waveform = Controller(LfoWaveform, LfoWaveform.SIN)
     set_lfo_phase = Controller((0, 256), 0)  # used to reset module
     lfo_freq_unit = Controller(LfoFreqUnit, LfoFreqUnit.HZ_0_02)
+
+
+LfoFreqUnit = FilterPro.LfoFreqUnit
+LfoWaveform = FilterPro.LfoWaveform
+Mode = FilterPro.Mode
+RollOff = FilterPro.RollOff
+Type = FilterPro.Type

@@ -2,3 +2,7 @@
 ==============================
 
 ..  autoclass:: rv.modules.dcblocker.DcBlocker
+
+..  autoclass:: rv.modules.dcblocker.Channels
+    :members:
+    :undoc-members:

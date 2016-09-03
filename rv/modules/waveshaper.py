@@ -25,6 +25,13 @@ class WaveShaper(Module):
     dc_blocker = Controller(bool, True)
 
 
+Mode = WaveShaper.Mode
+
+
+"""
+"""
+
+
 """
 CHNK: 00000010
 

@@ -2,3 +2,7 @@
 ===========================
 
 ..  autoclass:: rv.modules.kicker.Kicker
+
+..  autoclass:: rv.modules.kicker.Waveform
+    :members:
+    :undoc-members:

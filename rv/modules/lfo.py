@@ -42,3 +42,9 @@ class Lfo(Module):
     channels = Controller(Channels, Channels.STEREO)
     frequency_unit = Controller(FrequencyUnit, FrequencyUnit.HZ_64)
     duty_cycle = Controller((0, 256), 128)
+
+
+Channels = Lfo.Channels
+FrequencyUnit = Lfo.FrequencyUnit
+Type = Lfo.Type
+Waveform = Lfo.Waveform

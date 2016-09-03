@@ -38,6 +38,15 @@ class Generator(Module):
     duty_cycle = Controller((0, 1022), 511)
 
 
+Mode = Generator.Mode
+Waveform = Generator.Waveform
+
+
+
+"""
+"""
+
+
 """
 CHNK: 00000010
 

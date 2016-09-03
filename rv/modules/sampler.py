@@ -28,6 +28,14 @@ class Sampler(Module):
     rec_threshold = Controller((0, 10000), 4)
 
 
+EnvelopeInterpolation = Sampler.EnvelopeInterpolation
+SampleInterpolation = Sampler.SampleInterpolation
+
+
+"""
+"""
+
+
 """
 CHNK: 00000102
 
