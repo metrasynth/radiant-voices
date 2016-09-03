@@ -6,7 +6,7 @@ from rv.modules import Module
 
 class Compressor(Module):
 
-    type = name = 'Compressor'
+    name = mtype = 'Compressor'
     mgroup = 'Effect'
 
     class Mode(IntEnum):

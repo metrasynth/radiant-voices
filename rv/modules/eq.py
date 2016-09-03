@@ -6,7 +6,7 @@ from rv.modules import Module
 
 class Eq(Module):
 
-    type = name = 'EQ'
+    name = mtype = 'EQ'
     mgroup = 'Effect'
 
     class Channels(IntEnum):

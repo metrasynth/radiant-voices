@@ -6,7 +6,7 @@ from rv.modules import Module
 
 class Feedback(Module):
 
-    type = name = 'Feedback'
+    name = mtype = 'Feedback'
     mgroup = 'Misc'
 
     class Channels(IntEnum):

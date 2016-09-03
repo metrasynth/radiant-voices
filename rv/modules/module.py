@@ -27,6 +27,7 @@ class Module(object, metaclass=ModuleMeta):
 
     name = None
     mtype = None  # module type
+    mgroup = None  # module group
     flags = 0x00000049
 
     controllers = OrderedDict()

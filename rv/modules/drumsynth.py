@@ -2,7 +2,7 @@ from rv.controller import Controller
 from rv.modules import Module
 
 
-class Drumsynth(Module):
+class DrumSynth(Module):
 
     name = mtype = 'DrumSynth'
     mgroup = 'Synth'
