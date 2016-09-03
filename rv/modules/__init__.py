@@ -9,7 +9,7 @@ from rv.modules.compressor import Compressor
 from rv.modules.dcblocker import DcBlocker
 from rv.modules.delay import Delay
 from rv.modules.distortion import Distortion
-from rv.modules.drumsynth import Drumsynth
+from rv.modules.drumsynth import DrumSynth
 from rv.modules.echo import Echo
 from rv.modules.eq import Eq
 from rv.modules.feedback import Feedback
