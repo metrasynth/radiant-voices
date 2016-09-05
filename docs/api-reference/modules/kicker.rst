@@ -3,6 +3,6 @@
 
 ..  autoclass:: rv.modules.kicker.Kicker
 
-..  autoclass:: rv.modules.kicker.Waveform
+..  autoclass:: rv.modules.kicker::Kicker.Waveform
     :members:
     :undoc-members:

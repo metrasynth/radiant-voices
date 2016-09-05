@@ -20,6 +20,3 @@ class Compressor(Module):
     release_ms = Controller((1, 1000), 300)
     mode = Controller(Mode, Mode.PEAK)
     sidechain_input = Controller((0, 32), 0)
-
-
-Mode = Compressor.Mode

@@ -17,6 +17,3 @@ class Eq(Module):
     middle = Controller((0, 512), 256)
     high = Controller((0, 512), 256)
     channels = Controller(Channels, Channels.STEREO)
-
-
-Channels = Eq.Channels

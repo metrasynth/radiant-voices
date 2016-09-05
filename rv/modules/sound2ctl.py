@@ -30,14 +30,6 @@ class Sound2Ctl(Module):
     out_controller = Controller((0, 32), 0)
 
 
-Channels = Sound2Ctl.Channels
-Mode = Sound2Ctl.Mode
-
-
-"""
-"""
-
-
 """
 CHNK: 00000010
 CHNM: 0

@@ -58,10 +58,3 @@ class Filter(Module):
     roll_off = Controller(RollOff, RollOff.DB_12)
     lfo_freq_unit = Controller(LfoFreqUnit, LfoFreqUnit.HZ_0_02)
     lfo_waveform = Controller(LfoWaveform, LfoWaveform.SIN)
-
-
-LfoFreqUnit = Filter.LfoFreqUnit
-LfoWaveform = Filter.LfoWaveform
-Mode = Filter.Mode
-RollOff = Filter.RollOff
-Type = Filter.Type

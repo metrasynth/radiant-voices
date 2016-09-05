@@ -3,6 +3,6 @@
 
 ..  autoclass:: rv.modules.compressor.Compressor
 
-..  autoclass:: rv.modules.compressor.Mode
+..  autoclass:: rv.modules.compressor::Compressor.Mode
     :members:
     :undoc-members:

@@ -3,22 +3,22 @@
 
 ..  autoclass:: rv.modules.filter.Filter
 
-..  autoclass:: rv.modules.filter.Type
+..  autoclass:: rv.modules.filter::Filter.Type
     :members:
     :undoc-members:
 
-..  autoclass:: rv.modules.filter.Mode
+..  autoclass:: rv.modules.filter::Filter.Mode
     :members:
     :undoc-members:
 
-..  autoclass:: rv.modules.filter.RollOff
+..  autoclass:: rv.modules.filter::Filter.RollOff
     :members:
     :undoc-members:
 
-..  autoclass:: rv.modules.filter.LfoFreqUnit
+..  autoclass:: rv.modules.filter::Filter.LfoFreqUnit
     :members:
     :undoc-members:
 
-..  autoclass:: rv.modules.filter.LfoWaveform
+..  autoclass:: rv.modules.filter::Filter.LfoWaveform
     :members:
     :undoc-members:

@@ -3,10 +3,10 @@
 
 ..  autoclass:: rv.modules.delay.Delay
 
-..  autoclass:: rv.modules.delay.Channels
+..  autoclass:: rv.modules.delay::Delay.Channels
     :members:
     :undoc-members:
 
-..  autoclass:: rv.modules.delay.DelayUnits
+..  autoclass:: rv.modules.delay::Delay.DelayUnits
     :members:
     :undoc-members:

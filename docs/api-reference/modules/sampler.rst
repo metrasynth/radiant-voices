@@ -3,10 +3,10 @@
 
 ..  autoclass:: rv.modules.sampler.Sampler
 
-..  autoclass:: rv.modules.sampler.SampleInterpolation
+..  autoclass:: rv.modules.sampler::Sampler.SampleInterpolation
     :members:
     :undoc-members:
 
-..  autoclass:: rv.modules.sampler.EnvelopeInterpolation
+..  autoclass:: rv.modules.sampler::Sampler.EnvelopeInterpolation
     :members:
     :undoc-members:

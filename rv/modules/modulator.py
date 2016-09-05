@@ -21,7 +21,3 @@ class Modulator(Module):
     volume = Controller((0, 512), 256)
     modulation_type = Controller(ModulationType, ModulationType.AMPLITUDE)
     channels = Controller(Channels, Channels.STEREO)
-
-
-Channels = Modulator.Channels
-ModulationType = Modulator.ModulationType

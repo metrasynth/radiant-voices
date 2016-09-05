@@ -3,10 +3,10 @@
 
 ..  autoclass:: rv.modules.modulator.Modulator
 
-..  autoclass:: rv.modules.modulator.ModulationType
+..  autoclass:: rv.modules.modulator::Modulator.ModulationType
     :members:
     :undoc-members:
 
-..  autoclass:: rv.modules.modulator.Channels
+..  autoclass:: rv.modules.modulator::Modulator.Channels
     :members:
     :undoc-members:

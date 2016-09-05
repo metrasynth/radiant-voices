@@ -3,18 +3,18 @@
 
 ..  autoclass:: rv.modules.analoggenerator.AnalogGenerator
 
-..  autoclass:: rv.modules.analoggenerator.Waveform
+..  autoclass:: rv.modules.analoggenerator::AnalogGenerator.Waveform
     :members:
     :undoc-members:
 
-..  autoclass:: rv.modules.analoggenerator.Filter
+..  autoclass:: rv.modules.analoggenerator::AnalogGenerator.Filter
     :members:
     :undoc-members:
 
-..  autoclass:: rv.modules.analoggenerator.FilterEnvelope
+..  autoclass:: rv.modules.analoggenerator::AnalogGenerator.FilterEnvelope
     :members:
     :undoc-members:
 
-..  autoclass:: rv.modules.analoggenerator.Mode
+..  autoclass:: rv.modules.analoggenerator::AnalogGenerator.Mode
     :members:
     :undoc-members:

@@ -31,7 +31,3 @@ class Delay(Module):
     channels = Controller(Channels, Channels.STEREO)
     inverse = Controller(bool, False)
     delay_units = Controller(DelayUnits, DelayUnits.SEC_16384)
-
-
-Channels = Delay.Channels
-DelayUnits = Delay.DelayUnits

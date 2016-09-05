@@ -3,6 +3,6 @@
 
 ..  autoclass:: rv.modules.feedback.Feedback
 
-..  autoclass:: rv.modules.feedback.Channels
+..  autoclass:: rv.modules.feedback::Feedback.Channels
     :members:
     :undoc-members:

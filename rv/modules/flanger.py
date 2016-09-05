@@ -32,7 +32,3 @@ class Flanger(Module):
     lfo_waveform = Controller(LfoWaveform, LfoWaveform.HSIN)
     set_lfo_phase = Controller((0, 256), 0)  # used to reset module
     lfo_freq_unit = Controller(LfoFreqUnit, LfoFreqUnit.HZ_0_05)
-
-
-LfoFreqUnit = Flanger.LfoFreqUnit
-LfoWaveform = Flanger.LfoWaveform

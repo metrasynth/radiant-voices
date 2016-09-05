@@ -3,10 +3,10 @@
 
 ..  autoclass:: rv.modules.vibrato.Vibrato
 
-..  autoclass:: rv.modules.vibrato.Channels
+..  autoclass:: rv.modules.vibrato::Vibrato.Channels
     :members:
     :undoc-members:
 
-..  autoclass:: rv.modules.vibrato.FrequencyUnit
+..  autoclass:: rv.modules.vibrato::Vibrato.FrequencyUnit
     :members:
     :undoc-members:

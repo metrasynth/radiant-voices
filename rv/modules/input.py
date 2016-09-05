@@ -15,6 +15,3 @@ class Input(Module):
 
     volume = Controller((0, 1024), 256)
     channels = Controller(Channels, Channels.MONO)
-
-
-Channels = Input.Channels

@@ -28,7 +28,3 @@ class Echo(Module):
     delay = Controller((0, 256), 256)
     channels = Controller(Channels, Channels.STEREO)
     delay_units = Controller(DelayUnits, DelayUnits.SEC_256)
-
-
-Channels = Echo.Channels
-DelayUnits = Echo.DelayUnits

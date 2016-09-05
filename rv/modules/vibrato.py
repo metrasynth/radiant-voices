@@ -28,7 +28,3 @@ class Vibrato(Module):
     channels = Controller(Channels, Channels.STEREO)
     set_phase = Controller((0, 256), 0)  # used to reset module
     frequency_unit = Controller(FrequencyUnit, FrequencyUnit.HZ_64)
-
-
-Channels = Vibrato.Channels
-FrequencyUnit = Vibrato.FrequencyUnit

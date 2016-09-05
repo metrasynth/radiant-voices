@@ -3,6 +3,6 @@
 
 ..  autoclass:: rv.modules.loop.Loop
 
-..  autoclass:: rv.modules.loop.Channels
+..  autoclass:: rv.modules.loop::Loop.Channels
     :members:
     :undoc-members:

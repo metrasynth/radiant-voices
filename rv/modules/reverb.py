@@ -24,6 +24,3 @@ class Reverb(Module):
     mode = Controller(Mode, Mode.HQ)
     all_pass_filter = Controller(bool, True)
     room_size = Controller((0, 128), 16)
-
-
-Mode = Reverb.Mode

@@ -3,10 +3,10 @@
 
 ..  autoclass:: rv.modules.flanger.Flanger
 
-..  autoclass:: rv.modules.flanger.LfoWaveform
+..  autoclass:: rv.modules.flanger::Flanger.LfoWaveform
     :members:
     :undoc-members:
 
-..  autoclass:: rv.modules.flanger.LfoFreqUnit
+..  autoclass:: rv.modules.flanger::Flanger.LfoFreqUnit
     :members:
     :undoc-members:

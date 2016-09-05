@@ -32,6 +32,3 @@ class Fm(Module):
     m_scaling_per_key = Controller((0, 4), 0)
     polyphony_ch = Controller((1, 16), 4)
     mode = Controller(Mode, Mode.HQ)
-
-
-Mode = Fm.Mode

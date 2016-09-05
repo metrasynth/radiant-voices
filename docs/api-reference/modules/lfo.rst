@@ -3,18 +3,18 @@
 
 ..  autoclass:: rv.modules.lfo.Lfo
 
-..  autoclass:: rv.modules.lfo.Type
+..  autoclass:: rv.modules.lfo::Lfo.Type
     :members:
     :undoc-members:
 
-..  autoclass:: rv.modules.lfo.Waveform
+..  autoclass:: rv.modules.lfo::Lfo.Waveform
     :members:
     :undoc-members:
 
-..  autoclass:: rv.modules.lfo.Channels
+..  autoclass:: rv.modules.lfo::Lfo.Channels
     :members:
     :undoc-members:
 
-..  autoclass:: rv.modules.lfo.FrequencyUnit
+..  autoclass:: rv.modules.lfo::Lfo.FrequencyUnit
     :members:
     :undoc-members:

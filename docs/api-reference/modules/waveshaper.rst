@@ -3,6 +3,6 @@
 
 ..  autoclass:: rv.modules.waveshaper.WaveShaper
 
-..  autoclass:: rv.modules.waveshaper.Mode
+..  autoclass:: rv.modules.waveshaper::WaveShaper.Mode
     :members:
     :undoc-members:
