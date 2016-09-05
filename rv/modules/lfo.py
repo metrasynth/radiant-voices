@@ -1,4 +1,4 @@
-from enum import IntEnum
+from enum import Enum
 
 from rv.controller import Controller
 from rv.modules import Module
@@ -9,36 +9,36 @@ class Lfo(Module):
     name = mtype = 'LFO'
     mgroup = 'Effect'
 
-    class Type(IntEnum):
-        AMPLITUDE = 0
-        PANNING = 1
+    class Type(Enum):
+        amplitude = 0
+        panning = 1
 
-    class Waveform(IntEnum):
-        SIN = 0
-        SQUARE = 1
-        SIN2 = 2
-        SAW = 3
-        SAW2 = 4
+    class Waveform(Enum):
+        sin = 0
+        square = 1
+        sin2 = 2
+        saw = 3
+        saw2 = 4
 
-    class Channels(IntEnum):
-        STEREO = 0
-        MONO = 1
+    class Channels(Enum):
+        stereo = 0
+        mono = 1
 
-    class FrequencyUnit(IntEnum):
-        HZ_64 = 0  # Hz / 64
-        MS = 1
-        HZ = 2
-        TICK = 3
-        LINE = 4
-        LINE_2 = 5  # line / 2
-        LINE_3 = 6  # line / 3
+    class FrequencyUnit(Enum):
+        hz_64 = 0  # hz / 64
+        ms = 1
+        hz = 2
+        tick = 3
+        line = 4
+        line_2 = 5  # line / 2
+        line_3 = 6  # line / 3
 
     volume = Controller((0, 512), 256)
-    type = Controller(Type, Type.AMPLITUDE)
+    type = Controller(Type, Type.amplitude)
     amplitude = Controller((0, 256), 256)
     freq = Controller((0, 2048), 256)
-    waveform = Controller(Waveform, Waveform.SIN)
+    waveform = Controller(Waveform, Waveform.sin)
     set_phase = Controller((0, 256), 0)  # used to reset module
-    channels = Controller(Channels, Channels.STEREO)
-    frequency_unit = Controller(FrequencyUnit, FrequencyUnit.HZ_64)
+    channels = Controller(Channels, Channels.stereo)
+    frequency_unit = Controller(FrequencyUnit, FrequencyUnit.hz_64)
     duty_cycle = Controller((0, 256), 128)

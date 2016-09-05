@@ -4,5 +4,3 @@
 ..  autoclass:: rv.modules.dcblocker.DcBlocker
 
 ..  autoclass:: rv.modules.dcblocker::DcBlocker.Channels
-    :members:
-    :undoc-members:

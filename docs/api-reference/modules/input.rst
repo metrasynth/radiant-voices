@@ -4,5 +4,3 @@
 ..  autoclass:: rv.modules.input.Input
 
 ..  autoclass:: rv.modules.input::Input.Channels
-    :members:
-    :undoc-members:

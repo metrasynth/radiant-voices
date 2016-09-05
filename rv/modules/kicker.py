@@ -1,4 +1,4 @@
-from enum import IntEnum
+from enum import Enum
 
 from rv.controller import Controller
 from rv.modules import Module
@@ -9,12 +9,12 @@ class Kicker(Module):
     name = mtype = 'Kicker'
     mgroup = 'Synth'
 
-    class Waveform(IntEnum):
-        TRIANGLE = 0
-        SQUARE = 1
+    class Waveform(Enum):
+        triangle = 0
+        square = 1
 
     volume = Controller((0, 256), 256)
-    waveform = Controller(Waveform, Waveform.TRIANGLE)
+    waveform = Controller(Waveform, Waveform.triangle)
     panning = Controller((-128, 128), 0)
     attack = Controller((0, 512), 0)
     release = Controller((0, 512), 32)

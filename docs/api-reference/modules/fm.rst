@@ -4,5 +4,3 @@
 ..  autoclass:: rv.modules.fm.Fm
 
 ..  autoclass:: rv.modules.fm::Fm.Mode
-    :members:
-    :undoc-members:

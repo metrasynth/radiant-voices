@@ -1,4 +1,4 @@
-from enum import IntEnum
+from enum import Enum
 
 from rv.controller import Controller
 from rv.modules import Module
@@ -9,11 +9,11 @@ class Fm(Module):
     name = mtype = 'FM'
     mgroup = 'Synth'
 
-    class Mode(IntEnum):
-        HQ = 0
-        HQ_MONO = 1
-        LQ = 2
-        LQ_MONO = 3
+    class Mode(Enum):
+        hq = 0
+        hq_mono = 1
+        lq = 2
+        lq_mono = 3
 
     c_volume = Controller((0, 256), 128)
     m_volume = Controller((0, 256), 48)
@@ -31,4 +31,4 @@ class Fm(Module):
     m_release = Controller((0, 512), 64)
     m_scaling_per_key = Controller((0, 4), 0)
     polyphony_ch = Controller((1, 16), 4)
-    mode = Controller(Mode, Mode.HQ)
+    mode = Controller(Mode, Mode.hq)

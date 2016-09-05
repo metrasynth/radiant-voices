@@ -1,4 +1,4 @@
-from enum import IntEnum
+from enum import Enum
 
 from rv.controller import Controller
 from rv.modules import Module
@@ -9,28 +9,28 @@ class SpectraVoice(Module):
     name = mtype = 'SpectraVoice'
     mgroup = 'Synth'
 
-    class Mode(IntEnum):
-        HQ = 0
-        HQ_MONO = 1
-        LQ = 2
-        LQ_MONO = 3
-        HQ_SPLINE = 4
+    class Mode(Enum):
+        hq = 0
+        hq_mono = 1
+        lq = 2
+        lq_mono = 3
+        hq_spline = 4
 
-    class HarmonicType(IntEnum):
-        HSIN = 0
-        RECT = 1
-        ORG1 = 2
-        ORG2 = 3
-        ORG3 = 4
-        ORG4 = 5
-        SIN = 6
-        RANDOM = 7
-        TRIANGLE1 = 8
-        TRIANGLE2 = 9
-        OVERTONES1 = 10
-        OVERTONES2 = 11
-        OVERTONES3 = 12
-        OVERTONES4 = 13
+    class HarmonicType(Enum):
+        hsin = 0
+        rect = 1
+        org1 = 2
+        org2 = 3
+        org3 = 4
+        org4 = 5
+        sin = 6
+        random = 7
+        triangle1 = 8
+        triangle2 = 9
+        overtones1 = 10
+        overtones2 = 11
+        overtones3 = 12
+        overtones4 = 13
 
     # TODO: CHNK, CHNM, CHDT, CHFF, CHFR
 
@@ -39,7 +39,7 @@ class SpectraVoice(Module):
     attack = Controller((0, 512), 10)
     release = Controller((0, 512), 8000)
     polyphony_ch = Controller((1, 32), 8)
-    mode = Controller(Mode, Mode.HQ_SPLINE)
+    mode = Controller(Mode, Mode.hq_spline)
     sustain = Controller(bool, True)
     spectrum_resolution = Controller((0, 5), 1)
     # Note: These are controllers used to program the module while it's loaded.
@@ -48,7 +48,7 @@ class SpectraVoice(Module):
     h_freq_hz = Controller((0, 22050), 1098)
     h_volume = Controller((0, 255), 255)
     h_width = Controller((0, 255), 3)
-    h_type = Controller(HarmonicType, HarmonicType.HSIN)
+    h_type = Controller(HarmonicType, HarmonicType.hsin)
 
 
 """

@@ -1,4 +1,4 @@
-from enum import IntEnum
+from enum import Enum
 
 from rv.controller import Controller
 from rv.modules import Module
@@ -9,14 +9,14 @@ class Compressor(Module):
     name = mtype = 'Compressor'
     mgroup = 'Effect'
 
-    class Mode(IntEnum):
-        PEAK = 0
-        RMS = 1
+    class Mode(Enum):
+        peak = 0
+        rms = 1
 
     volume = Controller((0, 512) ,256)
     threshold = Controller((0, 512), 256)
     slope_pct = Controller((0, 200), 100)
     attack_ms = Controller((0, 500), 1)
     release_ms = Controller((1, 1000), 300)
-    mode = Controller(Mode, Mode.PEAK)
+    mode = Controller(Mode, Mode.peak)
     sidechain_input = Controller((0, 32), 0)

@@ -4,5 +4,3 @@
 ..  autoclass:: rv.modules.eq.Eq
 
 ..  autoclass:: rv.modules.eq::Eq.Channels
-    :members:
-    :undoc-members:

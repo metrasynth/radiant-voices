@@ -1,4 +1,5 @@
 from collections import OrderedDict
+from enum import Enum
 from textwrap import dedent
 
 from rv.controller import Controller
@@ -12,6 +13,7 @@ class ModuleMeta(type):
         type.__init__(cls, class_name, bases, class_dict)
         cls.__init_controllers(class_dict)
         cls.__init_docstring(class_dict)
+        cls.__init_enum_docstrings(class_dict)
 
     def __init_controllers(cls, class_dict):
         ordered_controllers = [(k, v) for k, v in class_dict.items()
@@ -50,3 +52,20 @@ class ModuleMeta(type):
         else:
             lines.append('This module has no controllers.')
         cls.__doc__ = '\n'.join(lines)
+
+    def __init_enum_docstrings(cls, class_dict):
+        # readthedocs.org doesn't correctly list out enumerator values,
+        # so we generate our own table here.
+        for e in class_dict.values():
+            if isinstance(e, type) and issubclass(e, Enum):
+                lines = [
+                    'An enumeration.',
+                    '',
+                    '=' * 40 + ' ' + '=' * 40,
+                    '{:40s} {:40s}'.format('Name', 'Value'),
+                    '=' * 40 + ' ' + '=' * 40,
+                ]
+                for v in e:
+                    lines.append('{:40s} {:40d}'.format(v.name, v.value))
+                lines.append('=' * 40 + ' ' + '=' * 40)
+                e.__doc__ = '\n'.join(lines)

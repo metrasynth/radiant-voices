@@ -4,5 +4,3 @@
 ..  autoclass:: rv.modules.distortion.Distortion
 
 ..  autoclass:: rv.modules.distortion::Distortion.Type
-    :members:
-    :undoc-members:

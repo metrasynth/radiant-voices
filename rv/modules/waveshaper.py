@@ -1,4 +1,4 @@
-from enum import IntEnum
+from enum import Enum
 
 from rv.controller import Controller
 from rv.modules import Module
@@ -9,11 +9,11 @@ class WaveShaper(Module):
     name = mtype = 'WaveShaper'
     mgroup = 'Effect'
 
-    class Mode(IntEnum):
-        HQ = 0
-        HQ_MONO = 1
-        LQ = 2
-        LQ_MONO = 3
+    class Mode(Enum):
+        hq = 0
+        hq_mono = 1
+        lq = 2
+        lq_mono = 3
 
     # TODO: CHNK, CHNM, CHDT, CHFF, CHFR
 
@@ -21,7 +21,7 @@ class WaveShaper(Module):
     mix = Controller((0, 256), 256)
     output_volume = Controller((0, 512), 256)
     symmetric = Controller(bool, True)
-    mode = Controller(Mode, Mode.HQ)
+    mode = Controller(Mode, Mode.hq)
     dc_blocker = Controller(bool, True)
 
 

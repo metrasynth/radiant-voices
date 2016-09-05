@@ -1,4 +1,4 @@
-from enum import IntEnum
+from enum import Enum
 
 from rv.controller import Controller
 from rv.modules import Module
@@ -9,18 +9,18 @@ class Flanger(Module):
     name = mtype = 'Flanger'
     mgroup = 'Effect'
 
-    class LfoWaveform(IntEnum):
-        HSIN = 0
-        SIN = 1
+    class LfoWaveform(Enum):
+        hsin = 0
+        sin = 1
 
-    class LfoFreqUnit(IntEnum):
-        HZ_0_05 = 0  # Hz * 0.05
-        MS = 1
-        HZ = 2
-        TICK = 3
-        LINE = 4
-        LINE_2 = 5  # line / 2
-        LINE_3 = 6  # line / 3
+    class LfoFreqUnit(Enum):
+        hz_0_05 = 0  # hz * 0.05
+        ms = 1
+        hz = 2
+        tick = 3
+        line = 4
+        line_2 = 5  # line / 2
+        line_3 = 6  # line / 3
 
     dry = Controller((0, 256), 256)
     wet = Controller((0, 256), 128)
@@ -29,6 +29,6 @@ class Flanger(Module):
     response = Controller((0, 256), 2)
     lfo_freq = Controller((0, 512), 8)
     lfo_amp = Controller((0, 256), 32)
-    lfo_waveform = Controller(LfoWaveform, LfoWaveform.HSIN)
+    lfo_waveform = Controller(LfoWaveform, LfoWaveform.hsin)
     set_lfo_phase = Controller((0, 256), 0)  # used to reset module
-    lfo_freq_unit = Controller(LfoFreqUnit, LfoFreqUnit.HZ_0_05)
+    lfo_freq_unit = Controller(LfoFreqUnit, LfoFreqUnit.hz_0_05)
