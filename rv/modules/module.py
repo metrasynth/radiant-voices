@@ -1,4 +1,6 @@
 import logging
+from enum import Enum
+
 from logutils import BraceMessage as _F
 log = logging.getLogger(__name__)
 
@@ -57,6 +59,8 @@ class Module(object, metaclass=ModuleMeta):
         value_type = controller.value_type
         value = getattr(self, name)
         to_raw_value = getattr(value_type, 'to_raw_value', int)
+        if isinstance(value, Enum):
+            value = value.value
         raw_value = to_raw_value(value)
         return raw_value
 
