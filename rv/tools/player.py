@@ -20,15 +20,21 @@ from rv import ENCODING, Project, Synth, read_sunvox_file
 
 
 parser = argparse.ArgumentParser(description='Radiant Voices Player')
-parser.add_argument('filename', metavar='FILE', type=str, nargs=1,
-                    help='File to load and play')
-parser.add_argument('--bypass-rv', dest='skip_rv', action='store_const',
-                    const=True, default=False,
-                    help='Skip Radiant Voices and play directly using SunVox')
-parser.add_argument('--send-event', dest='send_event', action='store',
-                    metavar='TRACK,NOTE,VEL,MODULE,CTL,EFFECT,VAL',
-                    default=None,
-                    help='Instead of playing, send a command')
+parser.add_argument(
+    'filename',
+    metavar='FILE', type=str, nargs=1,
+    help='File to load and play')
+parser.add_argument(
+    '--bypass-rv',
+    dest='skip_rv', action='store_const', const=True,
+    default=False,
+    help='Skip Radiant Voices and play directly using SunVox')
+parser.add_argument(
+    '--send-event',
+    dest='send_event', action='store',
+    metavar='TRACK,NOTE,VEL,MODULE,CTL,EFFECT,VAL',
+    default=None,
+    help='Instead of playing, send a command')
 
 
 def main():
