@@ -1,13 +1,17 @@
 from enum import Enum
 
+from rv.chunks import DirtyWaveformChunk
 from rv.controller import Controller
 from rv.modules import Module
+from rv.option import Option
 
 
 class AnalogGenerator(Module):
 
     name = mtype = 'Analog generator'
     mgroup = 'Synth'
+    chnk = 0x10
+    options_chnm = 0x01
 
     class Mode(Enum):
         hq = 0
@@ -41,7 +45,8 @@ class AnalogGenerator(Module):
         sustain_off = 1
         sustain_on = 2
 
-    # TODO: CHNK, CHNM, CHDT, CHFF, CHFR
+    class DirtyWaveform(DirtyWaveformChunk):
+        chnm = 0
 
     volume = Controller((0, 256), 80)
     waveform = Controller(Waveform, Waveform.triangle)
@@ -63,26 +68,33 @@ class AnalogGenerator(Module):
     mode = Controller(Mode, Mode.hq)
     noise = Controller((0, 256), 0)
 
+    volume_envelope_scaling_per_key = Option(False)
+    filter_envelope_scaling_per_key = Option(False)
+    volume_scaling_per_key = Option(False)
+    filter_freq_scaling_per_key = Option(False)
+    velocity_dependent_filter_freq_scaling = Option(False)
+    frequency_div_2 = Option(False)
+    unsmooth_frequency_change = Option(False)
+    filter_freq_scaling_per_key_reverse = Option(False)
 
-"""
-CHNK: 00000010
+    def __init__(self, **kwargs):
+        samples = kwargs.pop('samples', None)
+        super(AnalogGenerator, self).__init__(**kwargs)
+        self.dirty_waveform = self.DirtyWaveform()
+        if samples is not None:
+            self.dirty_waveform.samples = samples
 
-CHNM: 0
-CHDT: <32 signed bytes, representing dirty waveform>
-        default: 009CA6005A89EC2D 02EC6FE9029E3C20
-                 643200CE41623220 A688645A3B150036
-CHFF: 0 (8-bit sample)
-CHFR: 44100 (AC44)
+    def specialized_iff_chunks(self):
+        for chunk in self.dirty_waveform.chunks():
+            yield chunk
 
-CHNM: 1
-CHDT: options (64 bytes)
-        0: volume_envelope_scaling_per_key
-        1: filter_envelope_scaling_per_key
-        2: volume_scaling_per_key
-        3: filter_freq_scaling_per_key
-        4: velocity_dependent_filter_freq_scaling
-        5: frequency_div_2
-        6: unsmooth_frequency_change
-        7: filter_freq_scaling_per_key_reverse
-        8-63: zero padding
-"""
+    def load_chunk(self, chunk):
+        if chunk.chnm == self.options_chnm:
+            self.load_options(chunk)
+        elif chunk.chnm == 0:
+            self.load_dirty_waveform(chunk)
+
+    def load_dirty_waveform(self, chunk):
+        self.dirty_waveform.samples = chunk.chdt
+        self.dirty_waveform.format = self.dirty_waveform.Format(chunk.chff)
+        self.dirty_waveform.freq = chunk.chfr

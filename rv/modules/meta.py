@@ -4,6 +4,7 @@ from textwrap import dedent
 
 from rv.controller import Controller
 from rv.modules import MODULE_CLASSES
+from rv.option import Option
 
 
 class ModuleMeta(type):
@@ -11,9 +12,15 @@ class ModuleMeta(type):
 
     def __init__(cls, class_name, bases, class_dict):
         type.__init__(cls, class_name, bases, class_dict)
+        cls.__init_registry(class_dict)
         cls.__init_controllers(class_dict)
+        cls.__init_options(class_dict)
         cls.__init_docstring(class_dict)
         cls.__init_enum_docstrings(class_dict)
+
+    def __init_registry(cls, class_dict):
+        if class_dict.get('mtype') is not None:
+            MODULE_CLASSES[class_dict['mtype']] = cls
 
     def __init_controllers(cls, class_dict):
         ordered_controllers = [(k, v) for k, v in class_dict.items()
@@ -25,8 +32,18 @@ class ModuleMeta(type):
             v.name = k
             v.number = i
             cls.controllers[k] = v
-        if class_dict.get('mtype') is not None:
-            MODULE_CLASSES[class_dict['mtype']] = cls
+
+    def __init_options(cls, class_dict):
+        ordered_options = [(k, v) for k, v in class_dict.items()
+                           if isinstance(v, Option)]
+        if ordered_options:
+            ordered_options.sort(key=lambda x: x[1]._order)
+            cls.options = OrderedDict()
+            for i, (k, v) in enumerate(ordered_options):
+                v.label = k.replace('_', ' ').title()
+                v.name = k
+                v.index = i
+                cls.options[k] = v
 
     def __init_docstring(cls, class_dict):
         lines = [

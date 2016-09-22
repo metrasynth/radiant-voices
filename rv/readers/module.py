@@ -94,18 +94,24 @@ class ModuleReader(Reader):
                         self._current_controller, raw_value))
         self._current_controller += 1
 
+    def process_chnk(self, data):
+        val, = unpack('<I', data)
+        if val != self.object.chnk:
+            log.warn(_F('Expected CHNK value {}, got {}',
+                        self.objects.chnk, val))
+
     def process_chnm(self, data):
         self._current_chunk = Chunk()
-        self._current_chunk.chnm = data
+        self._current_chunk.chnm, = unpack('<I', data)
 
     def process_chdt(self, data):
         self._current_chunk.chdt = data
 
     def process_chff(self, data):
-        self._current_chunk.chff = data
+        self._current_chunk.chff, = unpack('<I', data)
 
     def process_chfr(self, data):
-        self._current_chunk.chfr = data
+        self._current_chunk.chfr, = unpack('<I', data)
         self.object.load_chunk(self._current_chunk)
         self._current_chunk = None
 

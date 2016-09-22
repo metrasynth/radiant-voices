@@ -5,7 +5,7 @@ from logutils import BraceMessage as _F
 log = logging.getLogger(__name__)
 
 from collections import OrderedDict
-from struct import pack
+from struct import pack, unpack
 
 from rv import ENCODING
 from rv.modules.meta import ModuleMeta
@@ -31,14 +31,21 @@ class Module(object, metaclass=ModuleMeta):
     mtype = None  # module type
     mgroup = None  # module group
     flags = 0x00000049
+    chnk = None
 
     controllers = OrderedDict()
+    options = OrderedDict()
+    options_chnm = 0
 
     def __init__(self, **kw):
         self.index = None
         self.controller_values = OrderedDict()
         for k, controller in self.controllers.items():
             v = kw.get(k) if k in kw else controller.default
+            setattr(self, k, v)
+        self.option_values = OrderedDict()
+        for k, option in self.options.items():
+            v = kw.get(k) if k in kw else option.default
             setattr(self, k, v)
         self.finetune = 0
         self.relative_note = 0
@@ -73,7 +80,7 @@ class Module(object, metaclass=ModuleMeta):
         setattr(self, name, value)
 
     def iff_chunks(self):
-        """Yield all chunks needed for a module."""
+        """Yield all standard chunks needed for a module."""
         yield (b'SFFF', pack('<I', self.flags))
         yield (b'SNAM', self.name.encode(ENCODING)[:32].ljust(32, b'\0'))
         if self.mtype is not None:
@@ -89,8 +96,6 @@ class Module(object, metaclass=ModuleMeta):
         yield (b'SMIC', pack('<i', self.midi_out_channel))
         yield (b'SMIB', pack('<i', self.midi_out_bank))
         yield (b'SMIP', pack('<i', self.midi_out_program))
-        for chunk in self.specialized_iff_chunks():
-            yield chunk
 
     def specialized_iff_chunks(self):
         """Yield specialized chunks needed for a module, if applicable.
@@ -99,7 +104,21 @@ class Module(object, metaclass=ModuleMeta):
         """
         yield (None, None)
 
+    def options_chunks(self):
+        """Yield chunks necessary to save options for this module."""
+        yield (b'CHNM', pack('<I', self.options_chnm))
+        values = list(self.option_values.values())
+        values += [False] * (64 - len(values))
+        yield (b'CHDT', pack('B' * 64, *values))
+        yield (b'CHFF', pack('<I', 0))
+        yield (b'CHFR', pack('<I', 0))
+
     def load_chunk(self, chunk):
         """Load a CHNK/CHNM/CHDT/CHFF/CHFR block into this module."""
         log.warn(_F('load_chunk not implemented for {}',
                     self.__class__.__name__))
+
+    def load_options(self, chunk):
+        for i, name in enumerate(self.options.keys()):
+            value = chunk.chdt[i]
+            setattr(self, name, i)
