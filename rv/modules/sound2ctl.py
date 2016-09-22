@@ -2,12 +2,15 @@ from enum import Enum
 
 from rv.controller import Controller
 from rv.modules import Module
+from rv.option import Option
 
 
 class Sound2Ctl(Module):
 
     name = mtype = 'Sound2Ctl'
     mgroup = 'Misc'
+    chnk = 0x10
+    options_chnm = 0x00
 
     class Channels(Enum):
         mono = 0
@@ -16,8 +19,6 @@ class Sound2Ctl(Module):
     class Mode(Enum):
         lq = 0
         hq = 1
-
-    # TODO: CHNK, CHNM, CHDT, CHFF, CHFR
 
     sample_rate_hz = Controller((1, 32768), 50)
     channels = Controller(Channels, Channels.mono)
@@ -29,13 +30,8 @@ class Sound2Ctl(Module):
     out_max = Controller((0, 32768), 32768)
     out_controller = Controller((0, 32), 0)
 
+    record_values = Option(False)
 
-"""
-CHNK: 00000010
-CHNM: 0
-CHDT: options, 64 bytes:
-        0: record values
-        1-63: zero padding
-CHFF: 00000000
-CHFR: 00000000
-"""
+    def load_chunk(self, chunk):
+        if chunk.chnm == self.options_chnm:
+            self.load_options(chunk)
