@@ -121,4 +121,4 @@ class Module(object, metaclass=ModuleMeta):
     def load_options(self, chunk):
         for i, name in enumerate(self.options.keys()):
             value = chunk.chdt[i]
-            setattr(self, name, i)
+            setattr(self, name, value)
