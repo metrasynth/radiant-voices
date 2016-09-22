@@ -1,5 +1,6 @@
 from enum import Enum
 
+from rv.chunks import DirtyWaveformChunk
 from rv.controller import Controller
 from rv.modules import Module
 
@@ -8,6 +9,7 @@ class Generator(Module):
 
     name = mtype = 'Generator'
     mgroup = 'Synth'
+    chnk = 0x10
 
     class Waveform(Enum):
         triangle = 0
@@ -24,7 +26,8 @@ class Generator(Module):
         stereo = 0
         mono = 1
 
-    # TODO: CHNK, CHNM, CHDT, CHFF, CHFR
+    class DirtyWaveform(DirtyWaveformChunk):
+        chnm = 0
 
     volume = Controller((0, 256), 128)
     waveform = Controller(Waveform, Waveform.triangle)
@@ -37,14 +40,22 @@ class Generator(Module):
     freq_modulation_input = Controller((0, 256), 0)
     duty_cycle = Controller((0, 1022), 511)
 
+    def __init__(self, **kwargs):
+        samples = kwargs.pop('samples', None)
+        super(Generator, self).__init__(**kwargs)
+        self.dirty_waveform = self.DirtyWaveform()
+        if samples is not None:
+            self.dirty_waveform.samples = samples
 
-"""
-CHNK: 00000010
+    def specialized_iff_chunks(self):
+        for chunk in self.dirty_waveform.chunks():
+            yield chunk
 
-CHNM: 0
-CHDT: <32 signed bytes, representing dirty waveform>
-        default: 009CA6005A89EC2D 02EC6FE9029E3C20
-                 643200CE41623220 A688645A3B150036
-CHFF: 0 (8-bit sample)
-CHFR: 44100 (AC44)
-"""
+    def load_chunk(self, chunk):
+        if chunk.chnm == 0:
+            self.load_dirty_waveform(chunk)
+
+    def load_dirty_waveform(self, chunk):
+        self.dirty_waveform.samples = chunk.chdt
+        self.dirty_waveform.format = self.dirty_waveform.Format(chunk.chff)
+        self.dirty_waveform.freq = chunk.chfr
