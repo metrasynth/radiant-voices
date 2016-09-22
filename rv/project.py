@@ -118,10 +118,14 @@ class Project(Container):
         """Remove a connection from one module to another."""
         from_idx = self.module_index(from_module)
         to_idx = self.module_index(to_module)
-        connections = self.module_connections[to_idx]
-        if from_idx in connections:
-            connections.remove(from_idx)
-            to_module.incoming_links = connections
+        connections_to = self.module_connections[to_idx]
+        connections_from = self.module_connections[from_idx]
+        if from_idx in connections_to:
+            connections_to.remove(from_idx)
+            to_module.incoming_links = connections_to
+        if to_idx in connections_from:
+            connections_from.remove(to_idx)
+            from_module.incoming_links = connections_from
 
     def module_index(self, module):
         """Return the index of the given module."""
