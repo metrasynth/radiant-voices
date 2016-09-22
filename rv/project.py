@@ -57,10 +57,11 @@ class Project(Container):
         """Establish a connection from one module to another."""
         from_idx = self.module_index(from_module)
         to_idx = self.module_index(to_module)
-        connections = self.module_connections[to_idx]
-        if from_idx not in connections:
-            connections.append(from_idx)
-            to_module.incoming_links = connections
+        connections_to = self.module_connections[to_idx]
+        connections_from = self.module_connections[from_idx]
+        if from_idx not in connections_to and to_idx not in connections_from:
+            connections_to.append(from_idx)
+            to_module.incoming_links = connections_to
 
     def chunks(self):
         """Generate chunks necessary to encode project as a .sunvox file"""
