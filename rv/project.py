@@ -113,6 +113,15 @@ class Project(Container):
                     yield chunk
             yield (b'SEND', b'')
 
+    def disconnect(self, from_module, to_module):
+        """Remove a connection from one module to another."""
+        from_idx = self.module_index(from_module)
+        to_idx = self.module_index(to_module)
+        connections = self.module_connections[to_idx]
+        if from_idx in connections:
+            connections.remove(from_idx)
+            to_module.incoming_links = connections
+
     def module_index(self, module):
         """Return the index of the given module."""
         return self.modules.index(module)
