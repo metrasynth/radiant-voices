@@ -58,10 +58,9 @@ class Project(Container):
         from_idx = self.module_index(from_module)
         to_idx = self.module_index(to_module)
         connections = self.module_connections[to_idx]
-        if from_idx in connections:
-            raise ValueError('Modules are already connected')
-        connections.append(from_idx)
-        to_module.incoming_links = connections
+        if from_idx not in connections:
+            connections.append(from_idx)
+            to_module.incoming_links = connections
 
     def chunks(self):
         """Generate chunks necessary to encode project as a .sunvox file"""
