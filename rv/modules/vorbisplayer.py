@@ -1,3 +1,5 @@
+from struct import pack
+
 from rv.controller import Controller
 from rv.modules import Module
 
@@ -6,8 +8,9 @@ class VorbisPlayer(Module):
 
     name = mtype = 'Vorbis player'
     mgroup = 'Synth'
+    chnk = 0x10
 
-    # TODO: CHNK, CHNM, CHDT, CHFF, CHFR
+    data = None
 
     volume = Controller((0, 512), 256)
     original_speed = Controller(bool, True)
@@ -17,12 +20,17 @@ class VorbisPlayer(Module):
     polyphony_ch = Controller((1, 4), 1)
     repeat = Controller(bool, False)
 
+    def __init__(self, **kwargs):
+        data = kwargs.pop('data', None)
+        super(VorbisPlayer, self).__init__(**kwargs)
+        self.data = data
 
-"""
-CHNK: 00000010
+    def specialized_iff_chunks(self):
+        yield (b'CHNM', pack('<I', 0))
+        yield (b'CHDT', self.data or b'')
+        yield (b'CHFF', pack('<I', 0))
+        yield (b'CHFR', pack('<I', 0))
 
-CHNM: 0
-CHDT: <contents of ogg file>
-CHFF: 00000000
-CHFR: 00000000
-"""
+    def load_chunk(self, chunk):
+        if chunk.chnm == 0:
+            self.data = chunk.chdt
