@@ -47,17 +47,17 @@ class Module(object, metaclass=ModuleMeta):
         for k, option in self.options.items():
             v = kw.get(k) if k in kw else option.default
             setattr(self, k, v)
-        self.finetune = 0
-        self.relative_note = 0
-        self.x_position = 512
-        self.y_position = 512
-        self.layer = 0
-        self.scale = 256
-        self.color = (255, 255, 255)
-        self.midi_out_channel = 0
-        self.midi_out_bank = -1
-        self.midi_out_program = -1
-        self.visualization = 0x000c0101
+        self.finetune = kw.get('finetune', 0)
+        self.relative_note = kw.get('relative_note', 0)
+        self.x_position = kw.get('x_position', 512)
+        self.y_position = kw.get('y_position', 512)
+        self.layer = kw.get('layer', 0)
+        self.scale = kw.get('scale', 256)
+        self.color = kw.get('color', (255, 255, 255))
+        self.midi_out_channel = kw.get('midi_out_channel', 0)
+        self.midi_out_bank = kw.get('midi_out_bank', -1)
+        self.midi_out_program = kw.get('midi_out_program', -1)
+        self.visualization = kw.get('visualization', 0x000c0101)
         self.incoming_links = []
 
     def get_raw(self, name):
