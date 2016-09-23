@@ -3,6 +3,7 @@ from struct import pack
 
 from rv import ENCODING
 from rv.container import Container
+from rv.modules.module import Module
 from rv.modules.output import Output
 
 
@@ -53,15 +54,21 @@ class Project(Container):
         """Attach the pattern to the project."""
         self.patterns.append(pattern)
 
-    def connect(self, from_module, to_module):
-        """Establish a connection from one module to another."""
-        from_idx = self.module_index(from_module)
-        to_idx = self.module_index(to_module)
-        connections_to = self.module_connections[to_idx]
-        connections_from = self.module_connections[from_idx]
-        if from_idx not in connections_to and to_idx not in connections_from:
-            connections_to.append(from_idx)
-            to_module.incoming_links = connections_to
+    def connect(self, from_modules, to_modules):
+        """Establish a connection from module(s) to another module(s)."""
+        if isinstance(from_modules, Module):
+            from_modules = [from_modules]
+        if isinstance(to_modules, Module):
+            to_modules = [to_modules]
+        for from_module in from_modules:
+            for to_module in to_modules:
+                from_idx = self.module_index(from_module)
+                to_idx = self.module_index(to_module)
+                connections_to = self.module_connections[to_idx]
+                connections_from = self.module_connections[from_idx]
+                if from_idx not in connections_to and to_idx not in connections_from:
+                    connections_to.append(from_idx)
+                    to_module.incoming_links = connections_to
 
     def chunks(self):
         """Generate chunks necessary to encode project as a .sunvox file"""
@@ -114,18 +121,24 @@ class Project(Container):
                     yield chunk
             yield (b'SEND', b'')
 
-    def disconnect(self, from_module, to_module):
+    def disconnect(self, from_modules, to_modules):
         """Remove a connection from one module to another."""
-        from_idx = self.module_index(from_module)
-        to_idx = self.module_index(to_module)
-        connections_to = self.module_connections[to_idx]
-        connections_from = self.module_connections[from_idx]
-        if from_idx in connections_to:
-            connections_to.remove(from_idx)
-            to_module.incoming_links = connections_to
-        if to_idx in connections_from:
-            connections_from.remove(to_idx)
-            from_module.incoming_links = connections_from
+        if isinstance(from_modules, Module):
+            from_modules = [from_modules]
+        if isinstance(to_modules, Module):
+            to_modules = [to_modules]
+        for from_module in from_modules:
+            for to_module in to_modules:
+                from_idx = self.module_index(from_module)
+                to_idx = self.module_index(to_module)
+                connections_to = self.module_connections[to_idx]
+                connections_from = self.module_connections[from_idx]
+                if from_idx in connections_to:
+                    connections_to.remove(from_idx)
+                    to_module.incoming_links = connections_to
+                if to_idx in connections_from:
+                    connections_from.remove(to_idx)
+                    from_module.incoming_links = connections_from
 
     def module_index(self, module):
         """Return the index of the given module."""
