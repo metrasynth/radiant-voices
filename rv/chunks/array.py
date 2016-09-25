@@ -7,6 +7,7 @@ class ArrayChunk(Chunk):
 
     length = None
     type = None
+    python_type = int
     default = None
     values = None
 
@@ -18,11 +19,18 @@ class ArrayChunk(Chunk):
 
     @property
     def bytes(self):
-        return pack('<' + self.type * self.length, *self.values)
+        return pack('<' + self.type * self.length, *self.encoded_values)
 
     @bytes.setter
     def bytes(self, value):
-        self.values = unpack('<' + self.type * self.length, value)
+        self.values = [
+            self.python_type(v)
+            for v in unpack('<' + self.type * self.length, value)
+        ]
+
+    @property
+    def encoded_values(self):
+        return self.values
 
     def chdt(self):
         return self.bytes
