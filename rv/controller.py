@@ -1,3 +1,6 @@
+from enum import Enum
+
+
 class Controller(object):
     """Defines a type of controller attached to a module.
 
@@ -29,7 +32,12 @@ class Controller(object):
         return instance.controller_values[self.name]
 
     def __set__(self, instance, value):
-        value = self.value_type(value)
+        if isinstance(value, str) \
+                and isinstance(self.value_type, type) \
+                and issubclass(self.value_type, Enum):
+            value = self.value_type[value]
+        else:
+            value = self.value_type(value)
         instance.controller_values[self.name] = value
 
 
