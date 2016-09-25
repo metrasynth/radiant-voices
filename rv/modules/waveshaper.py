@@ -43,7 +43,4 @@ class WaveShaper(Module):
 
     def load_chunk(self, chunk):
         if chunk.chnm == 0:
-            self.load_curve(chunk)
-
-    def load_curve(self, chunk):
-        self.curve.bytes = chunk.chdt
+            self.curve.bytes = chunk.chdt

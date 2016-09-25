@@ -56,12 +56,6 @@ class MultiSynth(Module):
         if chunk.chnm == self.options_chnm:
             self.load_options(chunk)
         elif chunk.chnm == 0:
-            self.load_nv_curve(chunk)
+            self.nv_curve.bytes = chunk.chdt
         elif chunk.chnm == 2:
-            self.load_vv_curve(chunk)
-
-    def load_nv_curve(self, chunk):
-        self.nv_curve.bytes = chunk.chdt
-
-    def load_vv_curve(self, chunk):
-        self.vv_curve.bytes = chunk.chdt
+            self.vv_curve.bytes = chunk.chdt
