@@ -1,6 +1,6 @@
 from enum import Enum
 
-from rv.chunks import CurveChunk
+from rv.chunks import ArrayChunk
 from rv.controller import Controller
 from rv.modules import Module
 
@@ -17,7 +17,7 @@ class WaveShaper(Module):
         lq = 2
         lq_mono = 3
 
-    class Curve(CurveChunk):
+    class Curve(ArrayChunk):
         chnm = 0
         length = 256
         type = 'H'

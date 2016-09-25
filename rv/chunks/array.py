@@ -3,7 +3,7 @@ from struct import pack, unpack
 from .chunk import Chunk
 
 
-class CurveChunk(Chunk):
+class ArrayChunk(Chunk):
 
     length = None
     type = None
@@ -35,5 +35,5 @@ class CurveChunk(Chunk):
 
 
 __all__ = [
-    'CurveChunk',
+    'ArrayChunk',
 ]

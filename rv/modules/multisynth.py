@@ -1,4 +1,4 @@
-from rv.chunks import CurveChunk
+from rv.chunks import ArrayChunk
 from rv.controller import Controller
 from rv.modules import Module
 from rv.option import Option
@@ -11,13 +11,13 @@ class MultiSynth(Module):
     chnk = 0x10
     options_chnm = 1
 
-    class NoteVelocityCurve(CurveChunk):
+    class NoteVelocityCurve(ArrayChunk):
         chnm = 0
         length = 128
         type = 'B'
         default = [0xff] * length
 
-    class VelocityVelocityCurve(CurveChunk):
+    class VelocityVelocityCurve(ArrayChunk):
         chnm = 2
         length = 257
         type = 'B'
