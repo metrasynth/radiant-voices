@@ -6,6 +6,7 @@ from .chunk import Chunk
 class ArrayChunk(Chunk):
 
     length = None
+    element_size = None
     type = None
     python_type = int
     default = None
@@ -23,10 +24,16 @@ class ArrayChunk(Chunk):
 
     @bytes.setter
     def bytes(self, value):
-        self.values = [
-            self.python_type(v)
-            for v in unpack('<' + self.type * self.length, value)
-        ]
+        self.values = []
+        for x in range(self.length):
+            start = x * self.element_size
+            end = start + self.element_size
+            data = value[start:end]
+            unpacked = unpack('<' + self.type, data)
+            if len(unpacked) == 1:
+                unpacked, = unpacked
+            actual = self.python_type(unpacked)
+            self.values.append(actual)
 
     @property
     def encoded_values(self):

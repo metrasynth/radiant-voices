@@ -21,6 +21,7 @@ class WaveShaper(Module):
         chnm = 0
         length = 256
         type = 'H'
+        element_size = 2
         default = [x * 0x100 for x in range(256)]
 
     input_volume = Controller((0, 512), 256)

@@ -41,20 +41,24 @@ class SpectraVoice(Module):
         chnm = 0
         type = 'H'
         default = [1098] + [0] * 15
+        element_size = 2
 
     class HarmonicVolumeArray(HarmonicValueArray):
         chnm = 1
         type = 'B'
         default = [255] + [0] * 15
+        element_size = 1
 
     class HarmonicWidthArray(HarmonicValueArray):
         chnm = 2
         type = 'B'
         default = [3] + [0] * 15
+        element_size = 1
 
     class HarmonicTypeArray(HarmonicValueArray):
         chnm = 3
         type = 'B'
+        element_size = 1
         @property
         def default(self):
             return [SpectraVoice.HarmonicType.hsin] * 16

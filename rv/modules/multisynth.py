@@ -15,12 +15,14 @@ class MultiSynth(Module):
         chnm = 0
         length = 128
         type = 'B'
+        element_size = 1
         default = [0xff] * length
 
     class VelocityVelocityCurve(ArrayChunk):
         chnm = 2
         length = 257
         type = 'B'
+        element_size = 1
         default = list(range(256)) + [0xff]
 
     transpose = Controller((-128, 128), 0)
