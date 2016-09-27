@@ -38,7 +38,10 @@ class ModuleReader(Reader):
         new_module.flags = self.object.flags
         new_module.name = self.object.name
         new_module.mtype = mtype
-        self._controller_keys = list(new_module.controllers.keys())
+        self._controller_keys = list(
+            name for name, controller in new_module.controllers.items()
+            if not controller.detached
+        )
         self._object = new_module
 
     def process_sfin(self, data):

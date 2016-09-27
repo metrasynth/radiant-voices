@@ -107,11 +107,13 @@ class Project(Container):
                 else:
                     links = b''
                 yield (b'SLNK', links)
-                for name in module.controllers:
+                controllers = [n for n, c in module.controllers.items()
+                               if not c.detached]
+                for name in controllers:
                     raw_value = module.get_raw(name)
                     yield (b'CVAL', pack('<I', raw_value))
-                if len(module.controllers) > 0:
-                    yield (b'CMID', b'\0\0\0\0\0\0\0\0' * len(module.controllers))
+                if len(controllers) > 0:
+                    yield (b'CMID', b'\0\0\0\0\0\0\0\0' * len(controllers))
             if module.chnk:
                 yield (b'CHNK', pack('<I', module.chnk))
                 if module.options:

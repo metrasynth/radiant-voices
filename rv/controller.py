@@ -20,11 +20,12 @@ class Controller(object):
     name = None
     number = None
 
-    def __init__(self, value_type, default):
+    def __init__(self, value_type, default, detached=False):
         if isinstance(value_type, tuple):
             value_type = Range(*value_type)
         self.value_type = value_type
         self.default = default
+        self.detached = detached
         self._order = Controller._next_order
         Controller._next_order += 1
 
