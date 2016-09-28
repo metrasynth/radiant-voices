@@ -49,6 +49,8 @@ class Controller(object):
                 and isinstance(self.value_type, type) \
                 and issubclass(self.value_type, Enum):
             value = self.value_type[value]
+        elif self.value_type is None:
+            value = None
         else:
             value = self.value_type(value)
         instance.controller_values[self.name] = value

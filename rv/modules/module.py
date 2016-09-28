@@ -42,9 +42,8 @@ class Module(object, metaclass=ModuleMeta):
         self.parent = kw.get('parent', None)
         self.controller_values = OrderedDict()
         for k, controller in self.controllers.items():
-            if controller.value_type is not None:
-                v = kw.get(k) if k in kw else controller.default
-                controller.set_initial(self, v)
+            v = kw.get(k) if k in kw else controller.default
+            controller.set_initial(self, v)
         self.option_values = OrderedDict()
         for k, option in self.options.items():
             v = kw.get(k) if k in kw else option.default
@@ -70,7 +69,7 @@ class Module(object, metaclass=ModuleMeta):
         to_raw_value = getattr(value_type, 'to_raw_value', int)
         if isinstance(value, Enum):
             value = value.value
-        raw_value = to_raw_value(value)
+        raw_value = to_raw_value(0 if value is None else value)
         return raw_value
 
     def set_raw(self, name, raw_value):

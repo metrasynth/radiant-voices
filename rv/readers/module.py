@@ -101,7 +101,7 @@ class ModuleReader(Reader):
         val, = unpack('<I', data)
         if val != self.object.chnk:
             log.warn(_F('Expected CHNK value {}, got {}',
-                        self.objects.chnk, val))
+                        self.object.chnk, val))
 
     def process_chnm(self, data):
         self._current_chunk = Chunk()

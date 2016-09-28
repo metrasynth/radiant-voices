@@ -116,13 +116,13 @@ class Project(Container):
                     yield (b'CVAL', pack('<I', raw_value))
                 if len(controllers) > 0:
                     yield (b'CMID', b'\0\0\0\0\0\0\0\0' * len(controllers))
-            if module.chnk:
-                yield (b'CHNK', pack('<I', module.chnk))
-                if module.options:
-                    for chunk in module.options_chunks():
+                if module.chnk:
+                    yield (b'CHNK', pack('<I', module.chnk))
+                    if module.options:
+                        for chunk in module.options_chunks():
+                            yield chunk
+                    for chunk in module.specialized_iff_chunks():
                         yield chunk
-                for chunk in module.specialized_iff_chunks():
-                    yield chunk
             yield (b'SEND', b'')
 
     def disconnect(self, from_modules, to_modules):

@@ -17,7 +17,7 @@ class PatternReader(Reader):
         self._raw_data = data
 
     def process_pnme(self, data):
-        self.object.name = data.rstrip('\0').decode(ENCODING)
+        self.object.name = data.rstrip(b'\0').decode(ENCODING)
 
     def process_pchn(self, data):
         self.object.tracks, = unpack('<I', data)
@@ -59,8 +59,8 @@ class PatternReader(Reader):
 class PatternCloneReader(Reader):
 
     def process_ppar(self, data):
-        self.object = PatternClone()
-        self.object.source, = unpack('<I', data)
+        source, = unpack('<I', data)
+        self.object = PatternClone(source=source)
 
     def process_pfff(self, data):
         self.object.flags, = unpack('<I', data)
