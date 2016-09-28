@@ -38,7 +38,7 @@ parser.add_argument(
 
 
 def main():
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.INFO)
     try:
         import sunvox
     except ImportError:
