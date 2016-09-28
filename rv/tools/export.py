@@ -17,40 +17,40 @@ import sys
 
 import rv
 
-from sunvox import Slot
-from sunvox.buffered import BufferedProcess, float32, int16
 
-
-parser = argparse.ArgumentParser(description='SunVox to WAV file exporter')
-parser.add_argument(
-    'filename',
-    metavar='FILE', type=str, nargs=1,
-    help='SunVox file to export')
-parser.add_argument(
-    '--int16',
-    dest='data_type', action='store_const', const=int16,
-    default=float32,
-    help='Output 16-bit signed integer values')
-parser.add_argument(
-    '--float32',
-    dest='data_type', action='store_const', const=float32,
-    default=float32,
-    help='Output 32-bit floating point values')
-parser.add_argument(
-    '--freq',
-    metavar='RATE', action='store', dest='freq', type=int, nargs=1,
-    default=[44100],
-    help='Output frequency (44100 or 48000)')
-parser.add_argument(
-    '--channels',
-    metavar='CHANNELS', action='store', dest='channels', type=int, nargs=1,
-    default=[2],
-    help='Channels (1 or 2)')
-parser.add_argument(
-    '--out',
-    metavar='FILE', action='store', dest='out_filename', type=str, nargs=1,
-    default=None,
-    help='Output file to write (defaults to "inputname.rv.wav")')
+def parser():
+    from sunvox.buffered import float32, int16
+    parser = argparse.ArgumentParser(description='SunVox to WAV file exporter')
+    parser.add_argument(
+        'filename',
+        metavar='FILE', type=str, nargs=1,
+        help='SunVox file to export')
+    parser.add_argument(
+        '--int16',
+        dest='data_type', action='store_const', const=int16,
+        default=float32,
+        help='Output 16-bit signed integer values')
+    parser.add_argument(
+        '--float32',
+        dest='data_type', action='store_const', const=float32,
+        default=float32,
+        help='Output 32-bit floating point values')
+    parser.add_argument(
+        '--freq',
+        metavar='RATE', action='store', dest='freq', type=int, nargs=1,
+        default=[44100],
+        help='Output frequency (44100 or 48000)')
+    parser.add_argument(
+        '--channels',
+        metavar='CHANNELS', action='store', dest='channels', type=int, nargs=1,
+        default=[2],
+        help='Channels (1 or 2)')
+    parser.add_argument(
+        '--out',
+        metavar='FILE', action='store', dest='out_filename', type=str, nargs=1,
+        default=None,
+        help='Output file to write (defaults to "inputname.rv.wav")')
+    return parser
 
 
 def main():
@@ -59,11 +59,13 @@ def main():
         import numpy as np
         from scipy.io import wavfile
         from tqdm import tqdm
+        from sunvox import Slot
+        from sunvox.buffered import BufferedProcess
     except ImportError:
         log.error('Please "pip install -r requirements/tools.txt" '
                   'to use sunvox.tools.export')
         return 1
-    args = parser.parse_args()
+    args = parser().parse_args()
     in_filename = args.filename[0]
     log.debug('Loading into rv')
     project = rv.read_sunvox_file(in_filename)

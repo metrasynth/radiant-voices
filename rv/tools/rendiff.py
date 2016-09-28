@@ -17,10 +17,6 @@ import sys
 
 import rv
 
-from sunvox import Slot
-from sunvox.buffered import BufferedProcess, float32, int16
-
-
 parser = argparse.ArgumentParser(description='SunVox to WAV file exporter')
 parser.add_argument(
     'filename',
@@ -44,6 +40,8 @@ def main():
         import numpy as np
         from scipy.io import wavfile
         from tqdm import tqdm
+        from sunvox import Slot
+        from sunvox.buffered import BufferedProcess, float32
     except ImportError:
         log.error('Please "pip install -r requirements/tools.txt" '
                   'to use sunvox.tools.export')
