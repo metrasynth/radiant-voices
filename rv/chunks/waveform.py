@@ -7,6 +7,7 @@ from .chunk import Chunk
 class WaveformChunk(Chunk):
 
     class Format(Enum):
+        unknown = 0x00
         mono_8bit = 0x01
         mono_16bit = 0x02
         mono_32bit = 0x04
@@ -34,7 +35,7 @@ class WaveformChunk(Chunk):
 
     @property
     def bytes(self):
-        if self.format == self.Format.mono_8bit:
+        if self.format in [self.Format.mono_8bit, self.Format.unknown]:
             return bytes(self.samples)
         else:
             raise NotImplementedError()
