@@ -81,8 +81,8 @@ class Sampler(Module):
             self.y_values = self.initial_y_values.copy()
             self.active_points = self.initial_active_points
             self.sustain_point = self.initial_sustain_point
-            self.loop_start_point = self.initial_loop_start
-            self.loop_end_point = self.initial_loop_end
+            self.loop_start_point = self.initial_loop_start_point
+            self.loop_end_point = self.initial_loop_end_point
             self.enable = self.initial_enable
             self.sustain = self.initial_sustain
             self.loop = self.initial_loop
@@ -112,8 +112,8 @@ class Sampler(Module):
         initial_active_points = 4
         initial_enable = True
         initial_loop = False
-        initial_loop_start = 0
-        initial_loop_end = 0
+        initial_loop_start_point = 0
+        initial_loop_end_point = 0
         initial_sustain = True
         initial_sustain_point = 0
         initial_x_values = [0, 8, 128, 256, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -124,8 +124,8 @@ class Sampler(Module):
         initial_active_points = 4
         initial_enable = False
         initial_loop = False
-        initial_loop_start = 0
-        initial_loop_end = 0
+        initial_loop_start_point = 0
+        initial_loop_end_point = 0
         initial_sustain = False
         initial_sustain_point = 0
         initial_x_values = [0, 64, 128, 180, 0, 0, 0, 0, 0, 0, 0, 0]
