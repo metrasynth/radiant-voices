@@ -93,7 +93,7 @@ class Module(object, metaclass=ModuleMeta):
         """Yield all standard chunks needed for a module."""
         yield (b'SFFF', pack('<I', self.flags))
         yield (b'SNAM', self.name.encode(ENCODING)[:32].ljust(32, b'\0'))
-        if self.mtype is not None:
+        if self.mtype is not None and self.mtype != 'Output':
             yield (b'STYP', self.mtype.encode(ENCODING) + b'\0')
         yield (b'SFIN', pack('<i', self.finetune))
         yield (b'SREL', pack('<i', self.relative_note))
