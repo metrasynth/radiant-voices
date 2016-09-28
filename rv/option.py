@@ -13,8 +13,9 @@ class Option(object):
     name = None
     index = None
 
-    def __init__(self, default):
+    def __init__(self, default, range=None):
         self.default = default
+        self.range = range
         self._order = Option._next_order
         Option._next_order += 1
 
@@ -22,5 +23,11 @@ class Option(object):
         return instance.option_values[self.name]
 
     def __set__(self, instance, value):
-        value = bool(value)
+        if self.range is None:
+            value = bool(value)
+        else:
+            value = max(self.range[0], min(self.range[1], value))
         instance.option_values[self.name] = value
+        callback = getattr(instance, 'on_{}_changed'.format(self.name), None)
+        if callable(callback):
+            callback(value)

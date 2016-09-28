@@ -39,10 +39,12 @@ class Module(object, metaclass=ModuleMeta):
 
     def __init__(self, **kw):
         self.index = None
+        self.parent = kw.get('parent', None)
         self.controller_values = OrderedDict()
         for k, controller in self.controllers.items():
-            v = kw.get(k) if k in kw else controller.default
-            setattr(self, k, v)
+            if controller.value_type is not None:
+                v = kw.get(k) if k in kw else controller.default
+                controller.set_initial(self, v)
         self.option_values = OrderedDict()
         for k, option in self.options.items():
             v = kw.get(k) if k in kw else option.default
@@ -78,6 +80,15 @@ class Module(object, metaclass=ModuleMeta):
         from_raw_value = getattr(value_type, 'from_raw_value', int)
         value = value_type(from_raw_value(raw_value))
         setattr(self, name, value)
+
+    def propagate_down(self, controller_name, value):
+        controller = self.controllers[controller_name]
+        controller.propagate_down(self, value)
+
+    def on_controller_changed(self, controller, value, down, up):
+        if up and self.parent:
+            self.parent.on_controller_changed(
+                self, controller, value, down=False, up=True)
 
     def iff_chunks(self):
         """Yield all standard chunks needed for a module."""

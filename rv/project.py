@@ -26,6 +26,7 @@ class Project(Container):
         self.initial_tpl = 6
         self.global_volume = 80
         self.name = 'Project'
+        self.metamodule = None
         self.modules_scale = 256
         self.modules_zoom = 256
         self.modules_x_offset = 0
@@ -49,6 +50,7 @@ class Project(Container):
             if isinstance(module, Output) and module.index == 0:
                 self.output = module
             self.module_connections[module.index] = module.incoming_links
+            module.parent = self
 
     def attach_pattern(self, pattern):
         """Attach the pattern to the project."""
@@ -151,3 +153,8 @@ class Project(Container):
         module = cls(*args, **kw)
         self.attach_module(module)
         return module
+
+    def on_controller_changed(self, module, controller, value, down, up):
+        if self.metamodule and up:
+            self.metamodule.on_embedded_controller_changed(
+                module, controller, value)

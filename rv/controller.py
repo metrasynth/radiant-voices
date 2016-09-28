@@ -33,6 +33,18 @@ class Controller(object):
         return instance.controller_values[self.name]
 
     def __set__(self, instance, value):
+        self.propagate(instance, value, down=True, up=True)
+
+    def propagate(self, instance, value, down=False, up=False):
+        self.set_initial(instance, value)
+        callback = getattr(instance, 'on_{}_changed'.format(self.name), None)
+        if callable(callback):
+            callback(value, down=down, up=up)
+        callback = getattr(instance, 'on_controller_changed', None)
+        if callable(callback):
+            callback(self, value, down=down, up=up)
+
+    def set_initial(self, instance, value):
         if isinstance(value, str) \
                 and isinstance(self.value_type, type) \
                 and issubclass(self.value_type, Enum):

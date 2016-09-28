@@ -22,16 +22,13 @@ class MultiCtl(Module):
         element_size = 4 * 8
         @property
         def default(self):
-            return [
-                MultiCtl.Mapping((0, 0x8000, 0))
-                for x in range(self.length)
-            ]
+            return [MultiCtl.Mapping((0, 0x8000, 0))
+                    for x in range(self.length)]
         @property
         def encoded_values(self):
             return list(chain.from_iterable(
                 (x.min, x.max, x.controller, 0, 0, 0, 0, 0)
-                for x in self.values
-            ))
+                for x in self.values))
         @property
         def python_type(self):
             return MultiCtl.Mapping
