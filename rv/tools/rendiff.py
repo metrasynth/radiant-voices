@@ -22,16 +22,6 @@ parser.add_argument(
     'filename',
     metavar='FILE', type=str, nargs=1,
     help='SunVox file to export')
-parser.add_argument(
-    '--out',
-    metavar='FILE', action='store', dest='out_filename', type=str, nargs=1,
-    default=None,
-    help='Output file to write (defaults to "inputname.diff.wav")')
-parser.add_argument(
-    '--out2',
-    metavar='FILE', action='store', dest='out2_filename', type=str, nargs=1,
-    default=None,
-    help='Output file to write (defaults to "inputname.compare.wav")')
 
 
 def main():
@@ -50,14 +40,9 @@ def main():
     in_filename = args.filename[0]
     log.debug('Loading into rv')
     project = rv.read_sunvox_file(in_filename)
-    out_filename = args.out_filename and args.out_filename[0]
-    out2_filename = args.out2_filename and args.out2_filename[0]
-    if not out_filename:
-        root, ext = os.path.splitext(in_filename)
-        out_filename = '{}.diff.wav'.format(root)
-    if not out2_filename:
-        root, ext = os.path.splitext(in_filename)
-        out2_filename = '{}.compare.wav'.format(root)
+    root, ext = os.path.splitext(in_filename)
+    out_filename = '{}.diff.wav'.format(root)
+    out2_filename = '{}.compare.wav'.format(root)
     data_type = float32
     freq = 44100
     channels = 2
