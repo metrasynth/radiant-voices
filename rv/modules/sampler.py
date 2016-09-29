@@ -144,6 +144,7 @@ class Sampler(Module):
             self.loop_type = Sampler.LoopType.off
             self.panning = 0
             self.relative_note = 16
+            self.unknown6 = b'\0' * 23
         @property
         def frame_size(self):
             size = {Sampler.Format.int8: 1, Sampler.Format.int16: 2,
@@ -178,6 +179,11 @@ class Sampler(Module):
         self.panning_envelope = self.PanningEnvelope()
         self.note_samples = self.NoteSampleMap()
         self.samples = [None] * 128
+        self.unknown1 = b'\0' * 28
+        self.unknown2 = b'\0' * 4
+        self.unknown3 = b'\x40\x00\x80\x00\x00\x00\x00\x00'
+        self.unknown4 = b'\x04\x00\x00\x00'
+        self.unknown5 = b'\0' * 9
 
     def specialized_iff_chunks(self):
         for chunk in self.envelope_chunks():
@@ -191,12 +197,12 @@ class Sampler(Module):
         f = BytesIO()
         w = f.write
         b = lambda v: pack('<B', v)
-        w(b'\0' * 28)
+        w(self.unknown1)
         compacted_samples = self.samples.copy()
         while compacted_samples and compacted_samples[-1] is None:
             compacted_samples.pop()
         w(pack('<I', len(compacted_samples)))
-        w(b'\0' * 4)
+        w(self.unknown2)
         w(self.note_samples.bytes[:96])
         vol = self.volume_envelope
         pan = self.panning_envelope
@@ -217,13 +223,11 @@ class Sampler(Module):
         w(b(self.vibrato_depth))
         w(b(self.vibrato_rate))
         w(pack('<H', self.volume_fadeout))
-        w(pack('<H', 0x40))
-        w(pack('<H', 0x80))
-        w(pack('<I', 0))
+        w(self.unknown3)
         w(b'PMAS')
-        w(pack('<I', 4))
+        w(self.unknown4)
         w(self.note_samples.bytes)
-        w(b'\0' * 9)
+        w(self.unknown5)
         yield (b'CHNM', pack('<I', 0))
         yield (b'CHDT', f.getvalue())
         f.close()
@@ -246,7 +250,7 @@ class Sampler(Module):
         w(pack('<B', loop_format_flags))
         w(pack('<B', sample.panning + 0x80))
         w(pack('<b', sample.relative_note))
-        w(b'\0' * 23)
+        w(sample.unknown6)
         yield (b'CHNM', pack('<I', i * 2 + 1))
         yield (b'CHDT', f.getvalue())
         f.close()
@@ -289,6 +293,11 @@ class Sampler(Module):
         self.vibrato_rate = data[0xf1]
         self.volume_fadeout, = unpack('<H', data[0xf2:0xf4])
         self.note_samples.bytes = data[0x104:0x17b]
+        self.unknown1 = data[0x00:0x1c]
+        self.unknown2 = data[0x20:0x24]
+        self.unknown3 = data[0xf4:0xfc]
+        self.unknown4 = data[0x100:0x104]
+        self.unknown5 = data[0x17b:0x184]
 
     def load_sample_meta(self, chunk):
         index = (chunk.chnm - 1) // 2
@@ -310,6 +319,7 @@ class Sampler(Module):
             sample.channels = self.Channels.mono
         sample.panning = data[0x0f] - 0x80
         sample.relative_note, = unpack('<b', data[0x10:0x11])
+        sample.unknown6 = data[0x11:0x28]
 
     def load_sample_data(self, chunk):
         index = (chunk.chnm - 2) // 2
@@ -324,13 +334,13 @@ class Sampler(Module):
                 0  1  2  3  4  5  6  7   8  9  a  b  c  d  e  f
 CHNM: 00000000
 CHDT: 00000000: 00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
-                ------------------------------------------------ ?
+                ------------------------------------------------ unknown1
       00000010: 00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
-                ------------------------------------ ?
+                ------------------------------------ unknown1
                                                      ----------- max sample index + 1
                                                                  (0 for no samples)
       00000020: 00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
-                ----------- ?
+                ----------- unknown2
                             -- sample number for note C-0 (note 0)
       00000030: 00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
       00000040: 00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
@@ -411,12 +421,10 @@ CHDT: 00000000: 00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ..............
                 -- vibrato depth (0-255)
                    -- vibrato rate (0-63)
                       ----- volume fadeout (0-8192)
-                            ----- ?
-                                  ----- ?
-                                         ----------- ?
+                            ------------------------ unknown3
                                                      ----------- magic (little-endian SAMP)
       00000100: 04 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
-                ----------- ?
+                ----------- unknown4
                             -- sample number for note C-0 (note 0)
       00000110: 00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
       00000120: 00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
@@ -427,10 +435,9 @@ CHDT: 00000000: 00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ..............
       00000170: 00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
                 0  1  2  3  4  5  6  7   8  9  a  b  c  d  e  f
                                                -- sample number for note b-9 (note 118)
-                                                  -- ?
-                                                     ----------- ?
+                                                  -------------- unknown5
       00000180: 00 00 00 00                                       ....
-                ----------- ?
+                ----------- unknown5
 
 CHNM: (sample number * 2 + 1)
                 0  1  2  3  4  5  6  7   8  9  a  b  c  d  e  f
@@ -450,9 +457,9 @@ CHDT: 00000000: C7 08 00 00 00 00 00 00  00 00 00 00 40 64 00 80  ............@d
                                                               -- panning (-128-127, 0x00-0xFF, unsigned w/ offset, center = 0x80)
       00000010: 10 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  ................
                 -- relative note (-128-127, signed, center=0x00)
-                   --------------------------------------------- ?
+                   --------------------------------------------- unknown6
       00000020: 00 00 00 00 00 00 00 00                           ........
-                ----------------------- ?
+                ----------------------- unknown6
 CHFF: 0
 CHFR: 0
 
