@@ -29,10 +29,12 @@ class ModuleReader(Reader):
         self.object.flags, = unpack('<I', data)
 
     def process_snam(self, data):
-        self.object.name = data.rstrip(b'\0').decode(ENCODING)
+        data = data[:data.find(0)] if 0 in data else data
+        self.object.name = data.decode(ENCODING)
 
     def process_styp(self, data):
-        mtype = data.rstrip(b'\0').decode(ENCODING)
+        data = data[:data.find(0)] if 0 in data else data
+        mtype = data.decode(ENCODING)
         cls = MODULE_CLASSES[mtype]
         new_module = cls()
         new_module.flags = self.object.flags

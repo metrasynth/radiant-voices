@@ -152,4 +152,6 @@ class MetaModule(Module):
 
     def load_label(self, chunk):
         controller = self.user_defined[chunk.chnm - 8]
-        controller.label = chunk.chdt.rstrip(b'\0').decode(rv.ENCODING)
+        data = chunk.chdt
+        data = data[:data.find(0)] if 0 in data else data
+        controller.label = data.decode(rv.ENCODING)

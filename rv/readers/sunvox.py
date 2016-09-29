@@ -33,7 +33,8 @@ class SunVoxReader(Reader):
         self.object.global_volume, = unpack('<I', data)
 
     def process_name(self, data):
-        self.object.name = data.rstrip(b'\0').decode(ENCODING)
+        data = data[:data.find(0)] if 0 in data else data
+        self.object.name = data.decode(ENCODING)
 
     def process_mscl(self, data):
         self.object.modules_scale, = unpack('<I', data)

@@ -17,7 +17,8 @@ class PatternReader(Reader):
         self._raw_data = data
 
     def process_pnme(self, data):
-        self.object.name = data.rstrip(b'\0').decode(ENCODING)
+        data = data[:data.find(0)] if 0 in data else data
+        self.object.name = data.decode(ENCODING)
 
     def process_pchn(self, data):
         self.object.tracks, = unpack('<I', data)
