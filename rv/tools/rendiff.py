@@ -43,6 +43,7 @@ def main():
     root, ext = os.path.splitext(in_filename)
     out_filename = '{}.diff.wav'.format(root)
     out2_filename = '{}.compare.wav'.format(root)
+    rv_filename = '{}.rv.sunvox'.format(root)
     data_type = float32
     freq = 44100
     channels = 2
@@ -124,6 +125,9 @@ def main():
         rv_mixdown = rv_left / 2 + rv_right / 2
         comparison = np.stack((sv_mixdown, rv_mixdown))
         wavfile.write(out2_filename, freq, comparison.transpose())
+        log.info('Saving rv version to %r', rv_filename)
+        with open(rv_filename, 'wb') as f:
+            project.write_to(f)
     log.info('Finished')
 
     p.kill()
