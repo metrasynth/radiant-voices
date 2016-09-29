@@ -104,6 +104,7 @@ class ModuleReader(Reader):
                         self.object.chnk, val))
 
     def process_chnm(self, data):
+        self._compensate_for_older_sunvox_file_format()
         self._current_chunk = Chunk()
         self._current_chunk.chnm, = unpack('<I', data)
 
@@ -119,4 +120,15 @@ class ModuleReader(Reader):
         self._current_chunk = None
 
     def process_send(self, data):
+        self._compensate_for_older_sunvox_file_format()
         raise ReaderFinished()
+
+    def _compensate_for_older_sunvox_file_format(self):
+        if self._current_chunk is not None:
+            # Compensate for older versions of SunVox that didn't write
+            # CHFF and CHFR for all types of chunks.
+            c = self._current_chunk
+            c.chff = 0 if c.chff is None else c.chff
+            c.chfr = 0 if c.chfr is None else c.chfr
+            self.object.load_chunk(c)
+            self._current_chunk = None
