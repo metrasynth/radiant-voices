@@ -11,6 +11,16 @@ from rv.option import Option
 
 
 class Sampler(Module):
+    """
+    ..  note::
+
+        Radiant Voices only supports sampler modules in files that were
+        saved using newer versions of SunVox.
+
+        Files created using older versions of SunVox, such as some of the files
+        in the ``simple_examples`` included with SunVox, must first be
+        loaded into the latest version of SunVox and then saved.
+    """
 
     name = mtype = 'Sampler'
     mgroup = 'Synth'
