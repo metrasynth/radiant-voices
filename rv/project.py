@@ -94,8 +94,9 @@ class Project(Container):
         yield (b'PATT', pack('<I', self.current_track))
         yield (b'PATL', pack('<I', self.current_line))
         for pattern in self.patterns:
-            for chunk in pattern.iff_chunks():
-                yield chunk
+            if pattern is not None:
+                for chunk in pattern.iff_chunks():
+                    yield chunk
             yield (b'PEND', b'')
         for i, module in enumerate(self.modules):
             if module is not None:

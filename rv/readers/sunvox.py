@@ -74,6 +74,10 @@ class SunVoxReader(Reader):
         pattern = PatternReader(self.f).object
         self.object.attach_pattern(pattern)
 
+    def process_pend(self, data):
+        # Empty pattern found.
+        self.object.attach_pattern(None)
+
     def process_ppar(self, data):
         self.rewind(data)
         pattern = PatternCloneReader(self.f).object
