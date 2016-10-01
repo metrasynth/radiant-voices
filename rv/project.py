@@ -17,9 +17,10 @@ class Project(Container):
     MAGIC_CHUNK = (b'SVOX', b'')
 
     def __init__(self):
+        self.modules = []
         self.module_connections = defaultdict(list)
         self.output = Output()
-        self.modules = [self.output]
+        self.attach_module(self.output)
         self.sunvox_version = (1, 9, 1, 0)
         self.based_on_version = (1, 9, 1, 0)
         self.initial_bpm = 125

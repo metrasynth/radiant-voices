@@ -61,6 +61,12 @@ class Module(object, metaclass=ModuleMeta):
         self.visualization = kw.get('visualization', 0x000c0101)
         self.incoming_links = []
 
+    def __lshift__(self, other):
+        self.parent.connect(other, self)
+
+    def __rshift__(self, other):
+        self.parent.connect(self, other)
+
     def get_raw(self, name):
         """Return the raw (unsigned) value for the named controller."""
         controller = self.controllers[name]

@@ -10,3 +10,4 @@ class Output(Module):
     name = mtype = 'Output'
     mgroup = 'System'
     flags = 0x00000043
+    index = 0
