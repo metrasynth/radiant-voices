@@ -1,7 +1,7 @@
 from itertools import chain
 
 from rv.chunks import ArrayChunk
-from rv.controller import Controller
+from rv.controller import Controller, Range
 from rv.modules import Module
 
 
@@ -74,6 +74,23 @@ class MultiCtl(Module):
         self.mappings = self.MappingArray()
         for i, mapping in enumerate(mappings):
             self.mappings.values[i] = self.Mapping(mapping)
+
+    def on_value_changed(self, value, down, up):
+        if self.parent is not None and down:
+            downstream_mods = []
+            for to_mod in range(256):
+                from_mods = self.parent.module_connections[to_mod]
+                if self.index in from_mods:
+                    downstream_mods.append(to_mod)
+            for i, to_mod in enumerate(downstream_mods):
+                mapping = self.mappings.values[i]
+                mod = self.parent.modules[to_mod]
+                ctl = list(mod.controllers.values())[mapping.controller]
+                if isinstance(ctl.value_type, Range):
+                    value = convert_value(
+                        self.gain, self.quantization, mapping.min, mapping.max,
+                        ctl.value_type.min, ctl.value_type.max, self.value)
+                    setattr(mod, ctl.name, value)
 
     def specialized_iff_chunks(self):
         for chunk in self.mappings.chunks():
