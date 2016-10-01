@@ -6,23 +6,39 @@ from rv.modules import Module
 
 
 def convert_value(gain, qsteps, smin, smax, dmin, dmax, value):
-    qsteps = max(qsteps, 2)
+    # Is the source range inverted?
     if smin > smax:
         inverse = True
         smin, smax = smax, smin
     else:
         inverse = False
-    value = value * gain // 256
-    range = smax - smin
-    delta = range // (qsteps - 1)
+    # At a minimum, we need 2 quantization steps (on/off).
+    # We also need no more steps then there are values in the source range.
+    srange = smax - smin
+    qsteps = max(qsteps, 2)
+    qsteps = min(qsteps, srange)
+    # Apply gain.
+    value = value * gain / 256
+    # Translate value from full 0-32768 range to source range.
+    ratio = value / 32768
+    value = srange * ratio + smin
+    # Quantize.
+    delta = srange // (qsteps - 1)
     value = (value // delta) * delta
+    # Limit destination range.
+    drange = dmax - dmin
+    dmin2 = dmin + drange * (smin / 32768)
+    dmax2 = dmin + drange * (smax / 32768)
+    drange2 = dmax2 - dmin2
+    # Transform from source range to destination range.
+    factor = drange2 / srange
+    result = (value - smin) * factor + dmin2
+    # Invert if necessary.
     if inverse:
-        value = smax - value
-    factor = smax // dmax
-    result = value // factor if factor else 0
-    result = min(result, dmax)
-    result = max(result, dmin)
-    return result
+        result = dmax2 - result + dmin2
+    result = min(result, dmax2)
+    result = max(result, dmin2)
+    return round(result)
 
 
 class MultiCtl(Module):
