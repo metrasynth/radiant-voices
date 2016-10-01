@@ -14,8 +14,8 @@ def convert_value(gain, qsteps, smin, smax, dmin, dmax, value):
         inverse = False
     value = value * gain // 256
     range = smax - smin
-    step = range // (qsteps - 1)
-    value = (value // step) * step
+    delta = range // (qsteps - 1)
+    value = (value // delta) * delta
     if inverse:
         value = smax - value
     factor = smax // dmax
