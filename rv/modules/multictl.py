@@ -5,6 +5,26 @@ from rv.controller import Controller
 from rv.modules import Module
 
 
+def convert_value(gain, qsteps, smin, smax, dmin, dmax, value):
+    qsteps = max(qsteps, 2)
+    if smin > smax:
+        inverse = True
+        smin, smax = smax, smin
+    else:
+        inverse = False
+    value = value * gain // 256
+    range = smax - smin
+    step = range // (qsteps - 1)
+    value = (value // step) * step
+    if inverse:
+        value = smax - value
+    factor = smax // dmax
+    result = value // factor if factor else 0
+    result = min(result, dmax)
+    result = max(result, dmin)
+    return result
+
+
 class MultiCtl(Module):
 
     name = mtype = 'MultiCtl'
