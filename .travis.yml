@@ -4,6 +4,8 @@ python:
   - "3.5-dev"
   - "nightly"
 install:
+  - "sudo apt-get -qq update"
+  - "sudo apt-get -y install libsdl1.2-dev graphviz"
   - "pip install -r requirements/tests.txt"
   - "pip install ."
 script: py.test

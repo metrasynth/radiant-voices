@@ -1,6 +1,8 @@
 from collections import defaultdict
 from struct import pack
 
+import pygraphviz as pgv
+
 from rv import ENCODING
 from rv.container import Container
 from rv.modules.module import Module
@@ -145,6 +147,27 @@ class Project(Container):
                 if to_idx in connections_from:
                     connections_from.remove(to_idx)
                     from_module.incoming_links = connections_from
+
+    def graph(self):
+        """Return a PyGraphViz-compatible graph dictionary for modules."""
+        d = defaultdict(list)
+        for to_idx, from_idx_list in self.module_connections.items():
+            for from_idx in from_idx_list:
+                if from_idx >= 0:
+                    d[from_idx].append(to_idx)
+        return d
+
+    def layout(self, prog='neato'):
+        """Use GraphViz to auto-layout modules."""
+        g = pgv.AGraph(self.graph(), directed=True, strict=False)
+        g.layout()
+        for node in g.nodes():
+            x, y = node.attr['pos'].split(',')
+            x, y = int(float(x)), int(float(y))
+            idx = int(node)
+            mod = self.modules[idx]
+            mod.x = x + 512
+            mod.y = y + 512
 
     def module_index(self, module):
         """Return the index of the given module."""
