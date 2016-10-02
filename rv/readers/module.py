@@ -53,10 +53,10 @@ class ModuleReader(Reader):
         self.object.relative_note, = unpack('<i', data)
 
     def process_sxxx(self, data):
-        self.object.x_position, = unpack('<i', data)
+        self.object.x, = unpack('<i', data)
 
     def process_syyy(self, data):
-        self.object.y_position, = unpack('<i', data)
+        self.object.y, = unpack('<i', data)
 
     def process_szzz(self, data):
         self.object.layer, = unpack('<I', data)
