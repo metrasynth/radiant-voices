@@ -157,7 +157,7 @@ class Project(Container):
                     d[from_idx].append(to_idx)
         return d
 
-    def layout(self, prog='neato'):
+    def layout(self, prog='neato', factor=8):
         """Use GraphViz to auto-layout modules."""
         g = pgv.AGraph(self.graph(), directed=True, strict=False)
         g.layout()
@@ -166,8 +166,8 @@ class Project(Container):
             x, y = int(float(x)), int(float(y))
             idx = int(node)
             mod = self.modules[idx]
-            mod.x = x + 512
-            mod.y = y + 512
+            mod.x = x * factor + 512
+            mod.y = y * factor + 512
 
     def module_index(self, module):
         """Return the index of the given module."""
