@@ -32,7 +32,10 @@ from rv.project import Project
 from rv.readers.reader import read_sunvox_file
 from rv.synth import Synth
 
+m = rv.modules
+
 __all__ = [
+    'm',
     'ENCODING',
     'Note',
     'NOTE',
