@@ -20,6 +20,26 @@ class Chunk(object):
         self.chnm = self.chdt = self.chff = self.chfr = None
 
 
+class ModuleList(list):
+    """Ensures `>>` and `<<` work with lists."""
+
+    def __init__(self, parent, *args, **kwargs):
+        super(ModuleList, self).__init__(*args, **kwargs)
+        self.parent = parent
+
+    def __lshift__(self, other):
+        self.parent.connect(other, self)
+        if isinstance(other, list):
+            other = ModuleList(self.parent, other)
+        return other
+
+    def __rshift__(self, other):
+        self.parent.connect(self, other)
+        if isinstance(other, list):
+            other = ModuleList(self.parent, other)
+        return other
+
+
 class Module(object, metaclass=ModuleMeta):
     """Abstract base class for all SunVox module classes.
 
@@ -63,9 +83,15 @@ class Module(object, metaclass=ModuleMeta):
 
     def __lshift__(self, other):
         self.parent.connect(other, self)
+        if isinstance(other, list):
+            other = ModuleList(self.parent, other)
+        return other
 
     def __rshift__(self, other):
         self.parent.connect(self, other)
+        if isinstance(other, list):
+            other = ModuleList(self.parent, other)
+        return other
 
     def get_raw(self, name):
         """Return the raw (unsigned) value for the named controller."""
