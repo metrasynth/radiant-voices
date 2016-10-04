@@ -32,9 +32,6 @@ FM module::
     $ git clone https://github.com/metrasynth/sunvox-dll-python
     $ pip install -e sunvox-dll-python
     $ pip install -e radiant-voices
-    $ wget http://www.warmplace.ru/soft/sunvox/sunvox_dll.zip
-    $ unzip sunvox_dll.zip
-    $ export SUNVOX_DLL_BASE=$PWD/sunvox_dll
     $ cd radiant-voices/examples
     $ python helloworld.py
 
