@@ -7,6 +7,7 @@ from rv import ENCODING
 from rv.container import Container
 from rv.modules.module import Module
 from rv.modules.output import Output
+from rv.pattern import Pattern, PatternClone
 
 
 class Project(Container):
@@ -42,6 +43,16 @@ class Project(Container):
         self.current_track = 0
         self.current_line = 1
         self.patterns = []
+
+    def __iadd__(self, other):
+        if isinstance(other, list):
+            for x in other:
+                self.__iadd__(x)
+        elif isinstance(other, Module):
+            self.attach_module(other)
+        elif isinstance(other, (Pattern, PatternClone)):
+            self.attach_pattern(other)
+        return self
 
     def attach_module(self, module):
         """Attach the module to the project."""
