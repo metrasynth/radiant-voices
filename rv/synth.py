@@ -30,4 +30,11 @@ class Synth(Container):
             yield (b'CVAL', pack('<I', raw_value))
         if len(module.controllers) > 0:
             yield (b'CMID', b'\0\0\0\0\0\0\0\0' * len(module.controllers))
+        if module.chnk:
+            yield (b'CHNK', pack('<I', module.chnk))
+            if module.options:
+                for chunk in module.options_chunks():
+                    yield chunk
+            for chunk in module.specialized_iff_chunks():
+                yield chunk
         yield (b'SEND', b'')
