@@ -19,7 +19,7 @@ class Synth(Container):
     def chunks(self):
         """Generate chunks necessary to encode project as a .sunvox file"""
         if self.module is None:
-            raise ValueError('Cannot seriialize a synth with no module')
+            raise ValueError('Cannot serialize a synth with no module')
         yield self.MAGIC_CHUNK
         yield (b'VERS', pack('<I', self.sunsynth_version))
         module = self.module
