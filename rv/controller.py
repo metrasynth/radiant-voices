@@ -30,10 +30,14 @@ class Controller(object):
         Controller._next_order += 1
 
     def __get__(self, instance, owner):
-        return instance.controller_values[self.name]
+        if instance is None:
+            return self
+        else:
+            return instance.controller_values[self.name]
 
     def __set__(self, instance, value):
-        self.propagate(instance, value, down=True, up=True)
+        if instance is not None:
+            self.propagate(instance, value, down=True, up=True)
 
     def propagate(self, instance, value, down=False, up=False):
         self.set_initial(instance, value)
