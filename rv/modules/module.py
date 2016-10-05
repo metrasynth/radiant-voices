@@ -78,6 +78,7 @@ class Module(object, metaclass=ModuleMeta):
         self.midi_out_channel = kw.get('midi_out_channel', 0)
         self.midi_out_bank = kw.get('midi_out_bank', -1)
         self.midi_out_program = kw.get('midi_out_program', -1)
+        self.name = kw.get('name', self.name)
         self.visualization = kw.get('visualization', 0x000c0101)
         self.incoming_links = []
 
