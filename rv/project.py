@@ -1,7 +1,11 @@
 from collections import defaultdict
+import logging
 from struct import pack
 
-import pygraphviz as pgv
+try:
+    import pygraphviz as pgv
+except ImportError:
+    pgv = None
 
 from rv import ENCODING
 from rv.container import Container
@@ -170,15 +174,18 @@ class Project(Container):
 
     def layout(self, prog='neato', factor=8):
         """Use GraphViz to auto-layout modules."""
-        g = pgv.AGraph(self.graph(), directed=True, strict=False)
-        g.layout()
-        for node in g.nodes():
-            x, y = node.attr['pos'].split(',')
-            x, y = int(float(x)), int(float(y))
-            idx = int(node)
-            mod = self.modules[idx]
-            mod.x = x * factor + 512
-            mod.y = y * factor + 512
+        if pgv is not None:
+            g = pgv.AGraph(self.graph(), directed=True, strict=False)
+            g.layout()
+            for node in g.nodes():
+                x, y = node.attr['pos'].split(',')
+                x, y = int(float(x)), int(float(y))
+                idx = int(node)
+                mod = self.modules[idx]
+                mod.x = x * factor + 512
+                mod.y = y * factor + 512
+        else:
+            logging.warning('GraphViz not available; could not auto-layout.')
 
     def module_index(self, module):
         """Return the index of the given module."""
