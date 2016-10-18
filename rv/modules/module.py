@@ -82,6 +82,14 @@ class Module(object, metaclass=ModuleMeta):
         self.visualization = kw.get('visualization', 0x000c0101)
         self.incoming_links = []
 
+    def __repr__(self):
+        attrs = [self.__class__.__name__]
+        if self.index is not None:
+            attrs.append('index={}'.format(self.index))
+        if self.name != self.mtype:
+            attrs.append('name={}'.format(self.name))
+        return '<{}>'.format(' '.join(attrs))
+
     def __lshift__(self, other):
         self.parent.connect(other, self)
         if isinstance(other, list):
