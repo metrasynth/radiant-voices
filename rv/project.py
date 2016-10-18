@@ -69,6 +69,7 @@ class Project(Container):
                 self.output = module
             self.module_connections[module.index] = module.incoming_links
             module.parent = self
+        return module
 
     def attach_pattern(self, pattern):
         """Attach the pattern to the project."""
