@@ -1,3 +1,4 @@
+import io
 import logging
 from enum import Enum
 
@@ -7,6 +8,7 @@ log = logging.getLogger(__name__)
 from collections import OrderedDict
 from struct import pack, unpack
 
+import rv
 from rv import ENCODING
 from rv.modules.meta import ModuleMeta
 
@@ -101,6 +103,15 @@ class Module(object, metaclass=ModuleMeta):
         if isinstance(other, list):
             other = ModuleList(self.parent, other)
         return other
+
+    def clone(self):
+        synth = rv.Synth(self)
+        f = io.BytesIO()
+        synth.write_to(f)
+        f.seek(0)
+        synth2 = rv.read_sunvox_file(f)
+        f.close()
+        return synth2.module
 
     def get_raw(self, name):
         """Return the raw (unsigned) value for the named controller."""
