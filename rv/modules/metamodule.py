@@ -4,7 +4,7 @@ from struct import pack
 
 import rv
 from rv.chunks import ArrayChunk
-from rv.controller import Controller
+from rv.controller import Controller, Range
 from rv.modules import Module
 from rv.option import Option
 from rv.project import Project
@@ -17,7 +17,7 @@ class UserDefined(Controller):
     label = None
 
     def __init__(self):
-        super().__init__(None, None, detached=True)
+        super().__init__((0, 32768), 0, detached=True)
 
 
 class MetaModule(Module):
@@ -99,8 +99,11 @@ class MetaModule(Module):
             mapping = self.mappings.values[mapping_index]
             module = self.project.modules[mapping.module]
             controller_index = mapping.controller - 1
-            controller = list(module.controllers.values())[controller_index]
-            controller.propagate(module, value, down=True)
+            controllers = list(module.controllers.items())
+            ctl_name, ctl = controllers[controller_index]
+            if isinstance(ctl.value_type, Range):
+                value += ctl.value_type.min
+            ctl.propagate(module, value, down=True)
         super(MetaModule, self).on_controller_changed(
             controller, value, down, up)
 

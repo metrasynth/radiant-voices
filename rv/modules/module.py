@@ -130,7 +130,7 @@ class Module(object, metaclass=ModuleMeta):
         value_type = controller.value_type
         from_raw_value = getattr(value_type, 'from_raw_value', int)
         value = value_type(from_raw_value(raw_value))
-        setattr(self, name, value)
+        self.controller_values[name] = value
 
     def propagate_down(self, controller_name, value):
         controller = self.controllers[controller_name]

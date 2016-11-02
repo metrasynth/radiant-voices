@@ -44,6 +44,11 @@ class ModuleReader(Reader):
             name for name, controller in new_module.controllers.items()
             if not controller.detached
         )
+        if mtype == 'MetaModule':
+            self._controller_keys += [
+                'user_defined_{}'.format(i + 1)
+                for i in range(27)
+            ]
         self._object = new_module
 
     def process_sfin(self, data):
