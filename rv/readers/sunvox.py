@@ -29,6 +29,9 @@ class SunVoxReader(Reader):
     def process_sped(self, data):
         self.object.initial_tpl, = unpack('<I', data)
 
+    def process_tgrd(self, data):
+        self.object.time_grid, = unpack('<I', data)
+
     def process_gvol(self, data):
         self.object.global_volume, = unpack('<I', data)
 

@@ -19,6 +19,7 @@ class Lfo(Module):
         sin2 = 2
         saw = 3
         saw2 = 4
+        random = 5
 
     class Channels(Enum):
         stereo = 0

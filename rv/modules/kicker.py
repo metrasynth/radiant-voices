@@ -12,6 +12,7 @@ class Kicker(Module):
     class Waveform(Enum):
         triangle = 0
         square = 1
+        sin = 2
 
     volume = Controller((0, 256), 256)
     waveform = Controller(Waveform, Waveform.triangle)

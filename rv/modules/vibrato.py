@@ -28,3 +28,4 @@ class Vibrato(Module):
     channels = Controller(Channels, Channels.stereo)
     set_phase = Controller((0, 256), 0)  # used to reset module
     frequency_unit = Controller(FrequencyUnit, FrequencyUnit.hz_64)
+    exponential_amplitude = Controller(bool, False)

@@ -24,10 +24,11 @@ class AnalogGenerator(Module):
         saw = 1
         square = 2
         noise = 3
-        dirty = 4
+        drawn = 4
         sin = 5
         hsin = 6
         asin = 7
+        drawn_with_spline_interpolation = 8
 
     class Filter(Enum):
         off = 0
@@ -72,10 +73,14 @@ class AnalogGenerator(Module):
     filter_envelope_scaling_per_key = Option(False)
     volume_scaling_per_key = Option(False)
     filter_freq_scaling_per_key = Option(False)
-    velocity_dependent_filter_freq_scaling = Option(False)
+    velocity_dependent_filter_frequency = Option(False)
     frequency_div_2 = Option(False)
     unsmooth_frequency_change = Option(False)
     filter_freq_scaling_per_key_reverse = Option(False)
+    retain_phase = Option(False)
+    random_phase = Option(False)
+    filter_freq_eq_note_freq = Option(False)
+    velocity_dependent_filter_resonance = Option(False)
 
     def __init__(self, **kwargs):
         samples = kwargs.pop('samples', None)

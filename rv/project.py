@@ -34,6 +34,7 @@ class Project(Container):
         self.initial_tpl = 6
         self.global_volume = 80
         self.name = 'Project'
+        self.time_grid = 4
         self.metamodule = None
         self.modules_scale = 256
         self.modules_zoom = 256
@@ -98,6 +99,7 @@ class Project(Container):
         yield (b'BVER', pack('BBBB', *reversed(self.based_on_version)))
         yield (b'BPM ', pack('<I', self.initial_bpm))
         yield (b'SPED', pack('<I', self.initial_tpl))
+        yield (b'TGRD', pack('<I', self.time_grid))
         yield (b'GVOL', pack('<I', self.global_volume))
         yield (b'NAME', self.name.encode(ENCODING) + b'\0')
         yield (b'MSCL', pack('<I', self.modules_scale))

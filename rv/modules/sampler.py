@@ -182,6 +182,7 @@ class Sampler(Module):
     record_in_mono = Option(False)
     record_with_reduced_sample_rate = Option(False)
     record_in_16_bit = Option(False)
+    stop_recording_on_project_stop = Option(False)
 
     def __init__(self, **kwargs):
         super(Sampler, self).__init__(**kwargs)

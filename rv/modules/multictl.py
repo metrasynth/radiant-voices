@@ -79,6 +79,7 @@ class MultiCtl(Module):
     value = Controller((0, 32768), 0)
     gain = Controller((0, 1024), 256)
     quantization = Controller((0, 32768), 32768)
+    out_offset = Controller((-16384, 16384), 0)
 
     def __init__(self, **kwargs):
         curve = kwargs.pop('curve', None)
