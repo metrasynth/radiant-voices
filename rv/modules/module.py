@@ -53,7 +53,7 @@ class Module(object, metaclass=ModuleMeta):
     mtype = None  # module type
     mgroup = None  # module group
     flags = 0x00000049
-    chnk = None
+    chnk = None  # number of chunks
 
     controllers = OrderedDict()
     options = OrderedDict()
@@ -141,19 +141,23 @@ class Module(object, metaclass=ModuleMeta):
             self.parent.on_controller_changed(
                 self, controller, value, down=False, up=True)
 
-    def iff_chunks(self):
+    def iff_chunks(self, in_project=None):
         """Yield all standard chunks needed for a module."""
+        if in_project is None:
+            in_project = self.parent is not None
         yield (b'SFFF', pack('<I', self.flags))
         yield (b'SNAM', self.name.encode(ENCODING)[:32].ljust(32, b'\0'))
         if self.mtype is not None and self.mtype != 'Output':
             yield (b'STYP', self.mtype.encode(ENCODING) + b'\0')
         yield (b'SFIN', pack('<i', self.finetune))
         yield (b'SREL', pack('<i', self.relative_note))
-        yield (b'SXXX', pack('<i', self.x))
-        yield (b'SYYY', pack('<i', self.y))
-        yield (b'SZZZ', pack('<i', self.layer))
+        if in_project:
+            yield (b'SXXX', pack('<i', self.x))
+            yield (b'SYYY', pack('<i', self.y))
+            yield (b'SZZZ', pack('<i', self.layer))
         yield (b'SSCL', pack('<I', self.scale))
-        yield (b'SVPR', b'\x01\x01\x0c\x00')  # ?
+        if in_project:
+            yield (b'SVPR', pack('<I', self.visualization))
         yield (b'SCOL', pack('BBB', *self.color))
         yield (b'SMIC', pack('<i', self.midi_out_channel))
         yield (b'SMIB', pack('<i', self.midi_out_bank))
@@ -164,7 +168,11 @@ class Module(object, metaclass=ModuleMeta):
 
         Override this in module subclasses as needed.
         """
-        yield (None, None)
+        if self.options:
+            for chunk in self.options_chunks():
+                yield chunk
+        else:
+            yield (None, None)
 
     def options_chunks(self):
         """Yield chunks necessary to save options for this module."""

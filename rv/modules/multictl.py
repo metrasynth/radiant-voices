@@ -102,7 +102,7 @@ class MultiCtl(Module):
             for i, to_mod in enumerate(downstream_mods):
                 mapping = self.mappings.values[i]
                 mod = self.parent.modules[to_mod]
-                ctl = list(mod.controllers.values())[mapping.controller]
+                ctl = list(mod.controllers.values())[mapping.controller - 1]
                 if isinstance(ctl.value_type, Range):
                     value = convert_value(
                         self.gain, self.quantization, mapping.min, mapping.max,
@@ -113,6 +113,8 @@ class MultiCtl(Module):
         for chunk in self.mappings.chunks():
             yield chunk
         for chunk in self.curve.chunks():
+            yield chunk
+        for chunk in super(MultiCtl, self).specialized_iff_chunks():
             yield chunk
 
     def load_chunk(self, chunk):

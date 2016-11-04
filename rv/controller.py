@@ -20,12 +20,12 @@ class Controller(object):
     name = None
     number = None
 
-    def __init__(self, value_type, default, detached=False):
+    def __init__(self, value_type, default, attached=True):
         if isinstance(value_type, tuple):
             value_type = Range(*value_type)
         self.value_type = value_type
         self.default = default
-        self.detached = detached
+        self._attached = attached
         self._order = Controller._next_order
         Controller._next_order += 1
 
@@ -38,6 +38,9 @@ class Controller(object):
     def __set__(self, instance, value):
         if instance is not None:
             self.propagate(instance, value, down=True, up=True)
+
+    def attached(self, instance):
+        return self._attached
 
     def propagate(self, instance, value, down=False, up=False):
         self.set_initial(instance, value)

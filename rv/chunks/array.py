@@ -13,10 +13,7 @@ class ArrayChunk(Chunk):
     values = None
 
     def __init__(self):
-        if self.default is not None:
-            self.values = self.default.copy()
-        else:
-            self.values = [0] * self.length
+        self.reset()
 
     @property
     def bytes(self):
@@ -47,6 +44,12 @@ class ArrayChunk(Chunk):
 
     def chfr(self):
         return pack('<I', 0)
+
+    def reset(self):
+        if self.default is not None:
+            self.values = self.default.copy()
+        else:
+            self.values = [0] * self.length
 
 
 __all__ = [

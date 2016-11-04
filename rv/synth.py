@@ -23,18 +23,19 @@ class Synth(Container):
         yield self.MAGIC_CHUNK
         yield (b'VERS', pack('<I', self.sunsynth_version))
         module = self.module
-        for chunk in module.iff_chunks():
+        for chunk in module.iff_chunks(in_project=False):
             yield chunk
-        for name in module.controllers:
-            raw_value = module.get_raw(name)
-            yield (b'CVAL', pack('<I', raw_value))
-        if len(module.controllers) > 0:
-            yield (b'CMID', b'\0\0\0\0\0\0\0\0' * len(module.controllers))
+        module.recompute_controller_attachment()
+        ctl_count = 0
+        for name, ctl in module.controllers.items():
+            if ctl.attached(module):
+                raw_value = module.get_raw(name)
+                yield (b'CVAL', pack('<I', raw_value))
+                ctl_count += 1
+        if ctl_count:
+            yield (b'CMID', b'\0\0\0\0\0\0\0\xFF' * ctl_count)
         if module.chnk:
-            yield (b'CHNK', pack('<I', module.chnk))
-            if module.options:
-                for chunk in module.options_chunks():
-                    yield chunk
+            yield (b'CHNK', pack('<I', max(0x10, module.chnk)))
             for chunk in module.specialized_iff_chunks():
                 yield chunk
         yield (b'SEND', b'')

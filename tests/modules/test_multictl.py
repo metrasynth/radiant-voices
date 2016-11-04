@@ -145,10 +145,10 @@ def test_propagation():
     amp2 = p.new_module(rv.modules.Amplifier)
     mc = p.new_module(rv.modules.MultiCtl)
     p.connect(mc, [amp1, amp2])
-    mc.mappings.values[0].controller = amp1.controllers['volume'].number - 1
+    mc.mappings.values[0].controller = amp1.controllers['volume'].number
     mc.mappings.values[1].min = 32768
     mc.mappings.values[1].max = 0
-    mc.mappings.values[1].controller = amp2.controllers['volume'].number - 1
+    mc.mappings.values[1].controller = amp2.controllers['volume'].number
     mc.value = 0
     assert amp1.volume == 0
     assert amp2.volume == 1024

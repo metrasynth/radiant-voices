@@ -41,6 +41,8 @@ class WaveShaper(Module):
     def specialized_iff_chunks(self):
         for chunk in self.curve.chunks():
             yield chunk
+        for chunk in super(WaveShaper, self).specialized_iff_chunks():
+            yield chunk
 
     def load_chunk(self, chunk):
         if chunk.chnm == 0:

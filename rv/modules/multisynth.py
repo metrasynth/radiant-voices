@@ -51,6 +51,8 @@ class MultiSynth(Module):
     def specialized_iff_chunks(self):
         for chunk in self.nv_curve.chunks():
             yield chunk
+        for chunk in super(MultiSynth, self).specialized_iff_chunks():
+            yield chunk
         for chunk in self.vv_curve.chunks():
             yield chunk
 

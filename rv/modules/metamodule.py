@@ -1,5 +1,6 @@
 from io import BytesIO
 from itertools import chain
+import re
 from struct import pack
 
 import rv
@@ -11,13 +12,53 @@ from rv.project import Project
 
 
 MAX_USER_DEFINED_CONTROLLERS = 27
+USER_DEFINED_RE = re.compile(r'user_defined_\d+')
 
 
 class UserDefined(Controller):
     label = None
 
-    def __init__(self):
-        super().__init__((0, 32768), 0, detached=True)
+    def __init__(self, number):
+        self.name = 'user_defined_{}'.format(number + 1)
+        self.number = number
+        super().__init__((0, 32768), 0, attached=False)
+
+    def attach(self, instance):
+        self._attached = True
+
+    def detach(self, instance):
+        self._attached = False
+
+
+class UserDefinedProxy(Controller):
+
+    def __init__(self, index):
+        self.index = index
+        super(UserDefinedProxy, self).__init__((0, 32768), 0)
+
+    def __get__(self, instance, owner):
+        if instance is None:
+            return self
+        else:
+            ctl = instance.user_defined[self.index]
+            return ctl.__get__(instance, owner)
+
+    def __set__(self, instance, value):
+        if instance is not None:
+            ctl = instance.user_defined[self.index]
+            return ctl.__set__(instance, value)
+
+    def attached(self, instance):
+        ctl = instance.user_defined[self.index]
+        return ctl.attached(instance)
+
+    def attach(self, instance):
+        ctl = instance.user_defined[self.index]
+        return ctl.attach(instance)
+
+    def detach(self, instance):
+        ctl = instance.user_defined[self.index]
+        return ctl.detach(instance)
 
 
 class MetaModule(Module):
@@ -29,7 +70,6 @@ class MetaModule(Module):
 
     name = mtype = 'MetaModule'
     mgroup = 'Misc'
-    chnk = 0x10
     options_chnm = 0x02
 
     class Mapping(object):
@@ -38,7 +78,7 @@ class MetaModule(Module):
 
     class MappingArray(ArrayChunk):
         chnm = 1
-        length = 32
+        length = 64
         type = 'HH'
         element_size = 2 * 2
         @property
@@ -73,14 +113,15 @@ class MetaModule(Module):
 
     # TODO: propagate changes in bpm/tpl to subproject and back
 
-    user_defined = [UserDefined() for x in range(MAX_USER_DEFINED_CONTROLLERS)]
-    (user_defined_1, user_defined_2, user_defined_3, user_defined_4,
-     user_defined_5, user_defined_6, user_defined_7, user_defined_8,
-     user_defined_9, user_defined_10, user_defined_11, user_defined_12,
-     user_defined_13, user_defined_14, user_defined_15, user_defined_16,
-     user_defined_17, user_defined_18, user_defined_19, user_defined_20,
-     user_defined_21, user_defined_22, user_defined_23, user_defined_24,
-     user_defined_25, user_defined_26, user_defined_27) = user_defined
+    (
+        user_defined_1,  user_defined_2,  user_defined_3,  user_defined_4,
+        user_defined_5,  user_defined_6,  user_defined_7,  user_defined_8,
+        user_defined_9,  user_defined_10, user_defined_11, user_defined_12,
+        user_defined_13, user_defined_14, user_defined_15, user_defined_16,
+        user_defined_17, user_defined_18, user_defined_19, user_defined_20,
+        user_defined_21, user_defined_22, user_defined_23, user_defined_24,
+        user_defined_25, user_defined_26, user_defined_27,
+    ) = [UserDefinedProxy(__i) for __i in range(27)]
 
     user_defined_controllers = Option(0, (0, MAX_USER_DEFINED_CONTROLLERS))
     arpeggiator = Option(False)
@@ -88,10 +129,31 @@ class MetaModule(Module):
 
     def __init__(self, **kwargs):
         project = kwargs.get('project', None)
+        self.user_defined = [
+            UserDefined(i) for i in range(MAX_USER_DEFINED_CONTROLLERS)
+        ]
         super(MetaModule, self).__init__(**kwargs)
         self.mappings = self.MappingArray()
         self.project = project if project else Project()
         self.project.metamodule = self
+
+    def __getattr__(self, key):
+        if USER_DEFINED_RE.match(key):
+            ctl = self.controllers[key]
+            return ctl.__get__(self, None)
+        else:
+            raise AttributeError()
+
+    def __setattr__(self, key, value):
+        if USER_DEFINED_RE.match(key):
+            ctl = self.controllers[key]
+            return ctl.__set__(self, value)
+        else:
+            super(MetaModule, self).__setattr__(key, value)
+
+    @property
+    def chnk(self):
+        return 8 + self.user_defined_controllers
 
     def on_controller_changed(self, controller, value, down, up):
         if isinstance(controller, UserDefined) and down:
@@ -116,12 +178,19 @@ class MetaModule(Module):
                 setattr(self, name, value)
 
     def on_user_defined_controllers_changed(self, value):
-        detached_values = (
-            [False] * value +
-            [True] * (MAX_USER_DEFINED_CONTROLLERS - value)
+        self.recompute_controller_attachment()
+
+    def recompute_controller_attachment(self):
+        ctl_count = self.user_defined_controllers
+        attached_values = (
+            [True] * ctl_count +
+            [False] * (MAX_USER_DEFINED_CONTROLLERS - ctl_count)
         )
-        for controller, detached in zip(self.user_defined, detached_values):
-            controller.detached = detached
+        for controller, attached in zip(self.user_defined, attached_values):
+            if attached:
+                controller.attach(self)
+            else:
+                controller.detach(self)
 
     def update_user_defined_controllers(self):
         self.mappings.update_user_defined_controllers(self)
@@ -133,8 +202,10 @@ class MetaModule(Module):
         yield (b'CHFR', pack('<I', 0))
         for chunk in self.mappings.chunks():
             yield chunk
+        for chunk in super(MetaModule, self).specialized_iff_chunks():
+            yield chunk
         for i, controller in enumerate(self.user_defined, 8):
-            if not controller.detached and controller.label is not None:
+            if controller.attached(self) and controller.label is not None:
                 yield (b'CHNM', pack('<I', i))
                 yield (b'CHDT', controller.label.encode(rv.ENCODING) + b'\0')
                 yield (b'CHFF', pack('<I', 0))
@@ -146,6 +217,8 @@ class MetaModule(Module):
         elif chunk.chnm == 0:
             self.load_project(chunk)
         elif chunk.chnm == 1:
+            self.mappings.length = len(chunk.chdt) // self.mappings.element_size
+            self.mappings.reset()
             self.mappings.bytes = chunk.chdt
         elif chunk.chnm >= 8:
             self.load_label(chunk)

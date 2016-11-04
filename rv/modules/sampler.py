@@ -172,11 +172,11 @@ class Sampler(Module):
     polyphony_ch = Controller((1, 32), 8)
     rec_threshold = Controller((0, 10000), 4)
 
-    vibrato_type = Controller(VibratoType, VibratoType.sin, detached=True)
-    vibrato_attack = Controller((0, 255), 0, detached=True)
-    vibrato_depth = Controller((0, 255), 0, detached=True)
-    vibrato_rate = Controller((0, 63), 0, detached=True)
-    volume_fadeout = Controller((0, 8192), 0, detached=True)
+    vibrato_type = Controller(VibratoType, VibratoType.sin, attached=False)
+    vibrato_attack = Controller((0, 255), 0, attached=False)
+    vibrato_depth = Controller((0, 255), 0, attached=False)
+    vibrato_rate = Controller((0, 63), 0, attached=False)
+    volume_fadeout = Controller((0, 8192), 0, attached=False)
 
     record_on_play = Option(False)
     record_in_mono = Option(False)
@@ -198,6 +198,8 @@ class Sampler(Module):
 
     def specialized_iff_chunks(self):
         for chunk in self.envelope_chunks():
+            yield chunk
+        for chunk in super(Sampler, self).specialized_iff_chunks():
             yield chunk
         for i, sample in enumerate(self.samples):
             if sample is not None:

@@ -42,7 +42,7 @@ class ModuleReader(Reader):
         new_module.mtype = mtype
         self._controller_keys = list(
             name for name, controller in new_module.controllers.items()
-            if not controller.detached
+            if controller.attached(new_module)
         )
         if mtype == 'MetaModule':
             self._controller_keys += [
@@ -106,9 +106,7 @@ class ModuleReader(Reader):
 
     def process_chnk(self, data):
         val, = unpack('<I', data)
-        if val != self.object.chnk:
-            log.warn(_F('Expected CHNK value {}, got {}',
-                        self.object.chnk, val))
+        self.object._reader_chnk = val
 
     def process_chnm(self, data):
         self._compensate_for_older_sunvox_file_format()
@@ -126,8 +124,17 @@ class ModuleReader(Reader):
         self.object.load_chunk(self._current_chunk)
         self._current_chunk = None
 
+    def process_cmid(self, data):
+        self.object._reader_cmid = data
+
     def process_send(self, data):
         self._compensate_for_older_sunvox_file_format()
+        if hasattr(self.object, '_reader_chnk'):
+            chnk = self.object._reader_chnk
+            expected_chnk = max(0x10, self.object.chnk)
+            if chnk != expected_chnk:
+                log.warn(_F('{} expected CHNK {}, got {}',
+                            self.object, expected_chnk, chnk))
         raise ReaderFinished()
 
     def _compensate_for_older_sunvox_file_format(self):
