@@ -41,6 +41,8 @@ class NOTECMD(IntEnum):
     CLEAN_SYNTHS = 130  # stop and clean all synths
     STOP = 131
     PLAY = 132
+    SET_PITCH = 133
+    PREV_TRACK = 134
 
 
 @attributes(slots=True)
