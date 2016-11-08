@@ -115,6 +115,11 @@ Requirements
 
 - OS supported by `sunvox-dll-python`_, if working with SunVox DLL.
 
+- GraphViz_, if you want to make use of module auto-layout features.
+
+..  _GraphViz:
+    http://www.graphviz.org/
+
 
 Quick start
 -----------

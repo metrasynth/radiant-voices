@@ -17,6 +17,14 @@ Recommended
 ..  _sunvox-dll-python:
     https://sunvox-dll-python.readthedocs.io/
 
+Optional
+........
+
+-   GraphViz_ (for module auto-layout)
+
+..  _GraphViz:
+    http://www.graphviz.org/
+
 Installing from PyPI
 --------------------
 
