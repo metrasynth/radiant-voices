@@ -24,7 +24,7 @@ Part of the Metrasynth_ project.
 Radiant Voices provides tools to
 **create, read, modify, and write SunVox files**.
 This includes project files ending in ``.sunvox``,
-and module/synth files ending in ``.sunsynth`.
+and module/synth files ending in ``.sunsynth``.
 
 ..  uml::
 
