@@ -27,25 +27,3 @@ and Cyrillic scripts.
 
 See also `<https://en.wikipedia.org/wiki/Windows-1251>`__.
 """
-
-import rv.modules
-from rv.note import Note, NOTE, NOTECMD
-from rv.pattern import Pattern, PatternClone
-from rv.project import Project
-from rv.readers.reader import read_sunvox_file
-from rv.synth import Synth
-
-m = rv.modules
-
-__all__ = [
-    'm',
-    'ENCODING',
-    'Note',
-    'NOTE',
-    'NOTECMD',
-    'Pattern',
-    'PatternClone',
-    'Project',
-    'read_sunvox_file',
-    'Synth',
-]

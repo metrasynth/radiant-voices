@@ -1,4 +1,4 @@
-import rv
+import rv.api
 
 
 def test_connection_shorthand():

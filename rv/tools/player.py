@@ -16,7 +16,7 @@ from os import unlink
 import sys
 from tempfile import mkstemp
 
-from rv import ENCODING, Project, Synth, read_sunvox_file
+from rv.api import ENCODING, Project, Synth, read_sunvox_file
 
 
 parser = argparse.ArgumentParser(description='Radiant Voices Player')

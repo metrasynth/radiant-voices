@@ -1,6 +1,6 @@
 import pytest
 
-import rv
+import rv.api
 from rv.modules.multictl import convert_value
 
 
