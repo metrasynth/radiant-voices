@@ -1,3 +1,5 @@
+"""Create, read, modify, and write SunVox files."""
+
 import io
 import os
 import re
@@ -20,12 +22,12 @@ def read(*names, **kwargs):
 
 setup(
     name='radiant-voices',
-    version='0.1.0',
+    version=rv.__version__,
     url='https://github.com/metrasynth/radiant-voices',
     license='MIT',
     author='Matthew Scott',
     author_email='matt@11craft.com',
-    description='Create, read, modify, and write SunVox files',
+    description=__doc__,
     long_description='%s\n%s' % (
         re.compile('^.. start-badges.*^.. end-badges', re.M | re.S).sub('', read('README.rst')),
         re.sub(':[a-z]+:`~?(.*?)`', r'``\1``', read('CHANGELOG.rst'))
