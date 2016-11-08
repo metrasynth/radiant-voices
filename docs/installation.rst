@@ -20,14 +20,10 @@ Recommended
 Installing from PyPI
 --------------------
 
-..  warning::
-
-    This will not yet work as the package has not yet been published
-    to PyPI. This warning will be removed once that has occurred.
-
 Use ``pip`` to install the latest version published to PyPI::
 
     $ pip install radiant-voices
+
 
 Installing from GitHub
 ----------------------
@@ -38,7 +34,7 @@ Installing from GitHub
     work correctly, or code whose APIs don't match what is described in the
     documentation.
 
-    Although The project makes an effort to ensure code in the ``master``
+    Although the project makes an effort to ensure code in the ``master``
     branch is kept working and consistent with documentation,
     this may not always be the case.
 
