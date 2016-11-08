@@ -15,6 +15,9 @@ classes, functions, and objects, without needing any other import statements:
 -   :py:mod:`rv.modules`: classes for all SunVox module types
 """
 
+
+__version__ = '0.1.0'
+
 ENCODING = 'cp1251'
 """
 Encoding used to convert 8-bit strings to/from Unicode strings.

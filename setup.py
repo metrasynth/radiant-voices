@@ -1,10 +1,22 @@
-"""
-Radiant Voices aims to give you a full set of tools to
-create, manipulate, and write SunVox song and synth files.
-"""
+import io
+import os
+import re
 from setuptools import find_packages, setup
+import sys
+
+SETUP_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__)))
+sys.path.append(SETUP_DIR)
+import rv
 
 dependencies = ['attrs', 'logutils', 'hexdump', 'pyyaml']
+
+
+def read(*names, **kwargs):
+    return io.open(
+        os.path.join(os.path.dirname(__file__), *names),
+        encoding=kwargs.get('encoding', 'utf8')
+    ).read()
+
 
 setup(
     name='radiant-voices',
@@ -14,7 +26,10 @@ setup(
     author='Matthew Scott',
     author_email='matt@11craft.com',
     description='Create, read, modify, and write SunVox files',
-    long_description=__doc__,
+    long_description='%s\n%s' % (
+        re.compile('^.. start-badges.*^.. end-badges', re.M | re.S).sub('', read('README.rst')),
+        re.sub(':[a-z]+:`~?(.*?)`', r'``\1``', read('CHANGELOG.rst'))
+    ),
     packages=find_packages(exclude=['docs', 'examples', 'tests']),
     include_package_data=True,
     zip_safe=False,
