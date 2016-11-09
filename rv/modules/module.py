@@ -4,10 +4,11 @@ from collections import OrderedDict
 from enum import Enum
 from struct import pack
 
-import rv
 from logutils import BraceMessage as _F
 from rv import ENCODING
 from rv.modules.meta import ModuleMeta
+from rv.readers.reader import read_sunvox_file
+from rv.synth import Synth
 
 log = logging.getLogger(__name__)
 
@@ -104,11 +105,11 @@ class Module(object, metaclass=ModuleMeta):
         return other
 
     def clone(self):
-        synth = rv.Synth(self)
+        synth = Synth(self)
         f = io.BytesIO()
         synth.write_to(f)
         f.seek(0)
-        synth2 = rv.read_sunvox_file(f)
+        synth2 = read_sunvox_file(f)
         f.close()
         return synth2.module
 

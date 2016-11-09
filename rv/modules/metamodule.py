@@ -9,6 +9,7 @@ from rv.controller import Controller, Range
 from rv.modules import Module
 from rv.option import Option
 from rv.project import Project
+from rv.readers.reader import read_sunvox_file
 
 
 MAX_USER_DEFINED_CONTROLLERS = 27
@@ -229,7 +230,7 @@ class MetaModule(Module):
             self.load_label(chunk)
 
     def load_project(self, chunk):
-        self.project = rv.read_sunvox_file(BytesIO(chunk.chdt))
+        self.project = read_sunvox_file(BytesIO(chunk.chdt))
 
     def load_label(self, chunk):
         controller = self.user_defined[chunk.chnm - 8]

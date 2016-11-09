@@ -13,7 +13,7 @@ import logging
 import os
 import sys
 
-import rv
+import rv.api
 
 log = logging.getLogger(__name__)
 
@@ -39,7 +39,7 @@ def main():
     args = parser.parse_args()
     in_filename = args.filename[0]
     log.debug('Loading into rv')
-    project = rv.read_sunvox_file(in_filename)
+    project = rv.api.read_sunvox_file(in_filename)
     root, ext = os.path.splitext(in_filename)
     out_filename = '{}.diff.wav'.format(root)
     out2_filename = '{}.compare.wav'.format(root)

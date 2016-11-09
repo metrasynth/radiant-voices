@@ -25,7 +25,9 @@ class Synth(Container):
         module = self.module
         for chunk in module.iff_chunks(in_project=False):
             yield chunk
-        module.recompute_controller_attachment()
+        recompute = getattr(module, 'recompute_controller_attachment',
+                            lambda: None)
+        recompute()
         ctl_count = 0
         for name, ctl in module.controllers.items():
             if ctl.attached(module):
