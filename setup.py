@@ -20,6 +20,19 @@ def read(*names, **kwargs):
     ).read()
 
 
+badges_re = re.compile(
+    r'^\.\.\s+start-badges.*^\.\.\s+end-badges', re.M | re.S)
+uml_re = re.compile(
+    r'^\.\.\s+uml::.*^\s+@enduml', re.M | re.S)
+
+readme = read('README.rst')
+readme = badges_re.sub('', readme)
+readme = uml_re.sub('', readme)
+
+changelog = re.sub(':[a-z]+:`~?(.*?)`', r'``\1``', read('CHANGELOG.rst'))
+
+long_description = '{}\n{}'.format(readme, changelog)
+
 setup(
     name='radiant-voices',
     version=rv.__version__,
@@ -28,11 +41,7 @@ setup(
     author='Matthew Scott',
     author_email='matt@11craft.com',
     description=__doc__,
-    long_description='%s\n%s' % (
-        re.compile(r'^\.\.\s+start-badges.*^\.\.\s+end-badges', re.M | re.S).
-            sub('', read('README.rst')),
-        re.sub(':[a-z]+:`~?(.*?)`', r'``\1``', read('CHANGELOG.rst'))
-    ),
+    long_description=long_description,
     packages=find_packages(exclude=['docs', 'examples', 'tests']),
     include_package_data=True,
     zip_safe=False,
