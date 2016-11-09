@@ -40,7 +40,7 @@ parser.add_argument(
 def main():
     logging.basicConfig(level=logging.INFO)
     try:
-        import sunvox
+        import sunvox.api
     except ImportError:
         log.error('Please install sunvox-dll-python to use rv.tools.player')
         log.error('https://github.com/metrasynth/sunvox-dll-python')
@@ -53,8 +53,8 @@ def main():
     else:
         log.debug('Loading into Radiant Voices')
         obj = read_sunvox_file(filename)
-    sunvox.init(None, 44100, 2, 0)
-    slot = sunvox.Slot()
+    sunvox.api.init(None, 44100, 2, 0)
+    slot = sunvox.api.Slot()
     if isinstance(obj, Project):
         slot.load(obj)
     elif isinstance(obj, Synth):
@@ -94,7 +94,7 @@ def main():
     print('Press Enter to stop playback')
     input()
     slot.stop()
-    sunvox.deinit()
+    sunvox.api.deinit()
 
 
 if __name__ == '__main__':
