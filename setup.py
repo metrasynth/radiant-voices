@@ -29,7 +29,7 @@ setup(
     author_email='matt@11craft.com',
     description=__doc__,
     long_description='%s\n%s' % (
-        re.compile('^.. start-badges.*^.. end-badges', re.M | re.S).
+        re.compile(r'^\.\.\s+start-badges.*^\.\.\s+end-badges', re.M | re.S).
             sub('', read('README.rst')),
         re.sub(':[a-z]+:`~?(.*?)`', r'``\1``', read('CHANGELOG.rst'))
     ),
