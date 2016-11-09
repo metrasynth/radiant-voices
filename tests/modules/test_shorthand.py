@@ -1,10 +1,10 @@
-import rv.api
+from rv.api import Project, m
 
 
 def test_connection_shorthand():
-    p = rv.Project()
-    amp = p.new_module(rv.modules.Amplifier)
-    gen = p.new_module(rv.modules.Generator)
+    p = Project()
+    amp = p.new_module(m.Amplifier)
+    gen = p.new_module(m.Generator)
     gen >> amp
     p.output << amp
     assert gen.index in p.module_connections[amp.index]

@@ -8,17 +8,6 @@ from rv.synth import Synth
 
 m = rv.modules
 
-rv.m = rv.modules
-rv.Note = Note
-rv.NOTE = NOTE
-rv.NOTECMD = NOTECMD
-rv.Pattern = Pattern
-rv.PatternClone = PatternClone
-rv.Project = Project
-rv.read_sunvox_file = read_sunvox_file
-rv.Synth = Synth
-
-
 __all__ = [
     'ENCODING',
     'm',

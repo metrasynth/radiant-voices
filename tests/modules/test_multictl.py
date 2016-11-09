@@ -1,6 +1,6 @@
 import pytest
 
-import rv.api
+from rv.api import Project, m
 from rv.modules.multictl import convert_value
 
 
@@ -141,10 +141,10 @@ def test_convert_value(gain, qsteps, smin, smax, dmin, dmax, value, expected):
 
 
 def test_propagation():
-    p = rv.Project()
-    amp1 = p.new_module(rv.modules.Amplifier)
-    amp2 = p.new_module(rv.modules.Amplifier)
-    mc = p.new_module(rv.modules.MultiCtl)
+    p = Project()
+    amp1 = p.new_module(m.Amplifier)
+    amp2 = p.new_module(m.Amplifier)
+    mc = p.new_module(m.MultiCtl)
     p.connect(mc, [amp1, amp2])
     mc.mappings.values[0].controller = amp1.controllers['volume'].number
     mc.mappings.values[1].min = 32768

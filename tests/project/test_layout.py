@@ -1,12 +1,12 @@
-import rv
+from rv.api import Project, m
 
 
 def test_layout():
-    p = rv.Project()
+    p = Project()
     out = p.output
-    gen1 = p.new_module(rv.modules.Generator)
-    gen2 = p.new_module(rv.modules.Generator)
-    amp = p.new_module(rv.modules.Amplifier)
+    gen1 = p.new_module(m.Generator)
+    gen2 = p.new_module(m.Generator)
+    amp = p.new_module(m.Amplifier)
     amp << [gen1, gen2]
     amp >> out
     assert [gen1.x, gen2.x, amp.x, out.x].count(512) == 4
