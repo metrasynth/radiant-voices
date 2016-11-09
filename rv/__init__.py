@@ -32,7 +32,7 @@ classes, functions, and objects, without needing any other import statements:
 """
 
 
-__version__ = '0.1.1'
+__version__ = '0.1.2'
 
 ENCODING = 'cp1251'
 """
