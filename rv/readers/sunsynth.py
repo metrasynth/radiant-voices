@@ -1,8 +1,8 @@
 from struct import unpack
 
-from rv.synth import Synth
 from rv.readers.module import ModuleReader
 from rv.readers.reader import Reader, ReaderFinished
+from rv.synth import Synth
 
 
 class SunSynthReader(Reader):

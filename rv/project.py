@@ -1,17 +1,17 @@
-from collections import defaultdict
 import logging
+from collections import defaultdict
 from struct import pack
-
-try:
-    import pygraphviz as pgv
-except ImportError:
-    pgv = None
 
 from rv import ENCODING
 from rv.container import Container
 from rv.modules.module import Module
 from rv.modules.output import Output
 from rv.pattern import Pattern, PatternClone
+
+try:
+    import pygraphviz as pgv
+except ImportError:
+    pgv = None
 
 
 class Project(Container):
@@ -88,7 +88,11 @@ class Project(Container):
                 to_idx = self.module_index(to_module)
                 connections_to = self.module_connections[to_idx]
                 connections_from = self.module_connections[from_idx]
-                if from_idx not in connections_to and to_idx not in connections_from:
+                connected = (
+                    from_idx in connections_to
+                    or to_idx in connections_from
+                )
+                if not connected:
                     connections_to.append(from_idx)
                     to_module.incoming_links = connections_to
 

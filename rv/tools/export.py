@@ -8,14 +8,14 @@ Note: Before running, install the necessary packages::
     $ pip install -r requirements/tools.txt
 """
 
-import logging
-log = logging.getLogger(__name__)
-
 import argparse
+import logging
 import os
 import sys
 
 import rv
+
+log = logging.getLogger(__name__)
 
 
 def parser():
@@ -87,7 +87,8 @@ def main():
     log.info('Rendering at %s frames/sec, %s channels, %s resolution',
              freq, channels, data_type.__name__)
     slot.play_from_beginning()
-    pbar = tqdm(total=length, unit_scale=True, unit='frame', dynamic_ncols=True)
+    pbar = tqdm(total=length, unit_scale=True, unit='frame',
+                dynamic_ncols=True)
     with pbar as pbar:
         while position < length:
             buffer = p.fill_buffer()

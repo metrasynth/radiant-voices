@@ -1,6 +1,6 @@
-from rv import ENCODING
 import rv.modules
-from rv.note import Note, NOTE, NOTECMD
+from rv import ENCODING
+from rv.note import NOTE, NOTECMD, Note
 from rv.pattern import Pattern, PatternClone
 from rv.project import Project
 from rv.readers.reader import read_sunvox_file
@@ -17,3 +17,17 @@ rv.PatternClone = PatternClone
 rv.Project = Project
 rv.read_sunvox_file = read_sunvox_file
 rv.Synth = Synth
+
+
+__all__ = [
+    'ENCODING',
+    'm',
+    'Note',
+    'NOTE',
+    'NOTECMD',
+    'Pattern',
+    'PatternClone',
+    'Project',
+    'read_sunvox_file',
+    'Synth',
+]

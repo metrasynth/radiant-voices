@@ -1,11 +1,11 @@
 import logging
-log = logging.getLogger(__name__)
-
 from struct import unpack
 
 from rv import ENCODING
 from rv.pattern import Pattern, PatternClone
 from rv.readers.reader import Reader, ReaderFinished
+
+log = logging.getLogger(__name__)
 
 
 class PatternReader(Reader):

@@ -1,9 +1,10 @@
 import logging
 from logutils import BraceMessage as _F
-log = logging.getLogger(__name__)
 
 from rv import ENCODING
 from rv.lib.iff import chunks
+
+log = logging.getLogger(__name__)
 
 
 def read_sunvox_file(file_or_name):

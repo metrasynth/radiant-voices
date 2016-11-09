@@ -1,6 +1,6 @@
+import re
 from io import BytesIO
 from itertools import chain
-import re
 from struct import pack
 
 import rv
@@ -81,16 +81,20 @@ class MetaModule(Module):
         length = 64
         type = 'HH'
         element_size = 2 * 2
+
         @property
         def default(self):
             return [MetaModule.Mapping((0, 0)) for x in range(self.length)]
+
         @property
         def encoded_values(self):
             return list(chain.from_iterable(
                 (x.module, x.controller - 1) for x in self.values))
+
         @property
         def python_type(self):
             return MetaModule.Mapping
+
         def update_user_defined_controllers(self, metamodule):
             project = metamodule.project
             items = zip(metamodule.mappings.values, metamodule.user_defined)
@@ -217,7 +221,8 @@ class MetaModule(Module):
         elif chunk.chnm == 0:
             self.load_project(chunk)
         elif chunk.chnm == 1:
-            self.mappings.length = len(chunk.chdt) // self.mappings.element_size
+            self.mappings.length = \
+                len(chunk.chdt) // self.mappings.element_size
             self.mappings.reset()
             self.mappings.bytes = chunk.chdt
         elif chunk.chnm >= 8:

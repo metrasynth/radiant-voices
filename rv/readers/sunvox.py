@@ -3,7 +3,7 @@ from struct import unpack
 from rv import ENCODING
 from rv.project import Project
 from rv.readers.module import ModuleReader
-from rv.readers.pattern import PatternReader, PatternCloneReader
+from rv.readers.pattern import PatternCloneReader, PatternReader
 from rv.readers.reader import Reader, ReaderFinished
 
 

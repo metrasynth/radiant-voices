@@ -57,14 +57,20 @@ class ModuleMeta(type):
                 'Controllers:',
                 '',
                 '=' * 40 + ' ' + '=' * 40 + ' ' + '=' * 40 + ' ' + '=' * 40,
-                '{:40s} {:40s} {:40s} {:40s}'.format('Number', 'Name', 'Type', 'Default'),
+                '{:40s} {:40s} {:40s} {:40s}'.format(
+                    'Number', 'Name', 'Type', 'Default'),
                 '=' * 40 + ' ' + '=' * 40 + ' ' + '=' * 40 + ' ' + '=' * 40,
             ]
             for i, c in enumerate(cls.controllers.values(), 1):
                 number = '``{0:02x}`` ({0:d})'.format(i)
-                lines.append('{number:40s} {c.name:40s} {c.value_type!r:40s} {c.default!r:40s}'.format(
-                    number=number, c=c))
-            lines.append('=' * 40 + ' ' + '=' * 40 + ' ' + '=' * 40 + ' ' + '=' * 40)
+                lines.append(
+                    '{number:40s} {c.name:40s} '
+                    '{c.value_type!r:40s} {c.default!r:40s}'.format(
+                        number=number, c=c,
+                    )
+                )
+            lines.append(
+                '=' * 40 + ' ' + '=' * 40 + ' ' + '=' * 40 + ' ' + '=' * 40)
             lines.append('')
         else:
             lines.append('This module has no controllers.')

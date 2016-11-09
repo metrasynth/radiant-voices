@@ -1,16 +1,15 @@
 import io
 import logging
-from enum import Enum
-
-from logutils import BraceMessage as _F
-log = logging.getLogger(__name__)
-
 from collections import OrderedDict
-from struct import pack, unpack
+from enum import Enum
+from struct import pack
 
 import rv
+from logutils import BraceMessage as _F
 from rv import ENCODING
 from rv.modules.meta import ModuleMeta
+
+log = logging.getLogger(__name__)
 
 
 class Chunk(object):

@@ -1,5 +1,5 @@
-from chunk import Chunk
 import struct
+from chunk import Chunk
 
 
 def write_chunk(f, name, data):

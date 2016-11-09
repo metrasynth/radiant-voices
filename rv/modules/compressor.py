@@ -13,7 +13,7 @@ class Compressor(Module):
         peak = 0
         rms = 1
 
-    volume = Controller((0, 512) ,256)
+    volume = Controller((0, 512), 256)
     threshold = Controller((0, 512), 256)
     slope_pct = Controller((0, 200), 100)
     attack_ms = Controller((0, 500), 1)

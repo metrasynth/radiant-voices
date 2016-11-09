@@ -1,6 +1,6 @@
 from rv.readers.reader import Reader, ReaderFinished
-from rv.readers.sunvox import SunVoxReader
 from rv.readers.sunsynth import SunSynthReader
+from rv.readers.sunvox import SunVoxReader
 
 
 class InitialReader(Reader):

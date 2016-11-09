@@ -8,14 +8,14 @@ Note: Before running, install the necessary packages::
     $ pip install -r requirements/tools.txt
 """
 
-import logging
-log = logging.getLogger(__name__)
-
 import argparse
+import logging
 import os
 import sys
 
 import rv
+
+log = logging.getLogger(__name__)
 
 parser = argparse.ArgumentParser(description='SunVox to WAV file exporter')
 parser.add_argument(
@@ -56,7 +56,8 @@ def main():
     output = np.zeros((length, 2), data_type)
     position = 0
     slot.play_from_beginning()
-    pbar = tqdm(total=length, unit_scale=True, unit='frame', dynamic_ncols=True)
+    pbar = tqdm(total=length, unit_scale=True, unit='frame',
+                dynamic_ncols=True)
     with pbar as pbar:
         while position < length:
             buffer = p.fill_buffer()
@@ -75,7 +76,8 @@ def main():
     output2 = np.zeros((length, 2), data_type)
     position = 0
     slot.play_from_beginning()
-    pbar = tqdm(total=length, unit_scale=True, unit='frame', dynamic_ncols=True)
+    pbar = tqdm(total=length, unit_scale=True, unit='frame',
+                dynamic_ncols=True)
     with pbar as pbar:
         while position < length:
             buffer = p2.fill_buffer()
@@ -100,7 +102,8 @@ def main():
     output_rv = np.zeros((length, 2), data_type)
     position = 0
     slot.play_from_beginning()
-    pbar = tqdm(total=length, unit_scale=True, unit='frame', dynamic_ncols=True)
+    pbar = tqdm(total=length, unit_scale=True, unit='frame',
+                dynamic_ncols=True)
     with pbar as pbar:
         while position < length:
             buffer = p3.fill_buffer()

@@ -1,13 +1,14 @@
 import logging
-from logutils import BraceMessage as _F
-log = logging.getLogger(__name__)
-
 from struct import unpack
+
+from logutils import BraceMessage as _F
 
 from rv import ENCODING
 from rv.modules import MODULE_CLASSES, Chunk, Module
 from rv.modules.output import Output
 from rv.readers.reader import Reader, ReaderFinished
+
+log = logging.getLogger(__name__)
 
 
 class ModuleReader(Reader):

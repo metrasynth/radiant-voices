@@ -59,12 +59,15 @@ class SpectraVoice(Module):
         chnm = 3
         type = 'B'
         element_size = 1
+
         @property
         def default(self):
             return [SpectraVoice.HarmonicType.hsin] * 16
+
         @property
         def encoded_values(self):
             return [x.value for x in self.values]
+
         @property
         def python_type(self):
             return SpectraVoice.HarmonicType

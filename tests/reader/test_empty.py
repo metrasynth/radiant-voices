@@ -1,5 +1,5 @@
-from rv.lib.conversions import base2_to_base10
 from rv import modules
+from rv.lib.conversions import base2_to_base10
 from rv.readers.reader import read_sunvox_file
 
 from .base import FIXTURE_DIR

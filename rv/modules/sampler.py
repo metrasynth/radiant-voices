@@ -4,9 +4,9 @@ from io import BytesIO
 from itertools import chain
 from struct import pack, unpack
 
-from rv.note import NOTE
 from rv.controller import Controller
 from rv.modules import Module
+from rv.note import NOTE
 from rv.option import Option
 
 
@@ -59,15 +59,18 @@ class Sampler(Module):
         start_note = NOTE.C0
         end_note = NOTE.b9
         default_sample = 0
+
         def __init__(self):
             super(Sampler.NoteSampleMap, self).__init__(
                 (NOTE(note_value), self.default_sample)
                 for note_value in range(self.start_note.value,
                                         self.end_note.value + 1)
             )
+
         @property
         def bytes(self):
             return bytes(self.values())
+
         @bytes.setter
         def bytes(self, value):
             for k, v in zip(self.keys(), value):
@@ -86,6 +89,7 @@ class Sampler(Module):
         initial_sustain = None
         initial_loop = None
         format = '<' + 'H' * length * 2
+
         def __init__(self):
             self.x_values = self.initial_x_values.copy()
             self.y_values = self.initial_y_values.copy()
@@ -96,19 +100,23 @@ class Sampler(Module):
             self.enable = self.initial_enable
             self.sustain = self.initial_sustain
             self.loop = self.initial_loop
+
         @property
         def bitmask(self):
             return self.enable | self.sustain * 2 | self.loop * 4
+
         @bitmask.setter
         def bitmask(self, value):
             self.enable = bool(value & 1)
             self.sustain = bool(value & 2)
             self.loop = bool(value & 4)
+
         @property
         def point_bytes(self):
             y_points = (y - self.range[0] for y in self.y_values)
             values = list(chain.from_iterable(zip(self.x_values, y_points)))
             return pack(self.format, *values)
+
         @point_bytes.setter
         def point_bytes(self, value):
             values = unpack(self.format, value)
@@ -139,7 +147,8 @@ class Sampler(Module):
         initial_sustain = False
         initial_sustain_point = 0
         initial_x_values = [0, 64, 128, 180, 0, 0, 0, 0, 0, 0, 0, 0]
-        initial_y_values = [12, -4, 28, 12, -20, -20, -20, -20, -20, -20, -20, -20]
+        initial_y_values = [12, -4, 28, 12, -20, -20,
+                            -20, -20, -20, -20, -20, -20]
 
     class Sample(object):
         def __init__(self):
@@ -155,20 +164,24 @@ class Sampler(Module):
             self.panning = 0
             self.relative_note = 16
             self.unknown6 = b'\0' * 23
+
         @property
         def frame_size(self):
             size = {Sampler.Format.int8: 1, Sampler.Format.int16: 2,
                     Sampler.Format.float32: 4}
             multiplier = {Sampler.Channels.mono: 1, Sampler.Channels.stereo: 2}
             return size[self.format] * multiplier[self.channels]
+
         @property
         def frames(self):
             return len(self.data) // self.frame_size
 
     volume = Controller((0, 512), 256)
     panning = Controller((-128, 128), 0)
-    sample_interpolation = Controller(SampleInterpolation, SampleInterpolation.spline)
-    envelope_interpolation = Controller(EnvelopeInterpolation, EnvelopeInterpolation.linear)
+    sample_interpolation = Controller(
+        SampleInterpolation, SampleInterpolation.spline)
+    envelope_interpolation = Controller(
+        EnvelopeInterpolation, EnvelopeInterpolation.linear)
     polyphony_ch = Controller((1, 32), 8)
     rec_threshold = Controller((0, 10000), 4)
 
@@ -209,7 +222,10 @@ class Sampler(Module):
     def envelope_chunks(self):
         f = BytesIO()
         w = f.write
-        b = lambda v: pack('<B', v)
+
+        def b(v):
+            return pack('<B', v)
+
         w(self.unknown1)
         compacted_samples = self.samples.copy()
         while compacted_samples and compacted_samples[-1] is None:
@@ -259,7 +275,8 @@ class Sampler(Module):
                        self.Format.float32: 0x20}[sample.format]
         channels_flag = {self.Channels.mono: 0x00,
                          self.Channels.stereo: 0x40}[sample.channels]
-        loop_format_flags = sample.loop_type.value | format_flag | channels_flag
+        loop_format_flags = \
+            sample.loop_type.value | format_flag | channels_flag
         w(pack('<B', loop_format_flags))
         w(pack('<B', sample.panning + 0x80))
         w(pack('<b', sample.relative_note))
@@ -271,7 +288,8 @@ class Sampler(Module):
         yield (b'CHFR', pack('<I', 0))
         yield (b'CHNM', pack('<I', i * 2 + 2))
         yield (b'CHDT', sample.data)
-        yield (b'CHFF', pack('<I', sample.format.value | sample.channels.value))
+        yield (b'CHFF', pack(
+            '<I', sample.format.value | sample.channels.value))
         yield (b'CHFR', pack('<I', sample.rate))
 
     def load_chunk(self, chunk):
@@ -486,4 +504,4 @@ CHFF: format:
         A - 16-bit stereo
         C - 32-bit stereo
 CHFR: sample rate
-"""
+"""  # NOQA

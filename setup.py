@@ -3,12 +3,12 @@
 import io
 import os
 import re
-from setuptools import find_packages, setup
 import sys
+from setuptools import find_packages, setup
 
 SETUP_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__)))
 sys.path.append(SETUP_DIR)
-import rv
+import rv  # NOQA isort:skip
 
 dependencies = ['attrs', 'logutils', 'hexdump', 'pyyaml']
 
@@ -29,7 +29,8 @@ setup(
     author_email='matt@11craft.com',
     description=__doc__,
     long_description='%s\n%s' % (
-        re.compile('^.. start-badges.*^.. end-badges', re.M | re.S).sub('', read('README.rst')),
+        re.compile('^.. start-badges.*^.. end-badges', re.M | re.S).
+            sub('', read('README.rst')),
         re.sub(':[a-z]+:`~?(.*?)`', r'``\1``', read('CHANGELOG.rst'))
     ),
     packages=find_packages(exclude=['docs', 'examples', 'tests']),

@@ -9,7 +9,7 @@ only need to refer to ``rv.modules.AnalogGenerator`` (instead of
 ``rv.modules.analoggenerator.AnalogGenerator``).
 """
 
-MODULE_CLASSES = {}
+MODULE_CLASSES = {}  # NOQA
 
 # Must come first to avoid circular imports.
 from .module import Chunk, Module
@@ -51,3 +51,46 @@ from .vibrato import Vibrato
 from .vocalfilter import VocalFilter
 from .vorbisplayer import VorbisPlayer
 from .waveshaper import WaveShaper
+
+
+__all__ = [
+    'Chunk',
+    'Module',
+    'Amplifier',
+    'AnalogGenerator',
+    'Compressor',
+    'DcBlocker',
+    'Delay',
+    'Distortion',
+    'DrumSynth',
+    'Echo',
+    'Eq',
+    'Feedback',
+    'Filter',
+    'FilterPro',
+    'Flanger',
+    'Fm',
+    'Generator',
+    'Glide',
+    'Gpio',
+    'Input',
+    'Kicker',
+    'Lfo',
+    'Loop',
+    'MetaModule',
+    'Modulator',
+    'MultiCtl',
+    'MultiSynth',
+    'Output',
+    'Pitch2Ctl',
+    'PitchShifter',
+    'Reverb',
+    'Sampler',
+    'Sound2Ctl',
+    'SpectraVoice',
+    'Velocity2Ctl',
+    'Vibrato',
+    'VocalFilter',
+    'VorbisPlayer',
+    'WaveShaper',
+]

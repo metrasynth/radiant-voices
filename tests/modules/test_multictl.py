@@ -125,7 +125,8 @@ CASES = [
 ]
 
 
-@pytest.mark.parametrize('gain,qsteps,smin,smax,dmin,dmax,value,expected', CASES)
+@pytest.mark.parametrize(
+    'gain,qsteps,smin,smax,dmin,dmax,value,expected', CASES)
 def test_convert_value(gain, qsteps, smin, smax, dmin, dmax, value, expected):
     out = convert_value(
         gain=gain,

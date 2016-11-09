@@ -8,15 +8,15 @@ then save it back to an in-memory buffer,
 then play that resulting project using SunVox DLL.
 """
 
-import logging
-log = logging.getLogger(__name__)
-
 import argparse
-from os import unlink
+import logging
 import sys
+from os import unlink
 from tempfile import mkstemp
 
 from rv.api import ENCODING, Project, Synth, read_sunvox_file
+
+log = logging.getLogger(__name__)
 
 
 parser = argparse.ArgumentParser(description='Radiant Voices Player')
