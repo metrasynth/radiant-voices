@@ -42,6 +42,16 @@ class Controller(object):
     def attached(self, instance):
         return self._attached
 
+    def pattern_value(self, value):
+        """Convert a controller value to a pattern value (0x0000-0x80000)"""
+        t = self.value_type
+        if isinstance(t, Range):
+            shifted = value - t.min
+            shifted_max = t.max - t.min
+            return int(shifted / (shifted_max / 32768))
+        else:
+            return value
+
     def propagate(self, instance, value, down=False, up=False):
         self.set_initial(instance, value)
         callback = getattr(instance, 'on_{}_changed'.format(self.name), None)
