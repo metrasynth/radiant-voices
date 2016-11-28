@@ -99,5 +99,44 @@ class Note(object):
         self.note, self.vel, self.module, _, self.ctl, self.val = \
             unpack('<BBBBHH', raw_data)
 
-    def tabular_repr(self):
-        return repr(self.note)
+    def tabular_repr(self, is_on=False, note_fmt='NN VV MM CC EE XXYY'):
+        if self.note == NOTECMD.NOTE_OFF:
+            nn = '=='
+        elif self.note == NOTECMD.PREV_TRACK:
+            nn = '<<'
+        elif self.note == NOTECMD.SET_PITCH:
+            nn = 'SP'
+        elif self.note == NOTECMD.EMPTY:
+            nn = '//' if is_on else '..'
+        else:
+            nn = self.note.name
+        if self.vel == 0:
+            vv = '  '
+        else:
+            vv = '{:02X}'.format(self.vel - 1)
+        if self.module == 0:
+            mm = '  '
+        else:
+            mm = '{:02X}'.format(self.module - 1)
+        if self.controller or self.effect:
+            cc = '{:02X}'.format(self.controller)
+            ee = '{:02X}'.format(self.effect)
+        else:
+            cc = '  '
+            ee = '  '
+        if self.val_xx or self.val_yy:
+            xx = '{:02X}'.format(self.val_xx)
+            yy = '{:02X}'.format(self.val_yy)
+        else:
+            xx = '  '
+            yy = '  '
+        return (
+            note_fmt
+            .replace('NN', nn)
+            .replace('VV', vv)
+            .replace('MM', mm)
+            .replace('CC', cc)
+            .replace('EE', ee)
+            .replace('XX', xx)
+            .replace('YY', yy)
+        )

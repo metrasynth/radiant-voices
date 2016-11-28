@@ -4,7 +4,7 @@ from attr import attr, attributes
 
 from rv import ENCODING
 from rv.lib.validators import divisible_by, in_range, is_length
-from rv.note import Note
+from rv.note import ALL_NOTES, Note, NOTECMD
 
 
 @attributes
@@ -12,7 +12,7 @@ class Pattern(object):
 
     name = attr(None)
     tracks = attr(validator=in_range(1, 16), default=4)
-    lines = attr(validator=in_range(4, 4096), default=32)
+    lines = attr(validator=in_range(1, 2 ** 19), default=32)
     y_size = attr(default=32)
     appearance_flags = attr(default=0x00000000)
     icon = attr(default=b'\0' * 32, validator=is_length(32))
@@ -25,7 +25,7 @@ class Pattern(object):
     @property
     def data(self):
         if not hasattr(self, '_data'):
-            self._init_data()
+            self.clear()
         return self._data
 
     @property
@@ -59,7 +59,7 @@ class Pattern(object):
         yield (b'PXXX', pack('<i', self.x))
         yield (b'PYYY', pack('<i', self.y))
 
-    def _init_data(self):
+    def clear(self):
         self._data = []
         for line_no in range(self.lines):
             line = []
@@ -67,10 +67,25 @@ class Pattern(object):
             for track_no in range(self.tracks):
                 line.append(Note())
 
-    def tabular_repr(self):
+    def tabular_repr(self, note_format='NN VV MM CC EE XXYY'):
+        lines = []
+        notes_on = [False] * self.tracks
+        lineno_len = max(2, len(str(self.lines)))
+        lineno_fmt = '{:0' + str(lineno_len) + 'd}'
+        for lineno, line in enumerate(self.data):
+            notes = []
+            lines.append((lineno_fmt.format(lineno), notes))
+            for track_no, note in enumerate(line):
+                if note.note in ALL_NOTES:
+                    notes_on[track_no] = True
+                elif note.note == NOTECMD.NOTE_OFF:
+                    notes_on[track_no] = False
+                notes.append(
+                    note.tabular_repr(notes_on[track_no], note_format))
         return '\n'.join(
-            ' '.join(note.tabular_repr() for note in line)
-            for line in self.data
+            [' | '.join([' ' * lineno_len] + [note_format] * self.tracks)]
+            + [' | '.join([lineno] + [n for n in notes])
+               for lineno, notes in lines]
         )
 
 
