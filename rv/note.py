@@ -20,6 +20,8 @@ class NOTE(IntEnum):
      C8, d8, D8, e8, E8, F8, g8, G8, a8, A8, b8, B8,
      C9, d9, D9, e9, E9, F9, g9, G9, a9, A9, b9, B9) = range(1, 121)
 
+ALL_NOTES = set(NOTE)
+
 
 class NOTECMD(IntEnum):
     """All notes and commands available for patterns."""
