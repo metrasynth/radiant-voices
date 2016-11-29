@@ -109,7 +109,7 @@ class Note(object):
         elif self.note == NOTECMD.EMPTY:
             nn = '//' if is_on else '..'
         else:
-            nn = self.note.name
+            nn = NOTECMD(self.note).name
         if self.vel == 0:
             vv = '  '
         else:
