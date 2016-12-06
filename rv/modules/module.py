@@ -1,7 +1,7 @@
 import io
 import logging
 from collections import OrderedDict
-from enum import IntEnum
+from enum import Enum, IntEnum
 from struct import pack
 
 from logutils import BraceMessage as _F
