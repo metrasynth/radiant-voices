@@ -59,7 +59,7 @@ class Sampler(Module):
 
     class NoteSampleMap(OrderedDict):
         start_note = NOTE.C0
-        end_note = NOTE.b9
+        end_note = NOTE.a9
         default_sample = 0
 
         def __init__(self):
