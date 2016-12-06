@@ -2,7 +2,7 @@ from itertools import chain
 
 from rv.chunks import ArrayChunk
 from rv.controller import Controller, Range
-from rv.modules import Module
+from rv.modules import Behavior as B, Module
 
 
 def convert_value(gain, qsteps, smin, smax, dmin, dmax, value):
@@ -46,6 +46,8 @@ class MultiCtl(Module):
     name = mtype = 'MultiCtl'
     mgroup = 'Misc'
     chnk = 0x10
+
+    behaviors = {B.sends_controls}
 
     class Mapping(object):
         def __init__(self, value):

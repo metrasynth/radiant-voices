@@ -1,13 +1,15 @@
 from enum import Enum
 
 from rv.controller import Controller
-from rv.modules import Module
+from rv.modules import Behavior as B, Module
 
 
 class Distortion(Module):
 
     name = mtype = 'Distortion'
     mgroup = 'Effect'
+
+    behaviors = {B.receives_audio, B.sends_audio}
 
     class Type(Enum):
         lim = 0

@@ -1,13 +1,15 @@
 from enum import Enum
 
 from rv.controller import Controller
-from rv.modules import Module
+from rv.modules import Behavior as B, Module
 
 
 class Lfo(Module):
 
     name = mtype = 'LFO'
     mgroup = 'Effect'
+
+    behaviors = {B.sends_audio}
 
     class Type(Enum):
         amplitude = 0

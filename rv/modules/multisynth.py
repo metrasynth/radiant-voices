@@ -1,6 +1,6 @@
 from rv.chunks import ArrayChunk
 from rv.controller import Controller
-from rv.modules import Module
+from rv.modules import Behavior as B, Module
 from rv.option import Option
 
 
@@ -10,6 +10,8 @@ class MultiSynth(Module):
     mgroup = 'Misc'
     chnk = 0x10
     options_chnm = 1
+
+    behaviors = {B.receives_notes, B.sends_notes}
 
     class NoteVelocityCurve(ArrayChunk):
         chnm = 0

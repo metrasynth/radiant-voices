@@ -2,7 +2,7 @@ from enum import Enum
 
 from rv.chunks import ArrayChunk
 from rv.controller import Controller
-from rv.modules import Module
+from rv.modules import Behavior as B, Module
 
 
 class SpectraVoice(Module):
@@ -10,6 +10,8 @@ class SpectraVoice(Module):
     name = mtype = 'SpectraVoice'
     mgroup = 'Synth'
     chnk = 0x10
+
+    behaviors = {B.receives_notes, B.sends_audio}
 
     class Mode(Enum):
         hq = 0

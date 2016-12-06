@@ -1,11 +1,13 @@
 from rv.controller import Controller
-from rv.modules import Module
+from rv.modules import Behavior as B, Module
 
 
 class DrumSynth(Module):
 
     name = mtype = 'DrumSynth'
     mgroup = 'Synth'
+
+    behaviors = {B.receives_notes, B.sends_audio}
 
     volume = Controller((0, 512), 256)
     panning = Controller((-128, 128), 0)

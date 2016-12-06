@@ -1,11 +1,13 @@
 from rv.controller import Controller
-from rv.modules import Module
+from rv.modules import Behavior as B, Module
 
 
 class Gpio(Module):
 
     name = mtype = 'GPIO'
     mgroup = 'Misc'
+
+    behaviors = {B.receives_audio, B.sends_audio}
 
     out = Controller(bool, False)
     out_pin = Controller((0, 64), 0)

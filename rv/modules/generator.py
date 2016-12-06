@@ -2,7 +2,7 @@ from enum import Enum
 
 from rv.chunks import DirtyWaveformChunk
 from rv.controller import Controller
-from rv.modules import Module
+from rv.modules import Behavior as B, Module
 
 
 class Generator(Module):
@@ -10,6 +10,8 @@ class Generator(Module):
     name = mtype = 'Generator'
     mgroup = 'Synth'
     chnk = 0x10
+
+    behaviors = {B.receives_notes, B.receives_modulator, B.sends_audio}
 
     class Waveform(Enum):
         triangle = 0

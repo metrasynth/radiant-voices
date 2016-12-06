@@ -5,7 +5,7 @@ from itertools import chain
 from struct import pack, unpack
 
 from rv.controller import Controller
-from rv.modules import Module
+from rv.modules import Behavior as B, Module
 from rv.note import NOTE
 from rv.option import Option
 
@@ -26,6 +26,8 @@ class Sampler(Module):
     mgroup = 'Synth'
     chnk = 0x0102
     options_chnm = 0x0101
+
+    behaviors = {B.receives_notes, B.sends_audio}
 
     class SampleInterpolation(Enum):
         off = 0

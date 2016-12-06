@@ -1,13 +1,15 @@
 from enum import Enum
 
 from rv.controller import Controller
-from rv.modules import Module
+from rv.modules import Behavior as B, Module
 
 
 class VocalFilter(Module):
 
     name = mtype = 'Vocal filter'
     mgroup = 'Effect'
+
+    behaviors = {B.receives_audio, B.sends_audio}
 
     class VoiceType(Enum):
         soprano = 0

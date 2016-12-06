@@ -1,7 +1,7 @@
 import io
 import logging
 from collections import OrderedDict
-from enum import Enum
+from enum import IntEnum
 from struct import pack
 
 from logutils import BraceMessage as _F
@@ -42,6 +42,20 @@ class ModuleList(list):
         return other
 
 
+class Behavior(IntEnum):
+    """Different behaviors that """
+
+    receives_audio = 0x01
+    receives_notes = 0x02
+    receives_modulator = 0x03
+    receives_feedback = 0x04
+
+    sends_audio = 0x10
+    sends_notes = 0x20
+    sends_controls = 0x30
+    sends_feedback = 0x40
+
+
 class Module(object, metaclass=ModuleMeta):
     """Abstract base class for all SunVox module classes.
 
@@ -54,6 +68,8 @@ class Module(object, metaclass=ModuleMeta):
     mgroup = None  # module group
     flags = 0x00000049
     chnk = None  # number of chunks
+
+    behaviors = set()
 
     controllers = OrderedDict()
     options = OrderedDict()

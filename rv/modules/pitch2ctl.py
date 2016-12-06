@@ -1,13 +1,15 @@
 from enum import Enum
 
 from rv.controller import Controller
-from rv.modules import Module
+from rv.modules import Behavior as B, Module
 
 
 class Pitch2Ctl(Module):
 
     name = mtype = 'Pitch2Ctl'
     mgroup = 'Misc'
+
+    behaviors = {B.receives_notes, B.sends_controls}
 
     class Mode(Enum):
         frequency_hz = 0

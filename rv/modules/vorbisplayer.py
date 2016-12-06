@@ -1,7 +1,7 @@
 from struct import pack
 
 from rv.controller import Controller
-from rv.modules import Module
+from rv.modules import Behavior as B, Module
 
 
 class VorbisPlayer(Module):
@@ -9,6 +9,8 @@ class VorbisPlayer(Module):
     name = mtype = 'Vorbis player'
     mgroup = 'Synth'
     chnk = 0x10
+
+    behaviors = {B.sends_audio}
 
     data = None
 

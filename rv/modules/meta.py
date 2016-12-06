@@ -52,8 +52,16 @@ class ModuleMeta(type):
         ]
         if getattr(cls, '__doc__'):
             lines.append(dedent(cls.__doc__))
+        lines += [
+            '',
+            'Behaviors:',
+            '',
+        ]
+        for b in sorted(cls.behaviors):
+            lines += ['- {}'.format(b.name)]
         if len(cls.controllers) > 0:
             lines += [
+                '',
                 'Controllers:',
                 '',
                 '=' * 40 + ' ' + '=' * 40 + ' ' + '=' * 40 + ' ' + '=' * 40,

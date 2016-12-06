@@ -1,7 +1,7 @@
 from enum import Enum
 
 from rv.controller import Controller
-from rv.modules import Module
+from rv.modules import Behavior as B, Module
 from rv.option import Option
 
 
@@ -19,6 +19,8 @@ class Sound2Ctl(Module):
     class Mode(Enum):
         lq = 0
         hq = 1
+
+    behaviors = {B.receives_audio, B.sends_controls}
 
     sample_rate_hz = Controller((1, 32768), 50)
     channels = Controller(Channels, Channels.mono)

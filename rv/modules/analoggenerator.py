@@ -2,7 +2,7 @@ from enum import Enum
 
 from rv.chunks import DirtyWaveformChunk
 from rv.controller import Controller
-from rv.modules import Module
+from rv.modules import Behavior as B, Module
 from rv.option import Option
 
 
@@ -12,6 +12,8 @@ class AnalogGenerator(Module):
     mgroup = 'Synth'
     chnk = 0x10
     options_chnm = 0x01
+
+    behaviors = {B.receives_notes, B.sends_audio}
 
     class Mode(Enum):
         hq = 0

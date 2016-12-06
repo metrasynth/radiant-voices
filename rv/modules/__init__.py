@@ -12,7 +12,7 @@ only need to refer to ``rv.modules.AnalogGenerator`` (instead of
 MODULE_CLASSES = {}  # NOQA
 
 # Must come first to avoid circular imports.
-from .module import Chunk, Module
+from .module import Behavior, Chunk, Module
 
 from .amplifier import Amplifier
 from .analoggenerator import AnalogGenerator

@@ -1,13 +1,15 @@
 from enum import Enum
 
 from rv.controller import Controller
-from rv.modules import Module
+from rv.modules import Behavior as B, Module
 
 
 class Kicker(Module):
 
     name = mtype = 'Kicker'
     mgroup = 'Synth'
+
+    behaviors = {B.receives_notes, B.sends_audio}
 
     class Waveform(Enum):
         triangle = 0

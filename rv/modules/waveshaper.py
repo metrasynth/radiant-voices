@@ -2,7 +2,7 @@ from enum import Enum
 
 from rv.chunks import ArrayChunk
 from rv.controller import Controller
-from rv.modules import Module
+from rv.modules import Behavior as B, Module
 
 
 class WaveShaper(Module):
@@ -10,6 +10,8 @@ class WaveShaper(Module):
     name = mtype = 'WaveShaper'
     mgroup = 'Effect'
     chnk = 0x10
+
+    behaviors = {B.receives_audio, B.sends_audio}
 
     class Mode(Enum):
         hq = 0

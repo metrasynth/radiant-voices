@@ -1,13 +1,15 @@
 from enum import Enum
 
 from rv.controller import Controller
-from rv.modules import Module
+from rv.modules import Behavior as B, Module
 
 
 class Input(Module):
 
     name = mtype = 'Input'
     mgroup = 'Synth'
+
+    behaviors = {B.sends_audio}
 
     class Channels(Enum):
         mono = 0

@@ -6,7 +6,7 @@ from struct import pack
 import rv
 from rv.chunks import ArrayChunk
 from rv.controller import Controller, Range
-from rv.modules import Module
+from rv.modules import Behavior as B, Module
 from rv.option import Option
 from rv.project import Project
 from rv.readers.reader import read_sunvox_file
@@ -72,6 +72,8 @@ class MetaModule(Module):
     name = mtype = 'MetaModule'
     mgroup = 'Misc'
     options_chnm = 0x02
+
+    behaviors = {B.receives_audio, B.receives_notes, B.sends_audio}
 
     class Mapping(object):
         def __init__(self, value):
