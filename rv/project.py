@@ -180,7 +180,7 @@ class Project(Container):
         """Use GraphViz to auto-layout modules."""
         if pgv is not None:
             g = pgv.AGraph(self.graph(), directed=True, strict=False)
-            g.layout()
+            g.layout(prog=prog)
             for node in g.nodes():
                 x, y = node.attr['pos'].split(',')
                 x, y = int(float(x)), int(float(y))
