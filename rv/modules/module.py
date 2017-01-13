@@ -204,6 +204,14 @@ class Module(object, metaclass=ModuleMeta):
         log.warn(_F('load_chunk not implemented for {}',
                     self.__class__.__name__))
 
+    def load_cmid(self, data):
+        names = self.controllers.keys()
+        for i, name in enumerate(names):
+            offset = i * 8
+            cmid_data = data[offset:offset+8]
+            if len(cmid_data) == 8:
+                self.controllers[name].cmid_data = cmid_data
+
     def load_options(self, chunk):
         for i, name in enumerate(self.options.keys()):
             value = chunk.chdt[i]

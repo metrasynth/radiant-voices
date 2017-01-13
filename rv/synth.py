@@ -36,7 +36,7 @@ class Synth(Container):
                 yield (b'CVAL', pack('<I', raw_value))
                 ctl_count += 1
         if ctl_count:
-            yield (b'CMID', b'\0\0\0\0\0\0\0\xFF' * ctl_count)
+            yield (b'CMID', b''.join(ctl.cmid_data for ctl in module.controllers.values()))
         if module.chnk:
             yield (b'CHNK', pack('<I', max(0x10, module.chnk)))
             for chunk in module.specialized_iff_chunks():

@@ -141,7 +141,7 @@ class Project(Container):
                     raw_value = module.get_raw(name)
                     yield (b'CVAL', pack('<I', raw_value))
                 if len(controllers) > 0:
-                    yield (b'CMID', b'\0\0\0\0\0\0\0\xFF' * len(controllers))
+                    yield (b'CMID', b''.join(module.controllers[name].cmid_data for name in controllers))
                 if module.chnk:
                     yield (b'CHNK', pack('<I', max(0x10, module.chnk)))
                     for chunk in module.specialized_iff_chunks():

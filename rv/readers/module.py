@@ -126,7 +126,7 @@ class ModuleReader(Reader):
         self._current_chunk = None
 
     def process_cmid(self, data):
-        self.object._reader_cmid = data
+        self.object.load_cmid(data)
 
     def process_send(self, data):
         self._compensate_for_older_sunvox_file_format()
