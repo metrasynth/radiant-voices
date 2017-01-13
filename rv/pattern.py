@@ -19,8 +19,8 @@ class Pattern(object):
     fg_color = attr(default=(0, 0, 0))
     bg_color = attr(default=(255, 255, 255))
     flags = attr(default=0x00000000)
-    x = attr(default=0, validator=divisible_by(4))
-    y = attr(default=0, validator=divisible_by(4))
+    x = attr(default=0)
+    y = attr(default=0)
 
     @property
     def data(self):
@@ -94,8 +94,8 @@ class PatternClone(object):
 
     source = attr()
     flags = attr(default=0x00000001)
-    x = attr(default=0, validator=divisible_by(4))
-    y = attr(default=0, validator=divisible_by(4))
+    x = attr(default=0)
+    y = attr(default=0)
 
     def iff_chunks(self):
         yield (b'PPAR', pack('<I', self.source))
