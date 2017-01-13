@@ -176,7 +176,7 @@ class Project(Container):
                     d[from_idx].append(to_idx)
         return d
 
-    def layout(self, prog='neato', factor=8):
+    def layout(self, prog='dot', factor=8):
         """Use GraphViz to auto-layout modules."""
         if pgv is not None:
             g = pgv.AGraph(self.graph(), directed=True, strict=False)
