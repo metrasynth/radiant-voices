@@ -1,28 +1,6 @@
 from enum import Enum
-from struct import pack, unpack
 
 from rv.errors import ControllerValueError
-
-
-class MidiMessageType(Enum):
-    unset = 0
-    note = 1
-    key_pressure = 2
-    control_change = 3
-    nrpn = 4
-    rpn = 5
-    program_change = 6
-    channel_pressure = 7
-    pitch_bend = 8
-
-
-class Slope(Enum):
-    linear = 0
-    exp1 = 1
-    exp2 = 2
-    s_curve = 3
-    cut = 4
-    toggle = 5
 
 
 class Controller(object):
@@ -49,10 +27,6 @@ class Controller(object):
             value_type = Range(*value_type)
         self.value_type = value_type
         self.default = default
-        self.midi_channel = 0
-        self.midi_message_type = MidiMessageType.unset
-        self.midi_message_parameter = 0
-        self.slope = Slope.linear
         self._attached = attached
         self._order = Controller._next_order
         Controller._next_order += 1
@@ -66,25 +40,6 @@ class Controller(object):
     def __set__(self, instance, value):
         if instance is not None:
             self.propagate(instance, value, down=True, up=True)
-
-    @property
-    def cmid_data(self):
-        return pack(
-            '<BBBBHBB',
-            self.midi_message_type.value,
-            self.midi_channel,
-            self.slope.value,
-            0,
-            self.midi_message_parameter,
-            0,
-            0xff if self.midi_message_type == MidiMessageType.unset else 0xc8,
-        )
-
-    @cmid_data.setter
-    def cmid_data(self, data):
-        midi_message_type, self.midi_channel, slope, _, self.midi_message_parameter, _, _ = unpack('<BBBBHBB', data)
-        self.midi_message_type = MidiMessageType(midi_message_type)
-        self.slope = Slope(slope)
 
     def attached(self, instance):
         return self._attached

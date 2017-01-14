@@ -30,13 +30,15 @@ class Synth(Container):
                             lambda: None)
         recompute()
         ctl_count = 0
-        for name, ctl in module.controllers.items():
+        controllers = [(n, c) for n, c in module.controllers.items()
+                       if c.attached(module)]
+        for name, ctl in controllers:
             if ctl.attached(module):
                 raw_value = module.get_raw(name)
                 yield (b'CVAL', pack('<I', raw_value))
                 ctl_count += 1
         if ctl_count:
-            yield (b'CMID', b''.join(ctl.cmid_data for ctl in module.controllers.values()))
+            yield (b'CMID', b''.join(module.controller_midi_maps[name].cmid_data for name, _ in controllers))
         if module.chnk:
             yield (b'CHNK', pack('<I', max(0x10, module.chnk)))
             for chunk in module.specialized_iff_chunks():

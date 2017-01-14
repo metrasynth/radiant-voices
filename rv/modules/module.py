@@ -1,11 +1,13 @@
 import io
 import logging
 from collections import OrderedDict
+from collections import defaultdict
 from enum import Enum, IntEnum
 from struct import pack
 
 from logutils import BraceMessage as _F
 from rv import ENCODING
+from rv.cmidmap import ControllerMidiMap
 from rv.modules.meta import ModuleMeta
 from rv.readers.reader import read_sunvox_file
 from rv.synth import Synth
@@ -79,6 +81,7 @@ class Module(object, metaclass=ModuleMeta):
         self.index = None
         self.parent = kw.get('parent', None)
         self.controller_values = OrderedDict()
+        self.controller_midi_maps = defaultdict(ControllerMidiMap)
         for k, controller in self.controllers.items():
             v = kw.get(k) if k in kw else controller.default
             controller.set_initial(self, v)
@@ -210,7 +213,7 @@ class Module(object, metaclass=ModuleMeta):
             offset = i * 8
             cmid_data = data[offset:offset+8]
             if len(cmid_data) == 8:
-                self.controllers[name].cmid_data = cmid_data
+                self.controller_midi_maps[name].cmid_data = cmid_data
 
     def load_options(self, chunk):
         for i, name in enumerate(self.options.keys()):
