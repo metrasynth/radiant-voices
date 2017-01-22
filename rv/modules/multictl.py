@@ -1,3 +1,4 @@
+from enum import Enum
 from itertools import chain
 
 from rv.chunks import ArrayChunk
@@ -127,3 +128,42 @@ class MultiCtl(Module):
             self.mappings.bytes = chunk.chdt
         if chunk.chnm == 1:
             self.curve.bytes = chunk.chdt
+
+    @staticmethod
+    def bundle(project, *mod_ctl_pairs, name=None, layer=0, x=0, y=0):
+        mappings = []
+        mods = []
+        gains = set()
+        for mod, ctl in mod_ctl_pairs:
+            if not isinstance(ctl, Controller):
+                ctl = mod.controllers[ctl]
+            t = ctl.value_type
+            if isinstance(t, type) and issubclass(t, Enum):
+                mapmin, mapmax = 0, len(t) - 1
+                gains.add(256 + int(256 / mapmax))
+            elif t is bool:
+                mapmin, mapmax = 0, 1
+                gains.add(512)
+            elif t.min == 1:
+                mapmin, mapmax = t.min, t.max
+                gains.add(256 + int(256 / mapmax))
+            else:
+                mapmin, mapmax = 0, 0x8000
+                gains.add(256)
+            mappings.append((mapmin, mapmax, ctl.number))
+            mods.append(project.modules[mod.index])
+        if gains and len(gains) == 1:
+            gain = list(gains).pop()
+        else:
+            gain = 256
+        bundle = project.new_module(
+            MultiCtl,
+            name=name,
+            layer=layer,
+            x=x,
+            y=y,
+            gain=gain,
+            mappings=mappings,
+        )
+        bundle >> mods
+        return bundle
