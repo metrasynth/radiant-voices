@@ -6,7 +6,7 @@ class ControllerValueError(RadiantVoicesError, ValueError):
     pass
 
 
-class MappingOverflowError(RadiantVoicesError, OverflowError):
+class MappingError(RadiantVoicesError, ValueError):
     pass
 
 

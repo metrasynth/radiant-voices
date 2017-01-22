@@ -3,7 +3,7 @@ from itertools import chain
 
 from rv.chunks import ArrayChunk
 from rv.controller import Controller, Range
-from rv.errors import MappingOverflowError
+from rv.errors import MappingError
 from rv.modules import Behavior as B, Module
 
 
@@ -132,8 +132,8 @@ class MultiCtl(Module):
 
     @staticmethod
     def macro(project, *mod_ctl_pairs, name=None, layer=0, x=0, y=0):
-        if len(mod_ctl_pairs):
-            raise MappingOverflowError('MultiCtl supports max of 16 destinations')
+        if len(mod_ctl_pairs) > 16:
+            raise MappingError('MultiCtl supports max of 16 destinations')
         mappings = []
         mods = []
         gains = set()
@@ -155,6 +155,8 @@ class MultiCtl(Module):
                 gains.add(256)
             mappings.append((mapmin, mapmax, ctl.number))
             mods.append(project.modules[mod.index])
+        if len(mods) != len(set(mods)):
+            raise MappingError('Only one MultiCtl mapping per destination module allowed')
         if gains and len(gains) == 1:
             gain = list(gains).pop()
         else:
