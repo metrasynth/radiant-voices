@@ -130,7 +130,7 @@ class MultiCtl(Module):
             self.curve.bytes = chunk.chdt
 
     @staticmethod
-    def bundle(project, *mod_ctl_pairs, name=None, layer=0, x=0, y=0):
+    def macro(project, *mod_ctl_pairs, name=None, layer=0, x=0, y=0):
         mappings = []
         mods = []
         gains = set()
