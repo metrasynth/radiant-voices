@@ -1,5 +1,6 @@
 from enum import Enum
 from itertools import chain
+from math import log2
 
 from rv.chunks import ArrayChunk
 from rv.controller import Controller, Range
@@ -17,8 +18,8 @@ def convert_value(gain, qsteps, smin, smax, dmin, dmax, value):
     # At a minimum, we need 2 quantization steps (on/off).
     # We also need no more steps then there are values in the source range.
     srange = smax - smin
-    qsteps = max(qsteps, 2)
     qsteps = min(qsteps, srange)
+    qsteps = max(qsteps, 2)
     # Apply gain.
     value = value * gain / 256
     # Translate value from full 0-32768 range to source range.
@@ -115,6 +116,54 @@ class MultiCtl(Module):
                         self.gain, self.quantization, mapping.min, mapping.max,
                         ctl.value_type.min, ctl.value_type.max, self.value)
                     setattr(mod, ctl.name, value)
+
+    def reflect(self, index=0):
+        """Reflect the value of the controller mapped at the given index; inverse of setting value"""
+        downstream_mods = []
+        for to_mod in range(256):
+            from_mods = self.parent.module_connections[to_mod]
+            if self.index in from_mods:
+                downstream_mods.append(to_mod)
+                if len(downstream_mods) == index + 1:
+                    break
+        else:
+            raise IndexError('No destination module mapped at index {}'.format(index))
+        mapping = self.mappings.values[index]
+        if mapping.controller == 0:
+            raise IndexError('No destination controller mapped at index {}'.format(index))
+        reflect_mod = self.parent.modules[downstream_mods[-1]]
+        reflect_ctl_name = list(reflect_mod.controllers)[mapping.controller - 1]
+        reflect_ctl = reflect_mod.controllers[reflect_ctl_name]
+        reflect_value = getattr(reflect_mod, reflect_ctl_name)
+        if hasattr(reflect_value, 'value'):
+            reflect_value = reflect_value.value
+        gainexp = log2(self.gain)
+        defaultexp = log2(256)
+        offsetexp = gainexp - defaultexp
+        inverseexp = defaultexp - offsetexp
+        inverse_gain = int(2 ** inverseexp)
+        t = reflect_ctl.value_type
+        if isinstance(t, Range) and t.min == 1:
+            smin = 1
+            smax = t.max
+        elif t is bool:
+            smin = 0
+            smax = 1
+        elif isinstance(t, type) and issubclass(t, Enum):
+            smin = 0
+            smax = len(t)
+        else:
+            smin = 0
+            smax = 32768
+        self.controller_values['value'] = convert_value(
+            gain=inverse_gain,
+            qsteps=32768,
+            smin=smin,
+            smax=smax,
+            dmin=0,
+            dmax=32768,
+            value=reflect_value,
+        )
 
     def specialized_iff_chunks(self):
         for chunk in self.mappings.chunks():
