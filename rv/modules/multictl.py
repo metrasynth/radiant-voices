@@ -11,8 +11,10 @@ from rv.modules import Behavior as B, Module
 def convert_value(gain, qsteps, smin, smax, dmin, dmax, value):
     if smin < smax:
         pass
+        # TODO: map using multictl curve
     else:
         value = 32768 - value
+        # TODO: map using multictl curve
     value = (value * gain) / 256
     value = min(value, 32768)
     srange = smax - smin
@@ -25,6 +27,7 @@ def convert_value(gain, qsteps, smin, smax, dmin, dmax, value):
         value = smin + int(srange * value)
     else:
         value = smin + (srange * value) // 32768
+    # TODO: out_offset
     drange = dmax - dmin
     value /= drange
     value += dmin
@@ -35,6 +38,8 @@ def invert_value(gain, smin, smax, dmin, dmax, value):
     drange = dmax - dmin
     value -= dmin
     value *= drange
+    # TODO: out_offset
+    # TODO: map using multictl curve
     if gain == 0:
         return 0
     srange = smax - smin
@@ -124,6 +129,8 @@ class MultiCtl(Module):
                         self.gain, self.quantization, mapping.min, mapping.max,
                         ctl.value_type.min, ctl.value_type.max, self.value)
                     setattr(mod, ctl.name, value)
+                # TODO: apply out_offset
+                # TODO: what should we do if it's not a range?
 
     def reflect(self, index=0):
         """Reflect the value of the controller mapped at the given index; inverse of setting value"""
