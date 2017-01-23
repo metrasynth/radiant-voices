@@ -29,7 +29,8 @@ def convert_value(gain, qsteps, smin, smax, dmin, dmax, value):
         value = smin + (srange * value) // 32768
     # TODO: out_offset
     drange = dmax - dmin
-    value /= drange
+    value /= 32768
+    value *= drange
     value += dmin
     return int(value)
 
