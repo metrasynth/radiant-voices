@@ -154,8 +154,8 @@ class MultiCtl(Module):
         if hasattr(reflect_value, 'value'):
             reflect_value = reflect_value.value
         t = reflect_ctl.value_type
-        if isinstance(t, Range) and t.min == 1:
-            dmin = 1
+        if isinstance(t, Range):
+            dmin = t.min
             dmax = t.max
         elif t is bool:
             dmin = 0
