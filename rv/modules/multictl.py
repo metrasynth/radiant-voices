@@ -9,39 +9,47 @@ from rv.modules import Behavior as B, Module
 
 
 def convert_value(gain, qsteps, smin, smax, dmin, dmax, value):
-    # Is the source range inverted?
-    if smin > smax:
-        inverse = True
-        smin, smax = smax, smin
+    if smin < smax:
+        pass
     else:
-        inverse = False
-    # At a minimum, we need 2 quantization steps (on/off).
-    # We also need no more steps then there are values in the source range.
+        value = 32768 - value
+    value = (value * gain) / 256
+    value = min(value, 32768)
     srange = smax - smin
-    qsteps = min(qsteps, srange)
-    qsteps = max(qsteps, 2)
-    # Apply gain.
-    value = value * gain / 256
-    # Translate value from full 0-32768 range to source range.
-    ratio = value / 32768
-    value = srange * ratio + smin
-    # Quantize.
-    delta = srange // (qsteps - 1)
-    value = (value // delta) * delta
-    # Limit destination range.
+    if qsteps < 32768:
+        quant = max(qsteps - 1, 1)
+        step = 32768 / quant
+        value = int(value / step)
+        value = (value * step) / 32768
+        value = max(value, 1)
+        value = smin + int(srange * value)
+    else:
+        value = smin + (srange * value) // 32768
     drange = dmax - dmin
-    dmin2 = dmin + drange * (smin / 32768)
-    dmax2 = dmin + drange * (smax / 32768)
-    drange2 = dmax2 - dmin2
-    # Transform from source range to destination range.
-    factor = drange2 / srange
-    result = (value - smin) * factor + dmin2
-    # Invert if necessary.
-    if inverse:
-        result = dmax2 - result + dmin2
-    result = min(result, dmax2)
-    result = max(result, dmin2)
-    return round(result)
+    value /= drange
+    value += dmin
+    return int(value)
+
+
+def invert_value(gain, smin, smax, dmin, dmax, value):
+    drange = dmax - dmin
+    value -= dmin
+    value *= drange
+    if gain == 0:
+        return 0
+    srange = smax - smin
+    if srange == 0:
+        return 0
+    value *= 32768
+    value -= smin
+    value /= srange
+    value = min(32768, value)
+    value = max(0, value)
+    value *= 256
+    value /= gain
+    if smin >= smax:
+        value = 32768 - value
+    return int(value)
 
 
 class MultiCtl(Module):
@@ -137,31 +145,25 @@ class MultiCtl(Module):
         reflect_value = getattr(reflect_mod, reflect_ctl_name)
         if hasattr(reflect_value, 'value'):
             reflect_value = reflect_value.value
-        gainexp = log2(self.gain)
-        defaultexp = log2(256)
-        offsetexp = gainexp - defaultexp
-        inverseexp = defaultexp - offsetexp
-        inverse_gain = int(2 ** inverseexp)
         t = reflect_ctl.value_type
         if isinstance(t, Range) and t.min == 1:
-            smin = 1
-            smax = t.max
+            dmin = 1
+            dmax = t.max
         elif t is bool:
-            smin = 0
-            smax = 1
+            dmin = 0
+            dmax = 1
         elif isinstance(t, type) and issubclass(t, Enum):
-            smin = 0
-            smax = len(t)
+            dmin = 0
+            dmax = len(t)
         else:
-            smin = 0
-            smax = 32768
-        self.controller_values['value'] = convert_value(
-            gain=inverse_gain,
-            qsteps=32768,
-            smin=smin,
-            smax=smax,
-            dmin=0,
-            dmax=32768,
+            dmin = 0
+            dmax = 32768
+        self.controller_values['value'] = invert_value(
+            gain=self.gain,
+            smin=mapping.min,
+            smax=mapping.max,
+            dmin=dmin,
+            dmax=dmax,
             value=reflect_value,
         )
 
