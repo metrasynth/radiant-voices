@@ -115,10 +115,8 @@ class MetaModule(Module):
     volume = Controller((0, 1024), 256)
     input_module = Controller((1, 256), 1)
     play_patterns = Controller(bool, False)
-    bpm = Controller((1, 800), 125)     # TODO: propagate to project and back
-    tpl = Controller((1, 31), 6)        # TODO: propagate to project and back
-
-    # TODO: propagate changes in bpm/tpl to subproject and back
+    bpm = Controller((1, 800), 125)
+    tpl = Controller((1, 31), 6)   
 
     (
         user_defined_1,  user_defined_2,  user_defined_3,  user_defined_4,
