@@ -24,7 +24,11 @@ class WaveShaper(Module):
         length = 256
         type = 'H'
         element_size = 2
-        default = [x * 0x100 for x in range(256)]
+        min_value = 0
+        max_value = 0xffff
+
+        def default(self, x):
+            return x * 0x100
 
     input_volume = Controller((0, 512), 256)
     mix = Controller((0, 256), 256)

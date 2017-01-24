@@ -11,6 +11,8 @@ class ArrayChunk(Chunk):
     python_type = int
     default = None
     values = None
+    min_value = None
+    max_value = None
 
     def __init__(self):
         self.reset()
@@ -47,9 +49,25 @@ class ArrayChunk(Chunk):
 
     def reset(self):
         if self.default is not None:
-            self.values = self.default.copy()
+            if callable(self.default):
+                self.set_via_fn(self.default)
+            elif isinstance(self.default, list):
+                self.values = self.default.copy()
+            else:
+                self.values = [self.default] * self.length
         else:
             self.values = [0] * self.length
+
+    def set_via_fn(self, fn):
+        values = []
+        for x in range(self.length):
+            y = fn(x)
+            if self.min_value:
+                y = max(y, self.min_value)
+            if self.max_value:
+                y = min(y, self.max_value)
+            values.append(y)
+        self.values = values
 
 
 __all__ = [

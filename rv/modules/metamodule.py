@@ -89,9 +89,8 @@ class MetaModule(Module):
         type = 'HH'
         element_size = 2 * 2
 
-        @property
-        def default(self):
-            return [MetaModule.Mapping((0, 0)) for x in range(self.length)]
+        def default(self, _):
+            return MetaModule.Mapping((0, 0))
 
         @property
         def encoded_values(self):

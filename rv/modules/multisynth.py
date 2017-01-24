@@ -18,14 +18,20 @@ class MultiSynth(Module):
         length = 128
         type = 'B'
         element_size = 1
-        default = [0xff] * length
+        default = 0xff
+        min_value = 0
+        max_value = 0xff
 
     class VelocityVelocityCurve(ArrayChunk):
         chnm = 2
         length = 257
         type = 'B'
         element_size = 1
-        default = list(range(256)) + [0xff]
+        min_value = 0
+        max_value = 0xff
+
+        def default(self, x):
+            return min(x, 256)
 
     transpose = Controller((-128, 128), 0)
     random_pitch = Controller((0, 4096), 0)

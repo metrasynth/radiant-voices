@@ -44,18 +44,24 @@ class SpectraVoice(Module):
         type = 'H'
         default = [1098] + [0] * 15
         element_size = 2
+        min_value = 0
+        max_value = 0x8000
 
     class HarmonicVolumeArray(HarmonicValueArray):
         chnm = 1
         type = 'B'
         default = [255] + [0] * 15
         element_size = 1
+        min_value = 0
+        max_value = 0xff
 
     class HarmonicWidthArray(HarmonicValueArray):
         chnm = 2
         type = 'B'
         default = [3] + [0] * 15
         element_size = 1
+        min_value = 0
+        max_value = 0xff
 
     class HarmonicTypeArray(HarmonicValueArray):
         chnm = 3

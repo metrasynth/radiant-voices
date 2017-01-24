@@ -76,10 +76,8 @@ class MultiCtl(Module):
         type = 'IIIIIIII'
         element_size = 4 * 8
 
-        @property
-        def default(self):
-            return [MultiCtl.Mapping((0, 0x8000, 0))
-                    for x in range(self.length)]
+        def default(self, _):
+            return MultiCtl.Mapping((0, 0x8000, 0))
 
         @property
         def encoded_values(self):
@@ -96,7 +94,11 @@ class MultiCtl(Module):
         length = 257
         type = 'H'
         element_size = 2
-        default = [x * 0x80 for x in range(257)]
+        min_value = 0
+        max_value = 0x8000
+
+        def default(self, x):
+            return x * 0x80
 
     value = Controller((0, 32768), 0)
     gain = Controller((0, 1024), 256)
