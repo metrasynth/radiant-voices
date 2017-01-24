@@ -3,6 +3,8 @@ from io import BytesIO
 from itertools import chain
 from struct import pack
 
+from slugify import Slugify
+
 import rv
 from rv.chunks import ArrayChunk
 from rv.controller import Controller, Range
@@ -14,6 +16,8 @@ from rv.readers.reader import read_sunvox_file
 
 MAX_USER_DEFINED_CONTROLLERS = 27
 USER_DEFINED_RE = re.compile(r'user_defined_\d+')
+
+slugify = Slugify(separator='_')
 
 
 class UserDefined(Controller):
@@ -116,7 +120,7 @@ class MetaModule(Module):
     input_module = Controller((1, 256), 1)
     play_patterns = Controller(bool, False)
     bpm = Controller((1, 800), 125)
-    tpl = Controller((1, 31), 6)   
+    tpl = Controller((1, 31), 6)
 
     (
         user_defined_1,  user_defined_2,  user_defined_3,  user_defined_4,
@@ -147,18 +151,47 @@ class MetaModule(Module):
             ctl = self.controllers[key]
             return ctl.__get__(self, None)
         else:
-            raise AttributeError()
+            if 'user_defined' in self.__dict__:
+                try:
+                    i = self.user_defined_aliases.index(key)
+                except ValueError:
+                    raise AttributeError()
+                else:
+                    ctl_name = list(self.controllers)[i + 5]
+                    ctl = self.controllers[ctl_name]
+                    return ctl.__get__(self, None)
+            else:
+                raise AttributeError()
 
     def __setattr__(self, key, value):
         if USER_DEFINED_RE.match(key):
             ctl = self.controllers[key]
             return ctl.__set__(self, value)
         else:
-            super(MetaModule, self).__setattr__(key, value)
+            try:
+                i = self.user_defined_aliases.index(key)
+            except ValueError:
+                super().__setattr__(key, value)
+            else:
+                ctl_name = list(self.controllers)[i + 5]
+                ctl = self.controllers[ctl_name]
+                return ctl.__set__(self, value)
+
+    def __dir__(self):
+        return super().__dir__() + [name for name in self.user_defined_aliases if name]
 
     @property
     def chnk(self):
         return 8 + self.user_defined_controllers
+
+    @property
+    def user_defined_aliases(self):
+        return [
+            'u_{}'.format(slugify(ctl.label).lower()) if ctl.label else None
+            for ctl
+            in self.user_defined
+            if ctl.attached(self)
+        ] if hasattr(self, 'user_defined') else []
 
     def on_controller_changed(self, controller, value, down, up):
         if isinstance(controller, UserDefined) and down:
