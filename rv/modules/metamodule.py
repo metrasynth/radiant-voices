@@ -25,7 +25,7 @@ class UserDefined(Controller):
 
     def __init__(self, number):
         self.name = 'user_defined_{}'.format(number + 1)
-        self.number = number
+        self.number = number + 6
         super().__init__((0, 32768), 0, attached=False)
 
     def attach(self, instance):
