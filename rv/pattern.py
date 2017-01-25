@@ -1,6 +1,7 @@
 from struct import pack
 
 from attr import attr, attributes
+from copy import deepcopy
 
 from rv import ENCODING
 from rv.lib.validators import divisible_by, in_range, is_length
@@ -43,6 +44,42 @@ class Pattern(object):
                 offset = (line_no * self.tracks * 8) + (track_no * 8)
                 note_raw_data = raw_data[offset:offset+8]
                 data[line_no][track_no].raw_data = note_raw_data
+
+    def set_via_fn(self, fn):
+        """Set pattern contents by calling fn for each note.
+
+        fn is called with this pattern, the line of the note, and the track of the note.
+        It is expected to return a Note, which is replaced at the same location.
+
+        The entirety of the original pattern data is kept until all notes
+        have been processed successfully; only then do the new notes become
+        part of the pattern.
+        """
+        new = deepcopy(self.data)
+        for line in range(self.lines):
+            for track in range(self.tracks):
+                new[line][track] = fn(self, line, track)
+        self._data = new
+        return self
+
+    def set_via_gen(self, gen):
+        """Set pattern contents by receiving notes from a generator.
+
+        gen is called with this pattern, and the new note data array.
+        The generator then yields (line, track, Note-instance) tuples.
+
+        It is possible, but *discouraged*, to directly change the new note array.
+        It is passed in so that algorithms can reference the intermediate state
+        of the pattern before committing.
+
+        The generator must stop iteration at some point, or this method will
+        never return.
+        """
+        new = deepcopy(self.data)
+        for line, track, note in gen(self, new):
+            new[line][track] = note
+        self._data = new
+        return self
 
     def iff_chunks(self):
         yield (b'PDTA', self.raw_data)
