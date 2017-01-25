@@ -47,7 +47,7 @@ class Controller(object):
     def pattern_value(self, value):
         """Convert a controller value to a pattern value (0x0000-0x80000)"""
         t = self.value_type
-        if isinstance(t, Range):
+        if isinstance(t, Range) and t.min == 0:
             shifted = value - t.min
             shifted_max = t.max - t.min
             return int(shifted / (shifted_max / 32768))
