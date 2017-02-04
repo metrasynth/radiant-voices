@@ -102,3 +102,17 @@ class Range(object):
         if value < self.min or value > self.max:
             raise ControllerValueError('{} is not within [{}, {}]'.format(
                 value, self.min, self.max))
+
+
+class CompactRange(Range):
+    """Represents a compact range of values for a controller.
+
+    Used to differentiate contollers such as MultiSynth.Transpose (discrete)
+    and MultiSynth.Finetune (not discrete).
+
+    Whereas Range is always shifted and scaled to 0x0000-0x8000 for the purposes of
+    XXYY columns and min/max values in MultiCtls, CompactRange is only scaled.
+
+    For example, the value -2 in the CompactRange(-128, 128) would be encoded
+    as the value 126.
+    """

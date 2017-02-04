@@ -1,20 +1,14 @@
 from enum import Enum
 from itertools import chain
-from math import log2
 
 from rv.chunks import ArrayChunk
-from rv.controller import Controller, Range
+from rv.controller import Controller, Range, CompactRange
 from rv.errors import MappingError
 from rv.modules import Behavior as B, Module
 
 
 def convert_value(gain, qsteps, smin, smax, dmin, dmax, value):
-    if smin < smax:
-        pass
-        # TODO: map using multictl curve
-    else:
-        value = 32768 - value
-        # TODO: map using multictl curve
+    # TODO: map using multictl curve
     value = (value * gain) / 256
     value = min(value, 32768)
     srange = smax - smin
@@ -23,7 +17,6 @@ def convert_value(gain, qsteps, smin, smax, dmin, dmax, value):
         step = 32768 / quant
         value = int(value / step)
         value = (value * step) / 32768
-        value = max(value, 1)
         value = smin + int(srange * value)
     else:
         value = smin + (srange * value) // 32768
@@ -127,11 +120,23 @@ class MultiCtl(Module):
                 mapping = self.mappings.values[i]
                 mod = self.parent.modules[to_mod]
                 ctl = list(mod.controllers.values())[mapping.controller - 1]
-                if isinstance(ctl.value_type, Range):
+                vt = ctl.value_type
+                if isinstance(vt, Range):
+                    if isinstance(vt, CompactRange):
+                        mapfactor = int(32768 / (vt.max - vt.min))
+                        value_offset = 0
+                    else:
+                        mapfactor = 1
+                        value_offset = vt.min
+                    smin, smax = mapping.min // mapfactor, mapping.max // mapfactor
+                    dmin, dmax = 0, vt.max - vt.min
+                    if smin > smax:
+                        smin, smax = smax, smin
+                        dmin, dmax = dmax, dmin
                     value = convert_value(
-                        self.gain, self.quantization, mapping.min, mapping.max,
-                        ctl.value_type.min, ctl.value_type.max, self.value)
-                    setattr(mod, ctl.name, value)
+                        self.gain, self.quantization, smin, smax,
+                        dmin, dmax, self.value)
+                    setattr(mod, ctl.name, value + value_offset)
                 # TODO: apply out_offset
                 # TODO: what should we do if it's not a range?
 

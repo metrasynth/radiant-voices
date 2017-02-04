@@ -1,5 +1,5 @@
 from rv.chunks import ArrayChunk
-from rv.controller import Controller
+from rv.controller import Controller, CompactRange
 from rv.modules import Behavior as B, Module
 from rv.option import Option
 
@@ -33,7 +33,7 @@ class MultiSynth(Module):
         def default(self, x):
             return min(x, 256)
 
-    transpose = Controller((-128, 128), 0)
+    transpose = Controller(CompactRange(-128, 128), 0)
     random_pitch = Controller((0, 4096), 0)
     velocity = Controller((0, 256), 256)
     finetune = Controller((-256, 256), 0)
