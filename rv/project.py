@@ -176,7 +176,7 @@ class Project(Container):
                     d[from_idx].append(to_idx)
         return d
 
-    def layout(self, prog='dot', factor=8):
+    def layout(self, prog='dot', factor=8, offset=0):
         """Use GraphViz to auto-layout modules."""
         if pgv is not None:
             g = pgv.AGraph(self.graph(), directed=True, strict=False)
@@ -186,10 +186,20 @@ class Project(Container):
                 x, y = int(float(x)), int(float(y))
                 idx = int(node)
                 mod = self.modules[idx]
-                mod.x = x * factor + 512
-                mod.y = y * factor + 512
+                if isinstance(factor, int):
+                    xfactor, yfactor = factor, factor
+                else:
+                    xfactor, yfactor = factor
+                if isinstance(offset, int):
+                    xoffset, yoffset = offset, offset
+                else:
+                    xoffset, yoffset = offset
+                mod.x = x * xfactor + xoffset
+                mod.y = y * yfactor + yoffset
+            return True
         else:
             logging.warning('GraphViz not available; could not auto-layout.')
+            return False
 
     def module_index(self, module):
         """Return the index of the given module."""
