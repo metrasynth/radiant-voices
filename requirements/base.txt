@@ -2,5 +2,4 @@ attrs
 awesome-slugify
 logutils
 hexdump
-pygraphviz
 pyyaml
