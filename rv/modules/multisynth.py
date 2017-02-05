@@ -31,7 +31,7 @@ class MultiSynth(Module):
         max_value = 0xff
 
         def default(self, x):
-            return min(x, 256)
+            return min(x, 255)
 
     transpose = Controller(CompactRange(-128, 128), 0)
     random_pitch = Controller((0, 4096), 0)
