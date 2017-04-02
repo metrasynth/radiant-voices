@@ -54,6 +54,7 @@ from .waveshaper import WaveShaper
 
 
 __all__ = [
+    'Behavior',
     'Chunk',
     'Module',
     'Amplifier',
