@@ -45,7 +45,7 @@ class Controller(object):
         return self._attached
 
     def pattern_value(self, value):
-        """Convert a controller value to a pattern value (0x0000-0x80000)"""
+        """Convert a controller value to a pattern value (0x0000-0x8000)"""
         t = self.value_type
         if isinstance(t, Range) and t.min == 0:
             shifted = value - t.min
