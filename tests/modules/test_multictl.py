@@ -136,24 +136,68 @@ def test_convert_value(gain, qsteps, smin, smax, dmin, dmax, value, expected):
         smax=smax,
         dmin=dmin,
         dmax=dmax,
+        vmax=dmax - dmin if dmax > dmin else dmin - dmax,
         value=value,
     )
     assert out == expected
 
 
-def test_propagation():
+def test_propagation_amp_volume():
     p = Project()
     amp1 = p.new_module(m.Amplifier)
     amp2 = p.new_module(m.Amplifier)
     mc = p.new_module(m.MultiCtl)
-    p.connect(mc, [amp1, amp2])
+    mc >> amp1
+    mc >> amp2
+    mc.mappings.values[0].min = 32768
+    mc.mappings.values[0].max = 0
     mc.mappings.values[0].controller = amp1.controllers['volume'].number
-    mc.mappings.values[1].min = 32768
-    mc.mappings.values[1].max = 0
     mc.mappings.values[1].controller = amp2.controllers['volume'].number
     mc.value = 0
-    assert amp1.volume == 0
-    assert amp2.volume == 1024
-    mc.value = 32768
     assert amp1.volume == 1024
     assert amp2.volume == 0
+    mc.value = 16384
+    assert amp1.volume == 512
+    assert amp2.volume == 512
+    mc.value = 32768
+    assert amp1.volume == 0
+    assert amp2.volume == 1024
+
+
+def test_propagation_multisynth_transpose():
+    p = Project()
+    ms1 = p.new_module(m.MultiSynth)
+    ms2 = p.new_module(m.MultiSynth)
+    mc = p.new_module(m.MultiCtl)
+    mc >> ms1
+    mc >> ms2
+    mc.mappings.values[0].controller = ms1.controllers['transpose'].number
+    mc.mappings.values[1].min = 32768
+    mc.mappings.values[1].max = 0
+    mc.mappings.values[1].controller = ms2.controllers['transpose'].number
+    mc.value = 0
+    assert ms1.transpose == -128
+    assert ms2.transpose == 128
+    mc.value = 16384
+    assert ms1.transpose == 0
+    assert ms2.transpose == 0
+    mc.value = 32768
+    assert ms1.transpose == 128
+    assert ms2.transpose == -128
+
+
+def test_reflect():
+    p = Project()
+    amp1 = p.new_module(m.Amplifier)
+    amp2 = p.new_module(m.Amplifier)
+    mc = p.new_module(m.MultiCtl)
+    mc >> amp1
+    mc >> amp2
+    mc.mappings.values[0].min = 32768
+    mc.mappings.values[0].max = 0
+    mc.mappings.values[0].controller = amp1.controllers['volume'].number
+    mc.mappings.values[1].controller = amp2.controllers['volume'].number
+    amp1.volume = 0
+    mc.reflect(0)
+    assert mc.value == 32768
+    assert amp2.volume == 1024

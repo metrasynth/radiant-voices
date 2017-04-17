@@ -7,7 +7,7 @@ from rv.errors import MappingError
 from rv.modules import Behavior as B, Module
 
 
-def convert_value(gain, qsteps, smin, smax, dmin, dmax, value):
+def convert_value(gain, qsteps, smin, smax, dmin, dmax, vmax, value):
     # TODO: map using multictl curve
     value = (value * gain) / 256
     value = min(value, 32768)
@@ -22,24 +22,29 @@ def convert_value(gain, qsteps, smin, smax, dmin, dmax, value):
         value = smin + (srange * value) // 32768
     # TODO: out_offset
     drange = dmax - dmin
-    value /= 32768
-    value *= drange
-    value += dmin
+    value /= 32768 / vmax
+    if drange > 0:
+        value += dmin
+    else:
+        value = dmin - value
     return int(value)
 
 
-def invert_value(gain, smin, smax, dmin, dmax, value):
+def invert_value(gain, smin, smax, dmin, dmax, vmax, value):
     drange = dmax - dmin
-    value -= dmin
+    if drange > 0:
+        value -= dmin
+    else:
+        value = dmin + value
     value *= drange
     # TODO: out_offset
     # TODO: map using multictl curve
     if gain == 0:
         return 0
-    srange = smax - smin
+    srange = smax - smin if smax > smin else smin - smax
     if srange == 0:
         return 0
-    value *= 32768
+    value *= 32768 / vmax
     value -= smin
     value /= srange
     value = min(32768, value)
@@ -122,25 +127,26 @@ class MultiCtl(Module):
                 ctl = list(mod.controllers.values())[mapping.controller - 1]
                 vt = ctl.value_type
                 if isinstance(vt, Range):
-                    if isinstance(vt, CompactRange):
-                        mapfactor = int(32768 / (vt.max - vt.min))
-                        value_offset = 0
-                    else:
-                        mapfactor = 1
-                        value_offset = vt.min
-                    smin, smax = mapping.min // mapfactor, mapping.max // mapfactor
-                    dmin, dmax = 0, vt.max - vt.min
+                    vmax = vt.max - vt.min
+                    smin, smax = mapping.min, mapping.max
+                    dmin, dmax = 0, vmax
                     if smin > smax:
                         smin, smax = smax, smin
                         dmin, dmax = dmax, dmin
-                    value = convert_value(
-                        self.gain, self.quantization, smin, smax,
-                        dmin, dmax, self.value)
-                    setattr(mod, ctl.name, value + value_offset)
+                    converted = convert_value(
+                        self.gain,
+                        self.quantization,
+                        smin, smax,
+                        dmin, dmax,
+                        vmax,
+                        self.value,
+                    )
+                    final_value = converted + vt.min
+                    setattr(mod, ctl.name, final_value)
                 # TODO: apply out_offset
                 # TODO: what should we do if it's not a range?
 
-    def reflect(self, index=0):
+    def reflect(self, index=0, propagate=True):
         """Reflect the value of the controller mapped at the given index; inverse of setting value"""
         downstream_mods = []
         for to_mod in range(256):
@@ -173,14 +179,19 @@ class MultiCtl(Module):
         else:
             dmin = 0
             dmax = 32768
-        self.controller_values['value'] = invert_value(
+        inverted = invert_value(
             gain=self.gain,
             smin=mapping.min,
             smax=mapping.max,
             dmin=dmin,
             dmax=dmax,
+            vmax=dmax - dmin if dmax > dmin else dmin - dmax,
             value=reflect_value,
         )
+        if propagate:
+            self.value = inverted
+        else:
+            self.controller_values['value'] = inverted
 
     def specialized_iff_chunks(self):
         for chunk in self.mappings.chunks():

@@ -1,6 +1,28 @@
 Changelog
 =========
 
+0.3.0 (2017-04-17)
+------------------
+
+Additions
+.........
+
+- Add ``propagate`` argument to ``MultiCtl.reflect()``.
+  Defaults to ``True`` which causes the new ``MultiCtl.value`` to
+  immediately propagate to all mapped controllers,
+  including the one that was just reflected.
+
+  Set to ``False`` if you only want to set ``MultiCtl.value``
+  without propagating to mapped controllers.
+
+Fixes
+.....
+
+- Fix algorithm for propagating ``MultiCtl.value`` changes to
+  mapped controllers.
+
+- Fix algorithm for reflecting mapped controllers back to ``MultiCtl.value``.
+
 0.2.0 (2017-04-02)
 ------------------
 
