@@ -15,6 +15,12 @@ Additions
   Set to ``False`` if you only want to set ``MultiCtl.value``
   without propagating to mapped controllers.
 
+Changes
+.......
+
+- The ``repr`` of a ``CompactRange`` instance now shows that class name,
+  instead of ``Range``.
+
 Fixes
 .....
 

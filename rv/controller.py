@@ -90,7 +90,7 @@ class Range(object):
         return value
 
     def __repr__(self):
-        return '<Range {}…{}>'.format(self.min, self.max)
+        return '<{} {}..{}>'.format(self.__class__.__name__, self.min, self.max)
 
     def from_raw_value(self, raw_value):
         return raw_value + self.min if self.min < 0 else raw_value
