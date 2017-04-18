@@ -22,7 +22,8 @@ def convert_value(gain, qsteps, smin, smax, dmin, dmax, vmax, value):
         value = smin + (srange * value) // 32768
     # TODO: out_offset
     drange = dmax - dmin
-    value /= 32768 / vmax
+    if vmax is not None:
+        value /= 32768 / vmax
     if drange > 0:
         value += dmin
     else:
@@ -127,9 +128,12 @@ class MultiCtl(Module):
                 ctl = list(mod.controllers.values())[mapping.controller - 1]
                 vt = ctl.value_type
                 if isinstance(vt, Range):
-                    vmax = vt.max - vt.min
+                    if isinstance(vt, CompactRange):
+                        vmax = None
+                    else:
+                        vmax = vt.max - vt.min
                     smin, smax = mapping.min, mapping.max
-                    dmin, dmax = 0, vmax
+                    dmin, dmax = 0, vt.max - vt.min
                     if smin > smax:
                         smin, smax = smax, smin
                         dmin, dmax = dmax, dmin
@@ -208,7 +212,6 @@ class MultiCtl(Module):
             self.curve.bytes = chunk.chdt
 
     @staticmethod
-    def macro(project, *mod_ctl_pairs, name=None, layer=0, x=0, y=0):
     def macro(project, *mod_ctl_pairs, name=None, layer=0, x=0, y=0, initial=None):
         if len(mod_ctl_pairs) > 16:
             raise MappingError('MultiCtl supports max of 16 destinations')
@@ -228,6 +231,9 @@ class MultiCtl(Module):
             elif t.min == 1:
                 mapmin, mapmax = t.min, t.max
                 gains.add(256 + int(256 / mapmax))
+            elif isinstance(t, CompactRange):
+                mapmin, mapmax = 0, (t.max - t.min)
+                gains.add(256)
             else:
                 mapmin, mapmax = 0, 0x8000
                 gains.add(256)

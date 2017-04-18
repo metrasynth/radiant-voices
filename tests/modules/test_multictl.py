@@ -171,8 +171,10 @@ def test_propagation_multisynth_transpose():
     mc = p.new_module(m.MultiCtl)
     mc >> ms1
     mc >> ms2
+    mc.mappings.values[0].min = 0
+    mc.mappings.values[0].max = 256
     mc.mappings.values[0].controller = ms1.controllers['transpose'].number
-    mc.mappings.values[1].min = 32768
+    mc.mappings.values[1].min = 256
     mc.mappings.values[1].max = 0
     mc.mappings.values[1].controller = ms2.controllers['transpose'].number
     mc.value = 0
@@ -184,6 +186,24 @@ def test_propagation_multisynth_transpose():
     mc.value = 32768
     assert ms1.transpose == 128
     assert ms2.transpose == -128
+
+
+def test_propagation_multisynth_transpose_rangelimit():
+    p = Project()
+    ms1 = p.new_module(m.MultiSynth)
+    mc = p.new_module(m.MultiCtl)
+    mc >> ms1
+    mapping = mc.mappings.values[0]
+    mapping.controller = ms1.controllers['transpose'].number
+    mapping.min = 128
+    mapping.max = 144
+    mapping.gain = 256 + int(256 / 17)
+    mc.value = 0
+    assert ms1.transpose == 0
+    mc.value = 16384
+    assert ms1.transpose == 8
+    mc.value = 32768
+    assert ms1.transpose == 16
 
 
 def test_reflect():
