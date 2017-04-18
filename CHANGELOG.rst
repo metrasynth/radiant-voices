@@ -15,6 +15,9 @@ Additions
   Set to ``False`` if you only want to set ``MultiCtl.value``
   without propagating to mapped controllers.
 
+- Pass a value for ``initial`` when calling ``MultiCtl.macro()`` to
+  set and propagate an initial value. Default behavior is to not set a value.
+
 Changes
 .......
 
