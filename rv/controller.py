@@ -89,6 +89,9 @@ class Range(object):
         self.validate(value)
         return value
 
+    def __eq__(self, other):
+        return type(self) is type(other) and (self.min, self.max) == (other.min, other.max)
+
     def __repr__(self):
         return '<{} {}..{}>'.format(self.__class__.__name__, self.min, self.max)
 
