@@ -8,6 +8,7 @@ Contents
     installation
     api-reference/index
     contributing
+    maintenance
     changelog
     authors
     license
