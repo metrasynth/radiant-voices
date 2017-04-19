@@ -2,3 +2,4 @@
 py
 pytest
 pytest-watch
+pygraphviz
