@@ -9,6 +9,8 @@ The major theme of this release is support for SunVox 1.9.3.
 Additions
 .........
 
+- Add documentation about the SunVox file format.
+
 - Add equality checking to ``Range``.
 
 - Add ``Module.midi_in_always`` attribute, defaulting to ``False``.

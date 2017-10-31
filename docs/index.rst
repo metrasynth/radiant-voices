@@ -7,6 +7,7 @@ Contents
     readme
     installation
     api-reference/index
+    sunvox-file-format
     contributing
     maintenance
     changelog
