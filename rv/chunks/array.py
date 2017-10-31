@@ -41,12 +41,6 @@ class ArrayChunk(Chunk):
     def chdt(self):
         return self.bytes
 
-    def chff(self):
-        return pack('<I', 0)
-
-    def chfr(self):
-        return pack('<I', 0)
-
     def reset(self):
         if self.default is not None:
             if callable(self.default):

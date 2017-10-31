@@ -22,6 +22,12 @@ Additions
 
 - Add ``MetaModule.event_output`` option (default: ``True``).
 
+Changes
+.......
+
+- While writing files, ``CHFF`` and ``CHFR`` chunks will not be written
+  if they always have a value of ``0``.
+
 
 0.3.0 (2017-04-18)
 ------------------

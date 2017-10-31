@@ -262,8 +262,6 @@ class Sampler(Module):
         yield (b'CHNM', pack('<I', 0))
         yield (b'CHDT', f.getvalue())
         f.close()
-        yield (b'CHFF', pack('<I', 0))
-        yield (b'CHFR', pack('<I', 0))
 
     def sample_chunks(self, i, sample):
         f = BytesIO()
@@ -286,8 +284,6 @@ class Sampler(Module):
         yield (b'CHNM', pack('<I', i * 2 + 1))
         yield (b'CHDT', f.getvalue())
         f.close()
-        yield (b'CHFF', pack('<I', 0))
-        yield (b'CHFR', pack('<I', 0))
         yield (b'CHNM', pack('<I', i * 2 + 2))
         yield (b'CHDT', sample.data)
         yield (b'CHFF', pack(

@@ -30,8 +30,6 @@ class VorbisPlayer(Module):
     def specialized_iff_chunks(self):
         yield (b'CHNM', pack('<I', 0))
         yield (b'CHDT', self.data or b'')
-        yield (b'CHFF', pack('<I', 0))
-        yield (b'CHFR', pack('<I', 0))
         for chunk in super(VorbisPlayer, self).specialized_iff_chunks():
             yield chunk
 

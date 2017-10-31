@@ -202,8 +202,6 @@ class Module(object, metaclass=ModuleMeta):
         values = list(self.option_values.values())
         values += [False] * (64 - len(values))
         yield (b'CHDT', pack('B' * 64, *values))
-        yield (b'CHFF', pack('<I', 0))
-        yield (b'CHFR', pack('<I', 0))
 
     def load_chunk(self, chunk):
         """Load a CHNK/CHNM/CHDT/CHFF/CHFR block into this module."""

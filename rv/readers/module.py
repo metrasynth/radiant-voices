@@ -145,8 +145,8 @@ class ModuleReader(Reader):
 
     def _compensate_for_older_sunvox_file_format(self):
         if self._current_chunk is not None:
-            # Compensate for older versions of SunVox that didn't write
-            # CHFF and CHFR for all types of chunks.
+            # Compensate for variations of SunVox file-writing where
+            # CHFF and CHFR are not written when their value is 0.
             c = self._current_chunk
             c.chff = 0 if c.chff is None else c.chff
             c.chfr = 0 if c.chfr is None else c.chfr

@@ -236,8 +236,6 @@ class MetaModule(Module):
     def specialized_iff_chunks(self):
         yield (b'CHNM', pack('<I', 0))
         yield (b'CHDT', self.project.read())
-        yield (b'CHFF', pack('<I', 0))
-        yield (b'CHFR', pack('<I', 0))
         for chunk in self.mappings.chunks():
             yield chunk
         for chunk in super(MetaModule, self).specialized_iff_chunks():
@@ -246,8 +244,6 @@ class MetaModule(Module):
             if controller.attached(self) and controller.label is not None:
                 yield (b'CHNM', pack('<I', i))
                 yield (b'CHDT', controller.label.encode(rv.ENCODING) + b'\0')
-                yield (b'CHFF', pack('<I', 0))
-                yield (b'CHFR', pack('<I', 0))
 
     def load_chunk(self, chunk):
         if chunk.chnm == self.options_chnm:
