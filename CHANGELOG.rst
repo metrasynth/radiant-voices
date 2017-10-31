@@ -1,8 +1,10 @@
 Changelog
 =========
 
-0.3.1 (2017-04-19)
-------------------
+0.4.0 (under development)
+-------------------------
+
+The major theme of this release is support for SunVox 1.9.3.
 
 Additions
 .........
