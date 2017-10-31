@@ -9,12 +9,16 @@ The major theme of this release is support for SunVox 1.9.3.
 Additions
 .........
 
-- ``Range`` now supports equality checking.
+- Add equality checking to ``Range``.
 
-- ``Module`` instances now have ``.midi_in_always`` (boolean)
-  and ``.midi_in_channel`` (integer, 1-16, or 0 for "all channels").
+- Add ``Module.midi_in_always`` attribute, defaulting to ``False``.
+  When ``True``, the module will respond to MIDI events regardless of
+  whether it's selected in the SunVox UI.
 
-- ``Project`` instances now have ``.time_grid2`` (integer).
+- Add ``Module.midi_in_channel`` attribute, defaulting to ``0`` (all channels).
+  Set to 1-16 to make the module respond to only a specific MIDI channel.
+
+- Add ``Project.time_grid2`` attribute.
 
 - Add ``MetaModule.event_output`` option (default: ``True``).
 
