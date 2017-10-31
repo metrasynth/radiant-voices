@@ -11,6 +11,9 @@ Additions
 
 - ``Range`` now supports equality checking.
 
+- ``Module`` instances now have ``.midi_in_always`` (boolean)
+  and ``.midi_in_channel`` (integer, 1-16, or 0 for "all channels").
+
 
 0.3.0 (2017-04-18)
 ------------------

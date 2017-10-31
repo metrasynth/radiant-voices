@@ -76,6 +76,11 @@ class ModuleReader(Reader):
     def process_scol(self, data):
         self.object.color = unpack('BBB', data)
 
+    def process_smii(self, data):
+        x, = unpack('<I', data)
+        self.object.midi_in_always = bool(x & 1)
+        self.object.midi_in_channel = x >> 1
+
     def process_smic(self, data):
         self.object.midi_out_channel, = unpack('<i', data)
 

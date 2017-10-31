@@ -96,6 +96,8 @@ class Module(object, metaclass=ModuleMeta):
         self.layer = kw.get('layer', 0)
         self.scale = kw.get('scale', 256)
         self.color = kw.get('color', (255, 255, 255))
+        self.midi_in_always = kw.get('midi_in_always', False)
+        self.midi_in_channel = kw.get('midi_in_channel', 0)
         self.midi_out_channel = kw.get('midi_out_channel', 0)
         self.midi_out_bank = kw.get('midi_out_bank', -1)
         self.midi_out_program = kw.get('midi_out_program', -1)
@@ -178,6 +180,7 @@ class Module(object, metaclass=ModuleMeta):
         if in_project:
             yield (b'SVPR', pack('<I', self.visualization))
         yield (b'SCOL', pack('BBB', *self.color))
+        yield (b'SMII', pack('<i', int(self.midi_in_always) + (self.midi_in_channel << 1)))
         yield (b'SMIC', pack('<i', self.midi_out_channel))
         yield (b'SMIB', pack('<i', self.midi_out_bank))
         yield (b'SMIP', pack('<i', self.midi_out_program))
