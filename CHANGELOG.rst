@@ -14,6 +14,8 @@ Additions
 - ``Module`` instances now have ``.midi_in_always`` (boolean)
   and ``.midi_in_channel`` (integer, 1-16, or 0 for "all channels").
 
+- ``Project`` instances now have ``.time_grid2`` (integer).
+
 
 0.3.0 (2017-04-18)
 ------------------

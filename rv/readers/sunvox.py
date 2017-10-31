@@ -32,6 +32,9 @@ class SunVoxReader(Reader):
     def process_tgrd(self, data):
         self.object.time_grid, = unpack('<I', data)
 
+    def process_tgd2(self, data):
+        self.object.time_grid2, = unpack('<I', data)
+
     def process_gvol(self, data):
         self.object.global_volume, = unpack('<I', data)
 
