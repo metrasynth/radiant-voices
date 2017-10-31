@@ -134,6 +134,7 @@ class MetaModule(Module):
     user_defined_controllers = Option(0, (0, MAX_USER_DEFINED_CONTROLLERS))
     arpeggiator = Option(False)
     apply_velocity_to_project = Option(False)
+    event_output = Option(True, inverted=True)
 
     def __init__(self, **kwargs):
         project = kwargs.get('project', None)

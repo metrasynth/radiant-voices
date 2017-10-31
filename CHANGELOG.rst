@@ -16,6 +16,8 @@ Additions
 
 - ``Project`` instances now have ``.time_grid2`` (integer).
 
+- Add ``MetaModule.event_output`` option (default: ``True``).
+
 
 0.3.0 (2017-04-18)
 ------------------

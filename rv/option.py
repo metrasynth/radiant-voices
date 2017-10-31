@@ -13,9 +13,10 @@ class Option(object):
     name = None
     index = None
 
-    def __init__(self, default, range=None):
+    def __init__(self, default, range=None, inverted=False):
         self.default = default
         self.range = range
+        self.inverted = inverted
         self._order = Option._next_order
         Option._next_order += 1
 
@@ -25,6 +26,8 @@ class Option(object):
     def __set__(self, instance, value):
         if self.range is None:
             value = bool(value)
+            if self.inverted:
+                value = not value
         else:
             value = max(self.range[0], min(self.range[1], value))
         instance.option_values[self.name] = value
