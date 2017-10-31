@@ -205,7 +205,7 @@ class Module(object, metaclass=ModuleMeta):
 
     def load_chunk(self, chunk):
         """Load a CHNK/CHNM/CHDT/CHFF/CHFR block into this module."""
-        log.warn(_F('load_chunk not implemented for {}',
+        log.warning(_F('load_chunk not implemented for {}',
                     self.__class__.__name__))
 
     def load_cmid(self, data):

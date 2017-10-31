@@ -106,7 +106,7 @@ class ModuleReader(Reader):
             log.debug(_F('Setting {} from raw {}', controller_name, raw_value))
             self.object.set_raw(controller_name, raw_value)
         else:
-            log.warn(_F('Unsupported controller at index {} with raw value {}',
+            log.warning(_F('Unsupported controller at index {} with raw value {}',
                         self._current_controller, raw_value))
         self._current_controller += 1
 
@@ -139,7 +139,7 @@ class ModuleReader(Reader):
             chnk = self.object._reader_chnk
             expected_chnk = max(0x10, self.object.chnk)
             if chnk != expected_chnk:
-                log.warn(_F('{} expected CHNK {}, got {}',
+                log.warning(_F('{} expected CHNK {}, got {}',
                             self.object, expected_chnk, chnk))
         raise ReaderFinished()
 

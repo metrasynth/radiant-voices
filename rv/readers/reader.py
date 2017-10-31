@@ -52,7 +52,7 @@ class Reader(object):
                     log.debug(_F('-> {}.{}', *log_args))
                     method(data)
                 else:
-                    log.warn(_F('no {}.{} method', *log_args))
+                    log.warning(_F('no {}.{} method', *log_args))
             self.process_end_of_file()
         except ReaderFinished:
             pass

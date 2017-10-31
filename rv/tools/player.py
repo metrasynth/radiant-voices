@@ -77,7 +77,7 @@ def main():
             slot.connect_module(1, 0)
             slot.volume(255)
         else:
-            log.warn('Unknown file extension')
+            log.warning('Unknown file extension')
     module_count = slot.get_number_of_modules()
     log.info('{} modules loaded'.format(module_count))
     for i in range(module_count):
