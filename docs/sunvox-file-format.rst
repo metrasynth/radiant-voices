@@ -296,7 +296,7 @@ shifted left by 1 bit, or 0 if it should respond to all channels
 that SunVox is globally listening to.
 
 Controller MIDI mappings
-.......................
+........................
 
 ======  ================  ===================================================
 Offset  Type              Purpose
@@ -311,7 +311,7 @@ Offset  Type              Purpose
 ======  ================  ===================================================
 
 MIDI message type
-................
+.................
 
 ======  ==========================
 Value   Purpose
@@ -328,7 +328,7 @@ Value   Purpose
 ======  ==========================
 
 MIDI mapping slope
-.................
+..................
 
 ======  ==========================
 Value   Purpose
@@ -347,7 +347,7 @@ CHNK value
 (To be documented)
 
 Module-specific chunks
-.....................
+......................
 
 (To be documented)
 
