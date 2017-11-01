@@ -91,10 +91,82 @@ CHNM 0 - global sampler data
 The ``CHDT`` chunk for this section contains global sampler configuration
 such as options, envelopes, and note mappings.
 
+======  ================  ===================================================
+Offset  Type              Purpose
+======  ================  ===================================================
+0x00    zeros             Reserved (offset 0x00 to 0x1b)
+0x1c    unsigned int32    Max sample index + 1 (0 for no samples)
+0x20    zeros             Reserved (offset 0x20 to 0x23)
+0x24    unsigned int8     Sample number for note C-0 (note 0)
+ ...     ...               ...
+0x83    unsigned int8     Sample number for note B-8 (note 95)
+0x84                      Volume envelope point 0
+0x84    unsigned int16    - X Position (always 0 for point 0)
+0x86    unsigned int16    - Y Position (0x00 to 0x40)
+0x88                      Volume envelope point 1
+0x8c                      Volume envelope point 2
+0x90                      Volume envelope point 3
+0x94                      Volume envelope point 4
+0x98                      Volume envelope point 5
+0x9c                      Volume envelope point 6
+0xa0                      Volume envelope point 7
+0xa4                      Volume envelope point 8
+0xa8                      Volume envelope point 9
+0xac                      Volume envelope point 10
+0xb0                      Volume envelope point 11
+0xb4                      Panning envelope point 0
+0xb4    unsigned int16    - X Position (always 0 for point 0)
+0xb6    unsigned int16    - Y Position (0x00 to 0x40, center at 0x20)
+0xb8                      Panning envelope point 1
+0xbc                      Panning envelope point 2
+0xc0                      Panning envelope point 3
+0xc4                      Panning envelope point 4
+0xc8                      Panning envelope point 5
+0xcc                      Panning envelope point 6
+0xd0                      Panning envelope point 7
+0xd4                      Panning envelope point 8
+0xd8                      Panning envelope point 9
+0xdc                      Panning envelope point 10
+0xe0                      Panning envelope point 11
+0xe4    unsigned int8     Number of active volume envelope points
+0xe5    unsigned int8     Number of active panning envelope points
+0xe6    unsigned int8     Volume sustain point
+0xe7    unsigned int8     Volume loop start point
+0xe8    unsigned int8     Volume loop end point
+0xe9    unsigned int8     Pan sustain point
+0xea    unsigned int8     Pan loop start point
+0xeb    unsigned int8     Pan loop end point
+0xec    bitmask           Volume envelope bitmask (see below)
+0xed    bitmask           Panning envelope bitmask (see below)
+0xee    unsigned int8     Vibrato type (0 = sin, 1 = saw, 2 = square)
+0xef    unsigned int8     Vibrato attack
+0xf0    unsigned int8     Vibrato depth
+0xf1    unsigned int8     Vibrato rate (0x00 to 0x3f)
+0xf2    unsigned int16    Volume fadeout (0x0000 to 0x2000)
+0xf4    constant          Hex bytes 40 00 80 00 00 00 00 00
+0xfc    constant          ASCII string 'PMAS'
+0x100   constant          Hex bytes 04 00 00 00
+0x104   unsigned int8     Sample number for note C-0 (note 0)
+ ...     ...               ...
+0x17a   unsigned int8     Sample number for note b-9 (note 118)
+0x17b   zeros             Reserved (offset 0x17b to 0x183)
+======  ================  ===================================================
+
+Envelope bitmasks
+~~~~~~~~~~~~~~~~~
+
+=====   ==============
+Value   Purpose
+=====   ==============
+0x01    Enable
+0x02    Sustain
+0x04    Loop
+=====   ==============
+
 CHNM (n * 2 + 1)
 ...............
 
-(Where *n* is the sample number, starting at 0.)
+(Where *n* is the sample index, starting at 0.)
 
 The ``CHDT`` chunk for these sections contains sample-specific configuration
 such as loop points, panning, and relative note information.
@@ -148,7 +220,7 @@ Value   Purpose
 CHNM (n * 2 + 2)
 ...............
 
-(Where *n* is the sample number, starting at 0.)
+(Where *n* is the sample index, starting at 0.)
 
 The ``CHDT`` chunk for this section contains sample values
 of the type specified by the ``CHFF`` chunk.
