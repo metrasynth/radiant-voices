@@ -391,7 +391,7 @@ Value   Format              Stereo
 =====   =================   ======
 
 Options chunks
-..............
+--------------
 
 Modules that have options store them as an array of boolean bytes
 in a module-specific CHNM number, padded with zeros to 64 bytes.
@@ -481,6 +481,19 @@ Offset  Type      Purpose
 ======  ========  ========================================
 0x00    flag      Record values
 ======  ========  ========================================
+
+Array chunk
+-----------
+
+Some module-specific chunks are in the form of an array.
+Such an array will be described using these attributes:
+
+- ``CHNM`` number
+- Length (in values)
+- Data type
+- Minimum value
+- Maximum value
+- Default value
 
 Analog Generator module-specific chunks
 ---------------------------------------
@@ -668,4 +681,14 @@ To be documented.
 WaveShaper module-specific chunks
 ---------------------------------
 
-To be documented.
+WaveShaper curve chunk
+......................
+
+This is an `array chunk`_:
+
+- ``CHNM`` number: 0x00
+- Length (in values): 256
+- Data type: unsigned int16
+- Minimum value: 0x0000
+- Maximum value: 0xffff
+- Default value: Linear curve, x * 0x100
