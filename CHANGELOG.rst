@@ -30,6 +30,12 @@ Changes
 - While writing files, ``CHFF`` and ``CHFR`` chunks will not be written
   if they always have a value of ``0``.
 
+Fixes
+.....
+
+- ``SMII`` and ``SMIC`` chunks are now encoded as unsigned int32
+  (was previously signed).
+
 
 0.3.0 (2017-04-18)
 ------------------

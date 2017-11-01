@@ -180,8 +180,8 @@ class Module(object, metaclass=ModuleMeta):
         if in_project:
             yield (b'SVPR', pack('<I', self.visualization))
         yield (b'SCOL', pack('BBB', *self.color))
-        yield (b'SMII', pack('<i', int(self.midi_in_always) + (self.midi_in_channel << 1)))
-        yield (b'SMIC', pack('<i', self.midi_out_channel))
+        yield (b'SMII', pack('<I', int(self.midi_in_always) + (self.midi_in_channel << 1)))
+        yield (b'SMIC', pack('<I', self.midi_out_channel))
         yield (b'SMIB', pack('<i', self.midi_out_bank))
         yield (b'SMIP', pack('<i', self.midi_out_program))
 
