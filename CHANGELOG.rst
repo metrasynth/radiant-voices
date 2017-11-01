@@ -30,6 +30,9 @@ Changes
 - While writing files, ``CHFF`` and ``CHFR`` chunks will not be written
   if they always have a value of ``0``.
 
+- ``AnalogGenerator.unsmooth_frequency_change`` option is now inverted to
+  ``.smooth_frequency_change``.
+
 Fixes
 .....
 

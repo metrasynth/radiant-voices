@@ -77,7 +77,7 @@ class AnalogGenerator(Module):
     filter_freq_scaling_per_key = Option(False)
     velocity_dependent_filter_frequency = Option(False)
     frequency_div_2 = Option(False)
-    unsmooth_frequency_change = Option(False)
+    smooth_frequency_change = Option(True, inverted=True)
     filter_freq_scaling_per_key_reverse = Option(False)
     retain_phase = Option(False)
     random_phase = Option(False)
