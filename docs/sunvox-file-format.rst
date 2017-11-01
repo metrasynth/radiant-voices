@@ -676,7 +676,13 @@ To be documented.
 Vorbis player module-specific chunks
 ------------------------------------
 
-To be documented.
+Vorbis player file data chunk
+.............................
+
+``CHNM`` is 0x00.
+
+``CHDT`` contains the Vorbis file content,
+or is empty if no file has been loaded.
 
 WaveShaper module-specific chunks
 ---------------------------------
