@@ -370,25 +370,7 @@ Type ID   Format                Purpose
 ========  ====================  =======================================================
 ``CHNM``  unsigned int32        Module-specific chunk number
 ``CHDT``  (module-dependent)    Module-specific chunk data
-``CHFF``  bitmap (4 bytes)      `Chunk audio format bitmap`_
-``CHFR``  unsigned int32        Chunk audio frame rate
 ========  ====================  =======================================================
-
-Chunk audio format bitmap
-.........................
-
-The first 3 bits specify the format, and the 4th bit is a stereo flag:
-
-=====   =================   ======
-Value   Format              Stereo
-=====   =================   ======
-0x01    8-bit signed int    No
-0x02    16-bit signed int   No
-0x04    32-bit float        No
-0x09    8-bit signed int    Yes
-0x0a    16-bit signed int   Yes
-0x0c    32-bit float        Yes
-=====   =================   ======
 
 Options chunks
 --------------
@@ -495,15 +477,67 @@ Such an array will be described using these attributes:
 - Maximum value
 - Default value
 
+Array values are stored in the ``CHDT`` in row order.
+
+Waveform chunk
+--------------
+
+These types of chunks contain sample data in their ``CHDT``,
+and have two additional IFF chunks:
+
+========  ====================  =======================================================
+Type ID   Format                Purpose
+========  ====================  =======================================================
+``CHFF``  bitmap (4 bytes)      `Chunk audio format bitmap`_
+``CHFR``  unsigned int32        Chunk audio freq
+========  ====================  =======================================================
+
+Chunk audio format bitmap
+.........................
+
+The first 3 bits specify the format, and the 4th bit is a stereo flag:
+
+=====   =================   ======
+Value   Format              Stereo
+=====   =================   ======
+0x01    8-bit signed int    No
+0x02    16-bit signed int   No
+0x04    32-bit float        No
+0x09    8-bit signed int    Yes
+0x0a    16-bit signed int   Yes
+0x0c    32-bit float        Yes
+=====   =================   ======
+
+Drawn waveform chunk
+....................
+
+This is a waveform chunk that has some restrictions:
+
+- Fixed length of 32 frames
+- Fixed format of mono, 8-bit
+- Fixed freq of 44100
+
+SunVox assigns a default waveform::
+
+    00 9C A6 00 5A 89 EC 2D 02 EC 6F E9 02 9E 3C 20
+    64 32 00 CE 41 62 32 20 A6 88 64 5A 3B 15 00 36
+
+
 Analog Generator module-specific chunks
 ---------------------------------------
 
-To be documented.
+Analog Generator drawn waveform chunk
+.....................................
+
+This is a `drawn waveform chunk`_ with ``CHNM`` of 0.
 
 Generator module-specific chunks
 --------------------------------
 
-To be documented.
+Generator drawn waveform chunk
+..............................
+
+This is a `drawn waveform chunk`_ with ``CHNM`` of 0.
 
 MetaModule module-specific chunks
 ---------------------------------
@@ -528,8 +562,8 @@ Sampler module-specific chunks
     This is only accurate through SunVox 1.9.2.
     Efforts are underway to update this to reflect SunVox 1.9.3-beta1.
 
-CHNM 0 - global sampler data
-............................
+Sampler global configuration (CHNM 0)
+.....................................
 
 The ``CHDT`` chunk for this section contains global sampler configuration
 such as options, envelopes, and note mappings.
@@ -606,8 +640,8 @@ Value   Purpose
 0x04    Loop
 =====   ==============
 
-CHNM (n * 2 + 1)
-................
+Sample configuration chunk (CHNM n*2+1)
+.......................................
 
 (Where *n* is the sample index, starting at 0.)
 
@@ -660,13 +694,12 @@ Value   Purpose
 0x40    stereo
 =====   =================
 
-CHNM (n * 2 + 2)
-................
+Sample waveform chunk (CHNM n*2+2)
+..................................
 
 (Where *n* is the sample index, starting at 0.)
 
-The ``CHDT`` chunk for this section contains sample values
-of the type specified by the ``CHFF`` chunk.
+This is a `waveform chunk`_.
 
 SpectraVoice module-specific chunks
 -----------------------------------
@@ -676,10 +709,8 @@ To be documented.
 Vorbis player module-specific chunks
 ------------------------------------
 
-Vorbis player file data chunk
-.............................
-
-``CHNM`` is 0x00.
+Vorbis player file data chunk (CHNM 0)
+......................................
 
 ``CHDT`` contains the Vorbis file content,
 or is empty if no file has been loaded.
@@ -687,12 +718,11 @@ or is empty if no file has been loaded.
 WaveShaper module-specific chunks
 ---------------------------------
 
-WaveShaper curve chunk
-......................
+WaveShaper curve chunk (CHNM 0)
+...............................
 
 This is an `array chunk`_:
 
-- ``CHNM`` number: 0x00
 - Length (in values): 256
 - Data type: unsigned int16
 - Minimum value: 0x0000
