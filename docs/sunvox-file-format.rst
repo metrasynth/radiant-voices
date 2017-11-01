@@ -344,18 +344,171 @@ Value   Purpose
 CHNK value
 ..........
 
-(To be documented)
+================  =========================================
+Module type       Value
+================  =========================================
+Analog Generator  0x10
+Generator         0x10
+MetaModule        0x08 + number of user defined controllers
+MultiCtl          0x10
+MultiSynth        0x10
+Sampler           0x0102
+Sound2Ctl         0x10
+SpectraVoice      0x10
+Vorbis player     0x10
+WaveShaper        0x10
+================  =========================================
 
 Module-specific chunks
-......................
+----------------------
 
-(To be documented)
+General format
+..............
 
-Sampler chunks
---------------
+========  ====================  =======================================================
+Type ID   Format                Purpose
+========  ====================  =======================================================
+``CHNM``  unsigned int32        Module-specific chunk number
+``CHDT``  (module-dependent)    Module-specific chunk data
+``CHFF``  bitmap (4 bytes)      `Chunk audio format bitmap`_
+``CHFR``  unsigned int32        Chunk audio frame rate
+========  ====================  =======================================================
 
-The Sampler module is by far the most complex of the SunVox module types,
-so we dedicate an entire section to its data structures.
+Chunk audio format bitmap
+.........................
+
+The first 3 bits specify the format, and the 4th bit is a stereo flag:
+
+=====   =================   ======
+Value   Format              Stereo
+=====   =================   ======
+0x01    8-bit signed int    No
+0x02    16-bit signed int   No
+0x04    32-bit float        No
+0x09    8-bit signed int    Yes
+0x0a    16-bit signed int   Yes
+0x0c    32-bit float        Yes
+=====   =================   ======
+
+Options chunks
+..............
+
+Modules that have options store them as an array of boolean bytes
+in a module-specific CHNM number, padded with zeros to 64 bytes.
+
+Most options are flags.
+The default is *off*, represented by 0x00,
+and the alternative is *on*, represented by 0x01.
+
+Some options are inverted.
+The default is *on*, represented by 0x00,
+and the alternative is *off*, represented by 0x01.
+
+Some options are integers.
+
+==================  =========================================
+Module type         Options CHNM number
+==================  =========================================
+Analog Generator    0x01
+MetaModule          0x02
+MultiSynth          0x01
+Sampler             0x0101
+Sound2Ctl           0x00
+==================  =========================================
+
+Analog Generator options
+........................
+
+======  ========  ========================================
+Offset  Type      Purpose
+======  ========  ========================================
+0x00    flag      Volume envelope scaling per key
+0x01    flag      Filter envelope scaling per key
+0x02    flag      Volume scaling per key
+0x03    flag      Filter frequency scaling per key
+0x04    flag      Velocity dependent filter frequency
+0x05    flag      Frequency / 2
+0x06    inverted  Smooth frequency change
+0x07    flag      Filter frequency scaling per key reverse
+0x08    flag      Retain phase
+0x09    flag      Random phase
+0x0a    flag      Filter frequency equals note frequency
+0x0b    flag      Velocity dependent filter resonance
+======  ========  ========================================
+
+MetaModule options
+..................
+
+======  ========  ============================================
+Offset  Type      Purpose
+======  ========  ============================================
+0x00    integer   Number of user defined controllers (0 to 27)
+0x01    flag      Arpeggiator
+0x02    flag      Apply velocity to project
+0x03    inverted  Event output
+======  ========  ============================================
+
+MultiSynth options
+..................
+
+======  ========  ==========================================================
+Offset  Type      Purpose
+======  ========  ==========================================================
+0x00    flag      Use static note C5
+0x01    flag      Ignore notes with zero velocity
+0x02    flag      0x00 = note/velocity curve, 0x01 = velocity/velocity curve
+======  ========  ==========================================================
+
+Sampler
+.......
+
+======  ========  ========================================
+Offset  Type      Purpose
+======  ========  ========================================
+0x00    flag      Record on play
+0x01    flag      Record in mono
+0x02    flag      Record with reduced sample rate
+0x03    flag      Record in 16-bit
+0x04    flag      Stop recording on project stop
+0x05    flag      Ignore velocity for volume
+======  ========  ========================================
+
+Sound2Ctl
+.........
+
+======  ========  ========================================
+Offset  Type      Purpose
+======  ========  ========================================
+0x00    flag      Record values
+======  ========  ========================================
+
+Analog Generator module-specific chunks
+---------------------------------------
+
+To be documented.
+
+Generator module-specific chunks
+--------------------------------
+
+To be documented.
+
+MetaModule module-specific chunks
+---------------------------------
+
+To be documented.
+
+MultiCtl module-specific chunks
+-------------------------------
+
+To be documented.
+
+MultiSynth module-specific chunks
+---------------------------------
+
+To be documented.
+
+Sampler module-specific chunks
+------------------------------
 
 ..  note::
 
@@ -502,19 +655,17 @@ CHNM (n * 2 + 2)
 The ``CHDT`` chunk for this section contains sample values
 of the type specified by the ``CHFF`` chunk.
 
-The ``CHFF`` chunk is an unsigned int32.
-The first 3 bits specify the format, and the 4th bit is a stereo flag:
+SpectraVoice module-specific chunks
+-----------------------------------
 
-=====   =================   ======
-Value   Format              Stereo
-=====   =================   ======
-0x01    8-bit signed int    No
-0x02    16-bit signed int   No
-0x04    32-bit float        No
-0x09    8-bit signed int    Yes
-0x0a    16-bit signed int   Yes
-0x0c    32-bit float        Yes
-=====   =================   ======
+To be documented.
 
-The ``CHFR`` chunk is an unsigned int32,
-specifying the sample rate.
+Vorbis player module-specific chunks
+------------------------------------
+
+To be documented.
+
+WaveShaper module-specific chunks
+---------------------------------
+
+To be documented.
