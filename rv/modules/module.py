@@ -58,6 +58,40 @@ class Behavior(IntEnum):
     sends_feedback = 0x40
 
 
+class ModuleFlags(IntEnum):
+    """All flags that can exist for a module's flags."""
+
+    exists = 0x1
+    output = 0x2
+    generator = 0x8
+    effect = 0x10
+    initialized = 0x40
+    mute = 0x80
+    solo = 0x100
+    get_speed_changes = 0x400
+    hidden = 0x800
+    multi = 0x1000
+    no_fill_input = 0x2000
+    bypass = 0x4000
+    use_mutex = 0x8000
+    ignore_mute = 0x10000
+    no_scope_buffer = 0x20000
+    output_is_empty = 0x40000
+    open = 0x80000
+    get_play_commands = 0x100000
+    get_render_setup_commands = 0x200000
+    feedback = 0x400000
+    get_stop_commands = 0x800000
+
+
+class VisibleModuleFlags(IntEnum):
+    """Flags that can be viewed and set by the user."""
+
+    mute = 0x80
+    solo = 0x100
+    bypass = 0x4000
+
+
 class Module(object, metaclass=ModuleMeta):
     """Abstract base class for all SunVox module classes.
 
@@ -68,7 +102,7 @@ class Module(object, metaclass=ModuleMeta):
     name = None
     mtype = None  # module type
     mgroup = None  # module group
-    flags = 0x00000049
+    flags = None
     chnk = None  # number of chunks
 
     behaviors = set()
