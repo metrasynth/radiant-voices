@@ -548,7 +548,41 @@ To be documented.
 MultiCtl module-specific chunks
 -------------------------------
 
-To be documented.
+MultiCtl mapping array (CHNM 0)
+...............................
+
+This is an `array chunk`_:
+
+- Length (in values): 16
+- Data type: 32-byte structure (see below)
+
+Each item in the array corresponds to a downstream module.
+Items are ordered by module index.
+Items past the number of connected downstream modules are ignored.
+
+======  ================  ===================================================
+Offset  Type              Purpose
+======  ================  ===================================================
+0x00    unsigned int16    Minimum value
+0x02    unsigned int16    Maximum value
+0x04    unsigned int16    Controller number (1-based index)
+0x06    unsigned int16    Reserved (0x00 value)
+0x08    unsigned int16    Reserved (0x00 value)
+0x0a    unsigned int16    Reserved (0x00 value)
+0x0c    unsigned int16    Reserved (0x00 value)
+0x0e    unsigned int16    Reserved (0x00 value)
+======  ================  ===================================================
+
+MultiCtl value curve (CHNM 1)
+.............................
+
+This is an `array chunk`_:
+
+- Length (in values): 257
+- Data type: unsigned int16
+- Minimum value: 0x0000
+- Maximum value: 0x8000
+- Default value: Linear curve, ``x * 0x80``
 
 MultiSynth module-specific chunks
 ---------------------------------
