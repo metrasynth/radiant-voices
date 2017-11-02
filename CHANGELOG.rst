@@ -41,6 +41,8 @@ Fixes
 - ``SMII`` and ``SMIC`` chunks are now encoded as unsigned int32
   (was previously signed).
 
+- Strings now use UTF-8 encoding.
+
 
 0.3.0 (2017-04-18)
 ------------------

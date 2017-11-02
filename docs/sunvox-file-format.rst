@@ -49,12 +49,7 @@ Then, the data is parsed as a separate container.
 String encoding
 ---------------
 
-Whenever a human-readable string is encoded,
-the `Windows-1251`_ code page is used.
-It encodes Cyrillic script after the ASCII characters.
-
-..  _Windows-1251:
-    https://en.wikipedia.org/wiki/Windows-1251
+All strings are UTF-8 encoded C-style strings.
 
 File extensions
 ---------------
