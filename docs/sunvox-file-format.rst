@@ -321,42 +321,43 @@ Default flags for each module type:
 ====================  ========
 Module type           Default
 ====================  ========
-Analog generator      0x000049
-DrumSynth             0x000049
-FM                    0x000049
-Generator             0x000059
-Input                 0x000049
-Kicker                0x000049
-Vorbis player         0x008049
-Sampler               0x008459
-SpectraVoice          0x000049
 Amplifier             0x000051
+Analog generator      0x000049
 Compressor            0x002051
 DC Blocker            0x000051
 Delay                 0x000451
 Distortion            0x000051
+DrumSynth             0x000049
 Echo                  0x000451
 EQ                    0x000051
+Feedback              0x600051
 Filter                0x000451
 Filter Pro            0x000451
 Flanger               0x000451
-LFO                   0x000451
-Loop                  0x000451
-Modulator             0x002051
-Pitch shifter         0x000051
-Reverb                0x000051
-Vocal filter          0x000051
-Vibrato               0x000451
-WaveShaper            0x000051
-Feedback              0x600051
+FM                    0x000049
+Generator             0x000059
 Glide                 0x021049
 GPIO                  0x000051
+Input                 0x000049
+Kicker                0x000049
+LFO                   0x000451
+Loop                  0x000451
 MetaModule            0x008051
+Modulator             0x002051
 MultiCtl              0x020051
 MultiSynth            0x021049
+Output                0x000043
+Pitch shifter         0x000051
 Pitch2Ctl             0x020049
+Reverb                0x000051
+Sampler               0x008459
 Sound2Ctl             0x600051
+SpectraVoice          0x000049
 Velocity2Ctl          0x020049
+Vibrato               0x000451
+Vocal filter          0x000051
+Vorbis player         0x008049
+WaveShaper            0x000051
 ====================  ========
 
 Module visualization bitmap
