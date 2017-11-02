@@ -1,9 +1,12 @@
 SunVox File Format
 ==================
 
-This document is an ongoing effort to describe the SunVox file format
-in a way that is useful to developers of Radiant Voices
-(and other apps that want to read/write SunVox files).
+This document describes the SunVox file format
+in a way that is useful to developers of any app
+that wants to read/write SunVox files.
+
+Special thanks to Alexander Zolotov for helping complete this document,
+and for sharing SunVox and his other creative works with the world.
 
 Little-endian
 -------------
