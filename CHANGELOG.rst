@@ -26,6 +26,9 @@ Additions
 
 - Add ``MultiSynth.trigger`` option (default: ``False``).
 
+- Add ``ModuleFlags`` and ``VisibleModuleFlags`` for reading/writing
+  ``Module.flags``.
+
 Changes
 .......
 
@@ -42,6 +45,8 @@ Fixes
   (was previously signed).
 
 - Strings now use UTF-8 encoding.
+
+- All module types now have a correct default ``.flags`` attribute.
 
 
 0.3.0 (2017-04-18)
