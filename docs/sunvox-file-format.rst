@@ -543,7 +543,39 @@ This is a `drawn waveform chunk`_.
 MetaModule module-specific chunks
 ---------------------------------
 
-To be documented.
+MetaModule embedded project (CHNM 0)
+....................................
+
+The ``CHDT`` contains the binary data for the embedded SunVox project,
+in the same format as a sunvox_ file.
+
+MetaModule user defined controller mappings (CHNM 1)
+....................................................
+
+This is an `array chunk`_:
+
+- Length (in values): 64
+- Data type: 4-byte structure (see below)
+
+Each item in the array describes a mapping between a user-defined controller
+and a target module/controller in the embedded project.
+
+Only the first 27 items are used, as that is the maximum number of
+user defined controllers. The remaining items are always unset.
+
+======  ================  ===================================================
+Offset  Type              Purpose
+======  ================  ===================================================
+0x00    unsigned int16    Target module index (0x00 for unset)
+0x02    unsigned int16    Target controller number (1-based, 0x00 for unset)
+======  ================  ===================================================
+
+MetaModule user defined controller names (CHNM 8+n)
+...................................................
+
+Where *n* is the 0-based index of the user-defined controller.
+
+The ``CHDT`` contains a cstring with the controller name.
 
 MultiCtl module-specific chunks
 -------------------------------
@@ -759,7 +791,66 @@ This is a `waveform chunk`_.
 SpectraVoice module-specific chunks
 -----------------------------------
 
-To be documented.
+SpectraVoice harmonic frequencies (CHNM 0)
+..........................................
+
+This is an `array chunk`_:
+
+- Length (in values): 16
+- Data type: unsigned int16
+- Minimum value: 0x0000
+- Maximum value: 0x8000
+- Default value: [0x044a, 0x00, ...]
+
+SpectraVoice harmonic volumes (CHNM 1)
+......................................
+
+This is an `array chunk`_:
+
+- Length (in values): 16
+- Data type: unsigned int8
+- Minimum value: 0x00
+- Maximum value: 0xff
+- Default value: [0xff, 0x00, ...]
+
+SpectraVoice harmonic widths (CHNM 2)
+.....................................
+
+This is an `array chunk`_:
+
+- Length (in values): 16
+- Data type: unsigned int8
+- Minimum value: 0x00
+- Maximum value: 0xff
+- Default value: [0x03, 0x00, ...]
+
+SpectraVoice harmonic types (CHNM 3)
+....................................
+
+This is an `array chunk`_:
+
+- Length (in values): 16
+- Data type: byte enumeration (see below)
+- Default value: [hsin, ...]
+
+======  ======================
+Value   Purpose
+======  ======================
+0x00    hsin
+0x01    rect
+0x02    org1
+0x03    org2
+0x04    org3
+0x05    org4
+0x06    sin
+0x07    random
+0x08    triangle1
+0x09    triangle2
+0x0a    overtones1
+0x0b    overtones2
+0x0c    overtones3
+0x0d    overtones4
+======  ======================
 
 Vorbis player module-specific chunks
 ------------------------------------
