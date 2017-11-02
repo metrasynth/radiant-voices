@@ -120,8 +120,8 @@ Project chunks
 ========  ================  =======================================================
 Type ID   Format            Purpose
 ========  ================  =======================================================
-``VERS``  byte[4]           SunVox version (LSB to MSB, e.g. 00020901 for v1.9.2.0)
-``BVER``  byte[4]           Based-on version
+``VERS``  unsigned int32    SunVox version (e.g. 0x01090300 for v1.9.3.0)
+``BVER``  unsigned int32    Based-on version
 ``BPM ``  unsigned int32    Initial BPM (beats per minute)
 ``SPED``  unsigned int32    Initial TPL (ticks per line)
 ``TGRD``  unsigned int32    Time grid (number of lines per "beat")
