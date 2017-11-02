@@ -8,6 +8,7 @@ class DrumSynth(Module):
 
     name = mtype = 'DrumSynth'
     mgroup = 'Synth'
+    flags = 0x000049
 
     behaviors = {B.receives_notes, B.sends_audio}
 

@@ -26,6 +26,7 @@ class Sampler(Module):
     mgroup = 'Synth'
     chnk = 0x0102
     options_chnm = 0x0101
+    flags = 0x008459
 
     behaviors = {B.receives_notes, B.sends_audio}
 

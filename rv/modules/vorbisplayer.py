@@ -9,6 +9,7 @@ class VorbisPlayer(Module):
     name = mtype = 'Vorbis player'
     mgroup = 'Synth'
     chnk = 0x10
+    flags = 0x008049
 
     behaviors = {B.sends_audio}
 

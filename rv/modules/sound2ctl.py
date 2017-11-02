@@ -11,6 +11,7 @@ class Sound2Ctl(Module):
     mgroup = 'Misc'
     chnk = 0x10
     options_chnm = 0x00
+    flags = 0x600051
 
     class Channels(Enum):
         mono = 0

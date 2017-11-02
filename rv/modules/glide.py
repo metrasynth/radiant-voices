@@ -6,6 +6,7 @@ class Glide(Module):
 
     name = mtype = 'Glide'
     mgroup = 'Misc'
+    flags = 0x021049
 
     behaviors = {B.receives_notes, B.sends_notes}
 

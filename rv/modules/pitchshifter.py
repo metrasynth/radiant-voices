@@ -8,6 +8,7 @@ class PitchShifter(Module):
 
     name = mtype = 'Pitch shifter'
     mgroup = 'Effect'
+    flags = 0x000051
 
     behaviors = {B.receives_audio, B.sends_audio}
 

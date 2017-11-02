@@ -8,6 +8,7 @@ class Pitch2Ctl(Module):
 
     name = mtype = 'Pitch2Ctl'
     mgroup = 'Misc'
+    flags = 0x020049
 
     behaviors = {B.receives_notes, B.sends_controls}
 

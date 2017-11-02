@@ -62,6 +62,7 @@ class MultiCtl(Module):
     name = mtype = 'MultiCtl'
     mgroup = 'Misc'
     chnk = 0x10
+    flags = 0x020051
 
     behaviors = {B.sends_controls}
 

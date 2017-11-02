@@ -8,6 +8,7 @@ class Compressor(Module):
 
     name = mtype = 'Compressor'
     mgroup = 'Effect'
+    flags = 0x002051
 
     behaviors = {B.receives_audio, B.sends_audio}
 

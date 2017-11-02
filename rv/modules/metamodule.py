@@ -76,6 +76,7 @@ class MetaModule(Module):
     name = mtype = 'MetaModule'
     mgroup = 'Misc'
     options_chnm = 0x02
+    flags = 0x008051
 
     behaviors = {B.receives_audio, B.receives_notes, B.sends_audio}
 

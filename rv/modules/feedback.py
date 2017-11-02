@@ -8,6 +8,7 @@ class Feedback(Module):
 
     name = mtype = 'Feedback'
     mgroup = 'Misc'
+    flags = 0x600051
 
     behaviors = {B.receives_audio, B.receives_feedback,
                  B.sends_audio, B.sends_feedback}

@@ -10,6 +10,7 @@ class WaveShaper(Module):
     name = mtype = 'WaveShaper'
     mgroup = 'Effect'
     chnk = 0x10
+    flags = 0x000051
 
     behaviors = {B.receives_audio, B.sends_audio}
 

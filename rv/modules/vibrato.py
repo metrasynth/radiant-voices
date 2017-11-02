@@ -8,6 +8,7 @@ class Vibrato(Module):
 
     name = mtype = 'Vibrato'
     mgroup = 'Effect'
+    flags = 0x000451
 
     behaviors = {B.receives_audio, B.sends_audio}
 

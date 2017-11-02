@@ -8,6 +8,7 @@ class Fm(Module):
 
     name = mtype = 'FM'
     mgroup = 'Synth'
+    flags = 0x000049
 
     behaviors = {B.receives_notes, B.sends_audio}
 

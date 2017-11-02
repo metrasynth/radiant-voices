@@ -8,6 +8,7 @@ class Input(Module):
 
     name = mtype = 'Input'
     mgroup = 'Synth'
+    flags = 0x000049
 
     behaviors = {B.sends_audio}
 
