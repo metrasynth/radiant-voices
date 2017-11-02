@@ -224,12 +224,23 @@ Value   Purpose
 Pattern appearance flags
 ........................
 
-(To be documented)
+========  ==========================
+Value     Purpose
+========  ==========================
+0x01      No icon
+========  ==========================
 
 Pattern flags
 .............
 
-(To be documented)
+========  ==========================
+Value     Purpose
+========  ==========================
+0x01      Clone of another pattern
+0x02      Pattern is selected
+0x08      Mute
+0x10      Solo
+========  ==========================
 
 Module chunks
 -------------
