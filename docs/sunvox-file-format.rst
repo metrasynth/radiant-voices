@@ -249,7 +249,7 @@ Type ID   Format                Purpose
 ``SYYY``  signed int32          Y position (not in sunsynth files)
 ``SZZZ``  signed int32          Layer (not in sunsynth files)
 ``SSCL``  unsigned int32        Scale
-``SVPR``  bitmap (4 bytes)      `Module visualization flags`_ (not in sunsynth files)
+``SVPR``  bitmap (4 bytes)      `Module visualization bitmap`_ (not in sunsynth files)
 ``SCOL``  bytes[3]              Color (RGB)
 ``SMII``  unsigned int32        `MIDI in`_
 ``SMIN``  cstring               MIDI Out name (not present if none selected)
@@ -270,12 +270,138 @@ multiple                        `Module-specific chunks`_, if applicable
 Module flags
 ............
 
-(To be documented)
+User-accessible module flags:
 
-Module visualization flags
-..........................
+======  ==========================
+Value   Purpose
+======  ==========================
+0x80    Mute
+0x100   Solo
+0x4000  Bypass
+======  ==========================
 
-(To be documented)
+Internal module flags:
+
+========  ==========================
+Value     Purpose
+========  ==========================
+0x000001  Exists
+0x000002  Output
+0x000008  Generator
+0x000010  Effect
+0x000040  Initialized
+0x000400  Get speed changes
+0x000800  Hidden
+0x001000  Multi
+0x002000  Don't fill input
+0x008000  Use mutex
+0x010000  Ignore mute
+0x020000  No scope buffer
+0x040000  Output is empty
+0x080000  Open
+0x100000  Get play commands
+0x200000  Get render setup commands
+0x400000  Feedback
+0x800000  Get stop commands
+========  ==========================
+
+Default flags for each module type:
+
+====================  ========
+Module type           Default
+====================  ========
+Analog generator      0x000049
+DrumSynth             0x000049
+FM                    0x000049
+Generator             0x000059
+Input                 0x000049
+Kicker                0x000049
+Vorbis player         0x008049
+Sampler               0x008459
+SpectraVoice          0x000049
+Amplifier             0x000051
+Compressor            0x002051
+DC Blocker            0x000051
+Delay                 0x000451
+Distortion            0x000051
+Echo                  0x000451
+EQ                    0x000051
+Filter                0x000451
+Filter Pro            0x000451
+Flanger               0x000451
+LFO                   0x000451
+Loop                  0x000451
+Modulator             0x002051
+Pitch shifter         0x000051
+Reverb                0x000051
+Vocal filter          0x000051
+Vibrato               0x000451
+WaveShaper            0x000051
+Feedback              0x600051
+Glide                 0x021049
+GPIO                  0x000051
+MetaModule            0x008051
+MultiCtl              0x020051
+MultiSynth            0x021049
+Pitch2Ctl             0x020049
+Sound2Ctl             0x600051
+Velocity2Ctl          0x020049
+====================  ========
+
+Module visualization bitmap
+...........................
+
+======  ============================================
+Bits    Purpose
+======  ============================================
+0-4     `Level mode`_
+5-7     `Level flags`_
+8-12    `Oscilloscope mode`_
+13-15   Reserved for oscilloscope flags
+16-23   Oscilloscope size in ms (unsigned int8)
+24-25   BG transparency (0 = visible, 3 = invisible)
+26-27   Shadow opacity (0 = invisible, 3 = visible)
+28-31   Reserved for other flags
+======  ============================================
+
+Level mode
+~~~~~~~~~~
+
+======  ==========================
+Value   Purpose
+======  ==========================
+0x00    Off
+0x01    Mono
+0x02    Stereo
+0x03    Color
+0x04    Glow
+======  ==========================
+
+Level flags
+~~~~~~~~~~~
+
+=====   ==========================================
+Value   Purpose
+=====   ==========================================
+0x01    Orientation (0 = horizontal, 1 = vertical)
+=====   ==========================================
+
+
+Oscilloscope mode
+~~~~~~~~~~~~~~~~~
+
+======  ==========================
+Value   Purpose
+======  ==========================
+0x00    Off
+0x01    Points
+0x02    Lines
+0x03    Bars
+0x04    Bars 2 (symmetrical)
+0x05    Stereo Phase Scope × 1
+0x06    Stereo Phase Scope × 2
+0x07    XY
+======  ==========================
 
 MIDI in
 .......
