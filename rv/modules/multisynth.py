@@ -44,6 +44,7 @@ class MultiSynth(Module):
     use_static_note_C5 = Option(False)
     ignore_notes_with_zero_velocity = Option(False)
     vv_curve_active = Option(False)
+    trigger = Option(False)
 
     def __init__(self, **kwargs):
         nv_values = kwargs.pop('nv_values', None)

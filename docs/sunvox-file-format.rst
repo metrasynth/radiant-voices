@@ -439,6 +439,7 @@ Offset  Type      Purpose
 0x00    flag      Use static note C5
 0x01    flag      Ignore notes with zero velocity
 0x02    flag      0x00 = note/velocity curve, 0x01 = velocity/velocity curve
+0x03    flag      Trigger (ignore note off)
 ======  ========  ==========================================================
 
 Sampler

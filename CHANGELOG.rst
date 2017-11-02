@@ -24,6 +24,8 @@ Additions
 
 - Add ``MetaModule.event_output`` option (default: ``True``).
 
+- Add ``MultiSynth.trigger`` option (default: ``False``).
+
 Changes
 .......
 
