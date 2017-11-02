@@ -488,7 +488,7 @@ Generator         0x10
 MetaModule        0x08 + number of user defined controllers
 MultiCtl          0x10
 MultiSynth        0x10
-Sampler           0x0102
+Sampler           0x0102 for 1.9.2.0; 0x0109 for 1.9.3.0
 Sound2Ctl         0x10
 SpectraVoice      0x10
 Vorbis player     0x10
@@ -917,12 +917,88 @@ Value   Purpose
 0x40    stereo
 =====   =================
 
-Sample waveform chunk (CHNM n*2+2)
-..................................
+Sample waveform (CHNM n*2+2)
+............................
 
 (Where *n* is the sample index, starting at 0.)
 
 This is a `waveform chunk`_.
+
+Sample envelope configuration (CHNM 0x0101)
+...........................................
+
+Unknown - 6 zero bytes.
+
+Sample envelope chunk
+.....................
+
+======  ================  ===================================================
+Offset  Type              Purpose
+======  ================  ===================================================
+0x00    unsigned int16    `Sample envelope flags`_
+0x02    unsigned int8     Controller number (0x00 to 0x1f)
+0x03    unsigned int8     Gain percentage (0x00 to 0x64)
+0x04    unsigned int8     Velocity (0x00 to 0x64)
+0x05    unknown           00 00 00
+0x08    unsigned int32    Number of points in envelope
+0x0a    unknown           hex values 00 00 00 00 00 00 00 00
+0x14    unsigned int16    X position of point 1 (in ticks)
+0x16    unsigned int16    Y position of point 1 (0x0000 to 0x8000)
+ ...     ...               ...
+ ...    unsigned int16    X position of point *n*
+ ...    unsigned int16    Y position of point *n*
+======  ================  ===================================================
+
+Sample envelope flags
+.....................
+
+=====   =================
+Value   Purpose
+=====   =================
+0x01    enabled
+0x02    sustain
+0x04    loop
+=====   =================
+
+Volume envelope (CHNM 0x102)
+............................
+
+This is a `sample envelope chunk`_.
+
+Panning envelope (CHNM 0x103)
+.............................
+
+This is a `sample envelope chunk`_.
+
+Pitch envelope (CHNM 0x104)
+...........................
+
+This is a `sample envelope chunk`_.
+
+Effect control 1 envelope (CHNM 0x105)
+......................................
+
+This is a `sample envelope chunk`_.
+
+Effect control 2 envelope (CHNM 0x106)
+......................................
+
+This is a `sample envelope chunk`_.
+
+Effect control 3 envelope (CHNM 0x107)
+......................................
+
+This is a `sample envelope chunk`_.
+
+Effect control 4 envelope (CHNM 0x108)
+......................................
+
+This is a `sample envelope chunk`_.
+
+Sampler effect module (CHNM 0x10a)
+..................................
+
+This contains the selected effect, serialized as a sunsynth_.
 
 SpectraVoice module-specific chunks
 -----------------------------------
