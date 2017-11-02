@@ -135,8 +135,8 @@ Type ID   Format            Purpose
 ``LMSK``  unsigned int32    `Modules layer mask`_
 ``CURL``  unsigned int32    Modules current layer (0 to 7)
 ``TIME``  signed int32      Current timeline position
-``SELS``  unsigned int32    Selected module index
-``LGEN``  unsigned int32    Unknown purpose - always has value 0x00000001
+``SELS``  unsigned int32    Index of Last selected module
+``LGEN``  unsigned int32    Index of last selected generator module
 ``PATN``  unsigned int32    Pattern cursor: index of pattern being edited
 ``PATT``  unsigned int32    Pattern cursor: track index
 ``PATL``  unsigned int32    Pattern cursor: line index
