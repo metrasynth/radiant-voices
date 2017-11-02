@@ -74,8 +74,8 @@ Contains a single SunVox module, with chunks in this order:
 
 1.  Empty chunk of type ``SSYN``.
 
-2.  File format version identifier: ``VERS`` type, length 4,
-    unsigned int32 value of 0x00000001.
+2.  SunVox version: ``VERS`` type, unsigned int32.
+    (e.g. 0x01090300 for v1.9.3.0)
 
 3.  `Module chunks`_.
 
