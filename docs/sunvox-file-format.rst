@@ -34,7 +34,7 @@ Then, the data is parsed as a separate container.
 
 ..  note::
 
-    You can use Radiant Voices to inspect the IFF structure
+    You can use Radiant Voices to quickly inspect the IFF structure
     of a SunVox file::
 
         $ python -m rv.lib.iff myproject.sunvox
