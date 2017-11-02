@@ -527,18 +527,18 @@ SunVox assigns a default waveform::
 Analog Generator module-specific chunks
 ---------------------------------------
 
-Analog Generator drawn waveform chunk
-.....................................
+Analog Generator drawn waveform (CHNM 0)
+........................................
 
-This is a `drawn waveform chunk`_ with ``CHNM`` of 0.
+This is a `drawn waveform chunk`_.
 
 Generator module-specific chunks
 --------------------------------
 
-Generator drawn waveform chunk
-..............................
+Generator drawn waveform (CHNM 0)
+.................................
 
-This is a `drawn waveform chunk`_ with ``CHNM`` of 0.
+This is a `drawn waveform chunk`_.
 
 MetaModule module-specific chunks
 ---------------------------------
@@ -553,7 +553,27 @@ To be documented.
 MultiSynth module-specific chunks
 ---------------------------------
 
-To be documented.
+MultiSynth note/velocity curve (CHNM 0)
+.......................................
+
+This is an `array chunk`_:
+
+- Length (in values): 128
+- Data type: unsigned int8
+- Minimum value: 0x00
+- Maximum value: 0xff
+- Default value: 0xff
+
+MultiSynth velocity/velocity curve (CHNM 2)
+...........................................
+
+This is an `array chunk`_:
+
+- Length (in values): 257
+- Data type: unsigned int8
+- Minimum value: 0x00
+- Maximum value: 0xff
+- Default value: Linear curve, ``min(x, 255)``
 
 Sampler module-specific chunks
 ------------------------------
@@ -728,4 +748,4 @@ This is an `array chunk`_:
 - Data type: unsigned int16
 - Minimum value: 0x0000
 - Maximum value: 0xffff
-- Default value: Linear curve, x * 0x100
+- Default value: Linear curve, ``x * 0x100``
