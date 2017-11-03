@@ -92,6 +92,90 @@ class VisibleModuleFlags(IntEnum):
     bypass = 0x4000
 
 
+class LevelMode(IntEnum):
+
+    off = 0
+    mono = 1
+    stereo = 2
+    color = 3
+    glow = 4
+
+
+class Orientation(IntEnum):
+
+    horizontal = 0
+    vertical = 1
+
+
+class OscilloscopeMode(IntEnum):
+
+    off = 0
+    points = 1
+    lines = 2
+    bars = 3
+    bars_2 = 4
+    phase_1 = 5
+    phase_2 = 6
+    xy = 7
+
+
+class Visualization:
+
+    def __init__(self, value):
+        self.value = value
+
+    def __int__(self):
+        return self.value
+
+    @property
+    def level_mode(self):
+        return LevelMode(self.value & 0b11111)
+
+    @level_mode.setter
+    def level_mode(self, v):
+        self.value = self.value - self.level_mode + (v & 0b11111)
+
+    @property
+    def orientation(self):
+        return Orientation(self.value >> 5 & 1)
+
+    @orientation.setter
+    def orientation(self, v):
+        self.value = self.value - (int(self.orientation) << 5) + ((int(v) & 1) << 5)
+
+    @property
+    def oscilloscope_mode(self):
+        return OscilloscopeMode(self.value >> 8 & 0b11111)
+
+    @oscilloscope_mode.setter
+    def oscilloscope_mode(self, v):
+        self.value = self.value - (int(self.oscilloscope_mode) << 8) + ((int(v) & 0b11111) << 8)
+
+    @property
+    def oscilloscope_size(self):
+        return self.value >> 16 & 0xff
+
+    @oscilloscope_size.setter
+    def oscilloscope_size(self, v):
+        self.value = self.value - (self.oscilloscope_size << 16) + (max(0, min(v, 0xff)) << 16)
+
+    @property
+    def bg_transparency(self):
+        return self.value >> 24 & 3
+
+    @bg_transparency.setter
+    def bg_transparency(self, v):
+        self.value = self.value - (self.bg_transparency << 24) + (max(0, min(v, 3)) << 24)
+
+    @property
+    def shadow_opacity(self):
+        return self.value >> 26 & 3
+
+    @shadow_opacity.setter
+    def shadow_opacity(self, v):
+        self.value = self.value - (self.shadow_opacity << 26) + (max(0, min(v, 3)) << 26)
+
+
 class Module(metaclass=ModuleMeta):
     """Abstract base class for all SunVox module classes.
 
@@ -159,6 +243,14 @@ class Module(metaclass=ModuleMeta):
             other = ModuleList(self.parent, other)
         return other
 
+    @property
+    def visualization(self):
+        return Visualization(self._visualization)
+
+    @visualization.setter
+    def visualization(self, v):
+        self._visualization = v
+
     def clone(self):
         synth = Synth(self)
         f = io.BytesIO()
@@ -212,7 +304,7 @@ class Module(metaclass=ModuleMeta):
             yield (b'SZZZ', pack('<i', self.layer))
         yield (b'SSCL', pack('<I', self.scale))
         if in_project:
-            yield (b'SVPR', pack('<I', self.visualization))
+            yield (b'SVPR', pack('<I', int(self.visualization)))
         yield (b'SCOL', pack('BBB', *self.color))
         yield (b'SMII', pack('<I', int(self.midi_in_always) + (self.midi_in_channel << 1)))
         yield (b'SMIC', pack('<I', self.midi_out_channel))

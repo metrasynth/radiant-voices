@@ -26,11 +26,14 @@ Additions
 
 - Add ``MultiSynth.trigger`` option (default: ``False``).
 
-- Add ``ModuleFlags`` and ``VisibleModuleFlags`` for reading/writing
+- Add ``ModuleFlags`` and ``VisibleModuleFlags`` enums for reading/writing
   ``Module.flags``.
 
-- Add ``PatternFlags`` and ``PatternAppearanceFlags`` for reading/writing
+- Add ``PatternFlags`` and ``PatternAppearanceFlags`` enums for reading/writing
   ``Pattern.flags`` and ``Pattern.appearance_flags``.
+
+- Add ``Visualization``, ``LevelMode``, ``Orientation``, and ``OscilloscopeMode``
+  for reading/writing the ``Module.visualization`` structure.
 
 Changes
 .......

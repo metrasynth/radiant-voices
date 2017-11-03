@@ -12,7 +12,16 @@ only need to refer to ``rv.modules.AnalogGenerator`` (instead of
 MODULE_CLASSES = {}  # NOQA
 
 # Must come first to avoid circular imports.
-from .module import Behavior, Chunk, Module
+from .module import (
+    Behavior,
+    Chunk,
+    LevelMode,
+    Module,
+    ModuleFlags,
+    Orientation,
+    OscilloscopeMode,
+    VisibleModuleFlags,
+)
 
 from .amplifier import Amplifier
 from .analoggenerator import AnalogGenerator
@@ -54,11 +63,10 @@ from .waveshaper import WaveShaper
 
 
 __all__ = [
-    'Behavior',
-    'Chunk',
-    'Module',
     'Amplifier',
     'AnalogGenerator',
+    'Behavior',
+    'Chunk',
     'Compressor',
     'DcBlocker',
     'Delay',
@@ -76,12 +84,17 @@ __all__ = [
     'Gpio',
     'Input',
     'Kicker',
+    'LevelMode',
     'Lfo',
     'Loop',
     'MetaModule',
     'Modulator',
+    'Module',
+    'ModuleFlags',
     'MultiCtl',
     'MultiSynth',
+    'Orientation',
+    'OscilloscopeMode',
     'Output',
     'Pitch2Ctl',
     'PitchShifter',
@@ -91,6 +104,7 @@ __all__ = [
     'SpectraVoice',
     'Velocity2Ctl',
     'Vibrato',
+    'VisibleModuleFlags',
     'VocalFilter',
     'VorbisPlayer',
     'WaveShaper',
