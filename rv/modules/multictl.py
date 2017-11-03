@@ -66,7 +66,7 @@ class MultiCtl(Module):
 
     behaviors = {B.sends_controls}
 
-    class Mapping(object):
+    class Mapping:
         def __init__(self, value):
             self.min, self.max, self.controller = value[:3]
 

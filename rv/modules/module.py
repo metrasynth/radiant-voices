@@ -15,7 +15,7 @@ from rv.synth import Synth
 log = logging.getLogger(__name__)
 
 
-class Chunk(object):
+class Chunk:
     """A chunk of custom data related to a module."""
 
     __slots__ = ['chnm', 'chdt', 'chff', 'chfr']
@@ -92,7 +92,7 @@ class VisibleModuleFlags(IntEnum):
     bypass = 0x4000
 
 
-class Module(object, metaclass=ModuleMeta):
+class Module(metaclass=ModuleMeta):
     """Abstract base class for all SunVox module classes.
 
     See `rv.modules.*` Python modules for subclasses that represent

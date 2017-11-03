@@ -23,7 +23,7 @@ class PatternFlags(IntEnum):
 
 
 @attributes
-class Pattern(object):
+class Pattern:
 
     name = attr(None)
     tracks = attr(validator=in_range(1, 16), default=4)
@@ -141,7 +141,7 @@ class Pattern(object):
 
 
 @attributes
-class PatternClone(object):
+class PatternClone:
 
     source = attr()
     flags = attr(default=PatternFlags.clone)

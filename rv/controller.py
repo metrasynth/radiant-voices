@@ -3,7 +3,7 @@ from enum import Enum
 from rv.errors import ControllerValueError
 
 
-class Controller(object):
+class Controller:
     """Defines a type of controller attached to a module.
 
     In Module classes, define controllers in the order they are
@@ -75,7 +75,7 @@ class Controller(object):
         instance.controller_values[self.name] = value
 
 
-class Range(object):
+class Range:
     """Represents a valid range of values for a controller.
 
     Pass instances of `Range` to `Controller` in the `value_type` argument.

@@ -146,7 +146,7 @@ class SpectraVoice(Module):
                 h.type = type
 
 
-class Harmonic(object):
+class Harmonic:
 
     def __init__(self, module, index):
         self.module = module

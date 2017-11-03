@@ -23,7 +23,7 @@ class Slope(Enum):
     toggle = 5
 
 
-class ControllerMidiMap(object):
+class ControllerMidiMap:
     def __init__(self):
         self.channel = 0
         self.message_type = MidiMessageType.unset

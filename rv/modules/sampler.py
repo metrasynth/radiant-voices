@@ -79,7 +79,7 @@ class Sampler(Module):
             for k, v in zip(self.keys(), value):
                 self[k] = v
 
-    class Envelope(object):
+    class Envelope:
         length = 12
         range = None
         initial_x_values = None
@@ -153,7 +153,7 @@ class Sampler(Module):
         initial_y_values = [12, -4, 28, 12, -20, -20,
                             -20, -20, -20, -20, -20, -20]
 
-    class Sample(object):
+    class Sample:
         def __init__(self):
             self.data = b''
             self.loop_start = 0

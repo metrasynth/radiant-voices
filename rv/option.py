@@ -1,4 +1,4 @@
-class Option(object):
+class Option:
     """Defines a boolean option attached to a module.
 
     Options are different from on/off controllers in that options cannot

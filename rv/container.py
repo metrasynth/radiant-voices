@@ -3,7 +3,7 @@ from io import BytesIO
 from rv.lib.iff import write_chunk
 
 
-class Container(object):
+class Container:
 
     def chunks(self):
         raise NotImplementedError()

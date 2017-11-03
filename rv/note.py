@@ -48,7 +48,7 @@ class NOTECMD(IntEnum):
 
 
 @attributes(slots=True)
-class Note(object):
+class Note:
     """A single note, for use within a :py:class:`Pattern`."""
 
     note = attr(convert=NOTECMD, default=NOTECMD.EMPTY)

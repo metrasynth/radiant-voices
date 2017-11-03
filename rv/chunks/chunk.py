@@ -1,7 +1,7 @@
 from struct import pack
 
 
-class Chunk(object):
+class Chunk:
 
     chnm = None
     has_chff = False

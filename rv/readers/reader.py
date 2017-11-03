@@ -21,7 +21,7 @@ def read_sunvox_file(file_or_name):
             file_or_name.close()
 
 
-class Reader(object):
+class Reader:
     """Abstract base class for reading SunVox and SunSynth IFF files"""
 
     def __init__(self, f):

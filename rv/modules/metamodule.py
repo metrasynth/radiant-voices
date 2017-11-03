@@ -80,7 +80,7 @@ class MetaModule(Module):
 
     behaviors = {B.receives_audio, B.receives_notes, B.sends_audio}
 
-    class Mapping(object):
+    class Mapping:
         def __init__(self, value):
             self.module, self.controller = value[0], value[1] + 1
 
