@@ -1,3 +1,4 @@
+from enum import IntEnum
 from struct import pack
 
 from attr import attr, attributes
@@ -8,6 +9,19 @@ from rv.lib.validators import divisible_by, in_range, is_length
 from rv.note import ALL_NOTES, Note, NOTECMD
 
 
+class PatternAppearanceFlags(IntEnum):
+
+    no_icon = 0x01
+
+
+class PatternFlags(IntEnum):
+
+    clone = 0x01
+    selected = 0x02
+    mute = 0x08
+    solo = 0x10
+
+
 @attributes
 class Pattern(object):
 
@@ -15,11 +29,11 @@ class Pattern(object):
     tracks = attr(validator=in_range(1, 16), default=4)
     lines = attr(validator=in_range(1, 2 ** 19), default=32)
     y_size = attr(default=32)
-    appearance_flags = attr(default=0x00000000)
+    appearance_flags = attr(default=0)
     icon = attr(default=b'\0' * 32, validator=is_length(32))
     fg_color = attr(default=(0, 0, 0))
     bg_color = attr(default=(255, 255, 255))
-    flags = attr(default=0x00000000)
+    flags = attr(default=0)
     x = attr(default=0)
     y = attr(default=0)
 
@@ -130,7 +144,7 @@ class Pattern(object):
 class PatternClone(object):
 
     source = attr()
-    flags = attr(default=0x00000001)
+    flags = attr(default=PatternFlags.clone)
     x = attr(default=0)
     y = attr(default=0)
 

@@ -29,6 +29,9 @@ Additions
 - Add ``ModuleFlags`` and ``VisibleModuleFlags`` for reading/writing
   ``Module.flags``.
 
+- Add ``PatternFlags`` and ``PatternAppearanceFlags`` for reading/writing
+  ``Pattern.flags`` and ``Pattern.appearance_flags``.
+
 Changes
 .......
 
