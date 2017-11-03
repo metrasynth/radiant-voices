@@ -35,6 +35,8 @@ Additions
 - Add ``Visualization``, ``LevelMode``, ``Orientation``, and ``OscilloscopeMode``
   for reading/writing the ``Module.visualization`` structure.
 
+- Add ``Project.selected_generator`` attribute.
+
 Changes
 .......
 

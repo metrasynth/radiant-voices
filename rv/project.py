@@ -45,6 +45,7 @@ class Project(Container):
         self.modules_current_layer = 0
         self.timeline_position = 0
         self.selected_module = 0
+        self.selected_generator = 0
         self.current_pattern = 0
         self.current_track = 0
         self.current_line = 1
@@ -116,7 +117,7 @@ class Project(Container):
         yield (b'CURL', pack('<I', self.modules_current_layer))
         yield (b'TIME', pack('<i', self.timeline_position))
         yield (b'SELS', pack('<I', self.selected_module))
-        yield (b'LGEN', getattr(self, '_reader_lgen', b'\x01\0\0\0'))  # ???
+        yield (b'LGEN', pack('<I', self.selected_generator))
         yield (b'PATN', pack('<I', self.current_pattern))
         yield (b'PATT', pack('<I', self.current_track))
         yield (b'PATL', pack('<I', self.current_line))

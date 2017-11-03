@@ -67,7 +67,7 @@ class SunVoxReader(Reader):
         self.object.selected_module, = unpack('<I', data)
 
     def process_lgen(self, data):
-        self.object._reader_lgen = data
+        self.object.selected_generator, = unpack('<I', data)
 
     def process_patn(self, data):
         self.object.current_pattern, = unpack('<I', data)
