@@ -47,3 +47,4 @@ class Lfo(Module):
     channels = Controller(Channels, Channels.stereo)
     frequency_unit = Controller(FrequencyUnit, FrequencyUnit.hz_64)
     duty_cycle = Controller((0, 256), 128)
+    generator = Controller(bool, False)
