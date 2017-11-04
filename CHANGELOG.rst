@@ -37,6 +37,8 @@ Additions
 
 - Add ``Project.selected_generator`` attribute.
 
+- Add ``Lfo.Waveform.triangle``.
+
 Changes
 .......
 

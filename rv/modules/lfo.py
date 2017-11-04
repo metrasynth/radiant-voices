@@ -23,6 +23,7 @@ class Lfo(Module):
         saw = 3
         saw2 = 4
         random = 5
+        triangle = 6
 
     class Channels(Enum):
         stereo = 0
