@@ -22,6 +22,8 @@ Additions
 
 - Add ``Project.time_grid2`` attribute.
 
+- Add ``MultiSynth.curve2_influence`` controller.
+
 - Add ``MetaModule.event_output`` option (default: ``True``).
 
 - Add ``MultiSynth.trigger`` option (default: ``False``).

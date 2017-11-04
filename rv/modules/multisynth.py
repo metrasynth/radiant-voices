@@ -41,6 +41,7 @@ class MultiSynth(Module):
     random_phase = Controller((0, 32768), 0)
     random_velocity = Controller((0, 32768), 0)
     phase = Controller((0, 32768), 0)
+    curve2_influence = Controller((0, 256), 256)
 
     use_static_note_C5 = Option(False)
     ignore_notes_with_zero_velocity = Option(False)
