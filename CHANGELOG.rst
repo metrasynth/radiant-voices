@@ -43,6 +43,8 @@ Additions
 
 - Add ``Lfo.generator`` controller.
 
+- Add ``Reverb.random_seed`` controller.
+
 Changes
 .......
 

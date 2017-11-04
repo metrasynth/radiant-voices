@@ -27,3 +27,4 @@ class Reverb(Module):
     mode = Controller(Mode, Mode.hq)
     all_pass_filter = Controller(bool, True)
     room_size = Controller((0, 128), 16)
+    random_seed = Controller((0, 32768), 0)
