@@ -54,6 +54,9 @@ Changes
 - ``AnalogGenerator.unsmooth_frequency_change`` option is now inverted to
   ``.smooth_frequency_change``.
 
+- More detailed exception message when attempting to set an out-of-range value
+  to a controller.
+
 Fixes
 .....
 
@@ -65,6 +68,10 @@ Fixes
 - Strings now use UTF-8 encoding.
 
 - All module types now have a correct default ``.flags`` attribute.
+
+- After ``MetaModule.update_user_defined_controllers()`` is called,
+  user defined controllers will have correct ``value_type`` set.
+  (This avoids errors such as 44100 being out of the 0..32768 range.)
 
 
 0.3.0 (2017-04-18)

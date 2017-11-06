@@ -1,6 +1,6 @@
 from enum import Enum
 
-from rv.errors import ControllerValueError
+from rv.errors import ControllerValueError, RangeValidationError
 
 
 class Controller:
@@ -44,6 +44,9 @@ class Controller:
     def attached(self, instance):
         return self._attached
 
+    def controller(self, instance):
+        return self
+
     def pattern_value(self, value):
         """Convert a controller value to a pattern value (0x0000-0x8000)"""
         t = self.value_type
@@ -71,7 +74,12 @@ class Controller:
         elif self.value_type is None:
             value = None
         else:
-            value = self.value_type(value)
+            try:
+                value = self.value_type(value)
+            except RangeValidationError as e:
+                evalue, emin, emax = e.args
+                raise ControllerValueError('{:x}({}).{}={} is not within [{}, {}]'.format(
+                    instance.index or 0, instance.mtype, self.name, evalue, emin, emax))
         instance.controller_values[self.name] = value
 
 
@@ -103,8 +111,7 @@ class Range:
 
     def validate(self, value):
         if value < self.min or value > self.max:
-            raise ControllerValueError('{} is not within [{}, {}]'.format(
-                value, self.min, self.max))
+            raise RangeValidationError(value, self.min, self.max)
 
 
 class CompactRange(Range):

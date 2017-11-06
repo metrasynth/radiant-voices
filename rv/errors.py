@@ -10,5 +10,9 @@ class MappingError(RadiantVoicesError, ValueError):
     pass
 
 
+class RangeValidationError(RadiantVoicesError):
+    pass
+
+
 class EmptySynthError(RadiantVoicesError):
     pass

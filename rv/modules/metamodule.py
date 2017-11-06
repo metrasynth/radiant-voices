@@ -53,17 +53,17 @@ class UserDefinedProxy(Controller):
             ctl = instance.user_defined[self.index]
             return ctl.__set__(instance, value)
 
+    def controller(self, instance):
+        return instance.user_defined[self.index]
+
     def attached(self, instance):
-        ctl = instance.user_defined[self.index]
-        return ctl.attached(instance)
+        return self.controller(instance).attached(instance)
 
     def attach(self, instance):
-        ctl = instance.user_defined[self.index]
-        return ctl.attach(instance)
+        return self.controller(instance).attach(instance)
 
     def detach(self, instance):
-        ctl = instance.user_defined[self.index]
-        return ctl.detach(instance)
+        return self.controller(instance).detach(instance)
 
 
 class MetaModule(Module):

@@ -8,6 +8,7 @@ from struct import pack
 from logutils import BraceMessage as _F
 from rv import ENCODING
 from rv.cmidmap import ControllerMidiMap
+from rv.errors import ControllerValueError, RangeValidationError
 from rv.modules.meta import ModuleMeta
 from rv.readers.reader import read_sunvox_file
 from rv.synth import Synth
@@ -196,7 +197,7 @@ class Module(metaclass=ModuleMeta):
     options_chnm = 0
 
     def __init__(self, **kw):
-        self.index = None
+        self.index = kw.get('index', None)
         self.parent = kw.get('parent', None)
         self.controller_values = OrderedDict()
         self.controller_midi_maps = defaultdict(ControllerMidiMap)
@@ -274,10 +275,15 @@ class Module(metaclass=ModuleMeta):
 
     def set_raw(self, name, raw_value):
         """Set the value for the named controller based on given raw value."""
-        controller = self.controllers[name]
+        controller = self.controllers[name].controller(self)
         value_type = controller.value_type
         from_raw_value = getattr(value_type, 'from_raw_value', int)
-        value = value_type(from_raw_value(raw_value))
+        try:
+            value = value_type(from_raw_value(raw_value))
+        except RangeValidationError as e:
+            evalue, emin, emax = e.args
+            raise ControllerValueError('{:x}({}).{}={} is not within [{}, {}]'.format(
+                self.index or 0, self.mtype, name, evalue, emin, emax))
         self.controller_values[name] = value
 
     def propagate_down(self, controller_name, value):

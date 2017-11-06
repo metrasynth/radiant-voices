@@ -16,12 +16,12 @@ class ModuleReader(Reader):
     def __init__(self, f, index):
         super(ModuleReader, self).__init__(f)
         self._index = index
-        self._current_controller = 0
         self._current_chunk = None
+        self._cvals = []
 
     def process_chunks(self):
         if self._index > 0:
-            self.object = Module()
+            self.object = Module(index=self._index)
         else:
             self.object = Output()
         super().process_chunks()
@@ -105,21 +105,19 @@ class ModuleReader(Reader):
 
     def process_cval(self, data):
         raw_value, = unpack('<i', data)
-        if self._current_controller < len(self._controller_keys):
-            controller_name = self._controller_keys[self._current_controller]
-            log.debug(_F('Setting {} from raw {}', controller_name, raw_value))
-            self.object.set_raw(controller_name, raw_value)
-        else:
-            log.warning(_F('Unsupported controller at index {} with raw value {}',
-                        self._current_controller, raw_value))
-        self._current_controller += 1
+        self._cvals.append(raw_value)
+
+    def _load_last_chnk(self):
+        if self._current_chunk:
+            self.object.load_chunk(self._current_chunk)
+            self._current_chunk = None
 
     def process_chnk(self, data):
         val, = unpack('<I', data)
         self.object._reader_chnk = val
 
     def process_chnm(self, data):
-        self._compensate_for_older_sunvox_file_format()
+        self._load_last_chnk()
         self._current_chunk = Chunk()
         self._current_chunk.chnm, = unpack('<I', data)
 
@@ -131,28 +129,30 @@ class ModuleReader(Reader):
 
     def process_chfr(self, data):
         self._current_chunk.chfr, = unpack('<I', data)
-        self.object.load_chunk(self._current_chunk)
-        self._current_chunk = None
 
     def process_cmid(self, data):
         self.object.load_cmid(data)
 
     def process_send(self, data):
-        self._compensate_for_older_sunvox_file_format()
-        if hasattr(self.object, '_reader_chnk'):
-            chnk = self.object._reader_chnk
-            expected_chnk = max(0x10, self.object.chnk)
-            if chnk != expected_chnk:
+        self._load_last_chnk()
+        chnk = getattr(self.object, '_reader_chnk', None)
+        if chnk:
+            valid = self.object.chnk
+            valid_is_set = isinstance(valid, set)
+            not_matching = not valid_is_set and chnk != valid
+            not_in_set = valid_is_set and chnk not in valid
+            if not_matching or not_in_set:
                 log.warning(_F('{} expected CHNK {}, got {}',
-                            self.object, expected_chnk, chnk))
+                               self.object, self.object.chnk, chnk))
+            self.object.finalize_load()
+        if self.object.mtype == 'MetaModule':
+            self.object.update_user_defined_controllers()
+        for cnum, raw_value in enumerate(self._cvals):
+            if cnum < len(self._controller_keys):
+                controller_name = self._controller_keys[cnum]
+                log.debug(_F('Setting {} from raw {}', controller_name, raw_value))
+                self.object.set_raw(controller_name, raw_value)
+            else:
+                log.warning(_F('Unsupported controller at index {} with raw value {}',
+                               cnum, raw_value))
         raise ReaderFinished()
-
-    def _compensate_for_older_sunvox_file_format(self):
-        if self._current_chunk is not None:
-            # Compensate for variations of SunVox file-writing where
-            # CHFF and CHFR are not written when their value is 0.
-            c = self._current_chunk
-            c.chff = 0 if c.chff is None else c.chff
-            c.chfr = 0 if c.chfr is None else c.chfr
-            self.object.load_chunk(c)
-            self._current_chunk = None
