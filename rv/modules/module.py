@@ -216,6 +216,7 @@ class Module(metaclass=ModuleMeta):
         self.color = kw.get('color', (255, 255, 255))
         self.midi_in_always = kw.get('midi_in_always', False)
         self.midi_in_channel = kw.get('midi_in_channel', 0)
+        self.midi_out_name = kw.get('midi_out_name', None)
         self.midi_out_channel = kw.get('midi_out_channel', 0)
         self.midi_out_bank = kw.get('midi_out_bank', -1)
         self.midi_out_program = kw.get('midi_out_program', -1)
@@ -307,6 +308,8 @@ class Module(metaclass=ModuleMeta):
             yield (b'SVPR', pack('<I', int(self.visualization)))
         yield (b'SCOL', pack('BBB', *self.color))
         yield (b'SMII', pack('<I', int(self.midi_in_always) + (self.midi_in_channel << 1)))
+        if self.midi_out_name:
+            yield (b'SMIN', self.midi_out_name.encode(ENCODING) + b'\0')
         yield (b'SMIC', pack('<I', self.midi_out_channel))
         yield (b'SMIB', pack('<i', self.midi_out_bank))
         yield (b'SMIP', pack('<i', self.midi_out_program))

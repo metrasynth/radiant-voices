@@ -57,6 +57,8 @@ Changes
 Fixes
 .....
 
+- ``SMIN`` (module MIDI output device name) is now correctly read and written.
+
 - ``SMII`` and ``SMIC`` chunks are now encoded as unsigned int32
   (was previously signed).
 
