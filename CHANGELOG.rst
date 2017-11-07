@@ -73,6 +73,10 @@ Fixes
   user defined controllers will have correct ``value_type`` set.
   (This avoids errors such as 44100 being out of the 0..32768 range.)
 
+- In ``MetaModule``, when a user defined controller mapping points to
+  a non-existent module, the mapping will be ignored.
+  (Was throwing an ``AttributeError``)
+
 
 0.3.0 (2017-04-18)
 ------------------

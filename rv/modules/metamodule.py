@@ -106,9 +106,11 @@ class MetaModule(Module):
             project = metamodule.project
             items = zip(metamodule.mappings.values, metamodule.user_defined)
             for mapping, user_defined_controller in items:
-                if mapping.module == 0:
+                if mapping.module == 0 or mapping.module >= len(project.modules):
                     continue
                 mod = project.modules[mapping.module]
+                if not mod:
+                    continue
                 controller_index = mapping.controller - 1
                 controller = list(mod.controllers.values())[controller_index]
                 user_defined_controller.value_type = controller.value_type
