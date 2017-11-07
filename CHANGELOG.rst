@@ -77,6 +77,10 @@ Fixes
   a non-existent module, the mapping will be ignored.
   (Was throwing an ``AttributeError``)
 
+- When ``Module`` options are loaded from older projects,
+  assume ``0`` as a default value if there are not enough bytes.
+  (Was throwing an ``IndexError``)
+
 
 0.3.0 (2017-04-18)
 ------------------

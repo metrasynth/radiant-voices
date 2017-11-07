@@ -353,5 +353,8 @@ class Module(metaclass=ModuleMeta):
 
     def load_options(self, chunk):
         for i, name in enumerate(self.options.keys()):
-            value = chunk.chdt[i]
+            if i >= len(chunk.chdt):
+                value = 0
+            else:
+                value = chunk.chdt[i]
             setattr(self, name, value)
