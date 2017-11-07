@@ -1,3 +1,7 @@
+import logging
+from logutils import BraceMessage as _F
+log = logging.getLogger(__name__)
+
 from collections import OrderedDict
 from enum import Enum
 from io import BytesIO
@@ -8,6 +12,7 @@ from rv.controller import Controller
 from rv.modules import Behavior as B, Module
 from rv.note import NOTE
 from rv.option import Option
+from rv.readers.reader import read_sunvox_file
 
 
 class Sampler(Module):
@@ -24,7 +29,7 @@ class Sampler(Module):
 
     name = mtype = 'Sampler'
     mgroup = 'Synth'
-    chnk = 0x0102
+    chnk = {0x0102, 0x0109}
     options_chnm = 0x0101
     flags = 0x008459
 
@@ -50,6 +55,7 @@ class Sampler(Module):
         ping_pong = 2
 
     class Format(Enum):
+        unknown = 0
         int8 = 1
         int16 = 2
         float32 = 4
@@ -80,29 +86,37 @@ class Sampler(Module):
                 self[k] = v
 
     class Envelope:
-        length = 12
+        chnm = None
         range = None
-        initial_x_values = None
-        initial_y_values = None
-        initial_active_points = None
+        initial_points = None
         initial_sustain_point = None
         initial_loop_start_point = None
         initial_loop_end_point = None
         initial_enable = None
         initial_sustain = None
         initial_loop = None
-        format = '<' + 'H' * length * 2
+        initial_controller_number = 0
+        initial_gain_percentage = 100
+        initial_velocity = 0
+        initial_controller = 0
+        _legacy_point_bytes = None
+        _legacy_active_points = None
+        _legacy_sustain_point = None
+        _legacy_loop_start_point = None
+        _legacy_loop_end_point = None
+        _legacy_bitmask = None
 
         def __init__(self):
-            self.x_values = self.initial_x_values.copy()
-            self.y_values = self.initial_y_values.copy()
-            self.active_points = self.initial_active_points
+            self.points = self.initial_points.copy()
             self.sustain_point = self.initial_sustain_point
             self.loop_start_point = self.initial_loop_start_point
             self.loop_end_point = self.initial_loop_end_point
             self.enable = self.initial_enable
             self.sustain = self.initial_sustain
             self.loop = self.initial_loop
+            self.controller_number = self.initial_controller_number
+            self.gain_percentage = self.initial_gain_percentage
+            self.velocity = self.initial_velocity
 
         @property
         def bitmask(self):
@@ -116,42 +130,127 @@ class Sampler(Module):
 
         @property
         def point_bytes(self):
-            y_points = (y - self.range[0] for y in self.y_values)
-            values = list(chain.from_iterable(zip(self.x_values, y_points)))
-            return pack(self.format, *values)
+            y_points = (y - self.range[0] for y in self._y_values)
+            values = list(chain.from_iterable(zip(self._x_values, y_points)))
+            return pack('<' + 'H' * len(values), *values)
 
-        @point_bytes.setter
-        def point_bytes(self, value):
-            values = unpack(self.format, value)
-            for i in range(self.length):
-                x, y = values[i * 2], values[i * 2 + 1]
-                y += self.range[0]
-                self.x_values[i], self.y_values[i] = x, y
+        @property
+        def _x_values(self):
+            values = [x for x, y in self.points]
+            while len(values) < 12:
+                values.append(0)
+            return values[:12]
+
+        @property
+        def _y_values(self):
+            values = [y / 0x200 for x, y in self.points]
+            while len(values) < 12:
+                values.append(0)
+            return values[:12]
+
+        def chunks(self):
+            yield (b'CHNM', pack('<I', self.chnm))
+            data = pack('<HBBB', self.bitmask, self.controller_number,
+                        self.gain_percentage, self.velocity)
+            data += b'\0\0\0'
+            data += pack('<I', len(self.points))
+            data += b'\0\0\0\0\0\0\0\0'
+            for x, y in self.points:
+                y -= self.range[0]
+                data += pack('<HH', x, y)
+            yield (b'CHDT', data)
+
+        def load_chdt(self, chdt):
+            pass
 
     class VolumeEnvelope(Envelope):
-        range = (0, 40)
-        initial_active_points = 4
+        """
+        CHNM  00000000: 02 01 00 00                                       ....
+
+        CHDT  00000000: 03 00 00 64 00 00 00 00  04 00 00 00 00 00 00 00  ...d............
+              00000010: 00 00 00 00 00 00 00 80  08 00 00 00 80 00 00 00  ................
+              00000020: 00 01 00 00                                       ....
+        """
+        chnm = 0x102
+        range = (0, 0x8000)
         initial_enable = True
         initial_loop = False
         initial_loop_start_point = 0
         initial_loop_end_point = 0
         initial_sustain = True
         initial_sustain_point = 0
-        initial_x_values = [0, 8, 128, 256, 0, 0, 0, 0, 0, 0, 0, 0]
-        initial_y_values = [64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        initial_points = [
+            (0, 0x8000),
+            (8, 0),
+            (0x80, 0),
+            (0x100, 0),
+        ]
 
     class PanningEnvelope(Envelope):
-        range = (-20, 20)
-        initial_active_points = 4
+        """
+        CHNM  00000000: 03 01 00 00                                       ....
+
+        CHDT  00000000: 00 00 00 64 00 00 00 00  04 00 00 00 00 00 00 00  ...d............
+              00000010: 00 00 00 00 00 00 00 40  40 00 00 20 80 00 00 60  .......@@.. ...`
+              00000020: B4 00 00 40                                       ...@
+        """
+        chnm = 0x103
+        range = (-0x4000, 0x4000)
         initial_enable = False
         initial_loop = False
         initial_loop_start_point = 0
         initial_loop_end_point = 0
         initial_sustain = False
         initial_sustain_point = 0
-        initial_x_values = [0, 64, 128, 180, 0, 0, 0, 0, 0, 0, 0, 0]
-        initial_y_values = [12, -4, 28, 12, -20, -20,
-                            -20, -20, -20, -20, -20, -20]
+        initial_points = [
+            (0, 0),
+            (0x40, -0x2000),
+            (0x80, 0x2000),
+            (0xb4, 0),
+        ]
+
+    class PitchEnvelope(Envelope):
+        """
+        CHNM  00000000: 04 01 00 00                                       ....
+
+        CHDT  00000000: 00 00 00 64 00 00 00 00  02 00 00 00 00 00 00 00  ...d............
+              00000010: 00 00 00 00 00 00 00 40  40 00 00 40              .......@@..@
+        """
+        chnm = 0x104
+        range = (-0x4000, 0x4000)
+        initial_enable = False
+        initial_loop = False
+        initial_loop_start_point = 0
+        initial_loop_end_point = 0
+        initial_sustain = False
+        initial_sustain_point = 0
+        initial_points = [
+            (0, 0),
+            (0x40, 0),
+        ]
+
+    class EffectControlEnvelope(Envelope):
+        """
+        CHNM  00000000: 05 01 00 00                                       ....
+
+        CHDT  00000000: 00 00 00 64 00 00 00 00  02 00 00 00 00 00 00 00  ...d............
+              00000010: 00 00 00 00 00 00 00 80  40 00 00 80              ........@...
+        """
+        range = (0, 0x8000)
+        initial_enable = False
+        initial_loop = False
+        initial_loop_start_point = 0
+        initial_loop_end_point = 0
+        initial_sustain = False
+        initial_sustain_point = 0
+        initial_points = [
+            (0, 0x8000),
+            (0x40, 0x8000),
+        ]
+
+        def __init__(self, chnm):
+            super().__init__()
+            self.chnm = chnm
 
     class Sample:
         def __init__(self):
@@ -204,6 +303,13 @@ class Sampler(Module):
         super(Sampler, self).__init__(**kwargs)
         self.volume_envelope = self.VolumeEnvelope()
         self.panning_envelope = self.PanningEnvelope()
+        self.pitch_envelope = self.PitchEnvelope()
+        self.effect_control_envelopes = [
+            self.EffectControlEnvelope(0x105),
+            self.EffectControlEnvelope(0x106),
+            self.EffectControlEnvelope(0x107),
+            self.EffectControlEnvelope(0x108),
+        ]
         self.note_samples = self.NoteSampleMap()
         self.samples = [None] * 128
         self.unknown1 = b'\0' * 28
@@ -211,10 +317,25 @@ class Sampler(Module):
         self.unknown3 = b'\x40\x00\x80\x00\x00\x00\x00\x00'
         self.unknown4 = b'\x04\x00\x00\x00'
         self.unknown5 = b'\0' * 9
+        self.effect = None
 
     def specialized_iff_chunks(self):
-        for chunk in self.envelope_chunks():
-            yield chunk
+        iters = [
+            self.global_config_chunks(),
+            self.envelope_config_chunks(),
+            self.volume_envelope.chunks(),
+            self.panning_envelope.chunks(),
+            self.pitch_envelope.chunks(),
+            self.effect_control_envelopes[0].chunks(),
+            self.effect_control_envelopes[1].chunks(),
+            self.effect_control_envelopes[2].chunks(),
+            self.effect_control_envelopes[3].chunks(),
+        ]
+        if self.effect:
+            iters += self.effect.chunks()
+        for iter in iters:
+            for chunk in iter:
+                yield chunk
         for chunk in super(Sampler, self).specialized_iff_chunks():
             yield chunk
         for i, sample in enumerate(self.samples):
@@ -222,13 +343,11 @@ class Sampler(Module):
                 for chunk in self.sample_chunks(i, sample):
                     yield chunk
 
-    def envelope_chunks(self):
-        f = BytesIO()
-        w = f.write
-
+    def global_config_chunks(self):
         def b(v):
             return pack('<B', v)
-
+        f = BytesIO()
+        w = f.write
         w(self.unknown1)
         compacted_samples = self.samples.copy()
         while compacted_samples and compacted_samples[-1] is None:
@@ -240,8 +359,8 @@ class Sampler(Module):
         pan = self.panning_envelope
         w(vol.point_bytes)
         w(pan.point_bytes)
-        w(b(vol.active_points))
-        w(b(pan.active_points))
+        w(b(len(vol.points)))
+        w(b(len(pan.points)))
         w(b(vol.sustain_point))
         w(b(vol.loop_start_point))
         w(b(vol.loop_end_point))
@@ -264,6 +383,10 @@ class Sampler(Module):
         yield (b'CHDT', f.getvalue())
         f.close()
 
+    def envelope_config_chunks(self):
+        yield (b'CHNM', pack('<I', 0x101))
+        yield (b'CHDT', b'\x00\x00\x00\x00\x00\x00')
+
     def sample_chunks(self, i, sample):
         f = BytesIO()
         w = f.write
@@ -272,10 +395,15 @@ class Sampler(Module):
         w(pack('<I', sample.loop_end))
         w(pack('<B', sample.volume))
         w(pack('<b', sample.finetune))
-        format_flag = {self.Format.int8: 0x00, self.Format.int16: 0x10,
-                       self.Format.float32: 0x20}[sample.format]
-        channels_flag = {self.Channels.mono: 0x00,
-                         self.Channels.stereo: 0x40}[sample.channels]
+        format_flag = {
+            self.Format.int8: 0x00,
+            self.Format.int16: 0x10,
+            self.Format.float32: 0x20,
+        }[sample.format]
+        channels_flag = {
+            self.Channels.mono: 0x00,
+            self.Channels.stereo: 0x40,
+        }[sample.channels]
         loop_format_flags = \
             sample.loop_type.value | format_flag | channels_flag
         w(pack('<B', loop_format_flags))
@@ -289,34 +417,49 @@ class Sampler(Module):
         yield (b'CHDT', sample.data)
         yield (b'CHFF', pack(
             '<I', sample.format.value | sample.channels.value))
-        yield (b'CHFR', pack('<I', sample.rate))
+        if sample.rate != 44100:
+            yield (b'CHFR', pack('<I', sample.rate))
 
     def load_chunk(self, chunk):
-        if chunk.chnm == self.options_chnm:
+        chnm = chunk.chnm
+        chdt = chunk.chdt
+        if chnm == self.options_chnm:
             self.load_options(chunk)
-        elif chunk.chnm == 0:
+        elif chnm == 0:
             self.load_envelopes(chunk)
-        elif chunk.chnm % 2 == 1:
+        elif chnm < 0x101 and chnm % 2 == 1:
             self.load_sample_meta(chunk)
-        elif chunk.chnm % 2 == 0:
+        elif chnm < 0x101 and chnm % 2 == 0:
             self.load_sample_data(chunk)
+        elif chnm == 0x101:
+            self._unknown_0x101 = chdt
+        elif chnm == 0x102:
+            self.volume_envelope.load_chdt(chdt)
+        elif chnm == 0x103:
+            self.panning_envelope.load_chdt(chdt)
+        elif chnm == 0x104:
+            self.pitch_envelope.load_chdt(chdt)
+        elif 0x105 <= chnm <= 0x108:
+            self.effect_control_envelopes[chnm - 0x105].load_chdt(chdt)
+        elif chnm == 0x10a:
+            self.effect = read_sunvox_file(BytesIO(chdt))
 
     def load_envelopes(self, chunk):
         data = chunk.chdt
         vol = self.volume_envelope
         pan = self.panning_envelope
-        vol.point_bytes = data[0x84:0xb4]
-        pan.point_bytes = data[0xb4:0xe4]
-        vol.active_points = data[0xe4]
-        pan.active_points = data[0xe5]
-        vol.sustain_point = data[0xe6]
-        vol.loop_start_point = data[0xe7]
-        vol.loop_end_point = data[0xe8]
-        pan.sustain_point = data[0xe9]
-        pan.loop_start_point = data[0xea]
-        pan.loop_end_point = data[0xeb]
-        vol.bitmask = data[0xec]
-        pan.bitmask = data[0xed]
+        vol._legacy_point_bytes = data[0x84:0xb4]
+        pan._legacy_point_bytes = data[0xb4:0xe4]
+        vol._legacy_active_points = data[0xe4]
+        pan._legacy_active_points = data[0xe5]
+        vol._legacy_sustain_point = data[0xe6]
+        vol._legacy_loop_start_point = data[0xe7]
+        vol._legacy_loop_end_point = data[0xe8]
+        pan._legacy_sustain_point = data[0xe9]
+        pan._legacy_loop_start_point = data[0xea]
+        pan._legacy_loop_end_point = data[0xeb]
+        vol._legacy_bitmask = data[0xec]
+        pan._legacy_bitmask = data[0xed]
         self.vibrato_type = self.VibratoType(data[0xee])
         self.vibrato_attack = data[0xef]
         self.vibrato_depth = data[0xf0]
@@ -358,3 +501,52 @@ class Sampler(Module):
         sample.format = self.Format(chunk.chff & 0x07)
         sample.channels = self.Channels(chunk.chff & 0x08)
         sample.rate = chunk.chfr
+
+    def finalize_load(self):
+        chnk = getattr(self, '_reader_chnk', None)
+        if chnk == 0x102:
+            self._upgrade_102_to_109()
+        elif chnk != 0x109:
+            log.warning(_F('Unknown Sampler CHNK {}', chnk))
+
+    def _upgrade_102_to_109(self):
+        log.info(_F('Upgrading Sampler{} from 0x102 to 0x109 format',
+                    '[{}]'.format(self.index) if self.index is not None else ''))
+        vol = self.volume_envelope
+        pan = self.panning_envelope
+        vol.sustain_point = vol._legacy_sustain_point
+        vol.loop_start_point = vol._legacy_loop_start_point
+        vol.loop_end_point = vol._legacy_loop_end_point
+        pan.sustain_point = pan._legacy_sustain_point
+        pan.loop_start_point = pan._legacy_loop_start_point
+        pan.loop_end_point = pan._legacy_loop_end_point
+        vol_x_points = [
+            unpack('<H', vol._legacy_point_bytes[4 * i:4 * i + 2])[0] * 0x200
+            for i
+            in range(vol._legacy_active_points)
+        ]
+        pan_x_points = [
+            (unpack('<H', pan._legacy_point_bytes[4 * i:4 * i + 2])[0] - 0x20) * 0x200
+            for i
+            in range(pan._legacy_active_points)
+        ]
+        vol_y_points = [
+            unpack('<H', vol._legacy_point_bytes[4 * i + 2:4 * i + 4])[0]
+            for i
+            in range(vol._legacy_active_points)
+        ]
+        pan_y_points = [
+            unpack('<H', pan._legacy_point_bytes[4 * i + 2:4 * i + 4])[0]
+            for i
+            in range(pan._legacy_active_points)
+        ]
+        vol.points = [
+            (vol_x_points[i], vol_y_points[i])
+            for i
+            in range(vol._legacy_active_points)
+        ]
+        pan.points = [
+            (pan_x_points[i], pan_y_points[i])
+            for i
+            in range(pan._legacy_active_points)
+        ]

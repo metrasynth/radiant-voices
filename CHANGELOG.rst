@@ -45,6 +45,13 @@ Additions
 
 - Add ``Reverb.random_seed`` controller.
 
+- Add ``Sampler.pitch_envelope`` and ``Sampler.effect_control_envelopes[]``
+  containing new envelopes from SunVox 1.9.3.
+
+- Add ``Sampler.effect`` to contain an optional ``SunSynth`` instance
+  which in turn contains the effect being modulated by the
+  effect control envelopes.
+
 Changes
 .......
 
@@ -53,6 +60,9 @@ Changes
 
 - ``AnalogGenerator.unsmooth_frequency_change`` option is now inverted to
   ``.smooth_frequency_change``.
+
+- Update ``Sampler`` and ``Sampler.Envelope`` to support SunVox 1.9.3 format.
+  When a pre-1.9.3 formatted Sampler is loaded, it will be upgraded to 1.9.3 format.
 
 - More detailed exception message when attempting to set an out-of-range value
   to a controller.

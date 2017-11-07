@@ -622,12 +622,12 @@ Waveform chunk
 These types of chunks contain sample data in their ``CHDT``,
 and have two additional IFF chunks:
 
-========  ====================  =======================================================
+========  ====================  =========================================================
 Type ID   Format                Purpose
-========  ====================  =======================================================
+========  ====================  =========================================================
 ``CHFF``  bitmap (4 bytes)      `Chunk audio format bitmap`_
-``CHFR``  unsigned int32        Chunk audio freq
-========  ====================  =======================================================
+``CHFR``  unsigned int32        Chunk audio freq (default 44100; not written if default)
+========  ====================  =========================================================
 
 Chunk audio format bitmap
 .........................
@@ -637,6 +637,7 @@ The first 3 bits specify the format, and the 4th bit is a stereo flag:
 =====   =================   ======
 Value   Format              Stereo
 =====   =================   ======
+0x00    ?                   ?
 0x01    8-bit signed int    No
 0x02    16-bit signed int   No
 0x04    32-bit float        No
@@ -780,11 +781,6 @@ This is an `array chunk`_:
 Sampler module-specific chunks
 ------------------------------
 
-..  note::
-
-    This is only accurate through SunVox 1.9.2.
-    Efforts are underway to update this to reflect SunVox 1.9.3-beta1.
-
 Sampler global configuration (CHNM 0)
 .....................................
 
@@ -797,47 +793,47 @@ Offset  Type              Purpose
 0x00    zeros             Reserved (offset 0x00 to 0x1b)
 0x1c    unsigned int32    Max sample index + 1 (0 for no samples)
 0x20    zeros             Reserved (offset 0x20 to 0x23)
-0x24    unsigned int8     Sample number for note C-0 (note 0)
+0x24    unsigned int8     Legacy sample number for note C-0 (note 0)
  ...     ...               ...
-0x83    unsigned int8     Sample number for note B-8 (note 95)
-0x84                      Volume envelope point 0
+0x83    unsigned int8     Legacy sample number for note B-8 (note 95)
+0x84                      Legacy volume envelope point 0
 0x84    unsigned int16    - X Position (always 0 for point 0)
 0x86    unsigned int16    - Y Position (0x00 to 0x40)
-0x88                      Volume envelope point 1
-0x8c                      Volume envelope point 2
-0x90                      Volume envelope point 3
-0x94                      Volume envelope point 4
-0x98                      Volume envelope point 5
-0x9c                      Volume envelope point 6
-0xa0                      Volume envelope point 7
-0xa4                      Volume envelope point 8
-0xa8                      Volume envelope point 9
-0xac                      Volume envelope point 10
-0xb0                      Volume envelope point 11
-0xb4                      Panning envelope point 0
+0x88                      Legacy volume envelope point 1
+0x8c                      Legacy volume envelope point 2
+0x90                      Legacy volume envelope point 3
+0x94                      Legacy volume envelope point 4
+0x98                      Legacy volume envelope point 5
+0x9c                      Legacy volume envelope point 6
+0xa0                      Legacy volume envelope point 7
+0xa4                      Legacy volume envelope point 8
+0xa8                      Legacy volume envelope point 9
+0xac                      Legacy volume envelope point 10
+0xb0                      Legacy volume envelope point 11
+0xb4                      Legacy panning envelope point 0
 0xb4    unsigned int16    - X Position (always 0 for point 0)
 0xb6    unsigned int16    - Y Position (0x00 to 0x40, center at 0x20)
-0xb8                      Panning envelope point 1
-0xbc                      Panning envelope point 2
-0xc0                      Panning envelope point 3
-0xc4                      Panning envelope point 4
-0xc8                      Panning envelope point 5
-0xcc                      Panning envelope point 6
-0xd0                      Panning envelope point 7
-0xd4                      Panning envelope point 8
-0xd8                      Panning envelope point 9
-0xdc                      Panning envelope point 10
-0xe0                      Panning envelope point 11
-0xe4    unsigned int8     Number of active volume envelope points
-0xe5    unsigned int8     Number of active panning envelope points
-0xe6    unsigned int8     Volume sustain point
-0xe7    unsigned int8     Volume loop start point
-0xe8    unsigned int8     Volume loop end point
-0xe9    unsigned int8     Pan sustain point
-0xea    unsigned int8     Pan loop start point
-0xeb    unsigned int8     Pan loop end point
-0xec    bitmap            Volume `envelope bitmap`_
-0xed    bitmask           Panning `envelope bitmap`_
+0xb8                      Legacy panning envelope point 1
+0xbc                      Legacy panning envelope point 2
+0xc0                      Legacy panning envelope point 3
+0xc4                      Legacy panning envelope point 4
+0xc8                      Legacy panning envelope point 5
+0xcc                      Legacy panning envelope point 6
+0xd0                      Legacy panning envelope point 7
+0xd4                      Legacy panning envelope point 8
+0xd8                      Legacy panning envelope point 9
+0xdc                      Legacy panning envelope point 10
+0xe0                      Legacy panning envelope point 11
+0xe4    unsigned int8     Legacy number of active volume envelope points
+0xe5    unsigned int8     Legacy number of active panning envelope points
+0xe6    unsigned int8     Legacy volume sustain point
+0xe7    unsigned int8     Legacy volume loop start point
+0xe8    unsigned int8     Legacy volume loop end point
+0xe9    unsigned int8     Legacy pan sustain point
+0xea    unsigned int8     Legacy pan loop start point
+0xeb    unsigned int8     Legacy pan loop end point
+0xec    bitmap            Legacy volume `envelope bitmap`_
+0xed    bitmask           Legacy panning `envelope bitmap`_
 0xee    unsigned int8     Vibrato type (0 = sin, 1 = saw, 2 = square)
 0xef    unsigned int8     Vibrato attack
 0xf0    unsigned int8     Vibrato depth
@@ -940,8 +936,10 @@ Offset  Type              Purpose
 0x03    unsigned int8     Gain percentage (0x00 to 0x64)
 0x04    unsigned int8     Velocity (0x00 to 0x64)
 0x05    unknown           00 00 00
-0x08    unsigned int32    Number of points in envelope
-0x0a    unknown           hex values 00 00 00 00 00 00 00 00
+0x08    unsigned int16    Number of points in envelope
+0x0a    unsigned int16    Sustain point
+0x0c    unsigned int16    Loop start point
+0x0e    unsigned int16    Loop end point
 0x14    unsigned int16    X position of point 1 (in ticks)
 0x16    unsigned int16    Y position of point 1 (0x0000 to 0x8000)
  ...     ...               ...

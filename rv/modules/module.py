@@ -22,7 +22,9 @@ class Chunk:
     __slots__ = ['chnm', 'chdt', 'chff', 'chfr']
 
     def __init__(self):
-        self.chnm = self.chdt = self.chff = self.chfr = None
+        self.chnm = self.chdt = None
+        self.chff = 0
+        self.chfr = 44100
 
 
 class ModuleList(list):
@@ -358,3 +360,6 @@ class Module(metaclass=ModuleMeta):
             else:
                 value = chunk.chdt[i]
             setattr(self, name, value)
+
+    def finalize_load(self):
+        pass
