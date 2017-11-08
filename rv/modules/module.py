@@ -360,7 +360,7 @@ class Module(metaclass=ModuleMeta):
                 value = 0
             else:
                 value = chunk.chdt[i]
-            setattr(self, name, value)
+            self.option_values[name] = value
 
     def finalize_load(self):
         pass

@@ -21,7 +21,11 @@ class Option:
         Option._next_order += 1
 
     def __get__(self, instance, owner):
-        return instance.option_values[self.name]
+        value = instance.option_values[self.name]
+        if self.inverted:
+            return not value
+        else:
+            return value
 
     def __set__(self, instance, value):
         if self.range is None:
