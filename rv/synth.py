@@ -23,24 +23,24 @@ class Synth(Container):
             raise EmptySynthError('Cannot serialize a synth with no module')
         yield self.MAGIC_CHUNK
         yield (b'VERS', pack('<I', self.sunsynth_version))
-        module = self.module
-        for chunk in module.iff_chunks(in_project=False):
+        mod = self.module
+        for chunk in mod.iff_chunks(in_project=False):
             yield chunk
-        recompute = getattr(module, 'recompute_controller_attachment',
+        recompute = getattr(mod, 'recompute_controller_attachment',
                             lambda: None)
         recompute()
         ctl_count = 0
-        controllers = [(n, c) for n, c in module.controllers.items()
-                       if c.attached(module)]
+        controllers = [(n, c) for n, c in mod.controllers.items()
+                       if c.attached(mod)]
         for name, ctl in controllers:
-            if ctl.attached(module):
-                raw_value = module.get_raw(name)
+            if ctl.attached(mod):
+                raw_value = mod.get_raw(name)
                 yield (b'CVAL', pack('<I', raw_value))
                 ctl_count += 1
         if ctl_count:
-            yield (b'CMID', b''.join(module.controller_midi_maps[name].cmid_data for name, _ in controllers))
-        if module.chnk:
-            yield (b'CHNK', pack('<I', module.chnk))
-            for chunk in module.specialized_iff_chunks():
+            yield (b'CMID', b''.join(mod.controller_midi_maps[name].cmid_data for name, _ in controllers))
+        if mod.chnk:
+            yield (b'CHNK', pack('<I', mod.chnk))
+            for chunk in mod.specialized_iff_chunks():
                 yield chunk
         yield (b'SEND', b'')

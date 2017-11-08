@@ -209,9 +209,9 @@ class Project(Container):
 
     def new_module(self, cls, *args, **kw):
         """Construct and return a new module attached to this project."""
-        module = cls(*args, **kw)
-        self.attach_module(module)
-        return module
+        mod = cls(*args, **kw)
+        self.attach_module(mod)
+        return mod
 
     def on_controller_changed(self, module, controller, value, down, up):
         if self.metamodule and up:

@@ -19,8 +19,8 @@ class SunSynthReader(Reader):
 
     def process_sfff(self, data):
         self.rewind(data)
-        module = ModuleReader(self.f, index=1).object
-        self.object.module = module
+        mod = ModuleReader(self.f, index=1).object
+        self.object.module = mod
 
     def process_end_of_file(self):
         raise ReaderFinished()

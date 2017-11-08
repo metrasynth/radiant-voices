@@ -200,14 +200,14 @@ class MetaModule(Module):
         if isinstance(controller, UserDefined) and down:
             mapping_index = controller.number - self.user_defined[0].number
             mapping = self.mappings.values[mapping_index]
-            module = self.project.modules[mapping.module]
+            mod = self.project.modules[mapping.module]
             controller_index = mapping.controller - 1
-            controllers = list(module.controllers.items())
+            controllers = list(mod.controllers.items())
             ctl_name, ctl = controllers[controller_index]
-            t = ctl.parent_value_type(module)
+            t = ctl.parent_value_type(mod)
             if isinstance(t, Range):
                 value += t.min
-            ctl.propagate(module, value, down=True)
+            ctl.propagate(mod, value, down=True)
         super(MetaModule, self).on_controller_changed(
             controller, value, down, up)
 

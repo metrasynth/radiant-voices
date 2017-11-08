@@ -94,8 +94,8 @@ class SunVoxReader(Reader):
 
     def process_sfff(self, data):
         self.rewind(data)
-        module = ModuleReader(self.f, index=len(self.object.modules)).object
-        self.object.attach_module(module)
+        mod = ModuleReader(self.f, index=len(self.object.modules)).object
+        self.object.attach_module(mod)
 
     def process_send(self, _):
         self.object.attach_module(None)  # empty module
