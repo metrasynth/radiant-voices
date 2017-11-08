@@ -107,7 +107,7 @@ class ModuleReader(Reader):
         raw_value, = unpack('<i', data)
         self._cvals.append(raw_value)
 
-    def _load_last_chnk(self):
+    def _load_last_chunk(self):
         if self._current_chunk:
             self.object.load_chunk(self._current_chunk)
             self._current_chunk = None
@@ -117,7 +117,7 @@ class ModuleReader(Reader):
         self.object._reader_chnk = val
 
     def process_chnm(self, data):
-        self._load_last_chnk()
+        self._load_last_chunk()
         self._current_chunk = Chunk()
         self._current_chunk.chnm, = unpack('<I', data)
 
@@ -134,17 +134,8 @@ class ModuleReader(Reader):
         self.object.load_cmid(data)
 
     def process_send(self, data):
-        self._load_last_chnk()
-        chnk = getattr(self.object, '_reader_chnk', None)
-        if chnk:
-            valid = self.object.chnk
-            valid_is_set = isinstance(valid, set)
-            not_matching = not valid_is_set and chnk != valid
-            not_in_set = valid_is_set and chnk not in valid
-            if not_matching or not_in_set:
-                log.warning(_F('{} expected CHNK {}, got {}',
-                               self.object, self.object.chnk, chnk))
-            self.object.finalize_load()
+        self._load_last_chunk()
+        self.object.finalize_load()
         if self.object.mtype == 'MetaModule':
             self.object.update_user_defined_controllers()
         for cnum, raw_value in reversed(list(enumerate(self._cvals))):

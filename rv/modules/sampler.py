@@ -107,7 +107,7 @@ class Sampler(Module):
         _legacy_bitmask = None
 
         def __init__(self):
-            self.points = self.initial_points.copy()
+            self.points = self.initial_points[:]
             self.sustain_point = self.initial_sustain_point
             self.loop_start_point = self.initial_loop_start_point
             self.loop_end_point = self.initial_loop_end_point
@@ -117,6 +117,7 @@ class Sampler(Module):
             self.controller_number = self.initial_controller_number
             self.gain_percentage = self.initial_gain_percentage
             self.velocity = self.initial_velocity
+            self.loaded = False
 
         @property
         def bitmask(self):
@@ -178,6 +179,7 @@ class Sampler(Module):
                 data = chdt[offset:offset + 4]
                 x, y = unpack('<HH', data)
                 points.append((x, y))
+            self.loaded = True
 
     class VolumeEnvelope(Envelope):
         """
@@ -519,14 +521,11 @@ class Sampler(Module):
         sample.rate = chunk.chfr
 
     def finalize_load(self):
-        chnk = getattr(self, '_reader_chnk', None)
-        if chnk == 0x102:
-            self._upgrade_102_to_109()
-        elif chnk != 0x109:
-            log.warning(_F('Unknown Sampler CHNK {}', chnk))
+        if not self.volume_envelope.loaded:
+            self._upgrade_envelopes()
 
-    def _upgrade_102_to_109(self):
-        log.info(_F('Upgrading Sampler{} from 0x102 to 0x109 format',
+    def _upgrade_envelopes(self):
+        log.info(_F('Upgrading Sampler{} to infinite envelope format',
                     '[{}]'.format(self.index) if self.index is not None else ''))
         vol = self.volume_envelope
         pan = self.panning_envelope

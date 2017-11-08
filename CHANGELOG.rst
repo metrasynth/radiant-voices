@@ -70,6 +70,8 @@ Changes
 - Ignore chunk types no longer used by modern SunVox versions:
   ``PSYN``, ``PCTL``, and ``PAMD``.
 
+- Ignore value of ``CHNK`` when reading module-specific chunks.
+
 Fixes
 .....
 
