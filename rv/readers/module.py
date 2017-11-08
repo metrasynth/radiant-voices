@@ -100,7 +100,7 @@ class ModuleReader(Reader):
             link_count = len(data) // 4
             structure = '<' + 'i' * link_count
             links.extend(unpack(structure, data))
-            if links[-1] == -1:
+            while links[-1:] == [-1]:
                 links.pop()
 
     def process_cval(self, data):

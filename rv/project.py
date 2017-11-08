@@ -132,7 +132,6 @@ class Project(Container):
                     yield chunk
                 connections = self.module_connections[i]
                 if len(connections) > 0:
-                    connections.append(-1)
                     structure = '<' + 'i' * len(connections)
                     links = pack(structure, *connections)
                 else:

@@ -72,6 +72,8 @@ Changes
 
 - Ignore value of ``CHNK`` when reading module-specific chunks.
 
+- Do not write the optional -1 to the end of ``SLNK`` chunks.
+
 Fixes
 .....
 

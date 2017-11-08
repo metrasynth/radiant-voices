@@ -248,9 +248,9 @@ Module chunks
 If a module doesn't exist at a given index,
 the only chunk present will be ``SEND``.
 
-========  ====================  =======================================================
+========  ====================  =================================================================
 Type ID   Format                Purpose
-========  ====================  =======================================================
+========  ====================  =================================================================
 ``SFFF``  bitmap (4 bytes)      `Module flags`_
 ``SNAM``  string[32]            Module name (zero-padded)
 ``STYP``  cstring               Module type (not present for "Output" module)
@@ -267,7 +267,7 @@ Type ID   Format                Purpose
 ``SMIC``  unsigned int32        MIDI Out channel (0 for all channels)
 ``SMIB``  signed int32          MIDI Out bank (-1 for none)
 ``SMIP``  signed int32          MIDI Out program (-1 for none)
-``SLNK``  signed int32[n]       Module indexes of incoming links, terminated with -1
+``SLNK``  signed int32[n]       Module indexes of incoming links, optionally terminated with -1
 ``CVAL``  unsigned int32        Controller value for controller 1
  ...       ...                   ...
 ``CVAL``  unsigned int32        Controller value for controller *n*
@@ -276,7 +276,7 @@ Type ID   Format                Purpose
 ``CMID``  bytes[8]              `Controller MIDI mappings`_ for controller *n*
 ``CHNK``  unsigned int32        `CHNK value`_ for the module, if applicable
 multiple                        `Module-specific chunks`_, if applicable
-========  ====================  =======================================================
+========  ====================  =================================================================
 
 Module flags
 ............
