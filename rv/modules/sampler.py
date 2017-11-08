@@ -182,13 +182,6 @@ class Sampler(Module):
             self.loaded = True
 
     class VolumeEnvelope(Envelope):
-        """
-        CHNM  00000000: 02 01 00 00                                       ....
-
-        CHDT  00000000: 03 00 00 64 00 00 00 00  04 00 00 00 00 00 00 00  ...d............
-              00000010: 00 00 00 00 00 00 00 80  08 00 00 00 80 00 00 00  ................
-              00000020: 00 01 00 00                                       ....
-        """
         chnm = 0x102
         range = (0, 0x8000)
         initial_enable = True
@@ -205,13 +198,6 @@ class Sampler(Module):
         ]
 
     class PanningEnvelope(Envelope):
-        """
-        CHNM  00000000: 03 01 00 00                                       ....
-
-        CHDT  00000000: 00 00 00 64 00 00 00 00  04 00 00 00 00 00 00 00  ...d............
-              00000010: 00 00 00 00 00 00 00 40  40 00 00 20 80 00 00 60  .......@@.. ...`
-              00000020: B4 00 00 40                                       ...@
-        """
         chnm = 0x103
         range = (-0x4000, 0x4000)
         initial_enable = False
@@ -228,12 +214,6 @@ class Sampler(Module):
         ]
 
     class PitchEnvelope(Envelope):
-        """
-        CHNM  00000000: 04 01 00 00                                       ....
-
-        CHDT  00000000: 00 00 00 64 00 00 00 00  02 00 00 00 00 00 00 00  ...d............
-              00000010: 00 00 00 00 00 00 00 40  40 00 00 40              .......@@..@
-        """
         chnm = 0x104
         range = (-0x4000, 0x4000)
         initial_enable = False
@@ -248,12 +228,6 @@ class Sampler(Module):
         ]
 
     class EffectControlEnvelope(Envelope):
-        """
-        CHNM  00000000: 05 01 00 00                                       ....
-
-        CHDT  00000000: 00 00 00 64 00 00 00 00  02 00 00 00 00 00 00 00  ...d............
-              00000010: 00 00 00 00 00 00 00 80  40 00 00 80              ........@...
-        """
         range = (0, 0x8000)
         initial_enable = False
         initial_loop = False
