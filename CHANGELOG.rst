@@ -67,6 +67,9 @@ Changes
 - More detailed exception message when attempting to set an out-of-range value
   to a controller.
 
+- Ignore chunk types no longer used by modern SunVox versions:
+  ``PSYN``, ``PCTL``, and ``PAMD``.
+
 Fixes
 .....
 

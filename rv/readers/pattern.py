@@ -50,6 +50,12 @@ class PatternReader(Reader):
     def process_pyyy(self, data):
         self.object.y, = unpack('<i', data)
 
+    def process_psyn(self, data):
+        pass  # Unused in current SunVox.
+
+    def process_pctl(self, data):
+        pass  # Unused in current SunVox.
+
     def process_pend(self, data):
         # We now have tracks and lines,
         # so we can now set raw_data on the pattern.

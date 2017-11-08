@@ -61,6 +61,9 @@ class Reader:
         new_pos = self.f.tell() - len(data) - 8
         self.f.seek(new_pos)
 
+    def process_pamd(self, data):
+        pass  # Unused in current SunVox.
+
     def process_end_of_file(self):
         raise RuntimeError('Reached end of file without a handler')
 
