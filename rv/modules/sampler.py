@@ -161,7 +161,23 @@ class Sampler(Module):
             yield (b'CHDT', data)
 
         def load_chdt(self, chdt):
-            pass
+            (
+                self.bitmask,
+                self.controller_number,
+                self.gain_percentage,
+                self.velocity,
+                _, _, _,
+                point_count,
+                self.sustain_point,
+                self.loop_start_point,
+                self.loop_end_point,
+            ) = unpack('<HBBBBBBHHHH', chdt[0:0x10])
+            points = self.points = []
+            for i in range(point_count):
+                offset = 0x14 + i * 4
+                data = chdt[offset:offset + 4]
+                x, y = unpack('<HH', data)
+                points.append((x, y))
 
     class VolumeEnvelope(Envelope):
         """

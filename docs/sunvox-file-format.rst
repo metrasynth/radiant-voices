@@ -940,6 +940,7 @@ Offset  Type              Purpose
 0x0a    unsigned int16    Sustain point
 0x0c    unsigned int16    Loop start point
 0x0e    unsigned int16    Loop end point
+0x10    unknown           00 00 00 00
 0x14    unsigned int16    X position of point 1 (in ticks)
 0x16    unsigned int16    Y position of point 1 (0x0000 to 0x8000)
  ...     ...               ...
