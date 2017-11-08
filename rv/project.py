@@ -146,7 +146,7 @@ class Project(Container):
                 if len(controllers) > 0:
                     yield (b'CMID', b''.join(module.controller_midi_maps[name].cmid_data for name in controllers))
                 if module.chnk:
-                    yield (b'CHNK', pack('<I', max(0x10, module.chnk)))
+                    yield (b'CHNK', pack('<I', module.chnk))
                     for chunk in module.specialized_iff_chunks():
                         yield chunk
             yield (b'SEND', b'')

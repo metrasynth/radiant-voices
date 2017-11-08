@@ -29,7 +29,7 @@ class Sampler(Module):
 
     name = mtype = 'Sampler'
     mgroup = 'Synth'
-    chnk = {0x0102, 0x0109}
+    chnk = 0x109
     options_chnm = 0x0101
     flags = 0x008459
 

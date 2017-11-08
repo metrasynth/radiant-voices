@@ -9,7 +9,7 @@ class Generator(Module):
 
     name = mtype = 'Generator'
     mgroup = 'Synth'
-    chnk = 0x10
+    chnk = 1
     flags = 0x000059
 
     behaviors = {B.receives_notes, B.receives_modulator, B.sends_audio}

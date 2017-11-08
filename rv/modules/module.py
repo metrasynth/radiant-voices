@@ -190,7 +190,7 @@ class Module(metaclass=ModuleMeta):
     mtype = None  # module type
     mgroup = None  # module group
     flags = None
-    chnk = None  # number of chunks
+    chnk = False
 
     behaviors = set()
 

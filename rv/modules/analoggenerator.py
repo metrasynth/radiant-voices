@@ -10,8 +10,8 @@ class AnalogGenerator(Module):
 
     name = mtype = 'Analog generator'
     mgroup = 'Synth'
-    chnk = 0x10
-    options_chnm = 0x01
+    chnk = 1
+    options_chnm = 1
     flags = 0x000049
 
     behaviors = {B.receives_notes, B.sends_audio}

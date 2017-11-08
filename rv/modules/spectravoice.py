@@ -9,7 +9,7 @@ class SpectraVoice(Module):
 
     name = mtype = 'SpectraVoice'
     mgroup = 'Synth'
-    chnk = 0x10
+    chnk = 4
     flags = 0x000049
 
     behaviors = {B.receives_notes, B.sends_audio}

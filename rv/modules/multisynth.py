@@ -8,7 +8,7 @@ class MultiSynth(Module):
 
     name = mtype = 'MultiSynth'
     mgroup = 'Misc'
-    chnk = 0x10
+    chnk = 3
     options_chnm = 1
     flags = 0x021049
 

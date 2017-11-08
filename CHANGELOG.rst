@@ -102,6 +102,8 @@ Fixes
   These are only warned about using ``logging``,
   instead of the standard behavior of raising an exception.
 
+- Write correct value of ``CHNK`` when writing module-specific chunks.
+
 
 0.3.0 (2017-04-18)
 ------------------

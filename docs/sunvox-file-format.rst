@@ -480,20 +480,10 @@ Value   Purpose
 CHNK value
 ..........
 
-================  =========================================
-Module type       Value
-================  =========================================
-Analog Generator  0x10
-Generator         0x10
-MetaModule        0x08 + number of user defined controllers
-MultiCtl          0x10
-MultiSynth        0x10
-Sampler           0x0102 for 1.9.2.0; 0x0109 for 1.9.3.0
-Sound2Ctl         0x10
-SpectraVoice      0x10
-Vorbis player     0x10
-WaveShaper        0x10
-================  =========================================
+This must be at least 1 more than the maximum ``CHNM`` used by the module.
+
+It is used to allocate space in SunVox,
+and the audio engine will stop if the ``CHNM`` is too small.
 
 Module-specific chunks
 ----------------------
