@@ -1,5 +1,9 @@
+import logging
+log = logging.getLogger(__name__)
+
 from enum import Enum
 
+import rv
 from rv.errors import ControllerValueError, RangeValidationError
 
 
@@ -47,9 +51,15 @@ class Controller:
     def controller(self, instance):
         return self
 
-    def pattern_value(self, value):
+    def instance_value_type(self, instance):
+        if hasattr(self.value_type, 'parent'):
+            return self.value_type.parent(instance)
+        else:
+            return self.value_type
+
+    def pattern_value(self, instance, value):
         """Convert a controller value to a pattern value (0x0000-0x8000)"""
-        t = self.value_type
+        t = self.instance_value_type(instance)
         if isinstance(t, Range) and t.min == 0:
             shifted = value - t.min
             shifted_max = t.max - t.min
@@ -67,15 +77,14 @@ class Controller:
             callback(self, value, down=down, up=up)
 
     def set_initial(self, instance, value):
-        if isinstance(value, str) \
-                and isinstance(self.value_type, type) \
-                and issubclass(self.value_type, Enum):
-            value = self.value_type[value]
-        elif self.value_type is None:
+        t = self.instance_value_type(instance)
+        if isinstance(value, str) and isinstance(t, type) and issubclass(t, Enum):
+            value = t[value]
+        elif t is None:
             value = None
         else:
             try:
-                value = self.value_type(value)
+                value = t(value)
             except RangeValidationError as e:
                 evalue, emin, emax = e.args
                 raise ControllerValueError('{:x}({}).{}={} is not within [{}, {}]'.format(
@@ -111,7 +120,15 @@ class Range:
 
     def validate(self, value):
         if value < self.min or value > self.max:
-            raise RangeValidationError(value, self.min, self.max)
+            e = RangeValidationError(value, self.min, self.max)
+            if isinstance(self, WarnOnlyRange):
+                log.warning(str(e))
+            else:
+                raise e
+
+
+class WarnOnlyRange(Range):
+    pass
 
 
 class CompactRange(Range):
@@ -126,3 +143,22 @@ class CompactRange(Range):
     For example, the value -2 in the CompactRange(-128, 128) would be encoded
     as the value 126.
     """
+
+
+class DependentRange:
+
+    def __init__(self, ctl_name, range_map, default):
+        self.ctl_name = ctl_name
+        self.range_map = range_map
+        self.default = default
+
+    def parent(self, instance):
+        loaded = instance.controllers_loaded
+        if not loaded or self.ctl_name not in loaded:
+            return self.default
+        else:
+            ctl_val = instance.controller_values.get(self.ctl_name, None)
+            if ctl_val is not None:
+                return self.range_map[ctl_val]
+            else:
+                return self.default

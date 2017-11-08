@@ -94,6 +94,12 @@ Fixes
   assume ``0`` as a default value if there are not enough bytes.
   (Was throwing an ``IndexError``)
 
+- Range validation for ``Lfo.freq`` and ``Vibrato.freq``
+  now depends on the value of the ``frequency_unit`` controller.
+  Some modules created in earlier versions of SunVox have out-of-range values.
+  These are only warned about using ``logging``,
+  instead of the standard behavior of raising an exception.
+
 
 0.3.0 (2017-04-18)
 ------------------

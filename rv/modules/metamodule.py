@@ -113,7 +113,7 @@ class MetaModule(Module):
                     continue
                 controller_index = mapping.controller - 1
                 controller = list(mod.controllers.values())[controller_index]
-                user_defined_controller.value_type = controller.value_type
+                user_defined_controller.value_type = controller.instance_value_type(mod)
                 user_defined_controller.default = controller.default
                 metamodule.controller_values[user_defined_controller.name] = \
                     mod.controller_values[controller.name]
@@ -204,8 +204,9 @@ class MetaModule(Module):
             controller_index = mapping.controller - 1
             controllers = list(module.controllers.items())
             ctl_name, ctl = controllers[controller_index]
-            if isinstance(ctl.value_type, Range):
-                value += ctl.value_type.min
+            t = ctl.parent_value_type(module)
+            if isinstance(t, Range):
+                value += t.min
             ctl.propagate(module, value, down=True)
         super(MetaModule, self).on_controller_changed(
             controller, value, down, up)

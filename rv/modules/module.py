@@ -202,6 +202,7 @@ class Module(metaclass=ModuleMeta):
         self.index = kw.get('index', None)
         self.parent = kw.get('parent', None)
         self.controller_values = OrderedDict()
+        self.controllers_loaded = set()
         self.controller_midi_maps = defaultdict(ControllerMidiMap)
         for k, controller in self.controllers.items():
             v = kw.get(k) if k in kw else controller.default
@@ -267,9 +268,9 @@ class Module(metaclass=ModuleMeta):
     def get_raw(self, name):
         """Return the raw (unsigned) value for the named controller."""
         controller = self.controllers[name]
-        value_type = controller.value_type
+        t = controller.instance_value_type(self)
         value = getattr(self, name)
-        to_raw_value = getattr(value_type, 'to_raw_value', int)
+        to_raw_value = getattr(t, 'to_raw_value', int)
         if isinstance(value, Enum):
             value = value.value
         raw_value = to_raw_value(0 if value is None else value)
@@ -278,10 +279,10 @@ class Module(metaclass=ModuleMeta):
     def set_raw(self, name, raw_value):
         """Set the value for the named controller based on given raw value."""
         controller = self.controllers[name].controller(self)
-        value_type = controller.value_type
-        from_raw_value = getattr(value_type, 'from_raw_value', int)
+        t = controller.instance_value_type(self)
+        from_raw_value = getattr(t, 'from_raw_value', int)
         try:
-            value = value_type(from_raw_value(raw_value))
+            value = t(from_raw_value(raw_value))
         except RangeValidationError as e:
             evalue, emin, emax = e.args
             raise ControllerValueError('{:x}({}).{}={} is not within [{}, {}]'.format(

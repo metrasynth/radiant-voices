@@ -147,11 +147,12 @@ class ModuleReader(Reader):
             self.object.finalize_load()
         if self.object.mtype == 'MetaModule':
             self.object.update_user_defined_controllers()
-        for cnum, raw_value in enumerate(self._cvals):
+        for cnum, raw_value in reversed(list(enumerate(self._cvals))):
             if cnum < len(self._controller_keys):
                 controller_name = self._controller_keys[cnum]
                 log.debug(_F('Setting {} from raw {}', controller_name, raw_value))
                 self.object.set_raw(controller_name, raw_value)
+                self.object.controllers_loaded.add(controller_name)
             else:
                 log.warning(_F('Unsupported controller at index {} with raw value {}',
                                cnum, raw_value))

@@ -222,7 +222,7 @@ class MultiCtl(Module):
         for mod, ctl in mod_ctl_pairs:
             if not isinstance(ctl, Controller):
                 ctl = mod.controllers[ctl]
-            t = ctl.value_type
+            t = ctl.instance_value_type(mod)
             if isinstance(t, type) and issubclass(t, Enum):
                 mapmin, mapmax = 0, len(t) - 1
                 gains.add(256 + int(256 / mapmax))
