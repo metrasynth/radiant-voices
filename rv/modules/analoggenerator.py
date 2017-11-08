@@ -10,7 +10,7 @@ class AnalogGenerator(Module):
 
     name = mtype = 'Analog generator'
     mgroup = 'Synth'
-    chnk = 1
+    chnk = 2
     options_chnm = 1
     flags = 0x000049
 
