@@ -255,6 +255,7 @@ class Sampler(Module):
             self.channels = Sampler.Channels.stereo
             self.rate = 44100
             self.loop_type = Sampler.LoopType.off
+            self.loop_sustain = False
             self.panning = 0
             self.relative_note = 16
             self.unknown6 = b'\0' * 23
@@ -387,6 +388,7 @@ class Sampler(Module):
         w(pack('<I', sample.loop_end))
         w(pack('<B', sample.volume))
         w(pack('<b', sample.finetune))
+        sustain_flag = 4 if sample.loop_sustain else 0
         format_flag = {
             self.Format.int8: 0x00,
             self.Format.int16: 0x10,
@@ -398,6 +400,7 @@ class Sampler(Module):
         }[sample.channels]
         loop_format_flags = \
             sample.loop_type.value | format_flag | channels_flag
+            sample.loop_type.value | format_flag | channels_flag | sustain_flag
         w(pack('<B', loop_format_flags))
         w(pack('<B', sample.panning + 0x80))
         w(pack('<b', sample.relative_note))
@@ -482,6 +485,7 @@ class Sampler(Module):
             sample.channels = self.Channels.stereo
         else:
             sample.channels = self.Channels.mono
+        sample.loop_sustain = bool(loop_format_flags & 4)
         sample.panning = data[0x0f] - 0x80
         sample.relative_note, = unpack('<b', data[0x10:0x11])
         sample.unknown6 = data[0x11:0x28]

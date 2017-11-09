@@ -52,6 +52,8 @@ Additions
   which in turn contains the effect being modulated by the
   effect control envelopes.
 
+- Add ``Sampler.Sample.loop_sustain`` flag.
+
 Changes
 .......
 
