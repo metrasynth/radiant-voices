@@ -130,7 +130,7 @@ class Sampler(Module):
 
         @property
         def point_bytes(self):
-            y_points = (y - self.range[0] for y in self._y_values)
+            y_points = (y - self.range[0] // 0x200 for y in self._y_values)
             values = list(chain.from_iterable(zip(self._x_values, y_points)))
             return pack('<' + 'H' * len(values), *values)
 
@@ -143,7 +143,7 @@ class Sampler(Module):
 
         @property
         def _y_values(self):
-            values = [y / 0x200 for x, y in self.points]
+            values = [y // 0x200 for x, y in self.points]
             while len(values) < 12:
                 values.append(0)
             return values[:12]
@@ -398,7 +398,6 @@ class Sampler(Module):
             self.Channels.stereo: 0x40,
         }[sample.channels]
         loop_format_flags = \
-            sample.loop_type.value | format_flag | channels_flag
             sample.loop_type.value | format_flag | channels_flag | sustain_flag
         w(pack('<B', loop_format_flags))
         w(pack('<B', sample.panning + 0x80))
@@ -509,29 +508,31 @@ class Sampler(Module):
                     '[{}]'.format(self.index) if self.index is not None else ''))
         vol = self.volume_envelope
         pan = self.panning_envelope
+        vol.bitmask = vol._legacy_bitmask
         vol.sustain_point = vol._legacy_sustain_point
         vol.loop_start_point = vol._legacy_loop_start_point
         vol.loop_end_point = vol._legacy_loop_end_point
+        pan.bitmask = pan._legacy_bitmask
         pan.sustain_point = pan._legacy_sustain_point
         pan.loop_start_point = pan._legacy_loop_start_point
         pan.loop_end_point = pan._legacy_loop_end_point
         vol_x_points = [
-            unpack('<H', vol._legacy_point_bytes[4 * i:4 * i + 2])[0] * 0x200
+            unpack('<H', vol._legacy_point_bytes[4 * i:4 * i + 2])[0]
             for i
             in range(vol._legacy_active_points)
         ]
         pan_x_points = [
-            (unpack('<H', pan._legacy_point_bytes[4 * i:4 * i + 2])[0] - 0x20) * 0x200
+            unpack('<H', pan._legacy_point_bytes[4 * i:4 * i + 2])[0]
             for i
             in range(pan._legacy_active_points)
         ]
         vol_y_points = [
-            unpack('<H', vol._legacy_point_bytes[4 * i + 2:4 * i + 4])[0]
+            unpack('<H', vol._legacy_point_bytes[4 * i + 2:4 * i + 4])[0] * 0x200
             for i
             in range(vol._legacy_active_points)
         ]
         pan_y_points = [
-            unpack('<H', pan._legacy_point_bytes[4 * i + 2:4 * i + 4])[0]
+            unpack('<H', pan._legacy_point_bytes[4 * i + 2:4 * i + 4])[0] * 0x200 - pan.range[0]
             for i
             in range(pan._legacy_active_points)
         ]
