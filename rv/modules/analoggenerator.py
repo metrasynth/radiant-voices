@@ -106,5 +106,5 @@ class AnalogGenerator(Module):
 
     def load_dirty_waveform(self, chunk):
         self.dirty_waveform.samples = chunk.chdt
-        self.dirty_waveform.format = self.dirty_waveform.Format(chunk.chff)
+        self.dirty_waveform.format = self.dirty_waveform.Format(chunk.chff or 1)
         self.dirty_waveform.freq = chunk.chfr

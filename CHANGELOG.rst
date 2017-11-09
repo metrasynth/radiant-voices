@@ -108,6 +108,8 @@ Fixes
 
 - Write correct value of ``CHNK`` when writing module-specific chunks.
 
+- Default to signed 8-bit int when a ``CHFF`` value was 0.
+
 
 0.3.0 (2017-04-18)
 ------------------

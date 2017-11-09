@@ -55,7 +55,6 @@ class Sampler(Module):
         ping_pong = 2
 
     class Format(Enum):
-        unknown = 0
         int8 = 1
         int16 = 2
         float32 = 4
@@ -494,7 +493,10 @@ class Sampler(Module):
         index = (chunk.chnm - 2) // 2
         sample = self.samples[index]
         sample.data = chunk.chdt
-        sample.format = self.Format(chunk.chff & 0x07)
+        format = chunk.chff & 0x07 or 1
+        sample.format = self.Format(format)
+        if sample.format == self.Format.unknown:
+            sample.format = self.Format.int8
         sample.channels = self.Channels(chunk.chff & 0x08)
         sample.rate = chunk.chfr
 
