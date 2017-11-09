@@ -4,7 +4,13 @@ Changelog
 0.4.0 (under development)
 -------------------------
 
-The major theme of this release is support for SunVox 1.9.3.
+The major themes of this release are:
+
+- Support for SunVox 1.9.3.
+
+- Improved compatibility with the SunVox file format.
+
+- Full documentation of the SunVox file format.
 
 Additions
 .........
