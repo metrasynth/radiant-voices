@@ -60,6 +60,8 @@ Additions
 
 - Add ``Sampler.Sample.loop_sustain`` flag.
 
+- Add ``Container.clone()`` method.
+
 Changes
 .......
 
