@@ -34,7 +34,7 @@ class WaveformChunk(Chunk):
 
     @property
     def bytes(self):
-        if self.format in [self.Format.mono_8bit, self.Format.unknown]:
+        if self.format in [self.Format.mono_8bit, None]:
             return bytes(self.samples)
         else:
             raise NotImplementedError()

@@ -494,7 +494,7 @@ class Sampler(Module):
         sample.data = chunk.chdt
         format = chunk.chff & 0x07 or 1
         sample.format = self.Format(format)
-        if sample.format == self.Format.unknown:
+        if sample.format is None:
             sample.format = self.Format.int8
         sample.channels = self.Channels(chunk.chff & 0x08)
         sample.rate = chunk.chfr
