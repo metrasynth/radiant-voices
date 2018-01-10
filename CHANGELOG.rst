@@ -60,6 +60,8 @@ Additions
 
 - Add ``Sampler.Sample.loop_sustain`` flag.
 
+- Add ``Sampler.ignore_velocity_for_volume`` option.
+
 - Add ``Container.clone()`` method.
 
 Changes
