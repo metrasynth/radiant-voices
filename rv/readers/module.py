@@ -83,7 +83,7 @@ class ModuleReader(Reader):
 
     def process_smin(self, data):
         data = data[:data.find(0)] if 0 in data else data
-        self.object.midi_in_name = data.decode(ENCODING)
+        self.object.midi_out_name = data.decode(ENCODING)
 
     def process_smic(self, data):
         self.object.midi_out_channel, = unpack('<i', data)
