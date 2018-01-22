@@ -86,6 +86,9 @@ Changes
 
 - Do not write the optional -1 to the end of ``SLNK`` chunks.
 
+- Use the value mapping curve when converting a ``MultiCtl.value``
+  to downstream controllers.
+
 Fixes
 .....
 

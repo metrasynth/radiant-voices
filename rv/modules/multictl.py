@@ -7,10 +7,17 @@ from rv.errors import MappingError
 from rv.modules import Behavior as B, Module
 
 
-def convert_value(gain, qsteps, smin, smax, dmin, dmax, vmax, value):
-    # TODO: map using multictl curve
+def convert_value(gain, qsteps, smin, smax, dmin, dmax, vmax, value, curve=None):
     value = (value * gain) / 256
     value = min(value, 32768)
+    if curve is not None:
+        bucket = int(value / 256)
+        start = 256 * bucket
+        offset = value - start
+        a = curve[bucket + 1]
+        b = curve[bucket]
+        c = min(offset / 128, 1.0)
+        value = int((c * a) + ((1.0 - c) * b))
     srange = smax - smin
     if qsteps < 32768:
         quant = max(qsteps - 1, 1)
@@ -145,6 +152,7 @@ class MultiCtl(Module):
                         dmin, dmax,
                         vmax,
                         self.value,
+                        self.curve.values,
                     )
                     final_value = converted + vt.min
                     setattr(mod, ctl.name, final_value)
