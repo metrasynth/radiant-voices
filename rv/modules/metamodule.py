@@ -102,7 +102,8 @@ class MetaModule(Module):
         def python_type(self):
             return MetaModule.Mapping
 
-        def update_user_defined_controllers(self, metamodule):
+        @staticmethod
+        def update_user_defined_controllers(metamodule):
             project = metamodule.project
             items = zip(metamodule.mappings.values, metamodule.user_defined)
             for mapping, user_defined_controller in items:
@@ -204,7 +205,7 @@ class MetaModule(Module):
             controller_index = mapping.controller - 1
             controllers = list(mod.controllers.items())
             ctl_name, ctl = controllers[controller_index]
-            t = ctl.parent_value_type(mod)
+            t = ctl.instance_value_type(mod)
             if isinstance(t, Range):
                 value += t.min
             ctl.propagate(mod, value, down=True)
