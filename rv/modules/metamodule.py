@@ -1,6 +1,7 @@
-import re
+from enum import Enum
 from io import BytesIO
 from itertools import chain
+import re
 from struct import pack
 
 from slugify import Slugify
@@ -80,6 +81,11 @@ class MetaModule(Module):
 
     behaviors = {B.receives_audio, B.receives_notes, B.sends_audio}
 
+    class PlayPatterns(Enum):
+        off = 0
+        on = 1
+        on_no_repeat = 2
+
     class Mapping:
         def __init__(self, value):
             self.module, self.controller = value[0], value[1] + 1
@@ -121,7 +127,7 @@ class MetaModule(Module):
 
     volume = Controller((0, 1024), 256)
     input_module = Controller((1, 256), 1)
-    play_patterns = Controller(bool, False)
+    play_patterns = Controller(PlayPatterns, PlayPatterns.off)
     bpm = Controller((1, 800), 125)
     tpl = Controller((1, 31), 6)
 

@@ -89,6 +89,11 @@ Changes
 - Use the value mapping curve when converting a ``MultiCtl.value``
   to downstream controllers.
 
+- Update ``MetaModule.play_patterns``, which is now of type
+  ``MetaModule.PlayPatterns`` instead of ``bool``.
+  This introduces support for the new
+  ``MetaModule.PlayPatterns.on_no_repeat`` value.
+
 Fixes
 .....
 
