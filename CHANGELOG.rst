@@ -94,6 +94,10 @@ Changes
   This introduces support for the new
   ``MetaModule.PlayPatterns.on_no_repeat`` value.
 
+- Use the Fruchterman-Reingold layout algorithm from NetworkX
+  for auto-layout of modules, not PyGraphviz neato algorithm.
+  This affects the arguments accepted by ``Project.layout()``.
+
 Fixes
 .....
 

@@ -8,10 +8,7 @@ from rv.modules.module import Module
 from rv.modules.output import Output
 from rv.pattern import Pattern, PatternClone
 
-try:
-    import pygraphviz as pgv
-except ImportError:
-    pgv = None
+import networkx as nx
 
 
 class Project(Container):
@@ -169,39 +166,19 @@ class Project(Container):
                     connections_from.remove(to_idx)
                     from_module.incoming_links = connections_from
 
-    def graph(self):
-        """Return a PyGraphViz-compatible graph dictionary for modules."""
-        d = defaultdict(list)
+    def layout(self, scale=512, **spring_layout_args):
+        """Auto-layout modules."""
+        g = nx.Graph()
         for to_idx, from_idx_list in self.module_connections.items():
             for from_idx in from_idx_list:
                 if from_idx >= 0:
-                    d[from_idx].append(to_idx)
-        return d
-
-    def layout(self, prog='dot', factor=8, offset=0):
-        """Use GraphViz to auto-layout modules."""
-        if pgv is not None:
-            g = pgv.AGraph(self.graph(), directed=True, strict=False)
-            g.layout(prog=prog)
-            for node in g.nodes():
-                x, y = node.attr['pos'].split(',')
-                x, y = int(float(x)), int(float(y))
-                idx = int(node)
-                mod = self.modules[idx]
-                if isinstance(factor, int):
-                    xfactor, yfactor = factor, factor
-                else:
-                    xfactor, yfactor = factor
-                if isinstance(offset, int):
-                    xoffset, yoffset = offset, offset
-                else:
-                    xoffset, yoffset = offset
-                mod.x = x * xfactor + xoffset
-                mod.y = y * yfactor + yoffset
-            return True
-        else:
-            logging.warning('GraphViz not available; could not auto-layout.')
-            return False
+                    g.add_nodes_from([from_idx, to_idx])
+                    g.add_edge(from_idx, to_idx)
+        pos = nx.spring_layout(g, scale=scale, **spring_layout_args)
+        for idx, (x, y) in pos.items():
+            mod = self.modules[idx]
+            mod.x, mod.y = int(x), int(y)
+        return True
 
     def module_index(self, module):
         """Return the index of the given module."""
