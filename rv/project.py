@@ -1,5 +1,5 @@
 import logging
-from collections import defaultdict
+from collections import defaultdict, namedtuple
 from struct import pack
 
 from rv import ENCODING
@@ -9,6 +9,9 @@ from rv.modules.output import Output
 from rv.pattern import Pattern, PatternClone
 
 import networkx as nx
+
+
+PatternLine = namedtuple('PatternLine', ['index', 'source', 'line'])
 
 
 class Project(Container):
@@ -165,6 +168,27 @@ class Project(Container):
                 if to_idx in connections_from:
                     connections_from.remove(to_idx)
                     from_module.incoming_links = connections_from
+
+    def pattern_lines(self, start=0, stop=None):
+        """Yields information about the active pattern lines for each project line."""
+        if len(self.patterns) == 0:
+            return
+        active_patterns = []
+        activate_at = {}
+        deactivate_at = {}
+        for index, pattern in enumerate(sorted(self.patterns, key=lambda p: (p.y, p.x))):
+            if start <= pattern.x and (stop is None or pattern.x < stop):
+                activate_at.setdefault(pattern.x, []).append((index, pattern))
+                deactivate_at.setdefault(pattern.x + pattern.source_pattern(self).lines, []).append((index, pattern))
+        for line in range(start, stop if stop is not None else max(deactivate_at.keys())):
+            for index, pattern in deactivate_at.get(line, []):
+                active_patterns.remove((index, pattern))
+            for index, pattern in activate_at.get(line, []):
+                active_patterns.append((index, pattern))
+            pattern_lines = []
+            for index, pattern in active_patterns:
+                pattern_lines.append(PatternLine(index, pattern.source or index, line - pattern.x))
+            yield (line, pattern_lines)
 
     def layout(self, scale=512, **spring_layout_args):
         """Auto-layout modules."""

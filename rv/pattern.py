@@ -25,6 +25,7 @@ class PatternFlags(IntEnum):
 @attributes
 class Pattern:
 
+    source = None
     name = attr(None)
     tracks = attr(validator=in_range(1, 16), default=4)
     lines = attr(validator=in_range(1, 2 ** 19), default=32)
@@ -139,6 +140,9 @@ class Pattern:
                for lineno, notes in lines]
         )
 
+    def source_pattern(self, project):
+        return self
+
 
 @attributes
 class PatternClone:
@@ -153,3 +157,6 @@ class PatternClone:
         yield (b'PFFF', pack('<I', self.flags))
         yield (b'PXXX', pack('<i', self.x))
         yield (b'PYYY', pack('<i', self.y))
+
+    def source_pattern(self, project):
+        return project.patterns[self.source]

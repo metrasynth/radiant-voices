@@ -64,6 +64,12 @@ Additions
 
 - Add ``Container.clone()`` method.
 
+- Add ``Project.pattern_lines()`` method, which iterates over a range of project lines
+  and yields information about the active pattern lines for each project line.
+
+- Add ``Pattern.source_method()`` and ``PatternClone.source_method()``,
+  to determine the source pattern for any given pattern or pattern clone.
+
 Changes
 .......
 
