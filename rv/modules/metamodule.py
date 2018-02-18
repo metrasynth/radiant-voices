@@ -66,6 +66,9 @@ class UserDefinedProxy(Controller):
     def detach(self, instance):
         return self.controller(instance).detach(instance)
 
+    def instance_value_type(self, instance):
+        return self.controller(instance).value_type
+
 
 class MetaModule(Module):
     """

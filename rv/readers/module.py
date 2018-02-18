@@ -138,6 +138,7 @@ class ModuleReader(Reader):
         self.object.finalize_load()
         if self.object.mtype == 'MetaModule':
             self.object.update_user_defined_controllers()
+            self.object.recompute_controller_attachment()
         for cnum, raw_value in reversed(list(enumerate(self._cvals))):
             if cnum < len(self._controller_keys):
                 controller_name = self._controller_keys[cnum]
