@@ -1,5 +1,6 @@
 attrs
 awesome-slugify
-logutils
 hexdump
+logutils
+networkx
 pyyaml
