@@ -11,11 +11,11 @@ def convert_value(gain, qsteps, smin, smax, dmin, dmax, vmax, value, curve=None)
     value = (value * gain) / 256
     value = min(value, 32768)
     if curve is not None:
-        bucket = int(value / 256)
-        start = 256 * bucket
+        bucket = int(value / 128)
+        start = 128 * bucket
         offset = value - start
-        a = curve[bucket + 1]
         b = curve[bucket]
+        a = curve[bucket + 1] if bucket < 256 else b
         c = min(offset / 128, 1.0)
         value = int((c * a) + ((1.0 - c) * b))
     srange = smax - smin
