@@ -111,14 +111,9 @@ for the SunVox audio engine <https://github.com/warmplace/sunvox_sources>`__.
 Requirements
 ------------
 
-- Python 3.5
+- Python 3.6
 
 - OS supported by `sunvox-dll-python`_, if working with SunVox DLL.
-
-- GraphViz_, if you want to make use of module auto-layout features.
-
-..  _GraphViz:
-    http://www.graphviz.org/
 
 
 Quick start

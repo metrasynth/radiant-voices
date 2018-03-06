@@ -12,6 +12,8 @@ The major themes of this release are:
 
 - Full documentation of the SunVox file format.
 
+- Python 3.6 required.
+
 Additions
 .........
 
@@ -72,6 +74,8 @@ Additions
 
 Changes
 .......
+
+- Python 3.6 is now required.
 
 - While writing files, ``CHFF`` and ``CHFR`` chunks will not be written
   if they always have a value of ``0``.

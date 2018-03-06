@@ -7,7 +7,7 @@ Dependencies
 Required
 ........
 
-- Python 3.5 (or greater)
+- Python 3.6 (or greater)
 
 Recommended
 ...........
