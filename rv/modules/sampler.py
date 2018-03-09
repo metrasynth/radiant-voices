@@ -177,7 +177,8 @@ class Sampler(Module):
                 offset = 0x14 + i * 4
                 data = chdt[offset:offset + 4]
                 x, y = unpack('<HH', data)
-                points.append((x, y))
+                min_y = self.range[0]
+                points.append((x, y + min_y))
             self.loaded = True
 
     class VolumeEnvelope(Envelope):
