@@ -111,6 +111,9 @@ Changes
   for auto-layout of modules, not PyGraphviz neato algorithm.
   This affects the arguments accepted by ``Project.layout()``.
 
+- Improvements to variable names generated from MetaModule
+  user defined controller labels.
+
 Fixes
 .....
 

@@ -2,9 +2,10 @@ from enum import Enum
 from io import BytesIO
 from itertools import chain
 import re
+from string import digits
 from struct import pack
 
-from slugify import Slugify
+from slugify import slugify_unicode
 
 import rv
 from rv.chunks import ArrayChunk
@@ -18,7 +19,14 @@ from rv.readers.reader import read_sunvox_file
 MAX_USER_DEFINED_CONTROLLERS = 27
 USER_DEFINED_RE = re.compile(r'user_defined_\d+')
 
-slugify = Slugify(separator='_')
+
+def slugify(s):
+    s = slugify_unicode(s, separator='_', to_lower=True)
+    if s == '':
+        return '_'
+    if s[0] in digits:
+        s = f'_{s}'
+    return s
 
 
 class UserDefined(Controller):
