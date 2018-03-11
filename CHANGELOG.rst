@@ -14,6 +14,16 @@ The major themes of this release are:
 - Full documentation of the SunVox file format.
 
 
+0.4.0.dev2 (under development)
+------------------------------
+
+Fixes
+.....
+
+- Correct a packaging error that included unnecessary cache data from
+  documentation builds.
+
+
 0.4.0.dev1 (2018-03-11)
 -----------------------
 
