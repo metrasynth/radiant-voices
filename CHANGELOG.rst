@@ -1,8 +1,9 @@
 Changelog
 =========
 
-0.4.0 (under development)
--------------------------
+
+0.4 series
+----------
 
 The major themes of this release are:
 
@@ -12,7 +13,9 @@ The major themes of this release are:
 
 - Full documentation of the SunVox file format.
 
-- Python 3.6 required.
+
+0.4.0.dev1 (2018-03-11)
+-----------------------
 
 Additions
 .........
@@ -174,6 +177,7 @@ Fixes
 
 - Fix algorithm for reflecting mapped controllers back to ``MultiCtl.value``.
 
+
 0.2.0 (2017-04-02)
 ------------------
 
@@ -249,10 +253,12 @@ Fixes
 - Move ``pygraphviz`` from ``requirements/base.txt`` to ``.../tools.txt``
   to be more Windows-friendly.
 
+
 0.1.1 (2016-11-09)
 ------------------
 
 - Fix upload to PyPI.
+
 
 0.1.0 (2016-11-09)
 ------------------
