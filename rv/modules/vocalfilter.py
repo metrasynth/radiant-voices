@@ -6,8 +6,8 @@ from rv.modules import Behavior as B, Module
 
 class VocalFilter(Module):
 
-    name = mtype = 'Vocal filter'
-    mgroup = 'Effect'
+    name = mtype = "Vocal filter"
+    mgroup = "Effect"
     flags = 0x000051
 
     behaviors = {B.receives_audio, B.sends_audio}

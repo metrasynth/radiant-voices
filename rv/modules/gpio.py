@@ -4,8 +4,8 @@ from rv.modules import Behavior as B, Module
 
 class Gpio(Module):
 
-    name = mtype = 'GPIO'
-    mgroup = 'Misc'
+    name = mtype = "GPIO"
+    mgroup = "Misc"
     flags = 0x000051
 
     behaviors = {B.receives_audio, B.sends_audio}

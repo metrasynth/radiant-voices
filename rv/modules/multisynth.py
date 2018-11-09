@@ -6,8 +6,8 @@ from rv.option import Option
 
 class MultiSynth(Module):
 
-    name = mtype = 'MultiSynth'
-    mgroup = 'Misc'
+    name = mtype = "MultiSynth"
+    mgroup = "Misc"
     chnk = 3
     options_chnm = 1
     flags = 0x021049
@@ -17,19 +17,19 @@ class MultiSynth(Module):
     class NoteVelocityCurve(ArrayChunk):
         chnm = 0
         length = 128
-        type = 'B'
+        type = "B"
         element_size = 1
-        default = 0xff
+        default = 0xFF
         min_value = 0
-        max_value = 0xff
+        max_value = 0xFF
 
     class VelocityVelocityCurve(ArrayChunk):
         chnm = 2
         length = 257
-        type = 'B'
+        type = "B"
         element_size = 1
         min_value = 0
-        max_value = 0xff
+        max_value = 0xFF
 
         def default(self, x):
             return min(x, 255)
@@ -49,8 +49,8 @@ class MultiSynth(Module):
     trigger = Option(False)
 
     def __init__(self, **kwargs):
-        nv_values = kwargs.pop('nv_values', None)
-        vv_values = kwargs.pop('vv_values', None)
+        nv_values = kwargs.pop("nv_values", None)
+        vv_values = kwargs.pop("vv_values", None)
         super(MultiSynth, self).__init__(**kwargs)
         self.nv_curve = self.NoteVelocityCurve()
         self.vv_curve = self.VelocityVelocityCurve()

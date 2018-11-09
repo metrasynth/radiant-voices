@@ -6,8 +6,8 @@ from rv.modules import Behavior as B, Module
 
 class Loop(Module):
 
-    name = mtype = 'Loop'
-    mgroup = 'Effect'
+    name = mtype = "Loop"
+    mgroup = "Effect"
     flags = 0x000451
 
     behaviors = {B.receives_audio, B.sends_audio}

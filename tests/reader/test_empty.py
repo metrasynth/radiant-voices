@@ -6,8 +6,8 @@ from .base import FIXTURE_DIR
 
 
 def test_empty():
-    project = read_sunvox_file(str(FIXTURE_DIR / 'empty.sunvox'))
-    assert project.name == 'empty'
+    project = read_sunvox_file(str(FIXTURE_DIR / "empty.sunvox"))
+    assert project.name == "empty"
     assert project.initial_bpm == 125
     assert project.initial_tpl == 6
     assert base2_to_base10(project.global_volume) == 100

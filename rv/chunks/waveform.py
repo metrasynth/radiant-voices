@@ -5,14 +5,13 @@ from .chunk import Chunk
 
 
 class WaveformChunk(Chunk):
-
     class Format(Enum):
         mono_8bit = 0x01
         mono_16bit = 0x02
         mono_32bit = 0x04
         stereo_8bit = 0x09
-        stereo_16bit = 0x0a
-        stereo_32bit = 0x0c
+        stereo_16bit = 0x0A
+        stereo_32bit = 0x0C
 
     fixed_length = None
     fixed_format = None
@@ -43,12 +42,10 @@ class WaveformChunk(Chunk):
         return self.bytes
 
     def chff(self):
-        return pack('<I', self.format.value)
+        return pack("<I", self.format.value)
 
     def chfr(self):
-        return pack('<I', self.freq)
+        return pack("<I", self.freq)
 
 
-__all__ = [
-    'WaveformChunk',
-]
+__all__ = ["WaveformChunk"]

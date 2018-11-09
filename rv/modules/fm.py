@@ -6,8 +6,8 @@ from rv.modules import Behavior as B, Module
 
 class Fm(Module):
 
-    name = mtype = 'FM'
-    mgroup = 'Synth'
+    name = mtype = "FM"
+    mgroup = "Synth"
     flags = 0x000049
 
     behaviors = {B.receives_notes, B.sends_audio}

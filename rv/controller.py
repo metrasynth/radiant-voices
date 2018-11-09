@@ -1,4 +1,5 @@
 import logging
+
 log = logging.getLogger(__name__)
 
 from enum import Enum
@@ -52,7 +53,7 @@ class Controller:
         return self
 
     def instance_value_type(self, instance):
-        if hasattr(self.value_type, 'parent'):
+        if hasattr(self.value_type, "parent"):
             return self.value_type.parent(instance)
         else:
             return self.value_type
@@ -69,10 +70,10 @@ class Controller:
 
     def propagate(self, instance, value, down=False, up=False):
         self.set_initial(instance, value)
-        callback = getattr(instance, 'on_{}_changed'.format(self.name), None)
+        callback = getattr(instance, "on_{}_changed".format(self.name), None)
         if callable(callback):
             callback(value, down=down, up=up)
-        callback = getattr(instance, 'on_controller_changed', None)
+        callback = getattr(instance, "on_controller_changed", None)
         if callable(callback):
             callback(self, value, down=down, up=up)
 
@@ -87,8 +88,16 @@ class Controller:
                 value = t(value)
             except RangeValidationError as e:
                 evalue, emin, emax = e.args
-                raise ControllerValueError('{:x}({}).{}={} is not within [{}, {}]'.format(
-                    instance.index or 0, instance.mtype, self.name, evalue, emin, emax))
+                raise ControllerValueError(
+                    "{:x}({}).{}={} is not within [{}, {}]".format(
+                        instance.index or 0,
+                        instance.mtype,
+                        self.name,
+                        evalue,
+                        emin,
+                        emax,
+                    )
+                )
         instance.controller_values[self.name] = value
 
 
@@ -107,10 +116,13 @@ class Range:
         return value
 
     def __eq__(self, other):
-        return type(self) is type(other) and (self.min, self.max) == (other.min, other.max)
+        return type(self) is type(other) and (self.min, self.max) == (
+            other.min,
+            other.max,
+        )
 
     def __repr__(self):
-        return '<{} {}..{}>'.format(self.__class__.__name__, self.min, self.max)
+        return "<{} {}..{}>".format(self.__class__.__name__, self.min, self.max)
 
     def from_raw_value(self, raw_value):
         return raw_value + self.min if self.min < 0 else raw_value
@@ -146,7 +158,6 @@ class CompactRange(Range):
 
 
 class DependentRange:
-
     def __init__(self, ctl_name, range_map, default):
         self.ctl_name = ctl_name
         self.range_map = range_map

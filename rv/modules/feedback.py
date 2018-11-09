@@ -6,12 +6,11 @@ from rv.modules import Behavior as B, Module
 
 class Feedback(Module):
 
-    name = mtype = 'Feedback'
-    mgroup = 'Misc'
+    name = mtype = "Feedback"
+    mgroup = "Misc"
     flags = 0x600051
 
-    behaviors = {B.receives_audio, B.receives_feedback,
-                 B.sends_audio, B.sends_feedback}
+    behaviors = {B.receives_audio, B.receives_feedback, B.sends_audio, B.sends_feedback}
 
     class Channels(Enum):
         stereo = 0

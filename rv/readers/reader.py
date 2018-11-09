@@ -9,9 +9,10 @@ log = logging.getLogger(__name__)
 
 def read_sunvox_file(file_or_name):
     from rv.readers.initial import InitialReader
+
     close = False
     if isinstance(file_or_name, str):
-        file_or_name = open(file_or_name, 'rb')
+        file_or_name = open(file_or_name, "rb")
         close = True
     try:
         reader = InitialReader(file_or_name)
@@ -39,20 +40,20 @@ class Reader:
         if self._object is None:
             self._object = value
         else:
-            raise AttributeError('object was already set')
+            raise AttributeError("object was already set")
 
     def process_chunks(self):
         try:
             for name, data in chunks(self.f):
                 name = name.decode(ENCODING).strip().lower()
-                method_name = 'process_{}'.format(name)
+                method_name = "process_{}".format(name)
                 method = getattr(self, method_name, None)
                 log_args = (self.__class__.__name__, method_name)
                 if callable(method):
-                    log.debug(_F('-> {}.{}', *log_args))
+                    log.debug(_F("-> {}.{}", *log_args))
                     method(data)
                 else:
-                    log.warning(_F('no {}.{} method', *log_args))
+                    log.warning(_F("no {}.{} method", *log_args))
             self.process_end_of_file()
         except ReaderFinished:
             pass
@@ -65,7 +66,7 @@ class Reader:
         pass  # Unused in current SunVox.
 
     def process_end_of_file(self):
-        raise RuntimeError('Reached end of file without a handler')
+        raise RuntimeError("Reached end of file without a handler")
 
 
 class ReaderFinished(Exception):

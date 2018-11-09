@@ -19,7 +19,7 @@ log = logging.getLogger(__name__)
 class Chunk:
     """A chunk of custom data related to a module."""
 
-    __slots__ = ['chnm', 'chdt', 'chff', 'chfr']
+    __slots__ = ["chnm", "chdt", "chff", "chfr"]
 
     def __init__(self):
         self.chnm = self.chdt = None
@@ -123,7 +123,6 @@ class OscilloscopeMode(IntEnum):
 
 
 class Visualization:
-
     def __init__(self, value):
         self.value = value
 
@@ -152,15 +151,19 @@ class Visualization:
 
     @oscilloscope_mode.setter
     def oscilloscope_mode(self, v):
-        self.value = self.value - (int(self.oscilloscope_mode) << 8) + ((int(v) & 0b11111) << 8)
+        self.value = (
+            self.value - (int(self.oscilloscope_mode) << 8) + ((int(v) & 0b11111) << 8)
+        )
 
     @property
     def oscilloscope_size(self):
-        return self.value >> 16 & 0xff
+        return self.value >> 16 & 0xFF
 
     @oscilloscope_size.setter
     def oscilloscope_size(self, v):
-        self.value = self.value - (self.oscilloscope_size << 16) + (max(0, min(v, 0xff)) << 16)
+        self.value = (
+            self.value - (self.oscilloscope_size << 16) + (max(0, min(v, 0xFF)) << 16)
+        )
 
     @property
     def bg_transparency(self):
@@ -168,7 +171,9 @@ class Visualization:
 
     @bg_transparency.setter
     def bg_transparency(self, v):
-        self.value = self.value - (self.bg_transparency << 24) + (max(0, min(v, 3)) << 24)
+        self.value = (
+            self.value - (self.bg_transparency << 24) + (max(0, min(v, 3)) << 24)
+        )
 
     @property
     def shadow_opacity(self):
@@ -176,7 +181,9 @@ class Visualization:
 
     @shadow_opacity.setter
     def shadow_opacity(self, v):
-        self.value = self.value - (self.shadow_opacity << 26) + (max(0, min(v, 3)) << 26)
+        self.value = (
+            self.value - (self.shadow_opacity << 26) + (max(0, min(v, 3)) << 26)
+        )
 
 
 class Module(metaclass=ModuleMeta):
@@ -199,8 +206,8 @@ class Module(metaclass=ModuleMeta):
     options_chnm = 0
 
     def __init__(self, **kw):
-        self.index = kw.get('index', None)
-        self.parent = kw.get('parent', None)
+        self.index = kw.get("index", None)
+        self.parent = kw.get("parent", None)
         self.controller_values = OrderedDict()
         self.controllers_loaded = set()
         self.controller_midi_maps = defaultdict(ControllerMidiMap)
@@ -211,30 +218,30 @@ class Module(metaclass=ModuleMeta):
         for k, option in self.options.items():
             v = kw.get(k) if k in kw else option.default
             setattr(self, k, v)
-        self.finetune = kw.get('finetune', 0)
-        self.relative_note = kw.get('relative_note', 0)
-        self.x = kw.get('x', 512)
-        self.y = kw.get('y', 512)
-        self.layer = kw.get('layer', 0)
-        self.scale = kw.get('scale', 256)
-        self.color = kw.get('color', (255, 255, 255))
-        self.midi_in_always = kw.get('midi_in_always', False)
-        self.midi_in_channel = kw.get('midi_in_channel', 0)
-        self.midi_out_name = kw.get('midi_out_name', None)
-        self.midi_out_channel = kw.get('midi_out_channel', 0)
-        self.midi_out_bank = kw.get('midi_out_bank', -1)
-        self.midi_out_program = kw.get('midi_out_program', -1)
-        self.name = kw.get('name', self.name)
-        self.visualization = kw.get('visualization', 0x000c0101)
+        self.finetune = kw.get("finetune", 0)
+        self.relative_note = kw.get("relative_note", 0)
+        self.x = kw.get("x", 512)
+        self.y = kw.get("y", 512)
+        self.layer = kw.get("layer", 0)
+        self.scale = kw.get("scale", 256)
+        self.color = kw.get("color", (255, 255, 255))
+        self.midi_in_always = kw.get("midi_in_always", False)
+        self.midi_in_channel = kw.get("midi_in_channel", 0)
+        self.midi_out_name = kw.get("midi_out_name", None)
+        self.midi_out_channel = kw.get("midi_out_channel", 0)
+        self.midi_out_bank = kw.get("midi_out_bank", -1)
+        self.midi_out_program = kw.get("midi_out_program", -1)
+        self.name = kw.get("name", self.name)
+        self.visualization = kw.get("visualization", 0x000C0101)
         self.incoming_links = []
 
     def __repr__(self):
         attrs = [self.__class__.__name__]
         if self.index is not None:
-            attrs.append('index={}'.format(self.index))
+            attrs.append("index={}".format(self.index))
         if self.name != self.mtype:
-            attrs.append('name={}'.format(self.name))
-        return '<{}>'.format(' '.join(attrs))
+            attrs.append("name={}".format(self.name))
+        return "<{}>".format(" ".join(attrs))
 
     def __lshift__(self, other):
         self.parent.connect(other, self)
@@ -270,7 +277,7 @@ class Module(metaclass=ModuleMeta):
         controller = self.controllers[name]
         t = controller.instance_value_type(self)
         value = getattr(self, name)
-        to_raw_value = getattr(t, 'to_raw_value', int)
+        to_raw_value = getattr(t, "to_raw_value", int)
         if isinstance(value, Enum):
             value = value.value
         raw_value = to_raw_value(0 if value is None else value)
@@ -280,13 +287,16 @@ class Module(metaclass=ModuleMeta):
         """Set the value for the named controller based on given raw value."""
         controller = self.controllers[name].controller(self)
         t = controller.instance_value_type(self)
-        from_raw_value = getattr(t, 'from_raw_value', int)
+        from_raw_value = getattr(t, "from_raw_value", int)
         try:
             value = t(from_raw_value(raw_value))
         except RangeValidationError as e:
             evalue, emin, emax = e.args
-            raise ControllerValueError('{:x}({}).{}={} is not within [{}, {}]'.format(
-                self.index or 0, self.mtype, name, evalue, emin, emax))
+            raise ControllerValueError(
+                "{:x}({}).{}={} is not within [{}, {}]".format(
+                    self.index or 0, self.mtype, name, evalue, emin, emax
+                )
+            )
         self.controller_values[name] = value
 
     def propagate_down(self, controller_name, value):
@@ -296,32 +306,36 @@ class Module(metaclass=ModuleMeta):
     def on_controller_changed(self, controller, value, down, up):
         if up and self.parent:
             self.parent.on_controller_changed(
-                self, controller, value, down=False, up=True)
+                self, controller, value, down=False, up=True
+            )
 
     def iff_chunks(self, in_project=None):
         """Yield all standard chunks needed for a module."""
         if in_project is None:
             in_project = self.parent is not None
-        yield (b'SFFF', pack('<I', self.flags))
-        yield (b'SNAM', self.name.encode(ENCODING)[:32].ljust(32, b'\0'))
-        if self.mtype is not None and self.mtype != 'Output':
-            yield (b'STYP', self.mtype.encode(ENCODING) + b'\0')
-        yield (b'SFIN', pack('<i', self.finetune))
-        yield (b'SREL', pack('<i', self.relative_note))
+        yield (b"SFFF", pack("<I", self.flags))
+        yield (b"SNAM", self.name.encode(ENCODING)[:32].ljust(32, b"\0"))
+        if self.mtype is not None and self.mtype != "Output":
+            yield (b"STYP", self.mtype.encode(ENCODING) + b"\0")
+        yield (b"SFIN", pack("<i", self.finetune))
+        yield (b"SREL", pack("<i", self.relative_note))
         if in_project:
-            yield (b'SXXX', pack('<i', self.x))
-            yield (b'SYYY', pack('<i', self.y))
-            yield (b'SZZZ', pack('<i', self.layer))
-        yield (b'SSCL', pack('<I', self.scale))
+            yield (b"SXXX", pack("<i", self.x))
+            yield (b"SYYY", pack("<i", self.y))
+            yield (b"SZZZ", pack("<i", self.layer))
+        yield (b"SSCL", pack("<I", self.scale))
         if in_project:
-            yield (b'SVPR', pack('<I', int(self.visualization)))
-        yield (b'SCOL', pack('BBB', *self.color))
-        yield (b'SMII', pack('<I', int(self.midi_in_always) + (self.midi_in_channel << 1)))
+            yield (b"SVPR", pack("<I", int(self.visualization)))
+        yield (b"SCOL", pack("BBB", *self.color))
+        yield (
+            b"SMII",
+            pack("<I", int(self.midi_in_always) + (self.midi_in_channel << 1)),
+        )
         if self.midi_out_name:
-            yield (b'SMIN', self.midi_out_name.encode(ENCODING) + b'\0')
-        yield (b'SMIC', pack('<I', self.midi_out_channel))
-        yield (b'SMIB', pack('<i', self.midi_out_bank))
-        yield (b'SMIP', pack('<i', self.midi_out_program))
+            yield (b"SMIN", self.midi_out_name.encode(ENCODING) + b"\0")
+        yield (b"SMIC", pack("<I", self.midi_out_channel))
+        yield (b"SMIB", pack("<i", self.midi_out_bank))
+        yield (b"SMIP", pack("<i", self.midi_out_program))
 
     def specialized_iff_chunks(self):
         """Yield specialized chunks needed for a module, if applicable.
@@ -336,21 +350,20 @@ class Module(metaclass=ModuleMeta):
 
     def options_chunks(self):
         """Yield chunks necessary to save options for this module."""
-        yield (b'CHNM', pack('<I', self.options_chnm))
+        yield (b"CHNM", pack("<I", self.options_chnm))
         values = list(self.option_values.values())
         values += [False] * (64 - len(values))
-        yield (b'CHDT', pack('B' * 64, *values))
+        yield (b"CHDT", pack("B" * 64, *values))
 
     def load_chunk(self, chunk):
         """Load a CHNK/CHNM/CHDT/CHFF/CHFR block into this module."""
-        log.warning(_F('load_chunk not implemented for {}',
-                    self.__class__.__name__))
+        log.warning(_F("load_chunk not implemented for {}", self.__class__.__name__))
 
     def load_cmid(self, data):
         names = self.controllers.keys()
         for i, name in enumerate(names):
             offset = i * 8
-            cmid_data = data[offset:offset+8]
+            cmid_data = data[offset : offset + 8]
             if len(cmid_data) == 8:
                 self.controller_midi_maps[name].cmid_data = cmid_data
 

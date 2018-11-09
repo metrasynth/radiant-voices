@@ -6,8 +6,8 @@ from rv.modules import Behavior as B, Module
 
 class DrumSynth(Module):
 
-    name = mtype = 'DrumSynth'
-    mgroup = 'Synth'
+    name = mtype = "DrumSynth"
+    mgroup = "Synth"
     flags = 0x000049
 
     behaviors = {B.receives_notes, B.sends_audio}
@@ -29,16 +29,126 @@ class DrumSynth(Module):
 class DRUMNOTE(IntEnum):
 
     (
-        BD01, BD02, BD03, BD04, HH01, HH02, HH03, SD01, SD02, SD03, SD04, SD05,
-        BD11, BD12, BD13, BD14, HH11, HH12, HH13, SD11, SD12, SD13, SD14, SD15,
-        BD21, BD22, BD23, BD24, HH21, HH22, HH23, SD21, SD22, SD23, SD24, SD25,
-        BD31, BD32, BD33, BD34, HH31, HH32, HH33, SD31, SD32, SD33, SD34, SD35,
-        BD41, BD42, BD43, BD44, HH41, HH42, HH43, SD41, SD42, SD43, SD44, SD45,
-        BD51, BD52, BD53, BD54, HH51, HH52, HH53, SD51, SD52, SD53, SD54, SD55,
-        BD61, BD62, BD63, BD64, HH61, HH62, HH63, SD61, SD62, SD63, SD64, SD65,
-        BD71, BD72, BD73, BD74, HH71, HH72, HH73, SD71, SD72, SD73, SD74, SD75,
-        BD81, BD82, BD83, BD84, HH81, HH82, HH83, SD81, SD82, SD83, SD84, SD85,
-        BD91, BD92, BD93, BD94, HH91, HH92, HH93, SD91, SD92, SD93, SD94, SD95,
+        BD01,
+        BD02,
+        BD03,
+        BD04,
+        HH01,
+        HH02,
+        HH03,
+        SD01,
+        SD02,
+        SD03,
+        SD04,
+        SD05,
+        BD11,
+        BD12,
+        BD13,
+        BD14,
+        HH11,
+        HH12,
+        HH13,
+        SD11,
+        SD12,
+        SD13,
+        SD14,
+        SD15,
+        BD21,
+        BD22,
+        BD23,
+        BD24,
+        HH21,
+        HH22,
+        HH23,
+        SD21,
+        SD22,
+        SD23,
+        SD24,
+        SD25,
+        BD31,
+        BD32,
+        BD33,
+        BD34,
+        HH31,
+        HH32,
+        HH33,
+        SD31,
+        SD32,
+        SD33,
+        SD34,
+        SD35,
+        BD41,
+        BD42,
+        BD43,
+        BD44,
+        HH41,
+        HH42,
+        HH43,
+        SD41,
+        SD42,
+        SD43,
+        SD44,
+        SD45,
+        BD51,
+        BD52,
+        BD53,
+        BD54,
+        HH51,
+        HH52,
+        HH53,
+        SD51,
+        SD52,
+        SD53,
+        SD54,
+        SD55,
+        BD61,
+        BD62,
+        BD63,
+        BD64,
+        HH61,
+        HH62,
+        HH63,
+        SD61,
+        SD62,
+        SD63,
+        SD64,
+        SD65,
+        BD71,
+        BD72,
+        BD73,
+        BD74,
+        HH71,
+        HH72,
+        HH73,
+        SD71,
+        SD72,
+        SD73,
+        SD74,
+        SD75,
+        BD81,
+        BD82,
+        BD83,
+        BD84,
+        HH81,
+        HH82,
+        HH83,
+        SD81,
+        SD82,
+        SD83,
+        SD84,
+        SD85,
+        BD91,
+        BD92,
+        BD93,
+        BD94,
+        HH91,
+        HH92,
+        HH93,
+        SD91,
+        SD92,
+        SD93,
+        SD94,
+        SD95,
     ) = range(1, 121)
 
 
@@ -72,16 +182,76 @@ class HHNOTE(IntEnum):
 
 class SDNOTE(IntEnum):
 
-    SD01, SD02, SD03, SD04, SD05 = DRUMNOTE.SD01, DRUMNOTE.SD02, DRUMNOTE.SD03, DRUMNOTE.SD04, DRUMNOTE.SD05
-    SD11, SD12, SD13, SD14, SD15 = DRUMNOTE.SD11, DRUMNOTE.SD12, DRUMNOTE.SD13, DRUMNOTE.SD14, DRUMNOTE.SD15
-    SD21, SD22, SD23, SD24, SD25 = DRUMNOTE.SD21, DRUMNOTE.SD22, DRUMNOTE.SD23, DRUMNOTE.SD24, DRUMNOTE.SD25
-    SD31, SD32, SD33, SD34, SD35 = DRUMNOTE.SD31, DRUMNOTE.SD32, DRUMNOTE.SD33, DRUMNOTE.SD34, DRUMNOTE.SD35
-    SD41, SD42, SD43, SD44, SD45 = DRUMNOTE.SD41, DRUMNOTE.SD42, DRUMNOTE.SD43, DRUMNOTE.SD44, DRUMNOTE.SD45
-    SD51, SD52, SD53, SD54, SD55 = DRUMNOTE.SD51, DRUMNOTE.SD52, DRUMNOTE.SD53, DRUMNOTE.SD54, DRUMNOTE.SD55
-    SD61, SD62, SD63, SD64, SD65 = DRUMNOTE.SD61, DRUMNOTE.SD62, DRUMNOTE.SD63, DRUMNOTE.SD64, DRUMNOTE.SD65
-    SD71, SD72, SD73, SD74, SD75 = DRUMNOTE.SD71, DRUMNOTE.SD72, DRUMNOTE.SD73, DRUMNOTE.SD74, DRUMNOTE.SD75
-    SD81, SD82, SD83, SD84, SD85 = DRUMNOTE.SD81, DRUMNOTE.SD82, DRUMNOTE.SD83, DRUMNOTE.SD84, DRUMNOTE.SD85
-    SD91, SD92, SD93, SD94, SD95 = DRUMNOTE.SD91, DRUMNOTE.SD92, DRUMNOTE.SD93, DRUMNOTE.SD94, DRUMNOTE.SD95
+    SD01, SD02, SD03, SD04, SD05 = (
+        DRUMNOTE.SD01,
+        DRUMNOTE.SD02,
+        DRUMNOTE.SD03,
+        DRUMNOTE.SD04,
+        DRUMNOTE.SD05,
+    )
+    SD11, SD12, SD13, SD14, SD15 = (
+        DRUMNOTE.SD11,
+        DRUMNOTE.SD12,
+        DRUMNOTE.SD13,
+        DRUMNOTE.SD14,
+        DRUMNOTE.SD15,
+    )
+    SD21, SD22, SD23, SD24, SD25 = (
+        DRUMNOTE.SD21,
+        DRUMNOTE.SD22,
+        DRUMNOTE.SD23,
+        DRUMNOTE.SD24,
+        DRUMNOTE.SD25,
+    )
+    SD31, SD32, SD33, SD34, SD35 = (
+        DRUMNOTE.SD31,
+        DRUMNOTE.SD32,
+        DRUMNOTE.SD33,
+        DRUMNOTE.SD34,
+        DRUMNOTE.SD35,
+    )
+    SD41, SD42, SD43, SD44, SD45 = (
+        DRUMNOTE.SD41,
+        DRUMNOTE.SD42,
+        DRUMNOTE.SD43,
+        DRUMNOTE.SD44,
+        DRUMNOTE.SD45,
+    )
+    SD51, SD52, SD53, SD54, SD55 = (
+        DRUMNOTE.SD51,
+        DRUMNOTE.SD52,
+        DRUMNOTE.SD53,
+        DRUMNOTE.SD54,
+        DRUMNOTE.SD55,
+    )
+    SD61, SD62, SD63, SD64, SD65 = (
+        DRUMNOTE.SD61,
+        DRUMNOTE.SD62,
+        DRUMNOTE.SD63,
+        DRUMNOTE.SD64,
+        DRUMNOTE.SD65,
+    )
+    SD71, SD72, SD73, SD74, SD75 = (
+        DRUMNOTE.SD71,
+        DRUMNOTE.SD72,
+        DRUMNOTE.SD73,
+        DRUMNOTE.SD74,
+        DRUMNOTE.SD75,
+    )
+    SD81, SD82, SD83, SD84, SD85 = (
+        DRUMNOTE.SD81,
+        DRUMNOTE.SD82,
+        DRUMNOTE.SD83,
+        DRUMNOTE.SD84,
+        DRUMNOTE.SD85,
+    )
+    SD91, SD92, SD93, SD94, SD95 = (
+        DRUMNOTE.SD91,
+        DRUMNOTE.SD92,
+        DRUMNOTE.SD93,
+        DRUMNOTE.SD94,
+        DRUMNOTE.SD95,
+    )
 
 
 DrumSynth.DRUMNOTE = DRUMNOTE

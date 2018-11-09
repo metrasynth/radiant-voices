@@ -6,8 +6,8 @@ from rv.modules import Behavior as B, Module
 
 class Eq(Module):
 
-    name = mtype = 'EQ'
-    mgroup = 'Effect'
+    name = mtype = "EQ"
+    mgroup = "Effect"
     flags = 0x000051
 
     behaviors = {B.receives_audio, B.sends_audio}

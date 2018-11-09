@@ -17,15 +17,15 @@ from rv.readers.reader import read_sunvox_file
 
 
 MAX_USER_DEFINED_CONTROLLERS = 27
-USER_DEFINED_RE = re.compile(r'user_defined_\d+')
+USER_DEFINED_RE = re.compile(r"user_defined_\d+")
 
 
 def slugify(s):
-    s = slugify_unicode(s, separator='_', to_lower=True)
-    if s == '':
-        return '_'
+    s = slugify_unicode(s, separator="_", to_lower=True)
+    if s == "":
+        return "_"
     if s[0] in digits:
-        s = f'_{s}'
+        s = f"_{s}"
     return s
 
 
@@ -33,7 +33,7 @@ class UserDefined(Controller):
     label = None
 
     def __init__(self, number):
-        self.name = 'user_defined_{}'.format(number + 1)
+        self.name = "user_defined_{}".format(number + 1)
         self.number = number + 6
         super().__init__((0, 32768), 0, attached=False)
 
@@ -45,7 +45,6 @@ class UserDefined(Controller):
 
 
 class UserDefinedProxy(Controller):
-
     def __init__(self, index):
         self.index = index
         super(UserDefinedProxy, self).__init__((0, 32768), 0)
@@ -85,8 +84,8 @@ class MetaModule(Module):
     in the project embedded within the MetaModule.
     """
 
-    name = mtype = 'MetaModule'
-    mgroup = 'Misc'
+    name = mtype = "MetaModule"
+    mgroup = "Misc"
     options_chnm = 0x02
     flags = 0x008051
 
@@ -104,7 +103,7 @@ class MetaModule(Module):
     class MappingArray(ArrayChunk):
         chnm = 1
         length = 64
-        type = 'HH'
+        type = "HH"
         element_size = 2 * 2
 
         def default(self, _):
@@ -112,8 +111,9 @@ class MetaModule(Module):
 
         @property
         def encoded_values(self):
-            return list(chain.from_iterable(
-                (x.module, x.controller - 1) for x in self.values))
+            return list(
+                chain.from_iterable((x.module, x.controller - 1) for x in self.values)
+            )
 
         @property
         def python_type(self):
@@ -133,8 +133,9 @@ class MetaModule(Module):
                 controller = list(mod.controllers.values())[controller_index]
                 user_defined_controller.value_type = controller.instance_value_type(mod)
                 user_defined_controller.default = controller.default
-                metamodule.controller_values[user_defined_controller.name] = \
-                    mod.controller_values[controller.name]
+                metamodule.controller_values[
+                    user_defined_controller.name
+                ] = mod.controller_values[controller.name]
 
     volume = Controller((0, 1024), 256)
     input_module = Controller((1, 256), 1)
@@ -143,13 +144,33 @@ class MetaModule(Module):
     tpl = Controller((1, 31), 6)
 
     (
-        user_defined_1,  user_defined_2,  user_defined_3,  user_defined_4,
-        user_defined_5,  user_defined_6,  user_defined_7,  user_defined_8,
-        user_defined_9,  user_defined_10, user_defined_11, user_defined_12,
-        user_defined_13, user_defined_14, user_defined_15, user_defined_16,
-        user_defined_17, user_defined_18, user_defined_19, user_defined_20,
-        user_defined_21, user_defined_22, user_defined_23, user_defined_24,
-        user_defined_25, user_defined_26, user_defined_27,
+        user_defined_1,
+        user_defined_2,
+        user_defined_3,
+        user_defined_4,
+        user_defined_5,
+        user_defined_6,
+        user_defined_7,
+        user_defined_8,
+        user_defined_9,
+        user_defined_10,
+        user_defined_11,
+        user_defined_12,
+        user_defined_13,
+        user_defined_14,
+        user_defined_15,
+        user_defined_16,
+        user_defined_17,
+        user_defined_18,
+        user_defined_19,
+        user_defined_20,
+        user_defined_21,
+        user_defined_22,
+        user_defined_23,
+        user_defined_24,
+        user_defined_25,
+        user_defined_26,
+        user_defined_27,
     ) = [UserDefinedProxy(__i) for __i in range(27)]
 
     user_defined_controllers = Option(0, (0, MAX_USER_DEFINED_CONTROLLERS))
@@ -158,7 +179,7 @@ class MetaModule(Module):
     event_output = Option(True, inverted=True)
 
     def __init__(self, **kwargs):
-        project = kwargs.get('project', None)
+        project = kwargs.get("project", None)
         self.user_defined = [
             UserDefined(i) for i in range(MAX_USER_DEFINED_CONTROLLERS)
         ]
@@ -172,7 +193,7 @@ class MetaModule(Module):
             ctl = self.controllers[key]
             return ctl.__get__(self, None)
         else:
-            if 'user_defined' in self.__dict__:
+            if "user_defined" in self.__dict__:
                 try:
                     i = self.user_defined_aliases.index(key)
                 except ValueError:
@@ -207,12 +228,15 @@ class MetaModule(Module):
 
     @property
     def user_defined_aliases(self):
-        return [
-            'u_{}'.format(slugify(ctl.label).lower()) if ctl.label else None
-            for ctl
-            in self.user_defined
-            if ctl.attached(self)
-        ] if hasattr(self, 'user_defined') else []
+        return (
+            [
+                "u_{}".format(slugify(ctl.label).lower()) if ctl.label else None
+                for ctl in self.user_defined
+                if ctl.attached(self)
+            ]
+            if hasattr(self, "user_defined")
+            else []
+        )
 
     def on_controller_changed(self, controller, value, down, up):
         if isinstance(controller, UserDefined) and down:
@@ -226,8 +250,7 @@ class MetaModule(Module):
             if isinstance(t, Range):
                 value += t.min
             ctl.propagate(mod, value, down=True)
-        super(MetaModule, self).on_controller_changed(
-            controller, value, down, up)
+        super(MetaModule, self).on_controller_changed(controller, value, down, up)
 
     def on_embedded_controller_changed(self, module, controller, value):
         for i, mapping in enumerate(self.mappings.values):
@@ -242,9 +265,8 @@ class MetaModule(Module):
 
     def recompute_controller_attachment(self):
         ctl_count = self.user_defined_controllers
-        attached_values = (
-            [True] * ctl_count +
-            [False] * (MAX_USER_DEFINED_CONTROLLERS - ctl_count)
+        attached_values = [True] * ctl_count + [False] * (
+            MAX_USER_DEFINED_CONTROLLERS - ctl_count
         )
         for controller, attached in zip(self.user_defined, attached_values):
             if attached:
@@ -256,16 +278,16 @@ class MetaModule(Module):
         self.mappings.update_user_defined_controllers(self)
 
     def specialized_iff_chunks(self):
-        yield (b'CHNM', pack('<I', 0))
-        yield (b'CHDT', self.project.read())
+        yield (b"CHNM", pack("<I", 0))
+        yield (b"CHDT", self.project.read())
         for chunk in self.mappings.chunks():
             yield chunk
         for chunk in super(MetaModule, self).specialized_iff_chunks():
             yield chunk
         for i, controller in enumerate(self.user_defined, 8):
             if controller.attached(self) and controller.label is not None:
-                yield (b'CHNM', pack('<I', i))
-                yield (b'CHDT', controller.label.encode(rv.ENCODING) + b'\0')
+                yield (b"CHNM", pack("<I", i))
+                yield (b"CHDT", controller.label.encode(rv.ENCODING) + b"\0")
 
     def load_chunk(self, chunk):
         if chunk.chnm == self.options_chnm:
@@ -273,8 +295,7 @@ class MetaModule(Module):
         elif chunk.chnm == 0:
             self.load_project(chunk)
         elif chunk.chnm == 1:
-            self.mappings.length = \
-                len(chunk.chdt) // self.mappings.element_size
+            self.mappings.length = len(chunk.chdt) // self.mappings.element_size
             self.mappings.reset()
             self.mappings.bytes = chunk.chdt
         elif chunk.chnm >= 8:
@@ -286,5 +307,5 @@ class MetaModule(Module):
     def load_label(self, chunk):
         controller = self.user_defined[chunk.chnm - 8]
         data = chunk.chdt
-        data = data[:data.find(0)] if 0 in data else data
+        data = data[: data.find(0)] if 0 in data else data
         controller.label = data.decode(rv.ENCODING)

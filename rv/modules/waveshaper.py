@@ -7,8 +7,8 @@ from rv.modules import Behavior as B, Module
 
 class WaveShaper(Module):
 
-    name = mtype = 'WaveShaper'
-    mgroup = 'Effect'
+    name = mtype = "WaveShaper"
+    mgroup = "Effect"
     chnk = 1
     flags = 0x000051
 
@@ -23,10 +23,10 @@ class WaveShaper(Module):
     class Curve(ArrayChunk):
         chnm = 0
         length = 256
-        type = 'H'
+        type = "H"
         element_size = 2
         min_value = 0
-        max_value = 0xffff
+        max_value = 0xFFFF
 
         def default(self, x):
             return x * 0x100
@@ -39,7 +39,7 @@ class WaveShaper(Module):
     dc_blocker = Controller(bool, True)
 
     def __init__(self, **kwargs):
-        values = kwargs.pop('values', None)
+        values = kwargs.pop("values", None)
         super(WaveShaper, self).__init__(**kwargs)
         self.curve = self.Curve()
         if values is not None:

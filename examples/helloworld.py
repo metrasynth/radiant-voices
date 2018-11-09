@@ -17,11 +17,11 @@ def hello_world():
     sunvox.init(None, 44100, 2, 0)
     with sunvox.Slot(project) as slot:
         slot.send_event(0, 42, 32, fm, 0, 0)
-        print('Press Enter to close')
+        print("Press Enter to close")
         input()
         slot.stop()
     sunvox.deinit()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     hello_world()

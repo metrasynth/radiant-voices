@@ -6,8 +6,8 @@ from rv.modules import Behavior as B, Module
 
 class Lfo(Module):
 
-    name = mtype = 'LFO'
-    mgroup = 'Effect'
+    name = mtype = "LFO"
+    mgroup = "Effect"
     flags = 0x000451
 
     behaviors = {B.sends_audio}
@@ -51,7 +51,9 @@ class Lfo(Module):
     volume = Controller((0, 512), 256)
     type = Controller(Type, Type.amplitude)
     amplitude = Controller((0, 256), 256)
-    freq = Controller(DependentRange('frequency_unit', freq_ranges, Range(1, 2048)), 256)
+    freq = Controller(
+        DependentRange("frequency_unit", freq_ranges, Range(1, 2048)), 256
+    )
     waveform = Controller(Waveform, Waveform.sin)
     set_phase = Controller((0, 256), 0)  # used to reset module
     channels = Controller(Channels, Channels.stereo)

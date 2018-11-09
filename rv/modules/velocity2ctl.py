@@ -6,8 +6,8 @@ from rv.modules import Behavior as B, Module
 
 class Velocity2Ctl(Module):
 
-    name = mtype = 'Velocity2Ctl'
-    mgroup = 'Misc'
+    name = mtype = "Velocity2Ctl"
+    mgroup = "Misc"
     flags = 0x020049
 
     behaviors = {B.receives_notes, B.sends_controls}

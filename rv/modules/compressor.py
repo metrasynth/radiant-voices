@@ -6,8 +6,8 @@ from rv.modules import Behavior as B, Module
 
 class Compressor(Module):
 
-    name = mtype = 'Compressor'
-    mgroup = 'Effect'
+    name = mtype = "Compressor"
+    mgroup = "Effect"
     flags = 0x002051
 
     behaviors = {B.receives_audio, B.sends_audio}

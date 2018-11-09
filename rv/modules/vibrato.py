@@ -6,8 +6,8 @@ from rv.modules import Behavior as B, Module
 
 class Vibrato(Module):
 
-    name = mtype = 'Vibrato'
-    mgroup = 'Effect'
+    name = mtype = "Vibrato"
+    mgroup = "Effect"
     flags = 0x000451
 
     behaviors = {B.receives_audio, B.sends_audio}
@@ -37,7 +37,9 @@ class Vibrato(Module):
 
     volume = Controller((0, 256), 256)
     amplitude = Controller((0, 256), 16)
-    freq = Controller(DependentRange('frequency_unit', freq_ranges, Range(1, 2048)), 256)
+    freq = Controller(
+        DependentRange("frequency_unit", freq_ranges, Range(1, 2048)), 256
+    )
     channels = Controller(Channels, Channels.stereo)
     set_phase = Controller((0, 256), 0)  # used to reset module
     frequency_unit = Controller(FrequencyUnit, FrequencyUnit.hz_64)

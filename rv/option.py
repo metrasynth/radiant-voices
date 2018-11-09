@@ -35,6 +35,6 @@ class Option:
         else:
             value = max(self.range[0], min(self.range[1], value))
         instance.option_values[self.name] = value
-        callback = getattr(instance, 'on_{}_changed'.format(self.name), None)
+        callback = getattr(instance, "on_{}_changed".format(self.name), None)
         if callable(callback):
             callback(value)

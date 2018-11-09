@@ -5,7 +5,6 @@ from rv.readers.reader import read_sunvox_file
 
 
 class Container:
-
     def chunks(self):
         raise NotImplementedError()
 

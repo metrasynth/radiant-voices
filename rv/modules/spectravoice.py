@@ -7,8 +7,8 @@ from rv.modules import Behavior as B, Module
 
 class SpectraVoice(Module):
 
-    name = mtype = 'SpectraVoice'
-    mgroup = 'Synth'
+    name = mtype = "SpectraVoice"
+    mgroup = "Synth"
     chnk = 4
     flags = 0x000049
 
@@ -42,7 +42,7 @@ class SpectraVoice(Module):
 
     class HarmonicFreqArray(HarmonicValueArray):
         chnm = 0
-        type = 'H'
+        type = "H"
         default = [1098] + [0] * 15
         element_size = 2
         min_value = 0
@@ -50,23 +50,23 @@ class SpectraVoice(Module):
 
     class HarmonicVolumeArray(HarmonicValueArray):
         chnm = 1
-        type = 'B'
+        type = "B"
         default = [255] + [0] * 15
         element_size = 1
         min_value = 0
-        max_value = 0xff
+        max_value = 0xFF
 
     class HarmonicWidthArray(HarmonicValueArray):
         chnm = 2
-        type = 'B'
+        type = "B"
         default = [3] + [0] * 15
         element_size = 1
         min_value = 0
-        max_value = 0xff
+        max_value = 0xFF
 
     class HarmonicTypeArray(HarmonicValueArray):
         chnm = 3
-        type = 'B'
+        type = "B"
         element_size = 1
 
         @property
@@ -98,7 +98,7 @@ class SpectraVoice(Module):
     h_type = Controller(HarmonicType, HarmonicType.hsin)
 
     def __init__(self, **kwargs):
-        harmonics = kwargs.pop('harmonics', [])
+        harmonics = kwargs.pop("harmonics", [])
         super(SpectraVoice, self).__init__(**kwargs)
         self.harmonic_freqs = self.HarmonicFreqArray()
         self.harmonic_volumes = self.HarmonicVolumeArray()
@@ -147,7 +147,6 @@ class SpectraVoice(Module):
 
 
 class Harmonic:
-
     def __init__(self, module, index):
         self.module = module
         self.index = index

@@ -11,7 +11,7 @@ class Synth(Container):
     or can be loaded into a project as a module.
     """
 
-    MAGIC_CHUNK = (b'SSYN', b'')
+    MAGIC_CHUNK = (b"SSYN", b"")
 
     def __init__(self, module=None):
         self.sunsynth_version = 1
@@ -20,27 +20,30 @@ class Synth(Container):
     def chunks(self):
         """Generate chunks necessary to encode project as a .sunvox file"""
         if self.module is None:
-            raise EmptySynthError('Cannot serialize a synth with no module')
+            raise EmptySynthError("Cannot serialize a synth with no module")
         yield self.MAGIC_CHUNK
-        yield (b'VERS', pack('<I', self.sunsynth_version))
+        yield (b"VERS", pack("<I", self.sunsynth_version))
         mod = self.module
         for chunk in mod.iff_chunks(in_project=False):
             yield chunk
-        recompute = getattr(mod, 'recompute_controller_attachment',
-                            lambda: None)
+        recompute = getattr(mod, "recompute_controller_attachment", lambda: None)
         recompute()
         ctl_count = 0
-        controllers = [(n, c) for n, c in mod.controllers.items()
-                       if c.attached(mod)]
+        controllers = [(n, c) for n, c in mod.controllers.items() if c.attached(mod)]
         for name, ctl in controllers:
             if ctl.attached(mod):
                 raw_value = mod.get_raw(name)
-                yield (b'CVAL', pack('<I', raw_value))
+                yield (b"CVAL", pack("<I", raw_value))
                 ctl_count += 1
         if ctl_count:
-            yield (b'CMID', b''.join(mod.controller_midi_maps[name].cmid_data for name, _ in controllers))
+            yield (
+                b"CMID",
+                b"".join(
+                    mod.controller_midi_maps[name].cmid_data for name, _ in controllers
+                ),
+            )
         if mod.chnk:
-            yield (b'CHNK', pack('<I', mod.chnk))
+            yield (b"CHNK", pack("<I", mod.chnk))
             for chunk in mod.specialized_iff_chunks():
                 yield chunk
-        yield (b'SEND', b'')
+        yield (b"SEND", b"")

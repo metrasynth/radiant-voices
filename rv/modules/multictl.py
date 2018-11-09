@@ -66,8 +66,8 @@ def invert_value(gain, smin, smax, dmin, dmax, vmax, value):
 
 class MultiCtl(Module):
 
-    name = mtype = 'MultiCtl'
-    mgroup = 'Misc'
+    name = mtype = "MultiCtl"
+    mgroup = "Misc"
     chnk = 2
     flags = 0x020051
 
@@ -80,7 +80,7 @@ class MultiCtl(Module):
     class MappingArray(ArrayChunk):
         chnm = 0
         length = 16
-        type = 'IIIIIIII'
+        type = "IIIIIIII"
         element_size = 4 * 8
 
         def default(self, _):
@@ -88,9 +88,11 @@ class MultiCtl(Module):
 
         @property
         def encoded_values(self):
-            return list(chain.from_iterable(
-                (x.min, x.max, x.controller, 0, 0, 0, 0, 0)
-                for x in self.values))
+            return list(
+                chain.from_iterable(
+                    (x.min, x.max, x.controller, 0, 0, 0, 0, 0) for x in self.values
+                )
+            )
 
         @property
         def python_type(self):
@@ -99,7 +101,7 @@ class MultiCtl(Module):
     class Curve(ArrayChunk):
         chnm = 1
         length = 257
-        type = 'H'
+        type = "H"
         element_size = 2
         min_value = 0
         max_value = 0x8000
@@ -113,8 +115,8 @@ class MultiCtl(Module):
     out_offset = Controller((-16384, 16384), 0)
 
     def __init__(self, **kwargs):
-        curve = kwargs.pop('curve', None)
-        mappings = kwargs.pop('mappings', [])
+        curve = kwargs.pop("curve", None)
+        mappings = kwargs.pop("mappings", [])
         super(MultiCtl, self).__init__(**kwargs)
         self.curve = self.Curve()
         if curve is not None:
@@ -148,8 +150,10 @@ class MultiCtl(Module):
                     converted = convert_value(
                         self.gain,
                         self.quantization,
-                        smin, smax,
-                        dmin, dmax,
+                        smin,
+                        smax,
+                        dmin,
+                        dmax,
                         vmax,
                         self.value,
                         self.curve.values,
@@ -169,15 +173,17 @@ class MultiCtl(Module):
                 if len(downstream_mods) == index + 1:
                     break
         else:
-            raise IndexError('No destination module mapped at index {}'.format(index))
+            raise IndexError("No destination module mapped at index {}".format(index))
         mapping = self.mappings.values[index]
         if mapping.controller == 0:
-            raise IndexError('No destination controller mapped at index {}'.format(index))
+            raise IndexError(
+                "No destination controller mapped at index {}".format(index)
+            )
         reflect_mod = self.parent.modules[downstream_mods[-1]]
         reflect_ctl_name = list(reflect_mod.controllers)[mapping.controller - 1]
         reflect_ctl = reflect_mod.controllers[reflect_ctl_name]
         reflect_value = getattr(reflect_mod, reflect_ctl_name)
-        if hasattr(reflect_value, 'value'):
+        if hasattr(reflect_value, "value"):
             reflect_value = reflect_value.value
         t = reflect_ctl.value_type
         if isinstance(t, Range):
@@ -204,7 +210,7 @@ class MultiCtl(Module):
         if propagate:
             self.value = inverted
         else:
-            self.controller_values['value'] = inverted
+            self.controller_values["value"] = inverted
 
     def specialized_iff_chunks(self):
         for chunk in self.mappings.chunks():
@@ -223,7 +229,7 @@ class MultiCtl(Module):
     @staticmethod
     def macro(project, *mod_ctl_pairs, name=None, layer=0, x=0, y=0, initial=None):
         if len(mod_ctl_pairs) > 16:
-            raise MappingError('MultiCtl supports max of 16 destinations')
+            raise MappingError("MultiCtl supports max of 16 destinations")
         mappings = []
         mods = []
         gains = set()
@@ -249,19 +255,15 @@ class MultiCtl(Module):
             mappings.append((mapmin, mapmax, ctl.number))
             mods.append(project.modules[mod.index])
         if len(mods) != len(set(mods)):
-            raise MappingError('Only one MultiCtl mapping per destination module allowed')
+            raise MappingError(
+                "Only one MultiCtl mapping per destination module allowed"
+            )
         if gains and len(gains) == 1:
             gain = list(gains).pop()
         else:
             gain = 256
         bundle = project.new_module(
-            MultiCtl,
-            name=name,
-            layer=layer,
-            x=x,
-            y=y,
-            gain=gain,
-            mappings=mappings,
+            MultiCtl, name=name, layer=layer, x=x, y=y, gain=gain, mappings=mappings
         )
         bundle >> mods
         if initial is not None:

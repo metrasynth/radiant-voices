@@ -6,8 +6,8 @@ from rv.modules import Behavior as B, Module
 
 class Kicker(Module):
 
-    name = mtype = 'Kicker'
-    mgroup = 'Synth'
+    name = mtype = "Kicker"
+    mgroup = "Synth"
     flags = 0x000049
 
     behaviors = {B.receives_notes, B.sends_audio}

@@ -7,8 +7,8 @@ from rv.modules import Behavior as B, Module
 
 class Generator(Module):
 
-    name = mtype = 'Generator'
-    mgroup = 'Synth'
+    name = mtype = "Generator"
+    mgroup = "Synth"
     chnk = 1
     flags = 0x000059
 
@@ -44,7 +44,7 @@ class Generator(Module):
     duty_cycle = Controller((0, 1022), 511)
 
     def __init__(self, **kwargs):
-        samples = kwargs.pop('samples', None)
+        samples = kwargs.pop("samples", None)
         super(Generator, self).__init__(**kwargs)
         self.dirty_waveform = self.DirtyWaveform()
         if samples is not None:

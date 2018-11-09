@@ -6,7 +6,6 @@ from rv.synth import Synth
 
 
 class SunSynthReader(Reader):
-
     def __init__(self, f):
         super(SunSynthReader, self).__init__(f)
 
@@ -15,7 +14,7 @@ class SunSynthReader(Reader):
         super().process_chunks()
 
     def process_vers(self, data):
-        self.object.sunsynth_version, = unpack('<I', data)
+        self.object.sunsynth_version, = unpack("<I", data)
 
     def process_sfff(self, data):
         self.rewind(data)

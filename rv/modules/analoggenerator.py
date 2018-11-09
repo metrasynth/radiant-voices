@@ -8,8 +8,8 @@ from rv.option import Option
 
 class AnalogGenerator(Module):
 
-    name = mtype = 'Analog generator'
-    mgroup = 'Synth'
+    name = mtype = "Analog generator"
+    mgroup = "Synth"
     chnk = 2
     options_chnm = 1
     flags = 0x000049
@@ -94,7 +94,7 @@ class AnalogGenerator(Module):
     true_zero_attack_release = Option(False)
 
     def __init__(self, **kwargs):
-        samples = kwargs.pop('samples', None)
+        samples = kwargs.pop("samples", None)
         super(AnalogGenerator, self).__init__(**kwargs)
         self.dirty_waveform = self.DirtyWaveform()
         if samples is not None:

@@ -6,8 +6,8 @@ from rv.modules import Behavior as B, Module
 
 class Input(Module):
 
-    name = mtype = 'Input'
-    mgroup = 'Synth'
+    name = mtype = "Input"
+    mgroup = "Synth"
     flags = 0x000049
 
     behaviors = {B.sends_audio}

@@ -33,18 +33,20 @@ class ControllerMidiMap:
     @property
     def cmid_data(self):
         return pack(
-            '<BBBBHBB',
+            "<BBBBHBB",
             self.message_type.value,
             self.channel,
             self.slope.value,
             0,
             self.message_parameter,
             0,
-            0xff if self.message_type == MidiMessageType.unset else 0xc8,
+            0xFF if self.message_type == MidiMessageType.unset else 0xC8,
         )
 
     @cmid_data.setter
     def cmid_data(self, data):
-        message_type, self.channel, slope, _, self.message_parameter, _, _ = unpack('<BBBBHBB', data)
+        message_type, self.channel, slope, _, self.message_parameter, _, _ = unpack(
+            "<BBBBHBB", data
+        )
         self.message_type = MidiMessageType(message_type)
         self.slope = Slope(slope)

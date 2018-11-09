@@ -6,8 +6,8 @@ from rv.modules import Behavior as B, Module
 
 class Modulator(Module):
 
-    name = mtype = 'Modulator'
-    mgroup = 'Effect'
+    name = mtype = "Modulator"
+    mgroup = "Effect"
     flags = 0x002051
 
     behaviors = {B.receives_audio, B.receives_modulator, B.sends_audio}

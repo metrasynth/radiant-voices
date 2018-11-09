@@ -1,5 +1,6 @@
 import logging
 from logutils import BraceMessage as _F
+
 log = logging.getLogger(__name__)
 
 from collections import OrderedDict
@@ -27,8 +28,8 @@ class Sampler(Module):
         loaded into the latest version of SunVox and then saved.
     """
 
-    name = mtype = 'Sampler'
-    mgroup = 'Synth'
+    name = mtype = "Sampler"
+    mgroup = "Synth"
     chnk = 0x109
     options_chnm = 0x0101
     flags = 0x008459
@@ -71,8 +72,7 @@ class Sampler(Module):
         def __init__(self):
             super(Sampler.NoteSampleMap, self).__init__(
                 (NOTE(note_value), self.default_sample)
-                for note_value in range(self.start_note.value,
-                                        self.end_note.value + 1)
+                for note_value in range(self.start_note.value, self.end_note.value + 1)
             )
 
         @property
@@ -132,7 +132,7 @@ class Sampler(Module):
         def point_bytes(self):
             y_points = (y - self.range[0] // 0x200 for y in self._y_values)
             values = list(chain.from_iterable(zip(self._x_values, y_points)))
-            return pack('<' + 'H' * len(values), *values)
+            return pack("<" + "H" * len(values), *values)
 
         @property
         def _x_values(self):
@@ -149,16 +149,21 @@ class Sampler(Module):
             return values[:12]
 
         def chunks(self):
-            yield (b'CHNM', pack('<I', self.chnm))
-            data = pack('<HBBB', self.bitmask, self.controller_number,
-                        self.gain_percentage, self.velocity)
-            data += b'\0\0\0'
-            data += pack('<I', len(self.points))
-            data += b'\0\0\0\0\0\0\0\0'
+            yield (b"CHNM", pack("<I", self.chnm))
+            data = pack(
+                "<HBBB",
+                self.bitmask,
+                self.controller_number,
+                self.gain_percentage,
+                self.velocity,
+            )
+            data += b"\0\0\0"
+            data += pack("<I", len(self.points))
+            data += b"\0\0\0\0\0\0\0\0"
             for x, y in self.points:
                 y -= self.range[0]
-                data += pack('<HH', x, y)
-            yield (b'CHDT', data)
+                data += pack("<HH", x, y)
+            yield (b"CHDT", data)
 
         def load_chdt(self, chdt):
             (
@@ -166,17 +171,19 @@ class Sampler(Module):
                 self.controller_number,
                 self.gain_percentage,
                 self.velocity,
-                _, _, _,
+                _,
+                _,
+                _,
                 point_count,
                 self.sustain_point,
                 self.loop_start_point,
                 self.loop_end_point,
-            ) = unpack('<HBBBBBBHHHH', chdt[0:0x10])
+            ) = unpack("<HBBBBBBHHHH", chdt[0:0x10])
             points = self.points = []
             for i in range(point_count):
                 offset = 0x14 + i * 4
-                data = chdt[offset:offset + 4]
-                x, y = unpack('<HH', data)
+                data = chdt[offset : offset + 4]
+                x, y = unpack("<HH", data)
                 min_y = self.range[0]
                 points.append((x, y + min_y))
             self.loaded = True
@@ -190,12 +197,7 @@ class Sampler(Module):
         initial_loop_end_point = 0
         initial_sustain = True
         initial_sustain_point = 0
-        initial_points = [
-            (0, 0x8000),
-            (8, 0),
-            (0x80, 0),
-            (0x100, 0),
-        ]
+        initial_points = [(0, 0x8000), (8, 0), (0x80, 0), (0x100, 0)]
 
     class PanningEnvelope(Envelope):
         chnm = 0x103
@@ -206,12 +208,7 @@ class Sampler(Module):
         initial_loop_end_point = 0
         initial_sustain = False
         initial_sustain_point = 0
-        initial_points = [
-            (0, 0),
-            (0x40, -0x2000),
-            (0x80, 0x2000),
-            (0xb4, 0),
-        ]
+        initial_points = [(0, 0), (0x40, -0x2000), (0x80, 0x2000), (0xB4, 0)]
 
     class PitchEnvelope(Envelope):
         chnm = 0x104
@@ -222,10 +219,7 @@ class Sampler(Module):
         initial_loop_end_point = 0
         initial_sustain = False
         initial_sustain_point = 0
-        initial_points = [
-            (0, 0),
-            (0x40, 0),
-        ]
+        initial_points = [(0, 0), (0x40, 0)]
 
     class EffectControlEnvelope(Envelope):
         range = (0, 0x8000)
@@ -235,10 +229,7 @@ class Sampler(Module):
         initial_loop_end_point = 0
         initial_sustain = False
         initial_sustain_point = 0
-        initial_points = [
-            (0, 0x8000),
-            (0x40, 0x8000),
-        ]
+        initial_points = [(0, 0x8000), (0x40, 0x8000)]
 
         def __init__(self, chnm):
             super().__init__()
@@ -246,7 +237,7 @@ class Sampler(Module):
 
     class Sample:
         def __init__(self):
-            self.data = b''
+            self.data = b""
             self.loop_start = 0
             self.loop_end = 0
             self.volume = 64
@@ -258,12 +249,15 @@ class Sampler(Module):
             self.loop_sustain = False
             self.panning = 0
             self.relative_note = 16
-            self.unknown6 = b'\0' * 23
+            self.unknown6 = b"\0" * 23
 
         @property
         def frame_size(self):
-            size = {Sampler.Format.int8: 1, Sampler.Format.int16: 2,
-                    Sampler.Format.float32: 4}
+            size = {
+                Sampler.Format.int8: 1,
+                Sampler.Format.int16: 2,
+                Sampler.Format.float32: 4,
+            }
             multiplier = {Sampler.Channels.mono: 1, Sampler.Channels.stereo: 2}
             return size[self.format] * multiplier[self.channels]
 
@@ -273,10 +267,10 @@ class Sampler(Module):
 
     volume = Controller((0, 512), 256)
     panning = Controller((-128, 128), 0)
-    sample_interpolation = Controller(
-        SampleInterpolation, SampleInterpolation.spline)
+    sample_interpolation = Controller(SampleInterpolation, SampleInterpolation.spline)
     envelope_interpolation = Controller(
-        EnvelopeInterpolation, EnvelopeInterpolation.linear)
+        EnvelopeInterpolation, EnvelopeInterpolation.linear
+    )
     polyphony_ch = Controller((1, 32), 8)
     rec_threshold = Controller((0, 10000), 4)
 
@@ -306,11 +300,11 @@ class Sampler(Module):
         ]
         self.note_samples = self.NoteSampleMap()
         self.samples = [None] * 128
-        self.unknown1 = b'\0' * 28
-        self.unknown2 = b'\0' * 4
-        self.unknown3 = b'\x40\x00\x80\x00\x00\x00\x00\x00'
-        self.unknown4 = b'\x04\x00\x00\x00'
-        self.unknown5 = b'\0' * 9
+        self.unknown1 = b"\0" * 28
+        self.unknown2 = b"\0" * 4
+        self.unknown3 = b"\x40\x00\x80\x00\x00\x00\x00\x00"
+        self.unknown4 = b"\x04\x00\x00\x00"
+        self.unknown5 = b"\0" * 9
         self.effect = None
 
     def specialized_iff_chunks(self):
@@ -339,14 +333,15 @@ class Sampler(Module):
 
     def global_config_chunks(self):
         def b(v):
-            return pack('<B', v)
+            return pack("<B", v)
+
         f = BytesIO()
         w = f.write
         w(self.unknown1)
         compacted_samples = self.samples.copy()
         while compacted_samples and compacted_samples[-1] is None:
             compacted_samples.pop()
-        w(pack('<I', len(compacted_samples)))
+        w(pack("<I", len(compacted_samples)))
         w(self.unknown2)
         w(self.note_samples.bytes[:96])
         vol = self.volume_envelope
@@ -367,53 +362,52 @@ class Sampler(Module):
         w(b(self.vibrato_attack))
         w(b(self.vibrato_depth))
         w(b(self.vibrato_rate))
-        w(pack('<H', self.volume_fadeout))
+        w(pack("<H", self.volume_fadeout))
         w(self.unknown3)
-        w(b'PMAS')
+        w(b"PMAS")
         w(self.unknown4)
         w(self.note_samples.bytes)
         w(self.unknown5)
-        yield (b'CHNM', pack('<I', 0))
-        yield (b'CHDT', f.getvalue())
+        yield (b"CHNM", pack("<I", 0))
+        yield (b"CHDT", f.getvalue())
         f.close()
 
     def envelope_config_chunks(self):
-        yield (b'CHNM', pack('<I', 0x101))
-        yield (b'CHDT', b'\x00\x00\x00\x00\x00\x00')
+        yield (b"CHNM", pack("<I", 0x101))
+        yield (b"CHDT", b"\x00\x00\x00\x00\x00\x00")
 
     def sample_chunks(self, i, sample):
         f = BytesIO()
         w = f.write
-        w(pack('<I', sample.frames))
-        w(pack('<I', sample.loop_start))
-        w(pack('<I', sample.loop_end))
-        w(pack('<B', sample.volume))
-        w(pack('<b', sample.finetune))
+        w(pack("<I", sample.frames))
+        w(pack("<I", sample.loop_start))
+        w(pack("<I", sample.loop_end))
+        w(pack("<B", sample.volume))
+        w(pack("<b", sample.finetune))
         sustain_flag = 4 if sample.loop_sustain else 0
         format_flag = {
             self.Format.int8: 0x00,
             self.Format.int16: 0x10,
             self.Format.float32: 0x20,
         }[sample.format]
-        channels_flag = {
-            self.Channels.mono: 0x00,
-            self.Channels.stereo: 0x40,
-        }[sample.channels]
-        loop_format_flags = \
+        channels_flag = {self.Channels.mono: 0x00, self.Channels.stereo: 0x40}[
+            sample.channels
+        ]
+        loop_format_flags = (
             sample.loop_type.value | format_flag | channels_flag | sustain_flag
-        w(pack('<B', loop_format_flags))
-        w(pack('<B', sample.panning + 0x80))
-        w(pack('<b', sample.relative_note))
+        )
+        w(pack("<B", loop_format_flags))
+        w(pack("<B", sample.panning + 0x80))
+        w(pack("<b", sample.relative_note))
         w(sample.unknown6)
-        yield (b'CHNM', pack('<I', i * 2 + 1))
-        yield (b'CHDT', f.getvalue())
+        yield (b"CHNM", pack("<I", i * 2 + 1))
+        yield (b"CHDT", f.getvalue())
         f.close()
-        yield (b'CHNM', pack('<I', i * 2 + 2))
-        yield (b'CHDT', sample.data)
-        yield (b'CHFF', pack(
-            '<I', sample.format.value | sample.channels.value))
+        yield (b"CHNM", pack("<I", i * 2 + 2))
+        yield (b"CHDT", sample.data)
+        yield (b"CHFF", pack("<I", sample.format.value | sample.channels.value))
         if sample.rate != 44100:
-            yield (b'CHFR', pack('<I', sample.rate))
+            yield (b"CHFR", pack("<I", sample.rate))
 
     def load_chunk(self, chunk):
         chnm = chunk.chnm
@@ -436,58 +430,61 @@ class Sampler(Module):
             self.pitch_envelope.load_chdt(chdt)
         elif 0x105 <= chnm <= 0x108:
             self.effect_control_envelopes[chnm - 0x105].load_chdt(chdt)
-        elif chnm == 0x10a:
+        elif chnm == 0x10A:
             self.effect = read_sunvox_file(BytesIO(chdt))
 
     def load_envelopes(self, chunk):
         data = chunk.chdt
         vol = self.volume_envelope
         pan = self.panning_envelope
-        vol._legacy_point_bytes = data[0x84:0xb4]
-        pan._legacy_point_bytes = data[0xb4:0xe4]
-        vol._legacy_active_points = data[0xe4]
-        pan._legacy_active_points = data[0xe5]
-        vol._legacy_sustain_point = data[0xe6]
-        vol._legacy_loop_start_point = data[0xe7]
-        vol._legacy_loop_end_point = data[0xe8]
-        pan._legacy_sustain_point = data[0xe9]
-        pan._legacy_loop_start_point = data[0xea]
-        pan._legacy_loop_end_point = data[0xeb]
-        vol._legacy_bitmask = data[0xec]
-        pan._legacy_bitmask = data[0xed]
-        self.vibrato_type = self.VibratoType(data[0xee])
-        self.vibrato_attack = data[0xef]
-        self.vibrato_depth = data[0xf0]
-        self.vibrato_rate = data[0xf1]
-        self.volume_fadeout, = unpack('<H', data[0xf2:0xf4])
-        self.note_samples.bytes = data[0x104:0x17b]
-        self.unknown1 = data[0x00:0x1c]
+        vol._legacy_point_bytes = data[0x84:0xB4]
+        pan._legacy_point_bytes = data[0xB4:0xE4]
+        vol._legacy_active_points = data[0xE4]
+        pan._legacy_active_points = data[0xE5]
+        vol._legacy_sustain_point = data[0xE6]
+        vol._legacy_loop_start_point = data[0xE7]
+        vol._legacy_loop_end_point = data[0xE8]
+        pan._legacy_sustain_point = data[0xE9]
+        pan._legacy_loop_start_point = data[0xEA]
+        pan._legacy_loop_end_point = data[0xEB]
+        vol._legacy_bitmask = data[0xEC]
+        pan._legacy_bitmask = data[0xED]
+        self.vibrato_type = self.VibratoType(data[0xEE])
+        self.vibrato_attack = data[0xEF]
+        self.vibrato_depth = data[0xF0]
+        self.vibrato_rate = data[0xF1]
+        self.volume_fadeout, = unpack("<H", data[0xF2:0xF4])
+        self.note_samples.bytes = data[0x104:0x17B]
+        self.unknown1 = data[0x00:0x1C]
         self.unknown2 = data[0x20:0x24]
-        self.unknown3 = data[0xf4:0xfc]
+        self.unknown3 = data[0xF4:0xFC]
         self.unknown4 = data[0x100:0x104]
-        self.unknown5 = data[0x17b:0x184]
+        self.unknown5 = data[0x17B:0x184]
 
     def load_sample_meta(self, chunk):
         index = (chunk.chnm - 1) // 2
         sample = self.samples[index] = self.Sample()
         data = chunk.chdt
-        sample.loop_start, = unpack('<I', data[0x04:0x08])
-        sample.loop_end, = unpack('<I', data[0x08:0x0c])
-        sample.volume = data[0x0c]
-        sample.finetune, = unpack('<b', data[0x0d:0x0e])
-        loop_format_flags = data[0x0e]
+        sample.loop_start, = unpack("<I", data[0x04:0x08])
+        sample.loop_end, = unpack("<I", data[0x08:0x0C])
+        sample.volume = data[0x0C]
+        sample.finetune, = unpack("<b", data[0x0D:0x0E])
+        loop_format_flags = data[0x0E]
         loop = loop_format_flags & (0 | 1 | 2)
         sample.loop_type = self.LoopType(loop)
         format = loop_format_flags & (0x00 | 0x10 | 0x20)
-        sample.format = {0x00: self.Format.int8, 0x10: self.Format.int16,
-                         0x20: self.Format.float32}[format]
+        sample.format = {
+            0x00: self.Format.int8,
+            0x10: self.Format.int16,
+            0x20: self.Format.float32,
+        }[format]
         if loop_format_flags & 0x40:
             sample.channels = self.Channels.stereo
         else:
             sample.channels = self.Channels.mono
         sample.loop_sustain = bool(loop_format_flags & 4)
-        sample.panning = data[0x0f] - 0x80
-        sample.relative_note, = unpack('<b', data[0x10:0x11])
+        sample.panning = data[0x0F] - 0x80
+        sample.relative_note, = unpack("<b", data[0x10:0x11])
         sample.unknown6 = data[0x11:0x28]
 
     def load_sample_data(self, chunk):
@@ -506,8 +503,12 @@ class Sampler(Module):
             self._upgrade_envelopes()
 
     def _upgrade_envelopes(self):
-        log.info(_F('Upgrading Sampler{} to infinite envelope format',
-                    '[{}]'.format(self.index) if self.index is not None else ''))
+        log.info(
+            _F(
+                "Upgrading Sampler{} to infinite envelope format",
+                "[{}]".format(self.index) if self.index is not None else "",
+            )
+        )
         vol = self.volume_envelope
         pan = self.panning_envelope
         vol.bitmask = vol._legacy_bitmask
@@ -519,32 +520,25 @@ class Sampler(Module):
         pan.loop_start_point = pan._legacy_loop_start_point
         pan.loop_end_point = pan._legacy_loop_end_point
         vol_x_points = [
-            unpack('<H', vol._legacy_point_bytes[4 * i:4 * i + 2])[0]
-            for i
-            in range(vol._legacy_active_points)
+            unpack("<H", vol._legacy_point_bytes[4 * i : 4 * i + 2])[0]
+            for i in range(vol._legacy_active_points)
         ]
         pan_x_points = [
-            unpack('<H', pan._legacy_point_bytes[4 * i:4 * i + 2])[0]
-            for i
-            in range(pan._legacy_active_points)
+            unpack("<H", pan._legacy_point_bytes[4 * i : 4 * i + 2])[0]
+            for i in range(pan._legacy_active_points)
         ]
         vol_y_points = [
-            unpack('<H', vol._legacy_point_bytes[4 * i + 2:4 * i + 4])[0] * 0x200
-            for i
-            in range(vol._legacy_active_points)
+            unpack("<H", vol._legacy_point_bytes[4 * i + 2 : 4 * i + 4])[0] * 0x200
+            for i in range(vol._legacy_active_points)
         ]
         pan_y_points = [
-            unpack('<H', pan._legacy_point_bytes[4 * i + 2:4 * i + 4])[0] * 0x200 - pan.range[0]
-            for i
-            in range(pan._legacy_active_points)
+            unpack("<H", pan._legacy_point_bytes[4 * i + 2 : 4 * i + 4])[0] * 0x200
+            - pan.range[0]
+            for i in range(pan._legacy_active_points)
         ]
         vol.points = [
-            (vol_x_points[i], vol_y_points[i])
-            for i
-            in range(vol._legacy_active_points)
+            (vol_x_points[i], vol_y_points[i]) for i in range(vol._legacy_active_points)
         ]
         pan.points = [
-            (pan_x_points[i], pan_y_points[i])
-            for i
-            in range(pan._legacy_active_points)
+            (pan_x_points[i], pan_y_points[i]) for i in range(pan._legacy_active_points)
         ]

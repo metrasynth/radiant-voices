@@ -4,7 +4,6 @@ from rv.readers.sunvox import SunVoxReader
 
 
 class InitialReader(Reader):
-
     def process_svox(self, _):
         self.object = SunVoxReader(self.f).object
 

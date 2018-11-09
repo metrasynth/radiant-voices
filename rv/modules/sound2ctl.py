@@ -7,8 +7,8 @@ from rv.option import Option
 
 class Sound2Ctl(Module):
 
-    name = mtype = 'Sound2Ctl'
-    mgroup = 'Misc'
+    name = mtype = "Sound2Ctl"
+    mgroup = "Misc"
     chnk = 1
     options_chnm = 0
     flags = 0x600051
