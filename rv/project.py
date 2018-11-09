@@ -28,8 +28,8 @@ class Project(Container):
         self.module_connections = defaultdict(list)
         self.output = Output()
         self.attach_module(self.output)
-        self.sunvox_version = (1, 9, 2, 0)
-        self.based_on_version = (1, 9, 2, 0)
+        self.sunvox_version = (1, 9, 4, 0)
+        self.based_on_version = (1, 9, 4, 0)
         self.initial_bpm = 125
         self.initial_tpl = 6
         self.global_volume = 80

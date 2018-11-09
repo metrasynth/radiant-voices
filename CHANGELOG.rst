@@ -59,6 +59,9 @@ Changes
 - Rename ``Kicker.vol_addition`` controller to ``Kicker.boost``,
   to reflect naming in SunVox 1.9.4.
 
+- Update default ``sunvox_version`` and ``based_on_version`` of
+  newly-created ``Project`` containers to reflect file format version 1.9.4.0.
+
 - Now using black_ to format all Python modules.
 
 ..  _black:
