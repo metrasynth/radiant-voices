@@ -84,6 +84,7 @@ class AnalogGenerator(Module):
     random_phase = Option(False)
     filter_freq_eq_note_freq = Option(False)
     velocity_dependent_filter_resonance = Option(False)
+    true_zero_attack_release = Option(False)
 
     def __init__(self, **kwargs):
         samples = kwargs.pop('samples', None)

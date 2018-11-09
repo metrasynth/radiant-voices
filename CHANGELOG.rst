@@ -22,6 +22,8 @@ Additions
 
 - Add ``Amplifier.gain`` controller.
 
+- Add ``AnalogGenerator.true_zero_attack_release`` option.
+
 
 0.4.0.dev2 (2018-03-11)
 -----------------------
