@@ -36,6 +36,11 @@ Additions
 - Add new value to enum for ``Compressor.mode`` controller:
   ``peak_zero_latency``.
 
+- Add new values and value names to enum for ``Distortion.type`` controller:
+  ``clipping`` is the new name for ``lim``.
+  ``foldback`` is the new name for ``sat``.
+  ``foldback2``, ``foldback3``, ``overflow`` are new values.
+
 Changes
 .......
 
