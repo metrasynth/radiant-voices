@@ -24,6 +24,23 @@ Additions
 
 - Add ``AnalogGenerator.true_zero_attack_release`` option.
 
+- Add new values to enum for ``AnalogGenerator.waveform`` controller:
+  ``noise_with_spline_interpolation``,
+  ``white_noise``,
+  ``pink_noise``,
+  ``red_noise``,
+  ``blue_noise``,
+  ``violet_noise``,
+  ``grey_noise``.
+
+Changes
+.......
+
+- Now using black_ to format all Python modules.
+
+..  _black:
+    https://black.readthedocs.io/en/stable/
+
 
 0.4.0.dev2 (2018-03-11)
 -----------------------

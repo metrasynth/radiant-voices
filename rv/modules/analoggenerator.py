@@ -32,6 +32,13 @@ class AnalogGenerator(Module):
         hsin = 6
         asin = 7
         drawn_with_spline_interpolation = 8
+        noise_with_spline_interpolation = 9
+        white_noise = 10
+        pink_noise = 11
+        red_noise = 12
+        blue_noise = 13
+        violet_noise = 14
+        grey_noise = 15
 
     class Filter(Enum):
         off = 0
