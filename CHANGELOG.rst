@@ -41,6 +41,9 @@ Additions
   ``foldback`` is the new name for ``sat``.
   ``foldback2``, ``foldback3``, ``overflow`` are new values.
 
+- Add new value to enum for ``Lfo.waveform`` controller:
+  ``random_interpolated``.
+
 Changes
 .......
 

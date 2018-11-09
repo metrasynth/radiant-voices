@@ -24,6 +24,7 @@ class Lfo(Module):
         saw2 = 4
         random = 5
         triangle = 6
+        random_interpolated = 7
 
     class Channels(Enum):
         stereo = 0
