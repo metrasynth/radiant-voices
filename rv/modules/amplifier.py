@@ -20,3 +20,4 @@ class Amplifier(Module):
     stereo_width = Controller((0, 256), 128)
     absolute = Controller(bool, False)
     fine_volume = Controller((0, 32768), 32768)
+    gain = Controller((0, 5000), 1)

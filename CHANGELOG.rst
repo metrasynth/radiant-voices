@@ -7,15 +7,24 @@ Changelog
 
 The major themes of this release are:
 
-- Support for SunVox 1.9.3.
+- Support for SunVox 1.9.3 and 1.9.4.
 
 - Improved compatibility with the SunVox file format.
 
 - Full documentation of the SunVox file format.
 
 
-0.4.0.dev2 (under development)
-------------------------------
+0.4.0.dev3 (not released)
+-------------------------
+
+Additions
+.........
+
+- Add ``Amplifier.gain`` controller.
+
+
+0.4.0.dev2 (2018-03-11)
+-----------------------
 
 Fixes
 .....
