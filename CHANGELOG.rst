@@ -68,6 +68,8 @@ Changes
 - Update default ``sunvox_version`` and ``based_on_version`` of
   newly-created ``Project`` containers to reflect file format version 1.9.4.0.
 
+- Update ``MetaModule.behaviors`` to include ``sends_notes``.
+
 - Now using black_ to format all Python modules.
 
 ..  _black:
