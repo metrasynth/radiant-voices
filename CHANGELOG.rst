@@ -44,6 +44,12 @@ Additions
 - Add new value to enum for ``Lfo.waveform`` controller:
   ``random_interpolated``.
 
+- Add ``DrumSynth.bass_panning`` controller.
+
+- Add ``DrumSynth.hihat_panning`` controller.
+
+- Add ``DrumSynth.snare_panning`` controller.
+
 Changes
 .......
 
