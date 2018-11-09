@@ -33,6 +33,9 @@ Additions
   ``violet_noise``,
   ``grey_noise``.
 
+- Add new value to enum for ``Compressor.mode`` controller:
+  ``peak_zero_latency``.
+
 Changes
 .......
 

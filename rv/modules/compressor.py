@@ -15,6 +15,7 @@ class Compressor(Module):
     class Mode(Enum):
         peak = 0
         rms = 1
+        peak_zero_latency = 2
 
     volume = Controller((0, 512), 256)
     threshold = Controller((0, 512), 256)
