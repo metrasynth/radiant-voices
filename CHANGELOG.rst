@@ -56,6 +56,9 @@ Changes
 - Increase the maximum value of ``Gpio.pin_in`` and ``Gpio.pin_out``
   controllers to ``256``.
 
+- Rename ``Kicker.vol_addition`` controller to ``Kicker.boost``,
+  to reflect naming in SunVox 1.9.4.
+
 - Now using black_ to format all Python modules.
 
 ..  _black:
