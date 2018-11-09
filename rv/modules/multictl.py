@@ -113,6 +113,8 @@ class MultiCtl(Module):
     gain = Controller((0, 1024), 256)
     quantization = Controller((0, 32768), 32768)
     out_offset = Controller((-16384, 16384), 0)
+    response = Controller((0, 1000), 1000)
+    sample_rate_hz = Controller((1, 32768), 150)
 
     def __init__(self, **kwargs):
         curve = kwargs.pop("curve", None)

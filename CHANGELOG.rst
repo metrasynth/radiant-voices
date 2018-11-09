@@ -50,6 +50,10 @@ Additions
 
 - Add ``DrumSynth.snare_panning`` controller.
 
+- Add ``MultiCtl.response`` controller.
+
+- Add ``MultiCtl.sample_rate_hz`` controller.
+
 Changes
 .......
 
