@@ -910,11 +910,6 @@ Sample waveform (CHNM n*2+2)
 
 This is a `waveform chunk`_.
 
-Sample envelope configuration (CHNM 0x0101)
-...........................................
-
-Unknown - 6 zero bytes.
-
 Sample envelope chunk
 .....................
 
