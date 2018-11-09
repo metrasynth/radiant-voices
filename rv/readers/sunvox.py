@@ -62,6 +62,9 @@ class SunVoxReader(Reader):
     def process_time(self, data):
         self.object.timeline_position, = unpack("<i", data)
 
+    def process_reps(self, data):
+        self.object.restart_position, = unpack("<i", data)
+
     def process_sels(self, data):
         self.object.selected_module, = unpack("<I", data)
 

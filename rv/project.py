@@ -43,6 +43,7 @@ class Project(Container):
         self.modules_layer_mask = 0x00000000
         self.modules_current_layer = 0
         self.timeline_position = 0
+        self.restart_position = 0
         self.selected_module = 0
         self.selected_generator = 0
         self.current_pattern = 0
@@ -112,6 +113,8 @@ class Project(Container):
         yield (b"LMSK", pack("<I", self.modules_layer_mask))
         yield (b"CURL", pack("<I", self.modules_current_layer))
         yield (b"TIME", pack("<i", self.timeline_position))
+        if self.restart_position != 0:
+            yield (b"REPS", pack("<i", self.restart_position))
         yield (b"SELS", pack("<I", self.selected_module))
         yield (b"LGEN", pack("<I", self.selected_generator))
         yield (b"PATN", pack("<I", self.current_pattern))

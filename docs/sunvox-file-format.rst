@@ -8,6 +8,8 @@ that wants to read/write SunVox files.
 Special thanks to Alexander Zolotov for helping complete this document,
 and for sharing SunVox and his other creative works with the world.
 
+This document reflects SunVox 1.9.4.
+
 Little-endian
 -------------
 
@@ -135,6 +137,7 @@ Type ID   Format            Purpose
 ``LMSK``  unsigned int32    `Modules layer mask`_
 ``CURL``  unsigned int32    Modules current layer (0 to 7)
 ``TIME``  signed int32      Current timeline position
+``REPS``  signed int32      Restart position
 ``SELS``  unsigned int32    Index of Last selected module
 ``LGEN``  unsigned int32    Index of last selected generator module
 ``PATN``  unsigned int32    Pattern cursor: index of pattern being edited

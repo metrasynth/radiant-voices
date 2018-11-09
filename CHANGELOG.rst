@@ -54,6 +54,8 @@ Additions
 
 - Add ``MultiCtl.sample_rate_hz`` controller.
 
+- Add ``Project.restart_position`` attribute.
+
 Changes
 .......
 
