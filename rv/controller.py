@@ -4,7 +4,6 @@ log = logging.getLogger(__name__)
 
 from enum import Enum
 
-import rv
 from rv.errors import ControllerValueError, RangeValidationError
 
 

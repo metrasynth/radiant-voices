@@ -5,7 +5,7 @@ from attr import attr, attributes
 from copy import deepcopy
 
 from rv import ENCODING
-from rv.lib.validators import divisible_by, in_range, is_length
+from rv.lib.validators import in_range, is_length
 from rv.note import ALL_NOTES, Note, NOTECMD
 
 
@@ -25,7 +25,6 @@ class PatternFlags(IntEnum):
 @attributes
 class Pattern:
 
-    source = None
     name = attr(None)
     tracks = attr(validator=in_range(1, 16), default=4)
     lines = attr(validator=in_range(1, 2 ** 19), default=32)
@@ -37,6 +36,7 @@ class Pattern:
     flags = attr(default=0)
     x = attr(default=0)
     y = attr(default=0)
+    source = None
 
     @property
     def data(self):

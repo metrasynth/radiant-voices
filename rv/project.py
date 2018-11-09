@@ -1,4 +1,3 @@
-import logging
 from collections import defaultdict, namedtuple
 from struct import pack
 
