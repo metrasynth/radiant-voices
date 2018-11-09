@@ -44,6 +44,9 @@ Additions
 Changes
 .......
 
+- Increase the maximum value of ``Gpio.pin_in`` and ``Gpio.pin_out``
+  controllers to ``256``.
+
 - Now using black_ to format all Python modules.
 
 ..  _black:
