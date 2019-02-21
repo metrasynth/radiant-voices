@@ -93,8 +93,13 @@ class Project(Container):
             to_modules = [to_modules]
         for from_module in from_modules:
             for to_module in to_modules:
-                from_idx = self.module_index(from_module)
-                to_idx = self.module_index(to_module)
+                try:
+                    from_idx = self.module_index(from_module)
+                    to_idx = self.module_index(to_module)
+                except ValueError:
+                    raise ModuleOwnershipError(
+                        "Modules must have same parent to be connected"
+                    )
                 connections_to = self.module_connections[to_idx]
                 connections_from = self.module_connections[from_idx]
                 connected = from_idx in connections_to or to_idx in connections_from

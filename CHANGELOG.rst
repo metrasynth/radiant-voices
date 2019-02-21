@@ -83,6 +83,9 @@ Changes
 - ``Project.attach_module`` now re-uses empty module indexes,
   instead of always appending to the end.
 
+- ``Project.connect`` now raises ``ModuleOwnershipError`` if modules
+  do not share a common parent.
+
 
 0.4.0.dev2 (2018-03-11)
 -----------------------
