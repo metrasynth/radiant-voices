@@ -75,6 +75,9 @@ Changes
 ..  _black:
     https://black.readthedocs.io/en/stable/
 
+- ``Project.attach_module`` will now raise ``ModuleAttachedError``
+  if the module is already attached to a project.
+
 
 0.4.0.dev2 (2018-03-11)
 -----------------------

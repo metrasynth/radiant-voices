@@ -3,6 +3,7 @@ from struct import pack
 
 from rv import ENCODING
 from rv.container import Container
+from rv.errors import ModuleAttachedError
 from rv.modules.module import Module
 from rv.modules.output import Output
 from rv.pattern import Pattern, PatternClone
@@ -63,6 +64,8 @@ class Project(Container):
 
     def attach_module(self, module):
         """Attach the module to the project."""
+        if module.parent is not None:
+            raise ModuleAttachedError("Module is already attached.")
         if module is None:
             self.modules.append(module)
         elif module not in self.modules:

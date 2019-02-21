@@ -16,3 +16,7 @@ class RangeValidationError(RadiantVoicesError):
 
 class EmptySynthError(RadiantVoicesError):
     pass
+
+
+class ModuleAttachedError(RadiantVoicesError):
+    pass
