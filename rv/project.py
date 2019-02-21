@@ -3,7 +3,7 @@ from struct import pack
 
 from rv import ENCODING
 from rv.container import Container
-from rv.errors import ModuleAttachedError
+from rv.errors import ModuleOwnershipError
 from rv.modules.module import Module
 from rv.modules.output import Output
 from rv.pattern import Pattern, PatternClone
@@ -64,10 +64,10 @@ class Project(Container):
 
     def attach_module(self, module):
         """Attach the module to the project."""
-        if module.parent is not None:
-            raise ModuleAttachedError("Module is already attached.")
         if module is None:
             self.modules.append(module)
+        elif module.parent is not None:
+            raise ModuleOwnershipError("Module is already attached.")
         elif module not in self.modules:
             if None in self.modules:
                 module.index = self.module_index(None)
@@ -162,6 +162,26 @@ class Project(Container):
                     for chunk in module.specialized_iff_chunks():
                         yield chunk
             yield (b"SEND", b"")
+
+    def detach_module(self, module):
+        """Detach a module from this project, disconnecting it from other modules."""
+        if module.parent is not self or module not in self.modules:
+            raise ModuleOwnershipError(
+                "Cannot detach module not attached to this project"
+            )
+        disconnections = []
+        for to_idx, from_idx_list in self.module_connections.items():
+            if module.index == to_idx:
+                for from_idx in from_idx_list:
+                    disconnections.append((self.modules[from_idx], self.modules[to_idx]))
+            if module.index in from_idx_list:
+                disconnections.append((module, self.modules[to_idx]))
+        for from_idx, to_idx in disconnections:
+            self.disconnect(from_idx, to_idx)
+        self.modules[module.index] = None
+        module.parent = None
+        module.index = None
+        return module
 
     def disconnect(self, from_modules, to_modules):
         """Remove a connection from one module to another."""

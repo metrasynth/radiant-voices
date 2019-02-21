@@ -18,5 +18,5 @@ class EmptySynthError(RadiantVoicesError):
     pass
 
 
-class ModuleAttachedError(RadiantVoicesError):
+class ModuleOwnershipError(RadiantVoicesError):
     pass

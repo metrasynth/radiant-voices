@@ -56,6 +56,8 @@ Additions
 
 - Add ``Project.restart_position`` attribute.
 
+- Add ``Project.detach_module(module)`` method.
+
 Changes
 .......
 
@@ -75,7 +77,7 @@ Changes
 ..  _black:
     https://black.readthedocs.io/en/stable/
 
-- ``Project.attach_module`` now raises ``ModuleAttachedError``
+- ``Project.attach_module`` now raises ``ModuleOwnershipError``
   if the module is already attached to a project.
 
 - ``Project.attach_module`` now re-uses empty module indexes,
