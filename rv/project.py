@@ -69,8 +69,12 @@ class Project(Container):
         if module is None:
             self.modules.append(module)
         elif module not in self.modules:
-            self.modules.append(module)
-            module.index = self.module_index(module)
+            if None in self.modules:
+                module.index = self.module_index(None)
+                self.modules[module.index] = module
+            else:
+                self.modules.append(module)
+                module.index = self.module_index(module)
             if isinstance(module, Output) and module.index == 0:
                 self.output = module
             self.module_connections[module.index] = module.incoming_links
