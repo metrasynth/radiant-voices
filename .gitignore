@@ -60,3 +60,5 @@ docs/_build
 .bootstrap
 .appveyor.token
 *.bak
+
+.pytest_cache

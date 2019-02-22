@@ -86,6 +86,11 @@ Changes
 - ``Project.connect`` now raises ``ModuleOwnershipError`` if modules
   do not share a common parent.
 
+Fixes
+.....
+
+- The ``helloworld`` example is updated to use correct APIs.
+
 
 0.4.0.dev2 (2018-03-11)
 -----------------------
