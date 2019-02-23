@@ -178,7 +178,9 @@ class Project(Container):
         for to_idx, from_idx_list in self.module_connections.items():
             if module.index == to_idx:
                 for from_idx in from_idx_list:
-                    disconnections.append((self.modules[from_idx], self.modules[to_idx]))
+                    disconnections.append(
+                        (self.modules[from_idx], self.modules[to_idx])
+                    )
             if module.index in from_idx_list:
                 disconnections.append((module, self.modules[to_idx]))
         for from_idx, to_idx in disconnections:
