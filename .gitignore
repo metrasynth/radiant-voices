@@ -60,3 +60,13 @@ docs/_build
 .bootstrap
 .appveyor.token
 *.bak
+
+# virtualenv
+bin/
+include/
+lib/
+share/
+
+# misc
+data/
+tmp/
