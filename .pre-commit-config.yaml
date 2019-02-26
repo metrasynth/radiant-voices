@@ -1,0 +1,21 @@
+fail_fast: true
+repos:
+    -   repo: https://github.com/pre-commit/pre-commit-hooks
+        rev: v2.1.0
+        hooks:
+            -   id: check-added-large-files
+            -   id: check-ast
+            -   id: check-builtin-literals
+            -   id: check-byte-order-marker
+            -   id: check-case-conflict
+            -   id: check-docstring-first
+            -   id: check-merge-conflict
+            -   id: debug-statements
+            -   id: end-of-file-fixer
+            -   id: mixed-line-ending
+            -   id: no-commit-to-branch
+            -   id: trailing-whitespace
+    -   repo: https://github.com/ambv/black
+        rev: 18.9b0
+        hooks:
+            -   id: black
