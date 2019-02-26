@@ -30,6 +30,7 @@ pip-log.txt
 nosetests.xml
 coverage.xml
 htmlcov
+.pytest_cache
 
 # Translations
 *.mo
@@ -61,4 +62,12 @@ docs/_build
 .appveyor.token
 *.bak
 
-.pytest_cache
+# virtualenv
+bin/
+include/
+lib/
+share/
+
+# misc
+data/
+tmp/
