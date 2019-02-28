@@ -303,6 +303,47 @@ def decompile(proj):
             cache[key].append(str(group))
     return patches
 
+def module_layout(n,
+                  offset=(512, 512),
+                  mult=(256, 256)):
+    import math, random
+    def is_neighbour(p, q):
+        return (((p[0]==q[0] and
+                  abs(p[1]-q[1])==1) or
+                 (p[1]==q[1] and
+                  abs(p[0]-q[0])==1)) and not
+                ((abs(p[0]-q[0])==1)
+                 and abs(p[1]-q[1])==1))
+    def normalise(r):
+        return [(i-r[0][0], j-r[0][1])
+                for i, j in r]
+    def sample(n,
+               matcher=is_neighbour,
+               padding=2):
+        sz=padding+int(math.ceil(math.sqrt(n)))
+        pairs=[(i, j)
+               for i in range(sz)
+               for j in range(sz)]
+        q0=q=tuple([random.choice(range(sz)),
+                    random.choice(range(sz))])
+        pairs.remove(q)
+        r=[q0]
+        for i in range(n-1):
+            adjacent=[p for p in pairs
+                      if matcher(p, q)]
+            if adjacent==[]:
+                raise RuntimeError("No adjacent pairs")
+            q=random.choice(adjacent)
+            pairs.remove(q)
+            r.append(q)
+        return normalise(r)
+    def expand(r):
+        oi, oj = offset
+        mi, mj = mult
+        return [(oi+mi*i, oj+mj*j)
+                for i, j in r]
+    return expand(sample(n))
+
 """
 - dumps a patch to /tmp
 """
@@ -312,7 +353,9 @@ def dump(dirname, patch, bpm):
     from rv.api import Project
     proj=Project()
     proj.initial_bpm=bpm
-    for mod in reversed(chain[:-1]):
+    layout=module_layout(len(chain))[1:]
+    for i, mod in enumerate(reversed(chain[:-1])):
+        mod.x, mod.y = layout[i]
         proj.attach_module(mod)
     for i in range(len(proj.modules)-1):
         proj.connect(proj.modules[i+1],
