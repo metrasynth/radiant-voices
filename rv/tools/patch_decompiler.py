@@ -304,9 +304,12 @@ def decompile(proj):
     return patches
 
 def module_layout(n,
-                  offset=(512, 512),
-                  mult=(256, 256)):
+           seed=13,
+           offset=(512, 512),
+           mult=(256, 256),           
+           tries=50):
     import math, random
+    random.seed(seed)
     def is_neighbour(p, q):
         return (((p[0]==q[0] and
                   abs(p[1]-q[1])==1) or
@@ -337,12 +340,37 @@ def module_layout(n,
             pairs.remove(q)
             r.append(q)
         return normalise(r)
+    def div_zero(fn):
+        def wrapped(r):
+            if len(r)==1:
+                return 1
+            return fn(r)
+        return wrapped
+    @div_zero
+    def compactness(r):
+        head, tail = r[0], r[1:]
+        def err(s):
+            return sum([(s[i]-head[i])**2
+                        for i in range(2)])
+        return (sum([err(s)
+                     for s in tail])/(len(r)-1))**0.5
+    def best(n, tries):
+        best, besterr = None, 1e10
+        for i in range(tries):
+            try:
+                l=sample(n+1)
+            except RuntimeError as error:
+                continue
+            err=compactness(l)
+            if err < besterr:
+                best, besterr = l, err
+        return best[1:]
     def expand(r):
         oi, oj = offset
         mi, mj = mult
         return [(oi+mi*i, oj+mj*j)
                 for i, j in r]
-    return expand(sample(n))
+    return expand(best(n, tries))
 
 """
 - dumps a patch to /tmp
@@ -353,7 +381,7 @@ def dump(dirname, patch, bpm):
     from rv.api import Project
     proj=Project()
     proj.initial_bpm=bpm
-    layout=module_layout(len(chain))[1:]
+    layout=module_layout(len(chain))
     for i, mod in enumerate(reversed(chain[:-1])):
         mod.x, mod.y = layout[i]
         proj.attach_module(mod)
