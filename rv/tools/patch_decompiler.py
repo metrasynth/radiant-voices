@@ -342,30 +342,27 @@ parser.add_argument(
 
 
 def main():
-    try:
-        init_logger()
-        args = parser.parse_args()
-        filename = args.filename[0]
-        output_dir = args.output_dir
-        if not os.path.exists(filename):
-            raise RuntimeError("File does not exist")
-        if not filename.endswith(".sunvox"):
-            raise RuntimeError("File must be a .sunvox file")
-        dirname = filename.split("/")[-1].split(".")[0]
-        mkdir(f"{output_dir}/{dirname}")
+    init_logger()
+    args = parser.parse_args()
+    filename = args.filename[0]
+    output_dir = args.output_dir
+    if not os.path.exists(filename):
+        raise RuntimeError("File does not exist")
+    if not filename.endswith(".sunvox"):
+        raise RuntimeError("File must be a .sunvox file")
+    dirname = filename.split("/")[-1].split(".")[0]
+    mkdir(f"{output_dir}/{dirname}")
 
-        proj = read_sunvox_file(filename)
-        props = {"bpm": proj.initial_bpm, "tpl": proj.initial_tpl}
-        patches = decompile(proj)
-        npatches = len(list(set([patch["name"] for patch in patches])))
-        nversions = len(patches)
-        log.info(
-            f"dumping {npatches} patches [{nversions} versions] to {output_dir}/{dirname}"
-        )
-        for patch in patches:
-            dump(props, patch, output_dir, dirname)
-    except RuntimeError as error:
-        print("Error: %s" % str(error))
+    proj = read_sunvox_file(filename)
+    props = {"bpm": proj.initial_bpm, "tpl": proj.initial_tpl}
+    patches = decompile(proj)
+    npatches = len(list(set([patch["name"] for patch in patches])))
+    nversions = len(patches)
+    log.info(
+        f"dumping {npatches} patches [{nversions} versions] to {output_dir}/{dirname}"
+    )
+    for patch in patches:
+        dump(props, patch, output_dir, dirname)
 
 
 if __name__ == "__main__":
