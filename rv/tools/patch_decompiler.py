@@ -68,7 +68,7 @@ class ModuleChain(list):
                 logging.warning("ignoring loop %i -> %s" % (i, state))
                 return
             state.append(i)
-            if connections[i] == []:
+            if not connections[i]:
                 chains.append(state)
             for j in connections[i]:
                 if j in connections:
