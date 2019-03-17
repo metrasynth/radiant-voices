@@ -99,8 +99,8 @@ class Notes(list):
 
 
 class Track(list):
-    @classmethod
-    def split(self, pat):
+    @staticmethod
+    def split(pat):
         tracks, last = {}, None
         for j in range(pat.tracks):
             for i in range(pat.lines):
