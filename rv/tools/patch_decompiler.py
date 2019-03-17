@@ -16,29 +16,6 @@ def init_logger():
     root.addHandler(handler)
 
 
-def note_clone(self):
-    note = Note()
-    for attr in ["note", "vel", "module", "ctl", "val"]:
-        setattr(note, attr, getattr(self, attr))
-    return note
-
-
-def note_empty(self):
-    return not (self.note or self.vel or self.ctl or self.val)
-
-
-def note_str(self):
-    tokens = []
-    for attr in ["note", "vel", "ctl", "val"]:
-        if hasattr(self, attr):
-            tokens.append("%s%i" % (attr[0], getattr(self, attr)))
-    return "".join(tokens)
-
-
-Note.clone = note_clone
-Note.is_empty = note_empty
-Note.__str__ = note_str
-
 Ignore = ["Compressor"]
 
 
