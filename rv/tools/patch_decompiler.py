@@ -16,9 +16,6 @@ def init_logger():
     root.addHandler(handler)
 
 
-init_logger()
-
-
 def note_clone(self):
     note = Note()
     for attr in ["note", "vel", "module", "ctl", "val"]:
@@ -363,6 +360,7 @@ def dump(props, patch, dirname):
 
 if __name__ == "__main__":
     try:
+        init_logger()
         if len(sys.argv) < 2:
             raise RuntimeError("Please enter filename")
         filename = sys.argv[1]
