@@ -335,7 +335,7 @@ def dump(props, patch, dirname):
         proj.write_to(f)
 
 
-if __name__ == "__main__":
+def main():
     try:
         init_logger()
         if len(sys.argv) < 2:
@@ -362,3 +362,7 @@ if __name__ == "__main__":
             dump(props, patch, dirname)
     except RuntimeError as error:
         print("Error: %s" % str(error))
+
+
+if __name__ == "__main__":
+    main()
