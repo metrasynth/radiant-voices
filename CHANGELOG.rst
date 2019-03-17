@@ -58,6 +58,8 @@ Additions
 
 - Add ``Project.detach_module(module)`` method.
 
+- Add ``patch_decompiler`` tool.
+
 Changes
 .......
 

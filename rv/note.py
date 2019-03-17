@@ -282,6 +282,13 @@ class Note:
     ctl = attr(convert=int, validator=in_range(0, 0xFFFF), default=0)
     val = attr(convert=int, validator=in_range(0, 0xFFFF), default=0)
 
+    def __str__(self):
+        tokens = []
+        for attr in ["note", "vel", "ctl", "val"]:
+            if hasattr(self, attr):
+                tokens.append("%s%i" % (attr[0], getattr(self, attr)))
+        return "".join(tokens)
+
     @property
     def controller(self):
         return self.ctl >> 8
@@ -323,6 +330,15 @@ class Note:
         self.note, self.vel, self.module, _, self.ctl, self.val = unpack(
             "<BBBBHH", raw_data
         )
+
+    def clone(self):
+        note = self.__class__()
+        for attr in ["note", "vel", "module", "ctl", "val"]:
+            setattr(note, attr, getattr(self, attr))
+        return note
+
+    def is_empty(self):
+        return not (self.note or self.vel or self.ctl or self.val)
 
     def tabular_repr(self, is_on=False, note_fmt="NN VV MM CC EE XXYY"):
         if self.note == NOTECMD.NOTE_OFF:
