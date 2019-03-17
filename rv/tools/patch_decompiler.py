@@ -6,6 +6,9 @@ import sys
 from rv.note import Note, NOTECMD
 
 
+IGNORE = ["Compressor"]
+
+
 def init_logger():
     root = logging.getLogger()
     root.setLevel(logging.INFO)
@@ -14,9 +17,6 @@ def init_logger():
     formatter = logging.Formatter("%(levelname)s - %(message)s")
     handler.setFormatter(formatter)
     root.addHandler(handler)
-
-
-Ignore = ["Compressor"]
 
 
 def class_name(mod):
@@ -51,7 +51,7 @@ class ModuleChain(list):
         expand(0)
         return [
             ModuleChain(
-                [mods[i] for i in reversed(chain) if class_name(mods[i]) not in Ignore]
+                [mods[i] for i in reversed(chain) if class_name(mods[i]) not in IGNORE]
             )
             for chain in chains
         ]
