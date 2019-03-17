@@ -7,6 +7,8 @@ import sys
 
 from rv.api import Note, NOTECMD, Project, Pattern, PatternClone, read_sunvox_file
 
+log = logging.getLogger(__name__)
+
 IGNORE = ["Compressor"]
 
 
@@ -40,7 +42,7 @@ class ModuleChain(list):
 
         def expand(i, state=[]):
             if i in state:
-                logging.warning("ignoring loop %i -> %s" % (i, state))
+                log.warning("ignoring loop %i -> %s" % (i, state))
                 return
             state.append(i)
             if not connections[i]:
@@ -73,7 +75,7 @@ class ModuleChain(list):
             try:
                 return mod.clone()
             except Exception as error:
-                logging.error("problem detaching %s: %s" % (mod, str(error)))
+                log.error("problem detaching %s: %s" % (mod, str(error)))
                 newmod = mod.__class__()
                 for key, value in mod.controller_values.items():
                     setattr(newmod, key, value)
@@ -238,7 +240,7 @@ def decompile(proj):
             if key in cache and str(group) in cache[key]:
                 continue
             if not group.audible:
-                logging.warning("%s/%i is inaudible" % (name, x))
+                log.warning("%s/%i is inaudible" % (name, x))
                 continue
             pat = group.normalise(chain.mapping).flatten()
             patch = {"name": name, "x": x, "modules": chain.detach(), "pattern": pat}
@@ -347,7 +349,7 @@ def main():
         patches = decompile(proj)
         npatches = len(list(set([patch["name"] for patch in patches])))
         nversions = len(patches)
-        logging.info(
+        log.info(
             "dumping %i patches [%i versions] to tmp/%s"
             % (npatches, nversions, dirname)
         )
