@@ -1,3 +1,4 @@
+import argparse
 import logging
 import math
 import os
@@ -42,7 +43,7 @@ class ModuleChain(list):
 
         def expand(i, state=[]):
             if i in state:
-                log.warning("ignoring loop %i -> %s" % (i, state))
+                log.warning(f"ignoring loop {i} -> {state}")
                 return
             state.append(i)
             if not connections[i]:
@@ -75,7 +76,7 @@ class ModuleChain(list):
             try:
                 return mod.clone()
             except Exception as error:
-                log.error("problem detaching %s: %s" % (mod, str(error)))
+                log.error(f"problem detaching {mod}: {error!s}")
                 newmod = mod.__class__()
                 for key, value in mod.controller_values.items():
                     setattr(newmod, key, value)
@@ -144,11 +145,7 @@ class Track(list):
 
     def __str__(self):
         return ",".join(
-            [
-                "%i:%s" % (i, str(notes))
-                for i, notes in enumerate(self)
-                if not len(notes) == 0
-            ]
+            [f"{i}:{notes!s}" for i, notes in enumerate(self) if not len(notes) == 0]
         )
 
 
@@ -199,7 +196,7 @@ class Tracks(dict):
         return pat
 
     def __str__(self):
-        return "|".join(["%i:%s" % (mod, str(self[mod])) for mod in self])
+        return "|".join([f"{mod}:{self[mod]!s}" for mod in self])
 
 
 def parse_timeline(proj):
@@ -240,7 +237,7 @@ def decompile(proj):
             if key in cache and str(group) in cache[key]:
                 continue
             if not group.audible:
-                log.warning("%s/%i is inaudible" % (name, x))
+                log.warning(f"{name}/{x} is inaudible")
                 continue
             pat = group.normalise(chain.mapping).flatten()
             patch = {"name": name, "x": x, "modules": chain.detach(), "pattern": pat}
@@ -313,9 +310,9 @@ def module_layout(n, seed=13, offset=(512, 512), mult=(256, 256), tries=50):
     return expand(best(n, tries))
 
 
-def dump(props, patch, dirname):
-    mkdir("tmp/%s/%s" % (dirname, patch["name"]))
-
+def dump(props, patch, output_dir, dirname):
+    patch_dir = f"{output_dir}/{dirname}/{patch['name']}"
+    mkdir(patch_dir)
     proj = Project()
     proj.initial_bpm = props["bpm"]
     proj.initial_tpl = props["tpl"]
@@ -326,23 +323,36 @@ def dump(props, patch, dirname):
     for i in range(len(proj.modules) - 1):
         proj.connect(proj.modules[i + 1], proj.modules[i])
     proj.patterns.append(patch["pattern"])
-    destfilename = "tmp/%s/%s/%i.sunvox" % (dirname, patch["name"], patch["x"])
+    destfilename = f"{patch_dir}/{patch['x']}.sunvox"
     with open(destfilename, "wb") as f:
         proj.write_to(f)
+
+
+parser = argparse.ArgumentParser(description="SunVox patch decompiler")
+parser.add_argument(
+    "--output-dir",
+    metavar="PATH",
+    type=str,
+    default="patch-decompiler-output",
+    help="Base directory to write patches to",
+)
+parser.add_argument(
+    "filename", metavar="FILE", type=str, nargs=1, help="SunVox project to decompile"
+)
 
 
 def main():
     try:
         init_logger()
-        if len(sys.argv) < 2:
-            raise RuntimeError("Please enter filename")
-        filename = sys.argv[1]
+        args = parser.parse_args()
+        filename = args.filename[0]
+        output_dir = args.output_dir
         if not os.path.exists(filename):
             raise RuntimeError("File does not exist")
         if not filename.endswith(".sunvox"):
             raise RuntimeError("File must be a .sunvox file")
         dirname = filename.split("/")[-1].split(".")[0]
-        mkdir("tmp/%s" % dirname)
+        mkdir(f"{output_dir}/{dirname}")
 
         proj = read_sunvox_file(filename)
         props = {"bpm": proj.initial_bpm, "tpl": proj.initial_tpl}
@@ -350,11 +360,10 @@ def main():
         npatches = len(list(set([patch["name"] for patch in patches])))
         nversions = len(patches)
         log.info(
-            "dumping %i patches [%i versions] to tmp/%s"
-            % (npatches, nversions, dirname)
+            f"dumping {npatches} patches [{nversions} versions] to {output_dir}/{dirname}"
         )
         for patch in patches:
-            dump(props, patch, dirname)
+            dump(props, patch, output_dir, dirname)
     except RuntimeError as error:
         print("Error: %s" % str(error))
 
