@@ -27,13 +27,6 @@ def class_name(mod):
     return [tok for tok in re.split("\\W", str(mod.__class__)) if tok not in [""]][-1]
 
 
-def mkdir(dirname):
-    try:
-        os.mkdir(dirname)
-    except:
-        pass
-
-
 class ModuleChain(list):
     @staticmethod
     def expand(proj):
@@ -312,7 +305,7 @@ def module_layout(n, seed=13, offset=(512, 512), mult=(256, 256), tries=50):
 
 def dump(props, patch, output_dir, dirname):
     patch_dir = f"{output_dir}/{dirname}/{patch['name']}"
-    mkdir(patch_dir)
+    os.makedirs(patch_dir, exist_ok=True)
     proj = Project()
     proj.initial_bpm = props["bpm"]
     proj.initial_tpl = props["tpl"]
@@ -351,7 +344,7 @@ def main():
     if not filename.endswith(".sunvox"):
         raise RuntimeError("File must be a .sunvox file")
     dirname = filename.split("/")[-1].split(".")[0]
-    mkdir(f"{output_dir}/{dirname}")
+    os.makedirs(f"{output_dir}/{dirname}", exist_ok=True)
 
     proj = read_sunvox_file(filename)
     props = {"bpm": proj.initial_bpm, "tpl": proj.initial_tpl}
