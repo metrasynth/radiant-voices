@@ -1,10 +1,11 @@
 import logging
+import math
 import os
+import random
 import re
 import sys
 
-from rv.note import Note, NOTECMD
-
+from rv.api import Note, NOTECMD, Project, Pattern, PatternClone, read_sunvox_file
 
 IGNORE = ["Compressor"]
 
@@ -177,8 +178,6 @@ class Tracks(dict):
         return False
 
     def flatten(self):
-        from rv.pattern import Pattern
-
         mods = sorted(list(self.keys()))
         index = [(mod, i) for mod in mods for i in range(self[mod].polyphony)]
         pat = Pattern(lines=self.lines, tracks=len(index))
@@ -202,8 +201,6 @@ class Tracks(dict):
 
 
 def parse_timeline(proj):
-    from rv.pattern import PatternClone
-
     trackmap, timeline = {}, {}
     for i, pat in enumerate(proj.patterns):
         if isinstance(pat, PatternClone) and pat.source not in trackmap:
@@ -251,8 +248,6 @@ def decompile(proj):
 
 
 def module_layout(n, seed=13, offset=(512, 512), mult=(256, 256), tries=50):
-    import math, random
-
     random.seed(seed)
 
     def is_neighbour(p, q):
@@ -318,7 +313,6 @@ def module_layout(n, seed=13, offset=(512, 512), mult=(256, 256), tries=50):
 
 def dump(props, patch, dirname):
     mkdir("tmp/%s/%s" % (dirname, patch["name"]))
-    from rv.api import Project
 
     proj = Project()
     proj.initial_bpm = props["bpm"]
@@ -347,7 +341,6 @@ def main():
             raise RuntimeError("File must be a .sunvox file")
         dirname = filename.split("/")[-1].split(".")[0]
         mkdir("tmp/%s" % dirname)
-        from rv.readers.reader import read_sunvox_file
 
         proj = read_sunvox_file(filename)
         props = {"bpm": proj.initial_bpm, "tpl": proj.initial_tpl}
