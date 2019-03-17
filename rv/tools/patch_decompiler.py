@@ -57,8 +57,8 @@ def mkdir(dirname):
 
 
 class ModuleChain(list):
-    @classmethod
-    def expand(self, proj):
+    @staticmethod
+    def expand(proj):
         mods = {mod.index: mod for mod in proj.modules if hasattr(mod, "index")}
         connections = dict(proj.module_connections)
         chains = []
