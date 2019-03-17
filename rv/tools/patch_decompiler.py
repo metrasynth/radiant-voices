@@ -113,7 +113,7 @@ class Track(list):
                         track[i] = Notes()
                     track[i].append(note)
                     last = note.module
-                elif note.note == NOTECMD.NOTE_OFF.value and last != None:
+                elif note.note == NOTECMD.NOTE_OFF.value and last is not None:
                     track = tracks[last]
                     track[i].append(note)
                     last = None
