@@ -84,6 +84,7 @@ class Project(Container):
     def attach_pattern(self, pattern):
         """Attach the pattern to the project."""
         self.patterns.append(pattern)
+        return len(self.patterns) - 1
 
     def connect(self, from_modules, to_modules):
         """Establish a connection from module(s) to another module(s)."""
