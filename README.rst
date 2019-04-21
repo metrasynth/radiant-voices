@@ -111,7 +111,7 @@ for the SunVox audio engine <https://github.com/warmplace/sunvox_sources>`__.
 Requirements
 ------------
 
-- Python 3.6
+- Python 3.7
 
 - OS supported by `sunvox-dll-python`_, if working with SunVox DLL.
 
