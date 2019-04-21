@@ -45,7 +45,7 @@ class Reader:
     def process_chunks(self):
         try:
             for name, data in chunks(self.f):
-                name = name.decode(ENCODING).strip().lower()
+                name = name.decode(ENCODING).strip()
                 method_name = "process_{}".format(name)
                 method = getattr(self, method_name, None)
                 log_args = (self.__class__.__name__, method_name)
@@ -62,7 +62,7 @@ class Reader:
         new_pos = self.f.tell() - len(data) - 8
         self.f.seek(new_pos)
 
-    def process_pamd(self, data):
+    def process_PAMD(self, data):
         pass  # Unused in current SunVox.
 
     def process_end_of_file(self):

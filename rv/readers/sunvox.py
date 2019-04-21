@@ -16,90 +16,90 @@ class SunVoxReader(Reader):
         self.object.modules.clear()
         super().process_chunks()
 
-    def process_vers(self, data):
+    def process_VERS(self, data):
         self.object.sunvox_version = tuple(reversed(unpack("BBBB", data)))
 
-    def process_bver(self, data):
+    def process_BVER(self, data):
         self.object.based_on_version = tuple(reversed(unpack("BBBB", data)))
 
-    def process_bpm(self, data):
+    def process_BPM(self, data):
         self.object.initial_bpm, = unpack("<I", data)
 
-    def process_sped(self, data):
+    def process_SPED(self, data):
         self.object.initial_tpl, = unpack("<I", data)
 
-    def process_tgrd(self, data):
+    def process_TGRD(self, data):
         self.object.time_grid, = unpack("<I", data)
 
-    def process_tgd2(self, data):
+    def process_TGD2(self, data):
         self.object.time_grid2, = unpack("<I", data)
 
-    def process_gvol(self, data):
+    def process_GVOL(self, data):
         self.object.global_volume, = unpack("<I", data)
 
-    def process_name(self, data):
+    def process_NAME(self, data):
         data = data[: data.find(0)] if 0 in data else data
         self.object.name = data.decode(ENCODING)
 
-    def process_mscl(self, data):
+    def process_MSCL(self, data):
         self.object.modules_scale, = unpack("<I", data)
 
-    def process_mzoo(self, data):
+    def process_MZOO(self, data):
         self.object.modules_zoom, = unpack("<I", data)
 
-    def process_mxof(self, data):
+    def process_MXOF(self, data):
         self.object.modules_x_offset, = unpack("<i", data)
 
-    def process_myof(self, data):
+    def process_MYOF(self, data):
         self.object.modules_y_offset, = unpack("<i", data)
 
-    def process_lmsk(self, data):
+    def process_LMSK(self, data):
         self.object.modules_layer_mask, = unpack("<I", data)
 
-    def process_curl(self, data):
+    def process_CURL(self, data):
         self.object.modules_current_layer, = unpack("<I", data)
 
-    def process_time(self, data):
+    def process_TIME(self, data):
         self.object.timeline_position, = unpack("<i", data)
 
-    def process_reps(self, data):
+    def process_REPS(self, data):
         self.object.restart_position, = unpack("<i", data)
 
-    def process_sels(self, data):
+    def process_SELS(self, data):
         self.object.selected_module, = unpack("<I", data)
 
-    def process_lgen(self, data):
+    def process_LGEN(self, data):
         self.object.selected_generator, = unpack("<I", data)
 
-    def process_patn(self, data):
+    def process_PATN(self, data):
         self.object.current_pattern, = unpack("<I", data)
 
-    def process_patt(self, data):
+    def process_PATT(self, data):
         self.object.current_track, = unpack("<I", data)
 
-    def process_patl(self, data):
+    def process_PATL(self, data):
         self.object.current_line, = unpack("<I", data)
 
-    def process_pdta(self, data):
+    def process_PDTA(self, data):
         self.rewind(data)
         pattern = PatternReader(self.f).object
         self.object.attach_pattern(pattern)
 
-    def process_pend(self, data):
+    def process_PEND(self, data):
         # Empty pattern found.
         self.object.attach_pattern(None)
 
-    def process_ppar(self, data):
+    def process_PPAR(self, data):
         self.rewind(data)
         pattern = PatternCloneReader(self.f).object
         self.object.attach_pattern(pattern)
 
-    def process_sfff(self, data):
+    def process_SFFF(self, data):
         self.rewind(data)
         mod = ModuleReader(self.f, index=len(self.object.modules)).object
         self.object.attach_module(mod)
 
-    def process_send(self, _):
+    def process_SEND(self, _):
         self.object.attach_module(None)  # empty module
 
     def process_end_of_file(self):

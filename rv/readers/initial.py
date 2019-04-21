@@ -4,10 +4,10 @@ from rv.readers.sunvox import SunVoxReader
 
 
 class InitialReader(Reader):
-    def process_svox(self, _):
+    def process_SVOX(self, _):
         self.object = SunVoxReader(self.f).object
 
-    def process_ssyn(self, _):
+    def process_SSYN(self, _):
         self.object = SunSynthReader(self.f).object
 
     def process_end_of_file(self):

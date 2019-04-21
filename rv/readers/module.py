@@ -25,14 +25,14 @@ class ModuleReader(Reader):
             self.object = Output()
         super().process_chunks()
 
-    def process_sfff(self, data):
+    def process_SFFF(self, data):
         self.object.flags, = unpack("<I", data)
 
-    def process_snam(self, data):
+    def process_SNAM(self, data):
         data = data[: data.find(0)] if 0 in data else data
         self.object.name = data.decode(ENCODING)
 
-    def process_styp(self, data):
+    def process_STYP(self, data):
         data = data[: data.find(0)] if 0 in data else data
         mtype = data.decode(ENCODING)
         cls = MODULE_CLASSES[mtype]
@@ -51,49 +51,49 @@ class ModuleReader(Reader):
             ]
         self._object = new_module
 
-    def process_sfin(self, data):
+    def process_SFIN(self, data):
         self.object.finetune, = unpack("<i", data)
 
-    def process_srel(self, data):
+    def process_SREL(self, data):
         self.object.relative_note, = unpack("<i", data)
 
-    def process_sxxx(self, data):
+    def process_SXXX(self, data):
         self.object.x, = unpack("<i", data)
 
-    def process_syyy(self, data):
+    def process_SYYY(self, data):
         self.object.y, = unpack("<i", data)
 
-    def process_szzz(self, data):
+    def process_SZZZ(self, data):
         self.object.layer, = unpack("<I", data)
 
-    def process_sscl(self, data):
+    def process_SSCL(self, data):
         self.object.scale, = unpack("<I", data)
 
-    def process_svpr(self, data):
+    def process_SVPR(self, data):
         self.object.visualization, = unpack("<I", data)
 
-    def process_scol(self, data):
+    def process_SCOL(self, data):
         self.object.color = unpack("BBB", data)
 
-    def process_smii(self, data):
+    def process_SMII(self, data):
         x, = unpack("<I", data)
         self.object.midi_in_always = bool(x & 1)
         self.object.midi_in_channel = x >> 1
 
-    def process_smin(self, data):
+    def process_SMIN(self, data):
         data = data[: data.find(0)] if 0 in data else data
         self.object.midi_out_name = data.decode(ENCODING)
 
-    def process_smic(self, data):
+    def process_SMIC(self, data):
         self.object.midi_out_channel, = unpack("<i", data)
 
-    def process_smib(self, data):
+    def process_SMIB(self, data):
         self.object.midi_out_bank, = unpack("<i", data)
 
-    def process_smip(self, data):
+    def process_SMIP(self, data):
         self.object.midi_out_program, = unpack("<i", data)
 
-    def process_slnk(self, data):
+    def process_SLNK(self, data):
         links = self.object.incoming_links
         if len(data) > 0:
             link_count = len(data) // 4
@@ -102,7 +102,7 @@ class ModuleReader(Reader):
             while links[-1:] == [-1]:
                 links.pop()
 
-    def process_cval(self, data):
+    def process_CVAL(self, data):
         raw_value, = unpack("<i", data)
         self._cvals.append(raw_value)
 
@@ -111,28 +111,28 @@ class ModuleReader(Reader):
             self.object.load_chunk(self._current_chunk)
             self._current_chunk = None
 
-    def process_chnk(self, data):
+    def process_CHNK(self, data):
         val, = unpack("<I", data)
         self.object._reader_chnk = val
 
-    def process_chnm(self, data):
+    def process_CHNM(self, data):
         self._load_last_chunk()
         self._current_chunk = Chunk()
         self._current_chunk.chnm, = unpack("<I", data)
 
-    def process_chdt(self, data):
+    def process_CHDT(self, data):
         self._current_chunk.chdt = data
 
-    def process_chff(self, data):
+    def process_CHFF(self, data):
         self._current_chunk.chff, = unpack("<I", data)
 
-    def process_chfr(self, data):
+    def process_CHFR(self, data):
         self._current_chunk.chfr, = unpack("<I", data)
 
-    def process_cmid(self, data):
+    def process_CMID(self, data):
         self.object.load_cmid(data)
 
-    def process_send(self, data):
+    def process_SEND(self, data):
         self._load_last_chunk()
         self.object.finalize_load()
         if self.object.mtype == "MetaModule":

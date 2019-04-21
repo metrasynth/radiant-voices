@@ -97,6 +97,9 @@ Fixes
 
 - The ``helloworld`` example is updated to use correct APIs.
 
+- Chunk IDs are now parsed in a case-sensitive way, to prevent incorrect
+  parsing of chunks such as ``SLnK``.
+
 
 0.4.0.dev2 (2018-03-11)
 -----------------------

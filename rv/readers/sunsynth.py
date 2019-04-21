@@ -13,10 +13,10 @@ class SunSynthReader(Reader):
         self.object = Synth()
         super().process_chunks()
 
-    def process_vers(self, data):
+    def process_VERS(self, data):
         self.object.sunsynth_version, = unpack("<I", data)
 
-    def process_sfff(self, data):
+    def process_SFFF(self, data):
         self.rewind(data)
         mod = ModuleReader(self.f, index=1).object
         self.object.module = mod
