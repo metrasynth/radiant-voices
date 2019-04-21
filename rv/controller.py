@@ -162,6 +162,9 @@ class DependentRange:
         self.range_map = range_map
         self.default = default
 
+    def __repr__(self):
+        return '<DependentRange (varies)>'
+
     def parent(self, instance):
         loaded = instance.controllers_loaded
         if not loaded or self.ctl_name not in loaded:
