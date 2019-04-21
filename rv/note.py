@@ -3,7 +3,9 @@ from struct import pack, unpack
 
 from attr import attr, attributes
 
+from rv.errors import ModuleOwnershipError, PatternOwnershipError
 from rv.lib.validators import in_range
+from rv.modules.module import Module
 
 
 class NOTE(IntEnum):
@@ -281,6 +283,7 @@ class Note:
     module = attr(convert=int, validator=in_range(0, 0xFF), default=0)
     ctl = attr(convert=int, validator=in_range(0, 0xFFFF), default=0)
     val = attr(convert=int, validator=in_range(0, 0xFFFF), default=0)
+    pattern = attr(default=None)
 
     def __str__(self):
         tokens = []
@@ -288,6 +291,29 @@ class Note:
             if hasattr(self, attr):
                 tokens.append("%s%i" % (attr[0], getattr(self, attr)))
         return "".join(tokens)
+
+    @property
+    def project(self):
+        return self.pattern.project
+
+    @property
+    def module_index(self):
+        return None if self.module == 0 else self.module - 1
+
+    @property
+    def mod(self):
+        if self.project is None:
+            raise PatternOwnershipError("Pattern not owned by a project")
+        if self.module_index is None:
+            return None
+        elif self.module_index < len(self.project.modules):
+            return self.project.modules[self.module_index]
+
+    @mod.setter
+    def mod(self, new_mod: Module):
+        if new_mod.parent is None:
+            raise ModuleOwnershipError("Module must be attached to a project")
+        self.module = new_mod.index + 1
 
     @property
     def controller(self):

@@ -20,3 +20,7 @@ class EmptySynthError(RadiantVoicesError):
 
 class ModuleOwnershipError(RadiantVoicesError):
     pass
+
+
+class PatternOwnershipError(RadiantVoicesError):
+    pass

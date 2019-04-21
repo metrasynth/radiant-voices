@@ -3,7 +3,7 @@ from struct import pack
 
 from rv import ENCODING
 from rv.container import Container
-from rv.errors import ModuleOwnershipError
+from rv.errors import ModuleOwnershipError, PatternOwnershipError
 from rv.modules.module import Module
 from rv.modules.output import Output
 from rv.pattern import Pattern, PatternClone
@@ -83,7 +83,10 @@ class Project(Container):
 
     def attach_pattern(self, pattern):
         """Attach the pattern to the project."""
+        if pattern.project is not None:
+            raise PatternOwnershipError("Pattern already attached to a project")
         self.patterns.append(pattern)
+        pattern.project = self
         return len(self.patterns) - 1
 
     def connect(self, from_modules, to_modules):

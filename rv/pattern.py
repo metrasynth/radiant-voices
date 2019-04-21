@@ -36,6 +36,7 @@ class Pattern:
     flags = attr(default=0)
     x = attr(default=0)
     y = attr(default=0)
+    project = attr(default=None)
     source = None
 
     @property
@@ -114,7 +115,7 @@ class Pattern:
             line = []
             self._data.append(line)
             for track_no in range(self.tracks):
-                line.append(Note())
+                line.append(Note(pattern=self))
 
     def tabular_repr(self, note_format="NN VV MM CC EE XXYY"):
         lines = []

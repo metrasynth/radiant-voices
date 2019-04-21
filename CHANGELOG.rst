@@ -60,6 +60,15 @@ Additions
 
 - Add ``patch_decompiler`` tool.
 
+- Add ``Pattern.project`` attribute, set once attached to a project.
+
+- Add ``Note.pattern`` and ``Note.project`` to allow notes to be project-aware.
+
+- Add ``Note.module_index`` property, converts ``Note.module`` to 0-based index.
+
+- Add ``Note.mod`` property, allows setting a note's module via an actual
+  `Module` instance (instead of an int).
+
 Changes
 .......
 
