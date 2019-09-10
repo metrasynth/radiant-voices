@@ -149,7 +149,7 @@ class CompactRange(Range):
     and MultiSynth.Finetune (not discrete).
 
     Whereas Range is always shifted and scaled to 0x0000-0x8000 for the purposes of
-    XXYY columns and min/max values in MultiCtls, CompactRange is only scaled.
+    XXYY columns and min/max values in MultiCtls, CompactRange is only shifted.
 
     For example, the value -2 in the CompactRange(-128, 128) would be encoded
     as the value 126.
@@ -163,7 +163,7 @@ class DependentRange:
         self.default = default
 
     def __repr__(self):
-        return '<DependentRange (varies)>'
+        return "<DependentRange (varies)>"
 
     def parent(self, instance):
         loaded = instance.controllers_loaded
