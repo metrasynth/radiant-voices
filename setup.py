@@ -8,7 +8,7 @@ from setuptools import find_packages, setup
 
 SETUP_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__)))
 sys.path.append(SETUP_DIR)
-import rv  # NOQA isort:skip
+import rvoxgen  # NOQA isort:skip
 
 dependencies = [
     "attrs >= 19.3.0",
@@ -40,7 +40,7 @@ long_description = "{}\n{}".format(readme, changelog)
 
 setup(
     name="radiant-voices",
-    version=rv.__version__,
+    version=rvoxgen.__version__,
     url="https://github.com/metrasynth/radiant-voices",
     license="MIT",
     author="Matthew Scott",
