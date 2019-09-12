@@ -43,8 +43,8 @@ def resolve_object_name(objname):
 
 def generate(name, generator):
     cls = resolve_object_name(generator)
-    instance = cls()
-    print(instance)
+    codegen = cls(name=name)
+    print(codegen)
 
 
 def main():
