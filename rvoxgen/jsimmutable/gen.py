@@ -1,0 +1,2 @@
+class JavascriptImmutableGenerator:
+    pass

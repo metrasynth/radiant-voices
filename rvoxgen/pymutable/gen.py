@@ -1,0 +1,2 @@
+class PythonMutableGenerator:
+    pass

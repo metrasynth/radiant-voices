@@ -1,0 +1,2 @@
+class PixilangMutableGenerator:
+    pass

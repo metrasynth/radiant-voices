@@ -1,0 +1,14 @@
+- name: rvpy
+  generator: rvoxgen.pymutable:PythonMutableGenerator
+
+- name: rvpyi
+  generator: rvoxgen.pyimmutable:PythonImmutableGenerator
+
+- name: rvjs
+  generator: rvoxgen.jsmutable:JavascriptMutableGenerator
+
+- name: rvjsi
+  generator: rvoxgen.jsimmutable:JavascriptImmutableGenerator
+
+- name: rvpixi
+  generator: rvoxgen.piximutable:PixilangMutableGenerator
