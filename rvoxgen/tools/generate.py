@@ -23,9 +23,6 @@ def arg_parser():
         help="Path to config.yaml file containing multiple configurations to generate.",
     )
     parser.add_argument(
-        "--name", action="store", help="Base name of the package to generate."
-    )
-    parser.add_argument(
         "--generator",
         action="store",
         help="The module name and class name of the code generator.",
@@ -41,9 +38,9 @@ def resolve_object_name(objname):
     return obj
 
 
-def generate(name, generator):
+def generate(generator):
     cls = resolve_object_name(generator)
-    codegen = cls(name=name)
+    codegen = cls()
     print(codegen)
 
 
@@ -51,19 +48,19 @@ def main():
     logging.basicConfig(level=logging.DEBUG)
     parser = arg_parser()
     options = parser.parse_args()
-    if options.config and (options.name or options.generator):
-        log.warning("--config was specified; --name and --generator will be ignored")
-    if not options.config and not (options.name and options.generator):
-        log.error("--config not specified; must provide --name and --generator")
+    if options.config and options.generator:
+        log.warning("--config was specified; --generator will be ignored")
+    if not options.config and not options.generator:
+        log.error("--config not specified; must provide --config or --generator")
         return 1
     if options.config:
         config_path = Path(options.config)
         with config_path.open() as f:
             configs = yaml.safe_load(f)
     else:
-        configs = [{"name": options.name, "generator": options.generator}]
+        configs = [{"generator": options.generator}]
     for config in configs:
-        log.info(f"Generating {config['name']} using {config['generator']}")
+        log.info(f"Generating code with {config['generator']}...")
         generate(**config)
     return 0
 
