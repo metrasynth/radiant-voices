@@ -1,4 +1,4 @@
-attrs
+attrs==19.1.0 # https://stackoverflow.com/questions/58189683/typeerror-attrib-got-an-unexpected-keyword-argument-convert
 awesome-slugify
 hexdump
 logutils
