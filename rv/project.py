@@ -14,6 +14,13 @@ import networkx as nx
 PatternLine = namedtuple("PatternLine", ["index", "source", "line"])
 
 
+def filter_pattern_with_no_project(fn):
+    def wrapped(self, pattern):
+        if not hasattr(pattern, "project"):
+            return None
+        return fn(self, pattern)
+    return wrapped
+
 class Project(Container):
     """SunVox project comprised of metadata, modules, and patterns
 
@@ -81,6 +88,7 @@ class Project(Container):
             module.parent = self
         return module
 
+    @filter_pattern_with_no_project
     def attach_pattern(self, pattern):
         """Attach the pattern to the project."""
         if pattern.project is not None:
