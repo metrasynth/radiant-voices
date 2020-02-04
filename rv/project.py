@@ -226,7 +226,7 @@ class Project(Container):
             if start <= pattern.x and (stop is None or pattern.x < stop):
                 activate_at.setdefault(pattern.x, []).append((index, pattern))
                 deactivate_at.setdefault(
-                    pattern.x + pattern.source_pattern(self).lines, []
+                    pattern.x + pattern.source_pattern.lines, []
                 ).append((index, pattern))
         for line in range(
             start, stop if stop is not None else max(deactivate_at.keys())

@@ -136,7 +136,8 @@ class Pattern:
             + [" | ".join([lineno] + [n for n in notes]) for lineno, notes in lines]
         )
 
-    def source_pattern(self, project):
+    @property
+    def source_pattern(self):
         return self
 
 
@@ -147,6 +148,7 @@ class PatternClone:
     flags = attr(default=PatternFlags.clone)
     x = attr(default=0)
     y = attr(default=0)
+    project = attr(default=None)
 
     def iff_chunks(self):
         yield (b"PPAR", pack("<I", self.source))
@@ -154,5 +156,6 @@ class PatternClone:
         yield (b"PXXX", pack("<i", self.x))
         yield (b"PYYY", pack("<i", self.y))
 
-    def source_pattern(self, project):
-        return project.patterns[self.source]
+    @property
+    def source_pattern(self):
+        return self.project.patterns[self.source]
