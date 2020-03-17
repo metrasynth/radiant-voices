@@ -117,7 +117,7 @@ class Pattern:
             for track_no in range(self.tracks):
                 line.append(Note(pattern=self))
 
-    def tabular_repr(self, note_format="NN VV MM CC EE XXYY"):
+    def tabular_repr(self, note_format="NN VV MMMM CC EE XXYY"):
         lines = []
         notes_on = [False] * self.tracks
         lineno_len = max(2, len(str(self.lines)))

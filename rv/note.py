@@ -280,7 +280,7 @@ class Note:
 
     note = attr(convert=NOTECMD, default=NOTECMD.EMPTY)
     vel = attr(convert=int, validator=in_range(0, 129), default=0)
-    module = attr(convert=int, validator=in_range(0, 0xFF), default=0)
+    module = attr(convert=int, validator=in_range(0, 0xFFFF), default=0)
     ctl = attr(convert=int, validator=in_range(0, 0xFFFF), default=0)
     val = attr(convert=int, validator=in_range(0, 0xFFFF), default=0)
     pattern = attr(default=None)
@@ -349,12 +349,12 @@ class Note:
 
     @property
     def raw_data(self):
-        return pack("<BBBBHH", self.note, self.vel, self.module, 0, self.ctl, self.val)
+        return pack("<BBHHH", self.note, self.vel, self.module, self.ctl, self.val)
 
     @raw_data.setter
     def raw_data(self, raw_data):
-        self.note, self.vel, self.module, _, self.ctl, self.val = unpack(
-            "<BBBBHH", raw_data
+        self.note, self.vel, self.module, self.ctl, self.val = unpack(
+            "<BBHHH", raw_data
         )
 
     def clone(self):
@@ -366,7 +366,7 @@ class Note:
     def is_empty(self):
         return not (self.note or self.vel or self.ctl or self.val)
 
-    def tabular_repr(self, is_on=False, note_fmt="NN VV MM CC EE XXYY"):
+    def tabular_repr(self, is_on=False, note_fmt="NN VV MMMM CC EE XXYY"):
         if self.note == NOTECMD.NOTE_OFF:
             nn = "=="
         elif self.note == NOTECMD.PREV_TRACK:
@@ -382,9 +382,9 @@ class Note:
         else:
             vv = "{:02X}".format(self.vel - 1)
         if self.module == 0:
-            mm = "  "
+            mmmm = "    "
         else:
-            mm = "{:02X}".format(self.module - 1)
+            mmmm = "{:04X}".format(self.module - 1)
         if self.controller or self.effect:
             cc = "{:02X}".format(self.controller)
             ee = "{:02X}".format(self.effect)
@@ -400,7 +400,7 @@ class Note:
         return (
             note_fmt.replace("NN", nn)
             .replace("VV", vv)
-            .replace("MM", mm)
+            .replace("MMMM", mmmm)
             .replace("CC", cc)
             .replace("EE", ee)
             .replace("XX", xx)
