@@ -453,7 +453,7 @@ class Sampler(Module):
         self.vibrato_attack = data[0xEF]
         self.vibrato_depth = data[0xF0]
         self.vibrato_rate = data[0xF1]
-        self.volume_fadeout, = unpack("<H", data[0xF2:0xF4])
+        (self.volume_fadeout,) = unpack("<H", data[0xF2:0xF4])
         self.note_samples.bytes = data[0x104:0x17B]
         self.unknown1 = data[0x00:0x1C]
         self.unknown2 = data[0x20:0x24]
@@ -465,10 +465,10 @@ class Sampler(Module):
         index = (chunk.chnm - 1) // 2
         sample = self.samples[index] = self.Sample()
         data = chunk.chdt
-        sample.loop_start, = unpack("<I", data[0x04:0x08])
-        sample.loop_end, = unpack("<I", data[0x08:0x0C])
+        (sample.loop_start,) = unpack("<I", data[0x04:0x08])
+        (sample.loop_end,) = unpack("<I", data[0x08:0x0C])
         sample.volume = data[0x0C]
-        sample.finetune, = unpack("<b", data[0x0D:0x0E])
+        (sample.finetune,) = unpack("<b", data[0x0D:0x0E])
         loop_format_flags = data[0x0E]
         loop = loop_format_flags & (0 | 1 | 2)
         sample.loop_type = self.LoopType(loop)
@@ -484,7 +484,7 @@ class Sampler(Module):
             sample.channels = self.Channels.mono
         sample.loop_sustain = bool(loop_format_flags & 4)
         sample.panning = data[0x0F] - 0x80
-        sample.relative_note, = unpack("<b", data[0x10:0x11])
+        (sample.relative_note,) = unpack("<b", data[0x10:0x11])
         sample.unknown6 = data[0x11:0x28]
 
     def load_sample_data(self, chunk):

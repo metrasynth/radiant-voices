@@ -30,7 +30,7 @@ class ArrayChunk(Chunk):
             data = value[start:end]
             unpacked = unpack("<" + self.type, data)
             if len(unpacked) == 1:
-                unpacked, = unpacked
+                (unpacked,) = unpacked
             actual = self.python_type(unpacked)
             self.values.append(actual)
 

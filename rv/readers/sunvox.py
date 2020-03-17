@@ -23,62 +23,62 @@ class SunVoxReader(Reader):
         self.object.based_on_version = tuple(reversed(unpack("BBBB", data)))
 
     def process_BPM(self, data):
-        self.object.initial_bpm, = unpack("<I", data)
+        (self.object.initial_bpm,) = unpack("<I", data)
 
     def process_SPED(self, data):
-        self.object.initial_tpl, = unpack("<I", data)
+        (self.object.initial_tpl,) = unpack("<I", data)
 
     def process_TGRD(self, data):
-        self.object.time_grid, = unpack("<I", data)
+        (self.object.time_grid,) = unpack("<I", data)
 
     def process_TGD2(self, data):
-        self.object.time_grid2, = unpack("<I", data)
+        (self.object.time_grid2,) = unpack("<I", data)
 
     def process_GVOL(self, data):
-        self.object.global_volume, = unpack("<I", data)
+        (self.object.global_volume,) = unpack("<I", data)
 
     def process_NAME(self, data):
         data = data[: data.find(0)] if 0 in data else data
         self.object.name = data.decode(ENCODING)
 
     def process_MSCL(self, data):
-        self.object.modules_scale, = unpack("<I", data)
+        (self.object.modules_scale,) = unpack("<I", data)
 
     def process_MZOO(self, data):
-        self.object.modules_zoom, = unpack("<I", data)
+        (self.object.modules_zoom,) = unpack("<I", data)
 
     def process_MXOF(self, data):
-        self.object.modules_x_offset, = unpack("<i", data)
+        (self.object.modules_x_offset,) = unpack("<i", data)
 
     def process_MYOF(self, data):
-        self.object.modules_y_offset, = unpack("<i", data)
+        (self.object.modules_y_offset,) = unpack("<i", data)
 
     def process_LMSK(self, data):
-        self.object.modules_layer_mask, = unpack("<I", data)
+        (self.object.modules_layer_mask,) = unpack("<I", data)
 
     def process_CURL(self, data):
-        self.object.modules_current_layer, = unpack("<I", data)
+        (self.object.modules_current_layer,) = unpack("<I", data)
 
     def process_TIME(self, data):
-        self.object.timeline_position, = unpack("<i", data)
+        (self.object.timeline_position,) = unpack("<i", data)
 
     def process_REPS(self, data):
-        self.object.restart_position, = unpack("<i", data)
+        (self.object.restart_position,) = unpack("<i", data)
 
     def process_SELS(self, data):
-        self.object.selected_module, = unpack("<I", data)
+        (self.object.selected_module,) = unpack("<I", data)
 
     def process_LGEN(self, data):
-        self.object.selected_generator, = unpack("<I", data)
+        (self.object.selected_generator,) = unpack("<I", data)
 
     def process_PATN(self, data):
-        self.object.current_pattern, = unpack("<I", data)
+        (self.object.current_pattern,) = unpack("<I", data)
 
     def process_PATT(self, data):
-        self.object.current_track, = unpack("<I", data)
+        (self.object.current_track,) = unpack("<I", data)
 
     def process_PATL(self, data):
-        self.object.current_line, = unpack("<I", data)
+        (self.object.current_line,) = unpack("<I", data)
 
     def process_PDTA(self, data):
         self.rewind(data)

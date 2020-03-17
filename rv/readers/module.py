@@ -26,7 +26,7 @@ class ModuleReader(Reader):
         super().process_chunks()
 
     def process_SFFF(self, data):
-        self.object.flags, = unpack("<I", data)
+        (self.object.flags,) = unpack("<I", data)
 
     def process_SNAM(self, data):
         data = data[: data.find(0)] if 0 in data else data
@@ -52,31 +52,31 @@ class ModuleReader(Reader):
         self._object = new_module
 
     def process_SFIN(self, data):
-        self.object.finetune, = unpack("<i", data)
+        (self.object.finetune,) = unpack("<i", data)
 
     def process_SREL(self, data):
-        self.object.relative_note, = unpack("<i", data)
+        (self.object.relative_note,) = unpack("<i", data)
 
     def process_SXXX(self, data):
-        self.object.x, = unpack("<i", data)
+        (self.object.x,) = unpack("<i", data)
 
     def process_SYYY(self, data):
-        self.object.y, = unpack("<i", data)
+        (self.object.y,) = unpack("<i", data)
 
     def process_SZZZ(self, data):
-        self.object.layer, = unpack("<I", data)
+        (self.object.layer,) = unpack("<I", data)
 
     def process_SSCL(self, data):
-        self.object.scale, = unpack("<I", data)
+        (self.object.scale,) = unpack("<I", data)
 
     def process_SVPR(self, data):
-        self.object.visualization, = unpack("<I", data)
+        (self.object.visualization,) = unpack("<I", data)
 
     def process_SCOL(self, data):
         self.object.color = unpack("BBB", data)
 
     def process_SMII(self, data):
-        x, = unpack("<I", data)
+        (x,) = unpack("<I", data)
         self.object.midi_in_always = bool(x & 1)
         self.object.midi_in_channel = x >> 1
 
@@ -85,13 +85,13 @@ class ModuleReader(Reader):
         self.object.midi_out_name = data.decode(ENCODING)
 
     def process_SMIC(self, data):
-        self.object.midi_out_channel, = unpack("<i", data)
+        (self.object.midi_out_channel,) = unpack("<i", data)
 
     def process_SMIB(self, data):
-        self.object.midi_out_bank, = unpack("<i", data)
+        (self.object.midi_out_bank,) = unpack("<i", data)
 
     def process_SMIP(self, data):
-        self.object.midi_out_program, = unpack("<i", data)
+        (self.object.midi_out_program,) = unpack("<i", data)
 
     def process_SLNK(self, data):
         links = self.object.incoming_links
@@ -103,7 +103,7 @@ class ModuleReader(Reader):
                 links.pop()
 
     def process_CVAL(self, data):
-        raw_value, = unpack("<i", data)
+        (raw_value,) = unpack("<i", data)
         self._cvals.append(raw_value)
 
     def _load_last_chunk(self):
@@ -112,22 +112,22 @@ class ModuleReader(Reader):
             self._current_chunk = None
 
     def process_CHNK(self, data):
-        val, = unpack("<I", data)
+        (val,) = unpack("<I", data)
         self.object._reader_chnk = val
 
     def process_CHNM(self, data):
         self._load_last_chunk()
         self._current_chunk = Chunk()
-        self._current_chunk.chnm, = unpack("<I", data)
+        (self._current_chunk.chnm,) = unpack("<I", data)
 
     def process_CHDT(self, data):
         self._current_chunk.chdt = data
 
     def process_CHFF(self, data):
-        self._current_chunk.chff, = unpack("<I", data)
+        (self._current_chunk.chff,) = unpack("<I", data)
 
     def process_CHFR(self, data):
-        self._current_chunk.chfr, = unpack("<I", data)
+        (self._current_chunk.chfr,) = unpack("<I", data)
 
     def process_CMID(self, data):
         self.object.load_cmid(data)

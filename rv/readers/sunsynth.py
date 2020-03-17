@@ -14,7 +14,7 @@ class SunSynthReader(Reader):
         super().process_chunks()
 
     def process_VERS(self, data):
-        self.object.sunsynth_version, = unpack("<I", data)
+        (self.object.sunsynth_version,) = unpack("<I", data)
 
     def process_SFFF(self, data):
         self.rewind(data)
