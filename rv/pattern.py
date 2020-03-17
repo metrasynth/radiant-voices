@@ -26,7 +26,7 @@ class PatternFlags(IntEnum):
 class Pattern:
 
     name = attr(None)
-    tracks = attr(validator=in_range(1, 16), default=4)
+    tracks = attr(validator=in_range(1, 32), default=4)
     lines = attr(validator=in_range(1, 2 ** 19), default=32)
     y_size = attr(default=32)
     appearance_flags = attr(default=0)
