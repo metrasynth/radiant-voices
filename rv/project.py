@@ -66,8 +66,8 @@ class Project(Container):
         """Attach the module to the project."""
         if module is None:
             self.modules.append(module)
-        elif module.parent is not None:
-            raise ModuleOwnershipError("Module is already attached.")
+        elif module.parent is not None and module.parent is not self:
+            raise ModuleOwnershipError("Module is already attached to another project.")
         elif module not in self.modules:
             if None in self.modules:
                 module.index = self.module_index(None)
