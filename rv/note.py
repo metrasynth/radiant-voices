@@ -350,11 +350,11 @@ class PatternEffect(IntEnum):
 class Note:
     """A single note, for use within a :py:class:`Pattern`."""
 
-    note = attr(convert=NOTECMD, default=NOTECMD.EMPTY)
-    vel = attr(convert=int, validator=in_range(0, 129), default=0)
-    module = attr(convert=int, validator=in_range(0, 0xFFFF), default=0)
-    ctl = attr(convert=int, validator=in_range(0, 0xFFFF), default=0)
-    val = attr(convert=int, validator=in_range(0, 0xFFFF), default=0)
+    note = attr(converter=NOTECMD, default=NOTECMD.EMPTY)
+    vel = attr(converter=int, validator=in_range(0, 129), default=0)
+    module = attr(converter=int, validator=in_range(0, 0xFFFF), default=0)
+    ctl = attr(converter=int, validator=in_range(0, 0xFFFF), default=0)
+    val = attr(converter=int, validator=in_range(0, 0xFFFF), default=0)
     pattern = attr(default=None)
 
     def __str__(self):

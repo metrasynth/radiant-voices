@@ -1,4 +1,4 @@
-attrs
+attrs >= 19.3.0
 awesome-slugify
 hexdump
 logutils
