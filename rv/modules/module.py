@@ -4,10 +4,12 @@ from collections import OrderedDict
 from collections import defaultdict
 from enum import Enum, IntEnum
 from struct import pack
+from typing import Dict
 
 from logutils import BraceMessage as _F
 from rv import ENCODING
 from rv.cmidmap import ControllerMidiMap
+from rv.controller import DependentRange, Controller
 from rv.errors import ControllerValueError, RangeValidationError
 from rv.modules.meta import ModuleMeta
 from rv.readers.reader import read_sunvox_file
@@ -201,7 +203,7 @@ class Module(metaclass=ModuleMeta):
 
     behaviors = set()
 
-    controllers = OrderedDict()
+    controllers: Dict[str, Controller] = OrderedDict()
     options = OrderedDict()
     options_chnm = 0
 
@@ -212,8 +214,15 @@ class Module(metaclass=ModuleMeta):
         self.controllers_loaded = set()
         self.controller_midi_maps = defaultdict(ControllerMidiMap)
         for k, controller in self.controllers.items():
-            v = kw.get(k) if k in kw else controller.default
-            controller.set_initial(self, v)
+            if not isinstance(controller.value_type, DependentRange):
+                v = kw.get(k) if k in kw else controller.default
+                controller.set_initial(self, v)
+                self.controllers_loaded.add(k)
+        for k, controller in self.controllers.items():
+            if isinstance(controller.value_type, DependentRange):
+                v = kw.get(k) if k in kw else controller.default
+                controller.set_initial(self, v)
+                self.controllers_loaded.add(k)
         self.option_values = OrderedDict()
         for k, option in self.options.items():
             v = kw.get(k) if k in kw else option.default
