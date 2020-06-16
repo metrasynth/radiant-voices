@@ -101,10 +101,8 @@ class AnalogGenerator(Module):
             self.dirty_waveform.samples = samples
 
     def specialized_iff_chunks(self):
-        for chunk in self.dirty_waveform.chunks():
-            yield chunk
-        for chunk in super(AnalogGenerator, self).specialized_iff_chunks():
-            yield chunk
+        yield from self.dirty_waveform.chunks()
+        yield from super(AnalogGenerator, self).specialized_iff_chunks()
 
     def load_chunk(self, chunk):
         if chunk.chnm == self.options_chnm:

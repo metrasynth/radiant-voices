@@ -322,14 +322,11 @@ class Sampler(Module):
         if self.effect:
             iters += self.effect.chunks()
         for iter in iters:
-            for chunk in iter:
-                yield chunk
-        for chunk in super(Sampler, self).specialized_iff_chunks():
-            yield chunk
+            yield from iter
+        yield from super(Sampler, self).specialized_iff_chunks()
         for i, sample in enumerate(self.samples):
             if sample is not None:
-                for chunk in self.sample_chunks(i, sample):
-                    yield chunk
+                yield from self.sample_chunks(i, sample)
 
     def global_config_chunks(self):
         def b(v):

@@ -280,10 +280,8 @@ class MetaModule(Module):
     def specialized_iff_chunks(self):
         yield (b"CHNM", pack("<I", 0))
         yield (b"CHDT", self.project.read())
-        for chunk in self.mappings.chunks():
-            yield chunk
-        for chunk in super(MetaModule, self).specialized_iff_chunks():
-            yield chunk
+        yield from self.mappings.chunks()
+        yield from super(MetaModule, self).specialized_iff_chunks()
         for i, controller in enumerate(self.user_defined, 8):
             if controller.attached(self) and controller.label is not None:
                 yield (b"CHNM", pack("<I", i))

@@ -289,8 +289,7 @@ class Module(metaclass=ModuleMeta):
         to_raw_value = getattr(t, "to_raw_value", int)
         if isinstance(value, Enum):
             value = value.value
-        raw_value = to_raw_value(0 if value is None else value)
-        return raw_value
+        return to_raw_value(0 if value is None else value)
 
     def set_raw(self, name, raw_value):
         """Set the value for the named controller based on given raw value."""
@@ -352,8 +351,7 @@ class Module(metaclass=ModuleMeta):
         Override this in module subclasses as needed.
         """
         if self.options:
-            for chunk in self.options_chunks():
-                yield chunk
+            yield from self.options_chunks()
         else:
             yield (None, None)
 
@@ -378,10 +376,7 @@ class Module(metaclass=ModuleMeta):
 
     def load_options(self, chunk):
         for i, name in enumerate(self.options.keys()):
-            if i >= len(chunk.chdt):
-                value = 0
-            else:
-                value = chunk.chdt[i]
+            value = 0 if i >= len(chunk.chdt) else chunk.chdt[i]
             self.option_values[name] = value
 
     def finalize_load(self):

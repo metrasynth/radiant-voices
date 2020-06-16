@@ -60,12 +60,9 @@ class MultiSynth(Module):
             self.vv_curve.values = vv_values
 
     def specialized_iff_chunks(self):
-        for chunk in self.nv_curve.chunks():
-            yield chunk
-        for chunk in super(MultiSynth, self).specialized_iff_chunks():
-            yield chunk
-        for chunk in self.vv_curve.chunks():
-            yield chunk
+        yield from self.nv_curve.chunks()
+        yield from super(MultiSynth, self).specialized_iff_chunks()
+        yield from self.vv_curve.chunks()
 
     def load_chunk(self, chunk):
         if chunk.chnm == self.options_chnm:

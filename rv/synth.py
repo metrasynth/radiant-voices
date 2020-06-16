@@ -24,8 +24,7 @@ class Synth(Container):
         yield self.MAGIC_CHUNK
         yield (b"VERS", pack("<I", self.sunsynth_version))
         mod = self.module
-        for chunk in mod.iff_chunks(in_project=False):
-            yield chunk
+        yield from mod.iff_chunks(in_project=False)
         recompute = getattr(mod, "recompute_controller_attachment", lambda: None)
         recompute()
         ctl_count = 0
@@ -44,6 +43,5 @@ class Synth(Container):
             )
         if mod.chnk:
             yield (b"CHNK", pack("<I", mod.chnk))
-            for chunk in mod.specialized_iff_chunks():
-                yield chunk
+            yield from mod.specialized_iff_chunks()
         yield (b"SEND", b"")

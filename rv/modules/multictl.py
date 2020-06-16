@@ -128,40 +128,38 @@ class MultiCtl(Module):
             self.mappings.values[i] = self.Mapping(mapping)
 
     def on_value_changed(self, value, down, up):
-        if self.parent is not None and down:
-            downstream_mods = []
-            for to_mod in range(256):
-                from_mods = self.parent.module_connections[to_mod]
-                if self.index in from_mods:
-                    downstream_mods.append(to_mod)
-            for i, to_mod in enumerate(downstream_mods):
-                mapping = self.mappings.values[i]
-                mod = self.parent.modules[to_mod]
-                ctl = list(mod.controllers.values())[mapping.controller - 1]
-                vt = ctl.value_type
-                if isinstance(vt, Range):
-                    if isinstance(vt, CompactRange):
-                        vmax = None
-                    else:
-                        vmax = vt.max - vt.min
-                    smin, smax = mapping.min, mapping.max
-                    dmin, dmax = 0, vt.max - vt.min
-                    if smin > smax:
-                        smin, smax = smax, smin
-                        dmin, dmax = dmax, dmin
-                    converted = convert_value(
-                        self.gain,
-                        self.quantization,
-                        smin,
-                        smax,
-                        dmin,
-                        dmax,
-                        vmax,
-                        self.value,
-                        self.curve.values,
-                    )
-                    final_value = converted + vt.min
-                    setattr(mod, ctl.name, final_value)
+        if self.parent is None or not down:
+            return
+        downstream_mods = []
+        for to_mod in range(256):
+            from_mods = self.parent.module_connections[to_mod]
+            if self.index in from_mods:
+                downstream_mods.append(to_mod)
+        for i, to_mod in enumerate(downstream_mods):
+            mapping = self.mappings.values[i]
+            mod = self.parent.modules[to_mod]
+            ctl = list(mod.controllers.values())[mapping.controller - 1]
+            vt = ctl.value_type
+            if isinstance(vt, Range):
+                vmax = None if isinstance(vt, CompactRange) else vt.max - vt.min
+                smin, smax = mapping.min, mapping.max
+                dmin, dmax = 0, vt.max - vt.min
+                if smin > smax:
+                    smin, smax = smax, smin
+                    dmin, dmax = dmax, dmin
+                converted = convert_value(
+                    self.gain,
+                    self.quantization,
+                    smin,
+                    smax,
+                    dmin,
+                    dmax,
+                    vmax,
+                    self.value,
+                    self.curve.values,
+                )
+                final_value = converted + vt.min
+                setattr(mod, ctl.name, final_value)
                 # TODO: apply out_offset
                 # TODO: what should we do if it's not a range?
 
@@ -215,17 +213,14 @@ class MultiCtl(Module):
             self.controller_values["value"] = inverted
 
     def specialized_iff_chunks(self):
-        for chunk in self.mappings.chunks():
-            yield chunk
-        for chunk in self.curve.chunks():
-            yield chunk
-        for chunk in super(MultiCtl, self).specialized_iff_chunks():
-            yield chunk
+        yield from self.mappings.chunks()
+        yield from self.curve.chunks()
+        yield from super(MultiCtl, self).specialized_iff_chunks()
 
     def load_chunk(self, chunk):
         if chunk.chnm == 0:
             self.mappings.bytes = chunk.chdt
-        if chunk.chnm == 1:
+        elif chunk.chnm == 1:
             self.curve.bytes = chunk.chdt
 
     @staticmethod
@@ -260,10 +255,7 @@ class MultiCtl(Module):
             raise MappingError(
                 "Only one MultiCtl mapping per destination module allowed"
             )
-        if gains and len(gains) == 1:
-            gain = list(gains).pop()
-        else:
-            gain = 256
+        gain = list(gains).pop() if gains and len(gains) == 1 else 256
         bundle = project.new_module(
             MultiCtl, name=name, layer=layer, x=x, y=y, gain=gain, mappings=mappings
         )
