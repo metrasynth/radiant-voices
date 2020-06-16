@@ -1,0 +1,11 @@
+{
+  "name": "radiant-voices-typescript-example",
+  "version": "1.0.0",
+  "description": "Example usage of Radiant Voices with SunVox JS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Matthew Scott <matt@11craft.com>",
+  "license": "MIT"
+}
