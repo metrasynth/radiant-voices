@@ -121,7 +121,7 @@ class Track(list):
 
     @property
     def polyphony(self):
-        return max([len(notes) for notes in self])
+        return max(len(notes) for notes in self)
 
     @property
     def audible(self):
@@ -138,7 +138,7 @@ class Track(list):
 
     def __str__(self):
         return ",".join(
-            [f"{i}:{notes!s}" for i, notes in enumerate(self) if not len(notes) == 0]
+            [f"{i}:{notes!s}" for i, notes in enumerate(self) if len(notes) != 0]
         )
 
 
@@ -164,10 +164,7 @@ class Tracks(dict):
 
     @property
     def audible(self):
-        for track in self.values():
-            if track.audible:
-                return True
-        return False
+        return any(track.audible for track in self.values())
 
     def flatten(self):
         mods = sorted(list(self.keys()))
@@ -243,10 +240,10 @@ def module_layout(n, seed=13, offset=(512, 512), mult=(256, 256), tries=50):
     random.seed(seed)
 
     def is_neighbour(p, q):
-        return (
+        return ((
             (p[0] == q[0] and abs(p[1] - q[1]) == 1)
             or (p[1] == q[1] and abs(p[0] - q[0]) == 1)
-        ) and not ((abs(p[0] - q[0]) == 1) and abs(p[1] - q[1]) == 1)
+        )) and (abs(p[0] - q[0]) != 1 or abs(p[1] - q[1]) != 1)
 
     def normalise(r):
         return [(i - r[0][0], j - r[0][1]) for i, j in r]
@@ -257,7 +254,7 @@ def module_layout(n, seed=13, offset=(512, 512), mult=(256, 256), tries=50):
         q0 = q = tuple([random.choice(range(sz)), random.choice(range(sz))])
         pairs.remove(q)
         r = [q0]
-        for i in range(n - 1):
+        for _ in range(n - 1):
             adjacent = [p for p in pairs if matcher(p, q)]
             if adjacent == []:
                 raise RuntimeError("No adjacent pairs")
@@ -279,13 +276,13 @@ def module_layout(n, seed=13, offset=(512, 512), mult=(256, 256), tries=50):
         head, tail = r[0], r[1:]
 
         def err(s):
-            return sum([(s[i] - head[i]) ** 2 for i in range(2)])
+            return sum((s[i] - head[i]) ** 2 for i in range(2))
 
         return (sum([err(s) for s in tail]) / (len(r) - 1)) ** 0.5
 
     def best(n, tries):
         best, besterr = None, 1e10
-        for i in range(tries):
+        for _ in range(tries):
             try:
                 l = sample(n + 1)
             except RuntimeError as error:
@@ -349,7 +346,7 @@ def main():
     proj = read_sunvox_file(filename)
     props = {"bpm": proj.initial_bpm, "tpl": proj.initial_tpl}
     patches = decompile(proj)
-    npatches = len(list(set([patch["name"] for patch in patches])))
+    npatches = len(list({patch["name"] for patch in patches}))
     nversions = len(patches)
     log.info(
         f"dumping {npatches} patches [{nversions} versions] to {output_dir}/{dirname}"

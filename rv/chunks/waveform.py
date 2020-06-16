@@ -26,10 +26,7 @@ class WaveformChunk(Chunk):
             self.format = self.fixed_format
         if self.fixed_freq is not None:
             self.freq = self.fixed_freq
-        if self.default is not None:
-            self.samples = self.default.copy()
-        else:
-            self.samples = []
+        self.samples = self.default.copy() if self.default is not None else []
 
     @property
     def bytes(self):

@@ -116,16 +116,11 @@ class SpectraVoice(Module):
         self.h_type = h.type
 
     def specialized_iff_chunks(self):
-        for chunk in self.harmonic_freqs.chunks():
-            yield chunk
-        for chunk in self.harmonic_volumes.chunks():
-            yield chunk
-        for chunk in self.harmonic_widths.chunks():
-            yield chunk
-        for chunk in self.harmonic_types.chunks():
-            yield chunk
-        for chunk in super(SpectraVoice, self).specialized_iff_chunks():
-            yield chunk
+        yield from self.harmonic_freqs.chunks()
+        yield from self.harmonic_volumes.chunks()
+        yield from self.harmonic_widths.chunks()
+        yield from self.harmonic_types.chunks()
+        yield from super(SpectraVoice, self).specialized_iff_chunks()
 
     def load_chunk(self, chunk):
         if chunk.chnm == 0:

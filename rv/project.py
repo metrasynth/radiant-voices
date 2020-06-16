@@ -138,13 +138,11 @@ class Project(Container):
         yield (b"PATL", pack("<I", self.current_line))
         for pattern in self.patterns:
             if pattern is not None:
-                for chunk in pattern.iff_chunks():
-                    yield chunk
+                yield from pattern.iff_chunks()
             yield (b"PEND", b"")
         for i, module in enumerate(self.modules):
             if module is not None:
-                for chunk in module.iff_chunks():
-                    yield chunk
+                yield from module.iff_chunks()
                 connections = self.module_connections[i]
                 if len(connections) > 0:
                     structure = "<" + "i" * len(connections)
@@ -158,7 +156,7 @@ class Project(Container):
                 for name in controllers:
                     raw_value = module.get_raw(name)
                     yield (b"CVAL", pack("<I", raw_value))
-                if len(controllers) > 0:
+                if controllers:
                     yield (
                         b"CMID",
                         b"".join(
@@ -168,8 +166,7 @@ class Project(Container):
                     )
                 if module.chnk:
                     yield (b"CHNK", pack("<I", module.chnk))
-                    for chunk in module.specialized_iff_chunks():
-                        yield chunk
+                    yield from module.specialized_iff_chunks()
             yield (b"SEND", b"")
 
     def detach_module(self, module):
@@ -235,11 +232,11 @@ class Project(Container):
                 active_patterns.remove((index, pattern))
             for index, pattern in activate_at.get(line, []):
                 active_patterns.append((index, pattern))
-            pattern_lines = []
-            for index, pattern in active_patterns:
-                pattern_lines.append(
-                    PatternLine(index, pattern.source or index, line - pattern.x)
-                )
+            pattern_lines = [
+                PatternLine(index, pattern.source or index, line - pattern.x)
+                for index, pattern in active_patterns
+            ]
+
             yield (line, pattern_lines)
 
     def layout(self, scale=512, **spring_layout_args):

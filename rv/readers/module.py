@@ -19,10 +19,7 @@ class ModuleReader(Reader):
         self._cvals = []
 
     def process_chunks(self):
-        if self._index > 0:
-            self.object = Module(index=self._index)
-        else:
-            self.object = Output()
+        self.object = Module(index=self._index) if self._index > 0 else Output()
         super().process_chunks()
 
     def process_SFFF(self, data):
@@ -40,11 +37,12 @@ class ModuleReader(Reader):
         new_module.flags = self.object.flags
         new_module.name = self.object.name
         new_module.mtype = mtype
-        self._controller_keys = list(
+        self._controller_keys = [
             name
             for name, controller in new_module.controllers.items()
             if controller.attached(new_module)
-        )
+        ]
+
         if mtype == "MetaModule":
             self._controller_keys += [
                 "user_defined_{}".format(i + 1) for i in range(27)
@@ -94,10 +92,10 @@ class ModuleReader(Reader):
         (self.object.midi_out_program,) = unpack("<i", data)
 
     def process_SLNK(self, data):
-        links = self.object.incoming_links
         if len(data) > 0:
             link_count = len(data) // 4
             structure = "<" + "i" * link_count
+            links = self.object.incoming_links
             links.extend(unpack(structure, data))
             while links[-1:] == [-1]:
                 links.pop()

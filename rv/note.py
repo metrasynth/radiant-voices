@@ -358,10 +358,12 @@ class Note:
     pattern = attr(default=None)
 
     def __str__(self):
-        tokens = []
-        for attr in ["note", "vel", "ctl", "val"]:
-            if hasattr(self, attr):
-                tokens.append("%s%i" % (attr[0], getattr(self, attr)))
+        tokens = [
+            "%s%i" % (attr[0], getattr(self, attr))
+            for attr in ["note", "vel", "ctl", "val"]
+            if hasattr(self, attr)
+        ]
+
         return "".join(tokens)
 
     @property
@@ -449,14 +451,8 @@ class Note:
             nn = "//" if is_on else ".."
         else:
             nn = NOTECMD(self.note).name
-        if self.vel == 0:
-            vv = "  "
-        else:
-            vv = "{:02X}".format(self.vel - 1)
-        if self.module == 0:
-            mmmm = "    "
-        else:
-            mmmm = "{:04X}".format(self.module - 1)
+        vv = "  " if self.vel == 0 else "{:02X}".format(self.vel - 1)
+        mmmm = "    " if self.module == 0 else "{:04X}".format(self.module - 1)
         if self.controller or self.effect:
             cc = "{:02X}".format(self.controller)
             ee = "{:02X}".format(self.effect)
