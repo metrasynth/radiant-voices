@@ -240,10 +240,12 @@ def module_layout(n, seed=13, offset=(512, 512), mult=(256, 256), tries=50):
     random.seed(seed)
 
     def is_neighbour(p, q):
-        return ((
-            (p[0] == q[0] and abs(p[1] - q[1]) == 1)
-            or (p[1] == q[1] and abs(p[0] - q[0]) == 1)
-        )) and (abs(p[0] - q[0]) != 1 or abs(p[1] - q[1]) != 1)
+        return (
+            (
+                (p[0] == q[0] and abs(p[1] - q[1]) == 1)
+                or (p[1] == q[1] and abs(p[0] - q[0]) == 1)
+            )
+        ) and (abs(p[0] - q[0]) != 1 or abs(p[1] - q[1]) != 1)
 
     def normalise(r):
         return [(i - r[0][0], j - r[0][1]) for i, j in r]
