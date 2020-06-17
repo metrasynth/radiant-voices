@@ -11,6 +11,17 @@ from enum import Enum
 {%- if modtype.options %}
 from rv.option import Option
 {% endif %}
+{%- if modtype.controllers %}
+from rv.controller import Controller
+    {% for ctl in modtype.controllers -%}
+        {% for cname, cspec in ctl.items() %}
+            {% if "min" in cspec and "max" in cspec %}
+{% if cspec.compact %}from rv.controller import CompactRange{% endif %}
+            {% endif %}
+{% if cspec.depends_on %}from rv.controller import DependentRange, WarnOnlyRange{% endif %}
+        {%- endfor %}
+    {%- endfor %}
+{% endif %}
 
 class Base{{ modtype_name }}:
     name = {{ modtype_name | repr }}
@@ -23,6 +34,45 @@ class Base{{ modtype_name }}:
         {{ ekey | enumname }} = {{ eval }}
     {%- endfor %}
 {% endfor %}
+
+{% for ctl in modtype.controllers -%}
+    {% for cname, cspec in ctl.items() %}
+    {{ cname }} = Controller(
+        {% if "min" in cspec and "max" in cspec %}
+            {% if cspec.compact %}CompactRange{% endif %}
+            ({{ cspec.min }}, {{ cspec.max }}),
+            {{ cspec.default }}
+        {% elif "enum" in cspec and "default" in cspec %}
+            {{ cspec.enum }}, {{ cspec.enum }}.{{ cspec.default | enumname }}
+        {% elif "bool" in cspec %}
+            bool, {{ cspec.default | repr }}
+        {% elif "depends_on" in cspec %}
+            DependentRange(
+                {{ cspec.depends_on | repr }},
+            {
+                {% set enumclass = ctlmap[cspec.depends_on].enum %}
+                {% for enumval, rangeinfo in cspec.ranges.items() %}
+                    {{ enumclass }}.{{ enumval | enumname }}: WarnOnlyRange(
+                        {{ rangeinfo.min }}, {{ rangeinfo.max }}
+                    ),
+                {% endfor %}
+            },
+            {% for firstrangeinfo in cspec.ranges.values() %}
+                {% if loop.first %}
+                    WarnOnlyRange(
+                        {{ firstrangeinfo.min }}, {{ firstrangeinfo.max }}
+                    )
+                {% endif %}
+            {% endfor %}
+            )
+            , {{ cspec.default }}
+        {% endif %}
+        {% if "attached" in cspec and not cspec.attached %}
+            , attached=False
+        {% endif %}
+    )
+    {%- endfor %}
+{%- endfor %}
 
 {% for opt in modtype.options -%}
     {% for oname, odefault in opt.items() %}

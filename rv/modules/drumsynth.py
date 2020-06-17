@@ -1,13 +1,8 @@
 from enum import IntEnum
 
-from rv.controller import Controller
 from rv.modules import Behavior as B
 from rv.modules import Module
 from rv.modules.base.drumsynth import BaseDrumSynth
-
-
-def panning_controller():
-    return Controller((-128, 128), 0)
 
 
 class DrumSynth(BaseDrumSynth, Module):
@@ -15,22 +10,6 @@ class DrumSynth(BaseDrumSynth, Module):
     flags = 0x000049
 
     behaviors = {B.receives_notes, B.sends_audio}
-
-    volume = Controller((0, 512), 256)
-    panning = panning_controller()
-    polyphony_ch = Controller((1, 8), 4)
-    bass_volume = Controller((0, 512), 200)
-    bass_power = Controller((0, 256), 256)
-    bass_tone = Controller((0, 256), 64)
-    bass_length = Controller((0, 256), 64)
-    hihat_volume = Controller((0, 512), 256)
-    hihat_length = Controller((0, 256), 64)
-    snare_volume = Controller((0, 512), 256)
-    snare_tone = Controller((0, 256), 128)
-    snare_length = Controller((0, 256), 64)
-    bass_panning = panning_controller()
-    hihat_panning = panning_controller()
-    snare_panning = panning_controller()
 
 
 class DRUMNOTE(IntEnum):

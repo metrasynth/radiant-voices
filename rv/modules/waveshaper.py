@@ -1,5 +1,4 @@
 from rv.chunks import ArrayChunk
-from rv.controller import Controller
 from rv.modules import Behavior as B
 from rv.modules import Module
 from rv.modules.base.waveshaper import BaseWaveShaper
@@ -12,8 +11,6 @@ class WaveShaper(BaseWaveShaper, Module):
 
     behaviors = {B.receives_audio, B.sends_audio}
 
-    Mode = BaseWaveShaper.Mode
-
     class Curve(ArrayChunk):
         chnm = 0
         length = 256
@@ -24,13 +21,6 @@ class WaveShaper(BaseWaveShaper, Module):
 
         def default(self, x):
             return x * 0x100
-
-    input_volume = Controller((0, 512), 256)
-    mix = Controller((0, 256), 256)
-    output_volume = Controller((0, 512), 256)
-    symmetric = Controller(bool, True)
-    mode = Controller(Mode, Mode.hq)
-    dc_blocker = Controller(bool, True)
 
     def __init__(self, **kwargs):
         values = kwargs.pop("values", None)

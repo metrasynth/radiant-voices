@@ -5,7 +5,6 @@ from itertools import chain
 from struct import pack, unpack
 
 from logutils import BraceMessage as _F
-from rv.controller import Controller
 from rv.modules import Behavior as B
 from rv.modules import Module
 from rv.modules.base.sampler import BaseSampler
@@ -32,13 +31,6 @@ class Sampler(BaseSampler, Module):
     flags = 0x008459
 
     behaviors = {B.receives_notes, B.sends_audio}
-
-    SampleInterpolation = BaseSampler.SampleInterpolation
-    EnvelopeInterpolation = BaseSampler.EnvelopeInterpolation
-    VibratoType = BaseSampler.VibratoType
-    LoopType = BaseSampler.LoopType
-    Format = BaseSampler.Format
-    Channels = BaseSampler.Channels
 
     class NoteSampleMap(OrderedDict):
         start_note = NOTE.C0
@@ -240,21 +232,6 @@ class Sampler(BaseSampler, Module):
         @property
         def frames(self):
             return len(self.data) // self.frame_size
-
-    volume = Controller((0, 512), 256)
-    panning = Controller((-128, 128), 0)
-    sample_interpolation = Controller(SampleInterpolation, SampleInterpolation.spline)
-    envelope_interpolation = Controller(
-        EnvelopeInterpolation, EnvelopeInterpolation.linear
-    )
-    polyphony_ch = Controller((1, 32), 8)
-    rec_threshold = Controller((0, 10000), 4)
-
-    vibrato_type = Controller(VibratoType, VibratoType.sin, attached=False)
-    vibrato_attack = Controller((0, 255), 0, attached=False)
-    vibrato_depth = Controller((0, 255), 0, attached=False)
-    vibrato_rate = Controller((0, 63), 0, attached=False)
-    volume_fadeout = Controller((0, 8192), 0, attached=False)
 
     def __init__(self, **kwargs):
         super(Sampler, self).__init__(**kwargs)

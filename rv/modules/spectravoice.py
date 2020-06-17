@@ -1,5 +1,4 @@
 from rv.chunks import ArrayChunk
-from rv.controller import Controller
 from rv.modules import Behavior as B
 from rv.modules import Module
 from rv.modules.base.spectravoice import BaseSpectraVoice
@@ -11,9 +10,6 @@ class SpectraVoice(BaseSpectraVoice, Module):
     flags = 0x000049
 
     behaviors = {B.receives_notes, B.sends_audio}
-
-    Mode = BaseSpectraVoice.Mode
-    HarmonicType = BaseSpectraVoice.HarmonicType
 
     class HarmonicValueArray(ArrayChunk):
         length = 16
@@ -58,22 +54,6 @@ class SpectraVoice(BaseSpectraVoice, Module):
         @property
         def python_type(self):
             return SpectraVoice.HarmonicType
-
-    volume = Controller((0, 256), 128)
-    panning = Controller((-128, 128), 0)
-    attack = Controller((0, 512), 10)
-    release = Controller((0, 512), 512)
-    polyphony_ch = Controller((1, 32), 8)
-    mode = Controller(Mode, Mode.hq_spline)
-    sustain = Controller(bool, True)
-    spectrum_resolution = Controller((0, 5), 1)
-    # Note: These are controllers used to program the module while it's loaded.
-    # When scripting, use the objects in `self.harmonics` instead.
-    harmonic = Controller((0, 15), 0)
-    h_freq_hz = Controller((0, 22050), 1098)
-    h_volume = Controller((0, 255), 255)
-    h_width = Controller((0, 255), 3)
-    h_type = Controller(HarmonicType, HarmonicType.hsin)
 
     def __init__(self, **kwargs):
         harmonics = kwargs.pop("harmonics", [])

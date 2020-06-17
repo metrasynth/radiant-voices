@@ -1,5 +1,4 @@
 from rv.chunks import ArrayChunk
-from rv.controller import CompactRange, Controller
 from rv.modules import Behavior as B
 from rv.modules import Module
 from rv.modules.base.multisynth import BaseMultiSynth
@@ -32,15 +31,6 @@ class MultiSynth(BaseMultiSynth, Module):
 
         def default(self, x):
             return min(x, 255)
-
-    transpose = Controller(CompactRange(-128, 128), 0)
-    random_pitch = Controller((0, 4096), 0)
-    velocity = Controller((0, 256), 256)
-    finetune = Controller((-256, 256), 0)
-    random_phase = Controller((0, 32768), 0)
-    random_velocity = Controller((0, 32768), 0)
-    phase = Controller((0, 32768), 0)
-    curve2_influence = Controller((0, 256), 256)
 
     def __init__(self, **kwargs):
         nv_values = kwargs.pop("nv_values", None)

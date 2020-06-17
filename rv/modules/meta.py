@@ -25,7 +25,7 @@ class ModuleMeta(type):
 
     def __init_controllers(cls, class_dict):
         ordered_controllers = [
-            (k, v) for k, v in class_dict.items() if isinstance(v, Controller)
+            (k, v) for k in dir(cls) if isinstance(v := getattr(cls, k), Controller)
         ]
         ordered_controllers.sort(key=lambda x: x[1]._order)
         cls.controllers = OrderedDict()

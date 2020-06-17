@@ -1,5 +1,4 @@
 from rv.chunks import DirtyWaveformChunk
-from rv.controller import Controller
 from rv.modules import Behavior as B
 from rv.modules import Module
 from rv.modules.base.generator import BaseGenerator
@@ -12,22 +11,8 @@ class Generator(BaseGenerator, Module):
 
     behaviors = {B.receives_notes, B.receives_modulator, B.sends_audio}
 
-    Waveform = BaseGenerator.Waveform
-    Mode = BaseGenerator.Mode
-
     class DirtyWaveform(DirtyWaveformChunk):
         chnm = 0
-
-    volume = Controller((0, 256), 128)
-    waveform = Controller(Waveform, Waveform.triangle)
-    panning = Controller((-128, 128), 0)
-    attack = Controller((0, 512), 0)
-    release = Controller((0, 512), 0)
-    polyphony_ch = Controller((1, 16), 8)
-    mode = Controller(Mode, Mode.stereo)
-    sustain = Controller(bool, True)
-    freq_modulation_input = Controller((0, 256), 0)
-    duty_cycle = Controller((0, 1022), 511)
 
     def __init__(self, **kwargs):
         samples = kwargs.pop("samples", None)

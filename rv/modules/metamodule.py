@@ -87,8 +87,6 @@ class MetaModule(BaseMetaModule, Module):
 
     behaviors = {B.receives_audio, B.receives_notes, B.sends_audio, B.sends_notes}
 
-    PlayPatterns = BaseMetaModule.PlayPatterns
-
     class Mapping:
         def __init__(self, value):
             self.module, self.controller = value[0], value[1] + 1
@@ -129,12 +127,6 @@ class MetaModule(BaseMetaModule, Module):
                 metamodule.controller_values[
                     user_defined_controller.name
                 ] = mod.controller_values[controller.name]
-
-    volume = Controller((0, 1024), 256)
-    input_module = Controller((1, 256), 1)
-    play_patterns = Controller(PlayPatterns, PlayPatterns.off)
-    bpm = Controller((1, 800), 125)
-    tpl = Controller((1, 31), 6)
 
     (
         user_defined_1,

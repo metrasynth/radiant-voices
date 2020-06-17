@@ -787,8 +787,8 @@ module_types:
         sustain_off: 1
         sustain_on: 2
     controllers:
-      - volume: {}
-      - waveform: { enum: Waveform, defaut: "triangle" }
+      - volume: { min: 0, max: 256, default: 80 }
+      - waveform: { enum: Waveform, default: "triangle" }
       - panning: { min: 128, max: 128, default: 0 }
       - attack: { min: 0, max: 256, default: 0 }
       - release: { min: 0, max: 256, default: 0 }
@@ -1491,11 +1491,11 @@ module_types:
       - envelope_interpolation: { enum: EnvelopeInterpolation, default: "linear" }
       - polyphony_ch: { min: 1, max: 32, default: 8 }
       - rec_threshold: { min: 0, max: 10000, default: 4 }
-      - vibrato_type: { enum: VibratoType, default: "sin" }
-      - vibrato_attack: { min: 0, max: 255, default: 0 }
-      - vibrato_depth: { min: 0, max: 255, default: 0 }
-      - vibrato_rate: { min: 0, max: 63, default: 0 }
-      - volume_fadeout: { min: 0, max: 8192, default: 0 }
+      - vibrato_type: { enum: VibratoType, default: "sin", attached: false }
+      - vibrato_attack: { min: 0, max: 255, default: 0, attached: false }
+      - vibrato_depth: { min: 0, max: 255, default: 0, attached: false }
+      - vibrato_rate: { min: 0, max: 63, default: 0, attached: false }
+      - volume_fadeout: { min: 0, max: 8192, default: 0, attached: false }
     options:
       - record_on_play: false
       - record_in_mono: false
