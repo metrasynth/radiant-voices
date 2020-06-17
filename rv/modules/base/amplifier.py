@@ -3,7 +3,6 @@
 
 
 class BaseAmplifier:
-
     name = "Amplifier"
     mtype = "Amplifier"
     mgroup = "Effect"

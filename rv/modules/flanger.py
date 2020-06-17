@@ -11,18 +11,8 @@ class Flanger(BaseFlanger, Module):
 
     behaviors = {B.receives_audio, B.sends_audio}
 
-    class LfoWaveform(Enum):
-        hsin = 0
-        sin = 1
-
-    class LfoFreqUnit(Enum):
-        hz_0_05 = 0  # hz * 0.05
-        ms = 1
-        hz = 2
-        tick = 3
-        line = 4
-        line_2 = 5  # line / 2
-        line_3 = 6  # line / 3
+    LfoWaveform = BaseFlanger.LfoWaveform
+    LfoFreqUnit = BaseFlanger.LfoFreqUnit
 
     dry = Controller((0, 256), 256)
     wet = Controller((0, 256), 128)

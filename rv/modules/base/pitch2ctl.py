@@ -2,8 +2,19 @@
 # -- DO NOT EDIT DIRECTLY --
 
 
-class BasePitch2Ctl:
+from enum import Enum
 
+
+class BasePitch2Ctl:
     name = "Pitch2Ctl"
     mtype = "Pitch2Ctl"
     mgroup = "Misc"
+
+    class Mode(Enum):
+        frequency_hz = 0
+        pitch = 1
+
+    class NoteOffAction(Enum):
+        do_nothing = 0
+        pitch_down = 1
+        pitch_up = 2

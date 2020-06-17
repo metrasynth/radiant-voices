@@ -11,10 +11,7 @@ class Kicker(BaseKicker, Module):
 
     behaviors = {B.receives_notes, B.sends_audio}
 
-    class Waveform(Enum):
-        triangle = 0
-        square = 1
-        sin = 2
+    Waveform = BaseKicker.Waveform
 
     volume = Controller((0, 256), 256)
     waveform = Controller(Waveform, Waveform.triangle)

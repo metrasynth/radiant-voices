@@ -90,10 +90,7 @@ class MetaModule(BaseMetaModule, Module):
 
     behaviors = {B.receives_audio, B.receives_notes, B.sends_audio, B.sends_notes}
 
-    class PlayPatterns(Enum):
-        off = 0
-        on = 1
-        on_no_repeat = 2
+    PlayPatterns = BaseMetaModule.PlayPatterns
 
     class Mapping:
         def __init__(self, value):

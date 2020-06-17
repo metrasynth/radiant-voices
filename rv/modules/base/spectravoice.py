@@ -2,8 +2,33 @@
 # -- DO NOT EDIT DIRECTLY --
 
 
-class BaseSpectraVoice:
+from enum import Enum
 
+
+class BaseSpectraVoice:
     name = "SpectraVoice"
     mtype = "SpectraVoice"
     mgroup = "Synth"
+
+    class Mode(Enum):
+        hq = 0
+        hq_mono = 1
+        lq = 2
+        lq_mono = 3
+        hq_spline = 4
+
+    class HarmonicType(Enum):
+        hsin = 0
+        rect = 1
+        org1 = 2
+        org2 = 3
+        org3 = 4
+        org4 = 5
+        sin = 6
+        random = 7
+        triangle1 = 8
+        triangle2 = 9
+        overtones1 = 10
+        overtones2 = 11
+        overtones3 = 12
+        overtones4 = 13

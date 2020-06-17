@@ -11,13 +11,8 @@ class Loop(BaseLoop, Module):
 
     behaviors = {B.receives_audio, B.sends_audio}
 
-    class Channels(Enum):
-        mono = 0
-        stereo = 1
-
-    class Mode(Enum):
-        normal = 0
-        ping_pong = 1
+    Channels = BaseLoop.Channels
+    Mode = BaseLoop.Mode
 
     volume = Controller((0, 256), 256)
     delay = Controller((0, 256), 256)  # line / 128

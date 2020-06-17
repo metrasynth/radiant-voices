@@ -2,8 +2,19 @@
 # -- DO NOT EDIT DIRECTLY --
 
 
-class BaseModulator:
+from enum import Enum
 
+
+class BaseModulator:
     name = "Modulator"
     mtype = "Modulator"
     mgroup = "Effect"
+
+    class ModulationType(Enum):
+        amplitude = 0
+        phase = 1
+        phase_abs = 2
+
+    class Channels(Enum):
+        stereo = 0
+        mono = 1

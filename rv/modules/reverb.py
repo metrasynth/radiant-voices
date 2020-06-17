@@ -11,11 +11,7 @@ class Reverb(BaseReverb, Module):
 
     behaviors = {B.receives_audio, B.sends_audio}
 
-    class Mode(Enum):
-        hq = 0
-        hq_mono = 1
-        lq = 2
-        lq_mono = 3
+    Mode = BaseReverb.Mode
 
     dry = Controller((0, 256), 256)
     wet = Controller((0, 256), 64)

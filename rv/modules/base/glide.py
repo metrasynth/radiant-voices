@@ -3,7 +3,6 @@
 
 
 class BaseGlide:
-
     name = "Glide"
     mtype = "Glide"
     mgroup = "Misc"

@@ -11,11 +11,7 @@ class PitchShifter(BasePitchShifter, Module):
 
     behaviors = {B.receives_audio, B.sends_audio}
 
-    class Mode(Enum):
-        hq = 0
-        hq_mono = 1
-        lq = 2
-        lq_mono = 3
+    Mode = BasePitchShifter.Mode
 
     volume = Controller((0, 512), 256)
     pitch = Controller((-600, 600), 0)

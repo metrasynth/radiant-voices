@@ -3,7 +3,6 @@
 
 
 class BaseGpio:
-
     name = "Gpio"
     mtype = "GPIO"
     mgroup = "Misc"

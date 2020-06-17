@@ -2,8 +2,37 @@
 # -- DO NOT EDIT DIRECTLY --
 
 
-class BaseLfo:
+from enum import Enum
 
+
+class BaseLfo:
     name = "Lfo"
     mtype = "LFO"
     mgroup = "Effect"
+
+    class Type(Enum):
+        amplitude = 0
+        panning = 1
+
+    class Waveform(Enum):
+        sin = 0
+        square = 1
+        sin2 = 2
+        saw = 3
+        saw2 = 4
+        random = 5
+        triangle = 6
+        random_interpolated = 7
+
+    class Channels(Enum):
+        stereo = 0
+        mono = 1
+
+    class FrequencyUnit(Enum):
+        hz_64 = 0
+        ms = 1
+        hz = 2
+        tick = 3
+        line = 4
+        line_2 = 5
+        line_3 = 6

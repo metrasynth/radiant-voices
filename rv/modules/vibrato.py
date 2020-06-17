@@ -11,18 +11,8 @@ class Vibrato(BaseVibrato, Module):
 
     behaviors = {B.receives_audio, B.sends_audio}
 
-    class Channels(Enum):
-        stereo = 0
-        mono = 1
-
-    class FrequencyUnit(Enum):
-        hz_64 = 0  # hz / 64
-        ms = 1
-        hz = 2
-        tick = 3
-        line = 4
-        line_2 = 5  # line / 2
-        line_3 = 6  # line / 3
+    Channels = BaseVibrato.Channels
+    FrequencyUnit = BaseVibrato.FrequencyUnit
 
     freq_ranges = {
         FrequencyUnit.hz_64: WarnOnlyRange(1, 2048),

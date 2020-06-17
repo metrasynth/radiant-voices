@@ -11,9 +11,7 @@ class Eq(BaseEq, Module):
 
     behaviors = {B.receives_audio, B.sends_audio}
 
-    class Channels(Enum):
-        stereo = 0
-        mono = 1
+    Channels = BaseEq.Channels
 
     low = Controller((0, 512), 256)
     middle = Controller((0, 512), 256)

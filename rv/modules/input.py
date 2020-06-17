@@ -11,9 +11,7 @@ class Input(BaseInput, Module):
 
     behaviors = {B.sends_audio}
 
-    class Channels(Enum):
-        mono = 0
-        stereo = 1
+    Channels = BaseInput.Channels
 
     volume = Controller((0, 1024), 256)
     channels = Controller(Channels, Channels.mono)

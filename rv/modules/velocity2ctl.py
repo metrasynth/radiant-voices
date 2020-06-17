@@ -11,10 +11,7 @@ class Velocity2Ctl(BaseVelocity2Ctl, Module):
 
     behaviors = {B.receives_notes, B.sends_controls}
 
-    class NoteOffAction(Enum):
-        do_nothing = 0
-        vel_down = 1
-        vel_up = 2
+    NoteOffAction = BaseVelocity2Ctl.NoteOffAction
 
     note_off_action = Controller(NoteOffAction, NoteOffAction.do_nothing)
     out_min = Controller((0, 32768), 0)

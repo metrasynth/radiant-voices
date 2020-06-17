@@ -11,8 +11,6 @@ class DcBlocker(BaseDcBlocker, Module):
 
     behaviors = {B.receives_audio, B.sends_audio}
 
-    class Channels(Enum):
-        stereo = 0
-        mono = 1
+    Channels = BaseDcBlocker.Channels
 
     channels = Controller(Channels, Channels.stereo)

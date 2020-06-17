@@ -3,7 +3,6 @@
 
 
 class BaseMultiCtl:
-
     name = "MultiCtl"
     mtype = "MultiCtl"
     mgroup = "Misc"

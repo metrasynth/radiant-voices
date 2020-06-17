@@ -2,8 +2,23 @@
 # -- DO NOT EDIT DIRECTLY --
 
 
-class BaseVibrato:
+from enum import Enum
 
+
+class BaseVibrato:
     name = "Vibrato"
     mtype = "Vibrato"
     mgroup = "Effect"
+
+    class Channels(Enum):
+        stereo = 0
+        mono = 1
+
+    class FrequencyUnit(Enum):
+        hz_64 = 0
+        ms = 1
+        hz = 2
+        tick = 3
+        line = 4
+        line_2 = 5
+        line_3 = 6

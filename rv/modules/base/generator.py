@@ -2,8 +2,25 @@
 # -- DO NOT EDIT DIRECTLY --
 
 
-class BaseGenerator:
+from enum import Enum
 
+
+class BaseGenerator:
     name = "Generator"
     mtype = "Generator"
     mgroup = "Synth"
+
+    class Waveform(Enum):
+        triangle = 0
+        saw = 1
+        square = 2
+        noise = 3
+        dirty = 4
+        sin = 5
+        hsin = 6
+        asin = 7
+        psin = 8
+
+    class Mode(Enum):
+        stereo = 0
+        mono = 1

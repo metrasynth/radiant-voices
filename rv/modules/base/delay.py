@@ -2,8 +2,23 @@
 # -- DO NOT EDIT DIRECTLY --
 
 
-class BaseDelay:
+from enum import Enum
 
+
+class BaseDelay:
     name = "Delay"
     mtype = "Delay"
     mgroup = "Effect"
+
+    class Channels(Enum):
+        stereo = 0
+        mono = 1
+
+    class DelayUnits(Enum):
+        sec_16384 = 0
+        ms = 1
+        hz = 2
+        tick = 3
+        line = 4
+        line_2 = 5
+        line_3 = 6

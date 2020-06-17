@@ -11,11 +11,7 @@ class Fm(BaseFm, Module):
 
     behaviors = {B.receives_notes, B.sends_audio}
 
-    class Mode(Enum):
-        hq = 0
-        hq_mono = 1
-        lq = 2
-        lq_mono = 3
+    Mode = BaseFm.Mode
 
     c_volume = Controller((0, 256), 128)
     m_volume = Controller((0, 256), 48)

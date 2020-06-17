@@ -2,8 +2,15 @@
 # -- DO NOT EDIT DIRECTLY --
 
 
-class BaseVelocity2Ctl:
+from enum import Enum
 
+
+class BaseVelocity2Ctl:
     name = "Velocity2Ctl"
     mtype = "Velocity2Ctl"
     mgroup = "Misc"
+
+    class NoteOffAction(Enum):
+        do_nothing = 0
+        vel_down = 1
+        vel_up = 2

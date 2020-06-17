@@ -11,10 +11,7 @@ class Compressor(BaseCompressor, Module):
 
     behaviors = {B.receives_audio, B.sends_audio}
 
-    class Mode(Enum):
-        peak = 0
-        rms = 1
-        peak_zero_latency = 2
+    Mode = BaseCompressor.Mode
 
     volume = Controller((0, 512), 256)
     threshold = Controller((0, 512), 256)

@@ -2,8 +2,14 @@
 # -- DO NOT EDIT DIRECTLY --
 
 
-class BaseEq:
+from enum import Enum
 
+
+class BaseEq:
     name = "Eq"
     mtype = "EQ"
     mgroup = "Effect"
+
+    class Channels(Enum):
+        stereo = 0
+        mono = 1

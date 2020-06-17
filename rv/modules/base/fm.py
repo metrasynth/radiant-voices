@@ -2,8 +2,16 @@
 # -- DO NOT EDIT DIRECTLY --
 
 
-class BaseFm:
+from enum import Enum
 
+
+class BaseFm:
     name = "Fm"
     mtype = "FM"
     mgroup = "Synth"
+
+    class Mode(Enum):
+        hq = 0
+        hq_mono = 1
+        lq = 2
+        lq_mono = 3

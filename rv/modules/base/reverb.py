@@ -2,8 +2,16 @@
 # -- DO NOT EDIT DIRECTLY --
 
 
-class BaseReverb:
+from enum import Enum
 
+
+class BaseReverb:
     name = "Reverb"
     mtype = "Reverb"
     mgroup = "Effect"
+
+    class Mode(Enum):
+        hq = 0
+        hq_mono = 1
+        lq = 2
+        lq_mono = 3

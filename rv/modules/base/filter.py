@@ -2,8 +2,44 @@
 # -- DO NOT EDIT DIRECTLY --
 
 
-class BaseFilter:
+from enum import Enum
 
+
+class BaseFilter:
     name = "Filter"
     mtype = "Filter"
     mgroup = "Effect"
+
+    class Type(Enum):
+        lp = 0
+        hp = 1
+        bp = 2
+        notch = 3
+
+    class Mode(Enum):
+        hq = 0
+        hq_mono = 1
+        lq = 2
+        lq_mono = 3
+
+    class RollOff(Enum):
+        db_12 = 0
+        db_24 = 1
+        db_36 = 2
+        db_48 = 3
+
+    class LfoFreqUnit(Enum):
+        hz_0_02 = 0
+        ms = 1
+        hz = 2
+        tick = 3
+        line = 4
+        line_2 = 5
+        line_3 = 6
+
+    class LfoWaveform(Enum):
+        sin = 0
+        saw = 1
+        saw2 = 2
+        square = 3
+        random = 4

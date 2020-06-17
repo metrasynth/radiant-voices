@@ -13,20 +13,8 @@ class Generator(BaseGenerator, Module):
 
     behaviors = {B.receives_notes, B.receives_modulator, B.sends_audio}
 
-    class Waveform(Enum):
-        triangle = 0
-        saw = 1
-        square = 2
-        noise = 3
-        dirty = 4
-        sin = 5
-        hsin = 6
-        asin = 7
-        psin = 8
-
-    class Mode(Enum):
-        stereo = 0
-        mono = 1
+    Waveform = BaseGenerator.Waveform
+    Mode = BaseGenerator.Mode
 
     class DirtyWaveform(DirtyWaveformChunk):
         chnm = 0

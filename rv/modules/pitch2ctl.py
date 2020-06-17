@@ -11,14 +11,8 @@ class Pitch2Ctl(BasePitch2Ctl, Module):
 
     behaviors = {B.receives_notes, B.sends_controls}
 
-    class Mode(Enum):
-        frequency_hz = 0
-        pitch = 1
-
-    class NoteOffAction(Enum):
-        do_nothing = 0
-        pitch_down = 1
-        pitch_up = 2
+    Mode = BasePitch2Ctl.Mode
+    NoteOffAction = BasePitch2Ctl.NoteOffAction
 
     mode = Controller(Mode, Mode.frequency_hz)
     note_off_action = Controller(NoteOffAction, NoteOffAction.do_nothing)

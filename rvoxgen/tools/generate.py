@@ -43,6 +43,15 @@ def generate(env, generator, **options):
     codegen.run(env)
 
 
+def enumname(ekey: str) -> str:
+    ekey = ekey.replace("/", "_")
+    ekey = ekey.replace("*", "_")
+    ekey = ekey.replace(".", "_")
+    if len(ekey) == 4 and ekey.endswith("db"):
+        ekey = f"db_{ekey[:2]}"
+    return ekey
+
+
 def main():
     logging.basicConfig(level=logging.INFO)
     logging.getLogger("rvoxgen").setLevel(logging.DEBUG)
@@ -53,6 +62,7 @@ def main():
     }
     env = Environment(loader=PrefixLoader(loader_map))
     env.filters["repr"] = repr
+    env.filters["enumname"] = enumname
     parser = arg_parser()
     options = parser.parse_args()
     config_path = Path(options.config)

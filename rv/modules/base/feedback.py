@@ -2,8 +2,14 @@
 # -- DO NOT EDIT DIRECTLY --
 
 
-class BaseFeedback:
+from enum import Enum
 
+
+class BaseFeedback:
     name = "Feedback"
     mtype = "Feedback"
     mgroup = "Misc"
+
+    class Channels(Enum):
+        stereo = 0
+        mono = 1

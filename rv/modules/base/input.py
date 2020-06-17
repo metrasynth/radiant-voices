@@ -2,8 +2,14 @@
 # -- DO NOT EDIT DIRECTLY --
 
 
-class BaseInput:
+from enum import Enum
 
+
+class BaseInput:
     name = "Input"
     mtype = "Input"
     mgroup = "Synth"
+
+    class Channels(Enum):
+        mono = 0
+        stereo = 1

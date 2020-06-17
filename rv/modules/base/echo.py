@@ -2,8 +2,23 @@
 # -- DO NOT EDIT DIRECTLY --
 
 
-class BaseEcho:
+from enum import Enum
 
+
+class BaseEcho:
     name = "Echo"
     mtype = "Echo"
     mgroup = "Effect"
+
+    class Channels(Enum):
+        mono = 0
+        stereo = 1
+
+    class DelayUnits(Enum):
+        sec_256 = 0
+        ms = 1
+        hz = 2
+        tick = 3
+        line = 4
+        line_2 = 5
+        line_3 = 6

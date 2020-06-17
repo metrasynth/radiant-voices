@@ -3,7 +3,6 @@
 
 
 class BaseOutput:
-
     name = "Output"
     mtype = "Output"
     mgroup = "Output"

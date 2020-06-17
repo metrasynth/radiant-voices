@@ -2,8 +2,14 @@
 # -- DO NOT EDIT DIRECTLY --
 
 
-class BaseDcBlocker:
+from enum import Enum
 
+
+class BaseDcBlocker:
     name = "DcBlocker"
     mtype = "DC Blocker"
     mgroup = "Effect"
+
+    class Channels(Enum):
+        stereo = 0
+        mono = 1

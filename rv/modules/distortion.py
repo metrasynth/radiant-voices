@@ -11,14 +11,7 @@ class Distortion(BaseDistortion, Module):
 
     behaviors = {B.receives_audio, B.sends_audio}
 
-    class Type(Enum):
-        lim = 0
-        clipping = 0
-        sat = 1
-        foldback = 1
-        foldback2 = 2
-        foldback3 = 3
-        overflow = 4
+    Type = BaseDistortion.Type
 
     volume = Controller((0, 256), 128)
     type = Controller(Type, Type.lim)

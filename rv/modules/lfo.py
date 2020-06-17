@@ -11,32 +11,10 @@ class Lfo(BaseLfo, Module):
 
     behaviors = {B.sends_audio}
 
-    class Type(Enum):
-        amplitude = 0
-        panning = 1
-
-    class Waveform(Enum):
-        sin = 0
-        square = 1
-        sin2 = 2
-        saw = 3
-        saw2 = 4
-        random = 5
-        triangle = 6
-        random_interpolated = 7
-
-    class Channels(Enum):
-        stereo = 0
-        mono = 1
-
-    class FrequencyUnit(Enum):
-        hz_64 = 0  # hz / 64
-        ms = 1
-        hz = 2
-        tick = 3
-        line = 4
-        line_2 = 5  # line / 2
-        line_3 = 6  # line / 3
+    Type = BaseLfo.Type
+    Waveform = BaseLfo.Waveform
+    Channels = BaseLfo.Channels
+    FrequencyUnit = BaseLfo.FrequencyUnit
 
     freq_ranges = {
         FrequencyUnit.hz_64: WarnOnlyRange(1, 2048),

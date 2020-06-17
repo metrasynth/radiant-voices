@@ -12,13 +12,8 @@ class Sound2Ctl(BaseSound2Ctl, Module):
     options_chnm = 0
     flags = 0x600051
 
-    class Channels(Enum):
-        mono = 0
-        stereo = 1
-
-    class Mode(Enum):
-        lq = 0
-        hq = 1
+    Channels = BaseSound2Ctl.Channels
+    Mode = BaseSound2Ctl.Mode
 
     behaviors = {B.receives_audio, B.sends_controls}
 

@@ -2,8 +2,15 @@
 # -- DO NOT EDIT DIRECTLY --
 
 
-class BaseMetaModule:
+from enum import Enum
 
+
+class BaseMetaModule:
     name = "MetaModule"
     mtype = "MetaModule"
     mgroup = "Misc"
+
+    class PlayPatterns(Enum):
+        off = 0
+        on = 1
+        on_no_repeat = 2

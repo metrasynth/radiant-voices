@@ -2,8 +2,20 @@
 # -- DO NOT EDIT DIRECTLY --
 
 
-class BaseVocalFilter:
+from enum import Enum
 
+
+class BaseVocalFilter:
     name = "VocalFilter"
     mtype = "Vocal filter"
     mgroup = "Effect"
+
+    class VoiceType(Enum):
+        soprano = 0
+        alto = 1
+        tenor = 2
+        bass = 3
+
+    class Channels(Enum):
+        stereo = 0
+        mono = 1

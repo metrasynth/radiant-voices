@@ -2,8 +2,15 @@
 # -- DO NOT EDIT DIRECTLY --
 
 
-class BaseKicker:
+from enum import Enum
 
+
+class BaseKicker:
     name = "Kicker"
     mtype = "Kicker"
     mgroup = "Synth"
+
+    class Waveform(Enum):
+        triangle = 0
+        square = 1
+        sin = 2

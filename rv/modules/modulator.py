@@ -11,14 +11,8 @@ class Modulator(BaseModulator, Module):
 
     behaviors = {B.receives_audio, B.receives_modulator, B.sends_audio}
 
-    class ModulationType(Enum):
-        amplitude = 0
-        phase = 1
-        phase_abs = 2
-
-    class Channels(Enum):
-        stereo = 0
-        mono = 1
+    ModulationType = BaseModulator.ModulationType
+    Channels = BaseModulator.Channels
 
     volume = Controller((0, 512), 256)
     modulation_type = Controller(ModulationType, ModulationType.amplitude)

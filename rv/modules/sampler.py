@@ -36,33 +36,12 @@ class Sampler(BaseSampler, Module):
 
     behaviors = {B.receives_notes, B.sends_audio}
 
-    class SampleInterpolation(Enum):
-        off = 0
-        linear = 1
-        spline = 2
-
-    class EnvelopeInterpolation(Enum):
-        off = 0
-        linear = 1
-
-    class VibratoType(Enum):
-        sin = 0
-        saw = 1
-        square = 2
-
-    class LoopType(Enum):
-        off = 0
-        forward = 1
-        ping_pong = 2
-
-    class Format(Enum):
-        int8 = 1
-        int16 = 2
-        float32 = 4
-
-    class Channels(Enum):
-        mono = 0
-        stereo = 8
+    SampleInterpolation = BaseSampler.SampleInterpolation
+    EnvelopeInterpolation = BaseSampler.EnvelopeInterpolation
+    VibratoType = BaseSampler.VibratoType
+    LoopType = BaseSampler.LoopType
+    Format = BaseSampler.Format
+    Channels = BaseSampler.Channels
 
     class NoteSampleMap(OrderedDict):
         start_note = NOTE.C0

@@ -2,8 +2,15 @@
 # -- DO NOT EDIT DIRECTLY --
 
 
-class BaseCompressor:
+from enum import Enum
 
+
+class BaseCompressor:
     name = "Compressor"
     mtype = "Compressor"
     mgroup = "Effect"
+
+    class Mode(Enum):
+        peak = 0
+        rms = 1
+        peak_zero_latency = 2

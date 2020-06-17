@@ -2,8 +2,16 @@
 # -- DO NOT EDIT DIRECTLY --
 
 
-class BasePitchShifter:
+from enum import Enum
 
+
+class BasePitchShifter:
     name = "PitchShifter"
     mtype = "Pitch shifter"
     mgroup = "Effect"
+
+    class Mode(Enum):
+        hq = 0
+        hq_mono = 1
+        lq = 2
+        lq_mono = 3

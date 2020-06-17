@@ -773,7 +773,7 @@ module_types:
         violet_noise: 14
         grey_noise: 15
       Filter:
-        off: 0
+        "off": 0
         lp_12db: 1
         hp_12db: 2
         bp_12db: 3
@@ -783,7 +783,7 @@ module_types:
         bp_24db: 7
         br_24db: 8
       FilterEnvelope:
-        off: 0
+        "off": 0
         sustain_off: 1
         sustain_on: 2
     controllers:
@@ -1270,8 +1270,8 @@ module_types:
     group: Misc
     enums:
       PlayPatterns:
-        off: 0
-        on: 1
+        "off": 0
+        "on": 1
         on_no_repeat: 2
     controllers:
       - volume: { min: 0, max: 1024, default: 256 }
@@ -1463,18 +1463,18 @@ module_types:
     group: Synth
     enums:
       SampleInterpolation:
-        off: 0
+        "off": 0
         linear: 1
         spline: 2
       EnvelopeInterpolation:
-        off: 0
+        "off": 0
         linear: 1
       VibratoType:
         sin: 0
         saw: 1
         square: 2
       LoopType:
-        off: 0
+        "off": 0
         forward: 1
         ping_pong: 2
       Format:

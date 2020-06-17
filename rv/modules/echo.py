@@ -11,18 +11,8 @@ class Echo(BaseEcho, Module):
 
     behaviors = {B.receives_audio, B.sends_audio}
 
-    class Channels(Enum):
-        mono = 0
-        stereo = 1
-
-    class DelayUnits(Enum):
-        sec_256 = 0  # sec/256
-        ms = 1
-        hz = 2
-        tick = 3
-        line = 4
-        line_2 = 5  # line/2
-        line_3 = 6  # line/3
+    Channels = BaseEcho.Channels
+    DelayUnits = BaseEcho.DelayUnits
 
     dry = Controller((0, 256), 256)
     wet = Controller((0, 256), 128)

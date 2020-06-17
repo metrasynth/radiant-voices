@@ -11,15 +11,8 @@ class VocalFilter(BaseVocalFilter, Module):
 
     behaviors = {B.receives_audio, B.sends_audio}
 
-    class VoiceType(Enum):
-        soprano = 0
-        alto = 1
-        tenor = 2
-        bass = 3
-
-    class Channels(Enum):
-        stereo = 0
-        mono = 1
+    VoiceType = BaseVocalFilter.VoiceType
+    Channels = BaseVocalFilter.Channels
 
     volume = Controller((0, 512), 256)
     formant_width_hz = Controller((0, 256), 128)
