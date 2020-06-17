@@ -12,18 +12,18 @@ class ModuleMeta(type):
 
     def __init__(cls, class_name, bases, class_dict):
         type.__init__(cls, class_name, bases, class_dict)
-        cls.__init_registry(class_dict)
-        cls.__init_controllers(class_dict)
-        cls.__init_options(class_dict)
-        cls.__init_docstring(class_dict)
-        cls.__init_enum_docstrings(class_dict)
+        cls.__init_registry()
+        cls.__init_controllers()
+        cls.__init_options()
+        cls.__init_docstring()
+        cls.__init_enum_docstrings()
 
-    def __init_registry(cls, class_dict):
+    def __init_registry(cls):
         mtype = getattr(cls, "mtype", None)
         if mtype:
             MODULE_CLASSES[mtype] = cls
 
-    def __init_controllers(cls, class_dict):
+    def __init_controllers(cls):
         ordered_controllers = [
             (k, v) for k in dir(cls) if isinstance(v := getattr(cls, k), Controller)
         ]
@@ -35,9 +35,9 @@ class ModuleMeta(type):
             v.number = i
             cls.controllers[k] = v
 
-    def __init_options(cls, class_dict):
+    def __init_options(cls):
         ordered_options = [
-            (k, v) for k, v in class_dict.items() if isinstance(v, Option)
+            (k, v) for k in dir(cls) if isinstance(v := getattr(cls, k), Option)
         ]
         if ordered_options:
             ordered_options.sort(key=lambda x: x[1]._order)
@@ -48,7 +48,7 @@ class ModuleMeta(type):
                 v.index = i
                 cls.options[k] = v
 
-    def __init_docstring(cls, class_dict):
+    def __init_docstring(cls):
         lines = [f'"{cls.mtype}" SunVox {cls.mgroup} Module', ""]
         if getattr(cls, "__doc__"):
             lines.append(dedent(cls.__doc__))
@@ -78,10 +78,11 @@ class ModuleMeta(type):
             lines.append("This module has no controllers.")
         cls.__doc__ = "\n".join(lines)
 
-    def __init_enum_docstrings(cls, class_dict):
+    def __init_enum_docstrings(cls):
         # readthedocs.org doesn't correctly list out enumerator values,
         # so we generate our own table here.
-        for e in class_dict.values():
+        for k in dir(cls):
+            e = getattr(cls, k)
             if isinstance(e, type) and issubclass(e, Enum):
                 lines = [
                     "An enumeration.",
