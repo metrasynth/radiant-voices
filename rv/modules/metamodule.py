@@ -11,6 +11,7 @@ import rv
 from rv.chunks import ArrayChunk
 from rv.controller import Controller, Range
 from rv.modules import Behavior as B, Module
+from rv.modules.base.metamodule import BaseMetaModule
 from rv.option import Option
 from rv.project import Project
 from rv.readers.reader import read_sunvox_file
@@ -77,7 +78,7 @@ class UserDefinedProxy(Controller):
         return self.controller(instance).value_type
 
 
-class MetaModule(Module):
+class MetaModule(BaseMetaModule, Module):
     """
     In addition to standard controllers, you can assign zero or more
     user-defined controllers which map to module/controller pairs
@@ -85,7 +86,6 @@ class MetaModule(Module):
     """
 
     name = mtype = "MetaModule"
-    mgroup = "Misc"
     options_chnm = 0x02
     flags = 0x008051
 

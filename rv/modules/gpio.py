@@ -1,11 +1,11 @@
 from rv.controller import Controller
 from rv.modules import Behavior as B, Module
+from rv.modules.base.gpio import BaseGpio
 
 
-class Gpio(Module):
+class Gpio(BaseGpio, Module):
 
     name = mtype = "GPIO"
-    mgroup = "Misc"
     flags = 0x000051
 
     behaviors = {B.receives_audio, B.sends_audio}

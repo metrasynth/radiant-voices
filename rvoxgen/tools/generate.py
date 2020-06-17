@@ -7,7 +7,9 @@ from pathlib import Path
 import sys
 
 import yaml
+from jinja2 import Environment, PrefixLoader, FileSystemLoader
 
+import rvoxgen
 
 log = logging.getLogger(__name__)
 
@@ -20,12 +22,8 @@ def arg_parser():
     parser.add_argument(
         "--config",
         action="store",
+        required=True,
         help="Path to config.yaml file containing multiple configurations to generate.",
-    )
-    parser.add_argument(
-        "--generator",
-        action="store",
-        help="The module name and class name of the code generator.",
     )
     return parser
 
@@ -38,30 +36,31 @@ def resolve_object_name(objname):
     return obj
 
 
-def generate(generator):
+def generate(env, generator, **options):
     cls = resolve_object_name(generator)
-    codegen = cls()
-    print(codegen)
+    codegen = cls(**options)
+    log.info("Running codegen %r", codegen)
+    codegen.run(env)
 
 
 def main():
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.INFO)
+    logging.getLogger("rvoxgen").setLevel(logging.DEBUG)
+    rvoxgen_path = Path(rvoxgen.__file__).parent
+    loader_map = {
+        gen_name: FileSystemLoader(rvoxgen_path / gen_name)
+        for gen_name in {"pymutable", "pyimmutable", "jsmutable", "jsimmutable"}
+    }
+    env = Environment(loader=PrefixLoader(loader_map))
+    env.filters["repr"] = repr
     parser = arg_parser()
     options = parser.parse_args()
-    if options.config and options.generator:
-        log.warning("--config was specified; --generator will be ignored")
-    if not options.config and not options.generator:
-        log.error("--config not specified; must provide --config or --generator")
-        return 1
-    if options.config:
-        config_path = Path(options.config)
-        with config_path.open() as f:
-            configs = yaml.safe_load(f)
-    else:
-        configs = [{"generator": options.generator}]
+    config_path = Path(options.config)
+    with config_path.open() as f:
+        configs = yaml.safe_load(f)
     for config in configs:
         log.info(f"Generating code with {config['generator']}...")
-        generate(**config)
+        generate(env, **config)
     return 0
 
 

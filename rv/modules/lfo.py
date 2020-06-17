@@ -2,12 +2,12 @@ from enum import Enum
 
 from rv.controller import Controller, DependentRange, Range, WarnOnlyRange
 from rv.modules import Behavior as B, Module
+from rv.modules.base.lfo import BaseLfo
 
 
-class Lfo(Module):
+class Lfo(BaseLfo, Module):
 
     name = mtype = "LFO"
-    mgroup = "Effect"
     flags = 0x000451
 
     behaviors = {B.sends_audio}

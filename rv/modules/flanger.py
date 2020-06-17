@@ -2,12 +2,12 @@ from enum import Enum
 
 from rv.controller import Controller
 from rv.modules import Behavior as B, Module
+from rv.modules.base.flanger import BaseFlanger
 
 
-class Flanger(Module):
+class Flanger(BaseFlanger, Module):
 
     name = mtype = "Flanger"
-    mgroup = "Effect"
     flags = 0x000451
 
     behaviors = {B.receives_audio, B.sends_audio}

@@ -2,12 +2,12 @@ from enum import Enum
 
 from rv.controller import Controller
 from rv.modules import Behavior as B, Module
+from rv.modules.base.feedback import BaseFeedback
 
 
-class Feedback(Module):
+class Feedback(BaseFeedback, Module):
 
     name = mtype = "Feedback"
-    mgroup = "Misc"
     flags = 0x600051
 
     behaviors = {B.receives_audio, B.receives_feedback, B.sends_audio, B.sends_feedback}

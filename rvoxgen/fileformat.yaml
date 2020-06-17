@@ -936,7 +936,8 @@ module_types:
       - channels: { enum: Channels, default: "stereo" }
       - delay_units: { enum: DelayUnits, default: "sec/256" }
 
-  EQ:
+  Eq:
+    type: EQ
     group: Effect
     enums:
       Channels:
@@ -1089,8 +1090,9 @@ module_types:
       - set_lfo_phase: { min: 0, max: 256, default: 0 }
       - lfo_freq_unit: { enum: LfoFreqUnit, default: "hz*0.05" }
 
-  FM:
+  Fm:
     group: Synth
+    type: FM
     enums:
       Mode:
         hq: 0
@@ -1159,7 +1161,8 @@ module_types:
       - pitch_scale: { min: 0, max: 200, default: 100 }
       - reset: { bool: true, default: false }
 
-  GPIO:
+  Gpio:
+    type: GPIO
     group: Misc
     controllers:
       - out: { bool: true, default: false }
@@ -1198,7 +1201,8 @@ module_types:
       - polyphony_ch: { min: 1, max: 4, default: 1 }
       - anticlick: { bool: true, default: false }
 
-  LFO:
+  Lfo:
+    type: LFO
     group: Effect
     enums:
       Type:

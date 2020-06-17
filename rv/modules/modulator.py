@@ -2,12 +2,12 @@ from enum import Enum
 
 from rv.controller import Controller
 from rv.modules import Behavior as B, Module
+from rv.modules.base.modulator import BaseModulator
 
 
-class Modulator(Module):
+class Modulator(BaseModulator, Module):
 
     name = mtype = "Modulator"
-    mgroup = "Effect"
     flags = 0x002051
 
     behaviors = {B.receives_audio, B.receives_modulator, B.sends_audio}

@@ -5,6 +5,7 @@ from rv.chunks import ArrayChunk
 from rv.controller import Controller, Range, CompactRange
 from rv.errors import MappingError
 from rv.modules import Behavior as B, Module
+from rv.modules.base.multictl import BaseMultiCtl
 
 
 def convert_value(gain, qsteps, smin, smax, dmin, dmax, vmax, value, curve=None):
@@ -64,7 +65,7 @@ def invert_value(gain, smin, smax, dmin, dmax, vmax, value):
     return int(value)
 
 
-class MultiCtl(Module):
+class MultiCtl(BaseMultiCtl, Module):
 
     name = mtype = "MultiCtl"
     mgroup = "Misc"

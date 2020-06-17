@@ -2,12 +2,12 @@ from enum import Enum
 
 from rv.controller import Controller
 from rv.modules import Behavior as B, Module
+from rv.modules.base.dcblocker import BaseDcBlocker
 
 
-class DcBlocker(Module):
+class DcBlocker(BaseDcBlocker, Module):
 
     name = mtype = "DC Blocker"
-    mgroup = "Effect"
     flags = 0x000051
 
     behaviors = {B.receives_audio, B.sends_audio}

@@ -3,12 +3,12 @@ from enum import Enum
 from rv.chunks import DirtyWaveformChunk
 from rv.controller import Controller
 from rv.modules import Behavior as B, Module
+from rv.modules.base.generator import BaseGenerator
 
 
-class Generator(Module):
+class Generator(BaseGenerator, Module):
 
     name = mtype = "Generator"
-    mgroup = "Synth"
     chnk = 1
     flags = 0x000059
 

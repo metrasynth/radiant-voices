@@ -2,12 +2,12 @@ from enum import Enum
 
 from rv.controller import Controller, DependentRange, Range, WarnOnlyRange
 from rv.modules import Behavior as B, Module
+from rv.modules.base.vibrato import BaseVibrato
 
 
-class Vibrato(Module):
+class Vibrato(BaseVibrato, Module):
 
     name = mtype = "Vibrato"
-    mgroup = "Effect"
     flags = 0x000451
 
     behaviors = {B.receives_audio, B.sends_audio}

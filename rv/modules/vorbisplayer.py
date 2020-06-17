@@ -2,12 +2,12 @@ from struct import pack
 
 from rv.controller import Controller
 from rv.modules import Behavior as B, Module
+from rv.modules.base.vorbisplayer import BaseVorbisPlayer
 
 
-class VorbisPlayer(Module):
+class VorbisPlayer(BaseVorbisPlayer, Module):
 
     name = mtype = "Vorbis player"
-    mgroup = "Synth"
     chnk = 1
     flags = 0x008049
 

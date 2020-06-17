@@ -1,13 +1,13 @@
 from rv.chunks import ArrayChunk
 from rv.controller import Controller, CompactRange
 from rv.modules import Behavior as B, Module
+from rv.modules.base.multisynth import BaseMultiSynth
 from rv.option import Option
 
 
-class MultiSynth(Module):
+class MultiSynth(BaseMultiSynth, Module):
 
     name = mtype = "MultiSynth"
-    mgroup = "Misc"
     chnk = 3
     options_chnm = 1
     flags = 0x021049

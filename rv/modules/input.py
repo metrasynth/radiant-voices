@@ -2,12 +2,12 @@ from enum import Enum
 
 from rv.controller import Controller
 from rv.modules import Behavior as B, Module
+from rv.modules.base.input import BaseInput
 
 
-class Input(Module):
+class Input(BaseInput, Module):
 
     name = mtype = "Input"
-    mgroup = "Synth"
     flags = 0x000049
 
     behaviors = {B.sends_audio}

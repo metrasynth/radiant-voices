@@ -1,11 +1,11 @@
 from rv.controller import Controller
 from rv.modules import Behavior as B, Module
+from rv.modules.base.amplifier import BaseAmplifier
 
 
-class Amplifier(Module):
+class Amplifier(BaseAmplifier, Module):
 
     name = mtype = "Amplifier"
-    mgroup = "Effect"
     flags = 0x000051
 
     behaviors = {B.receives_audio, B.sends_audio}

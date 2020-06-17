@@ -3,12 +3,12 @@ from enum import Enum
 from rv.chunks import ArrayChunk
 from rv.controller import Controller
 from rv.modules import Behavior as B, Module
+from rv.modules.base.spectravoice import BaseSpectraVoice
 
 
-class SpectraVoice(Module):
+class SpectraVoice(BaseSpectraVoice, Module):
 
     name = mtype = "SpectraVoice"
-    mgroup = "Synth"
     chnk = 4
     flags = 0x000049
 

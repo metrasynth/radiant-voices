@@ -4,3 +4,5 @@ hexdump
 logutils
 networkx
 pyyaml
+jinja2
+black

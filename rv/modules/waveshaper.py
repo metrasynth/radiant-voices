@@ -3,12 +3,12 @@ from enum import Enum
 from rv.chunks import ArrayChunk
 from rv.controller import Controller
 from rv.modules import Behavior as B, Module
+from rv.modules.base.waveshaper import BaseWaveShaper
 
 
-class WaveShaper(Module):
+class WaveShaper(BaseWaveShaper, Module):
 
     name = mtype = "WaveShaper"
-    mgroup = "Effect"
     chnk = 1
     flags = 0x000051
 

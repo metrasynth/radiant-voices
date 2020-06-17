@@ -2,13 +2,13 @@ from enum import Enum
 
 from rv.controller import Controller
 from rv.modules import Behavior as B, Module
+from rv.modules.base.sound2ctl import BaseSound2Ctl
 from rv.option import Option
 
 
-class Sound2Ctl(Module):
+class Sound2Ctl(BaseSound2Ctl, Module):
 
     name = mtype = "Sound2Ctl"
-    mgroup = "Misc"
     chnk = 1
     options_chnm = 0
     flags = 0x600051

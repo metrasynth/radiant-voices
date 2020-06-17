@@ -19,8 +19,9 @@ class ModuleMeta(type):
         cls.__init_enum_docstrings(class_dict)
 
     def __init_registry(cls, class_dict):
-        if class_dict.get("mtype") is not None:
-            MODULE_CLASSES[class_dict["mtype"]] = cls
+        mtype = getattr(cls, "mtype", None)
+        if mtype:
+            MODULE_CLASSES[mtype] = cls
 
     def __init_controllers(cls, class_dict):
         ordered_controllers = [
@@ -48,7 +49,7 @@ class ModuleMeta(type):
                 cls.options[k] = v
 
     def __init_docstring(cls, class_dict):
-        lines = ['"{mtype}" SunVox {mgroup} Module'.format(**class_dict), ""]
+        lines = [f'"{cls.mtype}" SunVox {cls.mgroup} Module', ""]
         if getattr(cls, "__doc__"):
             lines.append(dedent(cls.__doc__))
         lines += ["", "Behaviors:", ""]

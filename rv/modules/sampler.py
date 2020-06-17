@@ -1,6 +1,8 @@
 import logging
 from logutils import BraceMessage as _F
 
+from rv.modules.base.sampler import BaseSampler
+
 log = logging.getLogger(__name__)
 
 from collections import OrderedDict
@@ -16,7 +18,7 @@ from rv.option import Option
 from rv.readers.reader import read_sunvox_file
 
 
-class Sampler(Module):
+class Sampler(BaseSampler, Module):
     """
     ..  note::
 
@@ -29,7 +31,6 @@ class Sampler(Module):
     """
 
     name = mtype = "Sampler"
-    mgroup = "Synth"
     chnk = 0x109
     options_chnm = 0x0101
     flags = 0x008459

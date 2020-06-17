@@ -2,12 +2,12 @@ from enum import Enum
 
 from rv.controller import Controller
 from rv.modules import Behavior as B, Module
+from rv.modules.base.pitch2ctl import BasePitch2Ctl
 
 
-class Pitch2Ctl(Module):
+class Pitch2Ctl(BasePitch2Ctl, Module):
 
     name = mtype = "Pitch2Ctl"
-    mgroup = "Misc"
     flags = 0x020049
 
     behaviors = {B.receives_notes, B.sends_controls}

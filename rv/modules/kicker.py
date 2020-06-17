@@ -2,12 +2,12 @@ from enum import Enum
 
 from rv.controller import Controller
 from rv.modules import Behavior as B, Module
+from rv.modules.base.kicker import BaseKicker
 
 
-class Kicker(Module):
+class Kicker(BaseKicker, Module):
 
     name = mtype = "Kicker"
-    mgroup = "Synth"
     flags = 0x000049
 
     behaviors = {B.receives_notes, B.sends_audio}

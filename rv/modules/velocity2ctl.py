@@ -2,12 +2,12 @@ from enum import Enum
 
 from rv.controller import Controller
 from rv.modules import Behavior as B, Module
+from rv.modules.base.velocity2ctl import BaseVelocity2Ctl
 
 
-class Velocity2Ctl(Module):
+class Velocity2Ctl(BaseVelocity2Ctl, Module):
 
     name = mtype = "Velocity2Ctl"
-    mgroup = "Misc"
     flags = 0x020049
 
     behaviors = {B.receives_notes, B.sends_controls}

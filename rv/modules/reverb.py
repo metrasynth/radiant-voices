@@ -2,12 +2,12 @@ from enum import Enum
 
 from rv.controller import Controller
 from rv.modules import Behavior as B, Module
+from rv.modules.base.reverb import BaseReverb
 
 
-class Reverb(Module):
+class Reverb(BaseReverb, Module):
 
     name = mtype = "Reverb"
-    mgroup = "Effect"
     flags = 0x000051
 
     behaviors = {B.receives_audio, B.sends_audio}

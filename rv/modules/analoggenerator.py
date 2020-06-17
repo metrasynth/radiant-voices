@@ -3,13 +3,13 @@ from enum import Enum
 from rv.chunks import DirtyWaveformChunk
 from rv.controller import Controller
 from rv.modules import Behavior as B, Module
+from rv.modules.base.analoggenerator import BaseAnalogGenerator
 from rv.option import Option
 
 
-class AnalogGenerator(Module):
+class AnalogGenerator(BaseAnalogGenerator, Module):
 
     name = mtype = "Analog generator"
-    mgroup = "Synth"
     chnk = 2
     options_chnm = 1
     flags = 0x000049
