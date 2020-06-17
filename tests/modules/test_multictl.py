@@ -1,8 +1,6 @@
 import pytest
-
 from rv.api import Project, m
 from rv.modules.multictl import convert_value
-
 
 CASES = [
     (256, 2, 0, 32768, 0, 256, 0, 0),

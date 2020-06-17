@@ -1,8 +1,8 @@
 from rv.chunks import ArrayChunk
-from rv.controller import Controller, CompactRange
-from rv.modules import Behavior as B, Module
+from rv.controller import CompactRange, Controller
+from rv.modules import Behavior as B
+from rv.modules import Module
 from rv.modules.base.multisynth import BaseMultiSynth
-from rv.option import Option
 
 
 class MultiSynth(BaseMultiSynth, Module):

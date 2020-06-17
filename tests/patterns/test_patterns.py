@@ -1,6 +1,5 @@
 import pytest
-
-from rv.api import m, Pattern, Project
+from rv.api import Pattern, Project, m
 from rv.errors import PatternOwnershipError
 
 

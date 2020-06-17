@@ -2,7 +2,6 @@ from enum import IntEnum
 from struct import pack, unpack
 
 from attr import attr, attributes
-
 from rv.errors import ModuleOwnershipError, PatternOwnershipError
 from rv.lib.validators import in_range
 from rv.modules.module import Module
@@ -433,8 +432,8 @@ class Note:
 
     def clone(self):
         note = self.__class__()
-        for attr in ["note", "vel", "module", "ctl", "val"]:
-            setattr(note, attr, getattr(self, attr))
+        for name in ["note", "vel", "module", "ctl", "val"]:
+            setattr(note, name, getattr(self, name))
         return note
 
     def is_empty(self):

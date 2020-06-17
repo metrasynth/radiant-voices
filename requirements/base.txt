@@ -6,3 +6,4 @@ networkx
 pyyaml
 jinja2
 black
+isort

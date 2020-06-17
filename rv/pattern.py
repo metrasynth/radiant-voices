@@ -1,12 +1,11 @@
+from copy import deepcopy
 from enum import IntEnum
 from struct import pack
 
 from attr import attr, attributes
-from copy import deepcopy
-
 from rv import ENCODING
 from rv.lib.validators import in_range, is_length
-from rv.note import ALL_NOTES, Note, NOTECMD
+from rv.note import ALL_NOTES, NOTECMD, Note
 
 
 class PatternAppearanceFlags(IntEnum):

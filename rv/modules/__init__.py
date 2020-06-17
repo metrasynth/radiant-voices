@@ -9,7 +9,10 @@ only need to refer to ``rv.modules.AnalogGenerator`` (instead of
 ``rv.modules.analoggenerator.AnalogGenerator``).
 """
 
-MODULE_CLASSES = {}  # NOQA
+# isort:skip_file
+# flake8: noqa
+
+MODULE_CLASSES = {}
 
 # Must come first to avoid circular imports.
 from .module import (
@@ -60,7 +63,6 @@ from .vibrato import Vibrato
 from .vocalfilter import VocalFilter
 from .vorbisplayer import VorbisPlayer
 from .waveshaper import WaveShaper
-
 
 __all__ = [
     "Amplifier",

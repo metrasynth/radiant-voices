@@ -1,7 +1,8 @@
 from enum import IntEnum
 
 from rv.controller import Controller
-from rv.modules import Behavior as B, Module
+from rv.modules import Behavior as B
+from rv.modules import Module
 from rv.modules.base.drumsynth import BaseDrumSynth
 
 

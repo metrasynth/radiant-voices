@@ -2,7 +2,6 @@ import logging
 from struct import unpack
 
 from logutils import BraceMessage as _F
-
 from rv import ENCODING
 from rv.modules import MODULE_CLASSES, Chunk, Module
 from rv.modules.output import Output

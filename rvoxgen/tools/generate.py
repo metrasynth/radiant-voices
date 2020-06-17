@@ -1,15 +1,14 @@
 """Radiant Voices code generator tool"""
 
 import argparse
-from importlib import import_module
 import logging
-from pathlib import Path
 import sys
-
-import yaml
-from jinja2 import Environment, PrefixLoader, FileSystemLoader
+from importlib import import_module
+from pathlib import Path
 
 import rvoxgen
+import yaml
+from jinja2 import Environment, FileSystemLoader, PrefixLoader
 
 log = logging.getLogger(__name__)
 

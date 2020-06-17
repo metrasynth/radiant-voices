@@ -1,15 +1,13 @@
 from collections import defaultdict, namedtuple
 from struct import pack
 
+import networkx as nx
 from rv import ENCODING
 from rv.container import Container
 from rv.errors import ModuleOwnershipError, PatternOwnershipError
 from rv.modules.module import Module
 from rv.modules.output import Output
 from rv.pattern import Pattern, PatternClone
-
-import networkx as nx
-
 
 PatternLine = namedtuple("PatternLine", ["index", "source", "line"])
 

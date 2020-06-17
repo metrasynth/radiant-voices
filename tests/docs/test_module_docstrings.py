@@ -1,4 +1,4 @@
-from rv.modules import Output, Generator
+from rv.modules import Generator, Output
 
 
 def test_output_module_docstring():

@@ -1,21 +1,18 @@
-from enum import Enum
+import re
 from io import BytesIO
 from itertools import chain
-import re
 from string import digits
 from struct import pack
-
-from slugify import slugify_unicode
 
 import rv
 from rv.chunks import ArrayChunk
 from rv.controller import Controller, Range
-from rv.modules import Behavior as B, Module
+from rv.modules import Behavior as B
+from rv.modules import Module
 from rv.modules.base.metamodule import BaseMetaModule
-from rv.option import Option
 from rv.project import Project
 from rv.readers.reader import read_sunvox_file
-
+from slugify import slugify_unicode
 
 MAX_USER_DEFINED_CONTROLLERS = 27
 USER_DEFINED_RE = re.compile(r"user_defined_\d+")

@@ -2,9 +2,10 @@ from enum import Enum
 from itertools import chain
 
 from rv.chunks import ArrayChunk
-from rv.controller import Controller, Range, CompactRange
+from rv.controller import CompactRange, Controller, Range
 from rv.errors import MappingError
-from rv.modules import Behavior as B, Module
+from rv.modules import Behavior as B
+from rv.modules import Module
 from rv.modules.base.multictl import BaseMultiCtl
 
 
@@ -164,7 +165,10 @@ class MultiCtl(BaseMultiCtl, Module):
                 # TODO: what should we do if it's not a range?
 
     def reflect(self, index=0, propagate=True):
-        """Reflect the value of the controller mapped at the given index; inverse of setting value"""
+        """Reflect the value of the controller mapped at the given index.
+
+        It is the inverse of setting value.
+        """
         downstream_mods = []
         for to_mod in range(256):
             from_mods = self.parent.module_connections[to_mod]

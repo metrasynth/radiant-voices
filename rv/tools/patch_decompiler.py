@@ -6,7 +6,7 @@ import random
 import re
 import sys
 
-from rv.api import Note, NOTECMD, Project, Pattern, PatternClone, read_sunvox_file
+from rv.api import NOTECMD, Note, Pattern, PatternClone, Project, read_sunvox_file
 
 log = logging.getLogger(__name__)
 
@@ -286,12 +286,12 @@ def module_layout(n, seed=13, offset=(512, 512), mult=(256, 256), tries=50):
         best, besterr = None, 1e10
         for _ in range(tries):
             try:
-                l = sample(n + 1)
-            except RuntimeError as error:
+                L = sample(n + 1)
+            except RuntimeError:
                 continue
-            err = compactness(l)
+            err = compactness(L)
             if err < besterr:
-                best, besterr = l, err
+                best, besterr = L, err
         return best[1:]
 
     def expand(r):

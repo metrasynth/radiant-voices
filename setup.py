@@ -4,6 +4,7 @@ import io
 import os
 import re
 import sys
+
 from setuptools import find_packages, setup
 
 SETUP_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__)))

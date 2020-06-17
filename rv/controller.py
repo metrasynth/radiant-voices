@@ -1,10 +1,9 @@
 import logging
-
-log = logging.getLogger(__name__)
-
 from enum import Enum
 
 from rv.errors import ControllerValueError, RangeValidationError
+
+log = logging.getLogger(__name__)
 
 
 class Controller:

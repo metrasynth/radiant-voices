@@ -1,19 +1,18 @@
 import logging
-from logutils import BraceMessage as _F
-
-from rv.modules.base.sampler import BaseSampler
-
-log = logging.getLogger(__name__)
-
 from collections import OrderedDict
 from io import BytesIO
 from itertools import chain
 from struct import pack, unpack
 
+from logutils import BraceMessage as _F
 from rv.controller import Controller
-from rv.modules import Behavior as B, Module
+from rv.modules import Behavior as B
+from rv.modules import Module
+from rv.modules.base.sampler import BaseSampler
 from rv.note import NOTE
 from rv.readers.reader import read_sunvox_file
+
+log = logging.getLogger(__name__)
 
 
 class Sampler(BaseSampler, Module):

@@ -1,7 +1,6 @@
 import io
 import logging
-from collections import OrderedDict
-from collections import defaultdict
+from collections import OrderedDict, defaultdict
 from enum import Enum, IntEnum
 from struct import pack
 from typing import Dict
@@ -9,7 +8,7 @@ from typing import Dict
 from logutils import BraceMessage as _F
 from rv import ENCODING
 from rv.cmidmap import ControllerMidiMap
-from rv.controller import DependentRange, Controller
+from rv.controller import Controller, DependentRange
 from rv.errors import ControllerValueError, RangeValidationError
 from rv.modules.meta import ModuleMeta
 from rv.readers.reader import read_sunvox_file

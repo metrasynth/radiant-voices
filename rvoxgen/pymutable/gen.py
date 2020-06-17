@@ -1,7 +1,8 @@
+from isort.main import sort_imports
+
 import black
 from jinja2 import Environment
-
-from ..codegen import CodeGenerator
+from rvoxgen.codegen import CodeGenerator
 
 
 class PythonMutableGenerator(CodeGenerator):
@@ -15,3 +16,4 @@ class PythonMutableGenerator(CodeGenerator):
             content = template.render(ctx)
             content = black.format_str(content, mode=filemode)
             self.write_file(outpath, content)
+            sort_imports(outpath)

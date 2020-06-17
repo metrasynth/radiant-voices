@@ -1,6 +1,6 @@
 import logging
-from logutils import BraceMessage as _F
 
+from logutils import BraceMessage as _F
 from rv import ENCODING
 from rv.lib.iff import chunks
 

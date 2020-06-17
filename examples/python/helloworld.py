@@ -5,8 +5,8 @@ This shows the construction of a SunVox project using Radiant Voices,
 then loading that project into sunvox-dll-python and playing a note.
 """
 
-from rv.api import m, Project
-from sunvox.api import deinit, init, Slot
+from rv.api import Project, m
+from sunvox.api import Slot, deinit, init
 
 
 def hello_world():
