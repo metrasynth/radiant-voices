@@ -169,11 +169,6 @@ class MetaModule(BaseMetaModule, Module):
         user_defined_27,
     ) = [UserDefinedProxy(__i) for __i in range(27)]
 
-    user_defined_controllers = Option(0, (0, MAX_USER_DEFINED_CONTROLLERS))
-    arpeggiator = Option(False)
-    apply_velocity_to_project = Option(False)
-    event_output = Option(True, inverted=True)
-
     def __init__(self, **kwargs):
         project = kwargs.get("project", None)
         self.user_defined = [

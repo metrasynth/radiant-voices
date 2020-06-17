@@ -1,10 +1,7 @@
-from enum import Enum
-
 from rv.chunks import DirtyWaveformChunk
 from rv.controller import Controller
 from rv.modules import Behavior as B, Module
 from rv.modules.base.analoggenerator import BaseAnalogGenerator
-from rv.option import Option
 
 
 class AnalogGenerator(BaseAnalogGenerator, Module):
@@ -42,20 +39,6 @@ class AnalogGenerator(BaseAnalogGenerator, Module):
     polyphony_ch = Controller((1, 32), 16)
     mode = Controller(Mode, Mode.hq)
     noise = Controller((0, 256), 0)
-
-    volume_envelope_scaling_per_key = Option(False)
-    filter_envelope_scaling_per_key = Option(False)
-    volume_scaling_per_key = Option(False)
-    filter_freq_scaling_per_key = Option(False)
-    velocity_dependent_filter_frequency = Option(False)
-    frequency_div_2 = Option(False)
-    smooth_frequency_change = Option(True, inverted=True)
-    filter_freq_scaling_per_key_reverse = Option(False)
-    retain_phase = Option(False)
-    random_phase = Option(False)
-    filter_freq_eq_note_freq = Option(False)
-    velocity_dependent_filter_resonance = Option(False)
-    true_zero_attack_release = Option(False)
 
     def __init__(self, **kwargs):
         samples = kwargs.pop("samples", None)

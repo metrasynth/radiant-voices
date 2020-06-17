@@ -1,5 +1,3 @@
-from enum import Enum
-
 from rv.controller import Controller
 from rv.modules import Behavior as B, Module
 from rv.modules.base.echo import BaseEcho

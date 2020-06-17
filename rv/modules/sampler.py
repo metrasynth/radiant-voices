@@ -6,7 +6,6 @@ from rv.modules.base.sampler import BaseSampler
 log = logging.getLogger(__name__)
 
 from collections import OrderedDict
-from enum import Enum
 from io import BytesIO
 from itertools import chain
 from struct import pack, unpack
@@ -14,7 +13,6 @@ from struct import pack, unpack
 from rv.controller import Controller
 from rv.modules import Behavior as B, Module
 from rv.note import NOTE
-from rv.option import Option
 from rv.readers.reader import read_sunvox_file
 
 
@@ -258,13 +256,6 @@ class Sampler(BaseSampler, Module):
     vibrato_depth = Controller((0, 255), 0, attached=False)
     vibrato_rate = Controller((0, 63), 0, attached=False)
     volume_fadeout = Controller((0, 8192), 0, attached=False)
-
-    record_on_play = Option(False)
-    record_in_mono = Option(False)
-    record_with_reduced_sample_rate = Option(False)
-    record_in_16_bit = Option(False)
-    stop_recording_on_project_stop = Option(False)
-    ignore_velocity_for_volume = Option(False)
 
     def __init__(self, **kwargs):
         super(Sampler, self).__init__(**kwargs)

@@ -42,11 +42,6 @@ class MultiSynth(BaseMultiSynth, Module):
     phase = Controller((0, 32768), 0)
     curve2_influence = Controller((0, 256), 256)
 
-    use_static_note_C5 = Option(False)
-    ignore_notes_with_zero_velocity = Option(False)
-    vv_curve_active = Option(False)
-    trigger = Option(False)
-
     def __init__(self, **kwargs):
         nv_values = kwargs.pop("nv_values", None)
         vv_values = kwargs.pop("vv_values", None)
