@@ -8,7 +8,6 @@ from rv.modules.base.waveshaper import BaseWaveShaper
 
 class WaveShaper(BaseWaveShaper, Module):
 
-    name = mtype = "WaveShaper"
     chnk = 1
     flags = 0x000051
 

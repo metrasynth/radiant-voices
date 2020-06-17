@@ -3,4 +3,7 @@
 
 
 class BaseEq:
+
+    name = "Eq"
+    mtype = "EQ"
     mgroup = "Effect"

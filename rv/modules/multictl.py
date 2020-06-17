@@ -67,7 +67,6 @@ def invert_value(gain, smin, smax, dmin, dmax, vmax, value):
 
 class MultiCtl(BaseMultiCtl, Module):
 
-    name = mtype = "MultiCtl"
     mgroup = "Misc"
     chnk = 2
     flags = 0x020051

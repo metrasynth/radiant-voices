@@ -7,7 +7,6 @@ from rv.modules.base.velocity2ctl import BaseVelocity2Ctl
 
 class Velocity2Ctl(BaseVelocity2Ctl, Module):
 
-    name = mtype = "Velocity2Ctl"
     flags = 0x020049
 
     behaviors = {B.receives_notes, B.sends_controls}

@@ -7,7 +7,6 @@ from rv.modules.base.modulator import BaseModulator
 
 class Modulator(BaseModulator, Module):
 
-    name = mtype = "Modulator"
     flags = 0x002051
 
     behaviors = {B.receives_audio, B.receives_modulator, B.sends_audio}

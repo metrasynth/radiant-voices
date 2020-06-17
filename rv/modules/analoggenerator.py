@@ -9,7 +9,6 @@ from rv.option import Option
 
 class AnalogGenerator(BaseAnalogGenerator, Module):
 
-    name = mtype = "Analog generator"
     chnk = 2
     options_chnm = 1
     flags = 0x000049

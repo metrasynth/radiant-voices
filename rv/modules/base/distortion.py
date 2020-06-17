@@ -3,4 +3,7 @@
 
 
 class BaseDistortion:
+
+    name = "Distortion"
+    mtype = "Distortion"
     mgroup = "Effect"

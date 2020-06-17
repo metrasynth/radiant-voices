@@ -3,4 +3,7 @@
 
 
 class BasePitch2Ctl:
+
+    name = "Pitch2Ctl"
+    mtype = "Pitch2Ctl"
     mgroup = "Misc"

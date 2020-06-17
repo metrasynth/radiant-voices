@@ -3,4 +3,7 @@
 
 
 class BaseFm:
+
+    name = "Fm"
+    mtype = "FM"
     mgroup = "Synth"

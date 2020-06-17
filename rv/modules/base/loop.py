@@ -3,4 +3,7 @@
 
 
 class BaseLoop:
+
+    name = "Loop"
+    mtype = "Loop"
     mgroup = "Effect"

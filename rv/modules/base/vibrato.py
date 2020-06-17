@@ -3,4 +3,7 @@
 
 
 class BaseVibrato:
+
+    name = "Vibrato"
+    mtype = "Vibrato"
     mgroup = "Effect"

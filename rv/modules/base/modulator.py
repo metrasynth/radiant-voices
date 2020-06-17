@@ -3,4 +3,7 @@
 
 
 class BaseModulator:
+
+    name = "Modulator"
+    mtype = "Modulator"
     mgroup = "Effect"

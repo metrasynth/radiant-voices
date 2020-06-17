@@ -3,4 +3,7 @@
 
 
 class BaseKicker:
+
+    name = "Kicker"
+    mtype = "Kicker"
     mgroup = "Synth"

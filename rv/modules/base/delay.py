@@ -3,4 +3,7 @@
 
 
 class BaseDelay:
+
+    name = "Delay"
+    mtype = "Delay"
     mgroup = "Effect"

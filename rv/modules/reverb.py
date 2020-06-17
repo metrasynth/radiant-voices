@@ -7,7 +7,6 @@ from rv.modules.base.reverb import BaseReverb
 
 class Reverb(BaseReverb, Module):
 
-    name = mtype = "Reverb"
     flags = 0x000051
 
     behaviors = {B.receives_audio, B.sends_audio}

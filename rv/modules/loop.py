@@ -7,7 +7,6 @@ from rv.modules.base.loop import BaseLoop
 
 class Loop(BaseLoop, Module):
 
-    name = mtype = "Loop"
     flags = 0x000451
 
     behaviors = {B.receives_audio, B.sends_audio}

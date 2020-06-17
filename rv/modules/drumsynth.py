@@ -11,7 +11,6 @@ def panning_controller():
 
 class DrumSynth(BaseDrumSynth, Module):
 
-    name = mtype = "DrumSynth"
     flags = 0x000049
 
     behaviors = {B.receives_notes, B.sends_audio}

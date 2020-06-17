@@ -3,4 +3,7 @@
 
 
 class BaseGenerator:
+
+    name = "Generator"
+    mtype = "Generator"
     mgroup = "Synth"

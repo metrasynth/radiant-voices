@@ -3,4 +3,7 @@
 
 
 class BaseDrumSynth:
+
+    name = "DrumSynth"
+    mtype = "DrumSynth"
     mgroup = "Synth"

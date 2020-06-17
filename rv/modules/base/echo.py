@@ -3,4 +3,7 @@
 
 
 class BaseEcho:
+
+    name = "Echo"
+    mtype = "Echo"
     mgroup = "Effect"

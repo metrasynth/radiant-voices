@@ -3,4 +3,7 @@
 
 
 class BaseDcBlocker:
+
+    name = "DcBlocker"
+    mtype = "DC Blocker"
     mgroup = "Effect"

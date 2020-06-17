@@ -7,7 +7,6 @@ from rv.modules.base.input import BaseInput
 
 class Input(BaseInput, Module):
 
-    name = mtype = "Input"
     flags = 0x000049
 
     behaviors = {B.sends_audio}

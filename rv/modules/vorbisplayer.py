@@ -7,7 +7,6 @@ from rv.modules.base.vorbisplayer import BaseVorbisPlayer
 
 class VorbisPlayer(BaseVorbisPlayer, Module):
 
-    name = mtype = "Vorbis player"
     chnk = 1
     flags = 0x008049
 

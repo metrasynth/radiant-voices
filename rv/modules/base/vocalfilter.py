@@ -3,4 +3,7 @@
 
 
 class BaseVocalFilter:
+
+    name = "VocalFilter"
+    mtype = "Vocal filter"
     mgroup = "Effect"

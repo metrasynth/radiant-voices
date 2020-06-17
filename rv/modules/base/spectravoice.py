@@ -3,4 +3,7 @@
 
 
 class BaseSpectraVoice:
+
+    name = "SpectraVoice"
+    mtype = "SpectraVoice"
     mgroup = "Synth"

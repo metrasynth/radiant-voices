@@ -3,4 +3,7 @@
 
 
 class BaseSound2Ctl:
+
+    name = "Sound2Ctl"
+    mtype = "Sound2Ctl"
     mgroup = "Misc"

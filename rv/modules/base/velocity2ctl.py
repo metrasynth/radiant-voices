@@ -3,4 +3,7 @@
 
 
 class BaseVelocity2Ctl:
+
+    name = "Velocity2Ctl"
+    mtype = "Velocity2Ctl"
     mgroup = "Misc"

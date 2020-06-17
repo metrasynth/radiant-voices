@@ -3,4 +3,7 @@
 
 
 class BaseReverb:
+
+    name = "Reverb"
+    mtype = "Reverb"
     mgroup = "Effect"

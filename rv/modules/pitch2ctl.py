@@ -7,7 +7,6 @@ from rv.modules.base.pitch2ctl import BasePitch2Ctl
 
 class Pitch2Ctl(BasePitch2Ctl, Module):
 
-    name = mtype = "Pitch2Ctl"
     flags = 0x020049
 
     behaviors = {B.receives_notes, B.sends_controls}

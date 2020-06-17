@@ -3,4 +3,7 @@
 
 
 class BaseInput:
+
+    name = "Input"
+    mtype = "Input"
     mgroup = "Synth"

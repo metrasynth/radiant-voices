@@ -7,7 +7,6 @@ from rv.modules.base.lfo import BaseLfo
 
 class Lfo(BaseLfo, Module):
 
-    name = mtype = "LFO"
     flags = 0x000451
 
     behaviors = {B.sends_audio}

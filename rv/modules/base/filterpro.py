@@ -3,4 +3,7 @@
 
 
 class BaseFilterPro:
+
+    name = "FilterPro"
+    mtype = "Filter Pro"
     mgroup = "Effect"

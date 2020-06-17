@@ -3,4 +3,7 @@
 
 
 class BaseSampler:
+
+    name = "Sampler"
+    mtype = "Sampler"
     mgroup = "Synth"

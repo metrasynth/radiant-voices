@@ -85,7 +85,6 @@ class MetaModule(BaseMetaModule, Module):
     in the project embedded within the MetaModule.
     """
 
-    name = mtype = "MetaModule"
     options_chnm = 0x02
     flags = 0x008051
 

@@ -30,7 +30,6 @@ class Sampler(BaseSampler, Module):
         loaded into the latest version of SunVox and then saved.
     """
 
-    name = mtype = "Sampler"
     chnk = 0x109
     options_chnm = 0x0101
     flags = 0x008459

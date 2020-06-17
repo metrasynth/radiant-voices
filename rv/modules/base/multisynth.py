@@ -3,4 +3,7 @@
 
 
 class BaseMultiSynth:
+
+    name = "MultiSynth"
+    mtype = "MultiSynth"
     mgroup = "Misc"

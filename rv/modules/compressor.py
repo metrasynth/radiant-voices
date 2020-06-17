@@ -7,7 +7,6 @@ from rv.modules.base.compressor import BaseCompressor
 
 class Compressor(BaseCompressor, Module):
 
-    name = mtype = "Compressor"
     flags = 0x002051
 
     behaviors = {B.receives_audio, B.sends_audio}

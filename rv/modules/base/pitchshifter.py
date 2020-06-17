@@ -3,4 +3,7 @@
 
 
 class BasePitchShifter:
+
+    name = "PitchShifter"
+    mtype = "Pitch shifter"
     mgroup = "Effect"

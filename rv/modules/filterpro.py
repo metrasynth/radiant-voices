@@ -7,7 +7,6 @@ from rv.modules.base.filterpro import BaseFilterPro
 
 class FilterPro(BaseFilterPro, Module):
 
-    name = mtype = "Filter Pro"
     flags = 0x000451
 
     behaviors = {B.receives_audio, B.sends_audio}

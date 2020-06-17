@@ -3,4 +3,7 @@
 
 
 class BaseCompressor:
+
+    name = "Compressor"
+    mtype = "Compressor"
     mgroup = "Effect"

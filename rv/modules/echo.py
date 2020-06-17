@@ -7,7 +7,6 @@ from rv.modules.base.echo import BaseEcho
 
 class Echo(BaseEcho, Module):
 
-    name = mtype = "Echo"
     flags = 0x000451
 
     behaviors = {B.receives_audio, B.sends_audio}

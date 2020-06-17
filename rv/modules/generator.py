@@ -8,7 +8,6 @@ from rv.modules.base.generator import BaseGenerator
 
 class Generator(BaseGenerator, Module):
 
-    name = mtype = "Generator"
     chnk = 1
     flags = 0x000059
 

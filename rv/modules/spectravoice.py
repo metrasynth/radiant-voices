@@ -8,7 +8,6 @@ from rv.modules.base.spectravoice import BaseSpectraVoice
 
 class SpectraVoice(BaseSpectraVoice, Module):
 
-    name = mtype = "SpectraVoice"
     chnk = 4
     flags = 0x000049
 

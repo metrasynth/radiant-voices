@@ -3,4 +3,7 @@
 
 
 class BaseFeedback:
+
+    name = "Feedback"
+    mtype = "Feedback"
     mgroup = "Misc"

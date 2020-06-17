@@ -7,7 +7,6 @@ from rv.modules.base.distortion import BaseDistortion
 
 class Distortion(BaseDistortion, Module):
 
-    name = mtype = "Distortion"
     flags = 0x000051
 
     behaviors = {B.receives_audio, B.sends_audio}

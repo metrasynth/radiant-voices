@@ -3,4 +3,7 @@
 
 
 class BaseMetaModule:
+
+    name = "MetaModule"
+    mtype = "MetaModule"
     mgroup = "Misc"

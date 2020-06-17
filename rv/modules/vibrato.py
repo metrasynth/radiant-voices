@@ -7,7 +7,6 @@ from rv.modules.base.vibrato import BaseVibrato
 
 class Vibrato(BaseVibrato, Module):
 
-    name = mtype = "Vibrato"
     flags = 0x000451
 
     behaviors = {B.receives_audio, B.sends_audio}

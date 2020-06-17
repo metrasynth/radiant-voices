@@ -3,4 +3,7 @@
 
 
 class BaseVorbisPlayer:
+
+    name = "VorbisPlayer"
+    mtype = "Vorbis player"
     mgroup = "Synth"

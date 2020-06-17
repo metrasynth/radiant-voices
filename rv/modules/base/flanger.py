@@ -3,4 +3,7 @@
 
 
 class BaseFlanger:
+
+    name = "Flanger"
+    mtype = "Flanger"
     mgroup = "Effect"

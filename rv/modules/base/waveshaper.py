@@ -3,4 +3,7 @@
 
 
 class BaseWaveShaper:
+
+    name = "WaveShaper"
+    mtype = "WaveShaper"
     mgroup = "Effect"

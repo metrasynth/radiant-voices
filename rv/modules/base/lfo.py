@@ -3,4 +3,7 @@
 
 
 class BaseLfo:
+
+    name = "Lfo"
+    mtype = "LFO"
     mgroup = "Effect"

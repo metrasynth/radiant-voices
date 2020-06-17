@@ -3,4 +3,7 @@
 
 
 class BaseAnalogGenerator:
+
+    name = "AnalogGenerator"
+    mtype = "Analog generator"
     mgroup = "Synth"

@@ -7,7 +7,6 @@ from rv.option import Option
 
 class MultiSynth(BaseMultiSynth, Module):
 
-    name = mtype = "MultiSynth"
     chnk = 3
     options_chnm = 1
     flags = 0x021049
