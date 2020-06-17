@@ -1315,10 +1315,11 @@ module_types:
       - response: { min: 0, max: 1000, default: 1000 }
       - sample_rate_hz: { min: 1, max: 32768, default: 150 }
     chunks:
-      - mappings: Array
+      - name: mappings
+        parent_type: Array
         chnm: 0
         length: 16
-        type: unsigned int[8]
+        element_type: unsigned int[8]
         elements:
           - min
           - max
@@ -1327,10 +1328,11 @@ module_types:
           min: 0
           max: 0x8000
           controller: 0
-      - curve: Array
+      - name: curve
+        parent_type: Array
         chnm: 1
         length: 257
-        type: unsigned short
+        element_type: unsigned short
         min: 0
         max: 0x8000
         default:
@@ -1369,17 +1371,19 @@ module_types:
       - vv_curve_active: false
       - trigger: false
     chunks:
-      - note_velocity_curve: Array
+      - name: note_velocity_curve
+        parent_type: Array
         chnm: 0
         length: 128
-        type: unsigned byte
+        element_type: unsigned byte
         default: 0xff
         min: 0
         max: 0xff
-      - velocity_velocity_curve: Array
+      - name: velocity_velocity_curve
+        parent_type: Array
         chnm: 2
         length: 257
-        type: unsigned byte
+        element_type: unsigned byte
         default:
           [ 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f,
             0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1a, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f,
@@ -1565,27 +1569,31 @@ module_types:
       - h_width: { min: 0, max: 255, default: 3 }
       - h_type: { enum: HarmonicType, default: "hsin" }
     chunks:
-      - harmonic_freqs: Array
+      - name: harmonic_freqs
+        parent_type: Array
         chnm: 0
-        type: unsigned short
+        element_type: unsigned short
         default: [ 1098, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
         min: 0
         max: 0x8000
-      - harmonic_volumes: Array
+      - name: harmonic_volumes
+        parent_type: Array
         chnm: 1
-        type: unsigned byte
+        element_type: unsigned byte
         default: [ 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
         min: 0
         max: 0xff
-      - harmonic_widths: Array
+      - name: harmonic_widths
+        parent_type: Array
         chnm: 2
-        type: unsigned byte
+        element_type: unsigned byte
         default: [ 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
         min: 0
         max: 0xff
-      - harmonic_types: Array
+      - name: harmonic_types
+        parent_type: Array
         chnm: 3
-        type: unsigned byte
+        element_type: unsigned byte
         enum: HarmonicType
         default: [ hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin ]
 
@@ -1669,7 +1677,8 @@ module_types:
       - polyphony_ch: { min: 1, max: 4, default: 1 }
       - repeat: { bool: true, default: false }
     chunks:
-      - data: Data
+      - name: data
+        type: Data
 
   WaveShaper:
     group: Effect
@@ -1687,10 +1696,11 @@ module_types:
       - mode: { enum: Mode, default: "hq" }
       - dc_blocker: { bool: true, default: true }
     chunks:
-      - curve: Array
+      - name: curve
+        parent_type: Array
         chnm: 0
         length: 256
-        type: unsigned short
+        element_type: unsigned short
         min: 0
         max: 0xffff
         default:
