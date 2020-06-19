@@ -19,5 +19,8 @@ class PythonMutableGenerator(CodeGenerator):
             template = env.get_template("pymutable/base_module.py.jinja2")
             content = template.render(ctx)
             content = black.format_str(content, mode=filemode)
+            while "\n\n" in content:
+                content = content.replace("\n\n", "\n")
+            content = black.format_str(content, mode=filemode)
             self.write_file(outpath, content)
             sort_imports(outpath)
