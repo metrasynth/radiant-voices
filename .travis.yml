@@ -1,17 +1,17 @@
 dist: xenial
 language: python
 python:
-    - "3.8"
-    - "3.8-dev"
+  - "3.8"
+  - "3.8-dev"
 before_install:
-    - "sudo apt-get -qq update"
-    - "sudo apt-get -y install libsdl1.2-dev libsdl2-dev"
-    - "pip install -U pip"
+  - "sudo apt-get -qq update"
+  - "sudo apt-get -y install libsdl1.2-dev libsdl2-dev"
+  - "pip install -U pip"
 install:
-    - "pip install -r requirements/tests.txt"
-    - "pip install ."
+  - "pip install -r requirements/tests.txt"
+  - "pip install ."
 script: "pre-commit run --all-files && py.test"
 cache:
-    directories:
-        - $HOME/.cache/pip
-        - $HOME/.cache/pre-commit
+  directories:
+    - $HOME/.cache/pip
+    - $HOME/.cache/pre-commit

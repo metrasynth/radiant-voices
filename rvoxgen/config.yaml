@@ -1,7 +1,6 @@
 - generator: rvoxgen.pymutable:PythonMutableGenerator
   spec_base: rvoxgen/
   dest_base: rv/
-
 #- generator: rvoxgen.pyimmutable:PythonImmutableGenerator
 #
 #- generator: rvoxgen.jsmutable:JavascriptMutableGenerator
