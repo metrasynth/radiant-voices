@@ -260,7 +260,7 @@ chunks:
   module_midi_out_name:
     id: SMIN
     type: cstring
-    optional: true  # Don't write if value is empty
+    optional: true # Don't write if value is empty
   module_midi_out_channel:
     id: SMIC
     type: MidiChannel
@@ -339,7 +339,6 @@ chunks:
 #     - parent_type (string): name of the parent type
 #     - Other keys as used by the builtin type that it extends
 chunk_types:
-
   cstring: scalar
 
   fixedstring: scalar
@@ -733,7 +732,6 @@ chunk_types:
 #     - type (string): type name for the chunk's data
 #     - chnm (int): chunk number
 module_types:
-
   Amplifier:
     group: Effect
     controllers:
@@ -837,7 +835,7 @@ module_types:
       - threshold: { min: 0, max: 512, default: 256 }
       - slope_pct: { min: 0, max: 200, default: 100 }
       - attack_ms: { min: 0, max: 500, default: 1 }
-      - release_ms:  {min: 1, max: 1000, default: 300 }
+      - release_ms: { min: 1, max: 1000, default: 300 }
       - mode: { enum: Mode, default: "peak" }
       - sidechain_input: { min: 0, max: 32, default: 0 }
 
