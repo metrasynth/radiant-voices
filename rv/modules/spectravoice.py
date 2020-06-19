@@ -1,4 +1,3 @@
-from rv.chunks import ArrayChunk
 from rv.modules import Behavior as B
 from rv.modules import Module
 from rv.modules.base.spectravoice import BaseSpectraVoice
@@ -11,57 +10,13 @@ class SpectraVoice(BaseSpectraVoice, Module):
 
     behaviors = {B.receives_notes, B.sends_audio}
 
-    class HarmonicValueArray(ArrayChunk):
-        length = 16
-
-    class HarmonicFreqArray(HarmonicValueArray):
-        chnm = 0
-        type = "H"
-        default = [1098] + [0] * 15
-        element_size = 2
-        min_value = 0
-        max_value = 0x8000
-
-    class HarmonicVolumeArray(HarmonicValueArray):
-        chnm = 1
-        type = "B"
-        default = [255] + [0] * 15
-        element_size = 1
-        min_value = 0
-        max_value = 0xFF
-
-    class HarmonicWidthArray(HarmonicValueArray):
-        chnm = 2
-        type = "B"
-        default = [3] + [0] * 15
-        element_size = 1
-        min_value = 0
-        max_value = 0xFF
-
-    class HarmonicTypeArray(HarmonicValueArray):
-        chnm = 3
-        type = "B"
-        element_size = 1
-
-        @property
-        def default(self):
-            return [SpectraVoice.HarmonicType.hsin] * 16
-
-        @property
-        def encoded_values(self):
-            return [x.value for x in self.values]
-
-        @property
-        def python_type(self):
-            return SpectraVoice.HarmonicType
-
     def __init__(self, **kwargs):
         harmonics = kwargs.pop("harmonics", [])
         super(SpectraVoice, self).__init__(**kwargs)
-        self.harmonic_freqs = self.HarmonicFreqArray()
-        self.harmonic_volumes = self.HarmonicVolumeArray()
-        self.harmonic_widths = self.HarmonicWidthArray()
-        self.harmonic_types = self.HarmonicTypeArray()
+        self.harmonic_freqs = self.harmonic_freqs_chunk()
+        self.harmonic_volumes = self.harmonic_volumes_chunk()
+        self.harmonic_widths = self.harmonic_widths_chunk()
+        self.harmonic_types = self.harmonic_types_chunk()
         # Initialize harmonics from 'harmonics' kwarg.
         self.harmonics = [Harmonic(self, index) for index in range(16)]
         for i, (freq, volume, width, type) in enumerate(harmonics):

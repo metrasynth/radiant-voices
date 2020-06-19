@@ -22,6 +22,11 @@ from rv.controller import Controller
         {%- endfor %}
     {%- endfor %}
 {% endif %}
+{%- for chunk in modtype.chunks %}
+    {%- if chunk.parent_type == "Array" %}
+from rv.chunks import ArrayChunk
+    {% endif %}
+{% endfor %}
 
 class Base{{ modtype_name }}:
     name = {{ modtype_name | repr }}
@@ -86,3 +91,39 @@ class Base{{ modtype_name }}:
     )
     {%- endfor %}
 {%- endfor %}
+
+{% for chunk in modtype.chunks %}
+    {% if chunk.parent_type == "Array" %}
+    class {{ chunk.name }}_chunk(ArrayChunk):
+        chnm = {{ chunk.chnm }}
+        length = {% if chunk.length %}{{ chunk.length }}{% else %}{{ chunk.default | length }}{% endif %}
+        type = {% if chunk.element_type == "unsigned short" %}"H"{% elif chunk.element_type == "unsigned byte" %}"B"{% else %}None{% endif %}
+        element_size = {% if chunk.element_type == "unsigned short" %}2{% elif chunk.element_type == "unsigned byte" %}1{% else %}None{% endif %}
+        {% if "min" in chunk %}
+        min_value = {{ chunk.min }}
+        {% endif %}
+        {% if "max" in chunk %}
+        max_value = {{ chunk.max }}
+        {% endif %}
+        {% if "enum" not in chunk %}
+        default = {{ chunk.default | repr }}
+        {% endif %}
+        {% if "enum" in chunk %}
+        @property
+        def default(self):
+            return [
+                {% for d in chunk.default %}
+                    Base{{ modtype_name }}.{{ chunk.enum }}.{{ d }},
+                {% endfor %}
+            ]
+
+        @property
+        def encoded_values(self):
+            return [x.value for x in self.values]
+
+        @property
+        def python_type(self):
+            return Base{{ modtype_name }}.{{ chunk.enum }}
+        {% endif %}
+    {% endif %}
+{% endfor %}

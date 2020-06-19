@@ -99,22 +99,11 @@ class MultiCtl(BaseMultiCtl, Module):
         def python_type(self):
             return MultiCtl.Mapping
 
-    class Curve(ArrayChunk):
-        chnm = 1
-        length = 257
-        type = "H"
-        element_size = 2
-        min_value = 0
-        max_value = 0x8000
-
-        def default(self, x):
-            return x * 0x80
-
     def __init__(self, **kwargs):
         curve = kwargs.pop("curve", None)
         mappings = kwargs.pop("mappings", [])
         super(MultiCtl, self).__init__(**kwargs)
-        self.curve = self.Curve()
+        self.curve = self.curve_chunk()
         if curve is not None:
             self.curve.values = curve
         self.mappings = self.MappingArray()

@@ -1,4 +1,3 @@
-from rv.chunks import ArrayChunk
 from rv.modules import Behavior as B
 from rv.modules import Module
 from rv.modules.base.multisynth import BaseMultiSynth
@@ -12,32 +11,12 @@ class MultiSynth(BaseMultiSynth, Module):
 
     behaviors = {B.receives_notes, B.sends_notes}
 
-    class NoteVelocityCurve(ArrayChunk):
-        chnm = 0
-        length = 128
-        type = "B"
-        element_size = 1
-        default = 0xFF
-        min_value = 0
-        max_value = 0xFF
-
-    class VelocityVelocityCurve(ArrayChunk):
-        chnm = 2
-        length = 257
-        type = "B"
-        element_size = 1
-        min_value = 0
-        max_value = 0xFF
-
-        def default(self, x):
-            return min(x, 255)
-
     def __init__(self, **kwargs):
         nv_values = kwargs.pop("nv_values", None)
         vv_values = kwargs.pop("vv_values", None)
         super(MultiSynth, self).__init__(**kwargs)
-        self.nv_curve = self.NoteVelocityCurve()
-        self.vv_curve = self.VelocityVelocityCurve()
+        self.nv_curve = self.note_velocity_curve_chunk()
+        self.vv_curve = self.velocity_velocity_curve_chunk()
         if nv_values is not None:
             self.nv_curve.values = nv_values
         if vv_values is not None:
