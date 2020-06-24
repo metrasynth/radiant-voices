@@ -71,3 +71,5 @@ share/
 # misc
 data/
 tmp/
+
+node_modules/
