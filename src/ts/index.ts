@@ -1,1 +1,1 @@
-export const foo = 12
+export { Project } from "./project"

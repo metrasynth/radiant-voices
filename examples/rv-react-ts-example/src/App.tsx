@@ -2,6 +2,8 @@ import React, { useCallback } from "react"
 import { useDropzone } from "react-dropzone"
 import * as sunvox from "./sunvox-lib-loader"
 
+import { Project } from "radiant-voices"
+
 import logo from "./logo.svg"
 import "./App.css"
 
@@ -13,6 +15,7 @@ function App() {
       const reader = new FileReader()
       reader.onload = () => {
         const buf = reader.result as ArrayBuffer
+        const project = new Project()
         sunvox.sv_open_slot(0)
         const arr = new Uint8Array(buf)
         sunvox.sv_load_from_memory(0, arr)
