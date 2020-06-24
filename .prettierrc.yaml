@@ -3,3 +3,4 @@ trailingComma: es5
 endOfLine: lf
 singleQuote: false
 semi: false
+tabWidth: 2

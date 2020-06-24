@@ -23,6 +23,7 @@ repos:
     rev: 4.3.21-2
     hooks:
       - id: isort
+        types: [python]
   - repo: https://gitlab.com/pycqa/flake8
     rev: 3.8.3
     hooks:
