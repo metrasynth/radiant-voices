@@ -1,0 +1,1728 @@
+# --------------------------------------------------------------------------------------
+# file_types (dictionary)
+#
+# For each item:
+# - The key is the name of the file type, usable as a class name.
+# - The value is a dictionary, with these keys:
+#   - filename_ext (string): The filename extension for this file type.
+#   - header_chunk (4-byte ASCII string): The chunks ID of the zero-byte header chunks.
+#   - chunk_sections (list): The names of chunks sections in the order they appear in the file.
+file_types:
+  SunVoxProject:
+    filename_ext: .sunvox
+    header_chunk: SVOX
+    chunk_sections:
+      - project
+      - patterns
+      - modules
+  SunVoxModule:
+    filename_ext: .sunsynth
+    header_chunk: SSYN
+    chunk_sections:
+      - synth
+      - single_module
+  #  SunVoxPattern:
+  #    # TODO How to support pattern data
+  #    filename_ext: .sunpat
+  #    header_chunk: null
+  #    chunk_section:
+  #      - patternData
+  SunVoxPatterns:
+    filename_ext: .sunpats
+    header_chunk: SVOX
+    chunk_sections:
+      - project
+      - patterns
+
+# --------------------------------------------------------------------------------------
+# chunk_sections (dictionary)
+#
+# For each item:
+# - The key is the name of the chunks section.
+# - The value is a dictionary, with either these keys:
+#   - order (list of strings): list of chunks names in the order they should be written to a file
+#   Or these keys:
+#   - many (string): chunks section name that is repeated
+#   - empty_id (string): id of chunks that signifies an empty item
+#   - min_count (int, optional): minimum number of repeats
+#   - max_count (int, optional): maximum number of repeats
+chunk_sections:
+  project:
+    order:
+      - sunvox_version
+      - based_on_version
+      - initial_bpm
+      - initial_tpl
+      - time_grid
+      - time_grid2
+      - global_volume
+      - project_name
+      - modules_scale
+      - modules_zoom
+      - modules_x_offset
+      - modules_y_offset
+      - modules_layers
+      - modules_current_layer
+      - timeline_current_position
+      - timeline_restart_position
+      - last_selected_module
+      - last_selected_generatorModule
+      - cursor_pattern
+      - cursor_track
+      - cursor_line
+  synth:
+    order:
+      - sunvox_version
+  patterns:
+    many:
+      - pattern
+      - pattern_clone
+    empty_id: PEND
+  #  patternData:
+  #    # TODO How to support pattern data
+  modules:
+    many: module
+    min_count: 1
+    max_count: 256
+    empty_id: SEND
+  module:
+    order:
+      - module_flags
+      - module_name
+      - module_type
+      - module_finetune
+      - module_relative_note
+      - module_x
+      - module_y
+      - module_layer
+      - module_scale
+      - module_visualization
+      - module_color
+      - module_midi_in
+      - module_midi_out_name
+      - module_midi_out_channel
+      - module_midi_out_bank
+      - module_midi_out_program
+      - module_incoming_links
+      - controller_values
+      - controller_midi_mappings
+      - module_chnk_value
+      - module_type_specific_chunks
+  pattern:
+    order:
+      - pattern_notes
+      - pattern_name
+      - pattern_tracks
+      - pattern_lines
+      - pattern_height
+      - pattern_appearance
+      - pattern_icon
+      - pattern_fg_color
+      - pattern_bg_color
+      - pattern_flags
+      - pattern_x
+      - pattern_y
+  pattern_clone:
+    order:
+      - pattern_parent
+      - pattern_flags
+      - pattern_x
+      - pattern_y
+
+# --------------------------------------------------------------------------------------
+# chunks (dictionary)
+#
+# For each item:
+# - The key is the name of the chunks spec, usable as a property name.
+# - The value is a dictionary, with these keys:
+#   - id (4-byte ASCII string): The 4-byte chunks ID
+#   - type (string): The type as specified in chunk_types
+#   - default (optional): The default value
+chunks:
+  sunvox_version:
+    id: VERS
+    type: Version
+  based_on_version:
+    id: BVER
+    type: Version
+  initial_bpm:
+    id: "BPM "
+    type: Bpm
+    default: 125
+  initial_tpl:
+    id: SPED
+    type: Tpl
+    default: 6
+  timegrid:
+    id: TGRD
+    type: TimeGrid
+    default: 4
+  timegrid2:
+    id: TGD2
+    type: TimeGrid
+    default: 4
+  global_volume:
+    id: GVOL
+    type: Volume
+    default: 80
+  project_name:
+    id: NAME
+    type: cstring
+  modules_scale:
+    id: MSCL
+    type: unsigned int32
+    default: 256
+  modules_zoom:
+    id: MZOO
+    type: unsigned int32
+    default: 256
+  modules_x_offset:
+    id: MXOF
+    type: signed int32
+    default: 0
+  modules_y_offset:
+    id: MYOF
+    type: signed int32
+    default: 0
+  modules_layers:
+    id: LMSK
+    type: ModulesLayerMask
+    default: [0, 0, 0, 0, 0, 0, 0, 0]
+  modules_current_layer:
+    id: CURL
+    type: ModulesLayer
+    default: 0
+  timeline_current_position:
+    id: TIME
+    type: signed int32
+    default: 0
+  timeline_restart_position:
+    id: REPS
+    type: signed int32
+    default: 0
+  last_selected_module:
+    id: SELS
+    type: SelectedModule
+    default: 0
+  last_selected_generator:
+    id: LGEN
+    type: SelectedModule
+    default: 0
+  cursor_pattern:
+    id: PATN
+    type: unsigned int32
+    default: 0
+  cursor_track:
+    id: PATT
+    type: unsigned int32
+    default: 0
+  cursor_line:
+    id: PATN
+    type: unsigned int32
+    default: 1
+  module_flags:
+    id: SFFF
+    type: ModuleFlags
+    # default is set by each module type
+  module_name:
+    id: SNAM
+    type: ModuleName
+  module_type:
+    id: STYP
+    type: cstring
+  module_finetune:
+    id: SFIN
+    type: FineTune
+  module_relative_note:
+    id: SREL
+    type: RelativeNote
+  module_x:
+    id: SXXX
+    type: ModuleCoordinate
+  module_y:
+    id: SYYY
+    type: ModuleCoordinate
+  module_layer:
+    id: SZZZ
+    type: ModuleLayer
+  module_scale:
+    id: SSCL
+    type: unsigned int32
+  module_visualization:
+    id: SVPR
+    type: ModuleVisualization
+  module_color:
+    id: SCOL
+    type: Color
+  module_midi_in:
+    id: SMII
+    type: MidiIn
+  module_midi_out_name:
+    id: SMIN
+    type: cstring
+    optional: true # Don't write if value is empty
+  module_midi_out_channel:
+    id: SMIC
+    type: MidiChannel
+  module_midi_out_bank:
+    id: SMIB
+    type: MidiBank
+  module_midi_out_program:
+    id: SMIP
+    type: MidiProgram
+  module_incoming_links:
+    id: SLNK
+    type: ModuleIndexList
+  controller_values:
+    id: CVAL
+    type: ControllerValue
+    multiple: true
+  controller_midi_mappings:
+    id: CMID
+    type: ControllerMidiMap
+    multiple: true
+  module_chnk_value:
+    id: CHNK
+    type: unsigned int32
+  module_type_specific_chunks:
+    type: hook
+  pattern_notes:
+    id: PDTA
+    type: PatternNotes # TODO
+  pattern_name:
+    id: PNME
+    type: cstring
+    optional: true
+  pattern_tracks:
+    id: PCHN
+    type: unsigned int32
+  pattern_lines:
+    id: PLIN
+    type: unsigned int32
+  pattern_height:
+    id: PYSZ
+    type: unsigned int32
+  pattern_appearance:
+    id: PFLG
+    type: PatternAppearance # TODO
+  pattern_icon:
+    id: PICO
+    type: PatternIcon
+  pattern_fg_color:
+    id: PFGC
+    type: Color
+  pattern_bg_color:
+    id: PBGC
+    type: Color
+  pattern_flags:
+    id: PFFF
+    type: PatternFlags
+  pattern_x:
+    id: PXXX
+    type: PatternCoordinate
+  pattern_y:
+    id: PYYY
+    type: PatternCoordinate
+  pattern_parent:
+    id: PPAR
+    type: unsigned int32
+
+# --------------------------------------------------------------------------------------
+# chunk_types (dictionary)
+#
+# For each item:
+# - The key is the name of the type.
+# - The value is one of:
+#   - String "scalar", if it is a scalar type.
+#   - String "builtin", if it is a builtin type.
+#   - Dictionary, if it extends a scalar or a builtin, with these keys:
+#     - parent_type (string): name of the parent type
+#     - Other keys as used by the builtin type that it extends
+chunk_types:
+  cstring: scalar
+
+  fixedstring: scalar
+  # length (int): Size of zero-padded string
+
+  signed int32: scalar
+  unsigned int8: scalar
+  unsigned int16: scalar
+  unsigned int32: scalar
+  # min (int)
+  # max (int)
+
+  Array: builtin
+  # Fixed-length array.
+  # length (int): Number of elements in the array
+  # element_type (string): Type of each element in the array
+  # default (list of values): The default values of the array
+
+  Bitmap: builtin
+  # width (int): The width of the entire bitmap when stored
+  # bits (int): The usable bits of the bitmap
+
+  Data: builtin
+  # Used to store raw data, such as in VorbisPlayer
+
+  Enum: builtin
+  # value_type (int): name of the numeric type that enum names resolve to
+  # values (dictionary): (name, value) pairs defining the enumeration
+
+  Flags: builtin
+  # enum (string): name of the enum that represents the available flags
+
+  List: builtin
+  # Variable-length list.
+  # element_type (string): Type of each element in the list
+  # termination_value: The value that may terminate the list upon reading,
+  #                    and will terminate the list upon writing.
+
+  Struct: builtin
+  # storage_bytes (int): number of bytes that struct will be packed into
+  # members (list): ...
+
+  Waveform: builtin
+  # length (int): number of frames in the waveform
+  # format_enum (string): name of the enum type that defines the waveform formats
+  # format (string): name of the format enum
+  # freq (int): frequency in hz
+  # default (list of int): default samples for the waveform
+
+  Bpm:
+    parent_type: unsigned int32
+    min: 1
+    max: 800
+
+  Tpl:
+    parent_type: unsigned int32
+    min: 1
+    max: 31
+
+  TimeGrid:
+    parent_type: unsigned int32
+    min: 2
+    max: 32
+
+  Volume:
+    parent_type: unsigned int32
+    min: 0
+    max: 512
+
+  ModulesLayerMask:
+    parent_type: Bitmap
+    width: 32
+    bits: 8
+
+  ModulesLayer:
+    parent_type: unsigned int32
+    min: 0
+    max: 7
+
+  SelectedModule:
+    parent_type: unsigned int32
+    min: 0
+    max: 255
+
+  ChunkFormat:
+    parent_type: Enum
+    value_type: unsigned int8
+    values:
+      mono_8bit: 0x01
+      mono_16bit: 0x02
+      mono_32bit: 0x04
+      stereo_8bit: 0x09
+      stereo_16bit: 0x0a
+      stereo_32bit: 0x0c
+
+  DirtyWaveform:
+    parent_type: Waveform
+    length: 32
+    format_type: ChunkFormat
+    format: mono_8bit
+    freq: 44100
+    default:
+      [ 0x00, 0x9C, 0xA6, 0x00, 0x5A, 0x89, 0xEC, 0x2D,
+        0x02, 0xEC, 0x6F, 0xE9, 0x02, 0x9E, 0x3C, 0x20,
+        0x64, 0x32, 0x00, 0xCE, 0x41, 0x62, 0x32, 0x20,
+        0xA6, 0x88, 0x64, 0x5A, 0x3B, 0x15, 0x00, 0x36 ]
+
+  HarmonicValueArray:
+    parent_type: Array
+    length: 16
+
+  HarmonicFrequency:
+    parent_type: unsigned int16
+    min: 0x0000
+    max: 0x8000
+
+  HarmonicFrequencyArray:
+    parent_type: HarmonicValueArray
+    element_type: HarmonicFrequency
+    default:
+      [ 0x044A, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
+        0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000 ]
+
+  HarmonicVolume:
+    parent_type: unsigned int8
+    min: 0x00
+    max: 0xFF
+
+  HarmonicVolumeArray:
+    parent_type: HarmonicValueArray
+    element_type: HarmonicVolume
+    default:
+      [ 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 ]
+
+  HarmonicWidth:
+    parent_type: unsigned int8
+    min: 0x00
+    max: 0xFF
+
+  HarmonicWidthArray:
+    parent_type: HarmonicValueArray
+    element_type: HarmonicWidth
+    default:
+      [ 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 ]
+
+  HarmonicType:
+    parent_type: Enum
+    value_type: unsigned int8
+    values:
+      hsin: 0x00
+      rect: 0x01
+      org1: 0x02
+      org2: 0x03
+      org3: 0x04
+      org4: 0x05
+      sin: 0x06
+      random: 0x07
+      triangle1: 0x08
+      triangle2: 0x09
+      overtones1: 0x0A
+      overtones2: 0x0B
+      overtones3: 0x0C
+      overtones4: 0x0D
+
+  HarmonicTypeArray:
+    parent_type: HarmonicValueArray
+    element_type: HarmonicType
+    default:
+      [ hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin,
+        hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin ]
+
+  Version:
+    parent_type: Array
+    length: 4
+    element_type: unsigned int8
+
+  ModuleFlag:
+    parent_type: Enum
+    value_type: unsigned int32
+    values:
+      # User-accessible:
+      mute: 0x80
+      solo: 0x100
+      bypass: 0x4000
+      # Internal
+      exists: 0x1
+      output: 0x2
+      generator: 0x8
+      effect: 0x10
+      initialized: 0x40
+      get_speed_changes: 0x400
+      hidden: 0x800
+      multi: 0x1000
+      dont_fill_input: 0x2000
+      use_mutex: 0x8000
+      ignore_mute: 0x10000
+      no_scope_buffer: 0x20000
+      output_is_empty: 0x40000
+      open: 0x80000
+      get_play_commands: 0x100000
+      get_render_setup_commands: 0x200000
+      feedback: 0x400000
+      get_stop_commands: 0x800000
+
+  ModuleFlags:
+    parent_type: Flags
+    enum: ModuleFlag
+
+  ModuleName:
+    parent_type: fixedstring
+    length: 32
+
+  FineTune:
+    parent_type: signed int32
+    min: -256
+    max: 256
+
+  RelativeNote:
+    parent_type: signed int32
+    min: -128
+    max: 128
+
+  ModuleCoordinate:
+    parent_type: signed int32
+
+  ModuleLayer:
+    parent_type: unsigned int32
+    min: 0
+    max: 7
+
+  Transparency:
+    parent_type: unsigned int8
+    min: 0
+    max: 3
+
+  Opacity:
+    parent_type: unsigned int8
+    min: 0
+    max: 3
+
+  ModuleVisualization:
+    parent_type: Struct
+    storage_bytes: 4
+    members:
+      - level_mode: { start: 0, length: 5 }
+        type: LevelMode
+      - level_orientation: { start: 5, length: 1 }
+        type: LevelOrientation
+      - oscilloscope_mode: { start: 8, length: 5 }
+        type: OscilloscopeMode
+      - oscilloscope_size: { start: 16, length: 8 }
+        type: unsigned int8
+      - bg_transparency: { start: 24, length: 2 }
+        type: Transparency
+      - shadow_opacity: { start: 26, length: 2 }
+        type: Opacity
+
+  Color:
+    parent_type: Array
+    length: 3
+    element_type: unsigned int8
+
+  ListenMode:
+    parent_type: Enum
+    value_type: unsigned int8
+    values:
+      only_when_selected: 0
+      always: 1
+
+  MidiChannel:
+    parent_type: unsigned int32
+    min: 0
+    max: 16
+
+  MidiIn:
+    parent_type: Struct
+    storage_bytes: 4
+    members:
+      - listen_mode: { start: 0, length: 1 }
+        type: ListenMode
+      - midi_channel: { start: 1, length: 5 }
+        type: MidiChannel
+
+  MidiBank:
+    parent_type: signed int32
+    min: -1
+
+  MidiProgram:
+    parent_type: signed int32
+    min: -1
+
+  ModuleIndexList:
+    parent_type: List
+    element_type: signed int32
+    termination_value: -1
+
+  ControllerValue:
+    parent_type: unsigned int32
+
+  MidiMessageType:
+    parent_type: Enum
+    value_type: unsigned int8
+    values:
+      unset: 0
+      note: 1
+      key_pressure: 2
+      control_change: 3
+      nrpn: 4
+      rpn: 5
+      program_change: 6
+      channel_pressure: 7
+      pitch_bend: 8
+
+  MidiMappingSlope:
+    parent_type: Enum
+    value_type: unsigned int8
+    values:
+      linear: 0
+      exp1: 1
+      exp2: 2
+      s_curve: 3
+      cut: 4
+      toggle: 5
+
+  MidiMessageTypeSet:
+    parent_type: Enum
+    value_type: unsigned int8
+    values:
+      unset: 0xFF
+      set: 0xC8
+
+  ControllerMidiMap:
+    parent_type: Struct
+    storage_bytes: 8
+    members:
+      - message_type: { start: 0, length: 8 }
+        type: MidiMessageType
+      - channel: { start: 8, length: 8 }
+        type: MidiChannel
+      - mapping_slope: { start: 16, length: 8 }
+        type: MidiMappingSlope
+      - message_parameter: { start: 32, length: 16 }
+        type: unsigned int16
+      - message_type_is_set: { start: 56, length: 8 }
+        type: MidiMessageTypeIsSet
+
+  PatternCoordinate:
+    parent_type: signed int32
+
+  MetaModuleMapping:
+    parent_type: Struct
+    storage_bytes: 4
+    members:
+      - module: { start: 0, length: 16 }
+        type: unsigned int16
+      - controller: { start: 16, length: 16 }
+        type: unsigned int16
+
+  MetaModuleMappings:
+    parent_type: Array
+    length: 64
+    element_type: MetaModuleMapping
+
+# --------------------------------------------------------------------------------------
+# module_types (dictionary)
+#
+# For each item:
+# - The key is the class name for the module type
+# - The value is a dictionary with these keys:
+#   - type (string): module type name, as stored by the module_type chunks, if different than class name
+#   - group (string): Group in which the module appears in the SunVox UI
+#   - enums (dictionary):
+#     - key is the name of a module-specific enum
+#     - value is a dictionary defining the enumerator values
+#   - controllers (list): Each item is a dictionary with:
+#     - key is the name of the controller
+#     - value is a dictionary with these keys:
+#       - enum (string)
+#       - bool (bool): set to true if the controller is on/off
+#       - min (int): minimum value
+#       - max (int): maximum value
+#       - default (int/string/bool): default value for the controller
+#       - compact (bool): set to true if the stored value should not be scaled
+#   - options (list): Each item is a dictionary, where:
+#     - key (string) is the name of the option
+#     - value (bool) is the default value of the option
+#   - options_chnm (int): chnm of the chunk containing options
+#   - chunks (list): Each item is a dictionary, with these keys:
+#     - name (string): variable name of the chunks
+#     - type (string): type name for the chunks's data
+#     - chnm (int): chunks number
+module_types:
+  Amplifier:
+    group: Effect
+    controllers:
+      - volume: { min: 0, max: 1024, default: 256 }
+      - panning: { min: -128, max: 128, default: 0 }
+      - dc_offset: { min: -128, max: 128, default: 0 }
+      - inverse: { bool: true, default: false }
+      - stereo_width: { min: 0, max: 256, default: 128 }
+      - absolute: { bool: true, default: false }
+      - fine_volume: { min: 0, max: 32768, default: 32768 }
+      - gain: { min: 0, max: 5000, default: 1 }
+
+  AnalogGenerator:
+    type: Analog generator
+    group: Synth
+    enums:
+      Mode:
+        hq: 0
+        hq_mono: 1
+        lq: 2
+        lq_mono: 3
+      Waveform:
+        triangle: 0
+        saw: 1
+        square: 2
+        noise: 3
+        drawn: 4
+        sin: 5
+        hsin: 6
+        asin: 7
+        drawn_spline: 8
+        noise_spline: 9
+        white_noise: 10
+        pink_noise: 11
+        red_noise: 12
+        blue_noise: 13
+        violet_noise: 14
+        grey_noise: 15
+      Filter:
+        "off": 0
+        lp_12db: 1
+        hp_12db: 2
+        bp_12db: 3
+        br_12db: 4
+        lp_24db: 5
+        hp_24db: 6
+        bp_24db: 7
+        br_24db: 8
+      FilterEnvelope:
+        "off": 0
+        sustain_off: 1
+        sustain_on: 2
+    controllers:
+      - volume: { min: 0, max: 256, default: 80 }
+      - waveform: { enum: Waveform, default: "triangle" }
+      - panning: { min: -128, max: 128, default: 0 }
+      - attack: { min: 0, max: 256, default: 0 }
+      - release: { min: 0, max: 256, default: 0 }
+      - sustain: { bool: true, default: true }
+      - exponential_envelope: { bool: true, default: true }
+      - duty_cycle: { min: 0, max: 1024, default: 512 }
+      - freq2: { min: 0, max: 2000, default: 1000 }
+      - filter: { enum: Filter, default: "off" }
+      - f_freq_hz: { min: 0, max: 14000, default: 14000 }
+      - f_resonance: { min: 0, max: 1530, default: 0 }
+      - f_exponential_freq: { bool: true, default: true }
+      - f_attack: { min: 0, max: 256, default: 0 }
+      - f_release: { min: 0, max: 256, default: 0 }
+      - f_envelope: { enum: FilterEnvelope, default: "off" }
+      - polyphony_ch: { min: 1, max: 32, default: 16 }
+      - mode: { enum: Mode, default: "hq" }
+      - noise: { min: 0, max: 256, default: 0 }
+    options_chnm: 1
+    options:
+      - volume_envelope_scaling_per_key: false
+      - filter_envelope_scaling_per_key: false
+      - volume_scaling_per_key: false
+      - filter_freq_scaling_per_key: false
+      - velocity_dependent_filter_frequency: false
+      - frequency_div_2: false
+      - smooth_frequency_change: true
+      - filter_freq_scaling_per_key_reverse: false
+      - retain_phase: false
+      - random_phase: false
+      - filter_freq_eq_note_freq: false
+      - velocity_dependent_filter_resonance: false
+      - true_zero_attack_release: false
+    chunks:
+      - name: dirty_waveform
+        type: DirtyWaveform
+        chnm: 0
+
+  Compressor:
+    group: Effect
+    enums:
+      Mode:
+        peak: 0
+        rms: 1
+        peak_zero_latency: 2
+    controllers:
+      - volume: { min: 0, max: 512, default: 256 }
+      - threshold: { min: 0, max: 512, default: 256 }
+      - slope_pct: { min: 0, max: 200, default: 100 }
+      - attack_ms: { min: 0, max: 500, default: 1 }
+      - release_ms: { min: 1, max: 1000, default: 300 }
+      - mode: { enum: Mode, default: "peak" }
+      - sidechain_input: { min: 0, max: 32, default: 0 }
+
+  DcBlocker:
+    type: DC Blocker
+    group: Effect
+    enums:
+      Channels:
+        stereo: 0
+        mono: 1
+    controllers:
+      - channels: { enum: Channels, default: "stereo" }
+
+  Delay:
+    group: Effect
+    enums:
+      Channels:
+        stereo: 0
+        mono: 1
+      DelayUnits:
+        sec/16384: 0
+        ms: 1
+        hz: 2
+        tick: 3
+        line: 4
+        line/2: 5
+        line/3: 6
+    controllers:
+      - dry: { min: 0, max: 512, default: 256 }
+      - wet: { min: 0, max: 512, default: 256 }
+      - delay_l: { min: 0, max: 256, default: 128 }
+      - delay_r: { min: 0, max: 256, default: 160 }
+      - volume_l: { min: 0, max: 256, default: 256 }
+      - volume_r: { min: 0, max: 256, default: 256 }
+      - channels: { enum: Channels, default: "stereo" }
+      - inverse: { bool: true, default: false }
+      - delay_units: { enum: DelayUnits, default: "sec/16384" }
+
+  Distortion:
+    group: Effect
+    enums:
+      Type:
+        lim: 0
+        clipping: 0
+        sat: 1
+        foldback: 1
+        foldback2: 2
+        foldback3: 3
+        overflow: 4
+    controllers:
+      - volume: { min: 0, max: 256, default: 128 }
+      - type: { enum: Type, default: "lim" }
+      - power: { min: 0, max: 256, default: 0 }
+      - bit_depth: { min: 1, max: 16, default: 16 }
+      - freq_hz: { min: 0, max: 44100, default: 44100 }
+      - noise: { min: 0, max: 256, default: 0 }
+
+  DrumSynth:
+    group: Synth
+    controllers:
+      - volume: { min: 0, max: 512, default: 256 }
+      - panning: { min: -128, max: 128, default: 0 }
+      - polyphony_ch: { min: 1, max: 8, default: 4 }
+      - bass_volume: { min: 0, max: 512, default: 200 }
+      - bass_power: { min: 0, max: 256, default: 256 }
+      - bass_tone: { min: 0, max: 256, default: 64 }
+      - bass_length: { min: 0, max: 256, default: 64 }
+      - hihat_volume: { min: 0, max: 512, default: 256 }
+      - hihat_length: { min: 0, max: 256, default: 64 }
+      - snare_volume: { min: 0, max: 512, default: 256 }
+      - snare_tone: { min: 0, max: 256, default: 128 }
+      - snare_length: { min: 0, max: 256, default: 64 }
+      - bass_panning: { min: -128, max: 128, default: 0 }
+      - hihat_panning: { min: -128, max: 128, default: 0 }
+      - snare_panning: { min: -128, max: 128, default: 0 }
+
+  Echo:
+    group: Effect
+    enums:
+      Channels:
+        mono: 0
+        stereo: 1
+      DelayUnits:
+        sec/256: 0
+        ms: 1
+        hz: 2
+        tick: 3
+        line: 4
+        line/2: 5
+        line/3: 6
+    controllers:
+      - dry: { min: 0, max: 256, default: 256 }
+      - wet: { min: 0, max: 256, default: 128 }
+      - feedback: { min: 0, max: 256, default: 128 }
+      - delay: { min: 0, max: 256, default: 256 }
+      - channels: { enum: Channels, default: "stereo" }
+      - delay_units: { enum: DelayUnits, default: "sec/256" }
+
+  Eq:
+    type: EQ
+    group: Effect
+    enums:
+      Channels:
+        stereo: 0
+        mono: 1
+    controllers:
+      - low: { min: 0, max: 512, default: 256 }
+      - middle: { min: 0, max: 512, default: 256 }
+      - high: { min: 0, max: 512, default: 256 }
+      - channels: { enum: Channels, default: "stereo" }
+
+  Feedback:
+    group: Misc
+    enums:
+      Channels:
+        stereo: 0
+        mono: 1
+    controllers:
+      - volume: { min: 0, max: 10000, default: 1000 }
+      - channels: { enum: Channels, default: "stereo" }
+
+  Filter:
+    group: Effect
+    enums:
+      Type:
+        lp: 0
+        hp: 1
+        bp: 2
+        notch: 3
+      Mode:
+        hq: 0
+        hq_mono: 1
+        lq: 2
+        lq_mono: 3
+      RollOff:
+        12db: 0
+        24db: 1
+        36db: 2
+        48db: 3
+      LfoFreqUnit:
+        hz*0.02: 0
+        ms: 1
+        hz: 2
+        tick: 3
+        line: 4
+        line/2: 5
+        line/3: 6
+      LfoWaveform:
+        sin: 0
+        saw: 1
+        saw2: 2
+        square: 3
+        random: 4
+    controllers:
+      - volume: { min: 0, max: 256, default: 256 }
+      - freq: { min: 0, max: 14000, default: 14000 }
+      - resonance: { min: 0, max: 1530, default: 0 }
+      - type: { enum: Type, default: "lp" }
+      - response: { min: 0, max: 256, default: 8 }
+      - mode: { enum: Mode, default: "hq" }
+      - impulse: { min: 0, max: 14000, default: 0 }
+      - mix: { min: 0, max: 256, default: 256 }
+      - lfo_freq: { min: 0, max: 1024, default: 8 }
+      - lfo_amp: { min: 0, max: 256, default: 0 }
+      - set_lfo_phase: { min: 0, max: 256, default: 0 }
+      - exponential_freq: { bool: true, default: false }
+      - roll_off: { enum: RollOff, default: "12db" }
+      - lfo_freq_unit: { enum: LfoFreqUnit, default: "hz*0.02" }
+      - lfo_waveform: { enum: LfoWaveform, default: "sin" }
+
+  FilterPro:
+    type: Filter Pro
+    group: Effect
+    enums:
+      Type:
+        lp: 0
+        hp: 1
+        bp_const_skirt_gain: 2
+        bp_const_peak_gain: 3
+        notch: 4
+        all_pass: 5
+        peaking: 6
+        low_shelf: 7
+        high_shelf: 8
+      RollOff:
+        12db: 0
+        24db: 1
+        36db: 2
+        48db: 3
+      Mode:
+        stereo: 0
+        mono: 1
+      LfoWaveform:
+        sin: 0
+        saw: 1
+        saw2: 2
+        square: 3
+        random: 4
+      LfoFreqUnit:
+        hz*0.02: 0
+        ms: 1
+        hz: 2
+        tick: 3
+        line: 4
+        line/2: 5
+        line/3: 6
+    controllers:
+      - volume: { min: 0, max: 32768, default: 32768 }
+      - type: { enum: Type, default: "lp" }
+      - freq_hz: { min: 0, max: 22000, default: 22000 }
+      - freq_finetune: { min: -1000, max: 1000, default: 0 }
+      - freq_scale: { min: 0, max: 200, default: 100 }
+      - exponential_freq: { bool: true, default: false }
+      - q: { min: 0, max: 32768, default: 16384 }
+      - gain: { min: -16384, max: 16384, default: 0 }
+      - roll_off: { enum: RollOff, default: "12db" }
+      - response: { min: 0, max: 1000, default: 250 }
+      - mode: { enum: Mode, default: "stereo" }
+      - mix: { min: 0, max: 32768, default: 32768 }
+      - lfo_freq: { min: 0, max: 1024, default: 8 }
+      - lfo_amp: { min: 0, max: 32768, default: 0 }
+      - lfo_waveform: { enum: LfoWaveform, default: "sin" }
+      - set_lfo_phase: { min: 0, max: 256, default: 0 }
+      - lfo_freq_unit: { enum: LfoFreqUnit, default: "hz*0.02" }
+
+  Flanger:
+    group: Effect
+    enums:
+      LfoWaveform:
+        hsin: 0
+        sin: 1
+      LfoFreqUnit:
+        hz*0.05: 0
+        ms: 1
+        hz: 2
+        tick: 3
+        line: 4
+        line/2: 5
+        line/3: 6
+
+    controllers:
+      - dry: { min: 0, max: 256, default: 256 }
+      - wet: { min: 0, max: 256, default: 128 }
+      - feedback: { min: 0, max: 256, default: 128 }
+      - delay: { min: 0, max: 1000, default: 200 }
+      - response: { min: 0, max: 256, default: 2 }
+      - lfo_freq: { min: 0, max: 512, default: 8 }
+      - lfo_amp: { min: 0, max: 256, default: 32 }
+      - lfo_waveform: { enum: LfoWaveform, default: "hsin" }
+      - set_lfo_phase: { min: 0, max: 256, default: 0 }
+      - lfo_freq_unit: { enum: LfoFreqUnit, default: "hz*0.05" }
+
+  Fm:
+    group: Synth
+    type: FM
+    enums:
+      Mode:
+        hq: 0
+        hq_mono: 1
+        lq: 2
+        lq_mono: 3
+    controllers:
+      - c_volume: { min: 0, max: 256, default: 128 }
+      - m_volume: { min: 0, max: 256, default: 48 }
+      - panning: { min: -128, max: 128, default: 0 }
+      - c_freq_ratio: { min: 0, max: 16, default: 1 }
+      - m_freq_ratio: { min: 0, max: 16, default: 1 }
+      - m_feedback: { min: 0, max: 256, default: 0 }
+      - c_attack: { min: 0, max: 512, default: 32 }
+      - c_decay: { min: 0, max: 512, default: 32 }
+      - c_sustain: { min: 0, max: 256, default: 128 }
+      - c_release: { min: 0, max: 512, default: 64 }
+      - m_attack: { min: 0, max: 512, default: 32 }
+      - m_decay: { min: 0, max: 512, default: 32 }
+      - m_sustain: { min: 0, max: 256, default: 128 }
+      - m_release: { min: 0, max: 512, default: 64 }
+      - m_scaling_per_key: { min: 0, max: 4, default: 0 }
+      - polyphony_ch: { min: 1, max: 16, default: 4 }
+      - mode: { enum: Mode, default: "hq" }
+
+  Generator:
+    group: Synth
+    enums:
+      Waveform:
+        triangle: 0
+        saw: 1
+        square: 2
+        noise: 3
+        dirty: 4
+        sin: 5
+        hsin: 6
+        asin: 7
+        psin: 8
+      Mode:
+        stereo: 0
+        mono: 1
+    controllers:
+      - volume: { min: 0, max: 256, default: 128 }
+      - waveform: { enum: Waveform, default: "triangle" }
+      - panning: { min: -128, max: 128, default: 0 }
+      - attack: { min: 0, max: 512, default: 0 }
+      - release: { min: 0, max: 512, default: 0 }
+      - polyphony_ch: { min: 1, max: 16, default: 8 }
+      - mode: { enum: Mode, default: "stereo" }
+      - sustain: { bool: true, default: true }
+      - freq_modulation_input: { min: 0, max: 256, default: 0 }
+      - duty_cycle: { min: 0, max: 1022, default: 511 }
+    chunks:
+      - name: dirty_waveform
+        type: DirtyWaveform
+        chnm: 0
+
+  Glide:
+    group: Misc
+    controllers:
+      - response: { min: 0, max: 1000, default: 500 }
+      - sample_rate_hz: { min: 1, max: 32768, default: 150 }
+      - offset_on_1st_note: { bool: true, default: false }
+      - polyphony: { bool: true, default: true }
+      - pitch: { min: -600, max: 600, default: 0 }
+      - pitch_scale: { min: 0, max: 200, default: 100 }
+      - reset: { bool: true, default: false }
+
+  Gpio:
+    type: GPIO
+    group: Misc
+    controllers:
+      - out: { bool: true, default: false }
+      - out_pin: { min: 0, max: 256, default: 0 }
+      - out_threshold: { min: 0, max: 100, default: 50 }
+      - in_: { bool: true, default: false }
+      - in_pin: { min: 0, max: 256, default: 0 }
+      - in_note: { min: 0, max: 128, default: 0 }
+      - in_amplitude: { min: 0, max: 100, default: 100 }
+
+  Input:
+    group: Synth
+    enums:
+      Channels:
+        mono: 0
+        stereo: 1
+    controllers:
+      - volume: { min: 0, max: 1024, default: 256 }
+      - channels: { enum: Channels, default: "mono" }
+
+  Kicker:
+    group: Synth
+    enums:
+      Waveform:
+        triangle: 0
+        square: 1
+        sin: 2
+    controllers:
+      - volume: { min: 0, max: 256, default: 256 }
+      - waveform: { enum: Waveform, default: "triangle" }
+      - panning: { min: -128, max: 128, default: 0 }
+      - attack: { min: 0, max: 512, default: 0 }
+      - release: { min: 0, max: 512, default: 32 }
+      - boost: { min: 0, max: 1024, default: 0 }
+      - env_acceleration: { min: 0, max: 1024, default: 256 }
+      - polyphony_ch: { min: 1, max: 4, default: 1 }
+      - anticlick: { bool: true, default: false }
+
+  Lfo:
+    type: LFO
+    group: Effect
+    enums:
+      Type:
+        amplitude: 0
+        panning: 1
+      Waveform:
+        sin: 0
+        square: 1
+        sin2: 2
+        saw: 3
+        saw2: 4
+        random: 5
+        triangle: 6
+        random_interpolated: 7
+      Channels:
+        stereo: 0
+        mono: 1
+      FrequencyUnit:
+        hz/64: 0
+        ms: 1
+        hz: 2
+        tick: 3
+        line: 4
+        line/2: 5
+        line/3: 6
+    controllers:
+      - volume: { min: 0, max: 512, default: 256 }
+      - type: { enum: Type, default: "amplitude" }
+      - amplitude: { min: 0, max: 256, default: 256 }
+      - freq:
+          depends_on: frequency_unit
+          default: 256
+          ranges:
+            hz/64: { min: 1, max: 2048 }
+            ms: { min: 1, max: 4000 }
+            hz: { min: 1, max: 16384 }
+            tick: { min: 1, max: 256 }
+            line: { min: 1, max: 256 }
+            line/2: { min: 1, max: 256 }
+            line/3: { min: 1, max: 256 }
+      - waveform: { enum: Waveform, default: "sin" }
+      - set_phase: { min: 0, max: 256, default: 0 }
+      - channels: { enum: Channels, default: "stereo" }
+      - frequency_unit: { enum: FrequencyUnit, default: "hz/64" }
+      - duty_cycle: { min: 0, max: 256, default: 128 }
+      - generator: { bool: true, default: false }
+
+  Loop:
+    group: Effect
+    enums:
+      Channels:
+        mono: 0
+        stereo: 1
+      Mode:
+        normal: 0
+        ping_pong: 1
+    controllers:
+      - volume: { min: 0, max: 256, default: 256 }
+      - delay: { min: 0, max: 256, default: 256 }
+      - channels: { enum: Channels, default: "stereo" }
+      - repeats: { min: 0, max: 64, default: 0 }
+      - mode: { enum: Mode, default: "normal" }
+
+  MetaModule:
+    group: Misc
+    enums:
+      PlayPatterns:
+        "off": 0
+        "on": 1
+        on_no_repeat: 2
+    controllers:
+      - volume: { min: 0, max: 1024, default: 256 }
+      - input_module: { min: 1, max: 256, default: 1 }
+      - play_patterns: { enum: PlayPatterns, default: "off" }
+      - bpm: { min: 1, max: 800, default: 125 }
+      - tpl: { min: 1, max: 31, default: 6 }
+      # user-defined ...
+    options_chnm: 2
+    options:
+      - user_defined_controllers: { min: 0, max: 27 }
+      - arpeggiator: false
+      - apply_velocity_to_project: false
+      - event_output: true
+    chunks:
+      - name: mappings
+        type: MetaModuleMappings
+        chmm: 1
+
+  Modulator:
+    group: Effect
+    enums:
+      ModulationType:
+        amplitude: 0
+        phase: 1
+        phase_abs: 2
+      Channels:
+        stereo: 0
+        mono: 1
+    controllers:
+      - volume: { min: 0, max: 512, default: 256 }
+      - modulation_type: { enum: ModulationType, default: "amplitude" }
+      - channels: { enum: Channels, default: "stereo" }
+
+  MultiCtl:
+    group: Misc
+    controllers:
+      - value: { min: 0, max: 32768, default: 0 }
+      - gain: { min: 0, max: 1024, default: 256 }
+      - quantization: { min: 0, max: 32768, default: 32768 }
+      - out_offset: { min: -16384, max: 16384, default: 0 }
+      - response: { min: 0, max: 1000, default: 1000 }
+      - sample_rate_hz: { min: 1, max: 32768, default: 150 }
+    chunks:
+      - name: mappings
+        parent_type: Array
+        chnm: 0
+        length: 16
+        element_type: unsigned int[8]
+        elements:
+          - min
+          - max
+          - controller
+        default:
+          min: 0
+          max: 0x8000
+          controller: 0
+      - name: curve
+        parent_type: Array
+        chnm: 1
+        length: 257
+        element_type: unsigned short
+        min: 0
+        max: 0x8000
+        default:
+          [ 0x0000, 0x0080, 0x0100, 0x0180, 0x0200, 0x0280, 0x0300, 0x0380, 0x0400, 0x0480, 0x0500, 0x0580, 0x0600, 0x0680, 0x0700, 0x0780,
+            0x0800, 0x0880, 0x0900, 0x0980, 0x0a00, 0x0a80, 0x0b00, 0x0b80, 0x0c00, 0x0c80, 0x0d00, 0x0d80, 0x0e00, 0x0e80, 0x0f00, 0x0f80,
+            0x1000, 0x1080, 0x1100, 0x1180, 0x1200, 0x1280, 0x1300, 0x1380, 0x1400, 0x1480, 0x1500, 0x1580, 0x1600, 0x1680, 0x1700, 0x1780,
+            0x1800, 0x1880, 0x1900, 0x1980, 0x1a00, 0x1a80, 0x1b00, 0x1b80, 0x1c00, 0x1c80, 0x1d00, 0x1d80, 0x1e00, 0x1e80, 0x1f00, 0x1f80,
+            0x2000, 0x2080, 0x2100, 0x2180, 0x2200, 0x2280, 0x2300, 0x2380, 0x2400, 0x2480, 0x2500, 0x2580, 0x2600, 0x2680, 0x2700, 0x2780,
+            0x2800, 0x2880, 0x2900, 0x2980, 0x2a00, 0x2a80, 0x2b00, 0x2b80, 0x2c00, 0x2c80, 0x2d00, 0x2d80, 0x2e00, 0x2e80, 0x2f00, 0x2f80,
+            0x3000, 0x3080, 0x3100, 0x3180, 0x3200, 0x3280, 0x3300, 0x3380, 0x3400, 0x3480, 0x3500, 0x3580, 0x3600, 0x3680, 0x3700, 0x3780,
+            0x3800, 0x3880, 0x3900, 0x3980, 0x3a00, 0x3a80, 0x3b00, 0x3b80, 0x3c00, 0x3c80, 0x3d00, 0x3d80, 0x3e00, 0x3e80, 0x3f00, 0x3f80,
+            0x4000, 0x4080, 0x4100, 0x4180, 0x4200, 0x4280, 0x4300, 0x4380, 0x4400, 0x4480, 0x4500, 0x4580, 0x4600, 0x4680, 0x4700, 0x4780,
+            0x4800, 0x4880, 0x4900, 0x4980, 0x4a00, 0x4a80, 0x4b00, 0x4b80, 0x4c00, 0x4c80, 0x4d00, 0x4d80, 0x4e00, 0x4e80, 0x4f00, 0x4f80,
+            0x5000, 0x5080, 0x5100, 0x5180, 0x5200, 0x5280, 0x5300, 0x5380, 0x5400, 0x5480, 0x5500, 0x5580, 0x5600, 0x5680, 0x5700, 0x5780,
+            0x5800, 0x5880, 0x5900, 0x5980, 0x5a00, 0x5a80, 0x5b00, 0x5b80, 0x5c00, 0x5c80, 0x5d00, 0x5d80, 0x5e00, 0x5e80, 0x5f00, 0x5f80,
+            0x6000, 0x6080, 0x6100, 0x6180, 0x6200, 0x6280, 0x6300, 0x6380, 0x6400, 0x6480, 0x6500, 0x6580, 0x6600, 0x6680, 0x6700, 0x6780,
+            0x6800, 0x6880, 0x6900, 0x6980, 0x6a00, 0x6a80, 0x6b00, 0x6b80, 0x6c00, 0x6c80, 0x6d00, 0x6d80, 0x6e00, 0x6e80, 0x6f00, 0x6f80,
+            0x7000, 0x7080, 0x7100, 0x7180, 0x7200, 0x7280, 0x7300, 0x7380, 0x7400, 0x7480, 0x7500, 0x7580, 0x7600, 0x7680, 0x7700, 0x7780,
+            0x7800, 0x7880, 0x7900, 0x7980, 0x7a00, 0x7a80, 0x7b00, 0x7b80, 0x7c00, 0x7c80, 0x7d00, 0x7d80, 0x7e00, 0x7e80, 0x7f00, 0x7f80,
+            0x8000 ]
+
+  MultiSynth:
+    group: Misc
+    controllers:
+      - transpose: { min: -128, max: 128, default: 0, compact: true }
+      - random_pitch: { min: 0, max: 4096, default: 0 }
+      - velocity: { min: 0, max: 256, default: 256 }
+      - finetune: { min: -256, max: 256, default: 0 }
+      - random_phase: { min: 0, max: 32768, default: 0 }
+      - random_velocity: { min: 0, max: 32768, default: 0 }
+      - phase: { min: 0, max: 32768, default: 0 }
+      - curve2_influence: { min: 0, max: 256, default: 256 }
+    options_chnm: 1
+    options:
+      - use_static_note_C5: false
+      - ignore_notes_with_zero_velocity: false
+      - vv_curve_active: false
+      - trigger: false
+    chunks:
+      - name: note_velocity_curve
+        parent_type: Array
+        chnm: 0
+        length: 128
+        element_type: unsigned byte
+        default: 0xff
+        min: 0
+        max: 0xff
+      - name: velocity_velocity_curve
+        parent_type: Array
+        chnm: 2
+        length: 257
+        element_type: unsigned byte
+        min: 0
+        max: 0xff
+        default:
+          [ 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f,
+            0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1a, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f,
+            0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x2a, 0x2b, 0x2c, 0x2d, 0x2e, 0x2f,
+            0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3a, 0x3b, 0x3c, 0x3d, 0x3e, 0x3f,
+            0x40, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48, 0x49, 0x4a, 0x4b, 0x4c, 0x4d, 0x4e, 0x4f,
+            0x50, 0x51, 0x52, 0x53, 0x54, 0x55, 0x56, 0x57, 0x58, 0x59, 0x5a, 0x5b, 0x5c, 0x5d, 0x5e, 0x5f,
+            0x60, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6a, 0x6b, 0x6c, 0x6d, 0x6e, 0x6f,
+            0x70, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7a, 0x7b, 0x7c, 0x7d, 0x7e, 0x7f,
+            0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8a, 0x8b, 0x8c, 0x8d, 0x8e, 0x8f,
+            0x90, 0x91, 0x92, 0x93, 0x94, 0x95, 0x96, 0x97, 0x98, 0x99, 0x9a, 0x9b, 0x9c, 0x9d, 0x9e, 0x9f,
+            0xa0, 0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6, 0xa7, 0xa8, 0xa9, 0xaa, 0xab, 0xac, 0xad, 0xae, 0xaf,
+            0xb0, 0xb1, 0xb2, 0xb3, 0xb4, 0xb5, 0xb6, 0xb7, 0xb8, 0xb9, 0xba, 0xbb, 0xbc, 0xbd, 0xbe, 0xbf,
+            0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0xc5, 0xc6, 0xc7, 0xc8, 0xc9, 0xca, 0xcb, 0xcc, 0xcd, 0xce, 0xcf,
+            0xd0, 0xd1, 0xd2, 0xd3, 0xd4, 0xd5, 0xd6, 0xd7, 0xd8, 0xd9, 0xda, 0xdb, 0xdc, 0xdd, 0xde, 0xdf,
+            0xe0, 0xe1, 0xe2, 0xe3, 0xe4, 0xe5, 0xe6, 0xe7, 0xe8, 0xe9, 0xea, 0xeb, 0xec, 0xed, 0xee, 0xef,
+            0xf0, 0xf1, 0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0xf7, 0xf8, 0xf9, 0xfa, 0xfb, 0xfc, 0xfd, 0xfe, 0xff,
+            0xff ]
+
+  Output:
+    group: Output
+    controllers: []
+
+  Pitch2Ctl:
+    group: Misc
+    enums:
+      Mode:
+        frequency_hz: 0
+        pitch: 1
+      NoteOffAction:
+        do_nothing: 0
+        pitch_down: 1
+        pitch_up: 2
+    controllers:
+      - mode: { enum: Mode, default: "frequency_hz" }
+      - note_off_action: { enum: NoteOffAction, default: "do_nothing" }
+      - first_note: { min: 0, max: 256, default: 0 }
+      - number_of_semitones: { min: 0, max: 256, default: 120 }
+      - out_min: { min: 0, max: 32768, default: 0 }
+      - out_max: { min: 0, max: 32768, default: 32768 }
+      - out_controller: { min: 0, max: 32, default: 0 }
+
+  PitchShifter:
+    type: Pitch shifter
+    group: Effect
+    enums:
+      Mode:
+        hq: 0
+        hq_mono: 1
+        lq: 2
+        lq_mono: 3
+    controllers:
+      - volume: { min: 0, max: 512, default: 256 }
+      - pitch: { min: -600, max: 600, default: 0 }
+      - pitch_scale: { min: 0, max: 200, default: 100 }
+      - feedback: { min: 0, max: 256, default: 0 }
+      - grain_size: { min: 0, max: 256, default: 64 }
+      - mode: { enum: Mode, default: "hq" }
+
+  Reverb:
+    group: Effect
+    enums:
+      Mode:
+        hq: 0
+        hq_mono: 1
+        lq: 2
+        lq_mono: 3
+    controllers:
+      - dry: { min: 0, max: 256, default: 256 }
+      - wet: { min: 0, max: 256, default: 64 }
+      - feedback: { min: 0, max: 256, default: 256 }
+      - damp: { min: 0, max: 256, default: 128 }
+      - stereo_width: { min: 0, max: 256, default: 256 }
+      - freeze: { bool: true, default: false }
+      - mode: { enum: Mode, default: "hq" }
+      - all_pass_filter: { bool: true, default: true }
+      - room_size: { min: 0, max: 128, default: 16 }
+      - random_seed: { min: 0, max: 32768, default: 0 }
+
+  Sampler:
+    group: Synth
+    enums:
+      SampleInterpolation:
+        "off": 0
+        linear: 1
+        spline: 2
+      EnvelopeInterpolation:
+        "off": 0
+        linear: 1
+      VibratoType:
+        sin: 0
+        saw: 1
+        square: 2
+      LoopType:
+        "off": 0
+        forward: 1
+        ping_pong: 2
+      Format:
+        int8: 1
+        int16: 2
+        float32: 4
+      Channels:
+        mono: 0
+        stereo: 8
+    controllers:
+      - volume: { min: 0, max: 512, default: 256 }
+      - panning: { min: -128, max: 128, default: 0 }
+      - sample_interpolation: { enum: SampleInterpolation, default: "spline" }
+      - envelope_interpolation: { enum: EnvelopeInterpolation, default: "linear" }
+      - polyphony_ch: { min: 1, max: 32, default: 8 }
+      - rec_threshold: { min: 0, max: 10000, default: 4 }
+      - vibrato_type: { enum: VibratoType, default: "sin", attached: false }
+      - vibrato_attack: { min: 0, max: 255, default: 0, attached: false }
+      - vibrato_depth: { min: 0, max: 255, default: 0, attached: false }
+      - vibrato_rate: { min: 0, max: 63, default: 0, attached: false }
+      - volume_fadeout: { min: 0, max: 8192, default: 0, attached: false }
+    options_chnm: 257
+    options:
+      - record_on_play: false
+      - record_in_mono: false
+      - record_with_reduced_sample_rate: false
+      - record_in_16_bit: false
+      - stop_recording_on_project_stop: false
+      - ignore_velocity_for_volume: false
+
+  Sound2Ctl:
+    group: Misc
+    enums:
+      Channels:
+        mono: 0
+        stereo: 1
+      Mode:
+        lq: 0
+        hq: 1
+    controllers:
+      - sample_rate_hz: { min: 1, max: 32768, default: 50 }
+      - channels: { enum: Channels, default: "mono" }
+      - absolute: { bool: true, default: true }
+      - gain: { min: 0, max: 1024, default: 256 }
+      - smooth: { min: 0, max: 256, default: 128 }
+      - mode: { enum: Mode, default: "hq" }
+      - out_min: { min: 0, max: 32768, default: 0 }
+      - out_max: { min: 0, max: 32768, default: 32768 }
+      - out_controller: { min: 0, max: 32, default: 0 }
+    options_chnm: 0
+    options:
+      - record_values: false
+
+  SpectraVoice:
+    group: Synth
+    enums:
+      Mode:
+        hq: 0
+        hq_mono: 1
+        lq: 2
+        lq_mono: 3
+        hq_spline: 4
+      HarmonicType:
+        hsin: 0
+        rect: 1
+        org1: 2
+        org2: 3
+        org3: 4
+        org4: 5
+        sin: 6
+        random: 7
+        triangle1: 8
+        triangle2: 9
+        overtones1: 10
+        overtones2: 11
+        overtones3: 12
+        overtones4: 13
+    controllers:
+      - volume: { min: 0, max: 256, default: 128 }
+      - panning: { min: -128, max: 128, default: 0 }
+      - attack: { min: 0, max: 512, default: 10 }
+      - release: { min: 0, max: 512, default: 512 }
+      - polyphony_ch: { min: 1, max: 32, default: 8 }
+      - mode: { enum: Mode, default: "hq_spline" }
+      - sustain: { bool: true, default: true }
+      - spectrum_resolution: { min: 0, max: 5, default: 1 }
+      - harmonic: { min: 0, max: 15, default: 0 }
+      - h_freq_hz: { min: 0, max: 22050, default: 1098 }
+      - h_volume: { min: 0, max: 255, default: 255 }
+      - h_width: { min: 0, max: 255, default: 3 }
+      - h_type: { enum: HarmonicType, default: "hsin" }
+    chunks:
+      - name: harmonic_freqs
+        parent_type: Array
+        chnm: 0
+        element_type: unsigned short
+        default: [ 1098, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+        min: 0
+        max: 0x8000
+      - name: harmonic_volumes
+        parent_type: Array
+        chnm: 1
+        element_type: unsigned byte
+        default: [ 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+        min: 0
+        max: 0xff
+      - name: harmonic_widths
+        parent_type: Array
+        chnm: 2
+        element_type: unsigned byte
+        default: [ 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
+        min: 0
+        max: 0xff
+      - name: harmonic_types
+        parent_type: Array
+        chnm: 3
+        element_type: unsigned byte
+        enum: HarmonicType
+        default: [ hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin ]
+
+  Velocity2Ctl:
+    group: Misc
+    enums:
+      NoteOffAction:
+        do_nothing: 0
+        vel_down: 1
+        vel_up: 2
+    controllers:
+      - note_off_action: { enum: NoteOffAction, default: "do_nothing" }
+      - out_min: { min: 0, max: 32768, default: 0 }
+      - out_max: { min: 0, max: 32768, default: 32768 }
+      - out_offset: { min: -16384, max: 16384, default: 0 }
+      - out_controller: { min: 0, max: 32, default: 0 }
+
+  Vibrato:
+    group: Effect
+    enums:
+      Channels:
+        stereo: 0
+        mono: 1
+      FrequencyUnit:
+        hz/64: 0
+        ms: 1
+        hz: 2
+        tick: 3
+        line: 4
+        line/2: 5
+        line/3: 6
+    controllers:
+      - volume: { min: 0, max: 256, default: 256 }
+      - amplitude: { min: 0, max: 256, default: 16 }
+      - freq:
+          depends_on: frequency_unit
+          default: 256
+          ranges:
+            hz/64: { min: 1, max: 2048 }
+            ms: { min: 1, max: 4000 }
+            hz: { min: 1, max: 16384 }
+            tick: { min: 1, max: 2048 }
+            line: { min: 1, max: 2048 }
+            line/2: { min: 1, max: 2048 }
+            line/3: { min: 1, max: 2048 }
+      - channels: { enum: Channels, default: "stereo" }
+      - set_phase: { min: 0, max: 256, default: 0 }
+      - frequency_unit: { enum: FrequencyUnit, default: "hz/64" }
+      - exponential_amplitude: { bool: true, default: false }
+
+  VocalFilter:
+    type: Vocal filter
+    group: Effect
+    enums:
+      VoiceType:
+        soprano: 0
+        alto: 1
+        tenor: 2
+        bass: 3
+      Channels:
+        stereo: 0
+        mono: 1
+    controllers:
+      - volume: { min: 0, max: 512, default: 256 }
+      - formant_width_hz: { min: 0, max: 256, default: 128 }
+      - intensity: { min: 0, max: 256, default: 128 }
+      - formants: { min: 1, max: 5, default: 5 }
+      - vowel: { min: 0, max: 256, default: 0 }
+      - voice_type: { enum: VoiceType, default: "soprano" }
+      - channels: { enum: Channels, default: "stereo" }
+
+  VorbisPlayer:
+    type: Vorbis player
+    group: Synth
+    controllers:
+      - volume: { min: 0, max: 512, default: 256 }
+      - original_speed: { bool: true, default: true }
+      - finetune: { min: -128, max: 128, default: 0 }
+      - transpose: { min: -128, max: 128, default: 0 }
+      - interpolation: { bool: true, default: true }
+      - polyphony_ch: { min: 1, max: 4, default: 1 }
+      - repeat: { bool: true, default: false }
+    chunks:
+      - name: data
+        type: Data
+
+  WaveShaper:
+    group: Effect
+    enums:
+      Mode:
+        hq: 0
+        hq_mono: 1
+        lq: 2
+        lq_mono: 3
+    controllers:
+      - input_volume: { min: 0, max: 512, default: 256 }
+      - mix: { min: 0, max: 256, default: 256 }
+      - output_volume: { min: 0, max: 512, default: 256 }
+      - symmetric: { bool: true, default: true }
+      - mode: { enum: Mode, default: "hq" }
+      - dc_blocker: { bool: true, default: true }
+    chunks:
+      - name: curve
+        parent_type: Array
+        chnm: 0
+        length: 256
+        element_type: unsigned short
+        min: 0
+        max: 0xffff
+        default:
+          [ 0x0000, 0x0100, 0x0200, 0x0300, 0x0400, 0x0500, 0x0600, 0x0700, 0x0800, 0x0900, 0x0a00, 0x0b00, 0x0c00, 0x0d00, 0x0e00, 0x0f00,
+            0x1000, 0x1100, 0x1200, 0x1300, 0x1400, 0x1500, 0x1600, 0x1700, 0x1800, 0x1900, 0x1a00, 0x1b00, 0x1c00, 0x1d00, 0x1e00, 0x1f00,
+            0x2000, 0x2100, 0x2200, 0x2300, 0x2400, 0x2500, 0x2600, 0x2700, 0x2800, 0x2900, 0x2a00, 0x2b00, 0x2c00, 0x2d00, 0x2e00, 0x2f00,
+            0x3000, 0x3100, 0x3200, 0x3300, 0x3400, 0x3500, 0x3600, 0x3700, 0x3800, 0x3900, 0x3a00, 0x3b00, 0x3c00, 0x3d00, 0x3e00, 0x3f00,
+            0x4000, 0x4100, 0x4200, 0x4300, 0x4400, 0x4500, 0x4600, 0x4700, 0x4800, 0x4900, 0x4a00, 0x4b00, 0x4c00, 0x4d00, 0x4e00, 0x4f00,
+            0x5000, 0x5100, 0x5200, 0x5300, 0x5400, 0x5500, 0x5600, 0x5700, 0x5800, 0x5900, 0x5a00, 0x5b00, 0x5c00, 0x5d00, 0x5e00, 0x5f00,
+            0x6000, 0x6100, 0x6200, 0x6300, 0x6400, 0x6500, 0x6600, 0x6700, 0x6800, 0x6900, 0x6a00, 0x6b00, 0x6c00, 0x6d00, 0x6e00, 0x6f00,
+            0x7000, 0x7100, 0x7200, 0x7300, 0x7400, 0x7500, 0x7600, 0x7700, 0x7800, 0x7900, 0x7a00, 0x7b00, 0x7c00, 0x7d00, 0x7e00, 0x7f00,
+            0x8000, 0x8100, 0x8200, 0x8300, 0x8400, 0x8500, 0x8600, 0x8700, 0x8800, 0x8900, 0x8a00, 0x8b00, 0x8c00, 0x8d00, 0x8e00, 0x8f00,
+            0x9000, 0x9100, 0x9200, 0x9300, 0x9400, 0x9500, 0x9600, 0x9700, 0x9800, 0x9900, 0x9a00, 0x9b00, 0x9c00, 0x9d00, 0x9e00, 0x9f00,
+            0xa000, 0xa100, 0xa200, 0xa300, 0xa400, 0xa500, 0xa600, 0xa700, 0xa800, 0xa900, 0xaa00, 0xab00, 0xac00, 0xad00, 0xae00, 0xaf00,
+            0xb000, 0xb100, 0xb200, 0xb300, 0xb400, 0xb500, 0xb600, 0xb700, 0xb800, 0xb900, 0xba00, 0xbb00, 0xbc00, 0xbd00, 0xbe00, 0xbf00,
+            0xc000, 0xc100, 0xc200, 0xc300, 0xc400, 0xc500, 0xc600, 0xc700, 0xc800, 0xc900, 0xca00, 0xcb00, 0xcc00, 0xcd00, 0xce00, 0xcf00,
+            0xd000, 0xd100, 0xd200, 0xd300, 0xd400, 0xd500, 0xd600, 0xd700, 0xd800, 0xd900, 0xda00, 0xdb00, 0xdc00, 0xdd00, 0xde00, 0xdf00,
+            0xe000, 0xe100, 0xe200, 0xe300, 0xe400, 0xe500, 0xe600, 0xe700, 0xe800, 0xe900, 0xea00, 0xeb00, 0xec00, 0xed00, 0xee00, 0xef00,
+            0xf000, 0xf100, 0xf200, 0xf300, 0xf400, 0xf500, 0xf600, 0xf700, 0xf800, 0xf900, 0xfa00, 0xfb00, 0xfc00, 0xfd00, 0xfe00, 0xff00 ]

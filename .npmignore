@@ -4,7 +4,7 @@ docs
 examples
 requirements
 rv
-rvoxgen
+src/python/genrv
 src/python
 tests
 .editorconfig

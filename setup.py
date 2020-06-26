@@ -3,13 +3,17 @@
 import io
 import os
 import re
-import sys
 
 from setuptools import find_packages, setup
 
-SETUP_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__)))
-sys.path.append(SETUP_DIR)
-import rvoxgen  # NOQA isort:skip
+# import sys
+# from pathlib import Path
+
+
+# SETUP_PATH = Path(__file__).parent.absolute()
+# SRC_PYTHON_PATH = SETUP_PATH / "src" / "python"
+# sys.path.append(SRC_PYTHON_PATH)
+## import genrv  # NOQA isort:skip
 
 dependencies = [
     "attrs >= 19.3.0",
@@ -41,14 +45,14 @@ long_description = "{}\n{}".format(readme, changelog)
 
 setup(
     name="radiant-voices",
-    version=rvoxgen.__version__,
+    version="1.0.0.dev",  # [TODO] generate this using a tool
     url="https://github.com/metrasynth/radiant-voices",
     license="MIT",
     author="Matthew Scott",
     author_email="matt@11craft.com",
     description=__doc__,
     long_description=long_description,
-    packages=find_packages(exclude=["docs", "examples", "tests"]),
+    packages=find_packages(include=["src/python"]),
     include_package_data=True,
     zip_safe=False,
     platforms="any",
@@ -57,9 +61,9 @@ setup(
     classifiers=[
         # As from http://pypi.python.org/pypi?%3Aaction=list_classifiers
         # 'Development Status :: 1 - Planning',
-        "Development Status :: 2 - Pre-Alpha",
+        # "Development Status :: 2 - Pre-Alpha",
         # 'Development Status :: 3 - Alpha',
-        # 'Development Status :: 4 - Beta',
+        "Development Status :: 4 - Beta",
         # 'Development Status :: 5 - Production/Stable',
         # 'Development Status :: 6 - Mature',
         # 'Development Status :: 7 - Inactive',
