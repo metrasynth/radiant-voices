@@ -57,7 +57,9 @@ const handlers: Record<string, HandlerFunc> = {
     const controllerSetter = ((module as unknown) as ModuleType).controllerSetters[
       ctx.ctlIndex
     ]
-    controllerSetter(cval as number)
+    if (controllerSetter instanceof Function) {
+      controllerSetter(cval as number)
+    }
     ctx.ctlIndex += 1
   },
   SEND: (module, chunk, chunks, ctx) => {
