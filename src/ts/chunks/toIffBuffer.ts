@@ -1,4 +1,3 @@
-// import { TextEncoder } from "text-encoding"
 import DataStream from "datastream-js"
 import encoding from "./encoding"
 import {

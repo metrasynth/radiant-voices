@@ -6,10 +6,6 @@ import { MessageType, MidiMap, Slope } from "../controllerMidiMap"
 import { Event } from "../pattern"
 import { NoteCmd } from "../note"
 import { Effect } from "../effect"
-// import Color from '../Color'
-// import ModuleFlags from '../ModuleFlags'
-// import PatternAppearanceFlags from '../PatternAppearanceFlags'
-// import PatternFlags from '../PatternFlags'
 
 interface TransformerFunc {
   (ds: DataStream, length: number): any
@@ -19,7 +15,6 @@ const transformers: Record<string, TransformerFunc> = {
   bytes: (ds, length) => ({
     value: ds.readUint8Array(length),
   }),
-  // color: ds => new Color({ r: ds.readUint8(), g: ds.readUint8(), b: ds.readUint8() }),
   color: (ds) => ({
     value: [ds.readUint8(), ds.readUint8(), ds.readUint8()],
   }),
@@ -67,9 +62,6 @@ const transformers: Record<string, TransformerFunc> = {
     }
     return { values: midiMaps }
   },
-  // moduleFlags: ds => ModuleFlags.fromUint32(ds.readUint32()),
-  // patternAppearanceFlags: ds => PatternAppearanceFlags.fromUint32(ds.readUint32()),
-  // patternFlags: ds => PatternFlags.fromUint32(ds.readUint32()),
   uint32: (ds) => ({ value: ds.readUint32() }),
   version: (ds) => {
     const patch = ds.readUint8()
