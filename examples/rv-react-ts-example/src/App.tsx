@@ -2,7 +2,6 @@ import React, { useCallback } from "react"
 import { useDropzone } from "react-dropzone"
 import * as sunvox from "./sunvox-lib-loader"
 
-import logo from "./logo.svg"
 import "./App.css"
 import {
   Pattern,
@@ -14,6 +13,14 @@ import {
   toIffBuffer,
 } from "radiant-voices"
 import FileSaver from "file-saver"
+
+const state = {
+  autoDownload: false,
+}
+
+function toggleAlsoDownload() {
+  state.alsoDownload = !state.alsoDownload
+}
 
 function App() {
   const onDrop = useCallback((acceptedFiles) => {
@@ -55,14 +62,17 @@ function App() {
       console.log(chunk)
     }
     const file = new Uint8Array(toIffBuffer(projectChunks(project)).buffer)
-    const blob = new Blob([file], { type: "application/octet-stream" })
-    FileSaver.saveAs(blob, "fromWebBrowser.sunvox")
+    if (state.autoDownload) {
+      const blob = new Blob([file], { type: "application/octet-stream" })
+      FileSaver.saveAs(blob, "fromWebBrowser.sunvox")
+    }
     console.log({ file })
     console.log(sunvox.sv_load_from_memory(0, file))
     sunvox.sv_play_from_beginning(0)
     ;(window as any).sunvox = sunvox
   }
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
+
   return (
     <div className="App">
       <div {...getRootProps()}>
@@ -79,13 +89,20 @@ function App() {
         <p>&nbsp;</p>
         <p>&nbsp;</p>
       </div>
-      <button onClick={onClick}>Click me to generate a radiant-voices project!</button>
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-      </header>
+      <div>
+        <input
+          type="checkbox"
+          id="alsoDownload"
+          onClick={toggleAlsoDownload}
+          checked={state.alsoDownload}
+        />
+        <label htmlFor="alsoDownload">Also download</label>
+      </div>
+      <div>
+        <button onClick={onClick}>
+          Click me to generate a radiant-voices project!
+        </button>
+      </div>
     </div>
   )
 }
