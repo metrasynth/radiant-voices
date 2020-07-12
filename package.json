@@ -19,6 +19,6 @@
   },
   "dependencies": {
     "buffer": "^5.6.0",
-    "datastream-js": "github:Allisone/DataStream.js#1.0.8"
+    "datastream-js": "github:metrasynth/DataStream.js#master"
   }
 }
