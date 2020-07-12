@@ -59,7 +59,7 @@ const handlers: Record<string, HandlerFunc> = {
     ctx.lines = value
     if (ctx.tracks !== undefined && ctx.events) {
       const { tracks, lines, events } = ctx
-      return new Pattern(tracks, lines, events)
+      return new Pattern(lines, tracks, events)
     } else {
       return
     }

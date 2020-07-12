@@ -53,7 +53,7 @@ export class Pattern implements PatternCommon {
   bgColor: Color = [255, 255, 255]
   data: PatternData
 
-  constructor(tracks = 4, lines = 32, events?: Event[]) {
+  constructor(lines = 32, tracks = 4, events?: Event[]) {
     this.tracks = tracks
     this.lines = lines
     this.data = this.initData(events)
