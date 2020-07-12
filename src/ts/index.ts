@@ -1,1 +1,5 @@
 export { Project } from "./project"
+export { Synth } from "./synth"
+export { fromIffBuffer } from "./chunks/fromIffBuffer"
+export { readSunVoxFile } from "./reader/readSunVoxFile"
+export { m } from "./modtypes"
