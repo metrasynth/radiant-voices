@@ -15,7 +15,7 @@ interface HandlerFunc {
 
 const handlers: Record<string, HandlerFunc> = {
   SFFF: (chunk, chunks, ctx) => {
-    ctx.module = readModule(null, chunks, chunk)
+    ctx.module = readModule(undefined, chunks, chunk)
   },
   VERS: (chunk, _, ctx) => {
     ctx.sunVoxVersion = (chunk as VersionChunk).value

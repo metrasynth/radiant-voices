@@ -5,7 +5,7 @@ import { ControllerMidiMaps, MidiMap } from "../controllerMidiMap"
 import { Project } from "../project"
 
 export class ModuleBase {
-  private _index: number | null | undefined = undefined
+  private _index: number | undefined = undefined
   project?: Project
   name = ""
   typeName = ""
@@ -29,18 +29,32 @@ export class ModuleBase {
   readonly optionsChnm?: number
   behavior?: ModuleSpecificBehavior
 
-  get index(): number | null {
+  get index(): number | undefined {
     if (this._index === undefined) {
       throw new Error("Module index is not assigned")
     }
     return this._index
   }
 
-  set index(newIndex: number | null) {
+  set index(newIndex: number | undefined) {
     if (this._index !== undefined) {
       throw new Error("Module index can only be assigned once")
     }
     this._index = newIndex
+  }
+
+  attachTo(project: Project): ModuleBase {
+    project.attach(this)
+    return this
+  }
+
+  chnk(): number {
+    const chnk = this.behavior?.chnk
+    return chnk ? chnk() : 0
+  }
+
+  midiMapsArray(): MidiMap[] {
+    return []
   }
 
   processDataChunks(dataChunks: ModuleDataChunks) {
@@ -50,22 +64,13 @@ export class ModuleBase {
 
   *rawControllerValues(): Generator<number> {}
 
-  setMidiMaps(midiMaps: MidiMap[]) {}
-
-  midiMapsArray(): MidiMap[] {
-    return []
-  }
-
   rawOptionBytes(): Uint8Array {
     return new Uint8Array(0)
   }
 
-  setOptions(dataChunks: ModuleDataChunks) {}
+  setMidiMaps(midiMaps: MidiMap[]) {}
 
-  chnk(): number {
-    const chnk = this.behavior?.chnk
-    return chnk ? chnk() : 0
-  }
+  setOptions(dataChunks: ModuleDataChunks) {}
 }
 
 export interface ModuleConstructor {

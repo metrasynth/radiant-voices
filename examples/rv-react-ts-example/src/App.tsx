@@ -44,15 +44,10 @@ function App() {
   const onClick = () => {
     const project = new Project()
     project.initialBpm = 150
-    const fm = m.fm()
-    fm.index = project.modules.length
+    const fm = m.fm().attachTo(project)
     fm.name = "FreqMod"
-    fm.project = project
-    project.modules.push(fm)
     project.outputModule.incomingLinks.push(fm.index)
-    const pat = new Pattern(8, 1)
-    pat.project = project
-    project.patterns.push(pat)
+    const pat = new Pattern(8, 1).attachTo(project)
     pat.data[0][0].note = 49
     pat.data[0][0].module = fm.index + 1
     pat.data[1][0].note = 128 // note off

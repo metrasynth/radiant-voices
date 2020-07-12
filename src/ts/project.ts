@@ -1,4 +1,4 @@
-import { Pattern, PatternClone } from "./pattern"
+import { PatternBase } from "./pattern"
 import { m } from "./modtypes"
 import { SunVoxContainer } from "./containers"
 import { ModuleBase } from "./modtypes/moduleBase"
@@ -40,8 +40,8 @@ export class Project implements SunVoxContainer {
   sunVoxVersion: SunVoxVersion = [1, 9, 5, 2]
   basedOnVersion: SunVoxVersion = [1, 9, 5, 2]
 
-  readonly patterns: Array<Pattern | PatternClone | undefined> = []
-  readonly modules: Array<ModuleBase | undefined> = [m.output()]
+  readonly patterns: Array<PatternBase | undefined> = []
+  readonly modules: Array<ModuleBase | undefined> = []
   readonly moduleConnections: ModuleConnection[] = []
 
   get outputModule(): m.Output.Module {
@@ -49,7 +49,23 @@ export class Project implements SunVoxContainer {
   }
 
   constructor() {
-    this.outputModule.index = 0
-    this.outputModule.project = this
+    m.output().attachTo(this)
+  }
+
+  attach(obj: ModuleBase): Project
+  attach(obj: PatternBase): Project
+  attach(obj: any): Project {
+    if (obj instanceof ModuleBase) {
+      obj.index = this.modules.length
+      obj.project = this
+      this.modules.push(obj)
+    } else if (obj instanceof PatternBase) {
+      obj.index = this.patterns.length
+      obj.project = this
+      this.patterns.push(obj)
+    } else {
+      throw new Error("Cannot attach")
+    }
+    return this
   }
 }

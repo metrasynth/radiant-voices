@@ -13,7 +13,7 @@ import { ModuleDataChunk, ModuleDataChunks } from "../moduleDataChunk"
 import { ModuleBase } from "../modtypes/moduleBase"
 
 interface ModulePlaceholder {
-  index: number | null
+  index: number | undefined
   flags: number
   name?: string
 }
@@ -131,7 +131,7 @@ const handlers: Record<string, HandlerFunc> = {
 }
 
 export function readModule(
-  index: number | null,
+  index: number | undefined,
   chunks: Generator<Chunk>,
   chunk: Chunk
 ): ModuleBase {

@@ -27,23 +27,37 @@ export enum PatternFlags {
   Solo = 1 << 4,
 }
 
-export interface PatternCommon {
+export class PatternBase {
   project?: Project
   _index?: number
   parent?: number
-  x: number
-  y: number
-  flags: PatternFlags
-}
-
-export class Pattern implements PatternCommon {
-  readonly parent = undefined
-  project?: Project
-  _index?: number
-  name?: string
   x = 0
   y = 0
-  flags = 0
+  flags: PatternFlags = 0
+
+  get index(): number | undefined {
+    if (this._index === undefined) {
+      throw new Error("Pattern index is not assigned")
+    }
+    return this._index
+  }
+
+  set index(newIndex: number | undefined) {
+    if (this._index !== undefined) {
+      throw new Error("Module index can only be assigned once")
+    }
+    this._index = newIndex
+  }
+
+  attachTo(project: Project): PatternBase {
+    project.attach(this)
+    return this
+  }
+}
+
+export class Pattern extends PatternBase {
+  readonly parent = undefined
+  name?: string
   tracks = 4
   lines = 32
   ySize = 32
@@ -54,6 +68,7 @@ export class Pattern implements PatternCommon {
   data: PatternData
 
   constructor(lines = 32, tracks = 4, events?: Event[]) {
+    super()
     this.tracks = tracks
     this.lines = lines
     this.data = this.initData(events)
@@ -83,11 +98,9 @@ export class Pattern implements PatternCommon {
   }
 }
 
-export class PatternClone implements PatternCommon {
-  project?: Project
-  _index?: number
+export class PatternClone extends PatternBase {
   flags = PatternFlags.Clone
-  x = 0
-  y = 0
-  constructor(readonly parent: number) {}
+  constructor(readonly parent: number) {
+    super()
+  }
 }
