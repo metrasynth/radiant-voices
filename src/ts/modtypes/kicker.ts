@@ -138,7 +138,8 @@ export namespace Kicker {
     constructor(readonly optionValues: KickerOptionValues) {}
   }
   export class Module extends ModuleBase implements ModuleType {
-    readonly name = "Kicker"
+    name = "Kicker"
+    flags = 0
     readonly typeName = "Kicker"
     readonly controllerSetters = [
       (val: number) => {

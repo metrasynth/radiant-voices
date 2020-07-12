@@ -22,7 +22,8 @@ export namespace Output {
     constructor(readonly optionValues: OutputOptionValues) {}
   }
   export class Module extends ModuleBase implements ModuleType {
-    readonly name = "Output"
+    name = "Output"
+    flags = 67
     readonly typeName = "Output"
     readonly controllerSetters = []
     readonly controllerValues: OutputControllerValues = {}

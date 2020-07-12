@@ -54,7 +54,8 @@ export namespace Input {
     constructor(readonly optionValues: InputOptionValues) {}
   }
   export class Module extends ModuleBase implements ModuleType {
-    readonly name = "Input"
+    name = "Input"
+    flags = 0
     readonly typeName = "Input"
     readonly controllerSetters = [
       (val: number) => {

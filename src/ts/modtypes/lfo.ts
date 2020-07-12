@@ -195,7 +195,8 @@ export namespace Lfo {
     constructor(readonly optionValues: LfoOptionValues) {}
   }
   export class Module extends ModuleBase implements ModuleType {
-    readonly name = "Lfo"
+    name = "LFO"
+    flags = 0
     readonly typeName = "LFO"
     readonly controllerSetters = [
       (val: number) => {

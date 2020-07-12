@@ -239,7 +239,8 @@ export namespace Filter {
     constructor(readonly optionValues: FilterOptionValues) {}
   }
   export class Module extends ModuleBase implements ModuleType {
-    readonly name = "Filter"
+    name = "Filter"
+    flags = 0
     readonly typeName = "Filter"
     readonly controllerSetters = [
       (val: number) => {

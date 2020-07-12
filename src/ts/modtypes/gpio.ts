@@ -108,7 +108,8 @@ export namespace Gpio {
     constructor(readonly optionValues: GpioOptionValues) {}
   }
   export class Module extends ModuleBase implements ModuleType {
-    readonly name = "Gpio"
+    name = "GPIO"
+    flags = 0
     readonly typeName = "GPIO"
     readonly controllerSetters = [
       (val: number) => {

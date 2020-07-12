@@ -236,7 +236,8 @@ export namespace Fm {
     constructor(readonly optionValues: FmOptionValues) {}
   }
   export class Module extends ModuleBase implements ModuleType {
-    readonly name = "Fm"
+    name = "FM"
+    flags = 73
     readonly typeName = "FM"
     readonly controllerSetters = [
       (val: number) => {

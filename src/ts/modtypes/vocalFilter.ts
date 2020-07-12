@@ -120,7 +120,8 @@ export namespace VocalFilter {
     constructor(readonly optionValues: VocalFilterOptionValues) {}
   }
   export class Module extends ModuleBase implements ModuleType {
-    readonly name = "VocalFilter"
+    name = "Vocal filter"
+    flags = 0
     readonly typeName = "Vocal filter"
     readonly controllerSetters = [
       (val: number) => {

@@ -160,7 +160,8 @@ export namespace Generator {
     constructor(readonly optionValues: GeneratorOptionValues) {}
   }
   export class Module extends ModuleBase implements ModuleType {
-    readonly name = "Generator"
+    name = "Generator"
+    flags = 0
     readonly typeName = "Generator"
     readonly controllerSetters = [
       (val: number) => {

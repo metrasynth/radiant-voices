@@ -119,7 +119,8 @@ export namespace Pitch2Ctl {
     constructor(readonly optionValues: Pitch2CtlOptionValues) {}
   }
   export class Module extends ModuleBase implements ModuleType {
-    readonly name = "Pitch2Ctl"
+    name = "Pitch2Ctl"
+    flags = 0
     readonly typeName = "Pitch2Ctl"
     readonly controllerSetters = [
       (val: number) => {

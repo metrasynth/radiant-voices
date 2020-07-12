@@ -107,7 +107,8 @@ export namespace VorbisPlayer {
     constructor(readonly optionValues: VorbisPlayerOptionValues) {}
   }
   export class Module extends ModuleBase implements ModuleType {
-    readonly name = "VorbisPlayer"
+    name = "Vorbis player"
+    flags = 0
     readonly typeName = "Vorbis player"
     readonly controllerSetters = [
       (val: number) => {

@@ -1093,6 +1093,7 @@ module_types:
   Fm:
     group: Synth
     type: FM
+    defaultFlags: 0x49
     enums:
       Mode:
         hq: 0
@@ -1409,6 +1410,7 @@ module_types:
 
   Output:
     group: Output
+    defaultFlags: 0x43
     controllers: []
 
   Pitch2Ctl:

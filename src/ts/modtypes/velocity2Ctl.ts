@@ -91,7 +91,8 @@ export namespace Velocity2Ctl {
     constructor(readonly optionValues: Velocity2CtlOptionValues) {}
   }
   export class Module extends ModuleBase implements ModuleType {
-    readonly name = "Velocity2Ctl"
+    name = "Velocity2Ctl"
+    flags = 0
     readonly typeName = "Velocity2Ctl"
     readonly controllerSetters = [
       (val: number) => {

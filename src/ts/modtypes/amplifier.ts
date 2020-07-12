@@ -120,7 +120,8 @@ export namespace Amplifier {
     constructor(readonly optionValues: AmplifierOptionValues) {}
   }
   export class Module extends ModuleBase implements ModuleType {
-    readonly name = "Amplifier"
+    name = "Amplifier"
+    flags = 0
     readonly typeName = "Amplifier"
     readonly controllerSetters = [
       (val: number) => {

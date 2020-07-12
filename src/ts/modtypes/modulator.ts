@@ -71,7 +71,8 @@ export namespace Modulator {
     constructor(readonly optionValues: ModulatorOptionValues) {}
   }
   export class Module extends ModuleBase implements ModuleType {
-    readonly name = "Modulator"
+    name = "Modulator"
+    flags = 0
     readonly typeName = "Modulator"
     readonly controllerSetters = [
       (val: number) => {

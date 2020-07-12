@@ -102,7 +102,8 @@ export namespace WaveShaper {
     constructor(readonly optionValues: WaveShaperOptionValues) {}
   }
   export class Module extends ModuleBase implements ModuleType {
-    readonly name = "WaveShaper"
+    name = "WaveShaper"
+    flags = 0
     readonly typeName = "WaveShaper"
     readonly controllerSetters = [
       (val: number) => {

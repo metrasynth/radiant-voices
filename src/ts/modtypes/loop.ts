@@ -94,7 +94,8 @@ export namespace Loop {
     constructor(readonly optionValues: LoopOptionValues) {}
   }
   export class Module extends ModuleBase implements ModuleType {
-    readonly name = "Loop"
+    name = "Loop"
+    flags = 0
     readonly typeName = "Loop"
     readonly controllerSetters = [
       (val: number) => {

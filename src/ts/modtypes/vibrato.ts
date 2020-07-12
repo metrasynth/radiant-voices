@@ -145,7 +145,8 @@ export namespace Vibrato {
     constructor(readonly optionValues: VibratoOptionValues) {}
   }
   export class Module extends ModuleBase implements ModuleType {
-    readonly name = "Vibrato"
+    name = "Vibrato"
+    flags = 0
     readonly typeName = "Vibrato"
     readonly controllerSetters = [
       (val: number) => {

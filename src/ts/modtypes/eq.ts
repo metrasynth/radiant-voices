@@ -78,7 +78,8 @@ export namespace Eq {
     constructor(readonly optionValues: EqOptionValues) {}
   }
   export class Module extends ModuleBase implements ModuleType {
-    readonly name = "Eq"
+    name = "EQ"
+    flags = 0
     readonly typeName = "EQ"
     readonly controllerSetters = [
       (val: number) => {

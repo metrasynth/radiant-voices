@@ -42,7 +42,8 @@ export namespace DcBlocker {
     constructor(readonly optionValues: DcBlockerOptionValues) {}
   }
   export class Module extends ModuleBase implements ModuleType {
-    readonly name = "DcBlocker"
+    name = "DC Blocker"
+    flags = 0
     readonly typeName = "DC Blocker"
     readonly controllerSetters = [
       (val: number) => {

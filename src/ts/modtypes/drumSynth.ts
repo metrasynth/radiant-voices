@@ -206,7 +206,8 @@ export namespace DrumSynth {
     constructor(readonly optionValues: DrumSynthOptionValues) {}
   }
   export class Module extends ModuleBase implements ModuleType {
-    readonly name = "DrumSynth"
+    name = "DrumSynth"
+    flags = 0
     readonly typeName = "DrumSynth"
     readonly controllerSetters = [
       (val: number) => {

@@ -111,7 +111,8 @@ export namespace Echo {
     constructor(readonly optionValues: EchoOptionValues) {}
   }
   export class Module extends ModuleBase implements ModuleType {
-    readonly name = "Echo"
+    name = "Echo"
+    flags = 0
     readonly typeName = "Echo"
     readonly controllerSetters = [
       (val: number) => {

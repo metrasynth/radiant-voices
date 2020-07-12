@@ -410,7 +410,8 @@ export namespace AnalogGenerator {
     }
   }
   export class Module extends ModuleBase implements ModuleType {
-    readonly name = "AnalogGenerator"
+    name = "Analog generator"
+    flags = 0
     readonly typeName = "Analog generator"
     readonly optionsChnm = 1
     readonly controllerSetters = [

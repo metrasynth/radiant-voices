@@ -132,7 +132,8 @@ export namespace MetaModule {
     }
   }
   export class Module extends ModuleBase implements ModuleType {
-    readonly name = "MetaModule"
+    name = "MetaModule"
+    flags = 0
     readonly typeName = "MetaModule"
     readonly optionsChnm = 2
     readonly controllerSetters = [

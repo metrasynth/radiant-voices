@@ -104,7 +104,8 @@ export namespace PitchShifter {
     constructor(readonly optionValues: PitchShifterOptionValues) {}
   }
   export class Module extends ModuleBase implements ModuleType {
-    readonly name = "PitchShifter"
+    name = "Pitch shifter"
+    flags = 0
     readonly typeName = "Pitch shifter"
     readonly controllerSetters = [
       (val: number) => {

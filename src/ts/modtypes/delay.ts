@@ -146,7 +146,8 @@ export namespace Delay {
     constructor(readonly optionValues: DelayOptionValues) {}
   }
   export class Module extends ModuleBase implements ModuleType {
-    readonly name = "Delay"
+    name = "Delay"
+    flags = 0
     readonly typeName = "Delay"
     readonly controllerSetters = [
       (val: number) => {

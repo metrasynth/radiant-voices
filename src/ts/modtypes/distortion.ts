@@ -107,7 +107,8 @@ export namespace Distortion {
     constructor(readonly optionValues: DistortionOptionValues) {}
   }
   export class Module extends ModuleBase implements ModuleType {
-    readonly name = "Distortion"
+    name = "Distortion"
+    flags = 0
     readonly typeName = "Distortion"
     readonly controllerSetters = [
       (val: number) => {

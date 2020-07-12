@@ -152,7 +152,8 @@ export namespace Sound2Ctl {
     }
   }
   export class Module extends ModuleBase implements ModuleType {
-    readonly name = "Sound2Ctl"
+    name = "Sound2Ctl"
+    flags = 0
     readonly typeName = "Sound2Ctl"
     readonly optionsChnm = 0
     readonly controllerSetters = [

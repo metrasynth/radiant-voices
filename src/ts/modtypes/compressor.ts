@@ -115,7 +115,8 @@ export namespace Compressor {
     constructor(readonly optionValues: CompressorOptionValues) {}
   }
   export class Module extends ModuleBase implements ModuleType {
-    readonly name = "Compressor"
+    name = "Compressor"
+    flags = 0
     readonly typeName = "Compressor"
     readonly controllerSetters = [
       (val: number) => {

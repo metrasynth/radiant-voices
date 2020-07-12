@@ -107,7 +107,8 @@ export namespace Glide {
     constructor(readonly optionValues: GlideOptionValues) {}
   }
   export class Module extends ModuleBase implements ModuleType {
-    readonly name = "Glide"
+    name = "Glide"
+    flags = 0
     readonly typeName = "Glide"
     readonly controllerSetters = [
       (val: number) => {

@@ -98,7 +98,8 @@ export namespace MultiCtl {
     constructor(readonly optionValues: MultiCtlOptionValues) {}
   }
   export class Module extends ModuleBase implements ModuleType {
-    readonly name = "MultiCtl"
+    name = "MultiCtl"
+    flags = 0
     readonly typeName = "MultiCtl"
     readonly controllerSetters = [
       (val: number) => {

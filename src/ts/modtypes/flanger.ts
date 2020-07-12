@@ -159,7 +159,8 @@ export namespace Flanger {
     constructor(readonly optionValues: FlangerOptionValues) {}
   }
   export class Module extends ModuleBase implements ModuleType {
-    readonly name = "Flanger"
+    name = "Flanger"
+    flags = 0
     readonly typeName = "Flanger"
     readonly controllerSetters = [
       (val: number) => {

@@ -150,7 +150,8 @@ export namespace Reverb {
     constructor(readonly optionValues: ReverbOptionValues) {}
   }
   export class Module extends ModuleBase implements ModuleType {
-    readonly name = "Reverb"
+    name = "Reverb"
+    flags = 0
     readonly typeName = "Reverb"
     readonly controllerSetters = [
       (val: number) => {

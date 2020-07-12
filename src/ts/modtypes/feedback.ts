@@ -54,7 +54,8 @@ export namespace Feedback {
     constructor(readonly optionValues: FeedbackOptionValues) {}
   }
   export class Module extends ModuleBase implements ModuleType {
-    readonly name = "Feedback"
+    name = "Feedback"
+    flags = 0
     readonly typeName = "Feedback"
     readonly controllerSetters = [
       (val: number) => {

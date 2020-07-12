@@ -204,7 +204,8 @@ export namespace SpectraVoice {
     constructor(readonly optionValues: SpectraVoiceOptionValues) {}
   }
   export class Module extends ModuleBase implements ModuleType {
-    readonly name = "SpectraVoice"
+    name = "SpectraVoice"
+    flags = 0
     readonly typeName = "SpectraVoice"
     readonly controllerSetters = [
       (val: number) => {
