@@ -120,7 +120,7 @@ export namespace Pitch2Ctl {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Pitch2Ctl"
-    flags = 0
+    flags = 131145
     readonly typeName = "Pitch2Ctl"
     readonly controllerSetters = [
       (val: number) => {

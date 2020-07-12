@@ -95,7 +95,7 @@ export namespace Loop {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Loop"
-    flags = 0
+    flags = 1105
     readonly typeName = "Loop"
     readonly controllerSetters = [
       (val: number) => {

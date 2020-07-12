@@ -72,7 +72,7 @@ export namespace Modulator {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Modulator"
-    flags = 0
+    flags = 8273
     readonly typeName = "Modulator"
     readonly controllerSetters = [
       (val: number) => {

@@ -139,7 +139,7 @@ export namespace Kicker {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Kicker"
-    flags = 0
+    flags = 73
     readonly typeName = "Kicker"
     readonly controllerSetters = [
       (val: number) => {

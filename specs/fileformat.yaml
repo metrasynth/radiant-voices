@@ -734,6 +734,7 @@ chunk_types:
 #     - chnm (int): chunks number
 module_types:
   Amplifier:
+    defaultFlags: 0x51
     group: Effect
     controllers:
       - volume: { min: 0, max: 1024, default: 256 }
@@ -747,6 +748,7 @@ module_types:
 
   AnalogGenerator:
     type: Analog generator
+    defaultFlags: 0x49
     group: Synth
     enums:
       Mode:
@@ -826,6 +828,7 @@ module_types:
         chnm: 0
 
   Compressor:
+    defaultFlags: 0x2051
     group: Effect
     enums:
       Mode:
@@ -842,6 +845,7 @@ module_types:
       - sidechain_input: { min: 0, max: 32, default: 0 }
 
   DcBlocker:
+    defaultFlags: 0x51
     type: DC Blocker
     group: Effect
     enums:
@@ -852,6 +856,7 @@ module_types:
       - channels: { enum: Channels, default: "stereo" }
 
   Delay:
+    defaultFlags: 0x451
     group: Effect
     enums:
       Channels:
@@ -877,6 +882,7 @@ module_types:
       - delay_units: { enum: DelayUnits, default: "sec/16384" }
 
   Distortion:
+    defaultFlags: 0x51
     group: Effect
     enums:
       Type:
@@ -896,6 +902,7 @@ module_types:
       - noise: { min: 0, max: 256, default: 0 }
 
   DrumSynth:
+    defaultFlags: 0x49
     group: Synth
     controllers:
       - volume: { min: 0, max: 512, default: 256 }
@@ -915,6 +922,7 @@ module_types:
       - snare_panning: { min: -128, max: 128, default: 0 }
 
   Echo:
+    defaultFlags: 0x451
     group: Effect
     enums:
       Channels:
@@ -938,6 +946,7 @@ module_types:
 
   Eq:
     type: EQ
+    defaultFlags: 0x51
     group: Effect
     enums:
       Channels:
@@ -950,6 +959,7 @@ module_types:
       - channels: { enum: Channels, default: "stereo" }
 
   Feedback:
+    defaultFlags: 0x600051
     group: Misc
     enums:
       Channels:
@@ -960,6 +970,7 @@ module_types:
       - channels: { enum: Channels, default: "stereo" }
 
   Filter:
+    defaultFlags: 0x451
     group: Effect
     enums:
       Type:
@@ -1009,6 +1020,7 @@ module_types:
       - lfo_waveform: { enum: LfoWaveform, default: "sin" }
 
   FilterPro:
+    defaultFlags: 0x451
     type: Filter Pro
     group: Effect
     enums:
@@ -1064,6 +1076,7 @@ module_types:
       - lfo_freq_unit: { enum: LfoFreqUnit, default: "hz*0.02" }
 
   Flanger:
+    defaultFlags: 0x451
     group: Effect
     enums:
       LfoWaveform:
@@ -1077,7 +1090,6 @@ module_types:
         line: 4
         line/2: 5
         line/3: 6
-
     controllers:
       - dry: { min: 0, max: 256, default: 256 }
       - wet: { min: 0, max: 256, default: 128 }
@@ -1091,9 +1103,9 @@ module_types:
       - lfo_freq_unit: { enum: LfoFreqUnit, default: "hz*0.05" }
 
   Fm:
-    group: Synth
     type: FM
     defaultFlags: 0x49
+    group: Synth
     enums:
       Mode:
         hq: 0
@@ -1120,6 +1132,7 @@ module_types:
       - mode: { enum: Mode, default: "hq" }
 
   Generator:
+    defaultFlags: 0x59
     group: Synth
     enums:
       Waveform:
@@ -1152,6 +1165,7 @@ module_types:
         chnm: 0
 
   Glide:
+    defaultFlags: 0x21049
     group: Misc
     controllers:
       - response: { min: 0, max: 1000, default: 500 }
@@ -1164,6 +1178,7 @@ module_types:
 
   Gpio:
     type: GPIO
+    defaultFlags: 0x51
     group: Misc
     controllers:
       - out: { bool: true, default: false }
@@ -1175,6 +1190,7 @@ module_types:
       - in_amplitude: { min: 0, max: 100, default: 100 }
 
   Input:
+    defaultFlags: 0x49
     group: Synth
     enums:
       Channels:
@@ -1185,6 +1201,7 @@ module_types:
       - channels: { enum: Channels, default: "mono" }
 
   Kicker:
+    defaultFlags: 0x49
     group: Synth
     enums:
       Waveform:
@@ -1204,6 +1221,7 @@ module_types:
 
   Lfo:
     type: LFO
+    defaultFlags: 0x451
     group: Effect
     enums:
       Type:
@@ -1252,6 +1270,7 @@ module_types:
       - generator: { bool: true, default: false }
 
   Loop:
+    defaultFlags: 0x451
     group: Effect
     enums:
       Channels:
@@ -1268,6 +1287,7 @@ module_types:
       - mode: { enum: Mode, default: "normal" }
 
   MetaModule:
+    defaultFlags: 0x8051
     group: Misc
     enums:
       PlayPatterns:
@@ -1293,6 +1313,7 @@ module_types:
         chmm: 1
 
   Modulator:
+    defaultFlags: 0x2051
     group: Effect
     enums:
       ModulationType:
@@ -1308,6 +1329,7 @@ module_types:
       - channels: { enum: Channels, default: "stereo" }
 
   MultiCtl:
+    defaultFlags: 0x20051
     group: Misc
     controllers:
       - value: { min: 0, max: 32768, default: 0 }
@@ -1357,6 +1379,7 @@ module_types:
             0x8000 ]
 
   MultiSynth:
+    defaultFlags: 0x21049
     group: Misc
     controllers:
       - transpose: { min: -128, max: 128, default: 0, compact: true }
@@ -1414,6 +1437,7 @@ module_types:
     controllers: []
 
   Pitch2Ctl:
+    defaultFlags: 0x20049
     group: Misc
     enums:
       Mode:
@@ -1434,6 +1458,7 @@ module_types:
 
   PitchShifter:
     type: Pitch shifter
+    defaultFlags: 0x51
     group: Effect
     enums:
       Mode:
@@ -1450,6 +1475,7 @@ module_types:
       - mode: { enum: Mode, default: "hq" }
 
   Reverb:
+    defaultFlags: 0x51
     group: Effect
     enums:
       Mode:
@@ -1470,6 +1496,7 @@ module_types:
       - random_seed: { min: 0, max: 32768, default: 0 }
 
   Sampler:
+    defaultFlags: 0x8459
     group: Synth
     enums:
       SampleInterpolation:
@@ -1516,6 +1543,7 @@ module_types:
       - ignore_velocity_for_volume: false
 
   Sound2Ctl:
+    defaultFlags: 0x600051
     group: Misc
     enums:
       Channels:
@@ -1539,6 +1567,7 @@ module_types:
       - record_values: false
 
   SpectraVoice:
+    defaultFlags: 0x49
     group: Synth
     enums:
       Mode:
@@ -1606,6 +1635,7 @@ module_types:
         default: [ hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin ]
 
   Velocity2Ctl:
+    defaultFlags: 0x20049
     group: Misc
     enums:
       NoteOffAction:
@@ -1621,6 +1651,7 @@ module_types:
 
   Vibrato:
     group: Effect
+    defaultFlags: 0x451
     enums:
       Channels:
         stereo: 0
@@ -1654,6 +1685,7 @@ module_types:
 
   VocalFilter:
     type: Vocal filter
+    defaultFlags: 0x51
     group: Effect
     enums:
       VoiceType:
@@ -1675,6 +1707,7 @@ module_types:
 
   VorbisPlayer:
     type: Vorbis player
+    defaultFlags: 0x8049
     group: Synth
     controllers:
       - volume: { min: 0, max: 512, default: 256 }
@@ -1689,6 +1722,7 @@ module_types:
         type: Data
 
   WaveShaper:
+    defaultFlags: 0x51
     group: Effect
     enums:
       Mode:

@@ -151,7 +151,7 @@ export namespace Reverb {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Reverb"
-    flags = 0
+    flags = 81
     readonly typeName = "Reverb"
     readonly controllerSetters = [
       (val: number) => {

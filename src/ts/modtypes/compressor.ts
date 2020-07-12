@@ -116,7 +116,7 @@ export namespace Compressor {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Compressor"
-    flags = 0
+    flags = 8273
     readonly typeName = "Compressor"
     readonly controllerSetters = [
       (val: number) => {

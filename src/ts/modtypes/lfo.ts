@@ -196,7 +196,7 @@ export namespace Lfo {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "LFO"
-    flags = 0
+    flags = 1105
     readonly typeName = "LFO"
     readonly controllerSetters = [
       (val: number) => {

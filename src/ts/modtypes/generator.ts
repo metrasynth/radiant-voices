@@ -161,7 +161,7 @@ export namespace Generator {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Generator"
-    flags = 0
+    flags = 89
     readonly typeName = "Generator"
     readonly controllerSetters = [
       (val: number) => {

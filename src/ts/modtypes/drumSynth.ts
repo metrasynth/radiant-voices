@@ -207,7 +207,7 @@ export namespace DrumSynth {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "DrumSynth"
-    flags = 0
+    flags = 73
     readonly typeName = "DrumSynth"
     readonly controllerSetters = [
       (val: number) => {

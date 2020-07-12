@@ -109,7 +109,7 @@ export namespace Gpio {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "GPIO"
-    flags = 0
+    flags = 81
     readonly typeName = "GPIO"
     readonly controllerSetters = [
       (val: number) => {

@@ -240,7 +240,7 @@ export namespace Filter {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Filter"
-    flags = 0
+    flags = 1105
     readonly typeName = "Filter"
     readonly controllerSetters = [
       (val: number) => {

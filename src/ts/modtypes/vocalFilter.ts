@@ -121,7 +121,7 @@ export namespace VocalFilter {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Vocal filter"
-    flags = 0
+    flags = 81
     readonly typeName = "Vocal filter"
     readonly controllerSetters = [
       (val: number) => {

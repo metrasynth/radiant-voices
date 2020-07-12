@@ -108,7 +108,7 @@ export namespace Distortion {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Distortion"
-    flags = 0
+    flags = 81
     readonly typeName = "Distortion"
     readonly controllerSetters = [
       (val: number) => {

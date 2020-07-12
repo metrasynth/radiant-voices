@@ -103,7 +103,7 @@ export namespace WaveShaper {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "WaveShaper"
-    flags = 0
+    flags = 81
     readonly typeName = "WaveShaper"
     readonly controllerSetters = [
       (val: number) => {

@@ -246,7 +246,7 @@ export namespace Sampler {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Sampler"
-    flags = 0
+    flags = 33881
     readonly typeName = "Sampler"
     readonly optionsChnm = 257
     readonly controllerSetters = [

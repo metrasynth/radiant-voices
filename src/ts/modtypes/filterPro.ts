@@ -267,7 +267,7 @@ export namespace FilterPro {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Filter Pro"
-    flags = 0
+    flags = 1105
     readonly typeName = "Filter Pro"
     readonly controllerSetters = [
       (val: number) => {

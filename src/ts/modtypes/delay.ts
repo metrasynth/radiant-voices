@@ -147,7 +147,7 @@ export namespace Delay {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Delay"
-    flags = 0
+    flags = 1105
     readonly typeName = "Delay"
     readonly controllerSetters = [
       (val: number) => {

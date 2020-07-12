@@ -146,7 +146,7 @@ export namespace Vibrato {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Vibrato"
-    flags = 0
+    flags = 1105
     readonly typeName = "Vibrato"
     readonly controllerSetters = [
       (val: number) => {

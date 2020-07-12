@@ -205,7 +205,7 @@ export namespace SpectraVoice {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "SpectraVoice"
-    flags = 0
+    flags = 73
     readonly typeName = "SpectraVoice"
     readonly controllerSetters = [
       (val: number) => {

@@ -99,7 +99,7 @@ export namespace MultiCtl {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "MultiCtl"
-    flags = 0
+    flags = 131153
     readonly typeName = "MultiCtl"
     readonly controllerSetters = [
       (val: number) => {

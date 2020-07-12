@@ -160,7 +160,7 @@ export namespace Flanger {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Flanger"
-    flags = 0
+    flags = 1105
     readonly typeName = "Flanger"
     readonly controllerSetters = [
       (val: number) => {

@@ -55,7 +55,7 @@ export namespace Input {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Input"
-    flags = 0
+    flags = 73
     readonly typeName = "Input"
     readonly controllerSetters = [
       (val: number) => {
