@@ -55,6 +55,7 @@ function App() {
     project.patterns.push(pat)
     pat.data[0][0].note = 49
     pat.data[0][0].module = fm.index + 1
+    pat.data[1][0].note = 128 // note off
     console.log({ project })
     sunvox.sv_close_slot(0)
     sunvox.sv_open_slot(0)
