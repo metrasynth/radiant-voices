@@ -47,4 +47,9 @@ export class Project implements SunVoxContainer {
   get outputModule(): m.Output.Module {
     return this.modules[0] as m.Output.Module
   }
+
+  constructor() {
+    this.outputModule.index = 0
+    this.outputModule.project = this
+  }
 }
