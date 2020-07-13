@@ -1,4 +1,4 @@
-import React, { useCallback } from "react"
+import React, { useCallback, useState } from "react"
 import { useDropzone } from "react-dropzone"
 import * as sunvox from "./sunvox-lib-loader"
 
@@ -14,15 +14,9 @@ import {
 } from "radiant-voices"
 import FileSaver from "file-saver"
 
-const state = {
-  autoDownload: false,
-}
-
-function toggleAlsoDownload() {
-  state.alsoDownload = !state.alsoDownload
-}
-
 function App() {
+  const [alsoDownload, setAlsoDownload] = useState(false)
+  const toggleAlsoDownload = () => setAlsoDownload(!alsoDownload)
   const onDrop = useCallback((acceptedFiles) => {
     if (acceptedFiles.length > 0 && acceptedFiles[0].type === "audio/sunvox") {
       const acceptedFile = acceptedFiles[0]
@@ -58,7 +52,7 @@ function App() {
       console.log(chunk)
     }
     const file = new Uint8Array(toIffBuffer(projectChunks(project)).buffer)
-    if (state.autoDownload) {
+    if (alsoDownload) {
       const blob = new Blob([file], { type: "application/octet-stream" })
       FileSaver.saveAs(blob, "fromWebBrowser.sunvox")
     }
@@ -89,8 +83,8 @@ function App() {
         <input
           type="checkbox"
           id="alsoDownload"
-          onClick={toggleAlsoDownload}
-          checked={state.alsoDownload}
+          onChange={toggleAlsoDownload}
+          checked={alsoDownload}
         />
         <label htmlFor="alsoDownload">Also download</label>
       </div>
