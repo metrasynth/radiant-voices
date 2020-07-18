@@ -74,6 +74,10 @@ export class Pattern extends PatternBase {
     this.data = this.initData(events)
   }
 
+  attachTo(project: Project): Pattern {
+    return super.attachTo(project) as Pattern
+  }
+
   initData(events?: Event[]): PatternData {
     const data: PatternData = []
     const { lines, tracks } = this
@@ -102,5 +106,9 @@ export class PatternClone extends PatternBase {
   flags = PatternFlags.Clone
   constructor(readonly parent: number) {
     super()
+  }
+
+  attachTo(project: Project): PatternClone {
+    return super.attachTo(project) as PatternClone
   }
 }
