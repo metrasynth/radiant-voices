@@ -17,7 +17,7 @@ class BaseEcho:
         mono = 0
         stereo = 1
 
-    class DelayUnits(Enum):
+    class DelayUnit(Enum):
         sec_256 = 0
         ms = 1
         hz = 2
@@ -31,4 +31,4 @@ class BaseEcho:
     feedback = Controller((0, 256), 128)
     delay = Controller((0, 256), 256)
     channels = Controller(Channels, Channels.stereo)
-    delay_units = Controller(DelayUnits, DelayUnits.sec_256)
+    delay_unit = Controller(DelayUnit, DelayUnit.sec_256)

@@ -20,7 +20,7 @@ export namespace Generator {
     Saw = 1,
     Square = 2,
     Noise = 3,
-    Dirty = 4,
+    Drawn = 4,
     Sin = 5,
     Hsin = 6,
     Asin = 7,
@@ -40,7 +40,7 @@ export namespace Generator {
     polyphonyCh: number
     mode: Mode
     sustain: boolean
-    freqModulationInput: number
+    freqModulationByInput: number
     dutyCycle: number
   }
   class GeneratorControllers implements Controllers {
@@ -123,14 +123,14 @@ export namespace Generator {
       controllerValues.sustain = newValue
     }
     // noinspection JSUnusedGlobalSymbols
-    get freqModulationInput(): number {
-      return this.controllerValues.freqModulationInput
+    get freqModulationByInput(): number {
+      return this.controllerValues.freqModulationByInput
     }
     // noinspection JSUnusedGlobalSymbols
-    set freqModulationInput(newValue: number) {
+    set freqModulationByInput(newValue: number) {
       const { controllerValues } = this
       newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.freqModulationInput = newValue
+      controllerValues.freqModulationByInput = newValue
     }
     // noinspection JSUnusedGlobalSymbols
     get dutyCycle(): number {
@@ -152,7 +152,7 @@ export namespace Generator {
     polyphonyCh: ControllerMidiMap
     mode: ControllerMidiMap
     sustain: ControllerMidiMap
-    freqModulationInput: ControllerMidiMap
+    freqModulationByInput: ControllerMidiMap
     dutyCycle: ControllerMidiMap
   }
   interface GeneratorOptionValues extends OptionValues {}
@@ -189,7 +189,7 @@ export namespace Generator {
         this.controllerValues.sustain = Boolean(val)
       },
       (val: number) => {
-        this.controllerValues.freqModulationInput = val
+        this.controllerValues.freqModulationByInput = val
       },
       (val: number) => {
         this.controllerValues.dutyCycle = val
@@ -204,7 +204,7 @@ export namespace Generator {
       polyphonyCh: 8,
       mode: Mode.Stereo,
       sustain: true,
-      freqModulationInput: 0,
+      freqModulationByInput: 0,
       dutyCycle: 511,
     }
     readonly controllers: GeneratorControllers = new GeneratorControllers(
@@ -220,7 +220,7 @@ export namespace Generator {
       polyphonyCh: new ControllerMidiMap(),
       mode: new ControllerMidiMap(),
       sustain: new ControllerMidiMap(),
-      freqModulationInput: new ControllerMidiMap(),
+      freqModulationByInput: new ControllerMidiMap(),
       dutyCycle: new ControllerMidiMap(),
     }
     readonly optionValues: GeneratorOptionValues = {}
@@ -241,7 +241,7 @@ export namespace Generator {
       yield cv.polyphonyCh
       yield cv.mode
       yield Number(cv.sustain)
-      yield cv.freqModulationInput
+      yield cv.freqModulationByInput
       yield cv.dutyCycle
     }
     setMidiMaps(midiMaps: MidiMap[]) {
@@ -253,7 +253,7 @@ export namespace Generator {
       this.midiMaps.polyphonyCh = midiMaps[5]
       this.midiMaps.mode = midiMaps[6]
       this.midiMaps.sustain = midiMaps[7]
-      this.midiMaps.freqModulationInput = midiMaps[8]
+      this.midiMaps.freqModulationByInput = midiMaps[8]
       this.midiMaps.dutyCycle = midiMaps[9]
     }
     midiMapsArray(): MidiMap[] {
@@ -266,7 +266,7 @@ export namespace Generator {
       a.push(this.midiMaps.polyphonyCh)
       a.push(this.midiMaps.mode)
       a.push(this.midiMaps.sustain)
-      a.push(this.midiMaps.freqModulationInput)
+      a.push(this.midiMaps.freqModulationByInput)
       a.push(this.midiMaps.dutyCycle)
       return a
     }

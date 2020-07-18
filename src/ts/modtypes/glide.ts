@@ -17,7 +17,7 @@ export namespace Glide {
   interface GlideControllerValues extends ControllerValues {
     response: number
     sampleRateHz: number
-    offsetOn_1stNote: boolean
+    resetOnFirstNote: boolean
     polyphony: boolean
     pitch: number
     pitchScale: number
@@ -46,13 +46,13 @@ export namespace Glide {
       controllerValues.sampleRateHz = newValue
     }
     // noinspection JSUnusedGlobalSymbols
-    get offsetOn_1stNote(): boolean {
-      return this.controllerValues.offsetOn_1stNote
+    get resetOnFirstNote(): boolean {
+      return this.controllerValues.resetOnFirstNote
     }
     // noinspection JSUnusedGlobalSymbols
-    set offsetOn_1stNote(newValue: boolean) {
+    set resetOnFirstNote(newValue: boolean) {
       const { controllerValues } = this
-      controllerValues.offsetOn_1stNote = newValue
+      controllerValues.resetOnFirstNote = newValue
     }
     // noinspection JSUnusedGlobalSymbols
     get polyphony(): boolean {
@@ -96,7 +96,7 @@ export namespace Glide {
   interface GlideControllerMidiMaps extends ControllerMidiMaps {
     response: ControllerMidiMap
     sampleRateHz: ControllerMidiMap
-    offsetOn_1stNote: ControllerMidiMap
+    resetOnFirstNote: ControllerMidiMap
     polyphony: ControllerMidiMap
     pitch: ControllerMidiMap
     pitchScale: ControllerMidiMap
@@ -118,7 +118,7 @@ export namespace Glide {
         this.controllerValues.sampleRateHz = val
       },
       (val: number) => {
-        this.controllerValues.offsetOn_1stNote = Boolean(val)
+        this.controllerValues.resetOnFirstNote = Boolean(val)
       },
       (val: number) => {
         this.controllerValues.polyphony = Boolean(val)
@@ -136,7 +136,7 @@ export namespace Glide {
     readonly controllerValues: GlideControllerValues = {
       response: 500,
       sampleRateHz: 150,
-      offsetOn_1stNote: false,
+      resetOnFirstNote: false,
       polyphony: true,
       pitch: 0,
       pitchScale: 100,
@@ -147,7 +147,7 @@ export namespace Glide {
     readonly midiMaps: GlideControllerMidiMaps = {
       response: new ControllerMidiMap(),
       sampleRateHz: new ControllerMidiMap(),
-      offsetOn_1stNote: new ControllerMidiMap(),
+      resetOnFirstNote: new ControllerMidiMap(),
       polyphony: new ControllerMidiMap(),
       pitch: new ControllerMidiMap(),
       pitchScale: new ControllerMidiMap(),
@@ -165,7 +165,7 @@ export namespace Glide {
       const { controllerValues: cv } = this
       yield cv.response
       yield cv.sampleRateHz
-      yield Number(cv.offsetOn_1stNote)
+      yield Number(cv.resetOnFirstNote)
       yield Number(cv.polyphony)
       yield cv.pitch
       yield cv.pitchScale
@@ -174,7 +174,7 @@ export namespace Glide {
     setMidiMaps(midiMaps: MidiMap[]) {
       this.midiMaps.response = midiMaps[0]
       this.midiMaps.sampleRateHz = midiMaps[1]
-      this.midiMaps.offsetOn_1stNote = midiMaps[2]
+      this.midiMaps.resetOnFirstNote = midiMaps[2]
       this.midiMaps.polyphony = midiMaps[3]
       this.midiMaps.pitch = midiMaps[4]
       this.midiMaps.pitchScale = midiMaps[5]
@@ -184,7 +184,7 @@ export namespace Glide {
       const a: MidiMap[] = []
       a.push(this.midiMaps.response)
       a.push(this.midiMaps.sampleRateHz)
-      a.push(this.midiMaps.offsetOn_1stNote)
+      a.push(this.midiMaps.resetOnFirstNote)
       a.push(this.midiMaps.polyphony)
       a.push(this.midiMaps.pitch)
       a.push(this.midiMaps.pitchScale)

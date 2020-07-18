@@ -42,6 +42,9 @@ class Base{{ modtype_name }}:
 
 {% for ctl in modtype.controllers -%}
     {% for cname, cdef in ctl.items() %}
+        {% if cname == "in" %}
+            {% set cname = "in_" %}
+        {% endif %}
     {{ cname }} = Controller(
         {% if "min" in cdef and "max" in cdef %}
             {% if cdef.compact %}CompactRange{% endif %}

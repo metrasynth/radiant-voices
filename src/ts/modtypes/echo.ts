@@ -19,7 +19,7 @@ export namespace Echo {
     Mono = 0,
     Stereo = 1,
   }
-  export const enum DelayUnits {
+  export const enum DelayUnit {
     // noinspection JSUnusedGlobalSymbols
     Sec_256 = 0,
     Ms = 1,
@@ -35,7 +35,7 @@ export namespace Echo {
     feedback: number
     delay: number
     channels: Channels
-    delayUnits: DelayUnits
+    delayUnit: DelayUnit
   }
   class EchoControllers implements Controllers {
     constructor(readonly controllerValues: EchoControllerValues) {}
@@ -89,13 +89,13 @@ export namespace Echo {
       controllerValues.channels = newValue
     }
     // noinspection JSUnusedGlobalSymbols
-    get delayUnits(): DelayUnits {
-      return this.controllerValues.delayUnits
+    get delayUnit(): DelayUnit {
+      return this.controllerValues.delayUnit
     }
     // noinspection JSUnusedGlobalSymbols
-    set delayUnits(newValue: DelayUnits) {
+    set delayUnit(newValue: DelayUnit) {
       const { controllerValues } = this
-      controllerValues.delayUnits = newValue
+      controllerValues.delayUnit = newValue
     }
   }
   interface EchoControllerMidiMaps extends ControllerMidiMaps {
@@ -104,7 +104,7 @@ export namespace Echo {
     feedback: ControllerMidiMap
     delay: ControllerMidiMap
     channels: ControllerMidiMap
-    delayUnits: ControllerMidiMap
+    delayUnit: ControllerMidiMap
   }
   interface EchoOptionValues extends OptionValues {}
   class EchoOptions implements Options {
@@ -131,7 +131,7 @@ export namespace Echo {
         this.controllerValues.channels = val
       },
       (val: number) => {
-        this.controllerValues.delayUnits = val
+        this.controllerValues.delayUnit = val
       },
     ]
     readonly controllerValues: EchoControllerValues = {
@@ -140,7 +140,7 @@ export namespace Echo {
       feedback: 128,
       delay: 256,
       channels: Channels.Stereo,
-      delayUnits: DelayUnits.Sec_256,
+      delayUnit: DelayUnit.Sec_256,
     }
     readonly controllers: EchoControllers = new EchoControllers(this.controllerValues)
     readonly c = this.controllers
@@ -150,7 +150,7 @@ export namespace Echo {
       feedback: new ControllerMidiMap(),
       delay: new ControllerMidiMap(),
       channels: new ControllerMidiMap(),
-      delayUnits: new ControllerMidiMap(),
+      delayUnit: new ControllerMidiMap(),
     }
     readonly optionValues: EchoOptionValues = {}
     readonly options: EchoOptions = new EchoOptions(this.optionValues)
@@ -167,7 +167,7 @@ export namespace Echo {
       yield cv.feedback
       yield cv.delay
       yield cv.channels
-      yield cv.delayUnits
+      yield cv.delayUnit
     }
     setMidiMaps(midiMaps: MidiMap[]) {
       this.midiMaps.dry = midiMaps[0]
@@ -175,7 +175,7 @@ export namespace Echo {
       this.midiMaps.feedback = midiMaps[2]
       this.midiMaps.delay = midiMaps[3]
       this.midiMaps.channels = midiMaps[4]
-      this.midiMaps.delayUnits = midiMaps[5]
+      this.midiMaps.delayUnit = midiMaps[5]
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []
@@ -184,7 +184,7 @@ export namespace Echo {
       a.push(this.midiMaps.feedback)
       a.push(this.midiMaps.delay)
       a.push(this.midiMaps.channels)
-      a.push(this.midiMaps.delayUnits)
+      a.push(this.midiMaps.delayUnit)
       return a
     }
   }

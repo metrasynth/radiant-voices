@@ -19,7 +19,7 @@ export namespace Delay {
     Stereo = 0,
     Mono = 1,
   }
-  export const enum DelayUnits {
+  export const enum DelayUnit {
     // noinspection JSUnusedGlobalSymbols
     Sec_16384 = 0,
     Ms = 1,
@@ -38,7 +38,7 @@ export namespace Delay {
     volumeR: number
     channels: Channels
     inverse: boolean
-    delayUnits: DelayUnits
+    delayUnit: DelayUnit
   }
   class DelayControllers implements Controllers {
     constructor(readonly controllerValues: DelayControllerValues) {}
@@ -121,13 +121,13 @@ export namespace Delay {
       controllerValues.inverse = newValue
     }
     // noinspection JSUnusedGlobalSymbols
-    get delayUnits(): DelayUnits {
-      return this.controllerValues.delayUnits
+    get delayUnit(): DelayUnit {
+      return this.controllerValues.delayUnit
     }
     // noinspection JSUnusedGlobalSymbols
-    set delayUnits(newValue: DelayUnits) {
+    set delayUnit(newValue: DelayUnit) {
       const { controllerValues } = this
-      controllerValues.delayUnits = newValue
+      controllerValues.delayUnit = newValue
     }
   }
   interface DelayControllerMidiMaps extends ControllerMidiMaps {
@@ -139,7 +139,7 @@ export namespace Delay {
     volumeR: ControllerMidiMap
     channels: ControllerMidiMap
     inverse: ControllerMidiMap
-    delayUnits: ControllerMidiMap
+    delayUnit: ControllerMidiMap
   }
   interface DelayOptionValues extends OptionValues {}
   class DelayOptions implements Options {
@@ -175,7 +175,7 @@ export namespace Delay {
         this.controllerValues.inverse = Boolean(val)
       },
       (val: number) => {
-        this.controllerValues.delayUnits = val
+        this.controllerValues.delayUnit = val
       },
     ]
     readonly controllerValues: DelayControllerValues = {
@@ -187,7 +187,7 @@ export namespace Delay {
       volumeR: 256,
       channels: Channels.Stereo,
       inverse: false,
-      delayUnits: DelayUnits.Sec_16384,
+      delayUnit: DelayUnit.Sec_16384,
     }
     readonly controllers: DelayControllers = new DelayControllers(this.controllerValues)
     readonly c = this.controllers
@@ -200,7 +200,7 @@ export namespace Delay {
       volumeR: new ControllerMidiMap(),
       channels: new ControllerMidiMap(),
       inverse: new ControllerMidiMap(),
-      delayUnits: new ControllerMidiMap(),
+      delayUnit: new ControllerMidiMap(),
     }
     readonly optionValues: DelayOptionValues = {}
     readonly options: DelayOptions = new DelayOptions(this.optionValues)
@@ -220,7 +220,7 @@ export namespace Delay {
       yield cv.volumeR
       yield cv.channels
       yield Number(cv.inverse)
-      yield cv.delayUnits
+      yield cv.delayUnit
     }
     setMidiMaps(midiMaps: MidiMap[]) {
       this.midiMaps.dry = midiMaps[0]
@@ -231,7 +231,7 @@ export namespace Delay {
       this.midiMaps.volumeR = midiMaps[5]
       this.midiMaps.channels = midiMaps[6]
       this.midiMaps.inverse = midiMaps[7]
-      this.midiMaps.delayUnits = midiMaps[8]
+      this.midiMaps.delayUnit = midiMaps[8]
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []
@@ -243,7 +243,7 @@ export namespace Delay {
       a.push(this.midiMaps.volumeR)
       a.push(this.midiMaps.channels)
       a.push(this.midiMaps.inverse)
-      a.push(this.midiMaps.delayUnits)
+      a.push(this.midiMaps.delayUnit)
       return a
     }
   }

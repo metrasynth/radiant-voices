@@ -11,7 +11,7 @@ class BaseAmplifier:
     mtype = "Amplifier"
     mgroup = "Effect"
     volume = Controller((0, 1024), 256)
-    panning = Controller((-128, 128), 0)
+    balance = Controller((-128, 128), 0)
     dc_offset = Controller((-128, 128), 0)
     inverse = Controller(bool, False)
     stereo_width = Controller((0, 256), 128)

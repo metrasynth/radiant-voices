@@ -17,7 +17,7 @@ class BaseDelay:
         stereo = 0
         mono = 1
 
-    class DelayUnits(Enum):
+    class DelayUnit(Enum):
         sec_16384 = 0
         ms = 1
         hz = 2
@@ -34,4 +34,4 @@ class BaseDelay:
     volume_r = Controller((0, 256), 256)
     channels = Controller(Channels, Channels.stereo)
     inverse = Controller(bool, False)
-    delay_units = Controller(DelayUnits, DelayUnits.sec_16384)
+    delay_unit = Controller(DelayUnit, DelayUnit.sec_16384)

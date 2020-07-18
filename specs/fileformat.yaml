@@ -434,7 +434,7 @@ chunk_types:
       stereo_16bit: 0x0a
       stereo_32bit: 0x0c
 
-  DirtyWaveform:
+  DrawnWaveform:
     parent_type: Waveform
     length: 32
     format_type: ChunkFormat
@@ -738,7 +738,7 @@ module_types:
     group: Effect
     controllers:
       - volume: { min: 0, max: 1024, default: 256 }
-      - panning: { min: -128, max: 128, default: 0 }
+      - balance: { min: -128, max: 128, default: 0 }
       - dc_offset: { min: -128, max: 128, default: 0 }
       - inverse: { bool: true, default: false }
       - stereo_width: { min: 0, max: 256, default: 128 }
@@ -823,8 +823,8 @@ module_types:
       - velocity_dependent_filter_resonance: false
       - true_zero_attack_release: false
     chunks:
-      - name: dirty_waveform
-        type: DirtyWaveform
+      - name: drawn_waveform
+        type: DrawnWaveform
         chnm: 0
 
   Compressor:
@@ -862,7 +862,7 @@ module_types:
       Channels:
         stereo: 0
         mono: 1
-      DelayUnits:
+      DelayUnit:
         sec/16384: 0
         ms: 1
         hz: 2
@@ -879,7 +879,7 @@ module_types:
       - volume_r: { min: 0, max: 256, default: 256 }
       - channels: { enum: Channels, default: "stereo" }
       - inverse: { bool: true, default: false }
-      - delay_units: { enum: DelayUnits, default: "sec/16384" }
+      - delay_unit: { enum: DelayUnit, default: "sec/16384" }
 
   Distortion:
     defaultFlags: 0x51
@@ -928,7 +928,7 @@ module_types:
       Channels:
         mono: 0
         stereo: 1
-      DelayUnits:
+      DelayUnit:
         sec/256: 0
         ms: 1
         hz: 2
@@ -942,7 +942,7 @@ module_types:
       - feedback: { min: 0, max: 256, default: 128 }
       - delay: { min: 0, max: 256, default: 256 }
       - channels: { enum: Channels, default: "stereo" }
-      - delay_units: { enum: DelayUnits, default: "sec/256" }
+      - delay_unit: { enum: DelayUnit, default: "sec/256" }
 
   Eq:
     type: EQ
@@ -1140,7 +1140,7 @@ module_types:
         saw: 1
         square: 2
         noise: 3
-        dirty: 4
+        drawn: 4
         sin: 5
         hsin: 6
         asin: 7
@@ -1157,11 +1157,11 @@ module_types:
       - polyphony_ch: { min: 1, max: 16, default: 8 }
       - mode: { enum: Mode, default: "stereo" }
       - sustain: { bool: true, default: true }
-      - freq_modulation_input: { min: 0, max: 256, default: 0 }
+      - freq_modulation_by_input: { min: 0, max: 256, default: 0 }
       - duty_cycle: { min: 0, max: 1022, default: 511 }
     chunks:
-      - name: dirty_waveform
-        type: DirtyWaveform
+      - name: drawn_waveform
+        type: DrawnWaveform
         chnm: 0
 
   Glide:
@@ -1170,7 +1170,7 @@ module_types:
     controllers:
       - response: { min: 0, max: 1000, default: 500 }
       - sample_rate_hz: { min: 1, max: 32768, default: 150 }
-      - offset_on_1st_note: { bool: true, default: false }
+      - reset_on_first_note: { bool: true, default: false }
       - polyphony: { bool: true, default: true }
       - pitch: { min: -600, max: 600, default: 0 }
       - pitch_scale: { min: 0, max: 200, default: 100 }
@@ -1184,7 +1184,7 @@ module_types:
       - out: { bool: true, default: false }
       - out_pin: { min: 0, max: 256, default: 0 }
       - out_threshold: { min: 0, max: 100, default: 50 }
-      - in_: { bool: true, default: false }
+      - in: { bool: true, default: false }
       - in_pin: { min: 0, max: 256, default: 0 }
       - in_note: { min: 0, max: 128, default: 0 }
       - in_amplitude: { min: 0, max: 100, default: 100 }
@@ -1215,9 +1215,9 @@ module_types:
       - attack: { min: 0, max: 512, default: 0 }
       - release: { min: 0, max: 512, default: 32 }
       - boost: { min: 0, max: 1024, default: 0 }
-      - env_acceleration: { min: 0, max: 1024, default: 256 }
+      - acceleration: { min: 0, max: 1024, default: 256 }
       - polyphony_ch: { min: 1, max: 4, default: 1 }
-      - anticlick: { bool: true, default: false }
+      - no_click: { bool: true, default: false }
 
   Lfo:
     type: LFO

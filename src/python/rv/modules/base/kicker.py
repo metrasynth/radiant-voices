@@ -24,6 +24,6 @@ class BaseKicker:
     attack = Controller((0, 512), 0)
     release = Controller((0, 512), 32)
     boost = Controller((0, 1024), 0)
-    env_acceleration = Controller((0, 1024), 256)
+    acceleration = Controller((0, 1024), 256)
     polyphony_ch = Controller((1, 4), 1)
-    anticlick = Controller(bool, False)
+    no_click = Controller(bool, False)

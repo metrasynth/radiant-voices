@@ -18,7 +18,7 @@ class BaseGenerator:
         saw = 1
         square = 2
         noise = 3
-        dirty = 4
+        drawn = 4
         sin = 5
         hsin = 6
         asin = 7
@@ -36,5 +36,5 @@ class BaseGenerator:
     polyphony_ch = Controller((1, 16), 8)
     mode = Controller(Mode, Mode.stereo)
     sustain = Controller(bool, True)
-    freq_modulation_input = Controller((0, 256), 0)
+    freq_modulation_by_input = Controller((0, 256), 0)
     duty_cycle = Controller((0, 1022), 511)

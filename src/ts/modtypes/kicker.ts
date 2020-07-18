@@ -27,9 +27,9 @@ export namespace Kicker {
     attack: number
     release: number
     boost: number
-    envAcceleration: number
+    acceleration: number
     polyphonyCh: number
-    anticlick: boolean
+    noClick: boolean
   }
   class KickerControllers implements Controllers {
     constructor(readonly controllerValues: KickerControllerValues) {}
@@ -93,14 +93,14 @@ export namespace Kicker {
       controllerValues.boost = newValue
     }
     // noinspection JSUnusedGlobalSymbols
-    get envAcceleration(): number {
-      return this.controllerValues.envAcceleration
+    get acceleration(): number {
+      return this.controllerValues.acceleration
     }
     // noinspection JSUnusedGlobalSymbols
-    set envAcceleration(newValue: number) {
+    set acceleration(newValue: number) {
       const { controllerValues } = this
       newValue = Math.min(Math.max(newValue, 0), 1024)
-      controllerValues.envAcceleration = newValue
+      controllerValues.acceleration = newValue
     }
     // noinspection JSUnusedGlobalSymbols
     get polyphonyCh(): number {
@@ -113,13 +113,13 @@ export namespace Kicker {
       controllerValues.polyphonyCh = newValue
     }
     // noinspection JSUnusedGlobalSymbols
-    get anticlick(): boolean {
-      return this.controllerValues.anticlick
+    get noClick(): boolean {
+      return this.controllerValues.noClick
     }
     // noinspection JSUnusedGlobalSymbols
-    set anticlick(newValue: boolean) {
+    set noClick(newValue: boolean) {
       const { controllerValues } = this
-      controllerValues.anticlick = newValue
+      controllerValues.noClick = newValue
     }
   }
   interface KickerControllerMidiMaps extends ControllerMidiMaps {
@@ -129,9 +129,9 @@ export namespace Kicker {
     attack: ControllerMidiMap
     release: ControllerMidiMap
     boost: ControllerMidiMap
-    envAcceleration: ControllerMidiMap
+    acceleration: ControllerMidiMap
     polyphonyCh: ControllerMidiMap
-    anticlick: ControllerMidiMap
+    noClick: ControllerMidiMap
   }
   interface KickerOptionValues extends OptionValues {}
   class KickerOptions implements Options {
@@ -161,13 +161,13 @@ export namespace Kicker {
         this.controllerValues.boost = val
       },
       (val: number) => {
-        this.controllerValues.envAcceleration = val
+        this.controllerValues.acceleration = val
       },
       (val: number) => {
         this.controllerValues.polyphonyCh = val
       },
       (val: number) => {
-        this.controllerValues.anticlick = Boolean(val)
+        this.controllerValues.noClick = Boolean(val)
       },
     ]
     readonly controllerValues: KickerControllerValues = {
@@ -177,9 +177,9 @@ export namespace Kicker {
       attack: 0,
       release: 32,
       boost: 0,
-      envAcceleration: 256,
+      acceleration: 256,
       polyphonyCh: 1,
-      anticlick: false,
+      noClick: false,
     }
     readonly controllers: KickerControllers = new KickerControllers(
       this.controllerValues
@@ -192,9 +192,9 @@ export namespace Kicker {
       attack: new ControllerMidiMap(),
       release: new ControllerMidiMap(),
       boost: new ControllerMidiMap(),
-      envAcceleration: new ControllerMidiMap(),
+      acceleration: new ControllerMidiMap(),
       polyphonyCh: new ControllerMidiMap(),
-      anticlick: new ControllerMidiMap(),
+      noClick: new ControllerMidiMap(),
     }
     readonly optionValues: KickerOptionValues = {}
     readonly options: KickerOptions = new KickerOptions(this.optionValues)
@@ -212,9 +212,9 @@ export namespace Kicker {
       yield cv.attack
       yield cv.release
       yield cv.boost
-      yield cv.envAcceleration
+      yield cv.acceleration
       yield cv.polyphonyCh
-      yield Number(cv.anticlick)
+      yield Number(cv.noClick)
     }
     setMidiMaps(midiMaps: MidiMap[]) {
       this.midiMaps.volume = midiMaps[0]
@@ -223,9 +223,9 @@ export namespace Kicker {
       this.midiMaps.attack = midiMaps[3]
       this.midiMaps.release = midiMaps[4]
       this.midiMaps.boost = midiMaps[5]
-      this.midiMaps.envAcceleration = midiMaps[6]
+      this.midiMaps.acceleration = midiMaps[6]
       this.midiMaps.polyphonyCh = midiMaps[7]
-      this.midiMaps.anticlick = midiMaps[8]
+      this.midiMaps.noClick = midiMaps[8]
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []
@@ -235,9 +235,9 @@ export namespace Kicker {
       a.push(this.midiMaps.attack)
       a.push(this.midiMaps.release)
       a.push(this.midiMaps.boost)
-      a.push(this.midiMaps.envAcceleration)
+      a.push(this.midiMaps.acceleration)
       a.push(this.midiMaps.polyphonyCh)
-      a.push(this.midiMaps.anticlick)
+      a.push(this.midiMaps.noClick)
       return a
     }
   }

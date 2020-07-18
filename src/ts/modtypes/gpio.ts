@@ -18,7 +18,7 @@ export namespace Gpio {
     out: boolean
     outPin: number
     outThreshold: number
-    in_: boolean
+    in: boolean
     inPin: number
     inNote: number
     inAmplitude: number
@@ -55,13 +55,13 @@ export namespace Gpio {
       controllerValues.outThreshold = newValue
     }
     // noinspection JSUnusedGlobalSymbols
-    get in_(): boolean {
-      return this.controllerValues.in_
+    get in(): boolean {
+      return this.controllerValues.in
     }
     // noinspection JSUnusedGlobalSymbols
-    set in_(newValue: boolean) {
+    set in(newValue: boolean) {
       const { controllerValues } = this
-      controllerValues.in_ = newValue
+      controllerValues.in = newValue
     }
     // noinspection JSUnusedGlobalSymbols
     get inPin(): number {
@@ -98,7 +98,7 @@ export namespace Gpio {
     out: ControllerMidiMap
     outPin: ControllerMidiMap
     outThreshold: ControllerMidiMap
-    in_: ControllerMidiMap
+    in: ControllerMidiMap
     inPin: ControllerMidiMap
     inNote: ControllerMidiMap
     inAmplitude: ControllerMidiMap
@@ -122,7 +122,7 @@ export namespace Gpio {
         this.controllerValues.outThreshold = val
       },
       (val: number) => {
-        this.controllerValues.in_ = Boolean(val)
+        this.controllerValues.in = Boolean(val)
       },
       (val: number) => {
         this.controllerValues.inPin = val
@@ -138,7 +138,7 @@ export namespace Gpio {
       out: false,
       outPin: 0,
       outThreshold: 50,
-      in_: false,
+      in: false,
       inPin: 0,
       inNote: 0,
       inAmplitude: 100,
@@ -149,7 +149,7 @@ export namespace Gpio {
       out: new ControllerMidiMap(),
       outPin: new ControllerMidiMap(),
       outThreshold: new ControllerMidiMap(),
-      in_: new ControllerMidiMap(),
+      in: new ControllerMidiMap(),
       inPin: new ControllerMidiMap(),
       inNote: new ControllerMidiMap(),
       inAmplitude: new ControllerMidiMap(),
@@ -167,7 +167,7 @@ export namespace Gpio {
       yield Number(cv.out)
       yield cv.outPin
       yield cv.outThreshold
-      yield Number(cv.in_)
+      yield Number(cv.in)
       yield cv.inPin
       yield cv.inNote
       yield cv.inAmplitude
@@ -176,7 +176,7 @@ export namespace Gpio {
       this.midiMaps.out = midiMaps[0]
       this.midiMaps.outPin = midiMaps[1]
       this.midiMaps.outThreshold = midiMaps[2]
-      this.midiMaps.in_ = midiMaps[3]
+      this.midiMaps.in = midiMaps[3]
       this.midiMaps.inPin = midiMaps[4]
       this.midiMaps.inNote = midiMaps[5]
       this.midiMaps.inAmplitude = midiMaps[6]
@@ -186,7 +186,7 @@ export namespace Gpio {
       a.push(this.midiMaps.out)
       a.push(this.midiMaps.outPin)
       a.push(this.midiMaps.outThreshold)
-      a.push(this.midiMaps.in_)
+      a.push(this.midiMaps.in)
       a.push(this.midiMaps.inPin)
       a.push(this.midiMaps.inNote)
       a.push(this.midiMaps.inAmplitude)

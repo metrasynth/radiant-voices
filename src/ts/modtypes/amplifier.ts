@@ -16,7 +16,7 @@ import { AmplifierBehavior } from "./amplifierBehavior"
 export namespace Amplifier {
   interface AmplifierControllerValues extends ControllerValues {
     volume: number
-    panning: number
+    balance: number
     dcOffset: number
     inverse: boolean
     stereoWidth: number
@@ -37,14 +37,14 @@ export namespace Amplifier {
       controllerValues.volume = newValue
     }
     // noinspection JSUnusedGlobalSymbols
-    get panning(): number {
-      return this.controllerValues.panning + -128
+    get balance(): number {
+      return this.controllerValues.balance + -128
     }
     // noinspection JSUnusedGlobalSymbols
-    set panning(newValue: number) {
+    set balance(newValue: number) {
       const { controllerValues } = this
       newValue = Math.min(Math.max(newValue, -128), 128)
-      controllerValues.panning = newValue - -128
+      controllerValues.balance = newValue - -128
     }
     // noinspection JSUnusedGlobalSymbols
     get dcOffset(): number {
@@ -107,7 +107,7 @@ export namespace Amplifier {
   }
   interface AmplifierControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
-    panning: ControllerMidiMap
+    balance: ControllerMidiMap
     dcOffset: ControllerMidiMap
     inverse: ControllerMidiMap
     stereoWidth: ControllerMidiMap
@@ -128,7 +128,7 @@ export namespace Amplifier {
         this.controllerValues.volume = val
       },
       (val: number) => {
-        this.controllerValues.panning = val
+        this.controllerValues.balance = val
       },
       (val: number) => {
         this.controllerValues.dcOffset = val
@@ -151,7 +151,7 @@ export namespace Amplifier {
     ]
     readonly controllerValues: AmplifierControllerValues = {
       volume: 256,
-      panning: 0,
+      balance: 0,
       dcOffset: 0,
       inverse: false,
       stereoWidth: 128,
@@ -165,7 +165,7 @@ export namespace Amplifier {
     readonly c = this.controllers
     readonly midiMaps: AmplifierControllerMidiMaps = {
       volume: new ControllerMidiMap(),
-      panning: new ControllerMidiMap(),
+      balance: new ControllerMidiMap(),
       dcOffset: new ControllerMidiMap(),
       inverse: new ControllerMidiMap(),
       stereoWidth: new ControllerMidiMap(),
@@ -184,7 +184,7 @@ export namespace Amplifier {
     *rawControllerValues(): Generator<number> {
       const { controllerValues: cv } = this
       yield cv.volume
-      yield cv.panning
+      yield cv.balance
       yield cv.dcOffset
       yield Number(cv.inverse)
       yield cv.stereoWidth
@@ -194,7 +194,7 @@ export namespace Amplifier {
     }
     setMidiMaps(midiMaps: MidiMap[]) {
       this.midiMaps.volume = midiMaps[0]
-      this.midiMaps.panning = midiMaps[1]
+      this.midiMaps.balance = midiMaps[1]
       this.midiMaps.dcOffset = midiMaps[2]
       this.midiMaps.inverse = midiMaps[3]
       this.midiMaps.stereoWidth = midiMaps[4]
@@ -205,7 +205,7 @@ export namespace Amplifier {
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []
       a.push(this.midiMaps.volume)
-      a.push(this.midiMaps.panning)
+      a.push(this.midiMaps.balance)
       a.push(this.midiMaps.dcOffset)
       a.push(this.midiMaps.inverse)
       a.push(this.midiMaps.stereoWidth)
