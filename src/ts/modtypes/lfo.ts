@@ -265,8 +265,8 @@ export namespace Lfo {
       super()
       this.behavior = new LfoBehavior(this)
     }
-    attachTo(project: Project): Module {
-      return super.attachTo(project) as Module
+    attachTo(project: Project): AttachedModule {
+      return super.attachTo(project) as AttachedModule
     }
     *rawControllerValues(): Generator<number> {
       const { controllerValues: cv } = this
@@ -306,6 +306,17 @@ export namespace Lfo {
       a.push(this.midiMaps.dutyCycle)
       a.push(this.midiMaps.generator)
       return a
+    }
+  }
+  export class AttachedModule extends Module {
+    get index(): number {
+      if (this._index === undefined) {
+        throw new Error("Attached module has empty index")
+      }
+      return this._index
+    }
+    set index(_: number) {
+      throw new Error("Module index can only be assigned once")
     }
   }
 }

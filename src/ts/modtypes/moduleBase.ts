@@ -6,7 +6,7 @@ import { Project } from "../project"
 import { Linkable, Linkables } from "../links"
 
 export class ModuleBase implements Linkable {
-  private _index: number | undefined = undefined
+  protected _index: number | undefined = undefined
   project?: Project
   name = ""
   typeName = ""
