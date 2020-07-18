@@ -1,10 +1,10 @@
-import { NoteCmd } from "./note"
+import { Note, NoteCmd } from "./note"
 import { Effect } from "./effect"
 import { Color } from "./color"
 import { Project } from "./project"
 
 export interface Event {
-  note: NoteCmd
+  note: Note | NoteCmd
   velocity: number
   module: number
   controller: number
