@@ -99,7 +99,7 @@ describe("Reading the analog-generator.sunsynth file", () => {
       expect(v()).toEqual(chunk)
     }
     const expectCval = (value: number) => {
-      expectChunk({ name: "CVAL", type: "uint32", value })
+      expectChunk({ name: "CVAL", type: "int32", value })
     }
     expectChunk({ name: "SSYN", type: "empty" })
     expectChunk({ name: "VERS", type: "version", value: [1, 9, 5, 2] })
@@ -148,7 +148,7 @@ describe("Reading the analog-generator.sunsynth file", () => {
       messageParameter: 0,
       slope: Slope.Linear,
     } as MidiMap)
-    expectChunk({ name: "CHNK", type: "uint32", value: 4 })
+    expectChunk({ name: "CHNK", type: "uint32", value: 2 })
     expectChunk({ name: "CHNM", type: "uint32", value: 1 })
     expectChunk({
       name: "CHDT",

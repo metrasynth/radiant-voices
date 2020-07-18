@@ -1712,7 +1712,7 @@ module_types:
     controllers:
       - volume: { min: 0, max: 512, default: 256 }
       - original_speed: { bool: true, default: true }
-      - finetune: { min: -128, max: 128, default: 0 }
+      - finetune: { min: -128, max: 128, default: 0, no_offset: true }
       - transpose: { min: -128, max: 128, default: 0 }
       - interpolation: { bool: true, default: true }
       - polyphony_ch: { min: 1, max: 4, default: 1 }

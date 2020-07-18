@@ -42,7 +42,7 @@ export function* moduleChunks(module: ModuleBase): Generator<Chunk> {
     yield { name: "SLNK", type: "links", values: module.incomingLinks }
   }
   for (const cval of module.rawControllerValues()) {
-    yield { name: "CVAL", type: "uint32", value: cval }
+    yield { name: "CVAL", type: "int32", value: cval }
   }
   if (!isOutputModule) {
     yield { name: "CMID", type: "midiMaps", values: module.midiMapsArray() }

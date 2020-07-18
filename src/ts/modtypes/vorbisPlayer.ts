@@ -46,13 +46,13 @@ export namespace VorbisPlayer {
     }
     // noinspection JSUnusedGlobalSymbols
     get finetune(): number {
-      return this.controllerValues.finetune + -128
+      return this.controllerValues.finetune
     }
     // noinspection JSUnusedGlobalSymbols
     set finetune(newValue: number) {
       const { controllerValues } = this
       newValue = Math.min(Math.max(newValue, -128), 128)
-      controllerValues.finetune = newValue - -128
+      controllerValues.finetune = newValue
     }
     // noinspection JSUnusedGlobalSymbols
     get transpose(): number {

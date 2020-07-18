@@ -68,7 +68,7 @@ describe("Reading the single-fm.sunvox file", () => {
       expect(v()).toEqual(chunk)
     }
     const expectCval = (value: number) => {
-      expectChunk({ name: "CVAL", type: "uint32", value })
+      expectChunk({ name: "CVAL", type: "int32", value })
     }
     expectChunk({ name: "SVOX", type: "empty" })
     expectChunk({ name: "VERS", type: "version", value: [1, 9, 5, 2] })

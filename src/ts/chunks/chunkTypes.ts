@@ -8,7 +8,7 @@ export const chunkTypes: Record<string, string> = {
   CHNM: "uint32",
   CMID: "midiMaps",
   CURL: "uint32",
-  CVAL: "uint32",
+  CVAL: "int32",
   GVOL: "uint32",
   LGEN: "uint32",
   LMSK: "uint32",

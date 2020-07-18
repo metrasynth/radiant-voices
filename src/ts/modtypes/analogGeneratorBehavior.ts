@@ -41,7 +41,7 @@ export class AnalogGeneratorBehavior extends ModuleSpecificBehavior {
   drawnWaveform = new Int8Array(defaultDrawnWaveform)
 
   chnk(): number {
-    return 4
+    return 2
   }
 
   processDataChunks(dataChunks: ModuleDataChunks) {

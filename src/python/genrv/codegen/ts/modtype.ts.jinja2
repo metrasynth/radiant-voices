@@ -66,7 +66,7 @@ export namespace {{ modtype_name }} {
             get {{ cname }}(): {{ ctype }} {
                 return (
                     this.controllerValues.{{ cname }}
-                    {% if cdef.min and cdef.min < 0 %}
+                    {% if cdef.min and cdef.min < 0 and not cdef.no_offset %}
                         + {{ cdef.min }}
                     {% endif %}
                 )
@@ -101,7 +101,7 @@ export namespace {{ modtype_name }} {
                 {% endif %}
                 controllerValues.{{ cname }} = (
                     newValue
-                    {% if cdef.min and cdef.min < 0 %}
+                    {% if cdef.min and cdef.min < 0 and not cdef.no_offset %}
                         - {{ cdef.min }}
                     {% endif %}
                 )
