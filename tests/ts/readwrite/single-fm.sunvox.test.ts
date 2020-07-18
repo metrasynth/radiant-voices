@@ -1,19 +1,19 @@
-import { Project } from "../../../src/ts"
+import { Project } from "@radiant-voices"
 
 import { readFileSync } from "fs"
-import { fromIffBuffer } from "../../../src/ts/chunks/fromIffBuffer"
-import { readSunVoxFile } from "../../../src/ts/reader/readSunVoxFile"
-import { base2to10 } from "../../../src/ts/conversions"
-import { m } from "../../../src/ts/modtypes"
-import { objectChunks } from "../../../src/ts/writer/objectChunks"
+import { fromIffBuffer } from "@radiant-voices/chunks/fromIffBuffer"
+import { readSunVoxFile } from "@radiant-voices/reader/readSunVoxFile"
+import { base2to10 } from "@radiant-voices/conversions"
+import { m } from "@radiant-voices/modtypes"
+import { objectChunks } from "@radiant-voices/writer/objectChunks"
 import {
   BytesChunk,
   Chunk,
   EventsChunk,
   MidiMapsChunk,
-} from "../../../src/ts/chunks/chunk"
-import { SyncCommand } from "../../../src/ts/project"
-import { Event } from "../../../src/ts/pattern"
+} from "@radiant-voices/chunks/chunk"
+import { SyncCommand } from "@radiant-voices/project"
+import { Event } from "@radiant-voices/pattern"
 
 describe("Reading the single-fm.sunvox file", () => {
   const filePath = "tests/files/single-fm.sunvox"

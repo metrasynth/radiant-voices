@@ -7,7 +7,12 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "strict": true,
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
+    "baseUrl": ".",
+    "paths": {
+      "@radiant-voices": ["src/ts"],
+      "@radiant-voices/*": ["src/ts/*"]
+    }
   },
   "include": ["src/ts/**/*"]
 }

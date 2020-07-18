@@ -1,9 +1,9 @@
-import { Project } from "../../../src/ts"
+import { Project } from "@radiant-voices"
 
 import { readFileSync } from "fs"
-import { fromIffBuffer } from "../../../src/ts/chunks/fromIffBuffer"
-import { readSunVoxFile } from "../../../src/ts/reader/readSunVoxFile"
-import { base2to10 } from "../../../src/ts/conversions"
+import { fromIffBuffer } from "@radiant-voices/chunks/fromIffBuffer"
+import { readSunVoxFile } from "@radiant-voices/reader/readSunVoxFile"
+import { base2to10 } from "@radiant-voices/conversions"
 
 describe("Reading an empty sunvox file", () => {
   const filePath = "tests/files/empty.sunvox"

@@ -1,12 +1,12 @@
 import { readFileSync } from "fs"
-import { fromIffBuffer } from "../../../src/ts/chunks/fromIffBuffer"
-import { readSunVoxFile } from "../../../src/ts/reader/readSunVoxFile"
-import { Synth } from "../../../src/ts/synth"
-import { m } from "../../../src/ts/modtypes"
-import { objectChunks } from "../../../src/ts/writer/objectChunks"
-import { toIffBuffer } from "../../../src/ts/chunks/toIffBuffer"
-import { MessageType, MidiMap, Slope } from "../../../src/ts/controllerMidiMap"
-import { Chunk } from "../../../src/ts/chunks/chunk"
+import { fromIffBuffer } from "@radiant-voices/chunks/fromIffBuffer"
+import { readSunVoxFile } from "@radiant-voices/reader/readSunVoxFile"
+import { Synth } from "@radiant-voices/synth"
+import { m } from "@radiant-voices/modtypes"
+import { objectChunks } from "@radiant-voices/writer/objectChunks"
+import { toIffBuffer } from "@radiant-voices/chunks/toIffBuffer"
+import { MessageType, MidiMap, Slope } from "@radiant-voices/controllerMidiMap"
+import { Chunk } from "@radiant-voices/chunks/chunk"
 
 const expectedDrawnWaveform = new Int8Array([
   0,
