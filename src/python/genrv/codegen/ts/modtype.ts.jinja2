@@ -15,6 +15,8 @@
     } from "../controllerMidiMap"
 {% endif %}
 
+import { Project } from "../project"
+
 import { ModuleBase } from "./moduleBase"
 import {
     ControllerValues,
@@ -239,6 +241,10 @@ export namespace {{ modtype_name }} {
         constructor() {
             super()
             this.behavior = new {{ modtype_name }}Behavior(this)
+        }
+
+        attachTo(project: Project): Module {
+            return super.attachTo(project) as Module
         }
 
         {% if modtype.controllers %}

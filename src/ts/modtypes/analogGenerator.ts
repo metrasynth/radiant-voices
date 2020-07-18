@@ -5,6 +5,7 @@
  */
 import { ModuleDataChunks } from "../moduleDataChunk"
 import { MidiMap, ControllerMidiMap, ControllerMidiMaps } from "../controllerMidiMap"
+import { Project } from "../project"
 import { ModuleBase } from "./moduleBase"
 import {
   ControllerValues,
@@ -542,6 +543,9 @@ export namespace AnalogGenerator {
     constructor() {
       super()
       this.behavior = new AnalogGeneratorBehavior(this)
+    }
+    attachTo(project: Project): Module {
+      return super.attachTo(project) as Module
     }
     *rawControllerValues(): Generator<number> {
       const { controllerValues: cv } = this
