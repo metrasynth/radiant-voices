@@ -1,17 +1,43 @@
-dist: xenial
-language: python
-python:
-  - "3.8"
-  - "3.8-dev"
-before_install:
-  - "sudo apt-get -qq update"
-  - "sudo apt-get -y install libsdl1.2-dev libsdl2-dev"
-  - "pip install -U pip"
-install:
-  - "pip install -r requirements/tests.txt"
-  - "pip install ."
-script: "pre-commit run --all-files && py.test"
-cache:
-  directories:
-    - $HOME/.cache/pip
-    - $HOME/.cache/pre-commit
+matrix:
+  include:
+    - dist: bionic
+      language: python
+      python:
+        - "3.8"
+        - "3.8-dev"
+        - "nightly"
+      before_install:
+        - "sudo apt-get -qq update"
+        - "sudo apt-get -y install libsdl1.2-dev libsdl2-dev"
+        - "pip install -U pip"
+      install:
+        - "pip install -r requirements/tests.txt"
+        - "pip install ."
+      script:
+        - "pytest tests/python"
+      cache:
+        directories:
+          - $HOME/.cache/pip
+
+    - dist: bionic
+      language: node
+      node_js:
+        - "node"
+        - "lts/*"
+      install:
+        - "npm install"
+      script:
+        - "npm run jest"
+
+    - dist: bionic
+      language: node
+      node_js:
+        - "node"
+      install:
+        - "pyenv global 3.8.1; pip3 install pre-commit"
+      script:
+        - "pre-commit run --all-files"
+      cache:
+        directories:
+          - $HOME/.cache/pip
+          - $HOME/.cache/pre-commit
