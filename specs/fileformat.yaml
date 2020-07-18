@@ -1543,7 +1543,7 @@ module_types:
       - ignore_velocity_for_volume: false
 
   Sound2Ctl:
-    defaultFlags: 0x600051
+    defaultFlags: 0x60051
     group: Misc
     enums:
       Channels:
