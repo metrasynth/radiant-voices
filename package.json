@@ -8,8 +8,9 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "tsc": "tsc",
-    "watch": "tsc --watch",
-    "jest": "jest"
+    "tsc-watch": "tsc --watch",
+    "jest": "jest",
+    "jest-watch": "jest --watch"
   },
   "devDependencies": {
     "@types/jest": "^26.0.0",
