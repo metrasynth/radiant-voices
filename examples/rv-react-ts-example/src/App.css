@@ -17,3 +17,7 @@
   height: 40vmin;
   pointer-events: none;
 }
+
+textarea {
+  width: 100%;
+}

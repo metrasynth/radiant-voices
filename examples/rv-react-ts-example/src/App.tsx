@@ -1,30 +1,62 @@
-import React, { useCallback, useState } from "react"
+import React, { ChangeEvent, useCallback, useState } from "react"
 import { useDropzone } from "react-dropzone"
 import * as sunvox from "./sunvox-lib-loader"
 
 import "./App.css"
 import {
-  Pattern,
   Project,
   fromIffBuffer,
-  m,
   projectChunks,
   readSunVoxFile,
   toIffBuffer,
 } from "radiant-voices"
 import FileSaver from "file-saver"
-import { randomProject } from "./randomProject"
+import { ProjectOptions, randomProject } from "./randomProject"
 
 interface AppOptions {
   initialProject?: Project | string
   initialFile?: Uint8Array
   initialFilename?: string
+  initialProjectOptions: string
 }
 
-function App({ initialProject, initialFile, initialFilename }: AppOptions) {
+const INITIAL_PROJECT_OPTIONS: ProjectOptions = {
+  name: "sunvox.audio Radiant Voices project",
+  initialBpm: 95,
+  modules: [
+    {
+      cAttack: 6,
+      cRelease: 2,
+      mAttack: 11,
+      mRelease: 2,
+    },
+    {
+      cAttack: 2,
+      cRelease: 5,
+      mAttack: 0,
+      mRelease: 12,
+    },
+    {
+      cAttack: 5,
+      cRelease: 30,
+      mAttack: 2,
+      mRelease: 7,
+    },
+  ],
+  lines: 234,
+  notes: [40, 45, 52, 60, 64],
+  velocities: [128, 100, 70, 50, 30, 128, 90, 20, 99],
+}
+function App({
+  initialProject,
+  initialFile,
+  initialFilename,
+  initialProjectOptions = JSON.stringify(INITIAL_PROJECT_OPTIONS, null, 2),
+}: AppOptions) {
   const [file, setFile] = useState(initialFile)
   const [filename, setFilename] = useState(initialFilename)
   const [project, setProject] = useState(initialProject)
+  const [projectOptions, setProjectOptions] = useState(initialProjectOptions)
 
   const onDrop = useCallback((acceptedFiles) => {
     if (acceptedFiles.length > 0 && acceptedFiles[0].type === "audio/sunvox") {
@@ -52,7 +84,7 @@ function App({ initialProject, initialFile, initialFilename }: AppOptions) {
     }
   }, [])
   const onGenerateClick = () => {
-    const { project, filename } = randomProject()
+    const { project, filename } = randomProject(JSON.parse(projectOptions))
     setProject(project)
     setFilename(filename)
     console.log({ project })
@@ -80,6 +112,10 @@ function App({ initialProject, initialFile, initialFilename }: AppOptions) {
   }
   const onStopClick = () => {
     sunvox.sv_stop(0)
+  }
+  const onProjectOptionsChange = (event: ChangeEvent) => {
+    const value = event.target.value || "{}"
+    setProjectOptions(value)
   }
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
@@ -110,9 +146,16 @@ function App({ initialProject, initialFile, initialFilename }: AppOptions) {
         This is a proof-of-concept project generator that creates a pseudo-random SunVox
         project based on your inputs.
       </p>
-      <button onClick={onGenerateClick}>
-        Click me to generate a radiant-voices project!
-      </button>
+      <div>
+        <textarea
+          name="projectOptions"
+          id="projectOptions"
+          value={projectOptions}
+          onChange={onProjectOptionsChange}
+          rows={15}
+        />
+      </div>
+      <button onClick={onGenerateClick}>Generate a radiant-voices project</button>
       <h3>Project inspector</h3>
       <button onClick={onDownloadClick} disabled={!project}>
         Download the currently-playing project
