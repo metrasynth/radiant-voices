@@ -3,8 +3,9 @@ import { ModuleSpecificBehavior } from "./moduleSpecificBehavior"
 import { Color } from "../color"
 import { ControllerMidiMaps, MidiMap } from "../controllerMidiMap"
 import { Project } from "../project"
+import { Linkable, Linkables } from "../links"
 
-export class ModuleBase {
+export class ModuleBase implements Linkable {
   private _index: number | undefined = undefined
   project?: Project
   name = ""
@@ -51,6 +52,54 @@ export class ModuleBase {
   chnk(): number {
     const chnk = this.behavior?.chnk
     return chnk ? chnk() : 0
+  }
+
+  linkFrom(other: Linkable | Linkable[]): Linkable {
+    if (this.index === undefined) {
+      throw new Error("Module must be attached to a project to establish links")
+    }
+    const o = other instanceof Array ? new Linkables(other) : other
+    if (o instanceof ModuleBase) {
+      if (o.index === undefined) {
+        throw new Error("Module must be attached to a project to establish links")
+      }
+      const existingLink = this.incomingLinks.find((x) => x === o.index)
+      if (existingLink === undefined) {
+        this.incomingLinks.push(o.index)
+      }
+      return o
+    } else if (o instanceof Linkables) {
+      for (const linkable of o.members) {
+        this.linkFrom(linkable)
+      }
+      return o
+    } else {
+      throw new Error(`Unsupported object ${typeof other}`)
+    }
+  }
+
+  linkTo(other: Linkable | Linkable[]): Linkable {
+    if (this.index === undefined) {
+      throw new Error("Module must be attached to a project to establish links")
+    }
+    const o = other instanceof Array ? new Linkables(other) : other
+    if (o instanceof ModuleBase) {
+      if (o.index === undefined) {
+        throw new Error("Module must be attached to a project to establish links")
+      }
+      const existingLink = o.incomingLinks.find((x) => x === this.index)
+      if (existingLink === undefined) {
+        o.incomingLinks.push(this.index)
+      }
+      return o
+    } else if (o instanceof Linkables) {
+      for (const linkable of o.members) {
+        this.linkTo(linkable)
+      }
+      return o
+    } else {
+      throw new Error(`Unsupported object ${typeof other}`)
+    }
   }
 
   midiMapsArray(): MidiMap[] {
