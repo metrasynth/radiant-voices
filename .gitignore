@@ -62,12 +62,6 @@ docs/_build
 .appveyor.token
 *.bak
 
-# virtualenv
-bin/
-include/
-lib/
-share/
-
 # misc
 data/
 tmp/
