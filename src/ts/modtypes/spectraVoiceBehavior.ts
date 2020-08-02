@@ -3,11 +3,6 @@ import { SpectraVoice } from "./spectraVoice"
 import { Chunk } from "@radiant-voices/chunks/chunk"
 import { ModuleDataChunk, ModuleDataChunks } from "@radiant-voices/moduleDataChunk"
 
-const defaultHarmonicFrequencies = [1098, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-const defaultHarmonicVolumes = [255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-const defaultHarmonicWidths = [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-const defaultHarmonicTypes = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-
 export class SpectraVoiceBehavior extends ModuleSpecificBehavior {
   harmonicFrequencies = Uint16Array.from(defaultHarmonicFrequencies)
   harmonicVolumes = Uint8Array.from(defaultHarmonicVolumes)
@@ -81,3 +76,8 @@ export class SpectraVoiceBehavior extends ModuleSpecificBehavior {
     yield { name: "CHDT", type: "bytes", value: Uint8Array.from(this.harmonicTypes) }
   }
 }
+
+const defaultHarmonicFrequencies = [1098, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+const defaultHarmonicVolumes = [255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+const defaultHarmonicWidths = [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+const defaultHarmonicTypes = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]

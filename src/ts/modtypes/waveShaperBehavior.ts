@@ -2,6 +2,39 @@ import { ModuleSpecificBehavior } from "./moduleSpecificBehavior"
 import { ModuleDataChunk, ModuleDataChunks } from "@radiant-voices/moduleDataChunk"
 import { Chunk } from "@radiant-voices/chunks/chunk"
 
+export class WaveShaperBehavior extends ModuleSpecificBehavior {
+  curve = new Uint16Array(defaultCurve)
+
+  chnk(): number {
+    return 1
+  }
+
+  processDataChunks(dataChunks: ModuleDataChunks) {
+    for (const dataChunk of dataChunks) {
+      if (dataChunk.chnm === 0) {
+        this.processCurveChunk(dataChunk)
+      }
+    }
+  }
+
+  private processCurveChunk(dataChunk: ModuleDataChunk) {
+    const { chdt } = dataChunk
+    if (chdt) {
+      this.curve = new Uint16Array(chdt.buffer, chdt.byteOffset)
+    }
+  }
+
+  *typeSpecificChunks(): Generator<Chunk> {
+    const { curve } = this
+    yield { name: "CHNM", type: "uint32", value: 0 }
+    yield {
+      name: "CHDT",
+      type: "bytes",
+      value: new Uint8Array(curve.buffer, curve.byteOffset, curve.byteLength),
+    }
+  }
+}
+
 const defaultCurve = [
   0,
   256,
@@ -260,36 +293,3 @@ const defaultCurve = [
   65024,
   65280,
 ]
-
-export class WaveShaperBehavior extends ModuleSpecificBehavior {
-  curve = new Uint16Array(defaultCurve)
-
-  chnk(): number {
-    return 1
-  }
-
-  processDataChunks(dataChunks: ModuleDataChunks) {
-    for (const dataChunk of dataChunks) {
-      if (dataChunk.chnm === 0) {
-        this.processCurveChunk(dataChunk)
-      }
-    }
-  }
-
-  private processCurveChunk(dataChunk: ModuleDataChunk) {
-    const { chdt } = dataChunk
-    if (chdt) {
-      this.curve = new Uint16Array(chdt.buffer, chdt.byteOffset)
-    }
-  }
-
-  *typeSpecificChunks(): Generator<Chunk> {
-    const { curve } = this
-    yield { name: "CHNM", type: "uint32", value: 0 }
-    yield {
-      name: "CHDT",
-      type: "bytes",
-      value: new Uint8Array(curve.buffer, curve.byteOffset, curve.byteLength),
-    }
-  }
-}
