@@ -1,4 +1,3 @@
-/* (unchanged from template) */
 import { ModuleSpecificBehavior } from "./moduleSpecificBehavior"
 import { ModuleDataChunk, ModuleDataChunks } from "@radiant-voices/moduleDataChunk"
 import { Chunk } from "@radiant-voices/chunks/chunk"
