@@ -29,9 +29,4 @@ export interface SamplerControllerValues extends ControllerValues {
   envelopeInterpolation: EnvelopeInterpolation
   polyphonyCh: number
   recThreshold: number
-  vibratoType: VibratoType
-  vibratoAttack: number
-  vibratoDepth: number
-  vibratoRate: number
-  volumeFadeout: number
 }

@@ -5,6 +5,7 @@ from itertools import chain
 from struct import pack, unpack
 
 from logutils import BraceMessage as _F
+from rv.controller import Controller
 from rv.modules import Behavior as B
 from rv.modules import Module
 from rv.modules.base.sampler import BaseSampler
@@ -232,6 +233,14 @@ class Sampler(BaseSampler, Module):
         @property
         def frames(self):
             return len(self.data) // self.frame_size
+
+    vibrato_type = Controller(
+        BaseSampler.VibratoType, BaseSampler.VibratoType.sin, attached=False
+    )
+    vibrato_attack = Controller((0, 255), 0, attached=False)
+    vibrato_depth = Controller((0, 255), 0, attached=False)
+    vibrato_rate = Controller((0, 63), 0, attached=False)
+    volume_fadeout = Controller((0, 8192), 0, attached=False)
 
     def __init__(self, **kwargs):
         super(Sampler, self).__init__(**kwargs)

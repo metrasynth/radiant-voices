@@ -55,11 +55,6 @@ export namespace Sampler {
     envelopeInterpolation: ControllerMidiMap
     polyphonyCh: ControllerMidiMap
     recThreshold: ControllerMidiMap
-    vibratoType: ControllerMidiMap
-    vibratoAttack: ControllerMidiMap
-    vibratoDepth: ControllerMidiMap
-    vibratoRate: ControllerMidiMap
-    volumeFadeout: ControllerMidiMap
   }
   interface SamplerOptionValues extends OptionValues {
     recordOnPlay: boolean
@@ -144,21 +139,6 @@ export namespace Sampler {
       (val: number) => {
         this.controllerValues.recThreshold = val
       },
-      (val: number) => {
-        this.controllerValues.vibratoType = val
-      },
-      (val: number) => {
-        this.controllerValues.vibratoAttack = val
-      },
-      (val: number) => {
-        this.controllerValues.vibratoDepth = val
-      },
-      (val: number) => {
-        this.controllerValues.vibratoRate = val
-      },
-      (val: number) => {
-        this.controllerValues.volumeFadeout = val
-      },
     ]
     readonly controllerValues: SamplerControllerValues = {
       volume: 256,
@@ -167,11 +147,6 @@ export namespace Sampler {
       envelopeInterpolation: EnvelopeInterpolation.Linear,
       polyphonyCh: 8,
       recThreshold: 4,
-      vibratoType: VibratoType.Sin,
-      vibratoAttack: 0,
-      vibratoDepth: 0,
-      vibratoRate: 0,
-      volumeFadeout: 0,
     }
     readonly controllers: SamplerControllers = new SamplerControllers(
       this,
@@ -185,11 +160,6 @@ export namespace Sampler {
       envelopeInterpolation: new ControllerMidiMap(),
       polyphonyCh: new ControllerMidiMap(),
       recThreshold: new ControllerMidiMap(),
-      vibratoType: new ControllerMidiMap(),
-      vibratoAttack: new ControllerMidiMap(),
-      vibratoDepth: new ControllerMidiMap(),
-      vibratoRate: new ControllerMidiMap(),
-      volumeFadeout: new ControllerMidiMap(),
     }
     readonly optionValues: SamplerOptionValues = {
       recordOnPlay: false,
@@ -217,11 +187,6 @@ export namespace Sampler {
       yield cv.envelopeInterpolation
       yield cv.polyphonyCh
       yield cv.recThreshold
-      yield cv.vibratoType
-      yield cv.vibratoAttack
-      yield cv.vibratoDepth
-      yield cv.vibratoRate
-      yield cv.volumeFadeout
     }
     setMidiMaps(midiMaps: MidiMap[]) {
       this.midiMaps.volume = midiMaps[0]
@@ -230,11 +195,6 @@ export namespace Sampler {
       this.midiMaps.envelopeInterpolation = midiMaps[3]
       this.midiMaps.polyphonyCh = midiMaps[4]
       this.midiMaps.recThreshold = midiMaps[5]
-      this.midiMaps.vibratoType = midiMaps[6]
-      this.midiMaps.vibratoAttack = midiMaps[7]
-      this.midiMaps.vibratoDepth = midiMaps[8]
-      this.midiMaps.vibratoRate = midiMaps[9]
-      this.midiMaps.volumeFadeout = midiMaps[10]
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []
@@ -244,11 +204,6 @@ export namespace Sampler {
       a.push(this.midiMaps.envelopeInterpolation)
       a.push(this.midiMaps.polyphonyCh)
       a.push(this.midiMaps.recThreshold)
-      a.push(this.midiMaps.vibratoType)
-      a.push(this.midiMaps.vibratoAttack)
-      a.push(this.midiMaps.vibratoDepth)
-      a.push(this.midiMaps.vibratoRate)
-      a.push(this.midiMaps.volumeFadeout)
       return a
     }
     rawOptionBytes(): Uint8Array {
