@@ -1343,7 +1343,7 @@ module_types:
         parent_type: Array
         chnm: 0
         length: 16
-        element_type: unsigned int[8]
+        element_type: unsigned int32[8]
         elements:
           - min
           - max

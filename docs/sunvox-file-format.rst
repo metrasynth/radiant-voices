@@ -725,14 +725,14 @@ Items past the number of connected downstream modules are ignored.
 ======  ================  ===================================================
 Offset  Type              Purpose
 ======  ================  ===================================================
-0x00    unsigned int16    Minimum value
-0x02    unsigned int16    Maximum value
-0x04    unsigned int16    Controller number (1-based index)
-0x06    unsigned int16    Reserved (0x00 value)
-0x08    unsigned int16    Reserved (0x00 value)
-0x0a    unsigned int16    Reserved (0x00 value)
-0x0c    unsigned int16    Reserved (0x00 value)
-0x0e    unsigned int16    Reserved (0x00 value)
+0x00    unsigned int32    Minimum value
+0x02    unsigned int32    Maximum value
+0x04    unsigned int32    Controller number (1-based index)
+0x06    unsigned int32    Reserved (0x00 value)
+0x08    unsigned int32    Reserved (0x00 value)
+0x0a    unsigned int32    Reserved (0x00 value)
+0x0c    unsigned int32    Reserved (0x00 value)
+0x0e    unsigned int32    Reserved (0x00 value)
 ======  ================  ===================================================
 
 MultiCtl value curve (CHNM 1)
