@@ -276,7 +276,7 @@ export class WaveShaperBehavior extends ModuleSpecificBehavior {
     }
   }
 
-  processCurveChunk(dataChunk: ModuleDataChunk) {
+  private processCurveChunk(dataChunk: ModuleDataChunk) {
     const { chdt } = dataChunk
     if (chdt) {
       this.curve = new Uint16Array(chdt.buffer, chdt.byteOffset)
