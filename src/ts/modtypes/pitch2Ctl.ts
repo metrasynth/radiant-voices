@@ -65,6 +65,7 @@ export namespace Pitch2Ctl {
       outController: 0,
     }
     readonly controllers: Pitch2CtlControllers = new Pitch2CtlControllers(
+      this,
       this.controllerValues
     )
     readonly c = this.controllers

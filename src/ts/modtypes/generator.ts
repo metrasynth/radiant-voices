@@ -80,6 +80,7 @@ export namespace Generator {
       dutyCycle: 511,
     }
     readonly controllers: GeneratorControllers = new GeneratorControllers(
+      this,
       this.controllerValues
     )
     readonly c = this.controllers

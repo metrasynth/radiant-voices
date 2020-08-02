@@ -33,6 +33,7 @@ export namespace DcBlocker {
       channels: Channels.Stereo,
     }
     readonly controllers: DcBlockerControllers = new DcBlockerControllers(
+      this,
       this.controllerValues
     )
     readonly c = this.controllers

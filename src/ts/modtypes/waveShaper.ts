@@ -58,6 +58,7 @@ export namespace WaveShaper {
       dcBlocker: true,
     }
     readonly controllers: WaveShaperControllers = new WaveShaperControllers(
+      this,
       this.controllerValues
     )
     readonly c = this.controllers

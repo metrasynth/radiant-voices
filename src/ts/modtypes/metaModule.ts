@@ -95,6 +95,7 @@ export namespace MetaModule {
       tpl: 6,
     }
     readonly controllers: MetaModuleControllers = new MetaModuleControllers(
+      this,
       this.controllerValues
     )
     readonly c = this.controllers

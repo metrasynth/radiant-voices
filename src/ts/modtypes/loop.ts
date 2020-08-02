@@ -54,7 +54,10 @@ export namespace Loop {
       repeats: 0,
       mode: Mode.Normal,
     }
-    readonly controllers: LoopControllers = new LoopControllers(this.controllerValues)
+    readonly controllers: LoopControllers = new LoopControllers(
+      this,
+      this.controllerValues
+    )
     readonly c = this.controllers
     readonly midiMaps: LoopControllerMidiMaps = {
       volume: new ControllerMidiMap(),

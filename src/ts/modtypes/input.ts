@@ -37,7 +37,10 @@ export namespace Input {
       volume: 256,
       channels: Channels.Mono,
     }
-    readonly controllers: InputControllers = new InputControllers(this.controllerValues)
+    readonly controllers: InputControllers = new InputControllers(
+      this,
+      this.controllerValues
+    )
     readonly c = this.controllers
     readonly midiMaps: InputControllerMidiMaps = {
       volume: new ControllerMidiMap(),

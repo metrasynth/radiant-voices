@@ -74,7 +74,10 @@ export namespace Delay {
       inverse: false,
       delayUnit: DelayUnit.Sec_16384,
     }
-    readonly controllers: DelayControllers = new DelayControllers(this.controllerValues)
+    readonly controllers: DelayControllers = new DelayControllers(
+      this,
+      this.controllerValues
+    )
     readonly c = this.controllers
     readonly midiMaps: DelayControllerMidiMaps = {
       dry: new ControllerMidiMap(),

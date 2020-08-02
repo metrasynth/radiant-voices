@@ -112,7 +112,7 @@ export namespace Fm {
       polyphonyCh: 4,
       mode: Mode.Hq,
     }
-    readonly controllers: FmControllers = new FmControllers(this.controllerValues)
+    readonly controllers: FmControllers = new FmControllers(this, this.controllerValues)
     readonly c = this.controllers
     readonly midiMaps: FmControllerMidiMaps = {
       cVolume: new ControllerMidiMap(),

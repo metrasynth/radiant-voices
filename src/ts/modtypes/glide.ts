@@ -60,7 +60,10 @@ export namespace Glide {
       pitchScale: 100,
       reset: false,
     }
-    readonly controllers: GlideControllers = new GlideControllers(this.controllerValues)
+    readonly controllers: GlideControllers = new GlideControllers(
+      this,
+      this.controllerValues
+    )
     readonly c = this.controllers
     readonly midiMaps: GlideControllerMidiMaps = {
       response: new ControllerMidiMap(),

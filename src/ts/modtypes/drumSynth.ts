@@ -101,6 +101,7 @@ export namespace DrumSynth {
       snarePanning: 0,
     }
     readonly controllers: DrumSynthControllers = new DrumSynthControllers(
+      this,
       this.controllerValues
     )
     readonly c = this.controllers

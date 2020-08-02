@@ -45,6 +45,7 @@ export namespace Modulator {
       channels: Channels.Stereo,
     }
     readonly controllers: ModulatorControllers = new ModulatorControllers(
+      this,
       this.controllerValues
     )
     readonly c = this.controllers

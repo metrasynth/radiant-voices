@@ -111,6 +111,7 @@ export namespace Filter {
       lfoWaveform: LfoWaveform.Sin,
     }
     readonly controllers: FilterControllers = new FilterControllers(
+      this,
       this.controllerValues
     )
     readonly c = this.controllers

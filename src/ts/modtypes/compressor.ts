@@ -63,6 +63,7 @@ export namespace Compressor {
       sidechainInput: 0,
     }
     readonly controllers: CompressorControllers = new CompressorControllers(
+      this,
       this.controllerValues
     )
     readonly c = this.controllers

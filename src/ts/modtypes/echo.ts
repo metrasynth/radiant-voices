@@ -59,7 +59,10 @@ export namespace Echo {
       channels: Channels.Stereo,
       delayUnit: DelayUnit.Sec_256,
     }
-    readonly controllers: EchoControllers = new EchoControllers(this.controllerValues)
+    readonly controllers: EchoControllers = new EchoControllers(
+      this,
+      this.controllerValues
+    )
     readonly c = this.controllers
     readonly midiMaps: EchoControllerMidiMaps = {
       dry: new ControllerMidiMap(),

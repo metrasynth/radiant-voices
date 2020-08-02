@@ -21,6 +21,7 @@ export namespace Output {
     readonly controllerSetters = []
     readonly controllerValues: OutputControllerValues = {}
     readonly controllers: OutputControllers = new OutputControllers(
+      this,
       this.controllerValues
     )
     readonly c = this.controllers

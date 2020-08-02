@@ -38,6 +38,7 @@ export namespace Feedback {
       channels: Channels.Stereo,
     }
     readonly controllers: FeedbackControllers = new FeedbackControllers(
+      this,
       this.controllerValues
     )
     readonly c = this.controllers

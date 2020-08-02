@@ -65,6 +65,7 @@ export namespace VocalFilter {
       channels: Channels.Stereo,
     }
     readonly controllers: VocalFilterControllers = new VocalFilterControllers(
+      this,
       this.controllerValues
     )
     readonly c = this.controllers

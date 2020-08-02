@@ -128,7 +128,7 @@ export namespace {{ modtype_name }} {
             {% endfor %}{% endfor %}
         }
         readonly controllers: {{ modtype_name }}Controllers =
-            new {{ modtype_name }}Controllers(this.controllerValues)
+            new {{ modtype_name }}Controllers(this, this.controllerValues)
         readonly c = this.controllers
 
         {% if modtype.controllers %}

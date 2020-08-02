@@ -65,6 +65,7 @@ export namespace Vibrato {
       exponentialAmplitude: false,
     }
     readonly controllers: VibratoControllers = new VibratoControllers(
+      this,
       this.controllerValues
     )
     readonly c = this.controllers

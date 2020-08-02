@@ -80,6 +80,7 @@ export namespace Flanger {
       lfoFreqUnit: LfoFreqUnit.Hz_0_05,
     }
     readonly controllers: FlangerControllers = new FlangerControllers(
+      this,
       this.controllerValues
     )
     readonly c = this.controllers

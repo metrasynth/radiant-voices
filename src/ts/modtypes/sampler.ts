@@ -150,6 +150,7 @@ export namespace Sampler {
       volumeFadeout: 0,
     }
     readonly controllers: SamplerControllers = new SamplerControllers(
+      this,
       this.controllerValues
     )
     readonly c = this.controllers

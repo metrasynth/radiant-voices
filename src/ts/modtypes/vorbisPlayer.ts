@@ -61,6 +61,7 @@ export namespace VorbisPlayer {
       repeat: false,
     }
     readonly controllers: VorbisPlayerControllers = new VorbisPlayerControllers(
+      this,
       this.controllerValues
     )
     readonly c = this.controllers

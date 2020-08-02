@@ -73,6 +73,7 @@ export namespace Kicker {
       noClick: false,
     }
     readonly controllers: KickerControllers = new KickerControllers(
+      this,
       this.controllerValues
     )
     readonly c = this.controllers

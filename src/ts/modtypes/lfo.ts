@@ -83,7 +83,10 @@ export namespace Lfo {
       dutyCycle: 128,
       generator: false,
     }
-    readonly controllers: LfoControllers = new LfoControllers(this.controllerValues)
+    readonly controllers: LfoControllers = new LfoControllers(
+      this,
+      this.controllerValues
+    )
     readonly c = this.controllers
     readonly midiMaps: LfoControllerMidiMaps = {
       volume: new ControllerMidiMap(),

@@ -58,6 +58,7 @@ export namespace PitchShifter {
       mode: Mode.Hq,
     }
     readonly controllers: PitchShifterControllers = new PitchShifterControllers(
+      this,
       this.controllerValues
     )
     readonly c = this.controllers

@@ -53,6 +53,7 @@ export namespace Velocity2Ctl {
       outController: 0,
     }
     readonly controllers: Velocity2CtlControllers = new Velocity2CtlControllers(
+      this,
       this.controllerValues
     )
     readonly c = this.controllers

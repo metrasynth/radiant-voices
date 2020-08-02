@@ -95,6 +95,7 @@ export namespace SpectraVoice {
       hType: HarmonicType.Hsin,
     }
     readonly controllers: SpectraVoiceControllers = new SpectraVoiceControllers(
+      this,
       this.controllerValues
     )
     readonly c = this.controllers

@@ -87,6 +87,7 @@ export namespace Sound2Ctl {
       outController: 0,
     }
     readonly controllers: Sound2CtlControllers = new Sound2CtlControllers(
+      this,
       this.controllerValues
     )
     readonly c = this.controllers

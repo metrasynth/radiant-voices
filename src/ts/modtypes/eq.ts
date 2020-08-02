@@ -47,7 +47,7 @@ export namespace Eq {
       high: 256,
       channels: Channels.Stereo,
     }
-    readonly controllers: EqControllers = new EqControllers(this.controllerValues)
+    readonly controllers: EqControllers = new EqControllers(this, this.controllerValues)
     readonly c = this.controllers
     readonly midiMaps: EqControllerMidiMaps = {
       low: new ControllerMidiMap(),

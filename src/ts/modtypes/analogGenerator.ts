@@ -249,6 +249,7 @@ export namespace AnalogGenerator {
       noise: 0,
     }
     readonly controllers: AnalogGeneratorControllers = new AnalogGeneratorControllers(
+      this,
       this.controllerValues
     )
     readonly c = this.controllers

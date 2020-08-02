@@ -78,6 +78,7 @@ export namespace Reverb {
       randomSeed: 0,
     }
     readonly controllers: ReverbControllers = new ReverbControllers(
+      this,
       this.controllerValues
     )
     readonly c = this.controllers

@@ -60,7 +60,10 @@ export namespace Gpio {
       inNote: 0,
       inAmplitude: 100,
     }
-    readonly controllers: GpioControllers = new GpioControllers(this.controllerValues)
+    readonly controllers: GpioControllers = new GpioControllers(
+      this,
+      this.controllerValues
+    )
     readonly c = this.controllers
     readonly midiMaps: GpioControllerMidiMaps = {
       out: new ControllerMidiMap(),

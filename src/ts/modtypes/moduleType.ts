@@ -19,7 +19,8 @@ export interface ControllerValues {
 }
 
 export interface Controllers {
-  controllerValues: ControllerValues
+  readonly controllerValues: ControllerValues
+  readonly module: ModuleType
 }
 
 export interface OptionValues {

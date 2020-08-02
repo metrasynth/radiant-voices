@@ -121,6 +121,7 @@ export namespace FilterPro {
       lfoFreqUnit: LfoFreqUnit.Hz_0_02,
     }
     readonly controllers: FilterProControllers = new FilterProControllers(
+      this,
       this.controllerValues
     )
     readonly c = this.controllers

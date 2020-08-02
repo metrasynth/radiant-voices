@@ -56,6 +56,7 @@ export namespace MultiCtl {
       sampleRateHz: 150,
     }
     readonly controllers: MultiCtlControllers = new MultiCtlControllers(
+      this,
       this.controllerValues
     )
     readonly c = this.controllers

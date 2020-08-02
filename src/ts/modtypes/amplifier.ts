@@ -66,6 +66,7 @@ export namespace Amplifier {
       gain: 1,
     }
     readonly controllers: AmplifierControllers = new AmplifierControllers(
+      this,
       this.controllerValues
     )
     readonly c = this.controllers

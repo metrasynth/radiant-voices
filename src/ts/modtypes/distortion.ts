@@ -58,6 +58,7 @@ export namespace Distortion {
       noise: 0,
     }
     readonly controllers: DistortionControllers = new DistortionControllers(
+      this,
       this.controllerValues
     )
     readonly c = this.controllers

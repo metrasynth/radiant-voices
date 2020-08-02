@@ -105,6 +105,7 @@ export namespace MultiSynth {
       curve2Influence: 256,
     }
     readonly controllers: MultiSynthControllers = new MultiSynthControllers(
+      this,
       this.controllerValues
     )
     readonly c = this.controllers
