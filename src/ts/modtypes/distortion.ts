@@ -6,95 +6,13 @@
 import { MidiMap, ControllerMidiMap, ControllerMidiMaps } from "../controllerMidiMap"
 import { Project } from "../project"
 import { ModuleBase } from "./moduleBase"
-import {
-  ControllerValues,
-  Controllers,
-  ModuleType,
-  OptionValues,
-  Options,
-} from "./moduleType"
+import { ModuleType, OptionValues, Options } from "./moduleType"
 import { DistortionBehavior } from "./distortionBehavior"
+import { DistortionControllers } from "./distortionControllers"
+import { DistortionControllerValues } from "./distortionControllerValues"
+import { Type as _Type } from "./distortionEnums"
 export namespace Distortion {
-  export const enum Type {
-    // noinspection JSUnusedGlobalSymbols
-    Lim = 0,
-    Clipping = 0,
-    Sat = 1,
-    Foldback = 1,
-    Foldback2 = 2,
-    Foldback3 = 3,
-    Overflow = 4,
-  }
-  interface DistortionControllerValues extends ControllerValues {
-    volume: number
-    type: Type
-    power: number
-    bitDepth: number
-    freqHz: number
-    noise: number
-  }
-  class DistortionControllers implements Controllers {
-    constructor(readonly controllerValues: DistortionControllerValues) {}
-    // noinspection JSUnusedGlobalSymbols
-    get volume(): number {
-      return this.controllerValues.volume
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set volume(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.volume = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get type(): Type {
-      return this.controllerValues.type
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set type(newValue: Type) {
-      const { controllerValues } = this
-      controllerValues.type = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get power(): number {
-      return this.controllerValues.power
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set power(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.power = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get bitDepth(): number {
-      return this.controllerValues.bitDepth
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set bitDepth(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 1), 16)
-      controllerValues.bitDepth = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get freqHz(): number {
-      return this.controllerValues.freqHz
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set freqHz(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 44100)
-      controllerValues.freqHz = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get noise(): number {
-      return this.controllerValues.noise
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set noise(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.noise = newValue
-    }
-  }
+  export const Type = _Type
   interface DistortionControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     type: ControllerMidiMap

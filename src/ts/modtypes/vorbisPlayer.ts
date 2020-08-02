@@ -6,94 +6,11 @@
 import { MidiMap, ControllerMidiMap, ControllerMidiMaps } from "../controllerMidiMap"
 import { Project } from "../project"
 import { ModuleBase } from "./moduleBase"
-import {
-  ControllerValues,
-  Controllers,
-  ModuleType,
-  OptionValues,
-  Options,
-} from "./moduleType"
+import { ModuleType, OptionValues, Options } from "./moduleType"
 import { VorbisPlayerBehavior } from "./vorbisPlayerBehavior"
+import { VorbisPlayerControllers } from "./vorbisPlayerControllers"
+import { VorbisPlayerControllerValues } from "./vorbisPlayerControllerValues"
 export namespace VorbisPlayer {
-  interface VorbisPlayerControllerValues extends ControllerValues {
-    volume: number
-    originalSpeed: boolean
-    finetune: number
-    transpose: number
-    interpolation: boolean
-    polyphonyCh: number
-    repeat: boolean
-  }
-  class VorbisPlayerControllers implements Controllers {
-    constructor(readonly controllerValues: VorbisPlayerControllerValues) {}
-    // noinspection JSUnusedGlobalSymbols
-    get volume(): number {
-      return this.controllerValues.volume
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set volume(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 512)
-      controllerValues.volume = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get originalSpeed(): boolean {
-      return this.controllerValues.originalSpeed
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set originalSpeed(newValue: boolean) {
-      const { controllerValues } = this
-      controllerValues.originalSpeed = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get finetune(): number {
-      return this.controllerValues.finetune
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set finetune(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, -128), 128)
-      controllerValues.finetune = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get transpose(): number {
-      return this.controllerValues.transpose + -128
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set transpose(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, -128), 128)
-      controllerValues.transpose = newValue - -128
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get interpolation(): boolean {
-      return this.controllerValues.interpolation
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set interpolation(newValue: boolean) {
-      const { controllerValues } = this
-      controllerValues.interpolation = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get polyphonyCh(): number {
-      return this.controllerValues.polyphonyCh
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set polyphonyCh(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 1), 4)
-      controllerValues.polyphonyCh = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get repeat(): boolean {
-      return this.controllerValues.repeat
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set repeat(newValue: boolean) {
-      const { controllerValues } = this
-      controllerValues.repeat = newValue
-    }
-  }
   interface VorbisPlayerControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     originalSpeed: ControllerMidiMap

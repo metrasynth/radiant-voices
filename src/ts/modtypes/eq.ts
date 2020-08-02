@@ -6,68 +6,13 @@
 import { MidiMap, ControllerMidiMap, ControllerMidiMaps } from "../controllerMidiMap"
 import { Project } from "../project"
 import { ModuleBase } from "./moduleBase"
-import {
-  ControllerValues,
-  Controllers,
-  ModuleType,
-  OptionValues,
-  Options,
-} from "./moduleType"
+import { ModuleType, OptionValues, Options } from "./moduleType"
 import { EqBehavior } from "./eqBehavior"
+import { EqControllers } from "./eqControllers"
+import { EqControllerValues } from "./eqControllerValues"
+import { Channels as _Channels } from "./eqEnums"
 export namespace Eq {
-  export const enum Channels {
-    // noinspection JSUnusedGlobalSymbols
-    Stereo = 0,
-    Mono = 1,
-  }
-  interface EqControllerValues extends ControllerValues {
-    low: number
-    middle: number
-    high: number
-    channels: Channels
-  }
-  class EqControllers implements Controllers {
-    constructor(readonly controllerValues: EqControllerValues) {}
-    // noinspection JSUnusedGlobalSymbols
-    get low(): number {
-      return this.controllerValues.low
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set low(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 512)
-      controllerValues.low = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get middle(): number {
-      return this.controllerValues.middle
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set middle(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 512)
-      controllerValues.middle = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get high(): number {
-      return this.controllerValues.high
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set high(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 512)
-      controllerValues.high = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get channels(): Channels {
-      return this.controllerValues.channels
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set channels(newValue: Channels) {
-      const { controllerValues } = this
-      controllerValues.channels = newValue
-    }
-  }
+  export const Channels = _Channels
   interface EqControllerMidiMaps extends ControllerMidiMaps {
     low: ControllerMidiMap
     middle: ControllerMidiMap

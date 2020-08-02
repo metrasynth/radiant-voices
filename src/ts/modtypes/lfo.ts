@@ -6,179 +6,19 @@
 import { MidiMap, ControllerMidiMap, ControllerMidiMaps } from "../controllerMidiMap"
 import { Project } from "../project"
 import { ModuleBase } from "./moduleBase"
-import {
-  ControllerValues,
-  Controllers,
-  ModuleType,
-  OptionValues,
-  Options,
-} from "./moduleType"
+import { ModuleType, OptionValues, Options } from "./moduleType"
 import { LfoBehavior } from "./lfoBehavior"
+import { LfoControllers } from "./lfoControllers"
+import { LfoControllerValues } from "./lfoControllerValues"
+import { Type as _Type } from "./lfoEnums"
+import { Waveform as _Waveform } from "./lfoEnums"
+import { Channels as _Channels } from "./lfoEnums"
+import { FrequencyUnit as _FrequencyUnit } from "./lfoEnums"
 export namespace Lfo {
-  export const enum Type {
-    // noinspection JSUnusedGlobalSymbols
-    Amplitude = 0,
-    Panning = 1,
-  }
-  export const enum Waveform {
-    // noinspection JSUnusedGlobalSymbols
-    Sin = 0,
-    Square = 1,
-    Sin2 = 2,
-    Saw = 3,
-    Saw2 = 4,
-    Random = 5,
-    Triangle = 6,
-    RandomInterpolated = 7,
-  }
-  export const enum Channels {
-    // noinspection JSUnusedGlobalSymbols
-    Stereo = 0,
-    Mono = 1,
-  }
-  export const enum FrequencyUnit {
-    // noinspection JSUnusedGlobalSymbols
-    Hz_64 = 0,
-    Ms = 1,
-    Hz = 2,
-    Tick = 3,
-    Line = 4,
-    Line_2 = 5,
-    Line_3 = 6,
-  }
-  interface LfoControllerValues extends ControllerValues {
-    volume: number
-    type: Type
-    amplitude: number
-    freq: number
-    waveform: Waveform
-    setPhase: number
-    channels: Channels
-    frequencyUnit: FrequencyUnit
-    dutyCycle: number
-    generator: boolean
-  }
-  class LfoControllers implements Controllers {
-    constructor(readonly controllerValues: LfoControllerValues) {}
-    // noinspection JSUnusedGlobalSymbols
-    get volume(): number {
-      return this.controllerValues.volume
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set volume(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 512)
-      controllerValues.volume = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get type(): Type {
-      return this.controllerValues.type
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set type(newValue: Type) {
-      const { controllerValues } = this
-      controllerValues.type = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get amplitude(): number {
-      return this.controllerValues.amplitude
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set amplitude(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.amplitude = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get freq(): number {
-      return this.controllerValues.freq
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set freq(newValue: number) {
-      const { controllerValues } = this
-      switch (this.controllerValues.frequencyUnit) {
-        case FrequencyUnit.Hz_64:
-          newValue = Math.min(Math.max(newValue, 1), 2048)
-          break
-        case FrequencyUnit.Ms:
-          newValue = Math.min(Math.max(newValue, 1), 4000)
-          break
-        case FrequencyUnit.Hz:
-          newValue = Math.min(Math.max(newValue, 1), 16384)
-          break
-        case FrequencyUnit.Tick:
-          newValue = Math.min(Math.max(newValue, 1), 256)
-          break
-        case FrequencyUnit.Line:
-          newValue = Math.min(Math.max(newValue, 1), 256)
-          break
-        case FrequencyUnit.Line_2:
-          newValue = Math.min(Math.max(newValue, 1), 256)
-          break
-        case FrequencyUnit.Line_3:
-          newValue = Math.min(Math.max(newValue, 1), 256)
-          break
-      }
-      controllerValues.freq = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get waveform(): Waveform {
-      return this.controllerValues.waveform
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set waveform(newValue: Waveform) {
-      const { controllerValues } = this
-      controllerValues.waveform = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get setPhase(): number {
-      return this.controllerValues.setPhase
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set setPhase(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.setPhase = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get channels(): Channels {
-      return this.controllerValues.channels
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set channels(newValue: Channels) {
-      const { controllerValues } = this
-      controllerValues.channels = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get frequencyUnit(): FrequencyUnit {
-      return this.controllerValues.frequencyUnit
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set frequencyUnit(newValue: FrequencyUnit) {
-      const { controllerValues } = this
-      controllerValues.frequencyUnit = newValue
-      this.freq = this.freq
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get dutyCycle(): number {
-      return this.controllerValues.dutyCycle
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set dutyCycle(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.dutyCycle = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get generator(): boolean {
-      return this.controllerValues.generator
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set generator(newValue: boolean) {
-      const { controllerValues } = this
-      controllerValues.generator = newValue
-    }
-  }
+  export const Type = _Type
+  export const Waveform = _Waveform
+  export const Channels = _Channels
+  export const FrequencyUnit = _FrequencyUnit
   interface LfoControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     type: ControllerMidiMap

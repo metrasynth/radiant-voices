@@ -6,46 +6,13 @@
 import { MidiMap, ControllerMidiMap, ControllerMidiMaps } from "../controllerMidiMap"
 import { Project } from "../project"
 import { ModuleBase } from "./moduleBase"
-import {
-  ControllerValues,
-  Controllers,
-  ModuleType,
-  OptionValues,
-  Options,
-} from "./moduleType"
+import { ModuleType, OptionValues, Options } from "./moduleType"
 import { InputBehavior } from "./inputBehavior"
+import { InputControllers } from "./inputControllers"
+import { InputControllerValues } from "./inputControllerValues"
+import { Channels as _Channels } from "./inputEnums"
 export namespace Input {
-  export const enum Channels {
-    // noinspection JSUnusedGlobalSymbols
-    Mono = 0,
-    Stereo = 1,
-  }
-  interface InputControllerValues extends ControllerValues {
-    volume: number
-    channels: Channels
-  }
-  class InputControllers implements Controllers {
-    constructor(readonly controllerValues: InputControllerValues) {}
-    // noinspection JSUnusedGlobalSymbols
-    get volume(): number {
-      return this.controllerValues.volume
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set volume(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 1024)
-      controllerValues.volume = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get channels(): Channels {
-      return this.controllerValues.channels
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set channels(newValue: Channels) {
-      const { controllerValues } = this
-      controllerValues.channels = newValue
-    }
-  }
+  export const Channels = _Channels
   interface InputControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     channels: ControllerMidiMap

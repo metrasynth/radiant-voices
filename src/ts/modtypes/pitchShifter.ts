@@ -6,92 +6,13 @@
 import { MidiMap, ControllerMidiMap, ControllerMidiMaps } from "../controllerMidiMap"
 import { Project } from "../project"
 import { ModuleBase } from "./moduleBase"
-import {
-  ControllerValues,
-  Controllers,
-  ModuleType,
-  OptionValues,
-  Options,
-} from "./moduleType"
+import { ModuleType, OptionValues, Options } from "./moduleType"
 import { PitchShifterBehavior } from "./pitchShifterBehavior"
+import { PitchShifterControllers } from "./pitchShifterControllers"
+import { PitchShifterControllerValues } from "./pitchShifterControllerValues"
+import { Mode as _Mode } from "./pitchShifterEnums"
 export namespace PitchShifter {
-  export const enum Mode {
-    // noinspection JSUnusedGlobalSymbols
-    Hq = 0,
-    HqMono = 1,
-    Lq = 2,
-    LqMono = 3,
-  }
-  interface PitchShifterControllerValues extends ControllerValues {
-    volume: number
-    pitch: number
-    pitchScale: number
-    feedback: number
-    grainSize: number
-    mode: Mode
-  }
-  class PitchShifterControllers implements Controllers {
-    constructor(readonly controllerValues: PitchShifterControllerValues) {}
-    // noinspection JSUnusedGlobalSymbols
-    get volume(): number {
-      return this.controllerValues.volume
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set volume(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 512)
-      controllerValues.volume = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get pitch(): number {
-      return this.controllerValues.pitch + -600
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set pitch(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, -600), 600)
-      controllerValues.pitch = newValue - -600
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get pitchScale(): number {
-      return this.controllerValues.pitchScale
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set pitchScale(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 200)
-      controllerValues.pitchScale = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get feedback(): number {
-      return this.controllerValues.feedback
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set feedback(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.feedback = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get grainSize(): number {
-      return this.controllerValues.grainSize
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set grainSize(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.grainSize = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get mode(): Mode {
-      return this.controllerValues.mode
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set mode(newValue: Mode) {
-      const { controllerValues } = this
-      controllerValues.mode = newValue
-    }
-  }
+  export const Mode = _Mode
   interface PitchShifterControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     pitch: ControllerMidiMap

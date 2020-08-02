@@ -6,131 +6,15 @@
 import { MidiMap, ControllerMidiMap, ControllerMidiMaps } from "../controllerMidiMap"
 import { Project } from "../project"
 import { ModuleBase } from "./moduleBase"
-import {
-  ControllerValues,
-  Controllers,
-  ModuleType,
-  OptionValues,
-  Options,
-} from "./moduleType"
+import { ModuleType, OptionValues, Options } from "./moduleType"
 import { DelayBehavior } from "./delayBehavior"
+import { DelayControllers } from "./delayControllers"
+import { DelayControllerValues } from "./delayControllerValues"
+import { Channels as _Channels } from "./delayEnums"
+import { DelayUnit as _DelayUnit } from "./delayEnums"
 export namespace Delay {
-  export const enum Channels {
-    // noinspection JSUnusedGlobalSymbols
-    Stereo = 0,
-    Mono = 1,
-  }
-  export const enum DelayUnit {
-    // noinspection JSUnusedGlobalSymbols
-    Sec_16384 = 0,
-    Ms = 1,
-    Hz = 2,
-    Tick = 3,
-    Line = 4,
-    Line_2 = 5,
-    Line_3 = 6,
-  }
-  interface DelayControllerValues extends ControllerValues {
-    dry: number
-    wet: number
-    delayL: number
-    delayR: number
-    volumeL: number
-    volumeR: number
-    channels: Channels
-    inverse: boolean
-    delayUnit: DelayUnit
-  }
-  class DelayControllers implements Controllers {
-    constructor(readonly controllerValues: DelayControllerValues) {}
-    // noinspection JSUnusedGlobalSymbols
-    get dry(): number {
-      return this.controllerValues.dry
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set dry(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 512)
-      controllerValues.dry = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get wet(): number {
-      return this.controllerValues.wet
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set wet(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 512)
-      controllerValues.wet = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get delayL(): number {
-      return this.controllerValues.delayL
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set delayL(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.delayL = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get delayR(): number {
-      return this.controllerValues.delayR
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set delayR(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.delayR = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get volumeL(): number {
-      return this.controllerValues.volumeL
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set volumeL(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.volumeL = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get volumeR(): number {
-      return this.controllerValues.volumeR
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set volumeR(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.volumeR = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get channels(): Channels {
-      return this.controllerValues.channels
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set channels(newValue: Channels) {
-      const { controllerValues } = this
-      controllerValues.channels = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get inverse(): boolean {
-      return this.controllerValues.inverse
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set inverse(newValue: boolean) {
-      const { controllerValues } = this
-      controllerValues.inverse = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get delayUnit(): DelayUnit {
-      return this.controllerValues.delayUnit
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set delayUnit(newValue: DelayUnit) {
-      const { controllerValues } = this
-      controllerValues.delayUnit = newValue
-    }
-  }
+  export const Channels = _Channels
+  export const DelayUnit = _DelayUnit
   interface DelayControllerMidiMaps extends ControllerMidiMaps {
     dry: ControllerMidiMap
     wet: ControllerMidiMap

@@ -6,134 +6,13 @@
 import { MidiMap, ControllerMidiMap, ControllerMidiMaps } from "../controllerMidiMap"
 import { Project } from "../project"
 import { ModuleBase } from "./moduleBase"
-import {
-  ControllerValues,
-  Controllers,
-  ModuleType,
-  OptionValues,
-  Options,
-} from "./moduleType"
+import { ModuleType, OptionValues, Options } from "./moduleType"
 import { ReverbBehavior } from "./reverbBehavior"
+import { ReverbControllers } from "./reverbControllers"
+import { ReverbControllerValues } from "./reverbControllerValues"
+import { Mode as _Mode } from "./reverbEnums"
 export namespace Reverb {
-  export const enum Mode {
-    // noinspection JSUnusedGlobalSymbols
-    Hq = 0,
-    HqMono = 1,
-    Lq = 2,
-    LqMono = 3,
-  }
-  interface ReverbControllerValues extends ControllerValues {
-    dry: number
-    wet: number
-    feedback: number
-    damp: number
-    stereoWidth: number
-    freeze: boolean
-    mode: Mode
-    allPassFilter: boolean
-    roomSize: number
-    randomSeed: number
-  }
-  class ReverbControllers implements Controllers {
-    constructor(readonly controllerValues: ReverbControllerValues) {}
-    // noinspection JSUnusedGlobalSymbols
-    get dry(): number {
-      return this.controllerValues.dry
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set dry(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.dry = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get wet(): number {
-      return this.controllerValues.wet
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set wet(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.wet = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get feedback(): number {
-      return this.controllerValues.feedback
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set feedback(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.feedback = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get damp(): number {
-      return this.controllerValues.damp
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set damp(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.damp = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get stereoWidth(): number {
-      return this.controllerValues.stereoWidth
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set stereoWidth(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.stereoWidth = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get freeze(): boolean {
-      return this.controllerValues.freeze
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set freeze(newValue: boolean) {
-      const { controllerValues } = this
-      controllerValues.freeze = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get mode(): Mode {
-      return this.controllerValues.mode
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set mode(newValue: Mode) {
-      const { controllerValues } = this
-      controllerValues.mode = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get allPassFilter(): boolean {
-      return this.controllerValues.allPassFilter
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set allPassFilter(newValue: boolean) {
-      const { controllerValues } = this
-      controllerValues.allPassFilter = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get roomSize(): number {
-      return this.controllerValues.roomSize
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set roomSize(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 128)
-      controllerValues.roomSize = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get randomSeed(): number {
-      return this.controllerValues.randomSeed
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set randomSeed(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 32768)
-      controllerValues.randomSeed = newValue
-    }
-  }
+  export const Mode = _Mode
   interface ReverbControllerMidiMaps extends ControllerMidiMaps {
     dry: ControllerMidiMap
     wet: ControllerMidiMap

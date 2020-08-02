@@ -6,86 +6,11 @@
 import { MidiMap, ControllerMidiMap, ControllerMidiMaps } from "../controllerMidiMap"
 import { Project } from "../project"
 import { ModuleBase } from "./moduleBase"
-import {
-  ControllerValues,
-  Controllers,
-  ModuleType,
-  OptionValues,
-  Options,
-} from "./moduleType"
+import { ModuleType, OptionValues, Options } from "./moduleType"
 import { MultiCtlBehavior } from "./multiCtlBehavior"
+import { MultiCtlControllers } from "./multiCtlControllers"
+import { MultiCtlControllerValues } from "./multiCtlControllerValues"
 export namespace MultiCtl {
-  interface MultiCtlControllerValues extends ControllerValues {
-    value: number
-    gain: number
-    quantization: number
-    outOffset: number
-    response: number
-    sampleRateHz: number
-  }
-  class MultiCtlControllers implements Controllers {
-    constructor(readonly controllerValues: MultiCtlControllerValues) {}
-    // noinspection JSUnusedGlobalSymbols
-    get value(): number {
-      return this.controllerValues.value
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set value(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 32768)
-      controllerValues.value = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get gain(): number {
-      return this.controllerValues.gain
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set gain(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 1024)
-      controllerValues.gain = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get quantization(): number {
-      return this.controllerValues.quantization
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set quantization(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 32768)
-      controllerValues.quantization = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get outOffset(): number {
-      return this.controllerValues.outOffset + -16384
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set outOffset(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, -16384), 16384)
-      controllerValues.outOffset = newValue - -16384
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get response(): number {
-      return this.controllerValues.response
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set response(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 1000)
-      controllerValues.response = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get sampleRateHz(): number {
-      return this.controllerValues.sampleRateHz
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set sampleRateHz(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 1), 32768)
-      controllerValues.sampleRateHz = newValue
-    }
-  }
   interface MultiCtlControllerMidiMaps extends ControllerMidiMaps {
     value: ControllerMidiMap
     gain: ControllerMidiMap

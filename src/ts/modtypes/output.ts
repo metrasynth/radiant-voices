@@ -5,19 +5,11 @@
  */
 import { Project } from "../project"
 import { ModuleBase } from "./moduleBase"
-import {
-  ControllerValues,
-  Controllers,
-  ModuleType,
-  OptionValues,
-  Options,
-} from "./moduleType"
+import { ModuleType, OptionValues, Options } from "./moduleType"
 import { OutputBehavior } from "./outputBehavior"
+import { OutputControllers } from "./outputControllers"
+import { OutputControllerValues } from "./outputControllerValues"
 export namespace Output {
-  interface OutputControllerValues extends ControllerValues {}
-  class OutputControllers implements Controllers {
-    constructor(readonly controllerValues: OutputControllerValues) {}
-  }
   interface OutputOptionValues extends OptionValues {}
   class OutputOptions implements Options {
     constructor(readonly optionValues: OutputOptionValues) {}

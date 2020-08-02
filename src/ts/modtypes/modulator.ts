@@ -6,62 +6,15 @@
 import { MidiMap, ControllerMidiMap, ControllerMidiMaps } from "../controllerMidiMap"
 import { Project } from "../project"
 import { ModuleBase } from "./moduleBase"
-import {
-  ControllerValues,
-  Controllers,
-  ModuleType,
-  OptionValues,
-  Options,
-} from "./moduleType"
+import { ModuleType, OptionValues, Options } from "./moduleType"
 import { ModulatorBehavior } from "./modulatorBehavior"
+import { ModulatorControllers } from "./modulatorControllers"
+import { ModulatorControllerValues } from "./modulatorControllerValues"
+import { ModulationType as _ModulationType } from "./modulatorEnums"
+import { Channels as _Channels } from "./modulatorEnums"
 export namespace Modulator {
-  export const enum ModulationType {
-    // noinspection JSUnusedGlobalSymbols
-    Amplitude = 0,
-    Phase = 1,
-    PhaseAbs = 2,
-  }
-  export const enum Channels {
-    // noinspection JSUnusedGlobalSymbols
-    Stereo = 0,
-    Mono = 1,
-  }
-  interface ModulatorControllerValues extends ControllerValues {
-    volume: number
-    modulationType: ModulationType
-    channels: Channels
-  }
-  class ModulatorControllers implements Controllers {
-    constructor(readonly controllerValues: ModulatorControllerValues) {}
-    // noinspection JSUnusedGlobalSymbols
-    get volume(): number {
-      return this.controllerValues.volume
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set volume(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 512)
-      controllerValues.volume = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get modulationType(): ModulationType {
-      return this.controllerValues.modulationType
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set modulationType(newValue: ModulationType) {
-      const { controllerValues } = this
-      controllerValues.modulationType = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get channels(): Channels {
-      return this.controllerValues.channels
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set channels(newValue: Channels) {
-      const { controllerValues } = this
-      controllerValues.channels = newValue
-    }
-  }
+  export const ModulationType = _ModulationType
+  export const Channels = _Channels
   interface ModulatorControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     modulationType: ControllerMidiMap

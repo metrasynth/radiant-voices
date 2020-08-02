@@ -6,94 +6,11 @@
 import { MidiMap, ControllerMidiMap, ControllerMidiMaps } from "../controllerMidiMap"
 import { Project } from "../project"
 import { ModuleBase } from "./moduleBase"
-import {
-  ControllerValues,
-  Controllers,
-  ModuleType,
-  OptionValues,
-  Options,
-} from "./moduleType"
+import { ModuleType, OptionValues, Options } from "./moduleType"
 import { GlideBehavior } from "./glideBehavior"
+import { GlideControllers } from "./glideControllers"
+import { GlideControllerValues } from "./glideControllerValues"
 export namespace Glide {
-  interface GlideControllerValues extends ControllerValues {
-    response: number
-    sampleRateHz: number
-    resetOnFirstNote: boolean
-    polyphony: boolean
-    pitch: number
-    pitchScale: number
-    reset: boolean
-  }
-  class GlideControllers implements Controllers {
-    constructor(readonly controllerValues: GlideControllerValues) {}
-    // noinspection JSUnusedGlobalSymbols
-    get response(): number {
-      return this.controllerValues.response
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set response(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 1000)
-      controllerValues.response = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get sampleRateHz(): number {
-      return this.controllerValues.sampleRateHz
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set sampleRateHz(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 1), 32768)
-      controllerValues.sampleRateHz = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get resetOnFirstNote(): boolean {
-      return this.controllerValues.resetOnFirstNote
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set resetOnFirstNote(newValue: boolean) {
-      const { controllerValues } = this
-      controllerValues.resetOnFirstNote = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get polyphony(): boolean {
-      return this.controllerValues.polyphony
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set polyphony(newValue: boolean) {
-      const { controllerValues } = this
-      controllerValues.polyphony = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get pitch(): number {
-      return this.controllerValues.pitch + -600
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set pitch(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, -600), 600)
-      controllerValues.pitch = newValue - -600
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get pitchScale(): number {
-      return this.controllerValues.pitchScale
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set pitchScale(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 200)
-      controllerValues.pitchScale = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get reset(): boolean {
-      return this.controllerValues.reset
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set reset(newValue: boolean) {
-      const { controllerValues } = this
-      controllerValues.reset = newValue
-    }
-  }
   interface GlideControllerMidiMaps extends ControllerMidiMaps {
     response: ControllerMidiMap
     sampleRateHz: ControllerMidiMap

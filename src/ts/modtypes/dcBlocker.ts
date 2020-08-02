@@ -6,35 +6,13 @@
 import { MidiMap, ControllerMidiMap, ControllerMidiMaps } from "../controllerMidiMap"
 import { Project } from "../project"
 import { ModuleBase } from "./moduleBase"
-import {
-  ControllerValues,
-  Controllers,
-  ModuleType,
-  OptionValues,
-  Options,
-} from "./moduleType"
+import { ModuleType, OptionValues, Options } from "./moduleType"
 import { DcBlockerBehavior } from "./dcBlockerBehavior"
+import { DcBlockerControllers } from "./dcBlockerControllers"
+import { DcBlockerControllerValues } from "./dcBlockerControllerValues"
+import { Channels as _Channels } from "./dcBlockerEnums"
 export namespace DcBlocker {
-  export const enum Channels {
-    // noinspection JSUnusedGlobalSymbols
-    Stereo = 0,
-    Mono = 1,
-  }
-  interface DcBlockerControllerValues extends ControllerValues {
-    channels: Channels
-  }
-  class DcBlockerControllers implements Controllers {
-    constructor(readonly controllerValues: DcBlockerControllerValues) {}
-    // noinspection JSUnusedGlobalSymbols
-    get channels(): Channels {
-      return this.controllerValues.channels
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set channels(newValue: Channels) {
-      const { controllerValues } = this
-      controllerValues.channels = newValue
-    }
-  }
+  export const Channels = _Channels
   interface DcBlockerControllerMidiMaps extends ControllerMidiMaps {
     channels: ControllerMidiMap
   }

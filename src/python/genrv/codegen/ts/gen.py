@@ -22,23 +22,55 @@ class TypescriptGenerator(CodeGenerator):
         self.write_file(allmodtypes_path, content)
         # Generate modtypes/{{ mod_type }}.ts and {{ mod_type }}Behavior.ts
         for modtype_name, modtype in self.fileformat["module_types"].items():
-            outfile = f"{camelcase(modtype_name)}.ts"
-            outpath = self.dest_base / "modtypes" / outfile
             ctx = dict(
                 modtype=modtype, modtype_name=modtype_name, enumerate=enumerate, len=len
             )
+
+            outfile = f"{camelcase(modtype_name)}.ts"
+            outpath = self.dest_base / "modtypes" / outfile
             template = env.get_template("ts/modtype.ts.jinja2")
             content = template.render(ctx)
             content = normalize_whitespace(content)
             self.write_file(outpath, content)
 
+            outfile = f"{camelcase(modtype_name)}BaseControllers.ts"
+            outpath = self.dest_base / "modtypes" / outfile
+            template = env.get_template("ts/moduleBaseControllers.ts.jinja2")
+            content = template.render(ctx)
+            content = normalize_whitespace(content)
+            self.write_file(outpath, content)
+
+            outfile = f"{camelcase(modtype_name)}ControllerValues.ts"
+            outpath = self.dest_base / "modtypes" / outfile
+            template = env.get_template("ts/moduleControllerValues.ts.jinja2")
+            content = template.render(ctx)
+            content = normalize_whitespace(content)
+            self.write_file(outpath, content)
+
+            outfile = f"{camelcase(modtype_name)}Enums.ts"
+            outpath = self.dest_base / "modtypes" / outfile
+            if "enums" in modtype:
+                template = env.get_template("ts/moduleEnums.ts.jinja2")
+                content = template.render(ctx)
+                content = normalize_whitespace(content)
+                self.write_file(outpath, content)
+            else:
+                outpath.unlink(missing_ok=True)
+
             outfile = f"{camelcase(modtype_name)}Behavior.ts"
             outpath = self.dest_base / "modtypes" / outfile
-            ctx = dict(modtype=modtype, modtype_name=modtype_name)
             template = env.get_template("ts/moduleBehavior.ts.jinja2")
             content = template.render(ctx)
             content = normalize_whitespace(content)
-            if not outpath.exists():
+            if not outpath.exists() or outpath.read_text().startswith("/* (unchanged"):
+                self.write_file(outpath, content)
+
+            outfile = f"{camelcase(modtype_name)}Controllers.ts"
+            outpath = self.dest_base / "modtypes" / outfile
+            template = env.get_template("ts/moduleControllers.ts.jinja2")
+            content = template.render(ctx)
+            content = normalize_whitespace(content)
+            if not outpath.exists() or outpath.read_text().startswith("/* (unchanged"):
                 self.write_file(outpath, content)
 
         # Autoformat

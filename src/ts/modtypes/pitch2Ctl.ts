@@ -6,106 +6,15 @@
 import { MidiMap, ControllerMidiMap, ControllerMidiMaps } from "../controllerMidiMap"
 import { Project } from "../project"
 import { ModuleBase } from "./moduleBase"
-import {
-  ControllerValues,
-  Controllers,
-  ModuleType,
-  OptionValues,
-  Options,
-} from "./moduleType"
+import { ModuleType, OptionValues, Options } from "./moduleType"
 import { Pitch2CtlBehavior } from "./pitch2CtlBehavior"
+import { Pitch2CtlControllers } from "./pitch2CtlControllers"
+import { Pitch2CtlControllerValues } from "./pitch2CtlControllerValues"
+import { Mode as _Mode } from "./pitch2CtlEnums"
+import { NoteOffAction as _NoteOffAction } from "./pitch2CtlEnums"
 export namespace Pitch2Ctl {
-  export const enum Mode {
-    // noinspection JSUnusedGlobalSymbols
-    FrequencyHz = 0,
-    Pitch = 1,
-  }
-  export const enum NoteOffAction {
-    // noinspection JSUnusedGlobalSymbols
-    DoNothing = 0,
-    PitchDown = 1,
-    PitchUp = 2,
-  }
-  interface Pitch2CtlControllerValues extends ControllerValues {
-    mode: Mode
-    noteOffAction: NoteOffAction
-    firstNote: number
-    numberOfSemitones: number
-    outMin: number
-    outMax: number
-    outController: number
-  }
-  class Pitch2CtlControllers implements Controllers {
-    constructor(readonly controllerValues: Pitch2CtlControllerValues) {}
-    // noinspection JSUnusedGlobalSymbols
-    get mode(): Mode {
-      return this.controllerValues.mode
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set mode(newValue: Mode) {
-      const { controllerValues } = this
-      controllerValues.mode = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get noteOffAction(): NoteOffAction {
-      return this.controllerValues.noteOffAction
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set noteOffAction(newValue: NoteOffAction) {
-      const { controllerValues } = this
-      controllerValues.noteOffAction = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get firstNote(): number {
-      return this.controllerValues.firstNote
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set firstNote(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.firstNote = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get numberOfSemitones(): number {
-      return this.controllerValues.numberOfSemitones
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set numberOfSemitones(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.numberOfSemitones = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get outMin(): number {
-      return this.controllerValues.outMin
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set outMin(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 32768)
-      controllerValues.outMin = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get outMax(): number {
-      return this.controllerValues.outMax
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set outMax(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 32768)
-      controllerValues.outMax = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get outController(): number {
-      return this.controllerValues.outController
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set outController(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 32)
-      controllerValues.outController = newValue
-    }
-  }
+  export const Mode = _Mode
+  export const NoteOffAction = _NoteOffAction
   interface Pitch2CtlControllerMidiMaps extends ControllerMidiMaps {
     mode: ControllerMidiMap
     noteOffAction: ControllerMidiMap

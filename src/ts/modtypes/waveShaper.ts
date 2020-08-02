@@ -6,90 +6,13 @@
 import { MidiMap, ControllerMidiMap, ControllerMidiMaps } from "../controllerMidiMap"
 import { Project } from "../project"
 import { ModuleBase } from "./moduleBase"
-import {
-  ControllerValues,
-  Controllers,
-  ModuleType,
-  OptionValues,
-  Options,
-} from "./moduleType"
+import { ModuleType, OptionValues, Options } from "./moduleType"
 import { WaveShaperBehavior } from "./waveShaperBehavior"
+import { WaveShaperControllers } from "./waveShaperControllers"
+import { WaveShaperControllerValues } from "./waveShaperControllerValues"
+import { Mode as _Mode } from "./waveShaperEnums"
 export namespace WaveShaper {
-  export const enum Mode {
-    // noinspection JSUnusedGlobalSymbols
-    Hq = 0,
-    HqMono = 1,
-    Lq = 2,
-    LqMono = 3,
-  }
-  interface WaveShaperControllerValues extends ControllerValues {
-    inputVolume: number
-    mix: number
-    outputVolume: number
-    symmetric: boolean
-    mode: Mode
-    dcBlocker: boolean
-  }
-  class WaveShaperControllers implements Controllers {
-    constructor(readonly controllerValues: WaveShaperControllerValues) {}
-    // noinspection JSUnusedGlobalSymbols
-    get inputVolume(): number {
-      return this.controllerValues.inputVolume
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set inputVolume(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 512)
-      controllerValues.inputVolume = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get mix(): number {
-      return this.controllerValues.mix
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set mix(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.mix = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get outputVolume(): number {
-      return this.controllerValues.outputVolume
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set outputVolume(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 512)
-      controllerValues.outputVolume = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get symmetric(): boolean {
-      return this.controllerValues.symmetric
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set symmetric(newValue: boolean) {
-      const { controllerValues } = this
-      controllerValues.symmetric = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get mode(): Mode {
-      return this.controllerValues.mode
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set mode(newValue: Mode) {
-      const { controllerValues } = this
-      controllerValues.mode = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get dcBlocker(): boolean {
-      return this.controllerValues.dcBlocker
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set dcBlocker(newValue: boolean) {
-      const { controllerValues } = this
-      controllerValues.dcBlocker = newValue
-    }
-  }
+  export const Mode = _Mode
   interface WaveShaperControllerMidiMaps extends ControllerMidiMaps {
     inputVolume: ControllerMidiMap
     mix: ControllerMidiMap

@@ -5,10 +5,9 @@ import { Synth } from "@radiant-voices/synth"
 import { m } from "@radiant-voices/modtypes"
 import { objectChunks } from "@radiant-voices/writer/objectChunks"
 import { toIffBuffer } from "@radiant-voices/chunks/toIffBuffer"
-import { Chunk } from "../../../src/ts/chunks/chunk"
-import { MidiMap } from "../../../src/ts/controllerMidiMap"
-import { SpectraVoice } from "../../../src/ts/modtypes/spectraVoice"
-import HarmonicType = SpectraVoice.HarmonicType
+import { Chunk } from "@radiant-voices/chunks/chunk"
+import { MidiMap } from "@radiant-voices/controllerMidiMap"
+import HarmonicType = m.SpectraVoice.HarmonicType
 
 describe("Reading the spectravoice.sunsynth file", () => {
   const filePath = "tests/files/spectravoice.sunsynth"

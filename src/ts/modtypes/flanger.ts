@@ -6,143 +6,15 @@
 import { MidiMap, ControllerMidiMap, ControllerMidiMaps } from "../controllerMidiMap"
 import { Project } from "../project"
 import { ModuleBase } from "./moduleBase"
-import {
-  ControllerValues,
-  Controllers,
-  ModuleType,
-  OptionValues,
-  Options,
-} from "./moduleType"
+import { ModuleType, OptionValues, Options } from "./moduleType"
 import { FlangerBehavior } from "./flangerBehavior"
+import { FlangerControllers } from "./flangerControllers"
+import { FlangerControllerValues } from "./flangerControllerValues"
+import { LfoWaveform as _LfoWaveform } from "./flangerEnums"
+import { LfoFreqUnit as _LfoFreqUnit } from "./flangerEnums"
 export namespace Flanger {
-  export const enum LfoWaveform {
-    // noinspection JSUnusedGlobalSymbols
-    Hsin = 0,
-    Sin = 1,
-  }
-  export const enum LfoFreqUnit {
-    // noinspection JSUnusedGlobalSymbols
-    Hz_0_05 = 0,
-    Ms = 1,
-    Hz = 2,
-    Tick = 3,
-    Line = 4,
-    Line_2 = 5,
-    Line_3 = 6,
-  }
-  interface FlangerControllerValues extends ControllerValues {
-    dry: number
-    wet: number
-    feedback: number
-    delay: number
-    response: number
-    lfoFreq: number
-    lfoAmp: number
-    lfoWaveform: LfoWaveform
-    setLfoPhase: number
-    lfoFreqUnit: LfoFreqUnit
-  }
-  class FlangerControllers implements Controllers {
-    constructor(readonly controllerValues: FlangerControllerValues) {}
-    // noinspection JSUnusedGlobalSymbols
-    get dry(): number {
-      return this.controllerValues.dry
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set dry(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.dry = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get wet(): number {
-      return this.controllerValues.wet
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set wet(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.wet = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get feedback(): number {
-      return this.controllerValues.feedback
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set feedback(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.feedback = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get delay(): number {
-      return this.controllerValues.delay
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set delay(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 1000)
-      controllerValues.delay = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get response(): number {
-      return this.controllerValues.response
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set response(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.response = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get lfoFreq(): number {
-      return this.controllerValues.lfoFreq
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set lfoFreq(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 512)
-      controllerValues.lfoFreq = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get lfoAmp(): number {
-      return this.controllerValues.lfoAmp
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set lfoAmp(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.lfoAmp = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get lfoWaveform(): LfoWaveform {
-      return this.controllerValues.lfoWaveform
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set lfoWaveform(newValue: LfoWaveform) {
-      const { controllerValues } = this
-      controllerValues.lfoWaveform = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get setLfoPhase(): number {
-      return this.controllerValues.setLfoPhase
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set setLfoPhase(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.setLfoPhase = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get lfoFreqUnit(): LfoFreqUnit {
-      return this.controllerValues.lfoFreqUnit
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set lfoFreqUnit(newValue: LfoFreqUnit) {
-      const { controllerValues } = this
-      controllerValues.lfoFreqUnit = newValue
-    }
-  }
+  export const LfoWaveform = _LfoWaveform
+  export const LfoFreqUnit = _LfoFreqUnit
   interface FlangerControllerMidiMaps extends ControllerMidiMaps {
     dry: ControllerMidiMap
     wet: ControllerMidiMap

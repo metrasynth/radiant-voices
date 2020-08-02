@@ -7,172 +7,23 @@ import { ModuleDataChunks } from "../moduleDataChunk"
 import { MidiMap, ControllerMidiMap, ControllerMidiMaps } from "../controllerMidiMap"
 import { Project } from "../project"
 import { ModuleBase } from "./moduleBase"
-import {
-  ControllerValues,
-  Controllers,
-  ModuleType,
-  OptionValues,
-  Options,
-} from "./moduleType"
+import { ModuleType, OptionValues, Options } from "./moduleType"
 import { SamplerBehavior } from "./samplerBehavior"
+import { SamplerControllers } from "./samplerControllers"
+import { SamplerControllerValues } from "./samplerControllerValues"
+import { SampleInterpolation as _SampleInterpolation } from "./samplerEnums"
+import { EnvelopeInterpolation as _EnvelopeInterpolation } from "./samplerEnums"
+import { VibratoType as _VibratoType } from "./samplerEnums"
+import { LoopType as _LoopType } from "./samplerEnums"
+import { Format as _Format } from "./samplerEnums"
+import { Channels as _Channels } from "./samplerEnums"
 export namespace Sampler {
-  export const enum SampleInterpolation {
-    // noinspection JSUnusedGlobalSymbols
-    Off = 0,
-    Linear = 1,
-    Spline = 2,
-  }
-  export const enum EnvelopeInterpolation {
-    // noinspection JSUnusedGlobalSymbols
-    Off = 0,
-    Linear = 1,
-  }
-  export const enum VibratoType {
-    // noinspection JSUnusedGlobalSymbols
-    Sin = 0,
-    Saw = 1,
-    Square = 2,
-  }
-  export const enum LoopType {
-    // noinspection JSUnusedGlobalSymbols
-    Off = 0,
-    Forward = 1,
-    PingPong = 2,
-  }
-  export const enum Format {
-    // noinspection JSUnusedGlobalSymbols
-    Int8 = 1,
-    Int16 = 2,
-    Float32 = 4,
-  }
-  export const enum Channels {
-    // noinspection JSUnusedGlobalSymbols
-    Mono = 0,
-    Stereo = 8,
-  }
-  interface SamplerControllerValues extends ControllerValues {
-    volume: number
-    panning: number
-    sampleInterpolation: SampleInterpolation
-    envelopeInterpolation: EnvelopeInterpolation
-    polyphonyCh: number
-    recThreshold: number
-    vibratoType: VibratoType
-    vibratoAttack: number
-    vibratoDepth: number
-    vibratoRate: number
-    volumeFadeout: number
-  }
-  class SamplerControllers implements Controllers {
-    constructor(readonly controllerValues: SamplerControllerValues) {}
-    // noinspection JSUnusedGlobalSymbols
-    get volume(): number {
-      return this.controllerValues.volume
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set volume(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 512)
-      controllerValues.volume = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get panning(): number {
-      return this.controllerValues.panning + -128
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set panning(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, -128), 128)
-      controllerValues.panning = newValue - -128
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get sampleInterpolation(): SampleInterpolation {
-      return this.controllerValues.sampleInterpolation
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set sampleInterpolation(newValue: SampleInterpolation) {
-      const { controllerValues } = this
-      controllerValues.sampleInterpolation = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get envelopeInterpolation(): EnvelopeInterpolation {
-      return this.controllerValues.envelopeInterpolation
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set envelopeInterpolation(newValue: EnvelopeInterpolation) {
-      const { controllerValues } = this
-      controllerValues.envelopeInterpolation = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get polyphonyCh(): number {
-      return this.controllerValues.polyphonyCh
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set polyphonyCh(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 1), 32)
-      controllerValues.polyphonyCh = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get recThreshold(): number {
-      return this.controllerValues.recThreshold
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set recThreshold(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 10000)
-      controllerValues.recThreshold = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get vibratoType(): VibratoType {
-      return this.controllerValues.vibratoType
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set vibratoType(newValue: VibratoType) {
-      const { controllerValues } = this
-      controllerValues.vibratoType = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get vibratoAttack(): number {
-      return this.controllerValues.vibratoAttack
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set vibratoAttack(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 255)
-      controllerValues.vibratoAttack = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get vibratoDepth(): number {
-      return this.controllerValues.vibratoDepth
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set vibratoDepth(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 255)
-      controllerValues.vibratoDepth = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get vibratoRate(): number {
-      return this.controllerValues.vibratoRate
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set vibratoRate(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 63)
-      controllerValues.vibratoRate = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get volumeFadeout(): number {
-      return this.controllerValues.volumeFadeout
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set volumeFadeout(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 8192)
-      controllerValues.volumeFadeout = newValue
-    }
-  }
+  export const SampleInterpolation = _SampleInterpolation
+  export const EnvelopeInterpolation = _EnvelopeInterpolation
+  export const VibratoType = _VibratoType
+  export const LoopType = _LoopType
+  export const Format = _Format
+  export const Channels = _Channels
   interface SamplerControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     panning: ControllerMidiMap

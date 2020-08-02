@@ -6,95 +6,11 @@
 import { MidiMap, ControllerMidiMap, ControllerMidiMaps } from "../controllerMidiMap"
 import { Project } from "../project"
 import { ModuleBase } from "./moduleBase"
-import {
-  ControllerValues,
-  Controllers,
-  ModuleType,
-  OptionValues,
-  Options,
-} from "./moduleType"
+import { ModuleType, OptionValues, Options } from "./moduleType"
 import { GpioBehavior } from "./gpioBehavior"
+import { GpioControllers } from "./gpioControllers"
+import { GpioControllerValues } from "./gpioControllerValues"
 export namespace Gpio {
-  interface GpioControllerValues extends ControllerValues {
-    out: boolean
-    outPin: number
-    outThreshold: number
-    in: boolean
-    inPin: number
-    inNote: number
-    inAmplitude: number
-  }
-  class GpioControllers implements Controllers {
-    constructor(readonly controllerValues: GpioControllerValues) {}
-    // noinspection JSUnusedGlobalSymbols
-    get out(): boolean {
-      return this.controllerValues.out
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set out(newValue: boolean) {
-      const { controllerValues } = this
-      controllerValues.out = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get outPin(): number {
-      return this.controllerValues.outPin
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set outPin(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.outPin = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get outThreshold(): number {
-      return this.controllerValues.outThreshold
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set outThreshold(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 100)
-      controllerValues.outThreshold = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get in(): boolean {
-      return this.controllerValues.in
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set in(newValue: boolean) {
-      const { controllerValues } = this
-      controllerValues.in = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get inPin(): number {
-      return this.controllerValues.inPin
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set inPin(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.inPin = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get inNote(): number {
-      return this.controllerValues.inNote
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set inNote(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 128)
-      controllerValues.inNote = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get inAmplitude(): number {
-      return this.controllerValues.inAmplitude
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set inAmplitude(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 100)
-      controllerValues.inAmplitude = newValue
-    }
-  }
   interface GpioControllerMidiMaps extends ControllerMidiMaps {
     out: ControllerMidiMap
     outPin: ControllerMidiMap

@@ -6,106 +6,11 @@
 import { MidiMap, ControllerMidiMap, ControllerMidiMaps } from "../controllerMidiMap"
 import { Project } from "../project"
 import { ModuleBase } from "./moduleBase"
-import {
-  ControllerValues,
-  Controllers,
-  ModuleType,
-  OptionValues,
-  Options,
-} from "./moduleType"
+import { ModuleType, OptionValues, Options } from "./moduleType"
 import { AmplifierBehavior } from "./amplifierBehavior"
+import { AmplifierControllers } from "./amplifierControllers"
+import { AmplifierControllerValues } from "./amplifierControllerValues"
 export namespace Amplifier {
-  interface AmplifierControllerValues extends ControllerValues {
-    volume: number
-    balance: number
-    dcOffset: number
-    inverse: boolean
-    stereoWidth: number
-    absolute: boolean
-    fineVolume: number
-    gain: number
-  }
-  class AmplifierControllers implements Controllers {
-    constructor(readonly controllerValues: AmplifierControllerValues) {}
-    // noinspection JSUnusedGlobalSymbols
-    get volume(): number {
-      return this.controllerValues.volume
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set volume(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 1024)
-      controllerValues.volume = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get balance(): number {
-      return this.controllerValues.balance + -128
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set balance(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, -128), 128)
-      controllerValues.balance = newValue - -128
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get dcOffset(): number {
-      return this.controllerValues.dcOffset + -128
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set dcOffset(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, -128), 128)
-      controllerValues.dcOffset = newValue - -128
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get inverse(): boolean {
-      return this.controllerValues.inverse
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set inverse(newValue: boolean) {
-      const { controllerValues } = this
-      controllerValues.inverse = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get stereoWidth(): number {
-      return this.controllerValues.stereoWidth
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set stereoWidth(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.stereoWidth = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get absolute(): boolean {
-      return this.controllerValues.absolute
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set absolute(newValue: boolean) {
-      const { controllerValues } = this
-      controllerValues.absolute = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get fineVolume(): number {
-      return this.controllerValues.fineVolume
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set fineVolume(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 32768)
-      controllerValues.fineVolume = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get gain(): number {
-      return this.controllerValues.gain
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set gain(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 5000)
-      controllerValues.gain = newValue
-    }
-  }
   interface AmplifierControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     balance: ControllerMidiMap

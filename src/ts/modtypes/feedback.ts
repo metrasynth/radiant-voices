@@ -6,46 +6,13 @@
 import { MidiMap, ControllerMidiMap, ControllerMidiMaps } from "../controllerMidiMap"
 import { Project } from "../project"
 import { ModuleBase } from "./moduleBase"
-import {
-  ControllerValues,
-  Controllers,
-  ModuleType,
-  OptionValues,
-  Options,
-} from "./moduleType"
+import { ModuleType, OptionValues, Options } from "./moduleType"
 import { FeedbackBehavior } from "./feedbackBehavior"
+import { FeedbackControllers } from "./feedbackControllers"
+import { FeedbackControllerValues } from "./feedbackControllerValues"
+import { Channels as _Channels } from "./feedbackEnums"
 export namespace Feedback {
-  export const enum Channels {
-    // noinspection JSUnusedGlobalSymbols
-    Stereo = 0,
-    Mono = 1,
-  }
-  interface FeedbackControllerValues extends ControllerValues {
-    volume: number
-    channels: Channels
-  }
-  class FeedbackControllers implements Controllers {
-    constructor(readonly controllerValues: FeedbackControllerValues) {}
-    // noinspection JSUnusedGlobalSymbols
-    get volume(): number {
-      return this.controllerValues.volume
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set volume(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 10000)
-      controllerValues.volume = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get channels(): Channels {
-      return this.controllerValues.channels
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set channels(newValue: Channels) {
-      const { controllerValues } = this
-      controllerValues.channels = newValue
-    }
-  }
+  export const Channels = _Channels
   interface FeedbackControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     channels: ControllerMidiMap

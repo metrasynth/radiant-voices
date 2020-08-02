@@ -6,107 +6,15 @@
 import { MidiMap, ControllerMidiMap, ControllerMidiMaps } from "../controllerMidiMap"
 import { Project } from "../project"
 import { ModuleBase } from "./moduleBase"
-import {
-  ControllerValues,
-  Controllers,
-  ModuleType,
-  OptionValues,
-  Options,
-} from "./moduleType"
+import { ModuleType, OptionValues, Options } from "./moduleType"
 import { VocalFilterBehavior } from "./vocalFilterBehavior"
+import { VocalFilterControllers } from "./vocalFilterControllers"
+import { VocalFilterControllerValues } from "./vocalFilterControllerValues"
+import { VoiceType as _VoiceType } from "./vocalFilterEnums"
+import { Channels as _Channels } from "./vocalFilterEnums"
 export namespace VocalFilter {
-  export const enum VoiceType {
-    // noinspection JSUnusedGlobalSymbols
-    Soprano = 0,
-    Alto = 1,
-    Tenor = 2,
-    Bass = 3,
-  }
-  export const enum Channels {
-    // noinspection JSUnusedGlobalSymbols
-    Stereo = 0,
-    Mono = 1,
-  }
-  interface VocalFilterControllerValues extends ControllerValues {
-    volume: number
-    formantWidthHz: number
-    intensity: number
-    formants: number
-    vowel: number
-    voiceType: VoiceType
-    channels: Channels
-  }
-  class VocalFilterControllers implements Controllers {
-    constructor(readonly controllerValues: VocalFilterControllerValues) {}
-    // noinspection JSUnusedGlobalSymbols
-    get volume(): number {
-      return this.controllerValues.volume
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set volume(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 512)
-      controllerValues.volume = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get formantWidthHz(): number {
-      return this.controllerValues.formantWidthHz
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set formantWidthHz(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.formantWidthHz = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get intensity(): number {
-      return this.controllerValues.intensity
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set intensity(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.intensity = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get formants(): number {
-      return this.controllerValues.formants
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set formants(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 1), 5)
-      controllerValues.formants = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get vowel(): number {
-      return this.controllerValues.vowel
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set vowel(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.vowel = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get voiceType(): VoiceType {
-      return this.controllerValues.voiceType
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set voiceType(newValue: VoiceType) {
-      const { controllerValues } = this
-      controllerValues.voiceType = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get channels(): Channels {
-      return this.controllerValues.channels
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set channels(newValue: Channels) {
-      const { controllerValues } = this
-      controllerValues.channels = newValue
-    }
-  }
+  export const VoiceType = _VoiceType
+  export const Channels = _Channels
   interface VocalFilterControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     formantWidthHz: ControllerMidiMap

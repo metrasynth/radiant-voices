@@ -6,83 +6,15 @@
 import { MidiMap, ControllerMidiMap, ControllerMidiMaps } from "../controllerMidiMap"
 import { Project } from "../project"
 import { ModuleBase } from "./moduleBase"
-import {
-  ControllerValues,
-  Controllers,
-  ModuleType,
-  OptionValues,
-  Options,
-} from "./moduleType"
+import { ModuleType, OptionValues, Options } from "./moduleType"
 import { LoopBehavior } from "./loopBehavior"
+import { LoopControllers } from "./loopControllers"
+import { LoopControllerValues } from "./loopControllerValues"
+import { Channels as _Channels } from "./loopEnums"
+import { Mode as _Mode } from "./loopEnums"
 export namespace Loop {
-  export const enum Channels {
-    // noinspection JSUnusedGlobalSymbols
-    Mono = 0,
-    Stereo = 1,
-  }
-  export const enum Mode {
-    // noinspection JSUnusedGlobalSymbols
-    Normal = 0,
-    PingPong = 1,
-  }
-  interface LoopControllerValues extends ControllerValues {
-    volume: number
-    delay: number
-    channels: Channels
-    repeats: number
-    mode: Mode
-  }
-  class LoopControllers implements Controllers {
-    constructor(readonly controllerValues: LoopControllerValues) {}
-    // noinspection JSUnusedGlobalSymbols
-    get volume(): number {
-      return this.controllerValues.volume
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set volume(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.volume = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get delay(): number {
-      return this.controllerValues.delay
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set delay(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.delay = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get channels(): Channels {
-      return this.controllerValues.channels
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set channels(newValue: Channels) {
-      const { controllerValues } = this
-      controllerValues.channels = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get repeats(): number {
-      return this.controllerValues.repeats
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set repeats(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 64)
-      controllerValues.repeats = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get mode(): Mode {
-      return this.controllerValues.mode
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set mode(newValue: Mode) {
-      const { controllerValues } = this
-      controllerValues.mode = newValue
-    }
-  }
+  export const Channels = _Channels
+  export const Mode = _Mode
   interface LoopControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     delay: ControllerMidiMap

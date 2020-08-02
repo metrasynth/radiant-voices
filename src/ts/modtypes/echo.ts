@@ -6,99 +6,15 @@
 import { MidiMap, ControllerMidiMap, ControllerMidiMaps } from "../controllerMidiMap"
 import { Project } from "../project"
 import { ModuleBase } from "./moduleBase"
-import {
-  ControllerValues,
-  Controllers,
-  ModuleType,
-  OptionValues,
-  Options,
-} from "./moduleType"
+import { ModuleType, OptionValues, Options } from "./moduleType"
 import { EchoBehavior } from "./echoBehavior"
+import { EchoControllers } from "./echoControllers"
+import { EchoControllerValues } from "./echoControllerValues"
+import { Channels as _Channels } from "./echoEnums"
+import { DelayUnit as _DelayUnit } from "./echoEnums"
 export namespace Echo {
-  export const enum Channels {
-    // noinspection JSUnusedGlobalSymbols
-    Mono = 0,
-    Stereo = 1,
-  }
-  export const enum DelayUnit {
-    // noinspection JSUnusedGlobalSymbols
-    Sec_256 = 0,
-    Ms = 1,
-    Hz = 2,
-    Tick = 3,
-    Line = 4,
-    Line_2 = 5,
-    Line_3 = 6,
-  }
-  interface EchoControllerValues extends ControllerValues {
-    dry: number
-    wet: number
-    feedback: number
-    delay: number
-    channels: Channels
-    delayUnit: DelayUnit
-  }
-  class EchoControllers implements Controllers {
-    constructor(readonly controllerValues: EchoControllerValues) {}
-    // noinspection JSUnusedGlobalSymbols
-    get dry(): number {
-      return this.controllerValues.dry
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set dry(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.dry = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get wet(): number {
-      return this.controllerValues.wet
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set wet(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.wet = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get feedback(): number {
-      return this.controllerValues.feedback
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set feedback(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.feedback = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get delay(): number {
-      return this.controllerValues.delay
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set delay(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.delay = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get channels(): Channels {
-      return this.controllerValues.channels
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set channels(newValue: Channels) {
-      const { controllerValues } = this
-      controllerValues.channels = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get delayUnit(): DelayUnit {
-      return this.controllerValues.delayUnit
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set delayUnit(newValue: DelayUnit) {
-      const { controllerValues } = this
-      controllerValues.delayUnit = newValue
-    }
-  }
+  export const Channels = _Channels
+  export const DelayUnit = _DelayUnit
   interface EchoControllerMidiMaps extends ControllerMidiMaps {
     dry: ControllerMidiMap
     wet: ControllerMidiMap

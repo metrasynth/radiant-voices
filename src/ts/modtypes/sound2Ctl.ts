@@ -7,126 +7,15 @@ import { ModuleDataChunks } from "../moduleDataChunk"
 import { MidiMap, ControllerMidiMap, ControllerMidiMaps } from "../controllerMidiMap"
 import { Project } from "../project"
 import { ModuleBase } from "./moduleBase"
-import {
-  ControllerValues,
-  Controllers,
-  ModuleType,
-  OptionValues,
-  Options,
-} from "./moduleType"
+import { ModuleType, OptionValues, Options } from "./moduleType"
 import { Sound2CtlBehavior } from "./sound2CtlBehavior"
+import { Sound2CtlControllers } from "./sound2CtlControllers"
+import { Sound2CtlControllerValues } from "./sound2CtlControllerValues"
+import { Channels as _Channels } from "./sound2CtlEnums"
+import { Mode as _Mode } from "./sound2CtlEnums"
 export namespace Sound2Ctl {
-  export const enum Channels {
-    // noinspection JSUnusedGlobalSymbols
-    Mono = 0,
-    Stereo = 1,
-  }
-  export const enum Mode {
-    // noinspection JSUnusedGlobalSymbols
-    Lq = 0,
-    Hq = 1,
-  }
-  interface Sound2CtlControllerValues extends ControllerValues {
-    sampleRateHz: number
-    channels: Channels
-    absolute: boolean
-    gain: number
-    smooth: number
-    mode: Mode
-    outMin: number
-    outMax: number
-    outController: number
-  }
-  class Sound2CtlControllers implements Controllers {
-    constructor(readonly controllerValues: Sound2CtlControllerValues) {}
-    // noinspection JSUnusedGlobalSymbols
-    get sampleRateHz(): number {
-      return this.controllerValues.sampleRateHz
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set sampleRateHz(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 1), 32768)
-      controllerValues.sampleRateHz = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get channels(): Channels {
-      return this.controllerValues.channels
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set channels(newValue: Channels) {
-      const { controllerValues } = this
-      controllerValues.channels = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get absolute(): boolean {
-      return this.controllerValues.absolute
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set absolute(newValue: boolean) {
-      const { controllerValues } = this
-      controllerValues.absolute = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get gain(): number {
-      return this.controllerValues.gain
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set gain(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 1024)
-      controllerValues.gain = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get smooth(): number {
-      return this.controllerValues.smooth
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set smooth(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 256)
-      controllerValues.smooth = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get mode(): Mode {
-      return this.controllerValues.mode
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set mode(newValue: Mode) {
-      const { controllerValues } = this
-      controllerValues.mode = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get outMin(): number {
-      return this.controllerValues.outMin
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set outMin(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 32768)
-      controllerValues.outMin = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get outMax(): number {
-      return this.controllerValues.outMax
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set outMax(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 32768)
-      controllerValues.outMax = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get outController(): number {
-      return this.controllerValues.outController
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set outController(newValue: number) {
-      const { controllerValues } = this
-      newValue = Math.min(Math.max(newValue, 0), 32)
-      controllerValues.outController = newValue
-    }
-  }
+  export const Channels = _Channels
+  export const Mode = _Mode
   interface Sound2CtlControllerMidiMaps extends ControllerMidiMaps {
     sampleRateHz: ControllerMidiMap
     channels: ControllerMidiMap
