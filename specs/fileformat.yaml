@@ -1396,6 +1396,7 @@ module_types:
       - ignore_notes_with_zero_velocity: false
       - vv_curve_active: false
       - trigger: false
+      - generate_missed_note_off_commands: false
     chunks:
       - name: note_velocity_curve
         parent_type: Array

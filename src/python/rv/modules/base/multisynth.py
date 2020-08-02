@@ -24,6 +24,7 @@ class BaseMultiSynth:
     ignore_notes_with_zero_velocity = Option(False)
     vv_curve_active = Option(False)
     trigger = Option(False)
+    generate_missed_note_off_commands = Option(False)
 
     class note_velocity_curve_chunk(ArrayChunk):
         chnm = 0

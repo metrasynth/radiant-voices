@@ -27,6 +27,7 @@ export namespace MultiSynth {
     ignoreNotesWithZeroVelocity: boolean
     vvCurveActive: boolean
     trigger: boolean
+    generateMissedNoteOffCommands: boolean
   }
   class MultiSynthOptions implements Options {
     constructor(readonly optionValues: MultiSynthOptionValues) {}
@@ -61,6 +62,14 @@ export namespace MultiSynth {
     // noinspection JSUnusedGlobalSymbols
     set trigger(newValue: boolean) {
       this.optionValues.trigger = newValue
+    }
+    // noinspection JSUnusedGlobalSymbols
+    get generateMissedNoteOffCommands(): boolean {
+      return this.optionValues.generateMissedNoteOffCommands
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set generateMissedNoteOffCommands(newValue: boolean) {
+      this.optionValues.generateMissedNoteOffCommands = newValue
     }
   }
   export class Module extends ModuleBase implements ModuleType {
@@ -124,6 +133,7 @@ export namespace MultiSynth {
       ignoreNotesWithZeroVelocity: false,
       vvCurveActive: false,
       trigger: false,
+      generateMissedNoteOffCommands: false,
     }
     readonly options: MultiSynthOptions = new MultiSynthOptions(this.optionValues)
     readonly o = this.options
@@ -169,12 +179,13 @@ export namespace MultiSynth {
       return a
     }
     rawOptionBytes(): Uint8Array {
-      const bytes = new Uint8Array(4)
+      const bytes = new Uint8Array(5)
       const { optionValues: ov } = this
       bytes[0] = Number(ov.useStaticNote_C5)
       bytes[1] = Number(ov.ignoreNotesWithZeroVelocity)
       bytes[2] = Number(ov.vvCurveActive)
       bytes[3] = Number(ov.trigger)
+      bytes[4] = Number(ov.generateMissedNoteOffCommands)
       return bytes
     }
     setOptions(dataChunks: ModuleDataChunks) {
@@ -190,6 +201,7 @@ export namespace MultiSynth {
         this.optionValues.ignoreNotesWithZeroVelocity = Boolean(chdt[1])
         this.optionValues.vvCurveActive = Boolean(chdt[2])
         this.optionValues.trigger = Boolean(chdt[3])
+        this.optionValues.generateMissedNoteOffCommands = Boolean(chdt[4])
       }
     }
   }
