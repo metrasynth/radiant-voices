@@ -36,33 +36,29 @@ export class MetaModuleBehavior extends ModuleSpecificBehavior {
 
   private processProjectData(dataChunk: ModuleDataChunk) {
     const { chdt } = dataChunk
-    if (chdt) {
-      this.project = readSunVoxFile(fromIffBuffer(chdt.buffer)) as Project
-    }
+    if (!chdt) return
+    this.project = readSunVoxFile(fromIffBuffer(chdt.buffer)) as Project
   }
 
   private processMappingData(dataChunk: ModuleDataChunk) {
     const { chdt } = dataChunk
-    if (chdt) {
-      const rawValues = new Uint16Array(chdt.buffer, chdt.byteOffset)
-      for (let i = 0; i < 64; ++i) {
-        const mapping = this.mappings[i]
-        mapping.module = rawValues[i * 2]
-        mapping.controller = rawValues[i * 2 + 1]
-      }
+    if (!chdt) return
+    const rawValues = new Uint16Array(chdt.buffer, chdt.byteOffset)
+    for (let i = 0; i < 64; ++i) {
+      const mapping = this.mappings[i]
+      mapping.module = rawValues[i * 2]
+      mapping.controller = rawValues[i * 2 + 1]
     }
   }
 
   private processControllerName(dataChunk: ModuleDataChunk) {
-    const { chnm } = dataChunk
-    let { chdt } = dataChunk
-    if (chdt) {
-      const index = chnm - 8
-      if (chdt[chdt.length - 1] == 0) {
-        chdt = new Uint8Array(chdt.buffer, chdt.byteOffset, chdt.length - 1)
-      }
-      this.controllerNames[index] = new TextDecoder().decode(chdt)
+    let { chnm, chdt } = dataChunk
+    if (!chdt) return
+    const index = chnm - 8
+    if (chdt[chdt.length - 1] == 0) {
+      chdt = new Uint8Array(chdt.buffer, chdt.byteOffset, chdt.length - 1)
     }
+    this.controllerNames[index] = new TextDecoder().decode(chdt)
   }
 
   *typeSpecificChunks(): Generator<Chunk> {

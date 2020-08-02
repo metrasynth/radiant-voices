@@ -42,6 +42,11 @@ class BaseSampler:
         mono = 0
         stereo = 8
 
+    class EnvelopeFlags(Enum):
+        enabled = 1
+        sustain = 2
+        loop = 4
+
     volume = Controller((0, 512), 256)
     panning = Controller((-128, 128), 0)
     sample_interpolation = Controller(SampleInterpolation, SampleInterpolation.spline)

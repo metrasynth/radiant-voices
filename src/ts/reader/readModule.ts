@@ -48,9 +48,16 @@ const handlers: Record<string, HandlerFunc> = {
     ctx.currentDataChunk = dataChunk
   },
   CHDT: (module, chunk, chunks, ctx) => {
-    if (ctx.currentDataChunk) {
-      ctx.currentDataChunk.chdt = (chunk as BytesChunk).value
-    }
+    if (!ctx.currentDataChunk) return
+    ctx.currentDataChunk.chdt = (chunk as BytesChunk).value
+  },
+  CHFF: (module, chunk, chunks, ctx) => {
+    if (!ctx.currentDataChunk) return
+    ctx.currentDataChunk.chff = (chunk as Uint32Chunk).value
+  },
+  CHFR: (module, chunk, chunks, ctx) => {
+    if (!ctx.currentDataChunk) return
+    ctx.currentDataChunk.chfr = (chunk as Uint32Chunk).value
   },
   CVAL: (module, chunk, chunks, ctx) => {
     const cval = (chunk as Int32Chunk).value

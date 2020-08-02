@@ -22,6 +22,9 @@ import { Format } from "./samplerEnums"
 // @ts-ignore
 // noinspection ES6UnusedImports
 import { Channels } from "./samplerEnums"
+// @ts-ignore
+// noinspection ES6UnusedImports
+import { EnvelopeFlags } from "./samplerEnums"
 export interface SamplerControllerValues extends ControllerValues {
   volume: number
   panning: number

@@ -39,3 +39,9 @@ export enum Channels {
   Mono = 0,
   Stereo = 8,
 }
+export enum EnvelopeFlags {
+  // noinspection JSUnusedGlobalSymbols
+  Enabled = 1,
+  Sustain = 2,
+  Loop = 4,
+}

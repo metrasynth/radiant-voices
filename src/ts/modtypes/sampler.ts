@@ -48,6 +48,12 @@ export namespace Sampler {
     Mono = 0,
     Stereo = 8,
   }
+  export enum EnvelopeFlags {
+    // noinspection JSUnusedGlobalSymbols
+    Enabled = 1,
+    Sustain = 2,
+    Loop = 4,
+  }
   interface SamplerControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     panning: ControllerMidiMap

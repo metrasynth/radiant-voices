@@ -1522,6 +1522,10 @@ module_types:
       Channels:
         mono: 0
         stereo: 8
+      EnvelopeFlags:
+        enabled: 1
+        sustain: 2
+        loop: 4
     controllers:
       - volume: { min: 0, max: 512, default: 256 }
       - panning: { min: -128, max: 128, default: 0 }

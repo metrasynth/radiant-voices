@@ -23,6 +23,9 @@ import { Format } from "./samplerEnums"
 // @ts-ignore
 // noinspection ES6UnusedImports
 import { Channels } from "./samplerEnums"
+// @ts-ignore
+// noinspection ES6UnusedImports
+import { EnvelopeFlags } from "./samplerEnums"
 export class SamplerBaseControllers implements Controllers {
   constructor(
     readonly module: ModuleType,
