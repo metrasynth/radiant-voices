@@ -89,24 +89,6 @@ const writerFuncs: Record<string, WriterFunc> = {
       ds.writeUint8(messageType === MessageType.Unset ? 0xff : 0xc8)
     }
   },
-  // links: (ds, value) => {
-  //   ds.writeUint32(value.length * 4)
-  //   for (const x of value) {
-  //     ds.writeInt32(x)
-  //   }
-  // },
-  // moduleFlags: (ds, value) => {
-  //   ds.writeUint32(4)
-  //   ds.writeUint32(value.toUint32())
-  // },
-  // patternAppearanceFlags: (ds, value) => {
-  //   ds.writeUint32(4)
-  //   ds.writeUint32(value.toUint32())
-  // },
-  // patternFlags: (ds, value) => {
-  //   ds.writeUint32(4)
-  //   ds.writeUint32(value.toUint32())
-  // },
   uint32: (ds, chunk) => {
     const { value } = chunk as Uint32Chunk
     ds.writeUint32(4)
