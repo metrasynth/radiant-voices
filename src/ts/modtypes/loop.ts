@@ -10,11 +10,19 @@ import { ModuleType, OptionValues, Options } from "./moduleType"
 import { LoopBehavior } from "./loopBehavior"
 import { LoopControllers } from "./loopControllers"
 import { LoopControllerValues } from "./loopControllerValues"
-import { Channels as _Channels } from "./loopEnums"
-import { Mode as _Mode } from "./loopEnums"
 export namespace Loop {
-  export const Channels = _Channels
-  export const Mode = _Mode
+  // Intentionally duplicated enums - see also loopEnums.ts
+  // (TypeScript does not allow exporting imported enums from inside a namespace)
+  export enum Channels {
+    // noinspection JSUnusedGlobalSymbols
+    Mono = 0,
+    Stereo = 1,
+  }
+  export enum Mode {
+    // noinspection JSUnusedGlobalSymbols
+    Normal = 0,
+    PingPong = 1,
+  }
   interface LoopControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     delay: ControllerMidiMap

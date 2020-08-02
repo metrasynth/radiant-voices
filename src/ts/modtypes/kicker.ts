@@ -10,9 +10,15 @@ import { ModuleType, OptionValues, Options } from "./moduleType"
 import { KickerBehavior } from "./kickerBehavior"
 import { KickerControllers } from "./kickerControllers"
 import { KickerControllerValues } from "./kickerControllerValues"
-import { Waveform as _Waveform } from "./kickerEnums"
 export namespace Kicker {
-  export const Waveform = _Waveform
+  // Intentionally duplicated enums - see also kickerEnums.ts
+  // (TypeScript does not allow exporting imported enums from inside a namespace)
+  export enum Waveform {
+    // noinspection JSUnusedGlobalSymbols
+    Triangle = 0,
+    Square = 1,
+    Sin = 2,
+  }
   interface KickerControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     waveform: ControllerMidiMap

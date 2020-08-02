@@ -10,11 +10,24 @@ import { ModuleType, OptionValues, Options } from "./moduleType"
 import { VibratoBehavior } from "./vibratoBehavior"
 import { VibratoControllers } from "./vibratoControllers"
 import { VibratoControllerValues } from "./vibratoControllerValues"
-import { Channels as _Channels } from "./vibratoEnums"
-import { FrequencyUnit as _FrequencyUnit } from "./vibratoEnums"
 export namespace Vibrato {
-  export const Channels = _Channels
-  export const FrequencyUnit = _FrequencyUnit
+  // Intentionally duplicated enums - see also vibratoEnums.ts
+  // (TypeScript does not allow exporting imported enums from inside a namespace)
+  export enum Channels {
+    // noinspection JSUnusedGlobalSymbols
+    Stereo = 0,
+    Mono = 1,
+  }
+  export enum FrequencyUnit {
+    // noinspection JSUnusedGlobalSymbols
+    Hz_64 = 0,
+    Ms = 1,
+    Hz = 2,
+    Tick = 3,
+    Line = 4,
+    Line_2 = 5,
+    Line_3 = 6,
+  }
   interface VibratoControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     amplitude: ControllerMidiMap

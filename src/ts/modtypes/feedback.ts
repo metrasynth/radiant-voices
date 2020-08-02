@@ -10,9 +10,14 @@ import { ModuleType, OptionValues, Options } from "./moduleType"
 import { FeedbackBehavior } from "./feedbackBehavior"
 import { FeedbackControllers } from "./feedbackControllers"
 import { FeedbackControllerValues } from "./feedbackControllerValues"
-import { Channels as _Channels } from "./feedbackEnums"
 export namespace Feedback {
-  export const Channels = _Channels
+  // Intentionally duplicated enums - see also feedbackEnums.ts
+  // (TypeScript does not allow exporting imported enums from inside a namespace)
+  export enum Channels {
+    // noinspection JSUnusedGlobalSymbols
+    Stereo = 0,
+    Mono = 1,
+  }
   interface FeedbackControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     channels: ControllerMidiMap

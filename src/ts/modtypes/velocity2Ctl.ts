@@ -10,9 +10,15 @@ import { ModuleType, OptionValues, Options } from "./moduleType"
 import { Velocity2CtlBehavior } from "./velocity2CtlBehavior"
 import { Velocity2CtlControllers } from "./velocity2CtlControllers"
 import { Velocity2CtlControllerValues } from "./velocity2CtlControllerValues"
-import { NoteOffAction as _NoteOffAction } from "./velocity2CtlEnums"
 export namespace Velocity2Ctl {
-  export const NoteOffAction = _NoteOffAction
+  // Intentionally duplicated enums - see also velocity2CtlEnums.ts
+  // (TypeScript does not allow exporting imported enums from inside a namespace)
+  export enum NoteOffAction {
+    // noinspection JSUnusedGlobalSymbols
+    DoNothing = 0,
+    VelDown = 1,
+    VelUp = 2,
+  }
   interface Velocity2CtlControllerMidiMaps extends ControllerMidiMaps {
     noteOffAction: ControllerMidiMap
     outMin: ControllerMidiMap

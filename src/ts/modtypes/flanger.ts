@@ -10,11 +10,24 @@ import { ModuleType, OptionValues, Options } from "./moduleType"
 import { FlangerBehavior } from "./flangerBehavior"
 import { FlangerControllers } from "./flangerControllers"
 import { FlangerControllerValues } from "./flangerControllerValues"
-import { LfoWaveform as _LfoWaveform } from "./flangerEnums"
-import { LfoFreqUnit as _LfoFreqUnit } from "./flangerEnums"
 export namespace Flanger {
-  export const LfoWaveform = _LfoWaveform
-  export const LfoFreqUnit = _LfoFreqUnit
+  // Intentionally duplicated enums - see also flangerEnums.ts
+  // (TypeScript does not allow exporting imported enums from inside a namespace)
+  export enum LfoWaveform {
+    // noinspection JSUnusedGlobalSymbols
+    Hsin = 0,
+    Sin = 1,
+  }
+  export enum LfoFreqUnit {
+    // noinspection JSUnusedGlobalSymbols
+    Hz_0_05 = 0,
+    Ms = 1,
+    Hz = 2,
+    Tick = 3,
+    Line = 4,
+    Line_2 = 5,
+    Line_3 = 6,
+  }
   interface FlangerControllerMidiMaps extends ControllerMidiMaps {
     dry: ControllerMidiMap
     wet: ControllerMidiMap

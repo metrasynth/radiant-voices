@@ -10,11 +10,21 @@ import { ModuleType, OptionValues, Options } from "./moduleType"
 import { VocalFilterBehavior } from "./vocalFilterBehavior"
 import { VocalFilterControllers } from "./vocalFilterControllers"
 import { VocalFilterControllerValues } from "./vocalFilterControllerValues"
-import { VoiceType as _VoiceType } from "./vocalFilterEnums"
-import { Channels as _Channels } from "./vocalFilterEnums"
 export namespace VocalFilter {
-  export const VoiceType = _VoiceType
-  export const Channels = _Channels
+  // Intentionally duplicated enums - see also vocalFilterEnums.ts
+  // (TypeScript does not allow exporting imported enums from inside a namespace)
+  export enum VoiceType {
+    // noinspection JSUnusedGlobalSymbols
+    Soprano = 0,
+    Alto = 1,
+    Tenor = 2,
+    Bass = 3,
+  }
+  export enum Channels {
+    // noinspection JSUnusedGlobalSymbols
+    Stereo = 0,
+    Mono = 1,
+  }
   interface VocalFilterControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     formantWidthHz: ControllerMidiMap

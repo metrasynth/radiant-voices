@@ -10,11 +10,20 @@ import { ModuleType, OptionValues, Options } from "./moduleType"
 import { ModulatorBehavior } from "./modulatorBehavior"
 import { ModulatorControllers } from "./modulatorControllers"
 import { ModulatorControllerValues } from "./modulatorControllerValues"
-import { ModulationType as _ModulationType } from "./modulatorEnums"
-import { Channels as _Channels } from "./modulatorEnums"
 export namespace Modulator {
-  export const ModulationType = _ModulationType
-  export const Channels = _Channels
+  // Intentionally duplicated enums - see also modulatorEnums.ts
+  // (TypeScript does not allow exporting imported enums from inside a namespace)
+  export enum ModulationType {
+    // noinspection JSUnusedGlobalSymbols
+    Amplitude = 0,
+    Phase = 1,
+    PhaseAbs = 2,
+  }
+  export enum Channels {
+    // noinspection JSUnusedGlobalSymbols
+    Stereo = 0,
+    Mono = 1,
+  }
   interface ModulatorControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     modulationType: ControllerMidiMap

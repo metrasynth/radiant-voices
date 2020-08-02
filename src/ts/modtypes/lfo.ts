@@ -10,15 +10,40 @@ import { ModuleType, OptionValues, Options } from "./moduleType"
 import { LfoBehavior } from "./lfoBehavior"
 import { LfoControllers } from "./lfoControllers"
 import { LfoControllerValues } from "./lfoControllerValues"
-import { Type as _Type } from "./lfoEnums"
-import { Waveform as _Waveform } from "./lfoEnums"
-import { Channels as _Channels } from "./lfoEnums"
-import { FrequencyUnit as _FrequencyUnit } from "./lfoEnums"
 export namespace Lfo {
-  export const Type = _Type
-  export const Waveform = _Waveform
-  export const Channels = _Channels
-  export const FrequencyUnit = _FrequencyUnit
+  // Intentionally duplicated enums - see also lfoEnums.ts
+  // (TypeScript does not allow exporting imported enums from inside a namespace)
+  export enum Type {
+    // noinspection JSUnusedGlobalSymbols
+    Amplitude = 0,
+    Panning = 1,
+  }
+  export enum Waveform {
+    // noinspection JSUnusedGlobalSymbols
+    Sin = 0,
+    Square = 1,
+    Sin2 = 2,
+    Saw = 3,
+    Saw2 = 4,
+    Random = 5,
+    Triangle = 6,
+    RandomInterpolated = 7,
+  }
+  export enum Channels {
+    // noinspection JSUnusedGlobalSymbols
+    Stereo = 0,
+    Mono = 1,
+  }
+  export enum FrequencyUnit {
+    // noinspection JSUnusedGlobalSymbols
+    Hz_64 = 0,
+    Ms = 1,
+    Hz = 2,
+    Tick = 3,
+    Line = 4,
+    Line_2 = 5,
+    Line_3 = 6,
+  }
   interface LfoControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     type: ControllerMidiMap

@@ -10,17 +10,51 @@ import { ModuleType, OptionValues, Options } from "./moduleType"
 import { FilterProBehavior } from "./filterProBehavior"
 import { FilterProControllers } from "./filterProControllers"
 import { FilterProControllerValues } from "./filterProControllerValues"
-import { Type as _Type } from "./filterProEnums"
-import { RollOff as _RollOff } from "./filterProEnums"
-import { Mode as _Mode } from "./filterProEnums"
-import { LfoWaveform as _LfoWaveform } from "./filterProEnums"
-import { LfoFreqUnit as _LfoFreqUnit } from "./filterProEnums"
 export namespace FilterPro {
-  export const Type = _Type
-  export const RollOff = _RollOff
-  export const Mode = _Mode
-  export const LfoWaveform = _LfoWaveform
-  export const LfoFreqUnit = _LfoFreqUnit
+  // Intentionally duplicated enums - see also filterProEnums.ts
+  // (TypeScript does not allow exporting imported enums from inside a namespace)
+  export enum Type {
+    // noinspection JSUnusedGlobalSymbols
+    Lp = 0,
+    Hp = 1,
+    BpConstSkirtGain = 2,
+    BpConstPeakGain = 3,
+    Notch = 4,
+    AllPass = 5,
+    Peaking = 6,
+    LowShelf = 7,
+    HighShelf = 8,
+  }
+  export enum RollOff {
+    // noinspection JSUnusedGlobalSymbols
+    Db_12 = 0,
+    Db_24 = 1,
+    Db_36 = 2,
+    Db_48 = 3,
+  }
+  export enum Mode {
+    // noinspection JSUnusedGlobalSymbols
+    Stereo = 0,
+    Mono = 1,
+  }
+  export enum LfoWaveform {
+    // noinspection JSUnusedGlobalSymbols
+    Sin = 0,
+    Saw = 1,
+    Saw2 = 2,
+    Square = 3,
+    Random = 4,
+  }
+  export enum LfoFreqUnit {
+    // noinspection JSUnusedGlobalSymbols
+    Hz_0_02 = 0,
+    Ms = 1,
+    Hz = 2,
+    Tick = 3,
+    Line = 4,
+    Line_2 = 5,
+    Line_3 = 6,
+  }
   interface FilterProControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     type: ControllerMidiMap

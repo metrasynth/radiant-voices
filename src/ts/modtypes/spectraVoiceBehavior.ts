@@ -1,38 +1,18 @@
 import { ModuleSpecificBehavior } from "./moduleSpecificBehavior"
 import { SpectraVoice } from "./spectraVoice"
-import HarmonicType = SpectraVoice.HarmonicType
 import { Chunk } from "@radiant-voices/chunks/chunk"
 import { ModuleDataChunk, ModuleDataChunks } from "@radiant-voices/moduleDataChunk"
-
-const Hsin = HarmonicType.Hsin
 
 const defaultHarmonicFrequencies = [1098, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 const defaultHarmonicVolumes = [255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 const defaultHarmonicWidths = [3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-const defaultHarmonicTypes = [
-  Hsin,
-  Hsin,
-  Hsin,
-  Hsin,
-  Hsin,
-  Hsin,
-  Hsin,
-  Hsin,
-  Hsin,
-  Hsin,
-  Hsin,
-  Hsin,
-  Hsin,
-  Hsin,
-  Hsin,
-  Hsin,
-]
+const defaultHarmonicTypes = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 export class SpectraVoiceBehavior extends ModuleSpecificBehavior {
   harmonicFrequencies = Uint16Array.from(defaultHarmonicFrequencies)
   harmonicVolumes = Uint8Array.from(defaultHarmonicVolumes)
   harmonicWidths = Uint8Array.from(defaultHarmonicWidths)
-  harmonicTypes: HarmonicType[] = Array.from(defaultHarmonicTypes)
+  harmonicTypes: SpectraVoice.HarmonicType[] = Array.from(defaultHarmonicTypes)
 
   chnk(): number {
     return 4

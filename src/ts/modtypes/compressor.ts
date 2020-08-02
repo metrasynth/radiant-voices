@@ -10,9 +10,15 @@ import { ModuleType, OptionValues, Options } from "./moduleType"
 import { CompressorBehavior } from "./compressorBehavior"
 import { CompressorControllers } from "./compressorControllers"
 import { CompressorControllerValues } from "./compressorControllerValues"
-import { Mode as _Mode } from "./compressorEnums"
 export namespace Compressor {
-  export const Mode = _Mode
+  // Intentionally duplicated enums - see also compressorEnums.ts
+  // (TypeScript does not allow exporting imported enums from inside a namespace)
+  export enum Mode {
+    // noinspection JSUnusedGlobalSymbols
+    Peak = 0,
+    Rms = 1,
+    PeakZeroLatency = 2,
+  }
   interface CompressorControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     threshold: ControllerMidiMap

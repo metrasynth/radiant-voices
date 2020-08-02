@@ -28,14 +28,19 @@ import { {{ modtype_name }}Behavior } from "./{{ modtype_name | camelcase }}Beha
 import { {{ modtype_name }}Controllers } from "./{{ modtype_name | camelcase }}Controllers"
 import { {{ modtype_name }}ControllerValues } from "./{{ modtype_name | camelcase }}ControllerValues"
 
-{% for ename, e in (modtype.enums or {}).items() %}
-    import { {{ ename }} as _{{ ename }} } from "./{{ modtype_name | camelcase }}Enums"
-{% endfor %}
-
 export namespace {{ modtype_name }} {
 
+    {% if modtype.enums %}
+        // Intentionally duplicated enums - see also {{ modtype_name | camelcase }}Enums.ts
+        // (TypeScript does not allow exporting imported enums from inside a namespace)
+    {% endif %}
     {% for ename, e in (modtype.enums or {}).items() %}
-        export const {{ ename }} = _{{ ename }}
+        export enum {{ ename }} {
+            // noinspection JSUnusedGlobalSymbols
+            {% for ekey, eval in e.items() %}
+                {{ ekey | enumname | pascalcase }} = {{ eval }},
+            {% endfor %}
+        }
     {% endfor %}
 
     {% if modtype.controllers %}

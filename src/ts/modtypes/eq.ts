@@ -10,9 +10,14 @@ import { ModuleType, OptionValues, Options } from "./moduleType"
 import { EqBehavior } from "./eqBehavior"
 import { EqControllers } from "./eqControllers"
 import { EqControllerValues } from "./eqControllerValues"
-import { Channels as _Channels } from "./eqEnums"
 export namespace Eq {
-  export const Channels = _Channels
+  // Intentionally duplicated enums - see also eqEnums.ts
+  // (TypeScript does not allow exporting imported enums from inside a namespace)
+  export enum Channels {
+    // noinspection JSUnusedGlobalSymbols
+    Stereo = 0,
+    Mono = 1,
+  }
   interface EqControllerMidiMaps extends ControllerMidiMaps {
     low: ControllerMidiMap
     middle: ControllerMidiMap

@@ -10,9 +10,16 @@ import { ModuleType, OptionValues, Options } from "./moduleType"
 import { PitchShifterBehavior } from "./pitchShifterBehavior"
 import { PitchShifterControllers } from "./pitchShifterControllers"
 import { PitchShifterControllerValues } from "./pitchShifterControllerValues"
-import { Mode as _Mode } from "./pitchShifterEnums"
 export namespace PitchShifter {
-  export const Mode = _Mode
+  // Intentionally duplicated enums - see also pitchShifterEnums.ts
+  // (TypeScript does not allow exporting imported enums from inside a namespace)
+  export enum Mode {
+    // noinspection JSUnusedGlobalSymbols
+    Hq = 0,
+    HqMono = 1,
+    Lq = 2,
+    LqMono = 3,
+  }
   interface PitchShifterControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     pitch: ControllerMidiMap

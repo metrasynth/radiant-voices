@@ -10,9 +10,14 @@ import { ModuleType, OptionValues, Options } from "./moduleType"
 import { InputBehavior } from "./inputBehavior"
 import { InputControllers } from "./inputControllers"
 import { InputControllerValues } from "./inputControllerValues"
-import { Channels as _Channels } from "./inputEnums"
 export namespace Input {
-  export const Channels = _Channels
+  // Intentionally duplicated enums - see also inputEnums.ts
+  // (TypeScript does not allow exporting imported enums from inside a namespace)
+  export enum Channels {
+    // noinspection JSUnusedGlobalSymbols
+    Mono = 0,
+    Stereo = 1,
+  }
   interface InputControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     channels: ControllerMidiMap

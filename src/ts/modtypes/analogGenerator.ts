@@ -11,15 +11,53 @@ import { ModuleType, OptionValues, Options } from "./moduleType"
 import { AnalogGeneratorBehavior } from "./analogGeneratorBehavior"
 import { AnalogGeneratorControllers } from "./analogGeneratorControllers"
 import { AnalogGeneratorControllerValues } from "./analogGeneratorControllerValues"
-import { Mode as _Mode } from "./analogGeneratorEnums"
-import { Waveform as _Waveform } from "./analogGeneratorEnums"
-import { Filter as _Filter } from "./analogGeneratorEnums"
-import { FilterEnvelope as _FilterEnvelope } from "./analogGeneratorEnums"
 export namespace AnalogGenerator {
-  export const Mode = _Mode
-  export const Waveform = _Waveform
-  export const Filter = _Filter
-  export const FilterEnvelope = _FilterEnvelope
+  // Intentionally duplicated enums - see also analogGeneratorEnums.ts
+  // (TypeScript does not allow exporting imported enums from inside a namespace)
+  export enum Mode {
+    // noinspection JSUnusedGlobalSymbols
+    Hq = 0,
+    HqMono = 1,
+    Lq = 2,
+    LqMono = 3,
+  }
+  export enum Waveform {
+    // noinspection JSUnusedGlobalSymbols
+    Triangle = 0,
+    Saw = 1,
+    Square = 2,
+    Noise = 3,
+    Drawn = 4,
+    Sin = 5,
+    Hsin = 6,
+    Asin = 7,
+    DrawnSpline = 8,
+    NoiseSpline = 9,
+    WhiteNoise = 10,
+    PinkNoise = 11,
+    RedNoise = 12,
+    BlueNoise = 13,
+    VioletNoise = 14,
+    GreyNoise = 15,
+  }
+  export enum Filter {
+    // noinspection JSUnusedGlobalSymbols
+    Off = 0,
+    Lp_12db = 1,
+    Hp_12db = 2,
+    Bp_12db = 3,
+    Br_12db = 4,
+    Lp_24db = 5,
+    Hp_24db = 6,
+    Bp_24db = 7,
+    Br_24db = 8,
+  }
+  export enum FilterEnvelope {
+    // noinspection JSUnusedGlobalSymbols
+    Off = 0,
+    SustainOff = 1,
+    SustainOn = 2,
+  }
   interface AnalogGeneratorControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     waveform: ControllerMidiMap

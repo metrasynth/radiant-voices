@@ -10,9 +10,16 @@ import { ModuleType, OptionValues, Options } from "./moduleType"
 import { ReverbBehavior } from "./reverbBehavior"
 import { ReverbControllers } from "./reverbControllers"
 import { ReverbControllerValues } from "./reverbControllerValues"
-import { Mode as _Mode } from "./reverbEnums"
 export namespace Reverb {
-  export const Mode = _Mode
+  // Intentionally duplicated enums - see also reverbEnums.ts
+  // (TypeScript does not allow exporting imported enums from inside a namespace)
+  export enum Mode {
+    // noinspection JSUnusedGlobalSymbols
+    Hq = 0,
+    HqMono = 1,
+    Lq = 2,
+    LqMono = 3,
+  }
   interface ReverbControllerMidiMaps extends ControllerMidiMaps {
     dry: ControllerMidiMap
     wet: ControllerMidiMap

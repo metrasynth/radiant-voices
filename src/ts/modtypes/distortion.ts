@@ -10,9 +10,19 @@ import { ModuleType, OptionValues, Options } from "./moduleType"
 import { DistortionBehavior } from "./distortionBehavior"
 import { DistortionControllers } from "./distortionControllers"
 import { DistortionControllerValues } from "./distortionControllerValues"
-import { Type as _Type } from "./distortionEnums"
 export namespace Distortion {
-  export const Type = _Type
+  // Intentionally duplicated enums - see also distortionEnums.ts
+  // (TypeScript does not allow exporting imported enums from inside a namespace)
+  export enum Type {
+    // noinspection JSUnusedGlobalSymbols
+    Lim = 0,
+    Clipping = 0,
+    Sat = 1,
+    Foldback = 1,
+    Foldback2 = 2,
+    Foldback3 = 3,
+    Overflow = 4,
+  }
   interface DistortionControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     type: ControllerMidiMap

@@ -6,6 +6,12 @@
 
 import { ControllerValues } from "./moduleType"
 
+{% for ename, e in (modtype.enums or {}).items() %}
+// @ts-ignore
+// noinspection ES6UnusedImports
+import { {{ ename }} } from "./{{ modtype_name | camelcase }}Enums"
+{% endfor %}
+
 export interface {{ modtype_name }}ControllerValues extends ControllerValues {
     {% for ctl in modtype.controllers %}{% for cname, cdef in ctl.items() %}
         {{ cname | camelcase }}:

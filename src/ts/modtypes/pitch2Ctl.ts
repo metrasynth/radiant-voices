@@ -10,11 +10,20 @@ import { ModuleType, OptionValues, Options } from "./moduleType"
 import { Pitch2CtlBehavior } from "./pitch2CtlBehavior"
 import { Pitch2CtlControllers } from "./pitch2CtlControllers"
 import { Pitch2CtlControllerValues } from "./pitch2CtlControllerValues"
-import { Mode as _Mode } from "./pitch2CtlEnums"
-import { NoteOffAction as _NoteOffAction } from "./pitch2CtlEnums"
 export namespace Pitch2Ctl {
-  export const Mode = _Mode
-  export const NoteOffAction = _NoteOffAction
+  // Intentionally duplicated enums - see also pitch2CtlEnums.ts
+  // (TypeScript does not allow exporting imported enums from inside a namespace)
+  export enum Mode {
+    // noinspection JSUnusedGlobalSymbols
+    FrequencyHz = 0,
+    Pitch = 1,
+  }
+  export enum NoteOffAction {
+    // noinspection JSUnusedGlobalSymbols
+    DoNothing = 0,
+    PitchDown = 1,
+    PitchUp = 2,
+  }
   interface Pitch2CtlControllerMidiMaps extends ControllerMidiMaps {
     mode: ControllerMidiMap
     noteOffAction: ControllerMidiMap

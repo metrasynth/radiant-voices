@@ -10,9 +10,14 @@ import { ModuleType, OptionValues, Options } from "./moduleType"
 import { DcBlockerBehavior } from "./dcBlockerBehavior"
 import { DcBlockerControllers } from "./dcBlockerControllers"
 import { DcBlockerControllerValues } from "./dcBlockerControllerValues"
-import { Channels as _Channels } from "./dcBlockerEnums"
 export namespace DcBlocker {
-  export const Channels = _Channels
+  // Intentionally duplicated enums - see also dcBlockerEnums.ts
+  // (TypeScript does not allow exporting imported enums from inside a namespace)
+  export enum Channels {
+    // noinspection JSUnusedGlobalSymbols
+    Stereo = 0,
+    Mono = 1,
+  }
   interface DcBlockerControllerMidiMaps extends ControllerMidiMaps {
     channels: ControllerMidiMap
   }

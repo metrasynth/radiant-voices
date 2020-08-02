@@ -10,9 +10,16 @@ import { ModuleType, OptionValues, Options } from "./moduleType"
 import { FmBehavior } from "./fmBehavior"
 import { FmControllers } from "./fmControllers"
 import { FmControllerValues } from "./fmControllerValues"
-import { Mode as _Mode } from "./fmEnums"
 export namespace Fm {
-  export const Mode = _Mode
+  // Intentionally duplicated enums - see also fmEnums.ts
+  // (TypeScript does not allow exporting imported enums from inside a namespace)
+  export enum Mode {
+    // noinspection JSUnusedGlobalSymbols
+    Hq = 0,
+    HqMono = 1,
+    Lq = 2,
+    LqMono = 3,
+  }
   interface FmControllerMidiMaps extends ControllerMidiMaps {
     cVolume: ControllerMidiMap
     mVolume: ControllerMidiMap

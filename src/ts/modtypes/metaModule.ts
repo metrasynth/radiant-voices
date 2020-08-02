@@ -11,9 +11,15 @@ import { ModuleType, OptionValues, Options } from "./moduleType"
 import { MetaModuleBehavior } from "./metaModuleBehavior"
 import { MetaModuleControllers } from "./metaModuleControllers"
 import { MetaModuleControllerValues } from "./metaModuleControllerValues"
-import { PlayPatterns as _PlayPatterns } from "./metaModuleEnums"
 export namespace MetaModule {
-  export const PlayPatterns = _PlayPatterns
+  // Intentionally duplicated enums - see also metaModuleEnums.ts
+  // (TypeScript does not allow exporting imported enums from inside a namespace)
+  export enum PlayPatterns {
+    // noinspection JSUnusedGlobalSymbols
+    Off = 0,
+    On = 1,
+    OnNoRepeat = 2,
+  }
   interface MetaModuleControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     inputModule: ControllerMidiMap

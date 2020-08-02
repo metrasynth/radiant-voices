@@ -10,9 +10,16 @@ import { ModuleType, OptionValues, Options } from "./moduleType"
 import { WaveShaperBehavior } from "./waveShaperBehavior"
 import { WaveShaperControllers } from "./waveShaperControllers"
 import { WaveShaperControllerValues } from "./waveShaperControllerValues"
-import { Mode as _Mode } from "./waveShaperEnums"
 export namespace WaveShaper {
-  export const Mode = _Mode
+  // Intentionally duplicated enums - see also waveShaperEnums.ts
+  // (TypeScript does not allow exporting imported enums from inside a namespace)
+  export enum Mode {
+    // noinspection JSUnusedGlobalSymbols
+    Hq = 0,
+    HqMono = 1,
+    Lq = 2,
+    LqMono = 3,
+  }
   interface WaveShaperControllerMidiMaps extends ControllerMidiMaps {
     inputVolume: ControllerMidiMap
     mix: ControllerMidiMap

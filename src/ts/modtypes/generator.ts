@@ -10,11 +10,26 @@ import { ModuleType, OptionValues, Options } from "./moduleType"
 import { GeneratorBehavior } from "./generatorBehavior"
 import { GeneratorControllers } from "./generatorControllers"
 import { GeneratorControllerValues } from "./generatorControllerValues"
-import { Waveform as _Waveform } from "./generatorEnums"
-import { Mode as _Mode } from "./generatorEnums"
 export namespace Generator {
-  export const Waveform = _Waveform
-  export const Mode = _Mode
+  // Intentionally duplicated enums - see also generatorEnums.ts
+  // (TypeScript does not allow exporting imported enums from inside a namespace)
+  export enum Waveform {
+    // noinspection JSUnusedGlobalSymbols
+    Triangle = 0,
+    Saw = 1,
+    Square = 2,
+    Noise = 3,
+    Drawn = 4,
+    Sin = 5,
+    Hsin = 6,
+    Asin = 7,
+    Psin = 8,
+  }
+  export enum Mode {
+    // noinspection JSUnusedGlobalSymbols
+    Stereo = 0,
+    Mono = 1,
+  }
   interface GeneratorControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     waveform: ControllerMidiMap

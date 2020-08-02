@@ -11,11 +11,19 @@ import { ModuleType, OptionValues, Options } from "./moduleType"
 import { Sound2CtlBehavior } from "./sound2CtlBehavior"
 import { Sound2CtlControllers } from "./sound2CtlControllers"
 import { Sound2CtlControllerValues } from "./sound2CtlControllerValues"
-import { Channels as _Channels } from "./sound2CtlEnums"
-import { Mode as _Mode } from "./sound2CtlEnums"
 export namespace Sound2Ctl {
-  export const Channels = _Channels
-  export const Mode = _Mode
+  // Intentionally duplicated enums - see also sound2CtlEnums.ts
+  // (TypeScript does not allow exporting imported enums from inside a namespace)
+  export enum Channels {
+    // noinspection JSUnusedGlobalSymbols
+    Mono = 0,
+    Stereo = 1,
+  }
+  export enum Mode {
+    // noinspection JSUnusedGlobalSymbols
+    Lq = 0,
+    Hq = 1,
+  }
   interface Sound2CtlControllerMidiMaps extends ControllerMidiMaps {
     sampleRateHz: ControllerMidiMap
     channels: ControllerMidiMap

@@ -10,11 +10,34 @@ import { ModuleType, OptionValues, Options } from "./moduleType"
 import { SpectraVoiceBehavior } from "./spectraVoiceBehavior"
 import { SpectraVoiceControllers } from "./spectraVoiceControllers"
 import { SpectraVoiceControllerValues } from "./spectraVoiceControllerValues"
-import { Mode as _Mode } from "./spectraVoiceEnums"
-import { HarmonicType as _HarmonicType } from "./spectraVoiceEnums"
 export namespace SpectraVoice {
-  export const Mode = _Mode
-  export const HarmonicType = _HarmonicType
+  // Intentionally duplicated enums - see also spectraVoiceEnums.ts
+  // (TypeScript does not allow exporting imported enums from inside a namespace)
+  export enum Mode {
+    // noinspection JSUnusedGlobalSymbols
+    Hq = 0,
+    HqMono = 1,
+    Lq = 2,
+    LqMono = 3,
+    HqSpline = 4,
+  }
+  export enum HarmonicType {
+    // noinspection JSUnusedGlobalSymbols
+    Hsin = 0,
+    Rect = 1,
+    Org1 = 2,
+    Org2 = 3,
+    Org3 = 4,
+    Org4 = 5,
+    Sin = 6,
+    Random = 7,
+    Triangle1 = 8,
+    Triangle2 = 9,
+    Overtones1 = 10,
+    Overtones2 = 11,
+    Overtones3 = 12,
+    Overtones4 = 13,
+  }
   interface SpectraVoiceControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     panning: ControllerMidiMap
