@@ -115,5 +115,53 @@ export function readProject(chunks: Generator<Chunk>): Project {
       // console.warn(`No handler for chunk ${name}`)
     }
   }
+  initLinks(project)
   return project
+}
+
+/**
+ * Initialize inLinkSlots, outLinks, and outLinkSlots after loading a project.
+ *
+ * https://www.warmplace.ru/forum/viewtopic.php?f=16&t=4850
+ *
+ * SLNK - input links of the cur_module;
+ * SLNk - output links of the cur_module;
+ * SLnK - slot numbers in the src_module;
+ * SLnk - slot numbers in the dest_module;
+ *
+ * src_module1[ output slot S1 ] --> [ input slot 0 ]          [ output slot 0 ] --> [ input slot D1 ]dest_module1
+ * src_module2[ output slot S2 ] --> [ input slot 1 ]cur_module[ output slot 1 ] --> [ input slot D2 ]dest_module2
+ * src_module3[ output slot S3 ] --> [ input slot 2 ]          [ output slot 2 ] --> [ input slot D3 ]dest_module3
+ *
+ * SLNK: src_module1, src_module2, src_module3;
+ * SLNk: dest_module1, dest_module2, dest_module3;
+ * SLnK: S1, S2, S3;
+ * SLnk: D1, D2, D3;
+ */
+function initLinks(project: Project): void {
+  const modules = project.modules
+  // inLinkSlots are not written out by SunVox if all zeros;
+  // initialize them if missing.
+  for (const mod of modules) {
+    if (!mod) continue
+    const { inLinks, inLinkSlots } = mod
+    while (inLinkSlots.length < inLinks.length) {
+      inLinkSlots.push(0)
+    }
+  }
+  // generate outLinks based on inLinks
+  for (const mod of modules) {
+    if (!mod) continue
+    const { inLinks, inLinkSlots } = mod
+    if (!(inLinks && inLinkSlots)) throw new Error() // [TODO] error message
+    for (const [inLinkIdx, inLink] of inLinks.entries()) {
+      const outLinkIdx = inLinkSlots[inLinkIdx]
+      const srcMod = modules[inLink]
+      if (!srcMod) throw new Error() // [TODO] error message
+      const { outLinks, outLinkSlots } = srcMod
+      if (!(outLinks && outLinkSlots)) throw new Error() // [TODO] error message
+      outLinks[outLinkIdx] = mod.index
+      outLinkSlots[outLinkIdx] = inLinkIdx
+    }
+  }
 }

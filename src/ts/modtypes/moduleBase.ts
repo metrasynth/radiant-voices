@@ -26,18 +26,21 @@ export class ModuleBase implements Linkable {
   midiOutChannel: number = 0
   midiOutBank?: number
   midiOutProgram?: number
-  incomingLinks: number[] = []
+  inLinks: number[] = []
+  inLinkSlots: number[] = []
+  outLinks: number[] = []
+  outLinkSlots: number[] = []
   readonly optionsChnm?: number
   behavior?: ModuleSpecificBehavior
 
-  get index(): number | undefined {
+  get index(): number {
     if (this._index === undefined) {
       throw new Error("Module index is not assigned")
     }
     return this._index
   }
 
-  set index(newIndex: number | undefined) {
+  set index(newIndex: number) {
     if (this._index !== undefined) {
       throw new Error("Module index can only be assigned once")
     }
@@ -63,9 +66,16 @@ export class ModuleBase implements Linkable {
       if (o.index === undefined) {
         throw new Error("Module must be attached to a project to establish links")
       }
-      const existingLink = this.incomingLinks.find((x) => x === o.index)
+      const { inLinks, inLinkSlots } = this
+      const { outLinks, outLinkSlots } = o
+      const existingLink = inLinks.find((x) => x === o.index)
       if (existingLink === undefined) {
-        this.incomingLinks.push(o.index)
+        const inLinkIdx = inLinks.length
+        inLinks.push(o.index)
+        const outLinkIdx = outLinks.length
+        outLinks.push(this.index)
+        inLinkSlots.push(outLinkIdx)
+        outLinkSlots.push(inLinkIdx)
       }
       return o
     } else if (o instanceof Linkables) {
@@ -84,13 +94,7 @@ export class ModuleBase implements Linkable {
     }
     const o = other instanceof Array ? new Linkables(other) : other
     if (o instanceof ModuleBase) {
-      if (o.index === undefined) {
-        throw new Error("Module must be attached to a project to establish links")
-      }
-      const existingLink = o.incomingLinks.find((x) => x === this.index)
-      if (existingLink === undefined) {
-        o.incomingLinks.push(this.index)
-      }
+      o.linkFrom(this)
       return o
     } else if (o instanceof Linkables) {
       for (const linkable of o.members) {

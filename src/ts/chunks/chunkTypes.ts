@@ -41,6 +41,7 @@ export const chunkTypes: Record<string, string> = {
   SFIN: "int32",
   SFGS: "uint32",
   SLNK: "links",
+  SLnK: "links",
   SMIB: "int32",
   SMIC: "uint32",
   SMII: "uint32",

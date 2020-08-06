@@ -39,7 +39,8 @@ export function* moduleChunks(module: ModuleBase): Generator<Chunk> {
     value: module.midiOutProgram !== undefined ? module.midiOutProgram : -1,
   }
   if (module.project) {
-    yield { name: "SLNK", type: "links", values: module.incomingLinks }
+    yield { name: "SLNK", type: "links", values: module.inLinks }
+    yield { name: "SLnK", type: "links", values: module.inLinkSlots }
   }
   for (const cval of module.rawControllerValues()) {
     yield { name: "CVAL", type: "int32", value: cval }

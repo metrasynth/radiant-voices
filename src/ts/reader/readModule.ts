@@ -77,7 +77,10 @@ const handlers: Record<string, HandlerFunc> = {
     ;(module as ModuleBase).finetune = (chunk as Int32Chunk).value
   },
   SLNK: (module, chunk) => {
-    ;(module as ModuleBase).incomingLinks = (chunk as LinksChunk).values
+    ;(module as ModuleBase).inLinks = (chunk as LinksChunk).values
+  },
+  SLnK: (module, chunk) => {
+    ;(module as ModuleBase).inLinkSlots = (chunk as LinksChunk).values
   },
   SMIB: (module, chunk) => {
     const { value } = chunk as Int32Chunk

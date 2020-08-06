@@ -141,6 +141,7 @@ describe("Reading the single-fm.sunvox file", () => {
     expectChunk({ name: "SMIB", type: "int32", value: -1 })
     expectChunk({ name: "SMIP", type: "int32", value: -1 })
     expectChunk({ name: "SLNK", type: "links", values: [1] })
+    expectChunk({ name: "SLnK", type: "links", values: [0] })
     expectChunk({ name: "SEND", type: "empty" })
 
     expectChunk({ name: "SFFF", type: "uint32", value: 0x49 })
@@ -159,6 +160,7 @@ describe("Reading the single-fm.sunvox file", () => {
     expectChunk({ name: "SMIB", type: "int32", value: -1 })
     expectChunk({ name: "SMIP", type: "int32", value: -1 })
     expectChunk({ name: "SLNK", type: "links", values: [] })
+    expectChunk({ name: "SLnK", type: "links", values: [] })
     expectCval(0x81)
     expectCval(0x31)
     expectCval(0x81)
