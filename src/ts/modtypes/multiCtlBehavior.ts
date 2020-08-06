@@ -5,11 +5,11 @@ import { ModuleDataChunk, ModuleDataChunks } from "../moduleDataChunk"
 interface Mapping {
   min: number
   max: number
-  controller: number
+  ctl: number
 }
 
 export class MultiCtlBehavior extends ModuleSpecificBehavior {
-  readonly mappings = defaultMappings()
+  readonly mappings: Mapping[] = defaultMappings()
   curve = Uint16Array.from(defaultCurve)
 
   chnk(): number {
@@ -36,7 +36,7 @@ export class MultiCtlBehavior extends ModuleSpecificBehavior {
         const mapping = this.mappings[i]
         mapping.min = rawValues[i * 8]
         mapping.max = rawValues[i * 8 + 1]
-        mapping.controller = rawValues[i * 8 + 2]
+        mapping.ctl = rawValues[i * 8 + 2]
       }
     }
   }
@@ -54,7 +54,7 @@ export class MultiCtlBehavior extends ModuleSpecificBehavior {
       const mapping = this.mappings[i]
       rawValues[i * 8] = mapping.min
       rawValues[i * 8 + 1] = mapping.max
-      rawValues[i * 8 + 2] = mapping.controller
+      rawValues[i * 8 + 2] = mapping.ctl
     }
 
     yield { name: "CHNM", type: "uint32", value: 0 }
@@ -83,22 +83,22 @@ export class MultiCtlBehavior extends ModuleSpecificBehavior {
 
 function defaultMappings(): Mapping[] {
   return [
-    { min: 0, max: 0x8000, controller: 0 },
-    { min: 0, max: 0x8000, controller: 0 },
-    { min: 0, max: 0x8000, controller: 0 },
-    { min: 0, max: 0x8000, controller: 0 },
-    { min: 0, max: 0x8000, controller: 0 },
-    { min: 0, max: 0x8000, controller: 0 },
-    { min: 0, max: 0x8000, controller: 0 },
-    { min: 0, max: 0x8000, controller: 0 },
-    { min: 0, max: 0x8000, controller: 0 },
-    { min: 0, max: 0x8000, controller: 0 },
-    { min: 0, max: 0x8000, controller: 0 },
-    { min: 0, max: 0x8000, controller: 0 },
-    { min: 0, max: 0x8000, controller: 0 },
-    { min: 0, max: 0x8000, controller: 0 },
-    { min: 0, max: 0x8000, controller: 0 },
-    { min: 0, max: 0x8000, controller: 0 },
+    { min: 0, max: 0x8000, ctl: 0 },
+    { min: 0, max: 0x8000, ctl: 0 },
+    { min: 0, max: 0x8000, ctl: 0 },
+    { min: 0, max: 0x8000, ctl: 0 },
+    { min: 0, max: 0x8000, ctl: 0 },
+    { min: 0, max: 0x8000, ctl: 0 },
+    { min: 0, max: 0x8000, ctl: 0 },
+    { min: 0, max: 0x8000, ctl: 0 },
+    { min: 0, max: 0x8000, ctl: 0 },
+    { min: 0, max: 0x8000, ctl: 0 },
+    { min: 0, max: 0x8000, ctl: 0 },
+    { min: 0, max: 0x8000, ctl: 0 },
+    { min: 0, max: 0x8000, ctl: 0 },
+    { min: 0, max: 0x8000, ctl: 0 },
+    { min: 0, max: 0x8000, ctl: 0 },
+    { min: 0, max: 0x8000, ctl: 0 },
   ]
 }
 

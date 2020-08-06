@@ -33,22 +33,22 @@ describe("Reading the multictl.sunsynth file", () => {
 })
 
 const expectedMappings = [
-  { min: 12224, max: 23408, controller: 1 },
-  { min: 19824, max: 7808, controller: 2 },
-  { min: 0, max: 0x8000, controller: 0 },
-  { min: 0, max: 0x8000, controller: 0 },
-  { min: 0, max: 0x8000, controller: 0 },
-  { min: 0, max: 0x8000, controller: 0 },
-  { min: 0, max: 0x8000, controller: 0 },
-  { min: 0, max: 0x8000, controller: 0 },
-  { min: 0, max: 0x8000, controller: 0 },
-  { min: 0, max: 0x8000, controller: 0 },
-  { min: 0, max: 0x8000, controller: 0 },
-  { min: 0, max: 0x8000, controller: 0 },
-  { min: 0, max: 0x8000, controller: 0 },
-  { min: 0, max: 0x8000, controller: 0 },
-  { min: 0, max: 0x8000, controller: 0 },
-  { min: 0, max: 0x8000, controller: 0 },
+  { min: 12224, max: 23408, ctl: 1 },
+  { min: 19824, max: 7808, ctl: 2 },
+  { min: 0, max: 0x8000, ctl: 0 },
+  { min: 0, max: 0x8000, ctl: 0 },
+  { min: 0, max: 0x8000, ctl: 0 },
+  { min: 0, max: 0x8000, ctl: 0 },
+  { min: 0, max: 0x8000, ctl: 0 },
+  { min: 0, max: 0x8000, ctl: 0 },
+  { min: 0, max: 0x8000, ctl: 0 },
+  { min: 0, max: 0x8000, ctl: 0 },
+  { min: 0, max: 0x8000, ctl: 0 },
+  { min: 0, max: 0x8000, ctl: 0 },
+  { min: 0, max: 0x8000, ctl: 0 },
+  { min: 0, max: 0x8000, ctl: 0 },
+  { min: 0, max: 0x8000, ctl: 0 },
+  { min: 0, max: 0x8000, ctl: 0 },
 ]
 
 const expectedCurve = Uint16Array.from([
