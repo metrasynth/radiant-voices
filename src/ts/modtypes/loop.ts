@@ -23,6 +23,13 @@ export namespace Loop {
     Normal = 0,
     PingPong = 1,
   }
+  export enum CtlNum {
+    Volume = 1,
+    Delay = 2,
+    Channels = 3,
+    Repeats = 4,
+    Mode = 5,
+  }
   interface LoopControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     delay: ControllerMidiMap

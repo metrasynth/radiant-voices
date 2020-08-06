@@ -19,6 +19,13 @@ export namespace Velocity2Ctl {
     VelDown = 1,
     VelUp = 2,
   }
+  export enum CtlNum {
+    NoteOffAction = 1,
+    OutMin = 2,
+    OutMax = 3,
+    OutOffset = 4,
+    OutController = 5,
+  }
   interface Velocity2CtlControllerMidiMaps extends ControllerMidiMaps {
     noteOffAction: ControllerMidiMap
     outMin: ControllerMidiMap

@@ -28,6 +28,17 @@ export namespace Delay {
     Line_2 = 5,
     Line_3 = 6,
   }
+  export enum CtlNum {
+    Dry = 1,
+    Wet = 2,
+    DelayL = 3,
+    DelayR = 4,
+    VolumeL = 5,
+    VolumeR = 6,
+    Channels = 7,
+    Inverse = 8,
+    DelayUnit = 9,
+  }
   interface DelayControllerMidiMaps extends ControllerMidiMaps {
     dry: ControllerMidiMap
     wet: ControllerMidiMap

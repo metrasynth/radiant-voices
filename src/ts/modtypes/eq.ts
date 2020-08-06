@@ -18,6 +18,12 @@ export namespace Eq {
     Stereo = 0,
     Mono = 1,
   }
+  export enum CtlNum {
+    Low = 1,
+    Middle = 2,
+    High = 3,
+    Channels = 4,
+  }
   interface EqControllerMidiMaps extends ControllerMidiMaps {
     low: ControllerMidiMap
     middle: ControllerMidiMap

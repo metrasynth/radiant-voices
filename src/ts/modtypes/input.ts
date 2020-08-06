@@ -18,6 +18,10 @@ export namespace Input {
     Mono = 0,
     Stereo = 1,
   }
+  export enum CtlNum {
+    Volume = 1,
+    Channels = 2,
+  }
   interface InputControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     channels: ControllerMidiMap

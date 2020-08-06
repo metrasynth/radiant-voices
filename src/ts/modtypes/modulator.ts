@@ -24,6 +24,11 @@ export namespace Modulator {
     Stereo = 0,
     Mono = 1,
   }
+  export enum CtlNum {
+    Volume = 1,
+    ModulationType = 2,
+    Channels = 3,
+  }
   interface ModulatorControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     modulationType: ControllerMidiMap

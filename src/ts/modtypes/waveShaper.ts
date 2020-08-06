@@ -20,6 +20,14 @@ export namespace WaveShaper {
     Lq = 2,
     LqMono = 3,
   }
+  export enum CtlNum {
+    InputVolume = 1,
+    Mix = 2,
+    OutputVolume = 3,
+    Symmetric = 4,
+    Mode = 5,
+    DcBlocker = 6,
+  }
   interface WaveShaperControllerMidiMaps extends ControllerMidiMaps {
     inputVolume: ControllerMidiMap
     mix: ControllerMidiMap

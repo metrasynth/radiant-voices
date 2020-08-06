@@ -58,6 +58,27 @@ export namespace AnalogGenerator {
     SustainOff = 1,
     SustainOn = 2,
   }
+  export enum CtlNum {
+    Volume = 1,
+    Waveform = 2,
+    Panning = 3,
+    Attack = 4,
+    Release = 5,
+    Sustain = 6,
+    ExponentialEnvelope = 7,
+    DutyCycle = 8,
+    Freq2 = 9,
+    Filter = 10,
+    FFreqHz = 11,
+    FResonance = 12,
+    FExponentialFreq = 13,
+    FAttack = 14,
+    FRelease = 15,
+    FEnvelope = 16,
+    PolyphonyCh = 17,
+    Mode = 18,
+    Noise = 19,
+  }
   interface AnalogGeneratorControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     waveform: ControllerMidiMap

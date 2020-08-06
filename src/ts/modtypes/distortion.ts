@@ -23,6 +23,14 @@ export namespace Distortion {
     Foldback3 = 3,
     Overflow = 4,
   }
+  export enum CtlNum {
+    Volume = 1,
+    Type = 2,
+    Power = 3,
+    BitDepth = 4,
+    FreqHz = 5,
+    Noise = 6,
+  }
   interface DistortionControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     type: ControllerMidiMap

@@ -12,6 +12,16 @@ import { MultiSynthBehavior } from "./multiSynthBehavior"
 import { MultiSynthControllers } from "./multiSynthControllers"
 import { MultiSynthControllerValues } from "./multiSynthControllerValues"
 export namespace MultiSynth {
+  export enum CtlNum {
+    Transpose = 1,
+    RandomPitch = 2,
+    Velocity = 3,
+    Finetune = 4,
+    RandomPhase = 5,
+    RandomVelocity = 6,
+    Phase = 7,
+    Curve2Influence = 8,
+  }
   interface MultiSynthControllerMidiMaps extends ControllerMidiMaps {
     transpose: ControllerMidiMap
     randomPitch: ControllerMidiMap

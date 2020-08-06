@@ -11,6 +11,16 @@ import { AmplifierBehavior } from "./amplifierBehavior"
 import { AmplifierControllers } from "./amplifierControllers"
 import { AmplifierControllerValues } from "./amplifierControllerValues"
 export namespace Amplifier {
+  export enum CtlNum {
+    Volume = 1,
+    Balance = 2,
+    DcOffset = 3,
+    Inverse = 4,
+    StereoWidth = 5,
+    Absolute = 6,
+    FineVolume = 7,
+    Gain = 8,
+  }
   interface AmplifierControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     balance: ControllerMidiMap

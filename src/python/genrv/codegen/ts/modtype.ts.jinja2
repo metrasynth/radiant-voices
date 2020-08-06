@@ -44,6 +44,11 @@ export namespace {{ modtype_name }} {
     {% endfor %}
 
     {% if modtype.controllers %}
+        export enum CtlNum {
+            {% for num, ctl in enumerate(modtype.controllers, 1) %}{% for cname, cdef in ctl.items() %}
+                {{ cname | pascalcase }} = {{ num }},
+            {% endfor %}{% endfor %}
+        }
         interface {{ modtype_name }}ControllerMidiMaps extends ControllerMidiMaps {
             {% for ctl in modtype.controllers %}{% for cname, cdef in ctl.items() %}
                 {{ cname | camelcase }}: ControllerMidiMap

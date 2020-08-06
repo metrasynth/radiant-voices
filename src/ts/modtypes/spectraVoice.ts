@@ -38,6 +38,21 @@ export namespace SpectraVoice {
     Overtones3 = 12,
     Overtones4 = 13,
   }
+  export enum CtlNum {
+    Volume = 1,
+    Panning = 2,
+    Attack = 3,
+    Release = 4,
+    PolyphonyCh = 5,
+    Mode = 6,
+    Sustain = 7,
+    SpectrumResolution = 8,
+    Harmonic = 9,
+    HFreqHz = 10,
+    HVolume = 11,
+    HWidth = 12,
+    HType = 13,
+  }
   interface SpectraVoiceControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     panning: ControllerMidiMap

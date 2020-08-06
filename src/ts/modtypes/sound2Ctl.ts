@@ -24,6 +24,17 @@ export namespace Sound2Ctl {
     Lq = 0,
     Hq = 1,
   }
+  export enum CtlNum {
+    SampleRateHz = 1,
+    Channels = 2,
+    Absolute = 3,
+    Gain = 4,
+    Smooth = 5,
+    Mode = 6,
+    OutMin = 7,
+    OutMax = 8,
+    OutController = 9,
+  }
   interface Sound2CtlControllerMidiMaps extends ControllerMidiMaps {
     sampleRateHz: ControllerMidiMap
     channels: ControllerMidiMap

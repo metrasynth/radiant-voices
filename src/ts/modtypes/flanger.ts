@@ -28,6 +28,18 @@ export namespace Flanger {
     Line_2 = 5,
     Line_3 = 6,
   }
+  export enum CtlNum {
+    Dry = 1,
+    Wet = 2,
+    Feedback = 3,
+    Delay = 4,
+    Response = 5,
+    LfoFreq = 6,
+    LfoAmp = 7,
+    LfoWaveform = 8,
+    SetLfoPhase = 9,
+    LfoFreqUnit = 10,
+  }
   interface FlangerControllerMidiMaps extends ControllerMidiMaps {
     dry: ControllerMidiMap
     wet: ControllerMidiMap

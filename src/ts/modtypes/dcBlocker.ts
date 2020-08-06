@@ -18,6 +18,9 @@ export namespace DcBlocker {
     Stereo = 0,
     Mono = 1,
   }
+  export enum CtlNum {
+    Channels = 1,
+  }
   interface DcBlockerControllerMidiMaps extends ControllerMidiMaps {
     channels: ControllerMidiMap
   }

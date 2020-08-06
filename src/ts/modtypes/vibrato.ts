@@ -28,6 +28,15 @@ export namespace Vibrato {
     Line_2 = 5,
     Line_3 = 6,
   }
+  export enum CtlNum {
+    Volume = 1,
+    Amplitude = 2,
+    Freq = 3,
+    Channels = 4,
+    SetPhase = 5,
+    FrequencyUnit = 6,
+    ExponentialAmplitude = 7,
+  }
   interface VibratoControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     amplitude: ControllerMidiMap

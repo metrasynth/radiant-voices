@@ -18,6 +18,10 @@ export namespace Feedback {
     Stereo = 0,
     Mono = 1,
   }
+  export enum CtlNum {
+    Volume = 1,
+    Channels = 2,
+  }
   interface FeedbackControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     channels: ControllerMidiMap

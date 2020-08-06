@@ -11,6 +11,15 @@ import { GlideBehavior } from "./glideBehavior"
 import { GlideControllers } from "./glideControllers"
 import { GlideControllerValues } from "./glideControllerValues"
 export namespace Glide {
+  export enum CtlNum {
+    Response = 1,
+    SampleRateHz = 2,
+    ResetOnFirstNote = 3,
+    Polyphony = 4,
+    Pitch = 5,
+    PitchScale = 6,
+    Reset = 7,
+  }
   interface GlideControllerMidiMaps extends ControllerMidiMaps {
     response: ControllerMidiMap
     sampleRateHz: ControllerMidiMap

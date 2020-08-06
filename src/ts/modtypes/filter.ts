@@ -52,6 +52,23 @@ export namespace Filter {
     Square = 3,
     Random = 4,
   }
+  export enum CtlNum {
+    Volume = 1,
+    Freq = 2,
+    Resonance = 3,
+    Type = 4,
+    Response = 5,
+    Mode = 6,
+    Impulse = 7,
+    Mix = 8,
+    LfoFreq = 9,
+    LfoAmp = 10,
+    SetLfoPhase = 11,
+    ExponentialFreq = 12,
+    RollOff = 13,
+    LfoFreqUnit = 14,
+    LfoWaveform = 15,
+  }
   interface FilterControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     freq: ControllerMidiMap

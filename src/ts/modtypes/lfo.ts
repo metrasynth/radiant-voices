@@ -44,6 +44,18 @@ export namespace Lfo {
     Line_2 = 5,
     Line_3 = 6,
   }
+  export enum CtlNum {
+    Volume = 1,
+    Type = 2,
+    Amplitude = 3,
+    Freq = 4,
+    Waveform = 5,
+    SetPhase = 6,
+    Channels = 7,
+    FrequencyUnit = 8,
+    DutyCycle = 9,
+    Generator = 10,
+  }
   interface LfoControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     type: ControllerMidiMap

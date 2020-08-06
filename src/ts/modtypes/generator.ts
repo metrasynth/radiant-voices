@@ -30,6 +30,18 @@ export namespace Generator {
     Stereo = 0,
     Mono = 1,
   }
+  export enum CtlNum {
+    Volume = 1,
+    Waveform = 2,
+    Panning = 3,
+    Attack = 4,
+    Release = 5,
+    PolyphonyCh = 6,
+    Mode = 7,
+    Sustain = 8,
+    FreqModulationByInput = 9,
+    DutyCycle = 10,
+  }
   interface GeneratorControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     waveform: ControllerMidiMap

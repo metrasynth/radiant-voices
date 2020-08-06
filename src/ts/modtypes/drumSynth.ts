@@ -11,6 +11,23 @@ import { DrumSynthBehavior } from "./drumSynthBehavior"
 import { DrumSynthControllers } from "./drumSynthControllers"
 import { DrumSynthControllerValues } from "./drumSynthControllerValues"
 export namespace DrumSynth {
+  export enum CtlNum {
+    Volume = 1,
+    Panning = 2,
+    PolyphonyCh = 3,
+    BassVolume = 4,
+    BassPower = 5,
+    BassTone = 6,
+    BassLength = 7,
+    HihatVolume = 8,
+    HihatLength = 9,
+    SnareVolume = 10,
+    SnareTone = 11,
+    SnareLength = 12,
+    BassPanning = 13,
+    HihatPanning = 14,
+    SnarePanning = 15,
+  }
   interface DrumSynthControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     panning: ControllerMidiMap

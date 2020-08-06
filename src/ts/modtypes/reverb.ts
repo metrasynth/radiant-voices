@@ -20,6 +20,18 @@ export namespace Reverb {
     Lq = 2,
     LqMono = 3,
   }
+  export enum CtlNum {
+    Dry = 1,
+    Wet = 2,
+    Feedback = 3,
+    Damp = 4,
+    StereoWidth = 5,
+    Freeze = 6,
+    Mode = 7,
+    AllPassFilter = 8,
+    RoomSize = 9,
+    RandomSeed = 10,
+  }
   interface ReverbControllerMidiMaps extends ControllerMidiMaps {
     dry: ControllerMidiMap
     wet: ControllerMidiMap

@@ -28,6 +28,14 @@ export namespace Echo {
     Line_2 = 5,
     Line_3 = 6,
   }
+  export enum CtlNum {
+    Dry = 1,
+    Wet = 2,
+    Feedback = 3,
+    Delay = 4,
+    Channels = 5,
+    DelayUnit = 6,
+  }
   interface EchoControllerMidiMaps extends ControllerMidiMaps {
     dry: ControllerMidiMap
     wet: ControllerMidiMap

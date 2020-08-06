@@ -24,6 +24,15 @@ export namespace Pitch2Ctl {
     PitchDown = 1,
     PitchUp = 2,
   }
+  export enum CtlNum {
+    Mode = 1,
+    NoteOffAction = 2,
+    FirstNote = 3,
+    NumberOfSemitones = 4,
+    OutMin = 5,
+    OutMax = 6,
+    OutController = 7,
+  }
   interface Pitch2CtlControllerMidiMaps extends ControllerMidiMaps {
     mode: ControllerMidiMap
     noteOffAction: ControllerMidiMap

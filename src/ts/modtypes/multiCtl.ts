@@ -11,6 +11,14 @@ import { MultiCtlBehavior } from "./multiCtlBehavior"
 import { MultiCtlControllers } from "./multiCtlControllers"
 import { MultiCtlControllerValues } from "./multiCtlControllerValues"
 export namespace MultiCtl {
+  export enum CtlNum {
+    Value = 1,
+    Gain = 2,
+    Quantization = 3,
+    OutOffset = 4,
+    Response = 5,
+    SampleRateHz = 6,
+  }
   interface MultiCtlControllerMidiMaps extends ControllerMidiMaps {
     value: ControllerMidiMap
     gain: ControllerMidiMap

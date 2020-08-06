@@ -11,6 +11,15 @@ import { VorbisPlayerBehavior } from "./vorbisPlayerBehavior"
 import { VorbisPlayerControllers } from "./vorbisPlayerControllers"
 import { VorbisPlayerControllerValues } from "./vorbisPlayerControllerValues"
 export namespace VorbisPlayer {
+  export enum CtlNum {
+    Volume = 1,
+    OriginalSpeed = 2,
+    Finetune = 3,
+    Transpose = 4,
+    Interpolation = 5,
+    PolyphonyCh = 6,
+    Repeat = 7,
+  }
   interface VorbisPlayerControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     originalSpeed: ControllerMidiMap

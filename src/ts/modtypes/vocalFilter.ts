@@ -25,6 +25,15 @@ export namespace VocalFilter {
     Stereo = 0,
     Mono = 1,
   }
+  export enum CtlNum {
+    Volume = 1,
+    FormantWidthHz = 2,
+    Intensity = 3,
+    Formants = 4,
+    Vowel = 5,
+    VoiceType = 6,
+    Channels = 7,
+  }
   interface VocalFilterControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     formantWidthHz: ControllerMidiMap

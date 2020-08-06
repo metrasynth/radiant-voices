@@ -20,6 +20,13 @@ export namespace MetaModule {
     On = 1,
     OnNoRepeat = 2,
   }
+  export enum CtlNum {
+    Volume = 1,
+    InputModule = 2,
+    PlayPatterns = 3,
+    Bpm = 4,
+    Tpl = 5,
+  }
   interface MetaModuleControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     inputModule: ControllerMidiMap

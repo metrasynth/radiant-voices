@@ -20,6 +20,14 @@ export namespace PitchShifter {
     Lq = 2,
     LqMono = 3,
   }
+  export enum CtlNum {
+    Volume = 1,
+    Pitch = 2,
+    PitchScale = 3,
+    Feedback = 4,
+    GrainSize = 5,
+    Mode = 6,
+  }
   interface PitchShifterControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     pitch: ControllerMidiMap

@@ -19,6 +19,17 @@ export namespace Kicker {
     Square = 1,
     Sin = 2,
   }
+  export enum CtlNum {
+    Volume = 1,
+    Waveform = 2,
+    Panning = 3,
+    Attack = 4,
+    Release = 5,
+    Boost = 6,
+    Acceleration = 7,
+    PolyphonyCh = 8,
+    NoClick = 9,
+  }
   interface KickerControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     waveform: ControllerMidiMap

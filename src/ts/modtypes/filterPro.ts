@@ -55,6 +55,25 @@ export namespace FilterPro {
     Line_2 = 5,
     Line_3 = 6,
   }
+  export enum CtlNum {
+    Volume = 1,
+    Type = 2,
+    FreqHz = 3,
+    FreqFinetune = 4,
+    FreqScale = 5,
+    ExponentialFreq = 6,
+    Q = 7,
+    Gain = 8,
+    RollOff = 9,
+    Response = 10,
+    Mode = 11,
+    Mix = 12,
+    LfoFreq = 13,
+    LfoAmp = 14,
+    LfoWaveform = 15,
+    SetLfoPhase = 16,
+    LfoFreqUnit = 17,
+  }
   interface FilterProControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     type: ControllerMidiMap

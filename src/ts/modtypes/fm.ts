@@ -20,6 +20,25 @@ export namespace Fm {
     Lq = 2,
     LqMono = 3,
   }
+  export enum CtlNum {
+    CVolume = 1,
+    MVolume = 2,
+    Panning = 3,
+    CFreqRatio = 4,
+    MFreqRatio = 5,
+    MFeedback = 6,
+    CAttack = 7,
+    CDecay = 8,
+    CSustain = 9,
+    CRelease = 10,
+    MAttack = 11,
+    MDecay = 12,
+    MSustain = 13,
+    MRelease = 14,
+    MScalingPerKey = 15,
+    PolyphonyCh = 16,
+    Mode = 17,
+  }
   interface FmControllerMidiMaps extends ControllerMidiMaps {
     cVolume: ControllerMidiMap
     mVolume: ControllerMidiMap

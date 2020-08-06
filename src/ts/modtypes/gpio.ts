@@ -11,6 +11,15 @@ import { GpioBehavior } from "./gpioBehavior"
 import { GpioControllers } from "./gpioControllers"
 import { GpioControllerValues } from "./gpioControllerValues"
 export namespace Gpio {
+  export enum CtlNum {
+    Out = 1,
+    OutPin = 2,
+    OutThreshold = 3,
+    In = 4,
+    InPin = 5,
+    InNote = 6,
+    InAmplitude = 7,
+  }
   interface GpioControllerMidiMaps extends ControllerMidiMaps {
     out: ControllerMidiMap
     outPin: ControllerMidiMap

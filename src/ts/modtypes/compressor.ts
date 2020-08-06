@@ -19,6 +19,15 @@ export namespace Compressor {
     Rms = 1,
     PeakZeroLatency = 2,
   }
+  export enum CtlNum {
+    Volume = 1,
+    Threshold = 2,
+    SlopePct = 3,
+    AttackMs = 4,
+    ReleaseMs = 5,
+    Mode = 6,
+    SidechainInput = 7,
+  }
   interface CompressorControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     threshold: ControllerMidiMap

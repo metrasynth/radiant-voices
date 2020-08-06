@@ -54,6 +54,14 @@ export namespace Sampler {
     Sustain = 2,
     Loop = 4,
   }
+  export enum CtlNum {
+    Volume = 1,
+    Panning = 2,
+    SampleInterpolation = 3,
+    EnvelopeInterpolation = 4,
+    PolyphonyCh = 5,
+    RecThreshold = 6,
+  }
   interface SamplerControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     panning: ControllerMidiMap
