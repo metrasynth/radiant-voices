@@ -204,8 +204,8 @@ export class SamplerBehavior extends ModuleSpecificBehavior {
 
     // sampler config: SunVox compatibility odds and ends
     let maxSampleIndex = 0
-    for (let i = 0; i < this.samples.length; ++i) {
-      if (this.samples[i]) {
+    for (const [i, sample] of this.samples.entries()) {
+      if (sample) {
         maxSampleIndex = i + 1
       }
     }
@@ -225,8 +225,7 @@ export class SamplerBehavior extends ModuleSpecificBehavior {
     yield { name: "CHDT", type: "bytes", value: configBlob }
 
     // sample meta & waveforms
-    for (let i = 0; i < this.samples.length; ++i) {
-      const sample = this.samples[i]
+    for (const [i, sample] of this.samples.entries()) {
       if (!sample) continue
 
       // meta
@@ -405,8 +404,7 @@ class BaseEnvelope implements Envelope {
     blob[0xd] = (this.loopStartPoint >> 8) & 0xff
     blob[0xe] = this.loopEndPoint & 0xff
     blob[0xf] = (this.loopEndPoint >> 8) & 0xff
-    for (let i = 0; i < this.points.length; ++i) {
-      let { tick, value } = this.points[i]
+    for (let [i, { tick, value }] of this.points.entries()) {
       value = Math.max(0, Math.min(0x8000, value - this.min))
       blob[0x14 + 4 * i] = tick & 0xff
       blob[0x15 + 4 * i] = (tick >> 8) & 0xff
