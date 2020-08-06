@@ -7,15 +7,9 @@ import synthChunks from "./synthChunks"
 import { moduleChunks } from "./moduleChunks"
 
 export function objectChunks(obj?: ModuleBase | Project | Synth): Generator<Chunk> {
-  // } else if (Pattern.isPattern(obj) || PatternClone.isPatternClone(obj)) {
-  //   return patternChunks(obj)
-  // } else if (Project.isProject(obj)) {
-  //   return projectChunks(obj)
-  // }
-
   if (obj instanceof ModuleBase) return moduleChunks(obj)
   if (obj instanceof Project) return projectChunks(obj)
   if (obj instanceof Synth) return synthChunks(obj)
-
+  // Nothing matched:
   throw new TypeError()
 }
