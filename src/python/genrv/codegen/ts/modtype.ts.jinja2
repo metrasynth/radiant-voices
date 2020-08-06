@@ -177,6 +177,18 @@ export namespace {{ modtype_name }} {
         }
 
         {% if modtype.controllers %}
+            setRawControllerValue(ctlNum: number, value: number) {
+                const { controllerValues: cv } = this
+                switch (ctlNum) {
+                    {% for ctl_num, ctl in enumerate(modtype.controllers, 1) %}{% for cname, cdef in ctl.items() %}
+                        {% set cname = cname | camelcase %}
+                        case {{ ctl_num }}:
+                            cv.{{ cname }} = {% if "bool" in cdef %}Boolean(value){% else %}value{% endif %}
+                            break
+                    {% endfor %}{% endfor %}
+                }
+            }
+
             *rawControllerValues(): Generator<number> {
                 const { controllerValues: cv } = this
                 {% for ctl in modtype.controllers %}{% for cname, cdef in ctl.items() %}

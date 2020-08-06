@@ -94,6 +94,32 @@ export namespace Gpio {
     attachTo(project: Project): AttachedModule {
       return super.attachTo(project) as AttachedModule
     }
+    setRawControllerValue(ctlNum: number, value: number) {
+      const { controllerValues: cv } = this
+      switch (ctlNum) {
+        case 1:
+          cv.out = Boolean(value)
+          break
+        case 2:
+          cv.outPin = value
+          break
+        case 3:
+          cv.outThreshold = value
+          break
+        case 4:
+          cv.in = Boolean(value)
+          break
+        case 5:
+          cv.inPin = value
+          break
+        case 6:
+          cv.inNote = value
+          break
+        case 7:
+          cv.inAmplitude = value
+          break
+      }
+    }
     *rawControllerValues(): Generator<number> {
       const { controllerValues: cv } = this
       yield Number(cv.out)

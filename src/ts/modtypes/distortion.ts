@@ -99,6 +99,29 @@ export namespace Distortion {
     attachTo(project: Project): AttachedModule {
       return super.attachTo(project) as AttachedModule
     }
+    setRawControllerValue(ctlNum: number, value: number) {
+      const { controllerValues: cv } = this
+      switch (ctlNum) {
+        case 1:
+          cv.volume = value
+          break
+        case 2:
+          cv.type = value
+          break
+        case 3:
+          cv.power = value
+          break
+        case 4:
+          cv.bitDepth = value
+          break
+        case 5:
+          cv.freqHz = value
+          break
+        case 6:
+          cv.noise = value
+          break
+      }
+    }
     *rawControllerValues(): Generator<number> {
       const { controllerValues: cv } = this
       yield cv.volume

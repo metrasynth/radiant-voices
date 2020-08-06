@@ -15,6 +15,7 @@ import { {{ ename }} } from "./{{ modtype_name | camelcase }}Enums"
 
 export class {{ modtype_name }}BaseControllers implements Controllers {
     constructor(readonly module: ModuleType, readonly controllerValues: {{ modtype_name }}ControllerValues) {}
+
     {% for ctl in modtype.controllers %}{% for cname, cdef in ctl.items() %}
         {% set cname = cname | camelcase %}
         {% if "bool" in cdef %}

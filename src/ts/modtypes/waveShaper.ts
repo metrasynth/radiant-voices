@@ -96,6 +96,29 @@ export namespace WaveShaper {
     attachTo(project: Project): AttachedModule {
       return super.attachTo(project) as AttachedModule
     }
+    setRawControllerValue(ctlNum: number, value: number) {
+      const { controllerValues: cv } = this
+      switch (ctlNum) {
+        case 1:
+          cv.inputVolume = value
+          break
+        case 2:
+          cv.mix = value
+          break
+        case 3:
+          cv.outputVolume = value
+          break
+        case 4:
+          cv.symmetric = Boolean(value)
+          break
+        case 5:
+          cv.mode = value
+          break
+        case 6:
+          cv.dcBlocker = Boolean(value)
+          break
+      }
+    }
     *rawControllerValues(): Generator<number> {
       const { controllerValues: cv } = this
       yield cv.inputVolume

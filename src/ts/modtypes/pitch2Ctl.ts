@@ -107,6 +107,32 @@ export namespace Pitch2Ctl {
     attachTo(project: Project): AttachedModule {
       return super.attachTo(project) as AttachedModule
     }
+    setRawControllerValue(ctlNum: number, value: number) {
+      const { controllerValues: cv } = this
+      switch (ctlNum) {
+        case 1:
+          cv.mode = value
+          break
+        case 2:
+          cv.noteOffAction = value
+          break
+        case 3:
+          cv.firstNote = value
+          break
+        case 4:
+          cv.numberOfSemitones = value
+          break
+        case 5:
+          cv.outMin = value
+          break
+        case 6:
+          cv.outMax = value
+          break
+        case 7:
+          cv.outController = value
+          break
+      }
+    }
     *rawControllerValues(): Generator<number> {
       const { controllerValues: cv } = this
       yield cv.mode

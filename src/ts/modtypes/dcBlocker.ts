@@ -59,6 +59,14 @@ export namespace DcBlocker {
     attachTo(project: Project): AttachedModule {
       return super.attachTo(project) as AttachedModule
     }
+    setRawControllerValue(ctlNum: number, value: number) {
+      const { controllerValues: cv } = this
+      switch (ctlNum) {
+        case 1:
+          cv.channels = value
+          break
+      }
+    }
     *rawControllerValues(): Generator<number> {
       const { controllerValues: cv } = this
       yield cv.channels

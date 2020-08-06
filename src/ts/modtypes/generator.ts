@@ -134,6 +134,41 @@ export namespace Generator {
     attachTo(project: Project): AttachedModule {
       return super.attachTo(project) as AttachedModule
     }
+    setRawControllerValue(ctlNum: number, value: number) {
+      const { controllerValues: cv } = this
+      switch (ctlNum) {
+        case 1:
+          cv.volume = value
+          break
+        case 2:
+          cv.waveform = value
+          break
+        case 3:
+          cv.panning = value
+          break
+        case 4:
+          cv.attack = value
+          break
+        case 5:
+          cv.release = value
+          break
+        case 6:
+          cv.polyphonyCh = value
+          break
+        case 7:
+          cv.mode = value
+          break
+        case 8:
+          cv.sustain = Boolean(value)
+          break
+        case 9:
+          cv.freqModulationByInput = value
+          break
+        case 10:
+          cv.dutyCycle = value
+          break
+      }
+    }
     *rawControllerValues(): Generator<number> {
       const { controllerValues: cv } = this
       yield cv.volume

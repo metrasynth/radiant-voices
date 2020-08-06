@@ -108,6 +108,32 @@ export namespace VocalFilter {
     attachTo(project: Project): AttachedModule {
       return super.attachTo(project) as AttachedModule
     }
+    setRawControllerValue(ctlNum: number, value: number) {
+      const { controllerValues: cv } = this
+      switch (ctlNum) {
+        case 1:
+          cv.volume = value
+          break
+        case 2:
+          cv.formantWidthHz = value
+          break
+        case 3:
+          cv.intensity = value
+          break
+        case 4:
+          cv.formants = value
+          break
+        case 5:
+          cv.vowel = value
+          break
+        case 6:
+          cv.voiceType = value
+          break
+        case 7:
+          cv.channels = value
+          break
+      }
+    }
     *rawControllerValues(): Generator<number> {
       const { controllerValues: cv } = this
       yield cv.volume

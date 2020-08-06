@@ -124,6 +124,41 @@ export namespace Reverb {
     attachTo(project: Project): AttachedModule {
       return super.attachTo(project) as AttachedModule
     }
+    setRawControllerValue(ctlNum: number, value: number) {
+      const { controllerValues: cv } = this
+      switch (ctlNum) {
+        case 1:
+          cv.dry = value
+          break
+        case 2:
+          cv.wet = value
+          break
+        case 3:
+          cv.feedback = value
+          break
+        case 4:
+          cv.damp = value
+          break
+        case 5:
+          cv.stereoWidth = value
+          break
+        case 6:
+          cv.freeze = Boolean(value)
+          break
+        case 7:
+          cv.mode = value
+          break
+        case 8:
+          cv.allPassFilter = Boolean(value)
+          break
+        case 9:
+          cv.roomSize = value
+          break
+        case 10:
+          cv.randomSeed = value
+          break
+      }
+    }
     *rawControllerValues(): Generator<number> {
       const { controllerValues: cv } = this
       yield cv.dry

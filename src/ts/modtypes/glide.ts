@@ -94,6 +94,32 @@ export namespace Glide {
     attachTo(project: Project): AttachedModule {
       return super.attachTo(project) as AttachedModule
     }
+    setRawControllerValue(ctlNum: number, value: number) {
+      const { controllerValues: cv } = this
+      switch (ctlNum) {
+        case 1:
+          cv.response = value
+          break
+        case 2:
+          cv.sampleRateHz = value
+          break
+        case 3:
+          cv.resetOnFirstNote = Boolean(value)
+          break
+        case 4:
+          cv.polyphony = Boolean(value)
+          break
+        case 5:
+          cv.pitch = value
+          break
+        case 6:
+          cv.pitchScale = value
+          break
+        case 7:
+          cv.reset = Boolean(value)
+          break
+      }
+    }
     *rawControllerValues(): Generator<number> {
       const { controllerValues: cv } = this
       yield cv.response

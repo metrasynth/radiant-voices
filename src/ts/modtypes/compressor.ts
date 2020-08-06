@@ -102,6 +102,32 @@ export namespace Compressor {
     attachTo(project: Project): AttachedModule {
       return super.attachTo(project) as AttachedModule
     }
+    setRawControllerValue(ctlNum: number, value: number) {
+      const { controllerValues: cv } = this
+      switch (ctlNum) {
+        case 1:
+          cv.volume = value
+          break
+        case 2:
+          cv.threshold = value
+          break
+        case 3:
+          cv.slopePct = value
+          break
+        case 4:
+          cv.attackMs = value
+          break
+        case 5:
+          cv.releaseMs = value
+          break
+        case 6:
+          cv.mode = value
+          break
+        case 7:
+          cv.sidechainInput = value
+          break
+      }
+    }
     *rawControllerValues(): Generator<number> {
       const { controllerValues: cv } = this
       yield cv.volume

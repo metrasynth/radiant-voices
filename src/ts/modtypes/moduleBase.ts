@@ -121,6 +121,8 @@ export class ModuleBase implements Linkable {
     return new Uint8Array(0)
   }
 
+  setRawControllerValue(ctlNum: number, value: number) {}
+
   setMidiMaps(midiMaps: MidiMap[]) {}
 
   setOptions(dataChunks: ModuleDataChunks) {}

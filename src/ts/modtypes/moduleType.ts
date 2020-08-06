@@ -45,6 +45,7 @@ export interface ModuleType {
   layer: number
   scale: number
   controllerSetters: ControllerSetters
+  setRawControllerValue(ctlNum: number, value: number): void
 }
 
 interface ControllerSetter {

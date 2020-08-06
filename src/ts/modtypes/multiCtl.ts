@@ -87,6 +87,29 @@ export namespace MultiCtl {
     attachTo(project: Project): AttachedModule {
       return super.attachTo(project) as AttachedModule
     }
+    setRawControllerValue(ctlNum: number, value: number) {
+      const { controllerValues: cv } = this
+      switch (ctlNum) {
+        case 1:
+          cv.value = value
+          break
+        case 2:
+          cv.gain = value
+          break
+        case 3:
+          cv.quantization = value
+          break
+        case 4:
+          cv.outOffset = value
+          break
+        case 5:
+          cv.response = value
+          break
+        case 6:
+          cv.sampleRateHz = value
+          break
+      }
+    }
     *rawControllerValues(): Generator<number> {
       const { controllerValues: cv } = this
       yield cv.value

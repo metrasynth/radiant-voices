@@ -77,6 +77,23 @@ export namespace Eq {
     attachTo(project: Project): AttachedModule {
       return super.attachTo(project) as AttachedModule
     }
+    setRawControllerValue(ctlNum: number, value: number) {
+      const { controllerValues: cv } = this
+      switch (ctlNum) {
+        case 1:
+          cv.low = value
+          break
+        case 2:
+          cv.middle = value
+          break
+        case 3:
+          cv.high = value
+          break
+        case 4:
+          cv.channels = value
+          break
+      }
+    }
     *rawControllerValues(): Generator<number> {
       const { controllerValues: cv } = this
       yield cv.low

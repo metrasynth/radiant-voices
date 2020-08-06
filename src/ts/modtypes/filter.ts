@@ -191,6 +191,56 @@ export namespace Filter {
     attachTo(project: Project): AttachedModule {
       return super.attachTo(project) as AttachedModule
     }
+    setRawControllerValue(ctlNum: number, value: number) {
+      const { controllerValues: cv } = this
+      switch (ctlNum) {
+        case 1:
+          cv.volume = value
+          break
+        case 2:
+          cv.freq = value
+          break
+        case 3:
+          cv.resonance = value
+          break
+        case 4:
+          cv.type = value
+          break
+        case 5:
+          cv.response = value
+          break
+        case 6:
+          cv.mode = value
+          break
+        case 7:
+          cv.impulse = value
+          break
+        case 8:
+          cv.mix = value
+          break
+        case 9:
+          cv.lfoFreq = value
+          break
+        case 10:
+          cv.lfoAmp = value
+          break
+        case 11:
+          cv.setLfoPhase = value
+          break
+        case 12:
+          cv.exponentialFreq = Boolean(value)
+          break
+        case 13:
+          cv.rollOff = value
+          break
+        case 14:
+          cv.lfoFreqUnit = value
+          break
+        case 15:
+          cv.lfoWaveform = value
+          break
+      }
+    }
     *rawControllerValues(): Generator<number> {
       const { controllerValues: cv } = this
       yield cv.volume

@@ -88,6 +88,26 @@ export namespace Velocity2Ctl {
     attachTo(project: Project): AttachedModule {
       return super.attachTo(project) as AttachedModule
     }
+    setRawControllerValue(ctlNum: number, value: number) {
+      const { controllerValues: cv } = this
+      switch (ctlNum) {
+        case 1:
+          cv.noteOffAction = value
+          break
+        case 2:
+          cv.outMin = value
+          break
+        case 3:
+          cv.outMax = value
+          break
+        case 4:
+          cv.outOffset = value
+          break
+        case 5:
+          cv.outController = value
+          break
+      }
+    }
     *rawControllerValues(): Generator<number> {
       const { controllerValues: cv } = this
       yield cv.noteOffAction

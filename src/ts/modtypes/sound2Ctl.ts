@@ -134,6 +134,38 @@ export namespace Sound2Ctl {
     attachTo(project: Project): AttachedModule {
       return super.attachTo(project) as AttachedModule
     }
+    setRawControllerValue(ctlNum: number, value: number) {
+      const { controllerValues: cv } = this
+      switch (ctlNum) {
+        case 1:
+          cv.sampleRateHz = value
+          break
+        case 2:
+          cv.channels = value
+          break
+        case 3:
+          cv.absolute = Boolean(value)
+          break
+        case 4:
+          cv.gain = value
+          break
+        case 5:
+          cv.smooth = value
+          break
+        case 6:
+          cv.mode = value
+          break
+        case 7:
+          cv.outMin = value
+          break
+        case 8:
+          cv.outMax = value
+          break
+        case 9:
+          cv.outController = value
+          break
+      }
+    }
     *rawControllerValues(): Generator<number> {
       const { controllerValues: cv } = this
       yield cv.sampleRateHz

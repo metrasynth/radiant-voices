@@ -170,6 +170,62 @@ export namespace Fm {
     attachTo(project: Project): AttachedModule {
       return super.attachTo(project) as AttachedModule
     }
+    setRawControllerValue(ctlNum: number, value: number) {
+      const { controllerValues: cv } = this
+      switch (ctlNum) {
+        case 1:
+          cv.cVolume = value
+          break
+        case 2:
+          cv.mVolume = value
+          break
+        case 3:
+          cv.panning = value
+          break
+        case 4:
+          cv.cFreqRatio = value
+          break
+        case 5:
+          cv.mFreqRatio = value
+          break
+        case 6:
+          cv.mFeedback = value
+          break
+        case 7:
+          cv.cAttack = value
+          break
+        case 8:
+          cv.cDecay = value
+          break
+        case 9:
+          cv.cSustain = value
+          break
+        case 10:
+          cv.cRelease = value
+          break
+        case 11:
+          cv.mAttack = value
+          break
+        case 12:
+          cv.mDecay = value
+          break
+        case 13:
+          cv.mSustain = value
+          break
+        case 14:
+          cv.mRelease = value
+          break
+        case 15:
+          cv.mScalingPerKey = value
+          break
+        case 16:
+          cv.polyphonyCh = value
+          break
+        case 17:
+          cv.mode = value
+          break
+      }
+    }
     *rawControllerValues(): Generator<number> {
       const { controllerValues: cv } = this
       yield cv.cVolume

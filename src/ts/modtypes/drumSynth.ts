@@ -150,6 +150,56 @@ export namespace DrumSynth {
     attachTo(project: Project): AttachedModule {
       return super.attachTo(project) as AttachedModule
     }
+    setRawControllerValue(ctlNum: number, value: number) {
+      const { controllerValues: cv } = this
+      switch (ctlNum) {
+        case 1:
+          cv.volume = value
+          break
+        case 2:
+          cv.panning = value
+          break
+        case 3:
+          cv.polyphonyCh = value
+          break
+        case 4:
+          cv.bassVolume = value
+          break
+        case 5:
+          cv.bassPower = value
+          break
+        case 6:
+          cv.bassTone = value
+          break
+        case 7:
+          cv.bassLength = value
+          break
+        case 8:
+          cv.hihatVolume = value
+          break
+        case 9:
+          cv.hihatLength = value
+          break
+        case 10:
+          cv.snareVolume = value
+          break
+        case 11:
+          cv.snareTone = value
+          break
+        case 12:
+          cv.snareLength = value
+          break
+        case 13:
+          cv.bassPanning = value
+          break
+        case 14:
+          cv.hihatPanning = value
+          break
+        case 15:
+          cv.snarePanning = value
+          break
+      }
+    }
     *rawControllerValues(): Generator<number> {
       const { controllerValues: cv } = this
       yield cv.volume

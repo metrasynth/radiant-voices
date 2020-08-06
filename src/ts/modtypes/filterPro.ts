@@ -208,6 +208,62 @@ export namespace FilterPro {
     attachTo(project: Project): AttachedModule {
       return super.attachTo(project) as AttachedModule
     }
+    setRawControllerValue(ctlNum: number, value: number) {
+      const { controllerValues: cv } = this
+      switch (ctlNum) {
+        case 1:
+          cv.volume = value
+          break
+        case 2:
+          cv.type = value
+          break
+        case 3:
+          cv.freqHz = value
+          break
+        case 4:
+          cv.freqFinetune = value
+          break
+        case 5:
+          cv.freqScale = value
+          break
+        case 6:
+          cv.exponentialFreq = Boolean(value)
+          break
+        case 7:
+          cv.q = value
+          break
+        case 8:
+          cv.gain = value
+          break
+        case 9:
+          cv.rollOff = value
+          break
+        case 10:
+          cv.response = value
+          break
+        case 11:
+          cv.mode = value
+          break
+        case 12:
+          cv.mix = value
+          break
+        case 13:
+          cv.lfoFreq = value
+          break
+        case 14:
+          cv.lfoAmp = value
+          break
+        case 15:
+          cv.lfoWaveform = value
+          break
+        case 16:
+          cv.setLfoPhase = value
+          break
+        case 17:
+          cv.lfoFreqUnit = value
+          break
+      }
+    }
     *rawControllerValues(): Generator<number> {
       const { controllerValues: cv } = this
       yield cv.volume
