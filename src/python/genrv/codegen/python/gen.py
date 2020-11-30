@@ -1,7 +1,6 @@
-from isort.main import sort_imports
-
 import black
 from genrv.codegen.base import CodeGenerator
+from isort.main import sort_imports
 
 
 class PythonGenerator(CodeGenerator):

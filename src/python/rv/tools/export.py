@@ -79,9 +79,9 @@ def main():
     try:
         import numpy as np
         from scipy.io import wavfile
-        from tqdm import tqdm
         from sunvox import Slot
         from sunvox.buffered import BufferedProcess
+        from tqdm import tqdm
     except ImportError:
         log.error(
             'Please "pip install -r requirements/tools.txt" '
