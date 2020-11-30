@@ -1,6 +1,9 @@
 Installation
 ============
 
+Python
+~~~~~~
+
 Dependencies
 ------------
 
@@ -33,7 +36,7 @@ Use ``pip`` to install the latest version published to PyPI::
     $ pip install radiant-voices
 
 
-Installing from GitHub
+Installing from Github
 ----------------------
 
 ..  warning::
@@ -49,3 +52,15 @@ Installing from GitHub
 Use ``pip`` to install the most recent version in the ``master`` branch::
 
     $ pip install 'https://github.com/metrasynth/radiant-voices/#egg=radiant-voices'
+
+JavaScript
+~~~~~~~~~~
+
+Installing from npm
+-------------------
+
+Installing from Github
+----------------------
+
+Installing from local source
+----------------------------
