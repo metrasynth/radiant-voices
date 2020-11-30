@@ -2,20 +2,22 @@ Changelog
 =========
 
 
-0.4 series
+1.0 series
 ----------
 
 The major themes of this release are:
 
-- Support for SunVox 1.9.3 and 1.9.4.
+- Support for all controllers, options, and curves in SunVox 1.9.6b.
 
 - Improved compatibility with the SunVox file format.
 
-- Full documentation of the SunVox file format.
+- Improved documentation of the SunVox file format.
+
+- Radiant Voices API improvements.
 
 
-0.4.0.dev3 (not released)
--------------------------
+1.0.0.dev0 (not yet released)
+-----------------------------
 
 Additions
 .........
