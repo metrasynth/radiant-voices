@@ -54,6 +54,12 @@ Over time, we will work towards parity as we strive toward 100% compatibility wi
 SunVox.
 
 
+Additions (all versions)
+........................
+
+- Adds ``ADSR`` module.
+
+
 Additions (Python version)
 ..........................
 
