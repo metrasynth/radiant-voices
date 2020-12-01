@@ -19,8 +19,43 @@ The major themes of this release are:
 1.0.0.dev0 (not yet released)
 -----------------------------
 
-Additions
-.........
+
+Major change: ``genrv`` code generator
+......................................
+
+To support porting Radiant Voices to more languages than just Python,
+and keeping these ports in sync with new versions of SunVox,
+this release introduces a new code-generation tool, ``genrv``.
+
+``genrv`` is written in Python, and uses Jinja2 templates to generate
+source code in various target languages, based on a spec written in YAML.
+
+The generated code is run through code-formatting tools,
+saved directly into the final package structure,
+and committed to the git repository as any other code would be.
+
+Base classes for all module types are generated this way.
+They include controllers, options, and controller value enums.
+The actual classes for each module inherit from these base classes
+and add module-specific behavior maintained by hand.
+
+
+Major change: JavaScript port
+.............................
+
+Radiant Voices now has a JavaScript port, written in TypeScript.
+It pairs well with the JavaScript/WebAssembly version of the SunVox library.
+
+It is not a 1-to-1 port from the Python version, although
+it is designed to allow you to do the same things.
+
+As of this release, each version has strengths and weaknesses compared to the other.
+Over time, we will work towards parity as we strive toward 100% compatibility with
+SunVox.
+
+
+Additions (Python version)
+..........................
 
 - Adds ``Amplifier.gain`` controller.
 
@@ -71,8 +106,8 @@ Additions
 - Adds ``Note.mod`` property, allows setting a note's module via an actual
   `Module` instance (instead of an int).
 
-Changes
-.......
+Changes (Python version)
+........................
 
 - Increases the maximum value of ``Gpio.pin_in`` and ``Gpio.pin_out``
   controllers to ``256``.
@@ -103,8 +138,8 @@ Changes
 
 - ``Project.attach_pattern`` now returns the index of the attached pattern.
 
-Fixes
-.....
+Fixes (Python version)
+......................
 
 - Updates the ``helloworld`` example to use correct APIs.
 
