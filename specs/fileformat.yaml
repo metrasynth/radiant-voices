@@ -1529,6 +1529,44 @@ module_types:
       - out_max: { min: 0, max: 32768, default: 32768 }
       - out_controller: { min: 0, max: 32, default: 0 }
 
+  PitchDetector:
+    type: Pitch Detector
+    defaultFlags: 0x861041
+    group: Misc
+    enums:
+      Algorithm:
+        zero_crossing: 0
+        autocorrelation: 1
+        cepstrum: 2
+      RollOff:
+        12db: 0
+        24db: 1
+        36db: 2
+        48db: 3
+      SampleRate:
+        12000Hz: 0
+        24000Hz: 1
+        44100Hz: 2
+      Buffer:
+        5ms: 0
+        10ms: 1
+        21ms: 2
+        42ms: 3
+        85ms: 4
+    controllers:
+      - algorithm: { enum: Algorithm, default: "autocorrelation" }
+      - threshold: { min: 0, max: 10000, default: 80 }
+      - gain: { min: 0, max: 256, default: 0 }
+      - microtones: { bool: true, default: true }
+      - detector_finetune: { min: -256, max: 256, default: 0 }
+      - lp_filter_freq_hz: { min: 0, max: 4000, default: 1000}
+      - lp_filter_rolloff: { enum: RollOff, default: "12db" }
+      - alg_1_2_sample_rate: { enum: SampleRate, default: "12000Hz" }
+      - alg_1_2_buffer: { enum: Buffer, default: "21ms" }
+      - alg_1_2_buffer_overlap_pct: { min: 0, max: 100, default: 50 }
+      - alg_1_sensitivity: { min: 0, max: 100, default: 10 }
+      - record_notes: { bool: true, default: false }
+
   PitchShifter:
     type: Pitch shifter
     defaultFlags: 0x51

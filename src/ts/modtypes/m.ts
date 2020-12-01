@@ -33,6 +33,7 @@ import { MultiCtl } from "./multiCtl"
 import { MultiSynth } from "./multiSynth"
 import { Output } from "./output"
 import { Pitch2Ctl } from "./pitch2Ctl"
+import { PitchDetector } from "./pitchDetector"
 import { PitchShifter } from "./pitchShifter"
 import { Reverb } from "./reverb"
 import { Sampler } from "./sampler"
@@ -72,6 +73,7 @@ export { MultiCtl }
 export { MultiSynth }
 export { Output }
 export { Pitch2Ctl }
+export { PitchDetector }
 export { PitchShifter }
 export { Reverb }
 export { Sampler }
@@ -141,6 +143,8 @@ export const output = () => new Output.Module()
 // noinspection JSUnusedGlobalSymbols
 export const pitch2Ctl = () => new Pitch2Ctl.Module()
 // noinspection JSUnusedGlobalSymbols
+export const pitchDetector = () => new PitchDetector.Module()
+// noinspection JSUnusedGlobalSymbols
 export const pitchShifter = () => new PitchShifter.Module()
 // noinspection JSUnusedGlobalSymbols
 export const reverb = () => new Reverb.Module()
@@ -190,6 +194,7 @@ export const moduleTypesByName: Record<string, ModuleConstructor> = {
   MultiSynth: MultiSynth.Module,
   Output: Output.Module,
   Pitch2Ctl: Pitch2Ctl.Module,
+  "Pitch Detector": PitchDetector.Module,
   "Pitch shifter": PitchShifter.Module,
   Reverb: Reverb.Module,
   Sampler: Sampler.Module,

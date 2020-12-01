@@ -61,6 +61,8 @@ Additions (all versions)
 
 - Adds ``Ctl2Note`` module.
 
+- Adds ``Pitch Detector`` module.
+
 
 Additions (Python version)
 ..........................

@@ -47,8 +47,8 @@ def enumname(ekey: str) -> str:
     ekey = str(ekey).replace("/", "_")
     ekey = ekey.replace("*", "_")
     ekey = ekey.replace(".", "_")
-    if len(ekey) == 4 and ekey.endswith("db"):
-        ekey = f"db_{ekey[:2]}"
+    if ekey[0].isdigit():
+        ekey = f"{ekey[-2:].lower()}_{ekey[:2]}"
     return ekey
 
 
