@@ -1702,6 +1702,11 @@ module_types:
         overtones2: 11
         overtones3: 12
         overtones4: 13
+        overtones1+: 14
+        overtones2+: 15
+        overtones3+: 16
+        overtones4+: 17
+        metal: 18
     controllers:
       - volume: { min: 0, max: 256, default: 128 }
       - panning: { min: -128, max: 128, default: 0 }

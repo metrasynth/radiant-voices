@@ -65,6 +65,9 @@ Additions (all versions)
 
 - Adds ``harmonics`` to enum for ``AnalogGenerator.waveform`` controller.
 
+- Adds new values to enum for ``SpectraVoice.h_type`` controller:
+  ``overtones1+``, ``overtones2+``, ``overtones3+``, ``overtones4+``, ``metal``.
+
 
 Additions (Python version)
 ..........................

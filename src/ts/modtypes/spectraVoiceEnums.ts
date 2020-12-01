@@ -29,4 +29,9 @@ export enum HarmonicType {
   Overtones2 = 11,
   Overtones3 = 12,
   Overtones4 = 13,
+  Overtones1Plus = 14,
+  Overtones2Plus = 15,
+  Overtones3Plus = 16,
+  Overtones4Plus = 17,
+  Metal = 18,
 }

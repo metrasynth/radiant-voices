@@ -36,6 +36,11 @@ class BaseSpectraVoice:
         overtones2 = 11
         overtones3 = 12
         overtones4 = 13
+        overtones1_plus = 14
+        overtones2_plus = 15
+        overtones3_plus = 16
+        overtones4_plus = 17
+        metal = 18
 
     volume = Controller((0, 256), 128)
     panning = Controller((-128, 128), 0)
