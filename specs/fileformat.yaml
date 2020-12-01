@@ -876,6 +876,29 @@ module_types:
         type: DrawnWaveform
         chnm: 0
 
+  Ctl2Note:
+    defaultFlags: 0x01821041
+    group: Misc
+    enums:
+      NoteOn:
+        no_trigger: 0
+        on_pitch_change: 1
+      NoteOff:
+        no_trigger: 0
+        on_min_pitch: 1
+        on_max_pitch: 2
+    controllers:
+      - pitch: { min: 0, max: 32768, default: 0 }
+      - first_note: { min: 0, max: 120, default: 0 }
+      - range_semitones: { min: 0, max: 120, default: 120 }
+      - transpose: { min: -128, max: 128, default: 0 }
+      - finetune: { min: -256, max: 256, default: 0 }
+      - velocity: { min: 0, max: 256, default: 256 }
+      - state: { bool: true, default: false }
+      - note_on: { enum: NoteOn, default: "on_pitch_change" }
+      - note_off: { enum: NoteOff, default: "on_min_pitch" }
+      - record_notes: { bool: true, default: false }
+
   Compressor:
     defaultFlags: 0x2051
     group: Effect

@@ -7,6 +7,7 @@ import { ModuleConstructor } from "./moduleBase"
 import { Adsr } from "./adsr"
 import { Amplifier } from "./amplifier"
 import { AnalogGenerator } from "./analogGenerator"
+import { Ctl2Note } from "./ctl2Note"
 import { Compressor } from "./compressor"
 import { DcBlocker } from "./dcBlocker"
 import { Delay } from "./delay"
@@ -45,6 +46,7 @@ import { WaveShaper } from "./waveShaper"
 export { Adsr }
 export { Amplifier }
 export { AnalogGenerator }
+export { Ctl2Note }
 export { Compressor }
 export { DcBlocker }
 export { Delay }
@@ -86,6 +88,8 @@ export const adsr = () => new Adsr.Module()
 export const amplifier = () => new Amplifier.Module()
 // noinspection JSUnusedGlobalSymbols
 export const analogGenerator = () => new AnalogGenerator.Module()
+// noinspection JSUnusedGlobalSymbols
+export const ctl2Note = () => new Ctl2Note.Module()
 // noinspection JSUnusedGlobalSymbols
 export const compressor = () => new Compressor.Module()
 // noinspection JSUnusedGlobalSymbols
@@ -160,6 +164,7 @@ export const moduleTypesByName: Record<string, ModuleConstructor> = {
   ADSR: Adsr.Module,
   Amplifier: Amplifier.Module,
   "Analog generator": AnalogGenerator.Module,
+  Ctl2Note: Ctl2Note.Module,
   Compressor: Compressor.Module,
   "DC Blocker": DcBlocker.Module,
   Delay: Delay.Module,

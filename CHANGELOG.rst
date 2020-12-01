@@ -59,6 +59,8 @@ Additions (all versions)
 
 - Adds ``ADSR`` module.
 
+- Adds ``Ctl2Note`` module.
+
 
 Additions (Python version)
 ..........................
