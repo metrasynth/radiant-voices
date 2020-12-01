@@ -63,6 +63,8 @@ Additions (all versions)
 
 - Adds ``Pitch Detector`` module.
 
+- Adds ``harmonics`` to enum for ``AnalogGenerator.waveform`` controller.
+
 
 Additions (Python version)
 ..........................

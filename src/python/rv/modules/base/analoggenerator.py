@@ -37,6 +37,7 @@ class BaseAnalogGenerator:
         blue_noise = 13
         violet_noise = 14
         grey_noise = 15
+        harmonics = 16
 
     class Filter(Enum):
         off = 0

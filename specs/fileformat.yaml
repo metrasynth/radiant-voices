@@ -822,6 +822,7 @@ module_types:
         blue_noise: 13
         violet_noise: 14
         grey_noise: 15
+        harmonics: 16
       Filter:
         "off": 0
         lp_12db: 1

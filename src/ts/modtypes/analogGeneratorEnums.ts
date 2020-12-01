@@ -30,6 +30,7 @@ export enum Waveform {
   BlueNoise = 13,
   VioletNoise = 14,
   GreyNoise = 15,
+  Harmonics = 16,
 }
 export enum Filter {
   // noinspection JSUnusedGlobalSymbols
