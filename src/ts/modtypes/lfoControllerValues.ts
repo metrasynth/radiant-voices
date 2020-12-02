@@ -16,6 +16,9 @@ import { Channels } from "./lfoEnums"
 // @ts-ignore
 // noinspection ES6UnusedImports
 import { FrequencyUnit } from "./lfoEnums"
+// @ts-ignore
+// noinspection ES6UnusedImports
+import { SmoothTransitions } from "./lfoEnums"
 export interface LfoControllerValues extends ControllerValues {
   volume: number
   type: Type
@@ -27,4 +30,6 @@ export interface LfoControllerValues extends ControllerValues {
   frequencyUnit: FrequencyUnit
   dutyCycle: number
   generator: boolean
+  freqScalePct: number
+  smoothTransitions: SmoothTransitions
 }

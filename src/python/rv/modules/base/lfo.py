@@ -40,6 +40,10 @@ class BaseLfo:
         line_2 = 5
         line_3 = 6
 
+    class SmoothTransitions(Enum):
+        off = 0
+        waveform = 1
+
     volume = Controller((0, 512), 256)
     type = Controller(Type, Type.amplitude)
     amplitude = Controller((0, 256), 256)
@@ -65,3 +69,5 @@ class BaseLfo:
     frequency_unit = Controller(FrequencyUnit, FrequencyUnit.hz_64)
     duty_cycle = Controller((0, 256), 128)
     generator = Controller(bool, False)
+    freq_scale_pct = Controller((0, 200), 100)
+    smooth_transitions = Controller(SmoothTransitions, SmoothTransitions.waveform)

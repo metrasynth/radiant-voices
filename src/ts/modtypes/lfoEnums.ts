@@ -36,3 +36,8 @@ export enum FrequencyUnit {
   Line_2 = 5,
   Line_3 = 6,
 }
+export enum SmoothTransitions {
+  // noinspection JSUnusedGlobalSymbols
+  Off = 0,
+  Waveform = 1,
+}

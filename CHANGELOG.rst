@@ -79,6 +79,10 @@ Additions (all versions)
   ``violet_noise``,
   ``grey_noise``.
 
+- Adds ``LFO.freq_scale_pct`` controller.
+
+- Adds ``LFO.smooth_transitions`` controller.
+
 - Adds new value to enum for ``Compressor.mode`` controller:
   ``peak_zero_latency``.
 

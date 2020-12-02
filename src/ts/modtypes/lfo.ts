@@ -44,6 +44,11 @@ export namespace Lfo {
     Line_2 = 5,
     Line_3 = 6,
   }
+  export enum SmoothTransitions {
+    // noinspection JSUnusedGlobalSymbols
+    Off = 0,
+    Waveform = 1,
+  }
   export enum CtlNum {
     Volume = 1,
     Type = 2,
@@ -55,6 +60,8 @@ export namespace Lfo {
     FrequencyUnit = 8,
     DutyCycle = 9,
     Generator = 10,
+    FreqScalePct = 11,
+    SmoothTransitions = 12,
   }
   interface LfoControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
@@ -67,6 +74,8 @@ export namespace Lfo {
     frequencyUnit: ControllerMidiMap
     dutyCycle: ControllerMidiMap
     generator: ControllerMidiMap
+    freqScalePct: ControllerMidiMap
+    smoothTransitions: ControllerMidiMap
   }
   interface LfoOptionValues extends OptionValues {}
   class LfoOptions implements Options {
@@ -107,6 +116,12 @@ export namespace Lfo {
       (val: number) => {
         this.controllerValues.generator = Boolean(val)
       },
+      (val: number) => {
+        this.controllerValues.freqScalePct = val
+      },
+      (val: number) => {
+        this.controllerValues.smoothTransitions = val
+      },
     ]
     readonly controllerValues: LfoControllerValues = {
       volume: 256,
@@ -119,6 +134,8 @@ export namespace Lfo {
       frequencyUnit: FrequencyUnit.Hz_64,
       dutyCycle: 128,
       generator: false,
+      freqScalePct: 100,
+      smoothTransitions: SmoothTransitions.Waveform,
     }
     readonly controllers: LfoControllers = new LfoControllers(
       this,
@@ -136,6 +153,8 @@ export namespace Lfo {
       frequencyUnit: new ControllerMidiMap(),
       dutyCycle: new ControllerMidiMap(),
       generator: new ControllerMidiMap(),
+      freqScalePct: new ControllerMidiMap(),
+      smoothTransitions: new ControllerMidiMap(),
     }
     readonly optionValues: LfoOptionValues = {}
     readonly options: LfoOptions = new LfoOptions(this.optionValues)
@@ -181,6 +200,12 @@ export namespace Lfo {
         case 10:
           cv.generator = Boolean(value)
           break
+        case 11:
+          cv.freqScalePct = value
+          break
+        case 12:
+          cv.smoothTransitions = value
+          break
       }
     }
     *rawControllerValues(): Generator<number> {
@@ -195,6 +220,8 @@ export namespace Lfo {
       yield cv.frequencyUnit
       yield cv.dutyCycle
       yield Number(cv.generator)
+      yield cv.freqScalePct
+      yield cv.smoothTransitions
     }
     setMidiMaps(midiMaps: MidiMap[]) {
       this.midiMaps.volume = midiMaps[0]
@@ -207,6 +234,8 @@ export namespace Lfo {
       this.midiMaps.frequencyUnit = midiMaps[7]
       this.midiMaps.dutyCycle = midiMaps[8]
       this.midiMaps.generator = midiMaps[9]
+      this.midiMaps.freqScalePct = midiMaps[10]
+      this.midiMaps.smoothTransitions = midiMaps[11]
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []
@@ -220,6 +249,8 @@ export namespace Lfo {
       a.push(this.midiMaps.frequencyUnit)
       a.push(this.midiMaps.dutyCycle)
       a.push(this.midiMaps.generator)
+      a.push(this.midiMaps.freqScalePct)
+      a.push(this.midiMaps.smoothTransitions)
       return a
     }
   }

@@ -17,6 +17,9 @@ import { Channels } from "./lfoEnums"
 // @ts-ignore
 // noinspection ES6UnusedImports
 import { FrequencyUnit } from "./lfoEnums"
+// @ts-ignore
+// noinspection ES6UnusedImports
+import { SmoothTransitions } from "./lfoEnums"
 export class LfoBaseControllers implements Controllers {
   constructor(
     readonly module: ModuleType,
@@ -139,5 +142,24 @@ export class LfoBaseControllers implements Controllers {
   set generator(newValue: boolean) {
     const { controllerValues } = this
     controllerValues.generator = newValue
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get freqScalePct(): number {
+    return this.controllerValues.freqScalePct
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set freqScalePct(newValue: number) {
+    const { controllerValues } = this
+    newValue = Math.min(Math.max(newValue, 0), 200)
+    controllerValues.freqScalePct = newValue
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get smoothTransitions(): SmoothTransitions {
+    return this.controllerValues.smoothTransitions
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set smoothTransitions(newValue: SmoothTransitions) {
+    const { controllerValues } = this
+    controllerValues.smoothTransitions = newValue
   }
 }

@@ -1320,6 +1320,9 @@ module_types:
         line: 4
         line/2: 5
         line/3: 6
+      SmoothTransitions:
+        "off": 0
+        waveform: 1
     controllers:
       - volume: { min: 0, max: 512, default: 256 }
       - type: { enum: Type, default: "amplitude" }
@@ -1341,6 +1344,8 @@ module_types:
       - frequency_unit: { enum: FrequencyUnit, default: "hz/64" }
       - duty_cycle: { min: 0, max: 256, default: 128 }
       - generator: { bool: true, default: false }
+      - freq_scale_pct: { min: 0, max: 200, default: 100 }
+      - smooth_transitions: { enum: SmoothTransitions, default: "waveform" }
 
   Loop:
     defaultFlags: 0x451
