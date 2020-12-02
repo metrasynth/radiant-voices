@@ -12,6 +12,7 @@ class BaseFilter:
     name = "Filter"
     mtype = "Filter"
     mgroup = "Effect"
+    flags = 1105
 
     class Type(Enum):
         lp = 0

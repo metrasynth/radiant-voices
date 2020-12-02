@@ -7,7 +7,6 @@ from rv.modules.base.generator import BaseGenerator
 class Generator(BaseGenerator, Module):
 
     chnk = 1
-    flags = 0x000059
 
     behaviors = {B.receives_notes, B.receives_modulator, B.sends_audio}
 

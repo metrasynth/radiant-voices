@@ -12,6 +12,7 @@ class BaseDelay:
     name = "Delay"
     mtype = "Delay"
     mgroup = "Effect"
+    flags = 1105
 
     class Channels(Enum):
         stereo = 0

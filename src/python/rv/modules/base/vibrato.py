@@ -12,6 +12,7 @@ class BaseVibrato:
     name = "Vibrato"
     mtype = "Vibrato"
     mgroup = "Effect"
+    flags = 1105
 
     class Channels(Enum):
         stereo = 0

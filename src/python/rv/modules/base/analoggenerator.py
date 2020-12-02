@@ -13,6 +13,7 @@ class BaseAnalogGenerator:
     name = "AnalogGenerator"
     mtype = "Analog generator"
     mgroup = "Synth"
+    flags = 73
 
     class Mode(Enum):
         hq = 0

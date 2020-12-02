@@ -13,6 +13,7 @@ class BaseSound2Ctl:
     name = "Sound2Ctl"
     mtype = "Sound2Ctl"
     mgroup = "Misc"
+    flags = 393297
 
     class Channels(Enum):
         mono = 0

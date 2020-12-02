@@ -83,7 +83,6 @@ class MetaModule(BaseMetaModule, Module):
     """
 
     options_chnm = 0x02
-    flags = 0x008051
 
     behaviors = {B.receives_audio, B.receives_notes, B.sends_audio, B.sends_notes}
 

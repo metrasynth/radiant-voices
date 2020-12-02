@@ -8,7 +8,6 @@ from rv.modules.base.vorbisplayer import BaseVorbisPlayer
 class VorbisPlayer(BaseVorbisPlayer, Module):
 
     chnk = 1
-    flags = 0x008049
 
     behaviors = {B.sends_audio}
 

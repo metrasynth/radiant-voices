@@ -10,6 +10,7 @@ class BaseVorbisPlayer:
     name = "VorbisPlayer"
     mtype = "Vorbis player"
     mgroup = "Synth"
+    flags = 32841
     volume = Controller((0, 512), 256)
     original_speed = Controller(bool, True)
     finetune = Controller((-128, 128), 0)

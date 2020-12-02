@@ -10,6 +10,7 @@ class BaseGpio:
     name = "Gpio"
     mtype = "GPIO"
     mgroup = "Misc"
+    flags = 81
     out = Controller(bool, False)
     out_pin = Controller((0, 256), 0)
     out_threshold = Controller((0, 100), 50)

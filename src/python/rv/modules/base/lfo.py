@@ -12,6 +12,7 @@ class BaseLfo:
     name = "Lfo"
     mtype = "LFO"
     mgroup = "Effect"
+    flags = 1105
 
     class Type(Enum):
         amplitude = 0

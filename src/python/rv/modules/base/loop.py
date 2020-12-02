@@ -12,6 +12,7 @@ class BaseLoop:
     name = "Loop"
     mtype = "Loop"
     mgroup = "Effect"
+    flags = 1105
 
     class Channels(Enum):
         mono = 0

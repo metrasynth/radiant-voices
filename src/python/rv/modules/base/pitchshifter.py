@@ -12,6 +12,7 @@ class BasePitchShifter:
     name = "PitchShifter"
     mtype = "Pitch shifter"
     mgroup = "Effect"
+    flags = 81
 
     class Mode(Enum):
         hq = 0

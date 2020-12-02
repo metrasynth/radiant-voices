@@ -11,5 +11,4 @@ class Output(BaseOutput, Module):
 
     behaviors = {B.receives_audio}
 
-    flags = 0x00000043
     index = 0

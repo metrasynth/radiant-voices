@@ -12,6 +12,7 @@ class BaseFm:
     name = "Fm"
     mtype = "FM"
     mgroup = "Synth"
+    flags = 73
 
     class Mode(Enum):
         hq = 0

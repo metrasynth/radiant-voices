@@ -12,6 +12,7 @@ class BaseModulator:
     name = "Modulator"
     mtype = "Modulator"
     mgroup = "Effect"
+    flags = 8273
 
     class ModulationType(Enum):
         amplitude = 0

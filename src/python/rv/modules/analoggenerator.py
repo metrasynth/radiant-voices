@@ -8,7 +8,6 @@ class AnalogGenerator(BaseAnalogGenerator, Module):
 
     chnk = 2
     options_chnm = 1
-    flags = 0x000049
 
     behaviors = {B.receives_notes, B.sends_audio}
 

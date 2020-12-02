@@ -12,6 +12,7 @@ class BasePitch2Ctl:
     name = "Pitch2Ctl"
     mtype = "Pitch2Ctl"
     mgroup = "Misc"
+    flags = 131145
 
     class Mode(Enum):
         frequency_hz = 0

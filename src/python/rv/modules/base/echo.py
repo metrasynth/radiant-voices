@@ -12,6 +12,7 @@ class BaseEcho:
     name = "Echo"
     mtype = "Echo"
     mgroup = "Effect"
+    flags = 1105
 
     class Channels(Enum):
         mono = 0

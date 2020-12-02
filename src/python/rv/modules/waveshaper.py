@@ -6,7 +6,6 @@ from rv.modules.base.waveshaper import BaseWaveShaper
 class WaveShaper(BaseWaveShaper, Module):
 
     chnk = 1
-    flags = 0x000051
 
     behaviors = {B.receives_audio, B.sends_audio}
 

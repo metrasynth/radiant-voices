@@ -13,6 +13,7 @@ class BaseSampler:
     name = "Sampler"
     mtype = "Sampler"
     mgroup = "Synth"
+    flags = 33881
 
     class SampleInterpolation(Enum):
         off = 0

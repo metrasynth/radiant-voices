@@ -7,8 +7,6 @@ from rv.modules.base.drumsynth import BaseDrumSynth
 
 class DrumSynth(BaseDrumSynth, Module):
 
-    flags = 0x000049
-
     behaviors = {B.receives_notes, B.sends_audio}
 
 

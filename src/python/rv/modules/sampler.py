@@ -29,7 +29,6 @@ class Sampler(BaseSampler, Module):
 
     chnk = 0x109
     options_chnm = 0x0101
-    flags = 0x008459
 
     behaviors = {B.receives_notes, B.sends_audio}
 

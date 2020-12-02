@@ -12,6 +12,7 @@ class BaseReverb:
     name = "Reverb"
     mtype = "Reverb"
     mgroup = "Effect"
+    flags = 81
 
     class Mode(Enum):
         hq = 0

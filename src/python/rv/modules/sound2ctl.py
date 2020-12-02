@@ -7,7 +7,6 @@ class Sound2Ctl(BaseSound2Ctl, Module):
 
     chnk = 1
     options_chnm = 0
-    flags = 0x600051
 
     behaviors = {B.receives_audio, B.sends_controls}
 

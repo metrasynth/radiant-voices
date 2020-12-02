@@ -12,6 +12,7 @@ class BaseAdsr:
     name = "Adsr"
     mtype = "ADSR"
     mgroup = "Misc"
+    flags = 89
 
     class Curve(Enum):
         linear = 0

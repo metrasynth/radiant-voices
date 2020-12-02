@@ -12,6 +12,7 @@ class BaseDistortion:
     name = "Distortion"
     mtype = "Distortion"
     mgroup = "Effect"
+    flags = 81
 
     class Type(Enum):
         lim = 0

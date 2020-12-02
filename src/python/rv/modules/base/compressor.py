@@ -12,6 +12,7 @@ class BaseCompressor:
     name = "Compressor"
     mtype = "Compressor"
     mgroup = "Effect"
+    flags = 8273
 
     class Mode(Enum):
         peak = 0

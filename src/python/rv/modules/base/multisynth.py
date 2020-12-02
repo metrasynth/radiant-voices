@@ -12,6 +12,7 @@ class BaseMultiSynth:
     name = "MultiSynth"
     mtype = "MultiSynth"
     mgroup = "Misc"
+    flags = 135241
     transpose = Controller(CompactRange(-128, 128), 0)
     random_pitch = Controller((0, 4096), 0)
     velocity = Controller((0, 256), 256)

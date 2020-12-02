@@ -10,6 +10,7 @@ class BaseGlide:
     name = "Glide"
     mtype = "Glide"
     mgroup = "Misc"
+    flags = 135241
     response = Controller((0, 1000), 500)
     sample_rate_hz = Controller((1, 32768), 150)
     reset_on_first_note = Controller(bool, False)

@@ -32,6 +32,7 @@ class Base{{ modtype_name }}:
     name = {{ modtype_name | repr }}
     mtype = {{ (modtype.type or modtype_name) | repr }}
     mgroup = {{ modtype.group | repr }}
+    flags = {{ (modtype.defaultFlags or 0) | repr }}
 
 {% for ename, e in (modtype.enums or {}).items() %}
     class {{ ename }}(Enum):

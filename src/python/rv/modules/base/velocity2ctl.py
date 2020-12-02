@@ -12,6 +12,7 @@ class BaseVelocity2Ctl:
     name = "Velocity2Ctl"
     mtype = "Velocity2Ctl"
     mgroup = "Misc"
+    flags = 131145
 
     class NoteOffAction(Enum):
         do_nothing = 0

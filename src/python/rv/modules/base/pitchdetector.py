@@ -12,6 +12,7 @@ class BasePitchDetector:
     name = "PitchDetector"
     mtype = "Pitch Detector"
     mgroup = "Misc"
+    flags = 8785985
 
     class Algorithm(Enum):
         zero_crossing = 0

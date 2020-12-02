@@ -13,6 +13,7 @@ class BaseMetaModule:
     name = "MetaModule"
     mtype = "MetaModule"
     mgroup = "Misc"
+    flags = 32849
 
     class PlayPatterns(Enum):
         off = 0

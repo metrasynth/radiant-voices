@@ -12,6 +12,7 @@ class BaseKicker:
     name = "Kicker"
     mtype = "Kicker"
     mgroup = "Synth"
+    flags = 73
 
     class Waveform(Enum):
         triangle = 0

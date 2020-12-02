@@ -13,6 +13,7 @@ class BaseSpectraVoice:
     name = "SpectraVoice"
     mtype = "SpectraVoice"
     mgroup = "Synth"
+    flags = 73
 
     class Mode(Enum):
         hq = 0
