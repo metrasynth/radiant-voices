@@ -1681,6 +1681,7 @@ module_types:
     options_chnm: 0
     options:
       - record_values: false
+      - send_only_changed_values: true
 
   SpectraVoice:
     defaultFlags: 0x49

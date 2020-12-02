@@ -32,3 +32,4 @@ class BaseSound2Ctl:
     out_max = Controller((0, 32768), 32768)
     out_controller = Controller((0, 32), 0)
     record_values = Option(False)
+    send_only_changed_values = Option(True, inverted=True)

@@ -83,6 +83,8 @@ Additions (all versions)
 
 - Adds ``LFO.smooth_transitions`` controller.
 
+- Adds ``Sound2Ctl.send_only_changed_values`` option.
+
 - Adds new value to enum for ``Compressor.mode`` controller:
   ``peak_zero_latency``.
 

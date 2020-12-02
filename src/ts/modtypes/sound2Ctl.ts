@@ -48,6 +48,7 @@ export namespace Sound2Ctl {
   }
   interface Sound2CtlOptionValues extends OptionValues {
     recordValues: boolean
+    sendOnlyChangedValues: boolean
   }
   class Sound2CtlOptions implements Options {
     constructor(readonly optionValues: Sound2CtlOptionValues) {}
@@ -58,6 +59,14 @@ export namespace Sound2Ctl {
     // noinspection JSUnusedGlobalSymbols
     set recordValues(newValue: boolean) {
       this.optionValues.recordValues = newValue
+    }
+    // noinspection JSUnusedGlobalSymbols
+    get sendOnlyChangedValues(): boolean {
+      return this.optionValues.sendOnlyChangedValues
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set sendOnlyChangedValues(newValue: boolean) {
+      this.optionValues.sendOnlyChangedValues = newValue
     }
   }
   export class Module extends ModuleBase implements ModuleType {
@@ -123,6 +132,7 @@ export namespace Sound2Ctl {
     }
     readonly optionValues: Sound2CtlOptionValues = {
       recordValues: false,
+      sendOnlyChangedValues: true,
     }
     readonly options: Sound2CtlOptions = new Sound2CtlOptions(this.optionValues)
     readonly o = this.options
@@ -203,9 +213,10 @@ export namespace Sound2Ctl {
       return a
     }
     rawOptionBytes(): Uint8Array {
-      const bytes = new Uint8Array(1)
+      const bytes = new Uint8Array(2)
       const { optionValues: ov } = this
       bytes[0] = Number(ov.recordValues)
+      bytes[1] = Number(!ov.sendOnlyChangedValues)
       return bytes
     }
     setOptions(dataChunks: ModuleDataChunks) {
@@ -218,6 +229,7 @@ export namespace Sound2Ctl {
       }
       if (chdt) {
         this.optionValues.recordValues = Boolean(chdt[0])
+        this.optionValues.sendOnlyChangedValues = !Boolean(chdt[1])
       }
     }
   }
