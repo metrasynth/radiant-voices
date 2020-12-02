@@ -85,6 +85,9 @@ Additions (all versions)
 
 - Adds ``Sound2Ctl.send_only_changed_values`` option.
 
+- Adds new options to ``MetaModule``:
+  ``receive_notes_from_keyboard``, ``do_not_receive_notes_from_keyboard``.
+
 - Adds new value to enum for ``Compressor.mode`` controller:
   ``peak_zero_latency``.
 

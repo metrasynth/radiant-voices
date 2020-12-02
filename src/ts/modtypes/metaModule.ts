@@ -39,6 +39,8 @@ export namespace MetaModule {
     arpeggiator: boolean
     applyVelocityToProject: boolean
     eventOutput: boolean
+    receiveNotesFromKeyboard: boolean
+    doNotReceiveNotesFromKeyboard: boolean
   }
   class MetaModuleOptions implements Options {
     constructor(readonly optionValues: MetaModuleOptionValues) {}
@@ -76,6 +78,22 @@ export namespace MetaModule {
     // noinspection JSUnusedGlobalSymbols
     set eventOutput(newValue: boolean) {
       this.optionValues.eventOutput = newValue
+    }
+    // noinspection JSUnusedGlobalSymbols
+    get receiveNotesFromKeyboard(): boolean {
+      return this.optionValues.receiveNotesFromKeyboard
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set receiveNotesFromKeyboard(newValue: boolean) {
+      this.optionValues.receiveNotesFromKeyboard = newValue
+    }
+    // noinspection JSUnusedGlobalSymbols
+    get doNotReceiveNotesFromKeyboard(): boolean {
+      return this.optionValues.doNotReceiveNotesFromKeyboard
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set doNotReceiveNotesFromKeyboard(newValue: boolean) {
+      this.optionValues.doNotReceiveNotesFromKeyboard = newValue
     }
   }
   export class Module extends ModuleBase implements ModuleType {
@@ -124,6 +142,8 @@ export namespace MetaModule {
       arpeggiator: false,
       applyVelocityToProject: false,
       eventOutput: true,
+      receiveNotesFromKeyboard: false,
+      doNotReceiveNotesFromKeyboard: false,
     }
     readonly options: MetaModuleOptions = new MetaModuleOptions(this.optionValues)
     readonly o = this.options
@@ -180,12 +200,14 @@ export namespace MetaModule {
       return a
     }
     rawOptionBytes(): Uint8Array {
-      const bytes = new Uint8Array(4)
+      const bytes = new Uint8Array(6)
       const { optionValues: ov } = this
       bytes[0] = ov.userDefinedControllers
       bytes[1] = Number(ov.arpeggiator)
       bytes[2] = Number(ov.applyVelocityToProject)
       bytes[3] = Number(!ov.eventOutput)
+      bytes[4] = Number(ov.receiveNotesFromKeyboard)
+      bytes[5] = Number(ov.doNotReceiveNotesFromKeyboard)
       return bytes
     }
     setOptions(dataChunks: ModuleDataChunks) {
@@ -201,6 +223,8 @@ export namespace MetaModule {
         this.optionValues.arpeggiator = Boolean(chdt[1])
         this.optionValues.applyVelocityToProject = Boolean(chdt[2])
         this.optionValues.eventOutput = !Boolean(chdt[3])
+        this.optionValues.receiveNotesFromKeyboard = Boolean(chdt[4])
+        this.optionValues.doNotReceiveNotesFromKeyboard = Boolean(chdt[5])
       }
     }
   }

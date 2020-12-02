@@ -28,3 +28,5 @@ class BaseMetaModule:
     arpeggiator = Option(False)
     apply_velocity_to_project = Option(False)
     event_output = Option(True, inverted=True)
+    receive_notes_from_keyboard = Option(False)
+    do_not_receive_notes_from_keyboard = Option(False)
