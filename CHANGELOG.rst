@@ -2,22 +2,20 @@ Changelog
 =========
 
 
-1.0 series
-----------
+1.0.0.dev0 (not yet released)
+-----------------------------
 
-The major themes of this release are:
+The themes of this release are:
 
-- Support for all controllers, options, and curves in SunVox 1.9.6b.
+- New JavaScript version of Radiant Voices.
 
-- Improved compatibility with the SunVox file format.
+- Support for new modules, controllers, options, and curves in SunVox 1.9.6b.
+
+- Improved general compatibility with the SunVox file format.
 
 - Improved documentation of the SunVox file format.
 
 - Radiant Voices API improvements.
-
-
-1.0.0.dev0 (not yet released)
------------------------------
 
 
 Major change: ``genrv`` code generator
@@ -68,10 +66,6 @@ Additions (all versions)
 - Adds new values to enum for ``SpectraVoice.h_type`` controller:
   ``overtones1+``, ``overtones2+``, ``overtones3+``, ``overtones4+``, ``metal``.
 
-
-Additions (Python version)
-..........................
-
 - Adds ``Amplifier.gain`` controller.
 
 - Adds ``AnalogGenerator.true_zero_attack_release`` option.
@@ -106,6 +100,15 @@ Additions (Python version)
 
 - Adds ``MultiCtl.sample_rate_hz`` controller.
 
+- Increases the maximum value of ``Gpio.pin_in`` and ``Gpio.pin_out``
+  controllers to ``256``.
+
+- Renames ``Kicker.vol_addition`` controller to ``Kicker.boost``,
+  to reflect naming in SunVox 1.9.4.
+
+Additions (Python version)
+..........................
+
 - Adds ``Project.restart_position`` attribute.
 
 - Adds ``Project.detach_module(module)`` method.
@@ -124,14 +127,8 @@ Additions (Python version)
 Changes (Python version)
 ........................
 
-- Increases the maximum value of ``Gpio.pin_in`` and ``Gpio.pin_out``
-  controllers to ``256``.
-
-- Renames ``Kicker.vol_addition`` controller to ``Kicker.boost``,
-  to reflect naming in SunVox 1.9.4.
-
 - Updates default ``sunvox_version`` and ``based_on_version`` of
-  newly-created ``Project`` containers to reflect file format version 1.9.4.0.
+  newly-created ``Project`` containers to reflect file format version 1.9.6.1.
 
 - Updates ``MetaModule.behaviors`` to include ``sends_notes``.
 
