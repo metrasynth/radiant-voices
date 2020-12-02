@@ -26,9 +26,11 @@ from .module import (
     VisibleModuleFlags,
 )
 
+from .adsr import Adsr
 from .amplifier import Amplifier
 from .analoggenerator import AnalogGenerator
 from .compressor import Compressor
+from .ctl2note import Ctl2Note
 from .dcblocker import DcBlocker
 from .delay import Delay
 from .distortion import Distortion
@@ -53,6 +55,7 @@ from .multictl import MultiCtl
 from .multisynth import MultiSynth
 from .output import Output
 from .pitch2ctl import Pitch2Ctl
+from .pitchdetector import PitchDetector
 from .pitchshifter import PitchShifter
 from .reverb import Reverb
 from .sampler import Sampler
@@ -65,11 +68,13 @@ from .vorbisplayer import VorbisPlayer
 from .waveshaper import WaveShaper
 
 __all__ = [
+    "Adsr",
     "Amplifier",
     "AnalogGenerator",
     "Behavior",
     "Chunk",
     "Compressor",
+    "Ctl2Note",
     "DcBlocker",
     "Delay",
     "Distortion",
@@ -99,6 +104,7 @@ __all__ = [
     "OscilloscopeMode",
     "Output",
     "Pitch2Ctl",
+    "PitchDetector",
     "PitchShifter",
     "Reverb",
     "Sampler",
