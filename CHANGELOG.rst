@@ -88,6 +88,8 @@ Additions (all versions)
 - Adds new options to ``MetaModule``:
   ``receive_notes_from_keyboard``, ``do_not_receive_notes_from_keyboard``.
 
+- Adds ``PitchShifter.bypass_if_pitch_eq_0`` controller.
+
 - Adds new value to enum for ``Compressor.mode`` controller:
   ``peak_zero_latency``.
 

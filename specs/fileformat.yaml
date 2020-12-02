@@ -1586,6 +1586,10 @@ module_types:
         hq_mono: 1
         lq: 2
         lq_mono: 3
+      BypassIfPitchEq0:
+        "off": 0
+        slow_transition: 1
+        fast_transition: 2
     controllers:
       - volume: { min: 0, max: 512, default: 256 }
       - pitch: { min: -600, max: 600, default: 0 }
@@ -1593,6 +1597,7 @@ module_types:
       - feedback: { min: 0, max: 256, default: 0 }
       - grain_size: { min: 0, max: 256, default: 64 }
       - mode: { enum: Mode, default: "hq" }
+      - bypass_if_pitch_eq_0: { enum: BypassIfPitchEq0, default: "off" }
 
   Reverb:
     defaultFlags: 0x51

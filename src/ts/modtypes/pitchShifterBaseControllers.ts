@@ -8,6 +8,9 @@ import { PitchShifterControllerValues } from "./pitchShifterControllerValues"
 // @ts-ignore
 // noinspection ES6UnusedImports
 import { Mode } from "./pitchShifterEnums"
+// @ts-ignore
+// noinspection ES6UnusedImports
+import { BypassIfPitchEq0 } from "./pitchShifterEnums"
 export class PitchShifterBaseControllers implements Controllers {
   constructor(
     readonly module: ModuleType,
@@ -71,5 +74,14 @@ export class PitchShifterBaseControllers implements Controllers {
   set mode(newValue: Mode) {
     const { controllerValues } = this
     controllerValues.mode = newValue
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get bypassIfPitchEq_0(): BypassIfPitchEq0 {
+    return this.controllerValues.bypassIfPitchEq_0
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set bypassIfPitchEq_0(newValue: BypassIfPitchEq0) {
+    const { controllerValues } = this
+    controllerValues.bypassIfPitchEq_0 = newValue
   }
 }

@@ -7,6 +7,9 @@ import { ControllerValues } from "./moduleType"
 // @ts-ignore
 // noinspection ES6UnusedImports
 import { Mode } from "./pitchShifterEnums"
+// @ts-ignore
+// noinspection ES6UnusedImports
+import { BypassIfPitchEq0 } from "./pitchShifterEnums"
 export interface PitchShifterControllerValues extends ControllerValues {
   volume: number
   pitch: number
@@ -14,4 +17,5 @@ export interface PitchShifterControllerValues extends ControllerValues {
   feedback: number
   grainSize: number
   mode: Mode
+  bypassIfPitchEq_0: BypassIfPitchEq0
 }

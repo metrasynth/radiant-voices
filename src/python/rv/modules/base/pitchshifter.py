@@ -19,9 +19,15 @@ class BasePitchShifter:
         lq = 2
         lq_mono = 3
 
+    class BypassIfPitchEq0(Enum):
+        off = 0
+        slow_transition = 1
+        fast_transition = 2
+
     volume = Controller((0, 512), 256)
     pitch = Controller((-600, 600), 0)
     pitch_scale = Controller((0, 200), 100)
     feedback = Controller((0, 256), 0)
     grain_size = Controller((0, 256), 64)
     mode = Controller(Mode, Mode.hq)
+    bypass_if_pitch_eq_0 = Controller(BypassIfPitchEq0, BypassIfPitchEq0.off)

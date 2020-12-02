@@ -20,6 +20,12 @@ export namespace PitchShifter {
     Lq = 2,
     LqMono = 3,
   }
+  export enum BypassIfPitchEq0 {
+    // noinspection JSUnusedGlobalSymbols
+    Off = 0,
+    SlowTransition = 1,
+    FastTransition = 2,
+  }
   export enum CtlNum {
     Volume = 1,
     Pitch = 2,
@@ -27,6 +33,7 @@ export namespace PitchShifter {
     Feedback = 4,
     GrainSize = 5,
     Mode = 6,
+    BypassIfPitchEq_0 = 7,
   }
   interface PitchShifterControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
@@ -35,6 +42,7 @@ export namespace PitchShifter {
     feedback: ControllerMidiMap
     grainSize: ControllerMidiMap
     mode: ControllerMidiMap
+    bypassIfPitchEq_0: ControllerMidiMap
   }
   interface PitchShifterOptionValues extends OptionValues {}
   class PitchShifterOptions implements Options {
@@ -63,6 +71,9 @@ export namespace PitchShifter {
       (val: number) => {
         this.controllerValues.mode = val
       },
+      (val: number) => {
+        this.controllerValues.bypassIfPitchEq_0 = val
+      },
     ]
     readonly controllerValues: PitchShifterControllerValues = {
       volume: 256,
@@ -71,6 +82,7 @@ export namespace PitchShifter {
       feedback: 0,
       grainSize: 64,
       mode: Mode.Hq,
+      bypassIfPitchEq_0: BypassIfPitchEq0.Off,
     }
     readonly controllers: PitchShifterControllers = new PitchShifterControllers(
       this,
@@ -84,6 +96,7 @@ export namespace PitchShifter {
       feedback: new ControllerMidiMap(),
       grainSize: new ControllerMidiMap(),
       mode: new ControllerMidiMap(),
+      bypassIfPitchEq_0: new ControllerMidiMap(),
     }
     readonly optionValues: PitchShifterOptionValues = {}
     readonly options: PitchShifterOptions = new PitchShifterOptions(this.optionValues)
@@ -117,6 +130,9 @@ export namespace PitchShifter {
         case 6:
           cv.mode = value
           break
+        case 7:
+          cv.bypassIfPitchEq_0 = value
+          break
       }
     }
     *rawControllerValues(): Generator<number> {
@@ -127,6 +143,7 @@ export namespace PitchShifter {
       yield cv.feedback
       yield cv.grainSize
       yield cv.mode
+      yield cv.bypassIfPitchEq_0
     }
     setMidiMaps(midiMaps: MidiMap[]) {
       this.midiMaps.volume = midiMaps[0]
@@ -135,6 +152,7 @@ export namespace PitchShifter {
       this.midiMaps.feedback = midiMaps[3]
       this.midiMaps.grainSize = midiMaps[4]
       this.midiMaps.mode = midiMaps[5]
+      this.midiMaps.bypassIfPitchEq_0 = midiMaps[6]
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []
@@ -144,6 +162,7 @@ export namespace PitchShifter {
       a.push(this.midiMaps.feedback)
       a.push(this.midiMaps.grainSize)
       a.push(this.midiMaps.mode)
+      a.push(this.midiMaps.bypassIfPitchEq_0)
       return a
     }
   }

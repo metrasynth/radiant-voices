@@ -12,3 +12,9 @@ export enum Mode {
   Lq = 2,
   LqMono = 3,
 }
+export enum BypassIfPitchEq0 {
+  // noinspection JSUnusedGlobalSymbols
+  Off = 0,
+  SlowTransition = 1,
+  FastTransition = 2,
+}
