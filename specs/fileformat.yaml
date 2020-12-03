@@ -859,19 +859,85 @@ module_types:
       - noise: { min: 0, max: 256, default: 0 }
     options_chnm: 1
     options:
-      - volume_envelope_scaling_per_key: false
-      - filter_envelope_scaling_per_key: false
-      - volume_scaling_per_key: false
-      - filter_freq_scaling_per_key: false
-      - velocity_dependent_filter_frequency: false
-      - frequency_div_2: false
-      - smooth_frequency_change: true
-      - filter_freq_scaling_per_key_reverse: false
-      - retain_phase: false
-      - random_phase: false
-      - filter_freq_eq_note_freq: false
-      - velocity_dependent_filter_resonance: false
-      - true_zero_attack_release: false
+      - volume_envelope_scaling_per_key:
+          number: 0x7f
+          byte: 0
+          bit: 0
+          size: 1
+          default: false
+      - filter_envelope_scaling_per_key:
+          number: 0x7e
+          byte: 1
+          bit: 0
+          size: 1
+          default: false
+      - volume_scaling_per_key:
+          number: 0x7d
+          byte: 2
+          bit: 0
+          size: 1
+          default: false
+      - filter_freq_scaling_per_key:
+          number: 0x7c
+          byte: 3
+          bit: 0
+          size: 1
+          default: false
+      - velocity_dependent_filter_frequency:
+          number: 0x7b
+          byte: 4
+          bit: 0
+          size: 1
+          default: false
+      - frequency_div_2:
+          number: 0x7a
+          byte: 5
+          bit: 0
+          size: 1
+          default: false
+      - smooth_frequency_change:
+          number: 0x79
+          byte: 6
+          bit: 0
+          size: 1
+          default: true
+          inverted: true
+      - filter_freq_scaling_per_key_reverse:
+          number: 0x78
+          byte: 7
+          bit: 0
+          size: 1
+          default: false
+      - retain_phase:
+          number: 0x77
+          byte: 8
+          bit: 0
+          size: 1
+          default: false
+      - random_phase:
+          number: 0x76
+          byte: 9
+          bit: 0
+          size: 1
+          default: false
+      - filter_freq_eq_note_freq:
+          number: 0x75
+          byte: 10
+          bit: 0
+          size: 1
+          default: false
+      - velocity_dependent_filter_resonance:
+          number: 0x74
+          byte: 11
+          bit: 0
+          size: 1
+          default: false
+      - true_zero_attack_release:
+          number: 0x73
+          byte: 12
+          bit: 0
+          size: 1
+          default: false
     chunks:
       - name: drawn_waveform
         type: DrawnWaveform
@@ -1381,13 +1447,46 @@ module_types:
       # user-defined ...
     options_chnm: 2
     options:
-      - user_defined_controllers: { min: 0, max: 27 }
-      - arpeggiator: false
-      - apply_velocity_to_project: false
-      - event_output: true
-      # [TODO] these are mutally-exclusive options:
-      - receive_notes_from_keyboard: false
-      - do_not_receive_notes_from_keyboard: false
+      - user_defined_controllers:
+          byte: 0
+          bit: 0
+          size: 4
+          min: 0
+          max: 27
+          default: false
+      - arpeggiator:
+          number: 0x7f
+          byte: 1
+          bit: 0
+          size: 1
+          default: false
+      - apply_velocity_to_project:
+          number: 0x7e
+          byte: 2
+          bit: 0
+          size: 1
+          default: false
+      - event_output:
+          number: 0x7d
+          byte: 3
+          bit: 0
+          size: 1
+          default: true
+          inverted: true
+      - receive_notes_from_keyboard:
+          number: 0x7b
+          byte: 4
+          bit: 0
+          size: 1
+          default: false
+          exclusive_of: [do_not_receive_notes_from_keyboard]
+      - do_not_receive_notes_from_keyboard:
+          number: 0x7b
+          byte: 4
+          bit: 1
+          size: 1
+          default: false
+          exclusive_of: [receive_notes_from_keyboard]
     chunks:
       - name: mappings
         type: MetaModuleMappings
@@ -1460,8 +1559,13 @@ module_types:
             0x8000 ]
 
   MultiSynth:
-    defaultFlags: 0x21049
+    defaultFlags: 0x1021049
     group: Misc
+    enums:
+      ActiveCurve:
+        note_velocity: 0
+        velocity_velocity: 1
+        note_pitch: 2
     controllers:
       - transpose: { min: -128, max: 128, default: 0, compact: true }
       - random_pitch: { min: 0, max: 4096, default: 0 }
@@ -1473,11 +1577,77 @@ module_types:
       - curve2_influence: { min: 0, max: 256, default: 256 }
     options_chnm: 1
     options:
-      - use_static_note_C5: false
-      - ignore_notes_with_zero_velocity: false
-      - vv_curve_active: false
-      - trigger: false
-      - generate_missed_note_off_commands: false
+      - use_static_note_C5:
+          number: 0x7f
+          byte: 0
+          bit: 0
+          bits: 1
+          default: false
+      - ignore_notes_with_zero_velocity:
+          number: 0x7e
+          byte: 1
+          bit: 0
+          bits: 1
+          default: false
+      - active_curve:
+          number: 0x7d
+          byte: 2
+          bit: 0
+          bits: 2
+          enum: ActiveCurve
+          default: note_velocity
+      - trigger:
+          number: 0x7c
+          byte: 3
+          bit: 0
+          bits: 1
+          default: false
+      - generate_missed_note_off_commands:
+          number: 0x7b
+          byte: 4
+          bit: 0
+          bits: 1
+          default: false
+      - round_note_x:
+          number: 0x7a
+          byte: 4
+          bit: 1
+          bits: 1
+          default: false
+          exclusive_of: [round_pitch_y]
+      - round_pitch_y:
+          number: 0x79
+          byte: 4
+          bit: 2
+          bits: 1
+          default: false
+          exclusive_of: [round_note_x]
+      - record_notes_to_scale_curve: false
+          number: 0x78
+          byte: 4
+          bit: 3
+          bits: 1
+          default: false
+      - out_note_eq_out_note_minus_in_note_plus_C5:
+          number: 0x76
+          byte: 4
+          bit: 6
+          bits: 1
+          default: false
+      - out_port_eq_note_mod_num_of_outs:
+          number: 0x75
+          byte: 4
+          bit: 7
+          bits: 1
+          default: false
+          exclusive_of: [out_port_eq_channel_mod_num_of_outs]
+      - out_port_eq_channel_mod_num_of_outs:
+          number: 0x74
+          byte: 4
+          bit: 8
+          bits: 1
+          default: false
+          exclusive_of: [out_port_eq_note_mod_num_of_outs]
     chunks:
       - name: note_velocity_curve
         parent_type: Array
@@ -1659,12 +1829,42 @@ module_types:
       - rec_threshold: { min: 0, max: 10000, default: 4 }
     options_chnm: 257
     options:
-      - record_on_play: false
-      - record_in_mono: false
-      - record_with_reduced_sample_rate: false
-      - record_in_16_bit: false
+      - start_recording_on_project_play:
+          number: 0x7f
+          byte: 0
+          bit: 0
+          size: 1
+          default: false
       - stop_recording_on_project_stop: false
+          number: 0x7b
+          byte: 4
+          bit: 0
+          size: 1
+          default: false
+      - record_in_mono: false
+          number: 0x7e
+          byte: 1
+          bit: 0
+          size: 1
+          default: false
+      - record_with_reduced_sample_rate: false
+          number: 0x7d
+          byte: 2
+          bit: 0
+          size: 1
+          default: false
+      - record_in_16_bit: false
+          number: 0x7c
+          byte: 3
+          bit: 0
+          size: 1
+          default: false
       - ignore_velocity_for_volume: false
+          number: 0x7a
+          byte: 5
+          bit: 0
+          size: 1
+          default: false
 
   Sound2Ctl:
     defaultFlags: 0x60051
@@ -1688,8 +1888,18 @@ module_types:
       - out_controller: { min: 0, max: 255, default: 0 }
     options_chnm: 0
     options:
-      - record_values: false
-      - send_only_changed_values: true
+      - record_values:
+          number: 0x7f
+          byte: 0
+          bit: 0
+          size: 1
+          default: false
+      - send_only_changed_values:
+          number: 0x7e
+          byte: 1
+          bit: 0
+          size: 1
+          default: true
 
   SpectraVoice:
     defaultFlags: 0x49
