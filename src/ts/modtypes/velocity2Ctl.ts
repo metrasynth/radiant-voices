@@ -117,11 +117,36 @@ export namespace Velocity2Ctl {
       yield cv.outController
     }
     setMidiMaps(midiMaps: MidiMap[]) {
-      this.midiMaps.noteOffAction = midiMaps[0]
-      this.midiMaps.outMin = midiMaps[1]
-      this.midiMaps.outMax = midiMaps[2]
-      this.midiMaps.outOffset = midiMaps[3]
-      this.midiMaps.outController = midiMaps[4]
+      this.midiMaps.noteOffAction = midiMaps[0] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.outMin = midiMaps[1] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.outMax = midiMaps[2] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.outOffset = midiMaps[3] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.outController = midiMaps[4] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []

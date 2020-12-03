@@ -184,11 +184,36 @@ export namespace MetaModule {
       yield cv.tpl
     }
     setMidiMaps(midiMaps: MidiMap[]) {
-      this.midiMaps.volume = midiMaps[0]
-      this.midiMaps.inputModule = midiMaps[1]
-      this.midiMaps.playPatterns = midiMaps[2]
-      this.midiMaps.bpm = midiMaps[3]
-      this.midiMaps.tpl = midiMaps[4]
+      this.midiMaps.volume = midiMaps[0] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.inputModule = midiMaps[1] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.playPatterns = midiMaps[2] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.bpm = midiMaps[3] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.tpl = midiMaps[4] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []

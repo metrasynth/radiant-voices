@@ -177,16 +177,66 @@ export namespace Ctl2Note {
       yield Number(cv.recordNotes)
     }
     setMidiMaps(midiMaps: MidiMap[]) {
-      this.midiMaps.pitch = midiMaps[0]
-      this.midiMaps.firstNote = midiMaps[1]
-      this.midiMaps.rangeSemitones = midiMaps[2]
-      this.midiMaps.transpose = midiMaps[3]
-      this.midiMaps.finetune = midiMaps[4]
-      this.midiMaps.velocity = midiMaps[5]
-      this.midiMaps.state = midiMaps[6]
-      this.midiMaps.noteOn = midiMaps[7]
-      this.midiMaps.noteOff = midiMaps[8]
-      this.midiMaps.recordNotes = midiMaps[9]
+      this.midiMaps.pitch = midiMaps[0] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.firstNote = midiMaps[1] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.rangeSemitones = midiMaps[2] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.transpose = midiMaps[3] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.finetune = midiMaps[4] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.velocity = midiMaps[5] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.state = midiMaps[6] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.noteOn = midiMaps[7] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.noteOff = midiMaps[8] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.recordNotes = midiMaps[9] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []

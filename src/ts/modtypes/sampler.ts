@@ -226,12 +226,42 @@ export namespace Sampler {
       yield cv.recThreshold
     }
     setMidiMaps(midiMaps: MidiMap[]) {
-      this.midiMaps.volume = midiMaps[0]
-      this.midiMaps.panning = midiMaps[1]
-      this.midiMaps.sampleInterpolation = midiMaps[2]
-      this.midiMaps.envelopeInterpolation = midiMaps[3]
-      this.midiMaps.polyphonyCh = midiMaps[4]
-      this.midiMaps.recThreshold = midiMaps[5]
+      this.midiMaps.volume = midiMaps[0] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.panning = midiMaps[1] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.sampleInterpolation = midiMaps[2] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.envelopeInterpolation = midiMaps[3] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.polyphonyCh = midiMaps[4] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.recThreshold = midiMaps[5] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []

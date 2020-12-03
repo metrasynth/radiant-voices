@@ -129,12 +129,42 @@ export namespace WaveShaper {
       yield Number(cv.dcBlocker)
     }
     setMidiMaps(midiMaps: MidiMap[]) {
-      this.midiMaps.inputVolume = midiMaps[0]
-      this.midiMaps.mix = midiMaps[1]
-      this.midiMaps.outputVolume = midiMaps[2]
-      this.midiMaps.symmetric = midiMaps[3]
-      this.midiMaps.mode = midiMaps[4]
-      this.midiMaps.dcBlocker = midiMaps[5]
+      this.midiMaps.inputVolume = midiMaps[0] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.mix = midiMaps[1] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.outputVolume = midiMaps[2] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.symmetric = midiMaps[3] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.mode = midiMaps[4] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.dcBlocker = midiMaps[5] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []

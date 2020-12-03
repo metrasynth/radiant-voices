@@ -131,13 +131,48 @@ export namespace VorbisPlayer {
       yield Number(cv.repeat)
     }
     setMidiMaps(midiMaps: MidiMap[]) {
-      this.midiMaps.volume = midiMaps[0]
-      this.midiMaps.originalSpeed = midiMaps[1]
-      this.midiMaps.finetune = midiMaps[2]
-      this.midiMaps.transpose = midiMaps[3]
-      this.midiMaps.interpolation = midiMaps[4]
-      this.midiMaps.polyphonyCh = midiMaps[5]
-      this.midiMaps.repeat = midiMaps[6]
+      this.midiMaps.volume = midiMaps[0] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.originalSpeed = midiMaps[1] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.finetune = midiMaps[2] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.transpose = midiMaps[3] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.interpolation = midiMaps[4] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.polyphonyCh = midiMaps[5] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.repeat = midiMaps[6] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []

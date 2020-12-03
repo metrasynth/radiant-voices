@@ -145,13 +145,48 @@ export namespace VocalFilter {
       yield cv.channels
     }
     setMidiMaps(midiMaps: MidiMap[]) {
-      this.midiMaps.volume = midiMaps[0]
-      this.midiMaps.formantWidthHz = midiMaps[1]
-      this.midiMaps.intensity = midiMaps[2]
-      this.midiMaps.formants = midiMaps[3]
-      this.midiMaps.vowel = midiMaps[4]
-      this.midiMaps.voiceType = midiMaps[5]
-      this.midiMaps.channels = midiMaps[6]
+      this.midiMaps.volume = midiMaps[0] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.formantWidthHz = midiMaps[1] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.intensity = midiMaps[2] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.formants = midiMaps[3] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.vowel = midiMaps[4] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.voiceType = midiMaps[5] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.channels = midiMaps[6] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []

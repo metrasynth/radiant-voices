@@ -247,23 +247,108 @@ export namespace Fm {
       yield cv.mode
     }
     setMidiMaps(midiMaps: MidiMap[]) {
-      this.midiMaps.cVolume = midiMaps[0]
-      this.midiMaps.mVolume = midiMaps[1]
-      this.midiMaps.panning = midiMaps[2]
-      this.midiMaps.cFreqRatio = midiMaps[3]
-      this.midiMaps.mFreqRatio = midiMaps[4]
-      this.midiMaps.mFeedback = midiMaps[5]
-      this.midiMaps.cAttack = midiMaps[6]
-      this.midiMaps.cDecay = midiMaps[7]
-      this.midiMaps.cSustain = midiMaps[8]
-      this.midiMaps.cRelease = midiMaps[9]
-      this.midiMaps.mAttack = midiMaps[10]
-      this.midiMaps.mDecay = midiMaps[11]
-      this.midiMaps.mSustain = midiMaps[12]
-      this.midiMaps.mRelease = midiMaps[13]
-      this.midiMaps.mScalingPerKey = midiMaps[14]
-      this.midiMaps.polyphonyCh = midiMaps[15]
-      this.midiMaps.mode = midiMaps[16]
+      this.midiMaps.cVolume = midiMaps[0] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.mVolume = midiMaps[1] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.panning = midiMaps[2] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.cFreqRatio = midiMaps[3] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.mFreqRatio = midiMaps[4] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.mFeedback = midiMaps[5] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.cAttack = midiMaps[6] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.cDecay = midiMaps[7] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.cSustain = midiMaps[8] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.cRelease = midiMaps[9] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.mAttack = midiMaps[10] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.mDecay = midiMaps[11] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.mSustain = midiMaps[12] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.mRelease = midiMaps[13] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.mScalingPerKey = midiMaps[14] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.polyphonyCh = midiMaps[15] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.mode = midiMaps[16] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []

@@ -285,23 +285,108 @@ export namespace FilterPro {
       yield cv.lfoFreqUnit
     }
     setMidiMaps(midiMaps: MidiMap[]) {
-      this.midiMaps.volume = midiMaps[0]
-      this.midiMaps.type = midiMaps[1]
-      this.midiMaps.freqHz = midiMaps[2]
-      this.midiMaps.freqFinetune = midiMaps[3]
-      this.midiMaps.freqScale = midiMaps[4]
-      this.midiMaps.exponentialFreq = midiMaps[5]
-      this.midiMaps.q = midiMaps[6]
-      this.midiMaps.gain = midiMaps[7]
-      this.midiMaps.rollOff = midiMaps[8]
-      this.midiMaps.response = midiMaps[9]
-      this.midiMaps.mode = midiMaps[10]
-      this.midiMaps.mix = midiMaps[11]
-      this.midiMaps.lfoFreq = midiMaps[12]
-      this.midiMaps.lfoAmp = midiMaps[13]
-      this.midiMaps.lfoWaveform = midiMaps[14]
-      this.midiMaps.setLfoPhase = midiMaps[15]
-      this.midiMaps.lfoFreqUnit = midiMaps[16]
+      this.midiMaps.volume = midiMaps[0] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.type = midiMaps[1] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.freqHz = midiMaps[2] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.freqFinetune = midiMaps[3] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.freqScale = midiMaps[4] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.exponentialFreq = midiMaps[5] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.q = midiMaps[6] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.gain = midiMaps[7] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.rollOff = midiMaps[8] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.response = midiMaps[9] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.mode = midiMaps[10] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.mix = midiMaps[11] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.lfoFreq = midiMaps[12] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.lfoAmp = midiMaps[13] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.lfoWaveform = midiMaps[14] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.setLfoPhase = midiMaps[15] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.lfoFreqUnit = midiMaps[16] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []

@@ -173,16 +173,66 @@ export namespace Reverb {
       yield cv.randomSeed
     }
     setMidiMaps(midiMaps: MidiMap[]) {
-      this.midiMaps.dry = midiMaps[0]
-      this.midiMaps.wet = midiMaps[1]
-      this.midiMaps.feedback = midiMaps[2]
-      this.midiMaps.damp = midiMaps[3]
-      this.midiMaps.stereoWidth = midiMaps[4]
-      this.midiMaps.freeze = midiMaps[5]
-      this.midiMaps.mode = midiMaps[6]
-      this.midiMaps.allPassFilter = midiMaps[7]
-      this.midiMaps.roomSize = midiMaps[8]
-      this.midiMaps.randomSeed = midiMaps[9]
+      this.midiMaps.dry = midiMaps[0] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.wet = midiMaps[1] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.feedback = midiMaps[2] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.damp = midiMaps[3] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.stereoWidth = midiMaps[4] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.freeze = midiMaps[5] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.mode = midiMaps[6] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.allPassFilter = midiMaps[7] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.roomSize = midiMaps[8] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.randomSeed = midiMaps[9] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []

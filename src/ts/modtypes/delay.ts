@@ -170,15 +170,60 @@ export namespace Delay {
       yield cv.delayUnit
     }
     setMidiMaps(midiMaps: MidiMap[]) {
-      this.midiMaps.dry = midiMaps[0]
-      this.midiMaps.wet = midiMaps[1]
-      this.midiMaps.delayL = midiMaps[2]
-      this.midiMaps.delayR = midiMaps[3]
-      this.midiMaps.volumeL = midiMaps[4]
-      this.midiMaps.volumeR = midiMaps[5]
-      this.midiMaps.channels = midiMaps[6]
-      this.midiMaps.inverse = midiMaps[7]
-      this.midiMaps.delayUnit = midiMaps[8]
+      this.midiMaps.dry = midiMaps[0] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.wet = midiMaps[1] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.delayL = midiMaps[2] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.delayR = midiMaps[3] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.volumeL = midiMaps[4] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.volumeR = midiMaps[5] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.channels = midiMaps[6] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.inverse = midiMaps[7] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.delayUnit = midiMaps[8] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []

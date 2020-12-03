@@ -181,16 +181,66 @@ export namespace Flanger {
       yield cv.lfoFreqUnit
     }
     setMidiMaps(midiMaps: MidiMap[]) {
-      this.midiMaps.dry = midiMaps[0]
-      this.midiMaps.wet = midiMaps[1]
-      this.midiMaps.feedback = midiMaps[2]
-      this.midiMaps.delay = midiMaps[3]
-      this.midiMaps.response = midiMaps[4]
-      this.midiMaps.lfoFreq = midiMaps[5]
-      this.midiMaps.lfoAmp = midiMaps[6]
-      this.midiMaps.lfoWaveform = midiMaps[7]
-      this.midiMaps.setLfoPhase = midiMaps[8]
-      this.midiMaps.lfoFreqUnit = midiMaps[9]
+      this.midiMaps.dry = midiMaps[0] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.wet = midiMaps[1] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.feedback = midiMaps[2] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.delay = midiMaps[3] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.response = midiMaps[4] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.lfoFreq = midiMaps[5] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.lfoAmp = midiMaps[6] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.lfoWaveform = midiMaps[7] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.setLfoPhase = midiMaps[8] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.lfoFreqUnit = midiMaps[9] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []

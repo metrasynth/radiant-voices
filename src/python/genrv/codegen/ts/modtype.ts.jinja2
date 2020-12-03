@@ -202,7 +202,9 @@ export namespace {{ modtype_name }} {
 
             setMidiMaps(midiMaps: MidiMap[]) {
                 {% for idx, ctl in enumerate(modtype.controllers) %}{% for cname, cdef in ctl.items() %}
-                    this.midiMaps.{{ cname | camelcase }} = midiMaps[{{ idx }}]
+                    this.midiMaps.{{ cname | camelcase }} =
+                        midiMaps[{{ idx }}]
+                        || { channel: 0, messageType: 0, messageParameter: 0, slope: 0 }
                 {% endfor %}{% endfor %}
             }
 

@@ -196,14 +196,54 @@ export namespace MultiSynth {
       yield cv.curve2Influence
     }
     setMidiMaps(midiMaps: MidiMap[]) {
-      this.midiMaps.transpose = midiMaps[0]
-      this.midiMaps.randomPitch = midiMaps[1]
-      this.midiMaps.velocity = midiMaps[2]
-      this.midiMaps.finetune = midiMaps[3]
-      this.midiMaps.randomPhase = midiMaps[4]
-      this.midiMaps.randomVelocity = midiMaps[5]
-      this.midiMaps.phase = midiMaps[6]
-      this.midiMaps.curve2Influence = midiMaps[7]
+      this.midiMaps.transpose = midiMaps[0] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.randomPitch = midiMaps[1] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.velocity = midiMaps[2] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.finetune = midiMaps[3] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.randomPhase = midiMaps[4] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.randomVelocity = midiMaps[5] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.phase = midiMaps[6] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.curve2Influence = midiMaps[7] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []

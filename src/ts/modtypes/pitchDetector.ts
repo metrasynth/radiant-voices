@@ -215,18 +215,78 @@ export namespace PitchDetector {
       yield Number(cv.recordNotes)
     }
     setMidiMaps(midiMaps: MidiMap[]) {
-      this.midiMaps.algorithm = midiMaps[0]
-      this.midiMaps.threshold = midiMaps[1]
-      this.midiMaps.gain = midiMaps[2]
-      this.midiMaps.microtones = midiMaps[3]
-      this.midiMaps.detectorFinetune = midiMaps[4]
-      this.midiMaps.lpFilterFreqHz = midiMaps[5]
-      this.midiMaps.lpFilterRolloff = midiMaps[6]
-      this.midiMaps.alg_1_2SampleRate = midiMaps[7]
-      this.midiMaps.alg_1_2Buffer = midiMaps[8]
-      this.midiMaps.alg_1_2BufferOverlapPct = midiMaps[9]
-      this.midiMaps.alg_1Sensitivity = midiMaps[10]
-      this.midiMaps.recordNotes = midiMaps[11]
+      this.midiMaps.algorithm = midiMaps[0] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.threshold = midiMaps[1] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.gain = midiMaps[2] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.microtones = midiMaps[3] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.detectorFinetune = midiMaps[4] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.lpFilterFreqHz = midiMaps[5] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.lpFilterRolloff = midiMaps[6] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.alg_1_2SampleRate = midiMaps[7] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.alg_1_2Buffer = midiMaps[8] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.alg_1_2BufferOverlapPct = midiMaps[9] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.alg_1Sensitivity = midiMaps[10] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.recordNotes = midiMaps[11] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []

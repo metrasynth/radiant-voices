@@ -131,13 +131,48 @@ export namespace Gpio {
       yield cv.inAmplitude
     }
     setMidiMaps(midiMaps: MidiMap[]) {
-      this.midiMaps.out = midiMaps[0]
-      this.midiMaps.outPin = midiMaps[1]
-      this.midiMaps.outThreshold = midiMaps[2]
-      this.midiMaps.in = midiMaps[3]
-      this.midiMaps.inPin = midiMaps[4]
-      this.midiMaps.inNote = midiMaps[5]
-      this.midiMaps.inAmplitude = midiMaps[6]
+      this.midiMaps.out = midiMaps[0] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.outPin = midiMaps[1] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.outThreshold = midiMaps[2] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.in = midiMaps[3] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.inPin = midiMaps[4] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.inNote = midiMaps[5] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.inAmplitude = midiMaps[6] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []

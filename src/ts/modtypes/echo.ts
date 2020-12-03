@@ -137,12 +137,42 @@ export namespace Echo {
       yield cv.delayUnit
     }
     setMidiMaps(midiMaps: MidiMap[]) {
-      this.midiMaps.dry = midiMaps[0]
-      this.midiMaps.wet = midiMaps[1]
-      this.midiMaps.feedback = midiMaps[2]
-      this.midiMaps.delay = midiMaps[3]
-      this.midiMaps.channels = midiMaps[4]
-      this.midiMaps.delayUnit = midiMaps[5]
+      this.midiMaps.dry = midiMaps[0] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.wet = midiMaps[1] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.feedback = midiMaps[2] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.delay = midiMaps[3] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.channels = midiMaps[4] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.delayUnit = midiMaps[5] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []

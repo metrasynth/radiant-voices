@@ -144,13 +144,48 @@ export namespace Pitch2Ctl {
       yield cv.outController
     }
     setMidiMaps(midiMaps: MidiMap[]) {
-      this.midiMaps.mode = midiMaps[0]
-      this.midiMaps.noteOffAction = midiMaps[1]
-      this.midiMaps.firstNote = midiMaps[2]
-      this.midiMaps.numberOfSemitones = midiMaps[3]
-      this.midiMaps.outMin = midiMaps[4]
-      this.midiMaps.outMax = midiMaps[5]
-      this.midiMaps.outController = midiMaps[6]
+      this.midiMaps.mode = midiMaps[0] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.noteOffAction = midiMaps[1] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.firstNote = midiMaps[2] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.numberOfSemitones = midiMaps[3] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.outMin = midiMaps[4] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.outMax = midiMaps[5] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.outController = midiMaps[6] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []
