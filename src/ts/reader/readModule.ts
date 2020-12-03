@@ -121,7 +121,9 @@ const handlers: Record<string, HandlerFunc> = {
       return placeholder
     }
     const module = new m.moduleTypesByName[type]()
-    module.index = placeholder.index
+    if (placeholder.index !== undefined) {
+      module.index = placeholder.index
+    }
     module.flags = placeholder.flags
     module.name = placeholder.name as string
     return module
@@ -152,7 +154,9 @@ export function readModule(
   const isOutputModule = index === 0
   if (isOutputModule) {
     module = m.output()
-    module.index = index
+    if (index !== undefined) {
+      module.index = index
+    }
     module.flags = flags
   }
   while (true) {
