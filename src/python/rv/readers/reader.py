@@ -1,18 +1,26 @@
+from __future__ import annotations
+
 import logging
+from pathlib import Path
+from typing import TYPE_CHECKING, Union
 
 from logutils import BraceMessage as _F
 from rv import ENCODING
 from rv.lib.iff import chunks
 
+if TYPE_CHECKING:
+    from rv.project import Project
+    from rv.synth import Synth
+
 log = logging.getLogger(__name__)
 
 
-def read_sunvox_file(file_or_name):
+def read_sunvox_file(file_or_name) -> Union[Project, Synth]:
     from rv.readers.initial import InitialReader
 
     close = False
-    if isinstance(file_or_name, str):
-        file_or_name = open(file_or_name, "rb")
+    if isinstance(file_or_name, (Path, str)):
+        file_or_name = Path(file_or_name).open("rb")
         close = True
     try:
         reader = InitialReader(file_or_name)
