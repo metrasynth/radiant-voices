@@ -5,6 +5,9 @@
  */
 import { Controllers, ModuleType } from "./moduleType"
 import { MultiSynthControllerValues } from "./multiSynthControllerValues"
+// @ts-ignore
+// noinspection ES6UnusedImports
+import { ActiveCurve } from "./multiSynthEnums"
 export class MultiSynthBaseControllers implements Controllers {
   constructor(
     readonly module: ModuleType,

@@ -86,6 +86,7 @@ export namespace MetaModule {
     // noinspection JSUnusedGlobalSymbols
     set receiveNotesFromKeyboard(newValue: boolean) {
       this.optionValues.receiveNotesFromKeyboard = newValue
+      this.optionValues.doNotReceiveNotesFromKeyboard = false
     }
     // noinspection JSUnusedGlobalSymbols
     get doNotReceiveNotesFromKeyboard(): boolean {
@@ -94,6 +95,7 @@ export namespace MetaModule {
     // noinspection JSUnusedGlobalSymbols
     set doNotReceiveNotesFromKeyboard(newValue: boolean) {
       this.optionValues.doNotReceiveNotesFromKeyboard = newValue
+      this.optionValues.receiveNotesFromKeyboard = false
     }
   }
   export class Module extends ModuleBase implements ModuleType {
@@ -227,12 +229,12 @@ export namespace MetaModule {
     rawOptionBytes(): Uint8Array {
       const bytes = new Uint8Array(6)
       const { optionValues: ov } = this
-      bytes[0] = ov.userDefinedControllers
-      bytes[1] = Number(ov.arpeggiator)
-      bytes[2] = Number(ov.applyVelocityToProject)
-      bytes[3] = Number(!ov.eventOutput)
-      bytes[4] = Number(ov.receiveNotesFromKeyboard)
-      bytes[5] = Number(ov.doNotReceiveNotesFromKeyboard)
+      bytes[0] |= (Number(ov.userDefinedControllers) & (2 ** 4 - 1)) << 0
+      bytes[1] |= (Number(ov.arpeggiator) & (2 ** 1 - 1)) << 0
+      bytes[2] |= (Number(ov.applyVelocityToProject) & (2 ** 1 - 1)) << 0
+      bytes[3] |= (Number(!ov.eventOutput) & (2 ** 1 - 1)) << 0
+      bytes[4] |= (Number(ov.receiveNotesFromKeyboard) & (2 ** 1 - 1)) << 0
+      bytes[4] |= (Number(ov.doNotReceiveNotesFromKeyboard) & (2 ** 1 - 1)) << 1
       return bytes
     }
     setOptions(dataChunks: ModuleDataChunks) {
@@ -244,12 +246,18 @@ export namespace MetaModule {
         }
       }
       if (chdt) {
-        this.optionValues.userDefinedControllers = chdt[0]
-        this.optionValues.arpeggiator = Boolean(chdt[1])
-        this.optionValues.applyVelocityToProject = Boolean(chdt[2])
-        this.optionValues.eventOutput = !Boolean(chdt[3])
-        this.optionValues.receiveNotesFromKeyboard = Boolean(chdt[4])
-        this.optionValues.doNotReceiveNotesFromKeyboard = Boolean(chdt[5])
+        this.optionValues.userDefinedControllers = (chdt[0] >> 0) & (2 ** 4 - 1)
+        this.optionValues.arpeggiator = Boolean((chdt[1] >> 0) & (2 ** 1 - 1))
+        this.optionValues.applyVelocityToProject = Boolean(
+          (chdt[2] >> 0) & (2 ** 1 - 1)
+        )
+        this.optionValues.eventOutput = !Boolean((chdt[3] >> 0) & (2 ** 1 - 1))
+        this.optionValues.receiveNotesFromKeyboard = Boolean(
+          (chdt[4] >> 0) & (2 ** 1 - 1)
+        )
+        this.optionValues.doNotReceiveNotesFromKeyboard = Boolean(
+          (chdt[4] >> 1) & (2 ** 1 - 1)
+        )
       }
     }
   }

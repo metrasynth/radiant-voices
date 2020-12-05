@@ -16,7 +16,11 @@ class PythonGenerator(CodeGenerator):
             ctx = dict(modtype=modtype, modtype_name=modtype_name, ctlmap=ctlmap)
             template = env.get_template("python/base_module.py.jinja2")
             content = template.render(ctx)
-            content = black.format_str(content, mode=filemode)
+            try:
+                content = black.format_str(content, mode=filemode)
+            except Exception as e:
+                print(content)
+                raise e
             while "\n\n" in content:
                 content = content.replace("\n\n", "\n")
             content = black.format_str(content, mode=filemode)

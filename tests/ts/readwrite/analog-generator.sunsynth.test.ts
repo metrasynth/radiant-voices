@@ -153,7 +153,7 @@ describe("Reading the analog-generator.sunsynth file", () => {
     expectChunk({
       name: "CHDT",
       type: "bytes",
-      value: new Uint8Array([1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1]),
+      value: new Uint8Array([1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1]), // [TODO] should be padded to 64 bytes
     })
     expectChunk({ name: "CHNM", type: "uint32", value: 0 })
     expectChunk({

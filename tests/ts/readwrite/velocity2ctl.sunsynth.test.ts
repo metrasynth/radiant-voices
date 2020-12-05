@@ -25,6 +25,6 @@ describe("Reading the velocity2ctl.sunsynth file", () => {
     expect(c.outMin).toEqual(32391)
     expect(c.outMax).toEqual(24497)
     expect(c.outOffset).toEqual(2319)
-    expect(c.outController).toEqual(131)
+    expect(c.outController).toEqual(131) // [TODO] out of range
   })
 })

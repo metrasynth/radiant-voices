@@ -1,43 +1,50 @@
+from dataclasses import dataclass, field
+from typing import List, Optional, Union
+
+
+@dataclass
 class Option:
-    """Defines a boolean option attached to a module.
+    """Defines an option attached to a module.
 
-    Options are different from on/off controllers in that options cannot
-    be changed during playback using the SunVox DLL.
+    Options are typically booleans, although can sometimes be integers or enums.
 
-    In Module classes, define controllers in the order they are
-    enumerated in the SunVox file format, so they receive the correct index.
+    Options that have a `number` defined can be changed during playback as if they
+    are controllers.
     """
 
-    _next_order = 0
-
-    name = None
-    index = None
-
-    def __init__(self, default, range=None, inverted=False):
-        self.default = default
-        self.range = range
-        self.inverted = inverted
-        self._order = Option._next_order
-        Option._next_order += 1
+    name: str
+    byte: int  # index in byte map
+    bit: int  # starting bit within the byte
+    size: int  # in bits
+    default: Union[int, bool]
+    number: Optional[int] = None
+    min: Optional[int] = None
+    max: Optional[int] = None
+    inverted: bool = False
+    exclusive_of: List[str] = field(default_factory=list)
 
     def __get__(self, instance, owner):
-        if instance is not None:
-            value = instance.option_values[self.name]
-            if self.inverted:
-                return not value
-            else:
-                return value
-        else:
+        if instance is None:
             return self
+        value = instance.option_values[self.name]
+        if self.inverted:
+            return not value
+        else:
+            return value
 
     def __set__(self, instance, value):
-        if self.range is None:
+        if None not in {self.min, self.max}:
+            value = max(self.min, min(self.max, value))
+        else:
             value = bool(value)
             if self.inverted:
                 value = not value
-        else:
-            value = max(self.range[0], min(self.range[1], value))
         instance.option_values[self.name] = value
         callback = getattr(instance, "on_{}_changed".format(self.name), None)
         if callable(callback):
             callback(value)
+        for other in self.exclusive_of:
+            instance.option_values[other] = False
+            callback = getattr(instance, "on_{}_changed".format(other), None)
+            if callable(callback):
+                callback(False)

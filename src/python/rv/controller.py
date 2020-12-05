@@ -155,6 +155,19 @@ class CompactRange(Range):
     """
 
 
+class NoOffsetRange(Range):
+    """Represents a range that does not adjust for negative min values.
+
+    The raw values of VorbisPlayer.finetune are stored as signed ints.
+    """
+
+    def from_raw_value(self, raw_value):
+        return raw_value
+
+    def to_raw_value(self, value):
+        return value
+
+
 class DependentRange:
     def __init__(self, ctl_name, range_map, default):
         self.ctl_name = ctl_name

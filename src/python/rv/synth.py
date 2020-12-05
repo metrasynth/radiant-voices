@@ -14,7 +14,7 @@ class Synth(Container):
     MAGIC_CHUNK = (b"SSYN", b"")
 
     def __init__(self, module=None):
-        self.sunsynth_version = 1
+        self.sunsynth_version = (1, 9, 6, 1)
         self.module = module
 
     def chunks(self):
@@ -22,7 +22,7 @@ class Synth(Container):
         if self.module is None:
             raise EmptySynthError("Cannot serialize a synth with no module")
         yield self.MAGIC_CHUNK
-        yield (b"VERS", pack("<I", self.sunsynth_version))
+        yield b"VERS", pack("BBBB", *reversed(self.sunsynth_version))
         mod = self.module
         yield from mod.iff_chunks(in_project=False)
         recompute = getattr(mod, "recompute_controller_attachment", lambda: None)
@@ -32,7 +32,7 @@ class Synth(Container):
         for name, ctl in controllers:
             if ctl.attached(mod):
                 raw_value = mod.get_raw(name)
-                yield (b"CVAL", pack("<I", raw_value))
+                yield b"CVAL", pack("<i", raw_value)
                 ctl_count += 1
         if ctl_count:
             yield (
@@ -42,6 +42,6 @@ class Synth(Container):
                 ),
             )
         if mod.chnk:
-            yield (b"CHNK", pack("<I", mod.chnk))
+            yield b"CHNK", pack("<I", mod.chnk)
             yield from mod.specialized_iff_chunks()
-        yield (b"SEND", b"")
+        yield b"SEND", b""

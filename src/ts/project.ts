@@ -37,12 +37,11 @@ export class Project implements SunVoxContainer {
   receiveSyncMidi = SyncCommand.StartStop
   receiveSyncOther = SyncCommand.StartStop
 
-  sunVoxVersion: SunVoxVersion = [1, 9, 5, 2]
-  basedOnVersion: SunVoxVersion = [1, 9, 5, 2]
+  sunVoxVersion: SunVoxVersion = [1, 9, 6, 1]
+  basedOnVersion: SunVoxVersion = [1, 9, 6, 1]
 
   readonly patterns: Array<PatternBase | undefined> = []
   readonly modules: Array<ModuleBase | undefined> = []
-  readonly moduleConnections: ModuleConnection[] = []
 
   get outputModule(): m.Output.Module {
     return this.modules[0] as m.Output.Module

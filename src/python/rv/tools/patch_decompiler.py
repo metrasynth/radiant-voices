@@ -31,6 +31,8 @@ class ModuleChain(list):
     @staticmethod
     def expand(proj):
         mods = {mod.index: mod for mod in proj.modules if hasattr(mod, "index")}
+        # [TODO] proj.module_connections was removed in Radiant Voices 1.0.
+        # This code must be rewritten for compatibility.
         connections = dict(proj.module_connections)
         chains = []
 

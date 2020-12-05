@@ -57,9 +57,11 @@ export namespace {{ modtype_name }} {
     {% endif %}
 
     interface {{ modtype_name }}OptionValues extends OptionValues {
-        {% for opt in modtype.options %}{% for oname, odefault in opt.items() %}
+        {% for opt in modtype.options %}{% for oname, ospec in opt.items() %}
             {{ oname | camelcase }}:
-            {% if odefault.max %}
+            {% if ospec.enum %}
+                {{ ospec.enum }}
+            {% elif ospec.max %}
                 number
             {% else %}
                 boolean
@@ -70,8 +72,10 @@ export namespace {{ modtype_name }} {
 
     class {{ modtype_name }}Options implements Options {
         constructor(readonly optionValues: {{ modtype_name }}OptionValues) {}
-        {% for opt in modtype.options %}{% for oname, odefault in opt.items() %}
-            {% if odefault.max %}
+        {% for opt in modtype.options %}{% for oname, ospec in opt.items() %}
+            {% if ospec.enum %}
+                {% set otype = ospec.enum %}
+            {% elif ospec.max %}
                 {% set otype = "number" %}
             {% else %}
                 {% set otype = "boolean" %}
@@ -82,16 +86,21 @@ export namespace {{ modtype_name }} {
             }
             // noinspection JSUnusedGlobalSymbols
             set {{ oname | camelcase }}(newValue: {{ otype }}) {
-                {% if odefault.max %}
+                {% if ospec.max %}
                     if (
-                        newValue < {{ odefault.min }}
+                        newValue < {{ ospec.min }}
                         ||
-                        newValue > {{ odefault.max }}
+                        newValue > {{ ospec.max }}
                     ) {
                         throw new Error("Option value is out of range")
                     }
                 {% endif %}
                 this.optionValues.{{ oname | camelcase }} = newValue
+                {% if ospec.exclusive_of %}
+                    {% for exclusive_of in ospec.exclusive_of %}
+                        this.optionValues.{{ exclusive_of | camelcase }} = false
+                    {% endfor %}
+                {% endif %}
             }
         {% endfor %}{% endfor %}
     }
@@ -151,12 +160,14 @@ export namespace {{ modtype_name }} {
         {% endif %}
 
         readonly optionValues: {{ modtype_name }}OptionValues = {
-            {% for opt in modtype.options %}{% for oname, odefault in opt.items() %}
+            {% for opt in modtype.options %}{% for oname, ospec in opt.items() %}
                 {{ oname | camelcase }}:
-                {% if odefault.max %}
+                {% if ospec.enum %}
+                    {{ ospec.enum }}.{{ ospec.default | enumname | pascalcase }}
+                {% elif ospec.max %}
                     0
                 {% else %}
-                    {% if odefault %}true{% else %}false{% endif %}
+                    {% if ospec.default %}true{% else %}false{% endif %}
                 {% endif %}
                 ,
             {% endfor %}{% endfor %}
@@ -221,18 +232,14 @@ export namespace {{ modtype_name }} {
             rawOptionBytes(): Uint8Array {
                 const bytes = new Uint8Array({{ len(modtype.options) }})
                 const { optionValues: ov } = this
-                {% for idx, opt in enumerate(modtype.options) %}{% for oname, odefault in opt.items() %}
-                    bytes[{{ idx }}] =
-                        (
-                            {% if odefault.max %}
-                                ov.{{ oname | camelcase }}
-                            {% else %}
-                                Number(
-                                    {% if odefault == True %}!{% endif %}
-                                    ov.{{ oname | camelcase }}
-                                )
-                            {% endif %}
+                {% for opt in modtype.options %}{% for oname, ospec in opt.items() %}
+                    bytes[{{ ospec.byte }}] |= (
+                        Number(
+                            {% if ospec.inverted %}!{% endif %}
+                            ov.{{ oname | camelcase }}
                         )
+                        & (2 ** {{ ospec.size }} - 1)
+                    ) << {{ ospec.bit }}
                 {% endfor %}{% endfor %}
                 return bytes
             }
@@ -246,15 +253,12 @@ export namespace {{ modtype_name }} {
                     }
                 }
                 if (chdt) {
-                    {% for idx, opt in enumerate(modtype.options) %}{% for oname, odefault in opt.items() %}
+                    {% for opt in modtype.options %}{% for oname, ospec in opt.items() %}
                         this.optionValues.{{ oname | camelcase }} =
-                            {% if odefault == True %}!{% endif %}(
-                                {% if odefault.max %}
-                                    chdt[{{ idx }}]
-                                {% else %}
-                                    Boolean(chdt[{{ idx }}])
-                                {% endif %}
-                            )
+                            {% if ospec.inverted %}!{% endif %}
+                            {% if ospec.size == 1 %}Boolean({% endif %}
+                            chdt[{{ ospec.byte }}] >> {{ ospec.bit }} & (2 ** {{ ospec.size }} - 1)
+                            {% if ospec.size == 1 %}){% endif %}
                     {% endfor %}{% endfor %}
                 }
             }

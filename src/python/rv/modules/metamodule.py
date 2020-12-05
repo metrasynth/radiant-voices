@@ -88,7 +88,7 @@ class MetaModule(BaseMetaModule, Module):
 
     class Mapping:
         def __init__(self, value):
-            self.module, self.controller = value[0], value[1] + 1
+            self.module, self.controller = value[0], value[1]
 
     class MappingArray(ArrayChunk):
         chnm = 1
@@ -102,7 +102,7 @@ class MetaModule(BaseMetaModule, Module):
         @property
         def encoded_values(self):
             return list(
-                chain.from_iterable((x.module, x.controller - 1) for x in self.values)
+                chain.from_iterable((x.module, x.controller) for x in self.values)
             )
 
         @property
@@ -199,7 +199,9 @@ class MetaModule(BaseMetaModule, Module):
                 return ctl.__set__(self, value)
 
     def __dir__(self):
-        return super().__dir__() + [name for name in self.user_defined_aliases if name]
+        return list(super().__dir__()) + [
+            name for name in self.user_defined_aliases if name
+        ]
 
     @property
     def chnk(self):
@@ -257,14 +259,14 @@ class MetaModule(BaseMetaModule, Module):
         self.mappings.update_user_defined_controllers(self)
 
     def specialized_iff_chunks(self):
-        yield (b"CHNM", pack("<I", 0))
-        yield (b"CHDT", self.project.read())
+        yield b"CHNM", pack("<I", 0)
+        yield b"CHDT", self.project.read()
         yield from self.mappings.chunks()
         yield from super(MetaModule, self).specialized_iff_chunks()
         for i, controller in enumerate(self.user_defined, 8):
             if controller.attached(self) and controller.label is not None:
-                yield (b"CHNM", pack("<I", i))
-                yield (b"CHDT", controller.label.encode(rv.ENCODING) + b"\0")
+                yield b"CHNM", pack("<I", i)
+                yield b"CHDT", controller.label.encode(rv.ENCODING) + b"\0"
 
     def load_chunk(self, chunk):
         if chunk.chnm == self.options_chnm:

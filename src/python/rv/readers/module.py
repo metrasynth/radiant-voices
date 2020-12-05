@@ -1,9 +1,12 @@
+from __future__ import annotations
+
 import logging
 from struct import unpack
 
 from logutils import BraceMessage as _F
 from rv import ENCODING
 from rv.modules import MODULE_CLASSES, Chunk, Module
+from rv.modules.metamodule import MetaModule
 from rv.modules.output import Output
 from rv.readers.reader import Reader, ReaderFinished
 
@@ -11,6 +14,9 @@ log = logging.getLogger(__name__)
 
 
 class ModuleReader(Reader):
+
+    object: Module
+
     def __init__(self, f, index):
         super(ModuleReader, self).__init__(f)
         self._index = index
@@ -94,10 +100,19 @@ class ModuleReader(Reader):
         if len(data) > 0:
             link_count = len(data) // 4
             structure = "<" + "i" * link_count
-            links = self.object.incoming_links
+            links = self.object.in_links
             links.extend(unpack(structure, data))
             while links[-1:] == [-1]:
                 links.pop()
+
+    def process_SLnK(self, data):
+        if len(data) > 0:
+            link_count = len(data) // 4
+            structure = "<" + "i" * link_count
+            slots = self.object.in_link_slots
+            slots.extend(unpack(structure, data))
+            while slots[-1:] == [-1]:
+                slots.pop()
 
     def process_CVAL(self, data):
         (raw_value,) = unpack("<i", data)
@@ -132,7 +147,7 @@ class ModuleReader(Reader):
     def process_SEND(self, data):
         self._load_last_chunk()
         self.object.finalize_load()
-        if self.object.mtype == "MetaModule":
+        if isinstance(self.object, MetaModule):
             self.object.update_user_defined_controllers()
             self.object.recompute_controller_attachment()
         for cnum, raw_value in reversed(list(enumerate(self._cvals))):

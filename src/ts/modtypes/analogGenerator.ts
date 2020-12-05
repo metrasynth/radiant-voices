@@ -587,19 +587,19 @@ export namespace AnalogGenerator {
     rawOptionBytes(): Uint8Array {
       const bytes = new Uint8Array(13)
       const { optionValues: ov } = this
-      bytes[0] = Number(ov.volumeEnvelopeScalingPerKey)
-      bytes[1] = Number(ov.filterEnvelopeScalingPerKey)
-      bytes[2] = Number(ov.volumeScalingPerKey)
-      bytes[3] = Number(ov.filterFreqScalingPerKey)
-      bytes[4] = Number(ov.velocityDependentFilterFrequency)
-      bytes[5] = Number(ov.frequencyDiv_2)
-      bytes[6] = Number(!ov.smoothFrequencyChange)
-      bytes[7] = Number(ov.filterFreqScalingPerKeyReverse)
-      bytes[8] = Number(ov.retainPhase)
-      bytes[9] = Number(ov.randomPhase)
-      bytes[10] = Number(ov.filterFreqEqNoteFreq)
-      bytes[11] = Number(ov.velocityDependentFilterResonance)
-      bytes[12] = Number(ov.trueZeroAttackRelease)
+      bytes[0] |= (Number(ov.volumeEnvelopeScalingPerKey) & (2 ** 1 - 1)) << 0
+      bytes[1] |= (Number(ov.filterEnvelopeScalingPerKey) & (2 ** 1 - 1)) << 0
+      bytes[2] |= (Number(ov.volumeScalingPerKey) & (2 ** 1 - 1)) << 0
+      bytes[3] |= (Number(ov.filterFreqScalingPerKey) & (2 ** 1 - 1)) << 0
+      bytes[4] |= (Number(ov.velocityDependentFilterFrequency) & (2 ** 1 - 1)) << 0
+      bytes[5] |= (Number(ov.frequencyDiv_2) & (2 ** 1 - 1)) << 0
+      bytes[6] |= (Number(!ov.smoothFrequencyChange) & (2 ** 1 - 1)) << 0
+      bytes[7] |= (Number(ov.filterFreqScalingPerKeyReverse) & (2 ** 1 - 1)) << 0
+      bytes[8] |= (Number(ov.retainPhase) & (2 ** 1 - 1)) << 0
+      bytes[9] |= (Number(ov.randomPhase) & (2 ** 1 - 1)) << 0
+      bytes[10] |= (Number(ov.filterFreqEqNoteFreq) & (2 ** 1 - 1)) << 0
+      bytes[11] |= (Number(ov.velocityDependentFilterResonance) & (2 ** 1 - 1)) << 0
+      bytes[12] |= (Number(ov.trueZeroAttackRelease) & (2 ** 1 - 1)) << 0
       return bytes
     }
     setOptions(dataChunks: ModuleDataChunks) {
@@ -611,19 +611,35 @@ export namespace AnalogGenerator {
         }
       }
       if (chdt) {
-        this.optionValues.volumeEnvelopeScalingPerKey = Boolean(chdt[0])
-        this.optionValues.filterEnvelopeScalingPerKey = Boolean(chdt[1])
-        this.optionValues.volumeScalingPerKey = Boolean(chdt[2])
-        this.optionValues.filterFreqScalingPerKey = Boolean(chdt[3])
-        this.optionValues.velocityDependentFilterFrequency = Boolean(chdt[4])
-        this.optionValues.frequencyDiv_2 = Boolean(chdt[5])
-        this.optionValues.smoothFrequencyChange = !Boolean(chdt[6])
-        this.optionValues.filterFreqScalingPerKeyReverse = Boolean(chdt[7])
-        this.optionValues.retainPhase = Boolean(chdt[8])
-        this.optionValues.randomPhase = Boolean(chdt[9])
-        this.optionValues.filterFreqEqNoteFreq = Boolean(chdt[10])
-        this.optionValues.velocityDependentFilterResonance = Boolean(chdt[11])
-        this.optionValues.trueZeroAttackRelease = Boolean(chdt[12])
+        this.optionValues.volumeEnvelopeScalingPerKey = Boolean(
+          (chdt[0] >> 0) & (2 ** 1 - 1)
+        )
+        this.optionValues.filterEnvelopeScalingPerKey = Boolean(
+          (chdt[1] >> 0) & (2 ** 1 - 1)
+        )
+        this.optionValues.volumeScalingPerKey = Boolean((chdt[2] >> 0) & (2 ** 1 - 1))
+        this.optionValues.filterFreqScalingPerKey = Boolean(
+          (chdt[3] >> 0) & (2 ** 1 - 1)
+        )
+        this.optionValues.velocityDependentFilterFrequency = Boolean(
+          (chdt[4] >> 0) & (2 ** 1 - 1)
+        )
+        this.optionValues.frequencyDiv_2 = Boolean((chdt[5] >> 0) & (2 ** 1 - 1))
+        this.optionValues.smoothFrequencyChange = !Boolean(
+          (chdt[6] >> 0) & (2 ** 1 - 1)
+        )
+        this.optionValues.filterFreqScalingPerKeyReverse = Boolean(
+          (chdt[7] >> 0) & (2 ** 1 - 1)
+        )
+        this.optionValues.retainPhase = Boolean((chdt[8] >> 0) & (2 ** 1 - 1))
+        this.optionValues.randomPhase = Boolean((chdt[9] >> 0) & (2 ** 1 - 1))
+        this.optionValues.filterFreqEqNoteFreq = Boolean((chdt[10] >> 0) & (2 ** 1 - 1))
+        this.optionValues.velocityDependentFilterResonance = Boolean(
+          (chdt[11] >> 0) & (2 ** 1 - 1)
+        )
+        this.optionValues.trueZeroAttackRelease = Boolean(
+          (chdt[12] >> 0) & (2 ** 1 - 1)
+        )
       }
     }
   }

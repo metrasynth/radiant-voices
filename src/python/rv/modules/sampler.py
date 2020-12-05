@@ -1,8 +1,8 @@
 import logging
-from collections import OrderedDict
 from io import BytesIO
 from itertools import chain
 from struct import pack, unpack
+from typing import List, Optional
 
 from logutils import BraceMessage as _F
 from rv.controller import Controller
@@ -11,6 +11,7 @@ from rv.modules import Module
 from rv.modules.base.sampler import BaseSampler
 from rv.note import NOTE
 from rv.readers.reader import read_sunvox_file
+from rv.synth import Synth
 
 log = logging.getLogger(__name__)
 
@@ -32,7 +33,9 @@ class Sampler(BaseSampler, Module):
 
     behaviors = {B.receives_notes, B.sends_audio}
 
-    class NoteSampleMap(OrderedDict):
+    effect: Optional[Synth]
+
+    class NoteSampleMap(dict):
         start_note = NOTE.C0
         end_note = NOTE.a9
         default_sample = 0
@@ -62,8 +65,8 @@ class Sampler(BaseSampler, Module):
         initial_enable = None
         initial_sustain = None
         initial_loop = None
-        initial_controller_number = 0
-        initial_gain_percentage = 100
+        initial_ctl_index = 0
+        initial_gain_pct = 100
         initial_velocity = 0
         initial_controller = 0
         _legacy_point_bytes = None
@@ -81,8 +84,8 @@ class Sampler(BaseSampler, Module):
             self.enable = self.initial_enable
             self.sustain = self.initial_sustain
             self.loop = self.initial_loop
-            self.controller_number = self.initial_controller_number
-            self.gain_percentage = self.initial_gain_percentage
+            self.ctl_index = self.initial_ctl_index
+            self.gain_pct = self.initial_gain_pct
             self.velocity = self.initial_velocity
             self.loaded = False
 
@@ -117,27 +120,33 @@ class Sampler(BaseSampler, Module):
             return values[:12]
 
         def chunks(self):
-            yield (b"CHNM", pack("<I", self.chnm))
+            yield b"CHNM", pack("<I", self.chnm)
             data = pack(
                 "<HBBB",
                 self.bitmask,
-                self.controller_number,
-                self.gain_percentage,
+                self.ctl_index,
+                self.gain_pct,
                 self.velocity,
             )
             data += b"\0\0\0"
-            data += pack("<I", len(self.points))
-            data += b"\0\0\0\0\0\0\0\0"
+            data += pack(
+                "<HHHH",
+                len(self.points),
+                self.sustain_point,
+                self.loop_start_point,
+                self.loop_end_point,
+            )
+            data += b"\0\0\0\0"
             for x, y in self.points:
                 y -= self.range[0]
                 data += pack("<HH", x, y)
-            yield (b"CHDT", data)
+            yield b"CHDT", data
 
         def load_chdt(self, chdt):
             (
                 self.bitmask,
-                self.controller_number,
-                self.gain_percentage,
+                self.ctl_index,
+                self.gain_pct,
                 self.velocity,
                 _,
                 _,
@@ -207,7 +216,7 @@ class Sampler(BaseSampler, Module):
         def __init__(self):
             self.data = b""
             self.loop_start = 0
-            self.loop_end = 0
+            self.loop_len = 0
             self.volume = 64
             self.finetune = 100
             self.format = Sampler.Format.float32
@@ -241,6 +250,8 @@ class Sampler(BaseSampler, Module):
     vibrato_rate = Controller((0, 63), 0, attached=False)
     volume_fadeout = Controller((0, 8192), 0, attached=False)
 
+    samples: List[Optional[Sample]]
+
     def __init__(self, **kwargs):
         super(Sampler, self).__init__(**kwargs)
         self.volume_envelope = self.VolumeEnvelope()
@@ -273,10 +284,13 @@ class Sampler(BaseSampler, Module):
             self.effect_control_envelopes[2].chunks(),
             self.effect_control_envelopes[3].chunks(),
         ]
-        if self.effect:
-            iters += self.effect.chunks()
         for iter in iters:
             yield from iter
+        if self.effect:
+            f = BytesIO()
+            self.effect.write_to(f)
+            yield b"CHNM", b"\x0a\1\0\0"
+            yield b"CHDT", f.getvalue()
         yield from super(Sampler, self).specialized_iff_chunks()
         for i, sample in enumerate(self.samples):
             if sample is not None:
@@ -319,20 +333,20 @@ class Sampler(BaseSampler, Module):
         w(self.unknown4)
         w(self.note_samples.bytes)
         w(self.unknown5)
-        yield (b"CHNM", pack("<I", 0))
-        yield (b"CHDT", f.getvalue())
+        yield b"CHNM", pack("<I", 0)
+        yield b"CHDT", f.getvalue()
         f.close()
 
     def envelope_config_chunks(self):
-        yield (b"CHNM", pack("<I", 0x101))
-        yield (b"CHDT", b"\x00\x00\x00\x00\x00\x00")
+        yield b"CHNM", pack("<I", 0x101)
+        yield b"CHDT", b"\x00\x00\x00\x00\x00\x00"
 
     def sample_chunks(self, i, sample):
         f = BytesIO()
         w = f.write
         w(pack("<I", sample.frames))
         w(pack("<I", sample.loop_start))
-        w(pack("<I", sample.loop_end))
+        w(pack("<I", sample.loop_len))
         w(pack("<B", sample.volume))
         w(pack("<b", sample.finetune))
         sustain_flag = 4 if sample.loop_sustain else 0
@@ -351,14 +365,14 @@ class Sampler(BaseSampler, Module):
         w(pack("<B", sample.panning + 0x80))
         w(pack("<b", sample.relative_note))
         w(sample.unknown6)
-        yield (b"CHNM", pack("<I", i * 2 + 1))
-        yield (b"CHDT", f.getvalue())
+        yield b"CHNM", pack("<I", i * 2 + 1)
+        yield b"CHDT", f.getvalue()
         f.close()
-        yield (b"CHNM", pack("<I", i * 2 + 2))
-        yield (b"CHDT", sample.data)
-        yield (b"CHFF", pack("<I", sample.format.value | sample.channels.value))
+        yield b"CHNM", pack("<I", i * 2 + 2)
+        yield b"CHDT", sample.data
+        yield b"CHFF", pack("<I", sample.format.value | sample.channels.value)
         if sample.rate != 44100:
-            yield (b"CHFR", pack("<I", sample.rate))
+            yield b"CHFR", pack("<I", sample.rate)
 
     def load_chunk(self, chunk):
         chnm = chunk.chnm
@@ -417,7 +431,7 @@ class Sampler(BaseSampler, Module):
         sample = self.samples[index] = self.Sample()
         data = chunk.chdt
         (sample.loop_start,) = unpack("<I", data[0x04:0x08])
-        (sample.loop_end,) = unpack("<I", data[0x08:0x0C])
+        (sample.loop_len,) = unpack("<I", data[0x08:0x0C])
         sample.volume = data[0x0C]
         (sample.finetune,) = unpack("<b", data[0x0D:0x0E])
         loop_format_flags = data[0x0E]

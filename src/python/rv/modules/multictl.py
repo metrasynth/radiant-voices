@@ -112,12 +112,7 @@ class MultiCtl(BaseMultiCtl, Module):
     def on_value_changed(self, value, down, up):
         if self.parent is None or not down:
             return
-        downstream_mods = []
-        for to_mod in range(256):
-            from_mods = self.parent.module_connections[to_mod]
-            if self.index in from_mods:
-                downstream_mods.append(to_mod)
-        for i, to_mod in enumerate(downstream_mods):
+        for i, to_mod in enumerate(self.out_links):
             mapping = self.mappings.values[i]
             mod = self.parent.modules[to_mod]
             ctl = list(mod.controllers.values())[mapping.controller - 1]
@@ -150,21 +145,14 @@ class MultiCtl(BaseMultiCtl, Module):
 
         It is the inverse of setting value.
         """
-        downstream_mods = []
-        for to_mod in range(256):
-            from_mods = self.parent.module_connections[to_mod]
-            if self.index in from_mods:
-                downstream_mods.append(to_mod)
-                if len(downstream_mods) == index + 1:
-                    break
-        else:
+        if index >= len(self.out_links):
             raise IndexError("No destination module mapped at index {}".format(index))
         mapping = self.mappings.values[index]
         if mapping.controller == 0:
             raise IndexError(
                 "No destination controller mapped at index {}".format(index)
             )
-        reflect_mod = self.parent.modules[downstream_mods[-1]]
+        reflect_mod = self.parent.modules[self.out_links[index]]
         reflect_ctl_name = list(reflect_mod.controllers)[mapping.controller - 1]
         reflect_ctl = reflect_mod.controllers[reflect_ctl_name]
         reflect_value = getattr(reflect_mod, reflect_ctl_name)

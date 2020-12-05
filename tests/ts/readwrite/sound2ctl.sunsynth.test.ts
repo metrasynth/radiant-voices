@@ -29,6 +29,6 @@ describe("Reading the sound2ctl.sunsynth file", () => {
     expect(c.mode).toEqual(m.Sound2Ctl.Mode.Lq)
     expect(c.outMin).toEqual(12054)
     expect(c.outMax).toEqual(21842)
-    expect(c.outController).toEqual(223)
+    expect(c.outController).toEqual(223) // [TODO] out of range
   })
 })

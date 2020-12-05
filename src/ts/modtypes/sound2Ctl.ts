@@ -260,8 +260,8 @@ export namespace Sound2Ctl {
     rawOptionBytes(): Uint8Array {
       const bytes = new Uint8Array(2)
       const { optionValues: ov } = this
-      bytes[0] = Number(ov.recordValues)
-      bytes[1] = Number(!ov.sendOnlyChangedValues)
+      bytes[0] |= (Number(ov.recordValues) & (2 ** 1 - 1)) << 0
+      bytes[1] |= (Number(ov.sendOnlyChangedValues) & (2 ** 1 - 1)) << 0
       return bytes
     }
     setOptions(dataChunks: ModuleDataChunks) {
@@ -273,8 +273,8 @@ export namespace Sound2Ctl {
         }
       }
       if (chdt) {
-        this.optionValues.recordValues = Boolean(chdt[0])
-        this.optionValues.sendOnlyChangedValues = !Boolean(chdt[1])
+        this.optionValues.recordValues = Boolean((chdt[0] >> 0) & (2 ** 1 - 1))
+        this.optionValues.sendOnlyChangedValues = Boolean((chdt[1] >> 0) & (2 ** 1 - 1))
       }
     }
   }

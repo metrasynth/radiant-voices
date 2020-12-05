@@ -18,12 +18,9 @@ describe("behavior of empty Projects", () => {
   test("has no patterns", () => {
     expect(emptyProject.patterns.length).toEqual(0)
   })
-  test("appear to be built with SunVox 1.9.5.2", () => {
-    expect(emptyProject.sunVoxVersion).toEqual([1, 9, 5, 2])
-    expect(emptyProject.basedOnVersion).toEqual([1, 9, 5, 2])
-  })
-  test("has no module connections", () => {
-    expect(emptyProject.moduleConnections.length).toEqual(0)
+  test("appear to be built with SunVox 1.9.6.1", () => {
+    expect(emptyProject.sunVoxVersion).toEqual([1, 9, 6, 1])
+    expect(emptyProject.basedOnVersion).toEqual([1, 9, 6, 1])
   })
   test("has initial BPM of 125", () => {
     expect(emptyProject.initialBpm).toEqual(125)

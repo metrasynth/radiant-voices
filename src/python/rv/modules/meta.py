@@ -1,4 +1,3 @@
-from collections import OrderedDict
 from enum import Enum
 from textwrap import dedent
 
@@ -28,7 +27,7 @@ class ModuleMeta(type):
             (k, v) for k in dir(cls) if isinstance(v := getattr(cls, k), Controller)
         ]
         ordered_controllers.sort(key=lambda x: x[1]._order)
-        cls.controllers = OrderedDict()
+        cls.controllers = {}
         for i, (k, v) in enumerate(ordered_controllers, 1):
             v.label = k.replace("_", " ").title()
             v.name = k
@@ -36,19 +35,13 @@ class ModuleMeta(type):
             cls.controllers[k] = v
 
     def __init_options(cls):
-        ordered_options = [
-            (k, v) for k in dir(cls) if isinstance(v := getattr(cls, k), Option)
-        ]
-        if ordered_options:
-            ordered_options.sort(key=lambda x: x[1]._order)
-            cls.options = OrderedDict()
-            for i, (k, v) in enumerate(ordered_options):
-                v.label = k.replace("_", " ").title()
-                v.name = k
-                v.index = i
-                cls.options[k] = v
+        cls.options = {
+            k: v for k in dir(cls) if isinstance(v := getattr(cls, k), Option)
+        }
 
     def __init_docstring(cls):
+        if cls.__name__ == "Module":
+            return
         lines = [f'"{cls.mtype}" SunVox {cls.mgroup} Module', ""]
         if getattr(cls, "__doc__"):
             lines.append(dedent(cls.__doc__))

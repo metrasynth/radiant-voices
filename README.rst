@@ -76,44 +76,18 @@ Our collective imagination is the limit!
     https://en.wikipedia.org/wiki/Graph_drawing
 
 
-Multiple languages and data access patterns
--------------------------------------------
+Support for multiple languages
+------------------------------
 
-Multiple programming languages are supported,
-and in some languages both mutable and immutable APIs are provided.
+Multiple programming languages are supported.
 
 This is accomplished by combining a structured file format specification
 with a code generation framework.
 
-Here are the platforms targeted by Radiant Voices:
+Supported languages currently include:
 
-==============  ==============  ============  ==================================
-Language        Data Access     Status        Notes
-==============  ==============  ============  ==================================
-Python 3.8      mutable         Not started
-Python 3.8      immutable       Not started   Using Pyrsistent_
-TypeScript      mutable         Not started
-TypeScript      immutable       Not started   Using immer_
-Pixilang        mutable         Not started
-==============  ==============  ============  ==================================
-
-..  _Pyrsistent:
-    https://github.com/tobgu/pyrsistent
-
-..  _immer:
-    https://github.com/immerjs/immer
-
-Mutable data access means that you directly manipulate objects
-that represent a SunVox data structure.
-Code written this way may be easier to read and write.
-
-Immutable data access lets you keep pointers
-to previous versions of data structures.
-Changes are made by efficiently constructing a new version
-of the entire data structure.
-Code written this way may take more practice to read and write,
-but is useful for certain kinds of tools that could benefit from
-efficient undo/redo.
+- Python 3.8+
+- Typescript
 
 
 Interaction with the SunVox DLL

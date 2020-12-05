@@ -19,8 +19,8 @@ class VorbisPlayer(BaseVorbisPlayer, Module):
         self.data = data
 
     def specialized_iff_chunks(self):
-        yield (b"CHNM", pack("<I", 0))
-        yield (b"CHDT", self.data or b"")
+        yield b"CHNM", pack("<I", 0)
+        yield b"CHDT", self.data or b""
         yield from super(VorbisPlayer, self).specialized_iff_chunks()
 
     def load_chunk(self, chunk):

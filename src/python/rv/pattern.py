@@ -94,19 +94,19 @@ class Pattern:
         return self
 
     def iff_chunks(self):
-        yield (b"PDTA", self.raw_data)
+        yield b"PDTA", self.raw_data
         if self.name is not None:
-            yield (b"PNME", self.name.encode(ENCODING) + b"\0")
-        yield (b"PCHN", pack("<I", self.tracks))
-        yield (b"PLIN", pack("<I", self.lines))
-        yield (b"PYSZ", pack("<I", self.y_size))
-        yield (b"PFLG", pack("<I", self.appearance_flags))
-        yield (b"PICO", self.icon)
-        yield (b"PFGC", pack("<BBB", *self.fg_color))
-        yield (b"PBGC", pack("<BBB", *self.bg_color))
-        yield (b"PFFF", pack("<I", self.flags))
-        yield (b"PXXX", pack("<i", self.x))
-        yield (b"PYYY", pack("<i", self.y))
+            yield b"PNME", self.name.encode(ENCODING) + b"\0"
+        yield b"PCHN", pack("<I", self.tracks)
+        yield b"PLIN", pack("<I", self.lines)
+        yield b"PYSZ", pack("<I", self.y_size)
+        yield b"PFLG", pack("<I", self.appearance_flags)
+        yield b"PICO", self.icon
+        yield b"PFGC", pack("<BBB", *self.fg_color)
+        yield b"PBGC", pack("<BBB", *self.bg_color)
+        yield b"PFFF", pack("<I", self.flags)
+        yield b"PXXX", pack("<i", self.x)
+        yield b"PYYY", pack("<i", self.y)
 
     def clear(self):
         self._data = []
@@ -150,10 +150,10 @@ class PatternClone:
     project = attr(default=None)
 
     def iff_chunks(self):
-        yield (b"PPAR", pack("<I", self.source))
-        yield (b"PFFF", pack("<I", self.flags))
-        yield (b"PXXX", pack("<i", self.x))
-        yield (b"PYYY", pack("<i", self.y))
+        yield b"PPAR", pack("<I", self.source)
+        yield b"PFFF", pack("<I", self.flags)
+        yield b"PXXX", pack("<i", self.x)
+        yield b"PYYY", pack("<i", self.y)
 
     @property
     def source_pattern(self):

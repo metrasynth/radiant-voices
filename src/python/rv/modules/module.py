@@ -1,9 +1,11 @@
+from __future__ import annotations
+
 import io
 import logging
-from collections import OrderedDict, defaultdict
+from collections import defaultdict
 from enum import Enum, IntEnum
 from struct import pack
-from typing import Dict
+from typing import TYPE_CHECKING, Dict, List, Optional, Union
 
 from logutils import BraceMessage as _F
 from rv import ENCODING
@@ -11,8 +13,12 @@ from rv.cmidmap import ControllerMidiMap
 from rv.controller import Controller, DependentRange
 from rv.errors import ControllerValueError, RangeValidationError
 from rv.modules.meta import ModuleMeta
+from rv.option import Option
 from rv.readers.reader import read_sunvox_file
 from rv.synth import Synth
+
+if TYPE_CHECKING:
+    from rv.project import Project
 
 log = logging.getLogger(__name__)
 
@@ -21,6 +27,11 @@ class Chunk:
     """A chunk of custom data related to a module."""
 
     __slots__ = ["chnm", "chdt", "chff", "chfr"]
+
+    chnm: Optional[int]
+    chdt: Optional[bytes]
+    chff: int
+    chfr: int
 
     def __init__(self):
         self.chnm = self.chdt = None
@@ -31,7 +42,7 @@ class Chunk:
 class ModuleList(list):
     """Ensures `>>` and `<<` work with lists."""
 
-    def __init__(self, parent, *args, **kwargs):
+    def __init__(self, parent: Project, *args, **kwargs):
         super(ModuleList, self).__init__(*args, **kwargs)
         self.parent = parent
 
@@ -187,6 +198,20 @@ class Visualization:
         )
 
 
+class DisconnectingModule:
+    def __init__(self, orig):
+        self.__dict__["orig"] = orig
+
+    def __getattr__(self, item):
+        return getattr(self.__dict__["orig"], item)
+
+    def __setattr__(self, key, value):
+        return setattr(self.__dict__["orig"], key, value)
+
+    def __invert__(self):
+        return self.__dict__["orig"]
+
+
 class Module(metaclass=ModuleMeta):
     """Abstract base class for all SunVox module classes.
 
@@ -194,22 +219,29 @@ class Module(metaclass=ModuleMeta):
     the actual SunVox module types.
     """
 
-    name = None
-    mtype = None  # module type
-    mgroup = None  # module group
-    flags = None
-    chnk = False
+    name: str = ""
+    mtype: str  # module type
+    mgroup: str  # module group
+    flags: int
+    chnk: Union[int, bool] = False
 
     behaviors = set()
 
-    controllers: Dict[str, Controller] = OrderedDict()
-    options = OrderedDict()
+    controllers: Dict[str, Controller] = {}
+    options: Dict[str, Option] = {}
     options_chnm = 0
+
+    in_links: List[int]
+    in_link_slots: List[int]
+    out_links: List[int]
+    out_link_slots: List[int]
+
+    parent: Optional[Project]
 
     def __init__(self, **kw):
         self.index = kw.get("index", None)
         self.parent = kw.get("parent", None)
-        self.controller_values = OrderedDict()
+        self.controller_values = {}
         self.controllers_loaded = set()
         self.controller_midi_maps = defaultdict(ControllerMidiMap)
         for k, controller in self.controllers.items():
@@ -222,7 +254,7 @@ class Module(metaclass=ModuleMeta):
                 v = kw.get(k) if k in kw else controller.default
                 controller.set_initial(self, v)
                 self.controllers_loaded.add(k)
-        self.option_values = OrderedDict()
+        self.option_values = {}
         for k, option in self.options.items():
             v = kw.get(k) if k in kw else option.default
             setattr(self, k, v)
@@ -241,7 +273,10 @@ class Module(metaclass=ModuleMeta):
         self.midi_out_program = kw.get("midi_out_program", -1)
         self.name = kw.get("name", self.name)
         self.visualization = kw.get("visualization", 0x000C0101)
-        self.incoming_links = []
+        self.in_links = []
+        self.in_link_slots = []
+        self.out_links = []
+        self.out_link_slots = []
 
     def __repr__(self):
         attrs = [self.__class__.__name__]
@@ -262,6 +297,9 @@ class Module(metaclass=ModuleMeta):
         if isinstance(other, list):
             other = ModuleList(self.parent, other)
         return other
+
+    def __invert__(self):
+        return DisconnectingModule(self)
 
     @property
     def visualization(self):
@@ -320,29 +358,29 @@ class Module(metaclass=ModuleMeta):
         """Yield all standard chunks needed for a module."""
         if in_project is None:
             in_project = self.parent is not None
-        yield (b"SFFF", pack("<I", self.flags))
-        yield (b"SNAM", self.name.encode(ENCODING)[:32].ljust(32, b"\0"))
+        yield b"SFFF", pack("<I", self.flags)
+        yield b"SNAM", self.name.encode(ENCODING)[:32].ljust(32, b"\0")
         if self.mtype is not None and self.mtype != "Output":
-            yield (b"STYP", self.mtype.encode(ENCODING) + b"\0")
-        yield (b"SFIN", pack("<i", self.finetune))
-        yield (b"SREL", pack("<i", self.relative_note))
+            yield b"STYP", self.mtype.encode(ENCODING) + b"\0"
+        yield b"SFIN", pack("<i", self.finetune)
+        yield b"SREL", pack("<i", self.relative_note)
         if in_project:
-            yield (b"SXXX", pack("<i", self.x))
-            yield (b"SYYY", pack("<i", self.y))
-            yield (b"SZZZ", pack("<i", self.layer))
-        yield (b"SSCL", pack("<I", self.scale))
+            yield b"SXXX", pack("<i", self.x)
+            yield b"SYYY", pack("<i", self.y)
+            yield b"SZZZ", pack("<i", self.layer)
+        yield b"SSCL", pack("<I", self.scale)
         if in_project:
-            yield (b"SVPR", pack("<I", int(self.visualization)))
-        yield (b"SCOL", pack("BBB", *self.color))
+            yield b"SVPR", pack("<I", int(self.visualization))
+        yield b"SCOL", pack("BBB", *self.color)
         yield (
             b"SMII",
             pack("<I", int(self.midi_in_always) + (self.midi_in_channel << 1)),
         )
         if self.midi_out_name:
-            yield (b"SMIN", self.midi_out_name.encode(ENCODING) + b"\0")
-        yield (b"SMIC", pack("<I", self.midi_out_channel))
-        yield (b"SMIB", pack("<i", self.midi_out_bank))
-        yield (b"SMIP", pack("<i", self.midi_out_program))
+            yield b"SMIN", self.midi_out_name.encode(ENCODING) + b"\0"
+        yield b"SMIC", pack("<I", self.midi_out_channel)
+        yield b"SMIB", pack("<i", self.midi_out_bank)
+        yield b"SMIP", pack("<i", self.midi_out_program)
 
     def specialized_iff_chunks(self):
         """Yield specialized chunks needed for a module, if applicable.
@@ -352,14 +390,18 @@ class Module(metaclass=ModuleMeta):
         if self.options:
             yield from self.options_chunks()
         else:
-            yield (None, None)
+            yield None, None
 
     def options_chunks(self):
         """Yield chunks necessary to save options for this module."""
-        yield (b"CHNM", pack("<I", self.options_chnm))
-        values = list(self.option_values.values())
-        values += [False] * (64 - len(values))
-        yield (b"CHDT", pack("B" * 64, *values))
+        bytemap = [0] * 64
+        for option in self.options.values():
+            option_value = self.option_values.get(option.name)
+            option_value &= (2 ** option.size) - 1
+            option_value <<= option.bit
+            bytemap[option.byte] |= option_value
+        yield b"CHNM", pack("<I", self.options_chnm)
+        yield b"CHDT", pack("B" * 64, *bytemap)
 
     def load_chunk(self, chunk):
         """Load a CHNK/CHNM/CHDT/CHFF/CHFR block into this module."""
@@ -373,10 +415,15 @@ class Module(metaclass=ModuleMeta):
             if len(cmid_data) == 8:
                 self.controller_midi_maps[name].cmid_data = cmid_data
 
-    def load_options(self, chunk):
-        for i, name in enumerate(self.options.keys()):
-            value = 0 if i >= len(chunk.chdt) else chunk.chdt[i]
-            self.option_values[name] = value
+    def load_options(self, chunk: Chunk):
+        bytemap = list(chunk.chdt)
+        while len(bytemap) < 64:
+            bytemap.append(0)
+        for option in self.options.values():
+            option_value = bytemap[option.byte]
+            option_value >>= option.bit
+            option_value &= (2 ** option.size) - 1
+            self.option_values[option.name] = option_value
 
     def finalize_load(self):
         pass
