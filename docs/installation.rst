@@ -1,5 +1,5 @@
-Installation
-============
+Installation (Python)
+=====================
 
 Python
 ~~~~~~
@@ -10,7 +10,7 @@ Dependencies
 Required
 ........
 
-- Python 3.7 (or greater)
+- Python 3.8
 
 Recommended
 ...........

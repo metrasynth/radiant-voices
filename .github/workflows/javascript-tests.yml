@@ -1,0 +1,23 @@
+name: javascript-tests
+on:
+  - push
+jobs:
+  test:
+    runs-on: Ubuntu-20.04
+    strategy:
+      matrix:
+        node-version:
+          - "14.x"
+          - "15.x"
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - run: npm install
+
+      - run: npm run jest

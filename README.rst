@@ -3,12 +3,22 @@ Overview of Radiant Voices
 
 ..  start-badges
 
-|buildstatus| |docs|
+|javascript-tests| |python-tests| |pre-commit| |docs|
 
-.. |buildstatus| image:: https://img.shields.io/travis/metrasynth/radiant-voices.svg?style=flat
-    :alt: build status
+.. |javascript-tests| image:: https://github.com/metrasynth/radiant-voices/workflows/javascript-tests/badge.svg
+    :alt: javascript-tests status
     :scale: 100%
-    :target: https://travis-ci.org/metrasynth/radiant-voices
+    :target: https://github.com/metrasynth/radiant-voices/actions?query=workflow:javascript-tests
+
+.. |python-tests| image:: https://github.com/metrasynth/radiant-voices/workflows/python-tests/badge.svg
+    :alt: python-tests status
+    :scale: 100%
+    :target: https://github.com/metrasynth/radiant-voices/actions?query=workflow:python-tests
+
+.. |pre-commit| image:: https://github.com/metrasynth/radiant-voices/workflows/pre-commit/badge.svg
+    :alt: pre-commit status
+    :scale: 100%
+    :target: https://github.com/metrasynth/radiant-voices/actions?query=workflow:pre-commit
 
 .. |docs| image:: https://readthedocs.org/projects/radiant-voices/badge/?version=latest
     :alt: Documentation Status

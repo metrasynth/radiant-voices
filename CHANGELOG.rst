@@ -157,7 +157,7 @@ Changes (Python version)
 - ``Project.connect`` now raises ``ModuleOwnershipError`` if modules
   do not share a common parent.
 
-- Python 3.7 is now required.
+- Python 3.8 is now required.
 
 - ``Project.attach_pattern`` now returns the index of the attached pattern.
 
