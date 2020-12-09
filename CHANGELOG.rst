@@ -55,6 +55,8 @@ SunVox.
 Additions (all versions)
 ........................
 
+- Adds ``Project.receive_sync_midi`` and ``Project.receive_sync_other`` flags.
+
 - Adds ``ADSR`` module.
 
 - Adds ``Ctl2Note`` module.
@@ -120,6 +122,8 @@ Additions (all versions)
 Additions (Python version)
 ..........................
 
+- Ports test cases from JavaScript version. ([TODO] in progress)
+
 - Adds ``Project.restart_position`` attribute.
 
 - Adds ``Project.detach_module(module)`` method.
@@ -137,6 +141,15 @@ Additions (Python version)
 
 Changes (Python version)
 ........................
+
+- Renames
+
+- Renames ``controller_number`` to ``ctl_index``, and ``gain_percentage`` to ``gain_pct``,
+  to more closely reflect the naming in the JavaScript version.
+
+- Adds type annotations to support static analysis tools and IDEs.
+
+- Renames "dirty waveform" to "drawn waveform".
 
 - Updates default ``sunvox_version`` and ``based_on_version`` of
   newly-created ``Project`` containers to reflect file format version 1.9.6.1.
@@ -161,8 +174,23 @@ Changes (Python version)
 
 - ``Project.attach_pattern`` now returns the index of the attached pattern.
 
+Fixes (all versions)
+....................
+
+- Renames ``Sample.loop_end`` to ``Sample.loop_len``.
+
+- Fixes how effects embedded into ``Sampler.effect`` are serialized.
+
+- Updates ``out_controller`` of ``Pitch2Ctl``, ``Sound2Ctl``, and ``Velocity2Ctl``
+  to have correct range of 0..255.
+
+
 Fixes (Python version)
 ......................
+
+- Fixes writing of controller values to use signed ints instead of unsigned.
+
+- Fixes reading/writing of ``VorbisPlayer.finetune`` controller values.
 
 - Updates the ``helloworld`` example to use correct APIs.
 

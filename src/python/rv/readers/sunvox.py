@@ -1,4 +1,5 @@
 from struct import unpack
+from typing import Optional
 
 from rv import ENCODING
 from rv.project import Project
@@ -8,6 +9,8 @@ from rv.readers.reader import Reader, ReaderFinished
 
 
 class SunVoxReader(Reader):
+    object: Optional[Project]
+
     def __init__(self, f):
         super(SunVoxReader, self).__init__(f)
 
@@ -21,6 +24,11 @@ class SunVoxReader(Reader):
 
     def process_BVER(self, data):
         self.object.based_on_version = tuple(reversed(unpack("BBBB", data)))
+
+    def process_SFGS(self, data):
+        (val,) = unpack("<I", data)
+        self.object.receive_sync_midi = val & 0b111
+        self.object.receive_sync_other = (val >> 3) & 0b111
 
     def process_BPM(self, data):
         (self.object.initial_bpm,) = unpack("<I", data)

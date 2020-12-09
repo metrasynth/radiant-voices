@@ -17,6 +17,7 @@ from rv.controller import Controller
         {% for cname, cdef in ctl.items() %}
             {% if "min" in cdef and "max" in cdef %}
 {% if cdef.compact %}from rv.controller import CompactRange{% endif %}
+{% if cdef.no_offset %}from rv.controller import NoOffsetRange{% endif %}
             {% endif %}
 {% if cdef.depends_on %}from rv.controller import DependentRange, WarnOnlyRange{% endif %}
         {%- endfor %}
@@ -49,6 +50,7 @@ class Base{{ modtype_name }}:
     {{ cname }} = Controller(
         {% if "min" in cdef and "max" in cdef %}
             {% if cdef.compact %}CompactRange{% endif %}
+            {% if cdef.no_offset %}NoOffsetRange{% endif %}
             ({{ cdef.min }}, {{ cdef.max }}),
             {{ cdef.default }}
         {% elif "enum" in cdef and "default" in cdef %}

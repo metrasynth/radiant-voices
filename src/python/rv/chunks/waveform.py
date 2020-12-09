@@ -31,7 +31,7 @@ class WaveformChunk(Chunk):
     @property
     def bytes(self):
         if self.format in [self.Format.mono_8bit, None]:
-            return bytes(self.samples)
+            return bytes(y & ((1 << 8) - 1) for y in self.samples)
         else:
             raise NotImplementedError()
 

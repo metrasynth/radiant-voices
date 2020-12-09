@@ -1536,7 +1536,7 @@ module_types:
       - number_of_semitones: { min: 0, max: 256, default: 120 }
       - out_min: { min: 0, max: 32768, default: 0 }
       - out_max: { min: 0, max: 32768, default: 32768 }
-      - out_controller: { min: 0, max: 32, default: 0 }
+      - out_controller: { min: 0, max: 255, default: 0 }
 
   PitchDetector:
     type: Pitch Detector
@@ -1685,7 +1685,7 @@ module_types:
       - mode: { enum: Mode, default: "hq" }
       - out_min: { min: 0, max: 32768, default: 0 }
       - out_max: { min: 0, max: 32768, default: 32768 }
-      - out_controller: { min: 0, max: 32, default: 0 }
+      - out_controller: { min: 0, max: 255, default: 0 }
     options_chnm: 0
     options:
       - record_values: false
@@ -1777,7 +1777,7 @@ module_types:
       - out_min: { min: 0, max: 32768, default: 0 }
       - out_max: { min: 0, max: 32768, default: 32768 }
       - out_offset: { min: -16384, max: 16384, default: 0 }
-      - out_controller: { min: 0, max: 32, default: 0 }
+      - out_controller: { min: 0, max: 255, default: 0 }
 
   Vibrato:
     group: Effect

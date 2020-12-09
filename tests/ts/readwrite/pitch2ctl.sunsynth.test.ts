@@ -27,6 +27,6 @@ describe("Reading the pitch2ctl.sunsynth file", () => {
     expect(c.numberOfSemitones).toEqual(217)
     expect(c.outMin).toEqual(27327)
     expect(c.outMax).toEqual(7746)
-    expect(c.outController).toEqual(239)
+    expect(c.outController).toEqual(239) // [TODO] out of range
   })
 })

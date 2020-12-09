@@ -28,6 +28,13 @@ describe("Reading the metamodule.sunsynth file", () => {
     expect(c.playPatterns).toEqual(m.MetaModule.PlayPatterns.OnNoRepeat)
     expect(c.bpm).toEqual(560)
     expect(c.tpl).toEqual(30)
+    const { o } = mod
+    expect(o.userDefinedControllers).toEqual(2)
+    expect(o.arpeggiator).toBeFalsy()
+    expect(o.applyVelocityToProject).toBeFalsy()
+    expect(o.eventOutput).toBeTruthy()
+    expect(o.receiveNotesFromKeyboard).toBeFalsy()
+    expect(o.doNotReceiveNotesFromKeyboard).toBeFalsy()
     const project = mod.behavior?.project
     expect(project).toBeDefined()
     expect(project?.modules[0]?.typeName).toEqual("Output")

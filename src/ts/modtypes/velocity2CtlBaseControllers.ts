@@ -59,7 +59,7 @@ export class Velocity2CtlBaseControllers implements Controllers {
   // noinspection JSUnusedGlobalSymbols
   set outController(newValue: number) {
     const { controllerValues } = this
-    newValue = Math.min(Math.max(newValue, 0), 32)
+    newValue = Math.min(Math.max(newValue, 0), 255)
     controllerValues.outController = newValue
   }
 }

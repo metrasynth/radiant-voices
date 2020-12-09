@@ -2,7 +2,7 @@ from io import BytesIO
 from pathlib import Path
 
 import pytest
-from rv.api import Synth, read_sunvox_file
+from rv.api import Project, Synth, read_sunvox_file
 
 
 @pytest.fixture
@@ -17,7 +17,20 @@ def read_write_read_sunsynth(test_files_path):
         f = BytesIO()
         synth.write_to(f)
         f.seek(0)
-        synth = read_sunvox_file(f).module
+        synth = read_sunvox_file(f)
         return synth
 
     return _read_write_read_sunsynth
+
+
+@pytest.fixture
+def read_write_read_sunvox(test_files_path):
+    def _read_write_read_sunvox(name: str) -> Project:
+        project = read_sunvox_file(test_files_path / f"{name}.sunvox")
+        f = BytesIO()
+        project.write_to(f)
+        f.seek(0)
+        project = read_sunvox_file(f)
+        return project
+
+    return _read_write_read_sunvox

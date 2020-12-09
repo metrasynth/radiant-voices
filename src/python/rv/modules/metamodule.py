@@ -88,7 +88,7 @@ class MetaModule(BaseMetaModule, Module):
 
     class Mapping:
         def __init__(self, value):
-            self.module, self.controller = value[0], value[1] + 1
+            self.module, self.controller = value[0], value[1]
 
     class MappingArray(ArrayChunk):
         chnm = 1
@@ -102,7 +102,7 @@ class MetaModule(BaseMetaModule, Module):
         @property
         def encoded_values(self):
             return list(
-                chain.from_iterable((x.module, x.controller - 1) for x in self.values)
+                chain.from_iterable((x.module, x.controller) for x in self.values)
             )
 
         @property
@@ -199,7 +199,9 @@ class MetaModule(BaseMetaModule, Module):
                 return ctl.__set__(self, value)
 
     def __dir__(self):
-        return super().__dir__() + [name for name in self.user_defined_aliases if name]
+        return list(super().__dir__()) + [
+            name for name in self.user_defined_aliases if name
+        ]
 
     @property
     def chnk(self):

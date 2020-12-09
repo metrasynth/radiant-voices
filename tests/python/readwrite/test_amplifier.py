@@ -2,7 +2,7 @@ from rv.api import m
 
 
 def test_amplifier(read_write_read_sunsynth):
-    mod: m.Amplifier = read_write_read_sunsynth("amplifier")
+    mod: m.Amplifier = read_write_read_sunsynth("amplifier").module
     assert mod.flags == 81
     assert mod.name == "amp"
     assert mod.volume == 378

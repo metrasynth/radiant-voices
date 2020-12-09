@@ -1,4 +1,5 @@
 from collections import defaultdict, namedtuple
+from enum import IntEnum
 from struct import pack
 
 import networkx as nx
@@ -20,6 +21,14 @@ class Project(Container):
     """
 
     MAGIC_CHUNK = (b"SVOX", b"")
+
+    class SyncCommand(IntEnum):
+        START_STOP = 1 << 0
+        TEMPO = 1 << 1
+        POSITION = 1 << 2
+
+    receive_sync_midi: SyncCommand
+    receive_sync_other: SyncCommand
 
     def __init__(self):
         self.modules = []
@@ -48,6 +57,8 @@ class Project(Container):
         self.current_pattern = 0
         self.current_track = 0
         self.current_line = 1
+        self.receive_sync_midi = self.SyncCommand.START_STOP
+        self.receive_sync_other = self.SyncCommand.START_STOP
         self.patterns = []
 
     def __iadd__(self, other):
@@ -114,6 +125,10 @@ class Project(Container):
         yield self.MAGIC_CHUNK
         yield (b"VERS", pack("BBBB", *reversed(self.sunvox_version)))
         yield (b"BVER", pack("BBBB", *reversed(self.based_on_version)))
+        yield (
+            b"SFGS",
+            pack("<I", self.receive_sync_midi | (self.receive_sync_other << 3)),
+        )
         yield (b"BPM ", pack("<I", self.initial_bpm))
         yield (b"SPED", pack("<I", self.initial_tpl))
         yield (b"TGRD", pack("<I", self.time_grid))
@@ -153,7 +168,7 @@ class Project(Container):
                 ]
                 for name in controllers:
                     raw_value = module.get_raw(name)
-                    yield (b"CVAL", pack("<I", raw_value))
+                    yield (b"CVAL", pack("<i", raw_value))
                 if controllers:
                     yield (
                         b"CMID",

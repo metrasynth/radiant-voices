@@ -23,4 +23,4 @@ class BaseVelocity2Ctl:
     out_min = Controller((0, 32768), 0)
     out_max = Controller((0, 32768), 32768)
     out_offset = Controller((-16384, 16384), 0)
-    out_controller = Controller((0, 32), 0)
+    out_controller = Controller((0, 255), 0)

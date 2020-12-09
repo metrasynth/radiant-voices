@@ -29,4 +29,4 @@ class BasePitch2Ctl:
     number_of_semitones = Controller((0, 256), 120)
     out_min = Controller((0, 32768), 0)
     out_max = Controller((0, 32768), 32768)
-    out_controller = Controller((0, 32), 0)
+    out_controller = Controller((0, 255), 0)
