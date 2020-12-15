@@ -266,8 +266,9 @@ class Project(Container):
     def layout(self, scale=512, **spring_layout_args):
         """Auto-layout modules."""
         g = nx.Graph()
-        for to_idx, from_idx_list in self.module_connections.items():
-            for from_idx in from_idx_list:
+        for module in self.modules:
+            to_idx = module.index
+            for from_idx in module.in_links:
                 if from_idx >= 0:
                     g.add_nodes_from([from_idx, to_idx])
                     g.add_edge(from_idx, to_idx)
