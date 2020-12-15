@@ -1,5 +1,4 @@
 import logging
-from collections import OrderedDict
 from io import BytesIO
 from itertools import chain
 from struct import pack, unpack
@@ -36,7 +35,7 @@ class Sampler(BaseSampler, Module):
 
     effect: Optional[Synth]
 
-    class NoteSampleMap(OrderedDict):
+    class NoteSampleMap(dict):
         start_note = NOTE.C0
         end_note = NOTE.a9
         default_sample = 0

@@ -142,7 +142,10 @@ Additions (Python version)
 Changes (Python version)
 ........................
 
-- Renames
+- Uses `dict` instead of `OrderedDict`, as modern Python's built-in `dict`
+  maintains key order.
+
+- Renames ``incoming_links`` to ``in_links``.
 
 - Renames ``controller_number`` to ``ctl_index``, and ``gain_percentage`` to ``gain_pct``,
   to more closely reflect the naming in the JavaScript version.
@@ -176,6 +179,10 @@ Changes (Python version)
 
 Fixes (all versions)
 ....................
+
+- Correctly reads and writes ``SLnK`` chunks,
+  thus correctly keeping the connection order between modules
+  that have more than one connection going in or out.
 
 - Renames ``Sample.loop_end`` to ``Sample.loop_len``.
 

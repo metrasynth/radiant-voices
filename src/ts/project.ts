@@ -42,7 +42,6 @@ export class Project implements SunVoxContainer {
 
   readonly patterns: Array<PatternBase | undefined> = []
   readonly modules: Array<ModuleBase | undefined> = []
-  readonly moduleConnections: ModuleConnection[] = []
 
   get outputModule(): m.Output.Module {
     return this.modules[0] as m.Output.Module

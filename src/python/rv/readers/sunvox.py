@@ -114,4 +114,30 @@ class SunVoxReader(Reader):
         # Clear out empty modules at end of list.
         while self.object.modules[-1:] == [None]:
             self.object.modules.pop()
+        # inLinkSlots are not written out by SunVox if all zeros;
+        # initialize them if missing.
+        for mod in self.object.modules:
+            if not mod:
+                continue
+            while len(mod.in_link_slots) < len(mod.in_links):
+                mod.in_link_slots.append(0)
+        # generate outLinks based on inLinks
+        for mod in self.object.modules:
+            if not mod:
+                continue
+            in_links = mod.in_links
+            in_link_slots = mod.in_link_slots
+            for in_link_idx, in_link in enumerate(in_links):
+                out_link_idx = in_link_slots[in_link_idx]
+                src_mod = self.object.modules[in_link]
+                if not src_mod:
+                    raise RuntimeError()
+                out_links = src_mod.out_links
+                out_link_slots = src_mod.out_link_slots
+                while out_link_idx >= len(out_links):
+                    out_links.append(-1)
+                while out_link_idx >= len(out_link_slots):
+                    out_link_slots.append(-1)
+                out_links[out_link_idx] = mod.index
+                out_link_slots[out_link_idx] = in_link_idx
         raise ReaderFinished()

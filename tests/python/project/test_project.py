@@ -14,7 +14,6 @@ def test_initial_project(project):
     assert len(project.patterns) == 0
     assert project.sunvox_version == (1, 9, 6, 1)
     assert project.based_on_version == (1, 9, 6, 1)
-    assert project.module_connections == {0: []}
     assert project.initial_bpm == 125
     assert project.initial_tpl == 6
     assert project.global_volume == 80

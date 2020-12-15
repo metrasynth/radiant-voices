@@ -1,9 +1,11 @@
+from __future__ import annotations
+
 import io
 import logging
-from collections import OrderedDict, defaultdict
+from collections import defaultdict
 from enum import Enum, IntEnum
 from struct import pack
-from typing import Dict
+from typing import TYPE_CHECKING, Dict, List, Optional, Union
 
 from logutils import BraceMessage as _F
 from rv import ENCODING
@@ -11,8 +13,12 @@ from rv.cmidmap import ControllerMidiMap
 from rv.controller import Controller, DependentRange
 from rv.errors import ControllerValueError, RangeValidationError
 from rv.modules.meta import ModuleMeta
+from rv.option import Option
 from rv.readers.reader import read_sunvox_file
 from rv.synth import Synth
+
+if TYPE_CHECKING:
+    from rv.project import Project
 
 log = logging.getLogger(__name__)
 
@@ -194,22 +200,29 @@ class Module(metaclass=ModuleMeta):
     the actual SunVox module types.
     """
 
-    name = None
-    mtype = None  # module type
-    mgroup = None  # module group
-    flags = None
-    chnk = False
+    name: str = ""
+    mtype: str  # module type
+    mgroup: str  # module group
+    flags: int
+    chnk: Union[int, bool] = False
 
     behaviors = set()
 
-    controllers: Dict[str, Controller] = OrderedDict()
-    options = OrderedDict()
+    controllers: Dict[str, Controller] = {}
+    options: Dict[str, Option] = {}
     options_chnm = 0
+
+    in_links: List[int]
+    in_link_slots: List[int]
+    out_links: List[int]
+    out_link_slots: List[int]
+
+    parent: Optional[Project]
 
     def __init__(self, **kw):
         self.index = kw.get("index", None)
         self.parent = kw.get("parent", None)
-        self.controller_values = OrderedDict()
+        self.controller_values = {}
         self.controllers_loaded = set()
         self.controller_midi_maps = defaultdict(ControllerMidiMap)
         for k, controller in self.controllers.items():
@@ -222,7 +235,7 @@ class Module(metaclass=ModuleMeta):
                 v = kw.get(k) if k in kw else controller.default
                 controller.set_initial(self, v)
                 self.controllers_loaded.add(k)
-        self.option_values = OrderedDict()
+        self.option_values = {}
         for k, option in self.options.items():
             v = kw.get(k) if k in kw else option.default
             setattr(self, k, v)
@@ -241,7 +254,10 @@ class Module(metaclass=ModuleMeta):
         self.midi_out_program = kw.get("midi_out_program", -1)
         self.name = kw.get("name", self.name)
         self.visualization = kw.get("visualization", 0x000C0101)
-        self.incoming_links = []
+        self.in_links = []
+        self.in_link_slots = []
+        self.out_links = []
+        self.out_link_slots = []
 
     def __repr__(self):
         attrs = [self.__class__.__name__]

@@ -22,9 +22,6 @@ describe("behavior of empty Projects", () => {
     expect(emptyProject.sunVoxVersion).toEqual([1, 9, 6, 1])
     expect(emptyProject.basedOnVersion).toEqual([1, 9, 6, 1])
   })
-  test("has no module connections", () => {
-    expect(emptyProject.moduleConnections.length).toEqual(0)
-  })
   test("has initial BPM of 125", () => {
     expect(emptyProject.initialBpm).toEqual(125)
   })

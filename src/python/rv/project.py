@@ -1,6 +1,7 @@
-from collections import defaultdict, namedtuple
+from collections import namedtuple
 from enum import IntEnum
 from struct import pack
+from typing import List, Optional
 
 import networkx as nx
 from rv import ENCODING
@@ -23,16 +24,17 @@ class Project(Container):
     MAGIC_CHUNK = (b"SVOX", b"")
 
     class SyncCommand(IntEnum):
-        START_STOP = 1 << 0
-        TEMPO = 1 << 1
-        POSITION = 1 << 2
+        start_stop = 1 << 0
+        tempo = 1 << 1
+        position = 1 << 2
 
     receive_sync_midi: SyncCommand
     receive_sync_other: SyncCommand
 
+    modules: List[Optional[Module]]
+
     def __init__(self):
         self.modules = []
-        self.module_connections = defaultdict(list)
         self.output = Output()
         self.attach_module(self.output)
         self.sunvox_version = (1, 9, 6, 1)
@@ -57,8 +59,8 @@ class Project(Container):
         self.current_pattern = 0
         self.current_track = 0
         self.current_line = 1
-        self.receive_sync_midi = self.SyncCommand.START_STOP
-        self.receive_sync_other = self.SyncCommand.START_STOP
+        self.receive_sync_midi = self.SyncCommand.start_stop
+        self.receive_sync_other = self.SyncCommand.start_stop
         self.patterns = []
 
     def __iadd__(self, other):
@@ -86,7 +88,6 @@ class Project(Container):
                 module.index = self.module_index(module)
             if isinstance(module, Output) and module.index == 0:
                 self.output = module
-            self.module_connections[module.index] = module.incoming_links
             module.parent = self
         return module
 
@@ -113,12 +114,18 @@ class Project(Container):
                     raise ModuleOwnershipError(
                         "Modules must have same parent to be connected"
                     )
-                connections_to = self.module_connections[to_idx]
-                connections_from = self.module_connections[from_idx]
-                connected = from_idx in connections_to or to_idx in connections_from
-                if not connected:
-                    connections_to.append(from_idx)
-                    to_module.incoming_links = connections_to
+                in_links = to_module.in_links
+                in_link_slots = to_module.in_link_slots
+                out_links = from_module.out_links
+                out_link_slots = from_module.out_link_slots
+                if from_idx in in_links:  # Already connected?
+                    return
+                in_link_idx = len(in_links)
+                in_links.append(from_idx)
+                out_link_idx = len(out_links)
+                out_links.append(to_idx)
+                in_link_slots.append(out_link_idx)
+                out_link_slots.append(in_link_idx)
 
     def chunks(self):
         """Generate chunks necessary to encode project as a .sunvox file"""
@@ -156,13 +163,17 @@ class Project(Container):
         for i, module in enumerate(self.modules):
             if module is not None:
                 yield from module.iff_chunks()
-                connections = self.module_connections[i]
-                if len(connections) > 0:
-                    structure = "<" + "i" * len(connections)
-                    links = pack(structure, *connections)
+                links = module.in_links
+                link_slots = module.in_link_slots
+                if len(links) > 0:
+                    structure = "<" + "i" * len(links)
+                    links = pack(structure, *links)
+                    link_slots = pack(structure, *link_slots)
                 else:
                     links = b""
+                    link_slots = b""
                 yield (b"SLNK", links)
+                yield (b"SLnK", link_slots)
                 controllers = [
                     n for n, c in module.controllers.items() if c.attached(module)
                 ]
@@ -182,46 +193,46 @@ class Project(Container):
                     yield from module.specialized_iff_chunks()
             yield (b"SEND", b"")
 
-    def detach_module(self, module):
-        """Detach a module from this project, disconnecting it from other modules."""
-        if module.parent is not self or module not in self.modules:
-            raise ModuleOwnershipError(
-                "Cannot detach module not attached to this project"
-            )
-        disconnections = []
-        for to_idx, from_idx_list in self.module_connections.items():
-            if module.index == to_idx:
-                for from_idx in from_idx_list:
-                    disconnections.append(
-                        (self.modules[from_idx], self.modules[to_idx])
-                    )
-            if module.index in from_idx_list:
-                disconnections.append((module, self.modules[to_idx]))
-        for from_idx, to_idx in disconnections:
-            self.disconnect(from_idx, to_idx)
-        self.modules[module.index] = None
-        module.parent = None
-        module.index = None
-        return module
+    # def detach_module(self, module):
+    #     """Detach a module from this project, disconnecting it from other modules."""
+    #     if module.parent is not self or module not in self.modules:
+    #         raise ModuleOwnershipError(
+    #             "Cannot detach module not attached to this project"
+    #         )
+    #     disconnections = []
+    #     for to_idx, from_idx_list in self.module_connections.items():
+    #         if module.index == to_idx:
+    #             for from_idx in from_idx_list:
+    #                 disconnections.append(
+    #                     (self.modules[from_idx], self.modules[to_idx])
+    #                 )
+    #         if module.index in from_idx_list:
+    #             disconnections.append((module, self.modules[to_idx]))
+    #     for from_idx, to_idx in disconnections:
+    #         self.disconnect(from_idx, to_idx)
+    #     self.modules[module.index] = None
+    #     module.parent = None
+    #     module.index = None
+    #     return module
 
-    def disconnect(self, from_modules, to_modules):
-        """Remove a connection from one module to another."""
-        if isinstance(from_modules, Module):
-            from_modules = [from_modules]
-        if isinstance(to_modules, Module):
-            to_modules = [to_modules]
-        for from_module in from_modules:
-            for to_module in to_modules:
-                from_idx = self.module_index(from_module)
-                to_idx = self.module_index(to_module)
-                connections_to = self.module_connections[to_idx]
-                connections_from = self.module_connections[from_idx]
-                if from_idx in connections_to:
-                    connections_to.remove(from_idx)
-                    to_module.incoming_links = connections_to
-                if to_idx in connections_from:
-                    connections_from.remove(to_idx)
-                    from_module.incoming_links = connections_from
+    # def disconnect(self, from_modules, to_modules):
+    #     """Remove a connection from one module to another."""
+    #     if isinstance(from_modules, Module):
+    #         from_modules = [from_modules]
+    #     if isinstance(to_modules, Module):
+    #         to_modules = [to_modules]
+    #     for from_module in from_modules:
+    #         for to_module in to_modules:
+    #             from_idx = self.module_index(from_module)
+    #             to_idx = self.module_index(to_module)
+    #             connections_to = self.module_connections[to_idx]
+    #             connections_from = self.module_connections[from_idx]
+    #             if from_idx in connections_to:
+    #                 connections_to.remove(from_idx)
+    #                 to_module.in_links = connections_to
+    #             if to_idx in connections_from:
+    #                 connections_from.remove(to_idx)
+    #                 from_module.in_links = connections_from
 
     def pattern_lines(self, start=0, stop=None):
         """Yields information about the active pattern lines for each project line."""

@@ -113,10 +113,11 @@ class MultiCtl(BaseMultiCtl, Module):
         if self.parent is None or not down:
             return
         downstream_mods = []
-        for to_mod in range(256):
-            from_mods = self.parent.module_connections[to_mod]
-            if self.index in from_mods:
-                downstream_mods.append(to_mod)
+        # [TODO] replace use of module_connections
+        # for to_mod in range(256):
+        #     from_mods = self.parent.module_connections[to_mod]
+        #     if self.index in from_mods:
+        #         downstream_mods.append(to_mod)
         for i, to_mod in enumerate(downstream_mods):
             mapping = self.mappings.values[i]
             mod = self.parent.modules[to_mod]
