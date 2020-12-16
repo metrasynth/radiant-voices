@@ -37,7 +37,7 @@ class Chunk:
 class ModuleList(list):
     """Ensures `>>` and `<<` work with lists."""
 
-    def __init__(self, parent, *args, **kwargs):
+    def __init__(self, parent: Project, *args, **kwargs):
         super(ModuleList, self).__init__(*args, **kwargs)
         self.parent = parent
 
@@ -193,6 +193,20 @@ class Visualization:
         )
 
 
+class DisconnectingModule:
+    def __init__(self, orig):
+        self.__dict__["orig"] = orig
+
+    def __getattr__(self, item):
+        return getattr(self.__dict__["orig"], item)
+
+    def __setattr__(self, key, value):
+        return setattr(self.__dict__["orig"], key, value)
+
+    def __invert__(self):
+        return self.__dict__["orig"]
+
+
 class Module(metaclass=ModuleMeta):
     """Abstract base class for all SunVox module classes.
 
@@ -278,6 +292,9 @@ class Module(metaclass=ModuleMeta):
         if isinstance(other, list):
             other = ModuleList(self.parent, other)
         return other
+
+    def __invert__(self):
+        return DisconnectingModule(self)
 
     @property
     def visualization(self):

@@ -7,7 +7,7 @@ import networkx as nx
 from rv import ENCODING
 from rv.container import Container
 from rv.errors import ModuleOwnershipError, PatternOwnershipError
-from rv.modules.module import Module
+from rv.modules.module import DisconnectingModule, Module
 from rv.modules.output import Output
 from rv.pattern import Pattern, PatternClone
 
@@ -100,32 +100,53 @@ class Project(Container):
         return len(self.patterns) - 1
 
     def connect(self, from_modules, to_modules):
-        """Establish a connection from module(s) to another module(s)."""
-        if isinstance(from_modules, Module):
+        """Make or break connections between modules."""
+        if isinstance(from_modules, (DisconnectingModule, Module)):
             from_modules = [from_modules]
-        if isinstance(to_modules, Module):
+        if isinstance(to_modules, (DisconnectingModule, Module)):
             to_modules = [to_modules]
         for from_module in from_modules:
             for to_module in to_modules:
+                disconnect = False
+                if isinstance(from_module, DisconnectingModule):
+                    disconnect = True
+                    from_module = from_module.orig
+                if isinstance(to_module, DisconnectingModule):
+                    disconnect = True
+                    to_module = to_module.orig
                 try:
-                    from_idx = self.module_index(from_module)
-                    to_idx = self.module_index(to_module)
+                    from_mod_idx = self.module_index(from_module)
+                    to_mod_idx = self.module_index(to_module)
                 except ValueError:
                     raise ModuleOwnershipError(
-                        "Modules must have same parent to be connected"
+                        "Modules must have same parent to be connected or disconnected"
                     )
                 in_links = to_module.in_links
                 in_link_slots = to_module.in_link_slots
                 out_links = from_module.out_links
                 out_link_slots = from_module.out_link_slots
-                if from_idx in in_links:  # Already connected?
+                if disconnect:
+                    if from_mod_idx not in in_links:  # Already disconnected?
+                        return
+                    in_link_idx = in_links.index(from_mod_idx)
+                    out_link_idx = out_links.index(to_mod_idx)
+                    in_links[in_link_idx] = -1
+                    out_links[out_link_idx] = -1
+                    in_link_slots[in_link_idx] = -1
+                    out_link_slots[out_link_idx] = -1
+                    # [TODO] flatten to remove -1
+                    return
+                if from_mod_idx in in_links:  # Already connected?
                     return
                 in_link_idx = len(in_links)
-                in_links.append(from_idx)
+                in_links.append(from_mod_idx)
                 out_link_idx = len(out_links)
-                out_links.append(to_idx)
+                out_links.append(to_mod_idx)
                 in_link_slots.append(out_link_idx)
                 out_link_slots.append(in_link_idx)
+
+    # [TODO] disconnect()
+    # [TODO] replace_module(idx, new_module)
 
     def chunks(self):
         """Generate chunks necessary to encode project as a .sunvox file"""
