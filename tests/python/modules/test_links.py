@@ -101,8 +101,10 @@ def test_linkfrom_module_modules(project_objects):
     assert p.mod4.out_link_slots == [2]
     p.mod1 << ~p.mod3
     assert p.mod1.in_links == [p.mod2.index, -1, p.mod4.index]
-    # assert p.mod1.in_link_slots == [0, 0, 0]
+    assert p.mod1.in_link_slots == [0, -1, 0]
+    assert p.mod2.out_link_slots == [0]
     assert p.mod3.out_link_slots == [-1]
+    assert p.mod4.out_link_slots == [2]
 
 
 def test_linkto_module_modules(project_objects):

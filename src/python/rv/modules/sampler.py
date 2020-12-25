@@ -120,7 +120,7 @@ class Sampler(BaseSampler, Module):
             return values[:12]
 
         def chunks(self):
-            yield (b"CHNM", pack("<I", self.chnm))
+            yield b"CHNM", pack("<I", self.chnm)
             data = pack(
                 "<HBBB",
                 self.bitmask,
@@ -140,7 +140,7 @@ class Sampler(BaseSampler, Module):
             for x, y in self.points:
                 y -= self.range[0]
                 data += pack("<HH", x, y)
-            yield (b"CHDT", data)
+            yield b"CHDT", data
 
         def load_chdt(self, chdt):
             (
@@ -333,13 +333,13 @@ class Sampler(BaseSampler, Module):
         w(self.unknown4)
         w(self.note_samples.bytes)
         w(self.unknown5)
-        yield (b"CHNM", pack("<I", 0))
-        yield (b"CHDT", f.getvalue())
+        yield b"CHNM", pack("<I", 0)
+        yield b"CHDT", f.getvalue()
         f.close()
 
     def envelope_config_chunks(self):
-        yield (b"CHNM", pack("<I", 0x101))
-        yield (b"CHDT", b"\x00\x00\x00\x00\x00\x00")
+        yield b"CHNM", pack("<I", 0x101)
+        yield b"CHDT", b"\x00\x00\x00\x00\x00\x00"
 
     def sample_chunks(self, i, sample):
         f = BytesIO()
@@ -365,14 +365,14 @@ class Sampler(BaseSampler, Module):
         w(pack("<B", sample.panning + 0x80))
         w(pack("<b", sample.relative_note))
         w(sample.unknown6)
-        yield (b"CHNM", pack("<I", i * 2 + 1))
-        yield (b"CHDT", f.getvalue())
+        yield b"CHNM", pack("<I", i * 2 + 1)
+        yield b"CHDT", f.getvalue()
         f.close()
-        yield (b"CHNM", pack("<I", i * 2 + 2))
-        yield (b"CHDT", sample.data)
-        yield (b"CHFF", pack("<I", sample.format.value | sample.channels.value))
+        yield b"CHNM", pack("<I", i * 2 + 2)
+        yield b"CHDT", sample.data
+        yield b"CHFF", pack("<I", sample.format.value | sample.channels.value)
         if sample.rate != 44100:
-            yield (b"CHFR", pack("<I", sample.rate))
+            yield b"CHFR", pack("<I", sample.rate)
 
     def load_chunk(self, chunk):
         chnm = chunk.chnm

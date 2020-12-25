@@ -151,36 +151,36 @@ class Project(Container):
     def chunks(self):
         """Generate chunks necessary to encode project as a .sunvox file"""
         yield self.MAGIC_CHUNK
-        yield (b"VERS", pack("BBBB", *reversed(self.sunvox_version)))
-        yield (b"BVER", pack("BBBB", *reversed(self.based_on_version)))
+        yield b"VERS", pack("BBBB", *reversed(self.sunvox_version))
+        yield b"BVER", pack("BBBB", *reversed(self.based_on_version))
         yield (
             b"SFGS",
             pack("<I", self.receive_sync_midi | (self.receive_sync_other << 3)),
         )
-        yield (b"BPM ", pack("<I", self.initial_bpm))
-        yield (b"SPED", pack("<I", self.initial_tpl))
-        yield (b"TGRD", pack("<I", self.time_grid))
-        yield (b"TGD2", pack("<I", self.time_grid2))
-        yield (b"GVOL", pack("<I", self.global_volume))
-        yield (b"NAME", self.name.encode(ENCODING) + b"\0")
-        yield (b"MSCL", pack("<I", self.modules_scale))
-        yield (b"MZOO", pack("<I", self.modules_zoom))
-        yield (b"MXOF", pack("<i", self.modules_x_offset))
-        yield (b"MYOF", pack("<i", self.modules_y_offset))
-        yield (b"LMSK", pack("<I", self.modules_layer_mask))
-        yield (b"CURL", pack("<I", self.modules_current_layer))
-        yield (b"TIME", pack("<i", self.timeline_position))
+        yield b"BPM ", pack("<I", self.initial_bpm)
+        yield b"SPED", pack("<I", self.initial_tpl)
+        yield b"TGRD", pack("<I", self.time_grid)
+        yield b"TGD2", pack("<I", self.time_grid2)
+        yield b"GVOL", pack("<I", self.global_volume)
+        yield b"NAME", self.name.encode(ENCODING) + b"\0"
+        yield b"MSCL", pack("<I", self.modules_scale)
+        yield b"MZOO", pack("<I", self.modules_zoom)
+        yield b"MXOF", pack("<i", self.modules_x_offset)
+        yield b"MYOF", pack("<i", self.modules_y_offset)
+        yield b"LMSK", pack("<I", self.modules_layer_mask)
+        yield b"CURL", pack("<I", self.modules_current_layer)
+        yield b"TIME", pack("<i", self.timeline_position)
         if self.restart_position != 0:
-            yield (b"REPS", pack("<i", self.restart_position))
-        yield (b"SELS", pack("<I", self.selected_module))
-        yield (b"LGEN", pack("<I", self.selected_generator))
-        yield (b"PATN", pack("<I", self.current_pattern))
-        yield (b"PATT", pack("<I", self.current_track))
-        yield (b"PATL", pack("<I", self.current_line))
+            yield b"REPS", pack("<i", self.restart_position)
+        yield b"SELS", pack("<I", self.selected_module)
+        yield b"LGEN", pack("<I", self.selected_generator)
+        yield b"PATN", pack("<I", self.current_pattern)
+        yield b"PATT", pack("<I", self.current_track)
+        yield b"PATL", pack("<I", self.current_line)
         for pattern in self.patterns:
             if pattern is not None:
                 yield from pattern.iff_chunks()
-            yield (b"PEND", b"")
+            yield b"PEND", b""
         for i, module in enumerate(self.modules):
             if module is not None:
                 yield from module.iff_chunks()
@@ -193,14 +193,14 @@ class Project(Container):
                 else:
                     links = b""
                     link_slots = b""
-                yield (b"SLNK", links)
-                yield (b"SLnK", link_slots)
+                yield b"SLNK", links
+                yield b"SLnK", link_slots
                 controllers = [
                     n for n, c in module.controllers.items() if c.attached(module)
                 ]
                 for name in controllers:
                     raw_value = module.get_raw(name)
-                    yield (b"CVAL", pack("<i", raw_value))
+                    yield b"CVAL", pack("<i", raw_value)
                 if controllers:
                     yield (
                         b"CMID",
@@ -210,9 +210,9 @@ class Project(Container):
                         ),
                     )
                 if module.chnk:
-                    yield (b"CHNK", pack("<I", module.chnk))
+                    yield b"CHNK", pack("<I", module.chnk)
                     yield from module.specialized_iff_chunks()
-            yield (b"SEND", b"")
+            yield b"SEND", b""
 
     # def detach_module(self, module):
     #     """Detach a module from this project, disconnecting it from other modules."""
@@ -282,7 +282,7 @@ class Project(Container):
                 for index, pattern in active_patterns
             ]
 
-            yield (line, pattern_lines)
+            yield line, pattern_lines
 
     def layout(self, scale=512, **spring_layout_args):
         """Auto-layout modules."""

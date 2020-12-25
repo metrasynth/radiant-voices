@@ -19,7 +19,7 @@ def chunks(f):
     while True:
         try:
             c = Chunk(f, align=False, bigendian=False)
-            yield (c.getname(), c.read())
+            yield c.getname(), c.read()
             c.skip()
         except EOFError:
             break

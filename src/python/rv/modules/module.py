@@ -353,29 +353,29 @@ class Module(metaclass=ModuleMeta):
         """Yield all standard chunks needed for a module."""
         if in_project is None:
             in_project = self.parent is not None
-        yield (b"SFFF", pack("<I", self.flags))
-        yield (b"SNAM", self.name.encode(ENCODING)[:32].ljust(32, b"\0"))
+        yield b"SFFF", pack("<I", self.flags)
+        yield b"SNAM", self.name.encode(ENCODING)[:32].ljust(32, b"\0")
         if self.mtype is not None and self.mtype != "Output":
-            yield (b"STYP", self.mtype.encode(ENCODING) + b"\0")
-        yield (b"SFIN", pack("<i", self.finetune))
-        yield (b"SREL", pack("<i", self.relative_note))
+            yield b"STYP", self.mtype.encode(ENCODING) + b"\0"
+        yield b"SFIN", pack("<i", self.finetune)
+        yield b"SREL", pack("<i", self.relative_note)
         if in_project:
-            yield (b"SXXX", pack("<i", self.x))
-            yield (b"SYYY", pack("<i", self.y))
-            yield (b"SZZZ", pack("<i", self.layer))
-        yield (b"SSCL", pack("<I", self.scale))
+            yield b"SXXX", pack("<i", self.x)
+            yield b"SYYY", pack("<i", self.y)
+            yield b"SZZZ", pack("<i", self.layer)
+        yield b"SSCL", pack("<I", self.scale)
         if in_project:
-            yield (b"SVPR", pack("<I", int(self.visualization)))
-        yield (b"SCOL", pack("BBB", *self.color))
+            yield b"SVPR", pack("<I", int(self.visualization))
+        yield b"SCOL", pack("BBB", *self.color)
         yield (
             b"SMII",
             pack("<I", int(self.midi_in_always) + (self.midi_in_channel << 1)),
         )
         if self.midi_out_name:
-            yield (b"SMIN", self.midi_out_name.encode(ENCODING) + b"\0")
-        yield (b"SMIC", pack("<I", self.midi_out_channel))
-        yield (b"SMIB", pack("<i", self.midi_out_bank))
-        yield (b"SMIP", pack("<i", self.midi_out_program))
+            yield b"SMIN", self.midi_out_name.encode(ENCODING) + b"\0"
+        yield b"SMIC", pack("<I", self.midi_out_channel)
+        yield b"SMIB", pack("<i", self.midi_out_bank)
+        yield b"SMIP", pack("<i", self.midi_out_program)
 
     def specialized_iff_chunks(self):
         """Yield specialized chunks needed for a module, if applicable.
@@ -385,14 +385,14 @@ class Module(metaclass=ModuleMeta):
         if self.options:
             yield from self.options_chunks()
         else:
-            yield (None, None)
+            yield None, None
 
     def options_chunks(self):
         """Yield chunks necessary to save options for this module."""
-        yield (b"CHNM", pack("<I", self.options_chnm))
+        yield b"CHNM", pack("<I", self.options_chnm)
         values = list(self.option_values.values())
         values += [False] * (64 - len(values))
-        yield (b"CHDT", pack("B" * 64, *values))
+        yield b"CHDT", pack("B" * 64, *values)
 
     def load_chunk(self, chunk):
         """Load a CHNK/CHNM/CHDT/CHFF/CHFR block into this module."""
