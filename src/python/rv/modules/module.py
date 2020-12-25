@@ -28,6 +28,11 @@ class Chunk:
 
     __slots__ = ["chnm", "chdt", "chff", "chfr"]
 
+    chnm: Optional[int]
+    chdt: Optional[bytes]
+    chff: int
+    chfr: int
+
     def __init__(self):
         self.chnm = self.chdt = None
         self.chff = 0
@@ -389,10 +394,14 @@ class Module(metaclass=ModuleMeta):
 
     def options_chunks(self):
         """Yield chunks necessary to save options for this module."""
+        bytemap = [0] * 64
+        for option in self.options.values():
+            option_value = self.option_values.get(option.name)
+            option_value &= (2 ** option.size) - 1
+            option_value <<= option.bit
+            bytemap[option.byte] |= option_value
         yield b"CHNM", pack("<I", self.options_chnm)
-        values = list(self.option_values.values())
-        values += [False] * (64 - len(values))
-        yield b"CHDT", pack("B" * 64, *values)
+        yield b"CHDT", pack("B" * 64, *bytemap)
 
     def load_chunk(self, chunk):
         """Load a CHNK/CHNM/CHDT/CHFF/CHFR block into this module."""
@@ -406,10 +415,15 @@ class Module(metaclass=ModuleMeta):
             if len(cmid_data) == 8:
                 self.controller_midi_maps[name].cmid_data = cmid_data
 
-    def load_options(self, chunk):
-        for i, name in enumerate(self.options.keys()):
-            value = 0 if i >= len(chunk.chdt) else chunk.chdt[i]
-            self.option_values[name] = value
+    def load_options(self, chunk: Chunk):
+        bytemap = list(chunk.chdt)
+        while len(bytemap) < 64:
+            bytemap.append(0)
+        for option in self.options.values():
+            option_value = bytemap[option.byte]
+            option_value >>= option.bit
+            option_value &= (2 ** option.size) - 1
+            self.option_values[option.name] = option_value
 
     def finalize_load(self):
         pass

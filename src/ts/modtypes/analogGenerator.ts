@@ -335,19 +335,19 @@ export namespace AnalogGenerator {
       noise: new ControllerMidiMap(),
     }
     readonly optionValues: AnalogGeneratorOptionValues = {
-      volumeEnvelopeScalingPerKey: false,
-      filterEnvelopeScalingPerKey: false,
-      volumeScalingPerKey: false,
-      filterFreqScalingPerKey: false,
-      velocityDependentFilterFrequency: false,
-      frequencyDiv_2: false,
+      volumeEnvelopeScalingPerKey: true,
+      filterEnvelopeScalingPerKey: true,
+      volumeScalingPerKey: true,
+      filterFreqScalingPerKey: true,
+      velocityDependentFilterFrequency: true,
+      frequencyDiv_2: true,
       smoothFrequencyChange: true,
-      filterFreqScalingPerKeyReverse: false,
-      retainPhase: false,
-      randomPhase: false,
-      filterFreqEqNoteFreq: false,
-      velocityDependentFilterResonance: false,
-      trueZeroAttackRelease: false,
+      filterFreqScalingPerKeyReverse: true,
+      retainPhase: true,
+      randomPhase: true,
+      filterFreqEqNoteFreq: true,
+      velocityDependentFilterResonance: true,
+      trueZeroAttackRelease: true,
     }
     readonly options: AnalogGeneratorOptions = new AnalogGeneratorOptions(
       this.optionValues
@@ -593,7 +593,7 @@ export namespace AnalogGenerator {
       bytes[3] = Number(ov.filterFreqScalingPerKey)
       bytes[4] = Number(ov.velocityDependentFilterFrequency)
       bytes[5] = Number(ov.frequencyDiv_2)
-      bytes[6] = Number(!ov.smoothFrequencyChange)
+      bytes[6] = Number(ov.smoothFrequencyChange)
       bytes[7] = Number(ov.filterFreqScalingPerKeyReverse)
       bytes[8] = Number(ov.retainPhase)
       bytes[9] = Number(ov.randomPhase)
@@ -617,7 +617,7 @@ export namespace AnalogGenerator {
         this.optionValues.filterFreqScalingPerKey = Boolean(chdt[3])
         this.optionValues.velocityDependentFilterFrequency = Boolean(chdt[4])
         this.optionValues.frequencyDiv_2 = Boolean(chdt[5])
-        this.optionValues.smoothFrequencyChange = !Boolean(chdt[6])
+        this.optionValues.smoothFrequencyChange = Boolean(chdt[6])
         this.optionValues.filterFreqScalingPerKeyReverse = Boolean(chdt[7])
         this.optionValues.retainPhase = Boolean(chdt[8])
         this.optionValues.randomPhase = Boolean(chdt[9])

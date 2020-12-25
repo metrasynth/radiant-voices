@@ -35,17 +35,9 @@ class ModuleMeta(type):
             cls.controllers[k] = v
 
     def __init_options(cls):
-        ordered_options = [
-            (k, v) for k in dir(cls) if isinstance(v := getattr(cls, k), Option)
-        ]
-        if ordered_options:
-            ordered_options.sort(key=lambda x: x[1]._order)
-            cls.options = {}
-            for i, (k, v) in enumerate(ordered_options):
-                v.label = k.replace("_", " ").title()
-                v.name = k
-                v.index = i
-                cls.options[k] = v
+        cls.options = {
+            k: v for k in dir(cls) if isinstance(v := getattr(cls, k), Option)
+        }
 
     def __init_docstring(cls):
         if cls.__name__ == "Module":

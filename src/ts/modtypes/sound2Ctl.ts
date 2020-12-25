@@ -131,7 +131,7 @@ export namespace Sound2Ctl {
       outController: new ControllerMidiMap(),
     }
     readonly optionValues: Sound2CtlOptionValues = {
-      recordValues: false,
+      recordValues: true,
       sendOnlyChangedValues: true,
     }
     readonly options: Sound2CtlOptions = new Sound2CtlOptions(this.optionValues)
@@ -261,7 +261,7 @@ export namespace Sound2Ctl {
       const bytes = new Uint8Array(2)
       const { optionValues: ov } = this
       bytes[0] = Number(ov.recordValues)
-      bytes[1] = Number(!ov.sendOnlyChangedValues)
+      bytes[1] = Number(ov.sendOnlyChangedValues)
       return bytes
     }
     setOptions(dataChunks: ModuleDataChunks) {
@@ -274,7 +274,7 @@ export namespace Sound2Ctl {
       }
       if (chdt) {
         this.optionValues.recordValues = Boolean(chdt[0])
-        this.optionValues.sendOnlyChangedValues = !Boolean(chdt[1])
+        this.optionValues.sendOnlyChangedValues = Boolean(chdt[1])
       }
     }
   }

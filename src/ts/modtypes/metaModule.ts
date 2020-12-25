@@ -139,11 +139,11 @@ export namespace MetaModule {
     }
     readonly optionValues: MetaModuleOptionValues = {
       userDefinedControllers: 0,
-      arpeggiator: false,
-      applyVelocityToProject: false,
+      arpeggiator: true,
+      applyVelocityToProject: true,
       eventOutput: true,
-      receiveNotesFromKeyboard: false,
-      doNotReceiveNotesFromKeyboard: false,
+      receiveNotesFromKeyboard: true,
+      doNotReceiveNotesFromKeyboard: true,
     }
     readonly options: MetaModuleOptions = new MetaModuleOptions(this.optionValues)
     readonly o = this.options
@@ -230,7 +230,7 @@ export namespace MetaModule {
       bytes[0] = ov.userDefinedControllers
       bytes[1] = Number(ov.arpeggiator)
       bytes[2] = Number(ov.applyVelocityToProject)
-      bytes[3] = Number(!ov.eventOutput)
+      bytes[3] = Number(ov.eventOutput)
       bytes[4] = Number(ov.receiveNotesFromKeyboard)
       bytes[5] = Number(ov.doNotReceiveNotesFromKeyboard)
       return bytes
@@ -247,7 +247,7 @@ export namespace MetaModule {
         this.optionValues.userDefinedControllers = chdt[0]
         this.optionValues.arpeggiator = Boolean(chdt[1])
         this.optionValues.applyVelocityToProject = Boolean(chdt[2])
-        this.optionValues.eventOutput = !Boolean(chdt[3])
+        this.optionValues.eventOutput = Boolean(chdt[3])
         this.optionValues.receiveNotesFromKeyboard = Boolean(chdt[4])
         this.optionValues.doNotReceiveNotesFromKeyboard = Boolean(chdt[5])
       }

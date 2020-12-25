@@ -20,7 +20,7 @@ def test_multisynth(read_write_read_synth):
     assert mod.use_static_note_C5
     assert not mod.ignore_notes_with_zero_velocity
     assert mod.trigger
-    assert not mod.vv_curve_active
+    assert mod.active_curve == mod.ActiveCurve.note_velocity
     assert mod.generate_missed_note_off_commands
 
 

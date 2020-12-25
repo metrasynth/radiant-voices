@@ -12,6 +12,14 @@ import { MultiSynthBehavior } from "./multiSynthBehavior"
 import { MultiSynthControllers } from "./multiSynthControllers"
 import { MultiSynthControllerValues } from "./multiSynthControllerValues"
 export namespace MultiSynth {
+  // Intentionally duplicated enums - see also multiSynthEnums.ts
+  // (TypeScript does not allow exporting imported enums from inside a namespace)
+  export enum ActiveCurve {
+    // noinspection JSUnusedGlobalSymbols
+    NoteVelocity = 0,
+    VelocityVelocity = 1,
+    NotePitch = 2,
+  }
   export enum CtlNum {
     Transpose = 1,
     RandomPitch = 2,
@@ -35,9 +43,15 @@ export namespace MultiSynth {
   interface MultiSynthOptionValues extends OptionValues {
     useStaticNote_C5: boolean
     ignoreNotesWithZeroVelocity: boolean
-    vvCurveActive: boolean
+    activeCurve: boolean
     trigger: boolean
     generateMissedNoteOffCommands: boolean
+    roundNoteX: boolean
+    roundPitchY: boolean
+    recordNotesToScaleCurve: boolean
+    outNoteEqOutNoteMinusInNotePlus_C5: boolean
+    outPortEqNoteModNumOfOuts: boolean
+    outPortEqChannelModNumOfOuts: boolean
   }
   class MultiSynthOptions implements Options {
     constructor(readonly optionValues: MultiSynthOptionValues) {}
@@ -58,12 +72,12 @@ export namespace MultiSynth {
       this.optionValues.ignoreNotesWithZeroVelocity = newValue
     }
     // noinspection JSUnusedGlobalSymbols
-    get vvCurveActive(): boolean {
-      return this.optionValues.vvCurveActive
+    get activeCurve(): boolean {
+      return this.optionValues.activeCurve
     }
     // noinspection JSUnusedGlobalSymbols
-    set vvCurveActive(newValue: boolean) {
-      this.optionValues.vvCurveActive = newValue
+    set activeCurve(newValue: boolean) {
+      this.optionValues.activeCurve = newValue
     }
     // noinspection JSUnusedGlobalSymbols
     get trigger(): boolean {
@@ -81,10 +95,58 @@ export namespace MultiSynth {
     set generateMissedNoteOffCommands(newValue: boolean) {
       this.optionValues.generateMissedNoteOffCommands = newValue
     }
+    // noinspection JSUnusedGlobalSymbols
+    get roundNoteX(): boolean {
+      return this.optionValues.roundNoteX
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set roundNoteX(newValue: boolean) {
+      this.optionValues.roundNoteX = newValue
+    }
+    // noinspection JSUnusedGlobalSymbols
+    get roundPitchY(): boolean {
+      return this.optionValues.roundPitchY
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set roundPitchY(newValue: boolean) {
+      this.optionValues.roundPitchY = newValue
+    }
+    // noinspection JSUnusedGlobalSymbols
+    get recordNotesToScaleCurve(): boolean {
+      return this.optionValues.recordNotesToScaleCurve
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set recordNotesToScaleCurve(newValue: boolean) {
+      this.optionValues.recordNotesToScaleCurve = newValue
+    }
+    // noinspection JSUnusedGlobalSymbols
+    get outNoteEqOutNoteMinusInNotePlus_C5(): boolean {
+      return this.optionValues.outNoteEqOutNoteMinusInNotePlus_C5
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set outNoteEqOutNoteMinusInNotePlus_C5(newValue: boolean) {
+      this.optionValues.outNoteEqOutNoteMinusInNotePlus_C5 = newValue
+    }
+    // noinspection JSUnusedGlobalSymbols
+    get outPortEqNoteModNumOfOuts(): boolean {
+      return this.optionValues.outPortEqNoteModNumOfOuts
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set outPortEqNoteModNumOfOuts(newValue: boolean) {
+      this.optionValues.outPortEqNoteModNumOfOuts = newValue
+    }
+    // noinspection JSUnusedGlobalSymbols
+    get outPortEqChannelModNumOfOuts(): boolean {
+      return this.optionValues.outPortEqChannelModNumOfOuts
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set outPortEqChannelModNumOfOuts(newValue: boolean) {
+      this.optionValues.outPortEqChannelModNumOfOuts = newValue
+    }
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "MultiSynth"
-    flags = 135241
+    flags = 16912457
     readonly typeName = "MultiSynth"
     readonly optionsChnm = 1
     readonly controllerSetters = [
@@ -139,11 +201,17 @@ export namespace MultiSynth {
       curve2Influence: new ControllerMidiMap(),
     }
     readonly optionValues: MultiSynthOptionValues = {
-      useStaticNote_C5: false,
-      ignoreNotesWithZeroVelocity: false,
-      vvCurveActive: false,
-      trigger: false,
-      generateMissedNoteOffCommands: false,
+      useStaticNote_C5: true,
+      ignoreNotesWithZeroVelocity: true,
+      activeCurve: true,
+      trigger: true,
+      generateMissedNoteOffCommands: true,
+      roundNoteX: true,
+      roundPitchY: true,
+      recordNotesToScaleCurve: true,
+      outNoteEqOutNoteMinusInNotePlus_C5: true,
+      outPortEqNoteModNumOfOuts: true,
+      outPortEqChannelModNumOfOuts: true,
     }
     readonly options: MultiSynthOptions = new MultiSynthOptions(this.optionValues)
     readonly o = this.options
@@ -258,13 +326,19 @@ export namespace MultiSynth {
       return a
     }
     rawOptionBytes(): Uint8Array {
-      const bytes = new Uint8Array(5)
+      const bytes = new Uint8Array(11)
       const { optionValues: ov } = this
       bytes[0] = Number(ov.useStaticNote_C5)
       bytes[1] = Number(ov.ignoreNotesWithZeroVelocity)
-      bytes[2] = Number(ov.vvCurveActive)
+      bytes[2] = Number(ov.activeCurve)
       bytes[3] = Number(ov.trigger)
       bytes[4] = Number(ov.generateMissedNoteOffCommands)
+      bytes[5] = Number(ov.roundNoteX)
+      bytes[6] = Number(ov.roundPitchY)
+      bytes[7] = Number(ov.recordNotesToScaleCurve)
+      bytes[8] = Number(ov.outNoteEqOutNoteMinusInNotePlus_C5)
+      bytes[9] = Number(ov.outPortEqNoteModNumOfOuts)
+      bytes[10] = Number(ov.outPortEqChannelModNumOfOuts)
       return bytes
     }
     setOptions(dataChunks: ModuleDataChunks) {
@@ -278,9 +352,15 @@ export namespace MultiSynth {
       if (chdt) {
         this.optionValues.useStaticNote_C5 = Boolean(chdt[0])
         this.optionValues.ignoreNotesWithZeroVelocity = Boolean(chdt[1])
-        this.optionValues.vvCurveActive = Boolean(chdt[2])
+        this.optionValues.activeCurve = Boolean(chdt[2])
         this.optionValues.trigger = Boolean(chdt[3])
         this.optionValues.generateMissedNoteOffCommands = Boolean(chdt[4])
+        this.optionValues.roundNoteX = Boolean(chdt[5])
+        this.optionValues.roundPitchY = Boolean(chdt[6])
+        this.optionValues.recordNotesToScaleCurve = Boolean(chdt[7])
+        this.optionValues.outNoteEqOutNoteMinusInNotePlus_C5 = Boolean(chdt[8])
+        this.optionValues.outPortEqNoteModNumOfOuts = Boolean(chdt[9])
+        this.optionValues.outPortEqChannelModNumOfOuts = Boolean(chdt[10])
       }
     }
   }

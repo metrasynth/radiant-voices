@@ -1453,7 +1453,7 @@ module_types:
           size: 4
           min: 0
           max: 27
-          default: false
+          default: 0
       - arpeggiator:
           number: 0x7f
           byte: 1
@@ -1581,71 +1581,71 @@ module_types:
           number: 0x7f
           byte: 0
           bit: 0
-          bits: 1
+          size: 1
           default: false
       - ignore_notes_with_zero_velocity:
           number: 0x7e
           byte: 1
           bit: 0
-          bits: 1
+          size: 1
           default: false
       - active_curve:
           number: 0x7d
           byte: 2
           bit: 0
-          bits: 2
+          size: 2
           enum: ActiveCurve
           default: note_velocity
       - trigger:
           number: 0x7c
           byte: 3
           bit: 0
-          bits: 1
+          size: 1
           default: false
       - generate_missed_note_off_commands:
           number: 0x7b
           byte: 4
           bit: 0
-          bits: 1
+          size: 1
           default: false
       - round_note_x:
           number: 0x7a
           byte: 4
           bit: 1
-          bits: 1
+          size: 1
           default: false
           exclusive_of: [round_pitch_y]
       - round_pitch_y:
           number: 0x79
           byte: 4
           bit: 2
-          bits: 1
+          size: 1
           default: false
           exclusive_of: [round_note_x]
-      - record_notes_to_scale_curve: false
+      - record_notes_to_scale_curve:
           number: 0x78
           byte: 4
           bit: 3
-          bits: 1
+          size: 1
           default: false
       - out_note_eq_out_note_minus_in_note_plus_C5:
           number: 0x76
           byte: 4
           bit: 6
-          bits: 1
+          size: 1
           default: false
       - out_port_eq_note_mod_num_of_outs:
           number: 0x75
           byte: 4
           bit: 7
-          bits: 1
+          size: 1
           default: false
           exclusive_of: [out_port_eq_channel_mod_num_of_outs]
       - out_port_eq_channel_mod_num_of_outs:
           number: 0x74
           byte: 4
           bit: 8
-          bits: 1
+          size: 1
           default: false
           exclusive_of: [out_port_eq_note_mod_num_of_outs]
     chunks:
@@ -1835,31 +1835,31 @@ module_types:
           bit: 0
           size: 1
           default: false
-      - stop_recording_on_project_stop: false
+      - stop_recording_on_project_stop:
           number: 0x7b
           byte: 4
           bit: 0
           size: 1
           default: false
-      - record_in_mono: false
+      - record_in_mono:
           number: 0x7e
           byte: 1
           bit: 0
           size: 1
           default: false
-      - record_with_reduced_sample_rate: false
+      - record_with_reduced_sample_rate:
           number: 0x7d
           byte: 2
           bit: 0
           size: 1
           default: false
-      - record_in_16_bit: false
+      - record_in_16_bit:
           number: 0x7c
           byte: 3
           bit: 0
           size: 1
           default: false
-      - ignore_velocity_for_volume: false
+      - ignore_velocity_for_volume:
           number: 0x7a
           byte: 5
           bit: 0

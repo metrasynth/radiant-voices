@@ -71,22 +71,30 @@ export namespace Sampler {
     recThreshold: ControllerMidiMap
   }
   interface SamplerOptionValues extends OptionValues {
-    recordOnPlay: boolean
+    startRecordingOnProjectPlay: boolean
+    stopRecordingOnProjectStop: boolean
     recordInMono: boolean
     recordWithReducedSampleRate: boolean
     recordIn_16Bit: boolean
-    stopRecordingOnProjectStop: boolean
     ignoreVelocityForVolume: boolean
   }
   class SamplerOptions implements Options {
     constructor(readonly optionValues: SamplerOptionValues) {}
     // noinspection JSUnusedGlobalSymbols
-    get recordOnPlay(): boolean {
-      return this.optionValues.recordOnPlay
+    get startRecordingOnProjectPlay(): boolean {
+      return this.optionValues.startRecordingOnProjectPlay
     }
     // noinspection JSUnusedGlobalSymbols
-    set recordOnPlay(newValue: boolean) {
-      this.optionValues.recordOnPlay = newValue
+    set startRecordingOnProjectPlay(newValue: boolean) {
+      this.optionValues.startRecordingOnProjectPlay = newValue
+    }
+    // noinspection JSUnusedGlobalSymbols
+    get stopRecordingOnProjectStop(): boolean {
+      return this.optionValues.stopRecordingOnProjectStop
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set stopRecordingOnProjectStop(newValue: boolean) {
+      this.optionValues.stopRecordingOnProjectStop = newValue
     }
     // noinspection JSUnusedGlobalSymbols
     get recordInMono(): boolean {
@@ -111,14 +119,6 @@ export namespace Sampler {
     // noinspection JSUnusedGlobalSymbols
     set recordIn_16Bit(newValue: boolean) {
       this.optionValues.recordIn_16Bit = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get stopRecordingOnProjectStop(): boolean {
-      return this.optionValues.stopRecordingOnProjectStop
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set stopRecordingOnProjectStop(newValue: boolean) {
-      this.optionValues.stopRecordingOnProjectStop = newValue
     }
     // noinspection JSUnusedGlobalSymbols
     get ignoreVelocityForVolume(): boolean {
@@ -176,12 +176,12 @@ export namespace Sampler {
       recThreshold: new ControllerMidiMap(),
     }
     readonly optionValues: SamplerOptionValues = {
-      recordOnPlay: false,
-      recordInMono: false,
-      recordWithReducedSampleRate: false,
-      recordIn_16Bit: false,
-      stopRecordingOnProjectStop: false,
-      ignoreVelocityForVolume: false,
+      startRecordingOnProjectPlay: true,
+      stopRecordingOnProjectStop: true,
+      recordInMono: true,
+      recordWithReducedSampleRate: true,
+      recordIn_16Bit: true,
+      ignoreVelocityForVolume: true,
     }
     readonly options: SamplerOptions = new SamplerOptions(this.optionValues)
     readonly o = this.options
@@ -276,11 +276,11 @@ export namespace Sampler {
     rawOptionBytes(): Uint8Array {
       const bytes = new Uint8Array(6)
       const { optionValues: ov } = this
-      bytes[0] = Number(ov.recordOnPlay)
-      bytes[1] = Number(ov.recordInMono)
-      bytes[2] = Number(ov.recordWithReducedSampleRate)
-      bytes[3] = Number(ov.recordIn_16Bit)
-      bytes[4] = Number(ov.stopRecordingOnProjectStop)
+      bytes[0] = Number(ov.startRecordingOnProjectPlay)
+      bytes[1] = Number(ov.stopRecordingOnProjectStop)
+      bytes[2] = Number(ov.recordInMono)
+      bytes[3] = Number(ov.recordWithReducedSampleRate)
+      bytes[4] = Number(ov.recordIn_16Bit)
       bytes[5] = Number(ov.ignoreVelocityForVolume)
       return bytes
     }
@@ -293,11 +293,11 @@ export namespace Sampler {
         }
       }
       if (chdt) {
-        this.optionValues.recordOnPlay = Boolean(chdt[0])
-        this.optionValues.recordInMono = Boolean(chdt[1])
-        this.optionValues.recordWithReducedSampleRate = Boolean(chdt[2])
-        this.optionValues.recordIn_16Bit = Boolean(chdt[3])
-        this.optionValues.stopRecordingOnProjectStop = Boolean(chdt[4])
+        this.optionValues.startRecordingOnProjectPlay = Boolean(chdt[0])
+        this.optionValues.stopRecordingOnProjectStop = Boolean(chdt[1])
+        this.optionValues.recordInMono = Boolean(chdt[2])
+        this.optionValues.recordWithReducedSampleRate = Boolean(chdt[3])
+        this.optionValues.recordIn_16Bit = Boolean(chdt[4])
         this.optionValues.ignoreVelocityForVolume = Boolean(chdt[5])
       }
     }
