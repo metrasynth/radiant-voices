@@ -5,7 +5,7 @@ from rv.modules.base.multisynth import BaseMultiSynth
 
 class MultiSynth(BaseMultiSynth, Module):
 
-    chnk = 3
+    chnk = 4
     options_chnm = 1
 
     behaviors = {B.receives_notes, B.sends_notes}

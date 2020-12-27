@@ -139,6 +139,12 @@ Additions (Python version)
 - Adds ``Note.mod`` property, allows setting a note's module via an actual
   `Module` instance (instead of an int).
 
+Changes (All versions)
+......................
+
+- Updates module option reading, writing, and setting to reflect
+  changes in SunVox 1.9.6.
+
 Changes (Python version)
 ........................
 

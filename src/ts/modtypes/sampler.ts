@@ -176,12 +176,12 @@ export namespace Sampler {
       recThreshold: new ControllerMidiMap(),
     }
     readonly optionValues: SamplerOptionValues = {
-      startRecordingOnProjectPlay: true,
-      stopRecordingOnProjectStop: true,
-      recordInMono: true,
-      recordWithReducedSampleRate: true,
-      recordIn_16Bit: true,
-      ignoreVelocityForVolume: true,
+      startRecordingOnProjectPlay: false,
+      stopRecordingOnProjectStop: false,
+      recordInMono: false,
+      recordWithReducedSampleRate: false,
+      recordIn_16Bit: false,
+      ignoreVelocityForVolume: false,
     }
     readonly options: SamplerOptions = new SamplerOptions(this.optionValues)
     readonly o = this.options
@@ -276,12 +276,12 @@ export namespace Sampler {
     rawOptionBytes(): Uint8Array {
       const bytes = new Uint8Array(6)
       const { optionValues: ov } = this
-      bytes[0] = Number(ov.startRecordingOnProjectPlay)
-      bytes[1] = Number(ov.stopRecordingOnProjectStop)
-      bytes[2] = Number(ov.recordInMono)
-      bytes[3] = Number(ov.recordWithReducedSampleRate)
-      bytes[4] = Number(ov.recordIn_16Bit)
-      bytes[5] = Number(ov.ignoreVelocityForVolume)
+      bytes[0] |= (Number(ov.startRecordingOnProjectPlay) & (2 ** 1 - 1)) << 0
+      bytes[4] |= (Number(ov.stopRecordingOnProjectStop) & (2 ** 1 - 1)) << 0
+      bytes[1] |= (Number(ov.recordInMono) & (2 ** 1 - 1)) << 0
+      bytes[2] |= (Number(ov.recordWithReducedSampleRate) & (2 ** 1 - 1)) << 0
+      bytes[3] |= (Number(ov.recordIn_16Bit) & (2 ** 1 - 1)) << 0
+      bytes[5] |= (Number(ov.ignoreVelocityForVolume) & (2 ** 1 - 1)) << 0
       return bytes
     }
     setOptions(dataChunks: ModuleDataChunks) {
@@ -293,12 +293,20 @@ export namespace Sampler {
         }
       }
       if (chdt) {
-        this.optionValues.startRecordingOnProjectPlay = Boolean(chdt[0])
-        this.optionValues.stopRecordingOnProjectStop = Boolean(chdt[1])
-        this.optionValues.recordInMono = Boolean(chdt[2])
-        this.optionValues.recordWithReducedSampleRate = Boolean(chdt[3])
-        this.optionValues.recordIn_16Bit = Boolean(chdt[4])
-        this.optionValues.ignoreVelocityForVolume = Boolean(chdt[5])
+        this.optionValues.startRecordingOnProjectPlay = Boolean(
+          (chdt[0] >> 0) & (2 ** 1 - 1)
+        )
+        this.optionValues.stopRecordingOnProjectStop = Boolean(
+          (chdt[4] >> 0) & (2 ** 1 - 1)
+        )
+        this.optionValues.recordInMono = Boolean((chdt[1] >> 0) & (2 ** 1 - 1))
+        this.optionValues.recordWithReducedSampleRate = Boolean(
+          (chdt[2] >> 0) & (2 ** 1 - 1)
+        )
+        this.optionValues.recordIn_16Bit = Boolean((chdt[3] >> 0) & (2 ** 1 - 1))
+        this.optionValues.ignoreVelocityForVolume = Boolean(
+          (chdt[5] >> 0) & (2 ** 1 - 1)
+        )
       }
     }
   }

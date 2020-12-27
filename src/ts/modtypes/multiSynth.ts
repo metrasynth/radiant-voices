@@ -43,7 +43,7 @@ export namespace MultiSynth {
   interface MultiSynthOptionValues extends OptionValues {
     useStaticNote_C5: boolean
     ignoreNotesWithZeroVelocity: boolean
-    activeCurve: boolean
+    activeCurve: ActiveCurve
     trigger: boolean
     generateMissedNoteOffCommands: boolean
     roundNoteX: boolean
@@ -72,11 +72,11 @@ export namespace MultiSynth {
       this.optionValues.ignoreNotesWithZeroVelocity = newValue
     }
     // noinspection JSUnusedGlobalSymbols
-    get activeCurve(): boolean {
+    get activeCurve(): ActiveCurve {
       return this.optionValues.activeCurve
     }
     // noinspection JSUnusedGlobalSymbols
-    set activeCurve(newValue: boolean) {
+    set activeCurve(newValue: ActiveCurve) {
       this.optionValues.activeCurve = newValue
     }
     // noinspection JSUnusedGlobalSymbols
@@ -201,17 +201,17 @@ export namespace MultiSynth {
       curve2Influence: new ControllerMidiMap(),
     }
     readonly optionValues: MultiSynthOptionValues = {
-      useStaticNote_C5: true,
-      ignoreNotesWithZeroVelocity: true,
-      activeCurve: true,
-      trigger: true,
-      generateMissedNoteOffCommands: true,
-      roundNoteX: true,
-      roundPitchY: true,
-      recordNotesToScaleCurve: true,
-      outNoteEqOutNoteMinusInNotePlus_C5: true,
-      outPortEqNoteModNumOfOuts: true,
-      outPortEqChannelModNumOfOuts: true,
+      useStaticNote_C5: false,
+      ignoreNotesWithZeroVelocity: false,
+      activeCurve: ActiveCurve.NoteVelocity,
+      trigger: false,
+      generateMissedNoteOffCommands: false,
+      roundNoteX: false,
+      roundPitchY: false,
+      recordNotesToScaleCurve: false,
+      outNoteEqOutNoteMinusInNotePlus_C5: false,
+      outPortEqNoteModNumOfOuts: false,
+      outPortEqChannelModNumOfOuts: false,
     }
     readonly options: MultiSynthOptions = new MultiSynthOptions(this.optionValues)
     readonly o = this.options
@@ -328,17 +328,17 @@ export namespace MultiSynth {
     rawOptionBytes(): Uint8Array {
       const bytes = new Uint8Array(11)
       const { optionValues: ov } = this
-      bytes[0] = Number(ov.useStaticNote_C5)
-      bytes[1] = Number(ov.ignoreNotesWithZeroVelocity)
-      bytes[2] = Number(ov.activeCurve)
-      bytes[3] = Number(ov.trigger)
-      bytes[4] = Number(ov.generateMissedNoteOffCommands)
-      bytes[5] = Number(ov.roundNoteX)
-      bytes[6] = Number(ov.roundPitchY)
-      bytes[7] = Number(ov.recordNotesToScaleCurve)
-      bytes[8] = Number(ov.outNoteEqOutNoteMinusInNotePlus_C5)
-      bytes[9] = Number(ov.outPortEqNoteModNumOfOuts)
-      bytes[10] = Number(ov.outPortEqChannelModNumOfOuts)
+      bytes[0] |= (Number(ov.useStaticNote_C5) & (2 ** 1 - 1)) << 0
+      bytes[1] |= (Number(ov.ignoreNotesWithZeroVelocity) & (2 ** 1 - 1)) << 0
+      bytes[2] |= (Number(ov.activeCurve) & (2 ** 2 - 1)) << 0
+      bytes[3] |= (Number(ov.trigger) & (2 ** 1 - 1)) << 0
+      bytes[4] |= (Number(ov.generateMissedNoteOffCommands) & (2 ** 1 - 1)) << 0
+      bytes[4] |= (Number(ov.roundNoteX) & (2 ** 1 - 1)) << 1
+      bytes[4] |= (Number(ov.roundPitchY) & (2 ** 1 - 1)) << 2
+      bytes[4] |= (Number(ov.recordNotesToScaleCurve) & (2 ** 1 - 1)) << 3
+      bytes[4] |= (Number(ov.outNoteEqOutNoteMinusInNotePlus_C5) & (2 ** 1 - 1)) << 6
+      bytes[4] |= (Number(ov.outPortEqNoteModNumOfOuts) & (2 ** 1 - 1)) << 7
+      bytes[4] |= (Number(ov.outPortEqChannelModNumOfOuts) & (2 ** 1 - 1)) << 8
       return bytes
     }
     setOptions(dataChunks: ModuleDataChunks) {
@@ -350,17 +350,29 @@ export namespace MultiSynth {
         }
       }
       if (chdt) {
-        this.optionValues.useStaticNote_C5 = Boolean(chdt[0])
-        this.optionValues.ignoreNotesWithZeroVelocity = Boolean(chdt[1])
-        this.optionValues.activeCurve = Boolean(chdt[2])
-        this.optionValues.trigger = Boolean(chdt[3])
-        this.optionValues.generateMissedNoteOffCommands = Boolean(chdt[4])
-        this.optionValues.roundNoteX = Boolean(chdt[5])
-        this.optionValues.roundPitchY = Boolean(chdt[6])
-        this.optionValues.recordNotesToScaleCurve = Boolean(chdt[7])
-        this.optionValues.outNoteEqOutNoteMinusInNotePlus_C5 = Boolean(chdt[8])
-        this.optionValues.outPortEqNoteModNumOfOuts = Boolean(chdt[9])
-        this.optionValues.outPortEqChannelModNumOfOuts = Boolean(chdt[10])
+        this.optionValues.useStaticNote_C5 = Boolean((chdt[0] >> 0) & (2 ** 1 - 1))
+        this.optionValues.ignoreNotesWithZeroVelocity = Boolean(
+          (chdt[1] >> 0) & (2 ** 1 - 1)
+        )
+        this.optionValues.activeCurve = (chdt[2] >> 0) & (2 ** 2 - 1)
+        this.optionValues.trigger = Boolean((chdt[3] >> 0) & (2 ** 1 - 1))
+        this.optionValues.generateMissedNoteOffCommands = Boolean(
+          (chdt[4] >> 0) & (2 ** 1 - 1)
+        )
+        this.optionValues.roundNoteX = Boolean((chdt[4] >> 1) & (2 ** 1 - 1))
+        this.optionValues.roundPitchY = Boolean((chdt[4] >> 2) & (2 ** 1 - 1))
+        this.optionValues.recordNotesToScaleCurve = Boolean(
+          (chdt[4] >> 3) & (2 ** 1 - 1)
+        )
+        this.optionValues.outNoteEqOutNoteMinusInNotePlus_C5 = Boolean(
+          (chdt[4] >> 6) & (2 ** 1 - 1)
+        )
+        this.optionValues.outPortEqNoteModNumOfOuts = Boolean(
+          (chdt[4] >> 7) & (2 ** 1 - 1)
+        )
+        this.optionValues.outPortEqChannelModNumOfOuts = Boolean(
+          (chdt[4] >> 8) & (2 ** 1 - 1)
+        )
       }
     }
   }
