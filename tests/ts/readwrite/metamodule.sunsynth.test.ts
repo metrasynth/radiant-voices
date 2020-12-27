@@ -35,6 +35,15 @@ describe("Reading the metamodule.sunsynth file", () => {
     expect(o.eventOutput).toBeTruthy()
     expect(o.receiveNotesFromKeyboard).toBeFalsy()
     expect(o.doNotReceiveNotesFromKeyboard).toBeFalsy()
+
+    o.receiveNotesFromKeyboard = true
+    expect(o.receiveNotesFromKeyboard).toBeTruthy()
+    expect(o.doNotReceiveNotesFromKeyboard).toBeFalsy()
+
+    o.doNotReceiveNotesFromKeyboard = true
+    expect(o.receiveNotesFromKeyboard).toBeFalsy()
+    expect(o.doNotReceiveNotesFromKeyboard).toBeTruthy()
+
     const project = mod.behavior?.project
     expect(project).toBeDefined()
     expect(project?.modules[0]?.typeName).toEqual("Output")

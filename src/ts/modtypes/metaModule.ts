@@ -86,6 +86,7 @@ export namespace MetaModule {
     // noinspection JSUnusedGlobalSymbols
     set receiveNotesFromKeyboard(newValue: boolean) {
       this.optionValues.receiveNotesFromKeyboard = newValue
+      this.optionValues.doNotReceiveNotesFromKeyboard = false
     }
     // noinspection JSUnusedGlobalSymbols
     get doNotReceiveNotesFromKeyboard(): boolean {
@@ -94,6 +95,7 @@ export namespace MetaModule {
     // noinspection JSUnusedGlobalSymbols
     set doNotReceiveNotesFromKeyboard(newValue: boolean) {
       this.optionValues.doNotReceiveNotesFromKeyboard = newValue
+      this.optionValues.receiveNotesFromKeyboard = false
     }
   }
   export class Module extends ModuleBase implements ModuleType {

@@ -102,6 +102,7 @@ export namespace MultiSynth {
     // noinspection JSUnusedGlobalSymbols
     set roundNoteX(newValue: boolean) {
       this.optionValues.roundNoteX = newValue
+      this.optionValues.roundPitchY = false
     }
     // noinspection JSUnusedGlobalSymbols
     get roundPitchY(): boolean {
@@ -110,6 +111,7 @@ export namespace MultiSynth {
     // noinspection JSUnusedGlobalSymbols
     set roundPitchY(newValue: boolean) {
       this.optionValues.roundPitchY = newValue
+      this.optionValues.roundNoteX = false
     }
     // noinspection JSUnusedGlobalSymbols
     get recordNotesToScaleCurve(): boolean {
@@ -134,6 +136,7 @@ export namespace MultiSynth {
     // noinspection JSUnusedGlobalSymbols
     set outPortEqNoteModNumOfOuts(newValue: boolean) {
       this.optionValues.outPortEqNoteModNumOfOuts = newValue
+      this.optionValues.outPortEqChannelModNumOfOuts = false
     }
     // noinspection JSUnusedGlobalSymbols
     get outPortEqChannelModNumOfOuts(): boolean {
@@ -142,6 +145,7 @@ export namespace MultiSynth {
     // noinspection JSUnusedGlobalSymbols
     set outPortEqChannelModNumOfOuts(newValue: boolean) {
       this.optionValues.outPortEqChannelModNumOfOuts = newValue
+      this.optionValues.outPortEqNoteModNumOfOuts = false
     }
   }
   export class Module extends ModuleBase implements ModuleType {

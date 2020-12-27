@@ -96,6 +96,11 @@ export namespace {{ modtype_name }} {
                     }
                 {% endif %}
                 this.optionValues.{{ oname | camelcase }} = newValue
+                {% if ospec.exclusive_of %}
+                    {% for exclusive_of in ospec.exclusive_of %}
+                        this.optionValues.{{ exclusive_of | camelcase }} = false
+                    {% endfor %}
+                {% endif %}
             }
         {% endfor %}{% endfor %}
     }

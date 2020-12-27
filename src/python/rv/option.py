@@ -43,3 +43,8 @@ class Option:
         callback = getattr(instance, "on_{}_changed".format(self.name), None)
         if callable(callback):
             callback(value)
+        for other in self.exclusive_of:
+            instance.option_values[other] = False
+            callback = getattr(instance, "on_{}_changed".format(other), None)
+            if callable(callback):
+                callback(False)

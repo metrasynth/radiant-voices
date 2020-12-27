@@ -22,6 +22,14 @@ def test_metamodule(read_write_read_synth):
     assert not mod.receive_notes_from_keyboard
     assert not mod.do_not_receive_notes_from_keyboard
 
+    mod.receive_notes_from_keyboard = True
+    assert mod.receive_notes_from_keyboard
+    assert not mod.do_not_receive_notes_from_keyboard
+
+    mod.do_not_receive_notes_from_keyboard = True
+    assert not mod.receive_notes_from_keyboard
+    assert mod.do_not_receive_notes_from_keyboard
+
     project = mod.project
     assert isinstance(project.modules[0], m.Output)
     assert isinstance(project.modules[1], m.AnalogGenerator)
