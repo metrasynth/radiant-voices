@@ -1,5 +1,5 @@
-Installation (Python)
-=====================
+Installation
+============
 
 Python
 ~~~~~~
