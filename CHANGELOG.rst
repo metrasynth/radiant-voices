@@ -2,14 +2,14 @@ Changelog
 =========
 
 
-1.0.0.dev0 (not yet released)
------------------------------
+1.0.0
+-----
 
 The themes of this release are:
 
 - New JavaScript version of Radiant Voices.
 
-- Support for new modules, controllers, options, and curves in SunVox 1.9.6b.
+- Support for new modules, controllers, options, and curves in SunVox 1.9.6c.
 
 - Improved general compatibility with the SunVox file format.
 
@@ -122,7 +122,8 @@ Additions (all versions)
 Additions (Python version)
 ..........................
 
-- Ports test cases from JavaScript version. ([TODO] in progress)
+- Ports all test cases from JavaScript version.
+  Note: A limited number of test cases are not yet completely ported.
 
 - Adds ``Project.restart_position`` attribute.
 
