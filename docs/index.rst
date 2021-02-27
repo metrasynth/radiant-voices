@@ -7,6 +7,7 @@ Contents
     readme
     installation
     api-reference/index
+    architecture
     sunvox-file-format
     contributing
     maintenance

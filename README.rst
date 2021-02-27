@@ -3,12 +3,22 @@ Overview of Radiant Voices
 
 ..  start-badges
 
-|buildstatus| |docs|
+|javascript-tests| |python-tests| |pre-commit| |docs|
 
-.. |buildstatus| image:: https://img.shields.io/travis/metrasynth/radiant-voices.svg?style=flat
-    :alt: build status
+.. |javascript-tests| image:: https://github.com/metrasynth/radiant-voices/workflows/javascript-tests/badge.svg
+    :alt: javascript-tests status
     :scale: 100%
-    :target: https://travis-ci.org/metrasynth/radiant-voices
+    :target: https://github.com/metrasynth/radiant-voices/actions?query=workflow:javascript-tests
+
+.. |python-tests| image:: https://github.com/metrasynth/radiant-voices/workflows/python-tests/badge.svg
+    :alt: python-tests status
+    :scale: 100%
+    :target: https://github.com/metrasynth/radiant-voices/actions?query=workflow:python-tests
+
+.. |pre-commit| image:: https://github.com/metrasynth/radiant-voices/workflows/pre-commit/badge.svg
+    :alt: pre-commit status
+    :scale: 100%
+    :target: https://github.com/metrasynth/radiant-voices/actions?query=workflow:pre-commit
 
 .. |docs| image:: https://readthedocs.org/projects/radiant-voices/badge/?version=latest
     :alt: Documentation Status
@@ -29,8 +39,8 @@ and module/synth files ending in ``.sunsynth``.
 ..  uml::
 
     @startuml
-    rectangle "Python Interpreter" as python {
-        rectangle "<your_app>" as app {
+    rectangle "Your Preferred Programming Language" as lang {
+        rectangle "Your App" as app {
             rectangle "Radiant Voices\nobject model" as obj
         }
         rectangle "Radiant Voices\nPython package" as rv
@@ -40,15 +50,15 @@ and module/synth files ending in ``.sunsynth``.
     rv <-down-> file
     @enduml
 
+
 SunVox data structures and APIs
 -------------------------------
 
-Radiant Voices has nearly 100% coverage of
+Radiant Voices strives toward 100% coverage of
 all data structures used by SunVox files,
-exposing a "Pythonic" API for creating and manipulating
-those structures.
+exposing APIs for creating and manipulating those structures.
 
-Using the API, you can do things not possible
+Using these APIs, you can do things not possible
 with the standard SunVox interface or the SunVox DLL, such as:
 
 - `algorithmic composition`_
@@ -66,10 +76,25 @@ Our collective imagination is the limit!
     https://en.wikipedia.org/wiki/Graph_drawing
 
 
+Support for multiple languages
+------------------------------
+
+Multiple programming languages are supported.
+
+This is accomplished by combining a structured file format specification
+with a code generation framework.
+
+Supported languages currently include:
+
+- Python 3.8+
+- Typescript
+
+
 Interaction with the SunVox DLL
 -------------------------------
 
-By combining Radiant Voices with sunvox-dll-python_,
+By combining Radiant Voices with sunvox-dll-python_ for Python
+(or the SunVox library wrapper for your language),
 one can also create alternative editing and performance tools
 to use alongside, or instead of, the official SunVox app.
 
@@ -104,30 +129,21 @@ SunVox file format <http://www.warmplace.ru/forum/viewtopic.php?t=1943#p5562>`__
 
 The interpretation of SunVox file formats is based on a mix of "clean room"
 style inspection of what SunVox writes to disk when a file is edited
-a specific way, as well as the `most recent BSD-licensed source code
-for the SunVox audio engine <https://github.com/warmplace/sunvox_sources>`__.
+a specific way, the `most recent BSD-licensed source code
+for the SunVox audio engine <https://github.com/warmplace/sunvox_sources>`__,
+and consultation with NightRadio (the author of SunVox).
+
+Documentation is provided in the form of prose in the English language,
+as well as a specification defined in YAML format.
 
 
 Requirements
 ------------
 
-- Python 3.7
+- A supported programming language.
 
-- OS supported by `sunvox-dll-python`_, if working with SunVox DLL.
-
-
-Quick start
------------
-
-The "hello world" example will construct a SunVox project in memory
-containing a FM module connected to the Output module.
-It will then load it into the SunVox DLL and send a single note-on command
-to the FM module::
-
-    $ pip install radiant-voices
-    $ git clone https://github.com/metrasynth/radiant-voices
-    $ cd radiant-voices/examples
-    $ python helloworld.py
+- OS and platform supported by `sunvox-dll-python`_, if working with
+  the native SunVox DLL.
 
 
 About SunVox

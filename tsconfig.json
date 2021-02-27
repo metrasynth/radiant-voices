@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2015",
+    "declaration": true,
+    "outDir": "./dist",
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "baseUrl": ".",
+    "paths": {
+      "@radiant-voices": ["src/ts"],
+      "@radiant-voices/*": ["src/ts/*"]
+    }
+  },
+  "include": ["src/ts/**/*"]
+}

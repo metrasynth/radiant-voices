@@ -1,0 +1,23 @@
+.App {
+  text-align: left;
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+.App .DropZone {
+  background-color: lightgray;
+  padding: 0.5em 1em;
+}
+
+.App .DropZone p {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+textarea {
+  width: 100%;
+}

@@ -1,6 +1,13 @@
+# rv
 attrs >= 19.3.0
 awesome-slugify
 hexdump
 logutils
 networkx
+
+# genrv
 pyyaml
+jinja2
+black
+isort
+stringcase

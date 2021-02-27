@@ -1,0 +1,125 @@
+# SunVox Mutations (WORK IN PROGRESS)
+# ===================================
+#
+# These are all of the mutations you can perform on the contents of a SunVox project.
+#
+# Use cases
+# ---------
+#
+# - Undo/redo stack:
+#   Each change made to a project file can be represented as a mutation,
+#   any of which can be selectively reversed as long as they remain valid.
+#
+# - Collaborative editing:
+#   Mutations can be streamed over websockets, and stored on a server,
+#   to allow for multiple clients to reliably share changes made to a
+#   shared project.
+#
+# Assumptions
+# -----------
+#
+# There is a known initial state of an empty SunVox project.
+#
+# Mutation types
+# --------------
+#
+# Each mutation type has the following keys:
+#
+# - name: The name of the mutation.
+# - id_args: Args used to identify the object being mutated.
+# - value_args: Args used to assign new values and record old values.
+#
+# Mutation instances
+# ------------------
+#
+# Each instance of a mutation has the following keys:
+#
+# - hash: The SHA-1 (*) hash of the encoded form of the rest of the mutation instance.
+# - parents: List of zero or more SHA-1 hashes of parent mutations.
+# - time: UTC unix timestamp as float64.
+# - type: Name of the mutation type.
+# - id: Dict of args used to identify the object being mutated.
+# - values: Dict of values to be set when performing the mutation.
+# - prev_values: Dict of previous values used when reversing this mutation.
+#
+# (*) We are optimizing for performance over security by selecting SHA-1 over other
+#     hashing algorithms.
+#
+# Special types
+# -------------
+#
+# - Parents: List of zero or more uint32 module numbers representing MetaModules
+#   to traverse before resolving an object.
+
+- name: set_project_name
+  id_args:
+    - parents: Parents
+  value_args:
+    - name: str
+
+- name: new_module
+  id_args:
+    - parents: Parents
+    - module: uint32
+  value_args:
+    - type: str
+    - name: str
+    - x: int32
+    - y: int32
+    - layer: uint32
+
+- name: move_module
+  id_args:
+    - parents: Parents
+    - module: uint32
+  value_args:
+    - x: int32
+    - y: int32
+    - layer: uint32
+
+- name: set_module_name
+  id_args:
+    - parents: Parents
+    - module: uint32
+  value_args:
+    - name: str
+
+- name: set_module_controller
+  id_args:
+    - parents: Parents
+    - module: uint32
+  value_args: [value]
+
+- name: set_module_option
+  id_args:
+    - parents: Parents
+    - module: uint32
+  value_args: [value]
+
+- name: connect_modules
+  id_args:
+    - parents: Parents
+    - from_module: uint32
+    - to_module: uint32
+  value_args: []
+
+- name: disconnect_modules
+  id_args:
+    - parents: Parents
+    - from_module: uint32
+    - to_module: uint32
+  value_args: []
+
+- name: new_pattern
+  id_args:
+    - parents: Parents
+    - number: uint32
+  value_args:
+    - name: str
+    - icon: PatternIcon
+
+- name: move_pattern
+
+- name: update_pattern
+
+- name: update_pattern_data

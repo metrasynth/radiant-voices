@@ -1,0 +1,7 @@
+- generator: genrv.codegen.python.gen:PythonGenerator
+  spec_base: specs/
+  dest_base: src/python/rv/
+
+- generator: genrv.codegen.ts.gen:TypescriptGenerator
+  spec_base: specs/
+  dest_base: src/ts/

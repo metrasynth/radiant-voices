@@ -1,8 +1,12 @@
+===========
 Maintenance
 ===========
 
 This is a loose collection of notes for maintaining releases of Radiant Voices
-to the Python Package Index (PyPI).
+to relevant package indexes.
+
+Python (PyPI)
+=============
 
 Tagging a release
 -----------------
@@ -32,12 +36,9 @@ Testing using devpi
     $ virtualenv testenv
     $ cd testenv
     $ . bin/activate
-    $ pip install radiant-voices
-    $ python
-    >>> import rv
-    >>> rv.__version__
-    'x.y.z'
-    >>> ^D
+    $ devpi install radiant-voices
+    $ python -c "import rv; print(rv.__version__)"
+    x.y.z
     $ deactivate
     $ cd ..
     $ rm -rf testenv
@@ -48,3 +49,15 @@ Upload to PyPI
 ::
 
     $ twine upload dist/radiant-voices-x.y.z.tar.gz
+
+JavaScript (NPM)
+================
+
+Tagging a release
+-----------------
+
+Testing
+-------
+
+Upload to npm
+-------------
