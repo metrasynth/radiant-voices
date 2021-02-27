@@ -1,8 +1,12 @@
+===========
 Maintenance
 ===========
 
 This is a loose collection of notes for maintaining releases of Radiant Voices
-to the Python Package Index (PyPI).
+to relevant package indexes.
+
+Python (PyPI)
+=============
 
 Tagging a release
 -----------------
@@ -45,3 +49,15 @@ Upload to PyPI
 ::
 
     $ twine upload dist/radiant-voices-x.y.z.tar.gz
+
+JavaScript (NPM)
+================
+
+Tagging a release
+-----------------
+
+Testing
+-------
+
+Upload to npm
+-------------
