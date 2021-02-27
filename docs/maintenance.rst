@@ -36,7 +36,7 @@ Testing using devpi
     $ virtualenv testenv
     $ cd testenv
     $ . bin/activate
-    $ pip install radiant-voices
+    $ devpi install radiant-voices
     $ python -c "import rv; print(rv.__version__)"
     x.y.z
     $ deactivate
