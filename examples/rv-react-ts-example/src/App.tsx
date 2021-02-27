@@ -17,7 +17,7 @@ interface AppOptions {
   initialProject?: Project | string
   initialFile?: Uint8Array
   initialFilename?: string
-  initialProjectOptions: string
+  initialProjectOptions?: string
 }
 
 const INITIAL_PROJECT_OPTIONS: ProjectOptions = {
@@ -114,7 +114,7 @@ function App({
     sunvox.sv_stop(0)
   }
   const onProjectOptionsChange = (event: ChangeEvent) => {
-    const value = event.target.value || "{}"
+    const value = (event.target as HTMLTextAreaElement).value || "{}"
     setProjectOptions(value)
   }
 
