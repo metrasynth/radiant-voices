@@ -457,7 +457,7 @@ Fixes
 - Does not require pattern ``x`` or ``y`` to be divisible by 4.
 
 - Assigns correct controller number to user-defined controllers on
-  ``MetaModule``s.
+  ``MetaModule``.
 
 - Corrects the max value allowed in a ``MultiSynth`` velocity/velocity curve.
 
