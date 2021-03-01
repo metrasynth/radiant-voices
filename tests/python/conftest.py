@@ -7,7 +7,7 @@ from rv.api import Project, Synth, read_sunvox_file
 
 @pytest.fixture
 def test_files_path() -> Path:
-    return Path(__file__).parent / "../../files"
+    return Path(__file__).parent / "../files"
 
 
 @pytest.fixture
