@@ -53,7 +53,29 @@ export class EchoBaseControllers implements Controllers {
   // noinspection JSUnusedGlobalSymbols
   set delay(newValue: number) {
     const { controllerValues } = this
-    newValue = Math.min(Math.max(newValue, 0), 256)
+    switch (this.controllerValues.delayUnit) {
+      case DelayUnit.Sec_256:
+        newValue = Math.min(Math.max(newValue, 0), 256)
+        break
+      case DelayUnit.Ms:
+        newValue = Math.min(Math.max(newValue, 0), 4000)
+        break
+      case DelayUnit.Hz:
+        newValue = Math.min(Math.max(newValue, 0), 8192)
+        break
+      case DelayUnit.Tick:
+        newValue = Math.min(Math.max(newValue, 0), 256)
+        break
+      case DelayUnit.Line:
+        newValue = Math.min(Math.max(newValue, 0), 256)
+        break
+      case DelayUnit.Line_2:
+        newValue = Math.min(Math.max(newValue, 0), 256)
+        break
+      case DelayUnit.Line_3:
+        newValue = Math.min(Math.max(newValue, 0), 256)
+        break
+    }
     controllerValues.delay = newValue
   }
   // noinspection JSUnusedGlobalSymbols
@@ -73,5 +95,6 @@ export class EchoBaseControllers implements Controllers {
   set delayUnit(newValue: DelayUnit) {
     const { controllerValues } = this
     controllerValues.delayUnit = newValue
+    this.delay = this.delay
   }
 }

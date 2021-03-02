@@ -2,6 +2,17 @@ Changelog
 =========
 
 
+1.0.1
+-----
+
+Bug fix release.
+
+Fixes (all versions)
+....................
+
+- Adds correct range information for delay controllers in Delay and Echo modules.
+
+
 1.0.0
 -----
 
