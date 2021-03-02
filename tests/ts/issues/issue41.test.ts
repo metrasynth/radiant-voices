@@ -22,5 +22,9 @@ describe("Reading issue41/sample.sunvox file", () => {
     expect(c.delayL).toEqual(8192)
     expect(c.delayR).toEqual(8192)
     expect(c.delayUnit).toEqual(m.Delay.DelayUnit.Hz)
+    c.delayL = 7777
+    c.delayR = 6666
+    expect(c.delayL).toEqual(7777)
+    expect(c.delayR).toEqual(6666)
   })
 })
