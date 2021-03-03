@@ -1012,8 +1012,28 @@ module_types:
     controllers:
       - dry: { min: 0, max: 512, default: 256 }
       - wet: { min: 0, max: 512, default: 256 }
-      - delay_l: { min: 0, max: 256, default: 128 }
-      - delay_r: { min: 0, max: 256, default: 160 }
+      - delay_l:
+          depends_on: delay_unit
+          default: 128
+          ranges:
+            sec/16384: { min: 0, max: 256 }
+            ms: { min: 0, max: 4000 }
+            hz: { min: 0, max: 8192 }
+            tick: { min: 0, max: 256 }
+            line: { min: 0, max: 256 }
+            line/2: { min: 0, max: 256 }
+            line/3: { min: 0, max: 256 }
+      - delay_r:
+          depends_on: delay_unit
+          default: 160
+          ranges:
+            sec/16384: { min: 0, max: 256 }
+            ms: { min: 0, max: 4000 }
+            hz: { min: 0, max: 8192 }
+            tick: { min: 0, max: 256 }
+            line: { min: 0, max: 256 }
+            line/2: { min: 0, max: 256 }
+            line/3: { min: 0, max: 256 }
       - volume_l: { min: 0, max: 256, default: 256 }
       - volume_r: { min: 0, max: 256, default: 256 }
       - channels: { enum: Channels, default: "stereo" }
@@ -1079,7 +1099,17 @@ module_types:
       - dry: { min: 0, max: 256, default: 256 }
       - wet: { min: 0, max: 256, default: 128 }
       - feedback: { min: 0, max: 256, default: 128 }
-      - delay: { min: 0, max: 256, default: 256 }
+      - delay:
+          depends_on: delay_unit
+          default: 256
+          ranges:
+            sec/256: { min: 0, max: 256 }
+            ms: { min: 0, max: 4000 }
+            hz: { min: 0, max: 8192 }
+            tick: { min: 0, max: 256 }
+            line: { min: 0, max: 256 }
+            line/2: { min: 0, max: 256 }
+            line/3: { min: 0, max: 256 }
       - channels: { enum: Channels, default: "stereo" }
       - delay_unit: { enum: DelayUnit, default: "sec/256" }
 
