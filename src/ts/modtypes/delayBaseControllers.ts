@@ -43,7 +43,29 @@ export class DelayBaseControllers implements Controllers {
   // noinspection JSUnusedGlobalSymbols
   set delayL(newValue: number) {
     const { controllerValues } = this
-    newValue = Math.min(Math.max(newValue, 0), 256)
+    switch (this.controllerValues.delayUnit) {
+      case DelayUnit.Sec_16384:
+        newValue = Math.min(Math.max(newValue, 0), 256)
+        break
+      case DelayUnit.Ms:
+        newValue = Math.min(Math.max(newValue, 0), 4000)
+        break
+      case DelayUnit.Hz:
+        newValue = Math.min(Math.max(newValue, 0), 8192)
+        break
+      case DelayUnit.Tick:
+        newValue = Math.min(Math.max(newValue, 0), 256)
+        break
+      case DelayUnit.Line:
+        newValue = Math.min(Math.max(newValue, 0), 256)
+        break
+      case DelayUnit.Line_2:
+        newValue = Math.min(Math.max(newValue, 0), 256)
+        break
+      case DelayUnit.Line_3:
+        newValue = Math.min(Math.max(newValue, 0), 256)
+        break
+    }
     controllerValues.delayL = newValue
   }
   // noinspection JSUnusedGlobalSymbols
@@ -53,7 +75,29 @@ export class DelayBaseControllers implements Controllers {
   // noinspection JSUnusedGlobalSymbols
   set delayR(newValue: number) {
     const { controllerValues } = this
-    newValue = Math.min(Math.max(newValue, 0), 256)
+    switch (this.controllerValues.delayUnit) {
+      case DelayUnit.Sec_16384:
+        newValue = Math.min(Math.max(newValue, 0), 256)
+        break
+      case DelayUnit.Ms:
+        newValue = Math.min(Math.max(newValue, 0), 4000)
+        break
+      case DelayUnit.Hz:
+        newValue = Math.min(Math.max(newValue, 0), 8192)
+        break
+      case DelayUnit.Tick:
+        newValue = Math.min(Math.max(newValue, 0), 256)
+        break
+      case DelayUnit.Line:
+        newValue = Math.min(Math.max(newValue, 0), 256)
+        break
+      case DelayUnit.Line_2:
+        newValue = Math.min(Math.max(newValue, 0), 256)
+        break
+      case DelayUnit.Line_3:
+        newValue = Math.min(Math.max(newValue, 0), 256)
+        break
+    }
     controllerValues.delayR = newValue
   }
   // noinspection JSUnusedGlobalSymbols
@@ -102,5 +146,7 @@ export class DelayBaseControllers implements Controllers {
   set delayUnit(newValue: DelayUnit) {
     const { controllerValues } = this
     controllerValues.delayUnit = newValue
+    this.delayL = this.delayL
+    this.delayR = this.delayR
   }
 }
