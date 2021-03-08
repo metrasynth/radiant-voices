@@ -30,3 +30,8 @@ testenv-shell: devpi-upload testenv devpi-install
 .PHONY: twine-upload
 twine-upload:
 	twine upload dist/radiant-voices-*.tar.gz
+
+.PHONY: npm-build
+npm-build: clean
+	npm install
+	npm run tsc
