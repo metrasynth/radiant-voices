@@ -104,15 +104,18 @@ class SunVoxReader(Reader):
 
     def process_SFFF(self, data):
         self.rewind(data)
-        mod = ModuleReader(self.f, index=len(self.object.modules)).object
-        self.object.attach_module(mod)
+        index = len(self.object.modules)
+        reader = ModuleReader(self.f, index=index)
+        reader.process_chunks()
+        mod = reader.object
+        self.object.attach_module(mod, loading=True)
 
     def process_SEND(self, _):
-        self.object.attach_module(None)  # empty module
+        self.object.attach_module(None, loading=True)  # empty module
 
     def process_end_of_file(self):
         # Clear out empty modules at end of list.
-        while self.object.modules[-1:] == [None]:
+        while self.object.modules and self.object.modules[-1] is None:
             self.object.modules.pop()
         # inLinkSlots are not written out by SunVox if all zeros;
         # initialize them if missing.
