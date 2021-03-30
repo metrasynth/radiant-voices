@@ -14,17 +14,15 @@ log = logging.getLogger(__name__)
 
 
 class ModuleReader(Reader):
-
-    object: Module
-
     def __init__(self, f, index):
         super(ModuleReader, self).__init__(f)
         self._index = index
         self._current_chunk = None
         self._cvals = []
+        self._controller_keys = []
 
     def process_chunks(self):
-        self.object = Module(index=self._index) if self._index > 0 else Output()
+        self.object = Module() if self._index > 0 else Output()
         super().process_chunks()
 
     def process_SFFF(self, data):
@@ -38,7 +36,7 @@ class ModuleReader(Reader):
         data = data[: data.find(0)] if 0 in data else data
         mtype = data.decode(ENCODING)
         cls = MODULE_CLASSES[mtype]
-        new_module = cls()
+        new_module: Module = cls()
         new_module.flags = self.object.flags
         new_module.name = self.object.name
         new_module.mtype = mtype
@@ -47,7 +45,6 @@ class ModuleReader(Reader):
             for name, controller in new_module.controllers.items()
             if controller.attached(new_module)
         ]
-
         if mtype == "MetaModule":
             self._controller_keys += [
                 "user_defined_{}".format(i + 1) for i in range(27)

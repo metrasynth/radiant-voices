@@ -282,7 +282,7 @@ class Module(metaclass=ModuleMeta):
         attrs = [self.__class__.__name__]
         if self.index is not None:
             attrs.append("index={}".format(self.index))
-        if self.name != self.mtype:
+        if type(self) is not Module and self.name != self.mtype:
             attrs.append("name={}".format(self.name))
         return "<{}>".format(" ".join(attrs))
 
@@ -356,6 +356,8 @@ class Module(metaclass=ModuleMeta):
 
     def iff_chunks(self, in_project=None):
         """Yield all standard chunks needed for a module."""
+        if type(self) is Module:
+            raise RuntimeError("Cannot serialize base Module instance.")
         if in_project is None:
             in_project = self.parent is not None
         yield b"SFFF", pack("<I", self.flags)

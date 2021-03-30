@@ -35,8 +35,7 @@ class Project(Container):
 
     def __init__(self):
         self.modules = []
-        self.output = Output()
-        self.attach_module(self.output)
+        self.output = self.attach_module(Output())
         self.sunvox_version = (1, 9, 6, 1)
         self.based_on_version = (1, 9, 6, 1)
         self.initial_bpm = 125
@@ -73,14 +72,17 @@ class Project(Container):
             self.attach_pattern(other)
         return self
 
-    def attach_module(self, module):
+    def attach_module(self, module, loading=False):
         """Attach the module to the project."""
         if module is None:
             self.modules.append(module)
+        elif module.__class__ is Module:
+            raise RuntimeError("Cannot attach base Module instance.")
         elif module.parent is not None and module.parent is not self:
             raise ModuleOwnershipError("Module is already attached to another project.")
         elif module not in self.modules:
-            if None in self.modules:
+            if not loading and None in self.modules:
+                # Add the module to an unused slot, unless loading a project.
                 module.index = self.module_index(None)
                 self.modules[module.index] = module
             else:
