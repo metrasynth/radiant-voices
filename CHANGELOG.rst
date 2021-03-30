@@ -2,6 +2,17 @@ Changelog
 =========
 
 
+1.0.2
+-----
+
+Bug fix release.
+
+Fixes (Python version)
+......................
+
+- Avoids rearranging modules during project loading.
+
+
 1.0.1
 -----
 
