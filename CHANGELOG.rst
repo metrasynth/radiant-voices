@@ -22,6 +22,8 @@ Fixes (Python version)
 
 - Fixes loading of some projects where patterns were deleted.
 
+- Fixes loading of user-defined controllers when loading MetaModules.
+
 
 1.0.2
 -----

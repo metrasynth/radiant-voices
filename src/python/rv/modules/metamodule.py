@@ -33,7 +33,7 @@ class UserDefined(Controller):
     def __init__(self, number):
         self.name = "user_defined_{}".format(number + 1)
         self.number = number + 6
-        super().__init__((0, 32768), 0, attached=False)
+        super().__init__((0, 44100), 0, attached=False)
 
     def attach(self, instance):
         self._attached = True
@@ -113,13 +113,15 @@ class MetaModule(BaseMetaModule, Module):
         def update_user_defined_controllers(metamodule):
             project = metamodule.project
             items = zip(metamodule.mappings.values, metamodule.user_defined)
-            for mapping, user_defined_controller in items:
+            for idx, (mapping, user_defined_controller) in enumerate(items):
+                if idx == metamodule.user_defined_controllers:
+                    break
                 if mapping.module == 0 or mapping.module >= len(project.modules):
                     continue
                 mod = project.modules[mapping.module]
                 if not mod:
                     continue
-                controller_index = mapping.controller - 1
+                controller_index = mapping.controller
                 controller = list(mod.controllers.values())[controller_index]
                 user_defined_controller.value_type = controller.instance_value_type(mod)
                 user_defined_controller.default = controller.default
