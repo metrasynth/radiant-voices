@@ -50,9 +50,8 @@ class UserDefinedProxy(Controller):
     def __get__(self, instance, owner):
         if instance is None:
             return self
-        else:
-            ctl = instance.user_defined[self.index]
-            return ctl.__get__(instance, owner)
+        ctl = instance.user_defined[self.index]
+        return ctl.__get__(instance, owner)
 
     def __set__(self, instance, value):
         if instance is not None:
@@ -122,7 +121,8 @@ class MetaModule(BaseMetaModule, Module):
                 if not mod:
                     continue
                 controller_index = mapping.controller
-                controller = list(mod.controllers.values())[controller_index]
+                controller_values = list(mod.controllers.values())
+                controller = controller_values[controller_index]
                 user_defined_controller.value_type = controller.instance_value_type(mod)
                 user_defined_controller.default = controller.default
                 metamodule.controller_values[
@@ -166,7 +166,7 @@ class MetaModule(BaseMetaModule, Module):
         ]
         super(MetaModule, self).__init__(**kwargs)
         self.mappings = self.MappingArray()
-        self.project = project if project else Project()
+        self.project = project or Project()
         self.project.metamodule = self
 
     def __getattr__(self, key):
