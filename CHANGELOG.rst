@@ -8,6 +8,13 @@ Changelog
 Bug fix release.
 
 
+Additions (All versions)
+........................
+
+- Adds test to load all files in ``tests/files/extra/``,
+  to ensure that all example files included with SunVox can be loaded without error.
+
+
 Fixes (Python version)
 ......................
 
