@@ -141,6 +141,7 @@ class SunVoxReader(Reader):
                     out_links.append(-1)
                 while out_link_idx >= len(out_link_slots):
                     out_link_slots.append(-1)
-                out_links[out_link_idx] = mod.index
-                out_link_slots[out_link_idx] = in_link_idx
+                if out_link_idx != -1:
+                    out_links[out_link_idx] = mod.index
+                    out_link_slots[out_link_idx] = in_link_idx
         raise ReaderFinished()

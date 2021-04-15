@@ -15,6 +15,12 @@ Additions (All versions)
   to ensure that all example files included with SunVox can be loaded without error.
 
 
+Fixes (All versions)
+....................
+
+- Fixes loading of some projects where modules were deleted.
+
+
 Fixes (Python version)
 ......................
 
