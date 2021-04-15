@@ -2,6 +2,35 @@ Changelog
 =========
 
 
+1.0.3
+-----
+
+Bug fix release.
+
+
+Additions (All versions)
+........................
+
+- Adds test to load all files in ``tests/files/extra/``,
+  to ensure that all example files included with SunVox can be loaded without error.
+
+
+Fixes (All versions)
+....................
+
+- Fixes loading of some projects where modules were deleted.
+
+
+Fixes (Python version)
+......................
+
+- Fixes ``rv.tools.player`` decoding of module names.
+
+- Fixes loading of some projects where patterns were deleted.
+
+- Fixes loading of user-defined controllers when loading MetaModules.
+
+
 1.0.2
 -----
 

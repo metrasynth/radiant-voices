@@ -153,13 +153,22 @@ function initLinks(project: Project): void {
   for (const mod of modules) {
     if (!mod) continue
     const { inLinks, inLinkSlots } = mod
-    if (!(inLinks && inLinkSlots)) throw new Error() // [TODO] error message
+    if (!(inLinks && inLinkSlots)) {
+      throw new Error() // [TODO] error message
+    }
     for (const [inLinkIdx, inLink] of inLinks.entries()) {
+      if (inLink === -1) {
+        continue
+      }
       const outLinkIdx = inLinkSlots[inLinkIdx]
       const srcMod = modules[inLink]
-      if (!srcMod) throw new Error() // [TODO] error message
+      if (!srcMod) {
+        throw new Error() // [TODO] error message
+      }
       const { outLinks, outLinkSlots } = srcMod
-      if (!(outLinks && outLinkSlots)) throw new Error() // [TODO] error message
+      if (!(outLinks && outLinkSlots)) {
+        throw new Error() // [TODO] error message
+      }
       outLinks[outLinkIdx] = mod.index
       outLinkSlots[outLinkIdx] = inLinkIdx
     }
