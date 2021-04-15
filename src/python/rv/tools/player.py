@@ -14,7 +14,7 @@ import sys
 from os import unlink
 from tempfile import mkstemp
 
-from rv.api import ENCODING, Project, Synth, read_sunvox_file
+from rv.api import Project, Synth, read_sunvox_file
 
 log = logging.getLogger(__name__)
 
@@ -85,7 +85,7 @@ def main():
     module_count = slot.get_number_of_modules()
     log.info("{} modules loaded".format(module_count))
     for i in range(module_count):
-        log.debug("module {}: {}".format(i, slot.get_module_name(i).decode(ENCODING)))
+        log.debug("module {}: {}".format(i, slot.get_module_name(i)))
     if args.send_event is not None:
         event_args = [int(x) for x in args.send_event.split(",")]
         log.debug("event_args {!r}".format(event_args))

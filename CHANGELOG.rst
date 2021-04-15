@@ -2,6 +2,18 @@ Changelog
 =========
 
 
+1.0.3
+-----
+
+Bug fix release.
+
+
+Fixes (Python version)
+......................
+
+- Fixes ``rv.tools.player`` decoding of module names.
+
+
 1.0.2
 -----
 
