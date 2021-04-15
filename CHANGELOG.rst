@@ -20,6 +20,8 @@ Fixes (Python version)
 
 - Fixes ``rv.tools.player`` decoding of module names.
 
+- Fixes loading of some projects where patterns were deleted.
+
 
 1.0.2
 -----

@@ -95,10 +95,11 @@ class Project(Container):
 
     def attach_pattern(self, pattern):
         """Attach the pattern to the project."""
-        if pattern.project is not None:
+        if pattern and pattern.project is not None:
             raise PatternOwnershipError("Pattern already attached to a project")
         self.patterns.append(pattern)
-        pattern.project = self
+        if pattern:
+            pattern.project = self
         return len(self.patterns) - 1
 
     def connect(self, from_modules, to_modules):
