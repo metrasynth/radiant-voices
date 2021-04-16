@@ -1,6 +1,6 @@
 # rv
 attrs >= 19.3.0
-awesome-slugify
+python-slugify
 hexdump
 logutils
 networkx

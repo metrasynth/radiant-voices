@@ -12,14 +12,14 @@ from rv.modules import Module
 from rv.modules.base.metamodule import BaseMetaModule
 from rv.project import Project
 from rv.readers.reader import read_sunvox_file
-from slugify import slugify_unicode
+from slugify import slugify as _slugify
 
 MAX_USER_DEFINED_CONTROLLERS = 27
 USER_DEFINED_RE = re.compile(r"user_defined_\d+")
 
 
 def slugify(s):
-    s = slugify_unicode(s, separator="_", to_lower=True)
+    s = _slugify(s, separator="_", lowercase=True)
     if s == "":
         return "_"
     if s[0] in digits:

@@ -2,6 +2,18 @@ Changelog
 =========
 
 
+1.0.4
+-----
+
+Bug fix release.
+
+
+Changes (Python version)
+........................
+
+- Replaces ``awesome-slugify`` dependency with ``python-slugify``.
+
+
 1.0.3
 -----
 
