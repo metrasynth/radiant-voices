@@ -17,7 +17,7 @@ from setuptools import find_packages, setup
 
 dependencies = [
     "attrs >= 19.3.0",
-    "awesome-slugify",
+    "python-slugify",
     "hexdump",
     "logutils",
     "networkx",
