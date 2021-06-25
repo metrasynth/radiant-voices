@@ -10,9 +10,8 @@ import { readSunVoxFile } from "../reader/readSunVoxFile"
 export class MetaModuleBehavior extends ModuleSpecificBehavior {
   project?: Project
   readonly mappings = defaultMappings()
-  readonly controllerNames: Array<string | undefined> = Array.from(
-    defaultControllerNames
-  )
+  readonly controllerNames: Array<string | undefined> =
+    Array.from(defaultControllerNames)
 
   chnk(): number {
     return 8 + 27
