@@ -1,6 +1,7 @@
 from copy import deepcopy
 from enum import IntEnum
 from struct import pack
+from typing import Tuple
 
 from attr import attr, attributes
 from rv import ENCODING
@@ -20,6 +21,10 @@ class PatternFlagsPFFF(IntEnum):
     selected = 0x02
     mute = 0x08
     solo = 0x10
+
+
+TrackNumber = LineNumber = int
+Coordinates = Tuple[TrackNumber, LineNumber]
 
 
 @attributes
@@ -139,6 +144,45 @@ class Pattern:
     @property
     def source_pattern(self):
         return self
+
+    def repeat_in_place(
+        self,
+        src_start: Coordinates,
+        src_size: Coordinates,
+        dest_start: Coordinates,
+        dest_size: Coordinates,
+    ):
+        src_track, src_line = src_start
+        src_tracks, src_lines = src_size
+        dest_track, dest_line = dest_start
+        dest_tracks, dest_lines = dest_size
+        if (
+            src_track < 0
+            or src_line < 0
+            or src_track + src_tracks > self.tracks
+            or src_line + src_lines > self.lines
+        ):
+            raise ValueError("Source block outside of pattern boundaries.")
+        if dest_tracks == -1:
+            dest_tracks = self.tracks - dest_track
+        if dest_lines == -1:
+            dest_lines = self.lines - dest_line
+        if (
+            dest_track < 0
+            or dest_line < 0
+            or dest_track + dest_tracks > self.tracks
+            or dest_line + dest_lines > self.lines
+        ):
+            raise ValueError("Destination block outside of pattern boundaries.")
+        data = self.data
+        for line in range(dest_line, dest_line + dest_lines):
+            for track in range(dest_track, dest_track + dest_tracks):
+                line_offset = line - dest_line
+                track_offset = track - dest_track
+                line_offset %= dest_lines
+                track_offset %= dest_tracks
+                src_note = data[src_line + line_offset][src_track + track_offset]
+                data[line][track] = src_note.clone()
 
 
 @attributes
