@@ -701,7 +701,7 @@ chunk_types:
 
   MetaModuleMappings:
     parent_type: Array
-    length: 64
+    length: 96
     element_type: MetaModuleMapping
 
 # --------------------------------------------------------------------------------------
@@ -746,6 +746,10 @@ module_types:
         neg_exp1: 3
         neg_exp2: 4
         sin: 5
+      Sustain:
+        off: 0
+        on: 1
+        repeat: 2
       State:
         stop: 0
         start: 1
@@ -765,16 +769,17 @@ module_types:
         "off": 0
         restart_and_volume_change: 1
         restart_smoother_and_volume_change: 2
+        volume_change: 3
     controllers:
       - volume: { min: 0, max: 32768, default: 32768 }
-      - attack_ms: { min: 0, max: 10000, default: 100 }
-      - decay_ms: { min: 0, max: 10000, default: 100 }
+      - attack: { min: 0, max: 10000, default: 100, units: "ms" }
+      - decay: { min: 0, max: 10000, default: 100, units: "ms" }
       - sustain_level: { min: 0, max: 32768, default: 16384 }
-      - release_ms: { min: 0, max: 10000, default: 100 }
+      - release: { min: 0, max: 10000, default: 100, units: "ms" }
       - attack_curve: { enum: Curve, default: "linear" }
       - decay_curve: { enum: Curve, default: "linear" }
       - release_curve: { enum: Curve, default: "linear" }
-      - sustain: { bool: true, default: true }
+      - sustain: { enum: Sustain, default: "on" }
       - sustain_pedal: { bool: true, default: false }
       - state: { enum: State, default: "stop" }
       - on_note_on: { enum: OnNoteOn, default: "start_on_first_note" }
@@ -794,6 +799,7 @@ module_types:
       - absolute: { bool: true, default: false }
       - fine_volume: { min: 0, max: 32768, default: 32768 }
       - gain: { min: 0, max: 5000, default: 1 }
+      - bipolar_dc_offset: { min: -16384, max: 16384, default: 0 }
 
   AnalogGenerator:
     type: Analog generator
@@ -825,18 +831,26 @@ module_types:
         harmonics: 16
       Filter:
         "off": 0
-        lp_12db: 1
-        hp_12db: 2
-        bp_12db: 3
-        br_12db: 4
-        lp_24db: 5
-        hp_24db: 6
-        bp_24db: 7
-        br_24db: 8
+        lp_12dB: 1
+        hp_12dB: 2
+        bp_12dB: 3
+        br_12dB: 4
+        lp_24dB: 5
+        hp_24dB: 6
+        bp_24dB: 7
+        br_24dB: 8
       FilterEnvelope:
         "off": 0
         sustain_off: 1
         sustain_on: 2
+      Osc2Mode:
+        add: 0
+        sub: 1
+        mul: 2
+        min: 3
+        max: 4
+        bitwise_and: 5
+        bitwise_xor: 6
     controllers:
       - volume: { min: 0, max: 256, default: 80 }
       - waveform: { enum: Waveform, default: "triangle" }
@@ -846,17 +860,19 @@ module_types:
       - sustain: { bool: true, default: true }
       - exponential_envelope: { bool: true, default: true }
       - duty_cycle: { min: 0, max: 1024, default: 512 }
-      - freq2: { min: 0, max: 2000, default: 1000 }
+      - osc2_semitone_64: { min: -1000, max: 1000, default: 0 }
       - filter: { enum: Filter, default: "off" }
-      - f_freq_hz: { min: 0, max: 14000, default: 14000 }
+      - f_freq: { min: 0, max: 14000, default: 14000, units: "hz" }
       - f_resonance: { min: 0, max: 1530, default: 0 }
       - f_exponential_freq: { bool: true, default: true }
       - f_attack: { min: 0, max: 256, default: 0 }
       - f_release: { min: 0, max: 256, default: 0 }
       - f_envelope: { enum: FilterEnvelope, default: "off" }
-      - polyphony_ch: { min: 1, max: 32, default: 16 }
-      - mode: { enum: Mode, default: "hq" }
+      - polyphony: { min: 1, max: 32, default: 16, units: "channels" }
+      - mode: { enum: Mode, default: "hq_mono" }
       - noise: { min: 0, max: 256, default: 0 }
+      - osc2_volume: { min: 0, max: 32768, default: 32768 }
+      - osc2_mode: { enum: Osc2Mode, default: "add" }
     options_chnm: 1
     options:
       - volume_envelope_scaling_per_key:
@@ -883,9 +899,27 @@ module_types:
           bit: 0
           size: 1
           default: false
+      - filter_freq_scaling_per_key_reverse:
+          number: 0x78
+          byte: 7
+          bit: 0
+          size: 1
+          default: false
+      - filter_freq_eq_note_freq:
+          number: 0x75
+          byte: 10
+          bit: 0
+          size: 1
+          default: false
       - velocity_dependent_filter_frequency:
           number: 0x7b
           byte: 4
+          bit: 0
+          size: 1
+          default: false
+      - velocity_dependent_filter_resonance:
+          number: 0x74
+          byte: 11
           bit: 0
           size: 1
           default: false
@@ -902,12 +936,6 @@ module_types:
           size: 1
           default: true
           inverted: true
-      - filter_freq_scaling_per_key_reverse:
-          number: 0x78
-          byte: 7
-          bit: 0
-          size: 1
-          default: false
       - retain_phase:
           number: 0x77
           byte: 8
@@ -917,18 +945,6 @@ module_types:
       - random_phase:
           number: 0x76
           byte: 9
-          bit: 0
-          size: 1
-          default: false
-      - filter_freq_eq_note_freq:
-          number: 0x75
-          byte: 10
-          bit: 0
-          size: 1
-          default: false
-      - velocity_dependent_filter_resonance:
-          number: 0x74
-          byte: 11
           bit: 0
           size: 1
           default: false
@@ -977,9 +993,9 @@ module_types:
     controllers:
       - volume: { min: 0, max: 512, default: 256 }
       - threshold: { min: 0, max: 512, default: 256 }
-      - slope_pct: { min: 0, max: 200, default: 100 }
-      - attack_ms: { min: 0, max: 500, default: 1 }
-      - release_ms: { min: 1, max: 1000, default: 300 }
+      - slope: { min: 0, max: 200, default: 100, units: "%" }
+      - attack: { min: 0, max: 500, default: 1, units: "ms" }
+      - release: { min: 1, max: 1000, default: 300, units: "ms" }
       - mode: { enum: Mode, default: "peak" }
       - sidechain_input: { min: 0, max: 32, default: 0 }
 
@@ -1009,6 +1025,8 @@ module_types:
         line: 4
         line/2: 5
         line/3: 6
+        sec/44100: 7
+        sec/48000: 8
     controllers:
       - dry: { min: 0, max: 512, default: 256 }
       - wet: { min: 0, max: 512, default: 256 }
@@ -1023,6 +1041,8 @@ module_types:
             line: { min: 0, max: 256 }
             line/2: { min: 0, max: 256 }
             line/3: { min: 0, max: 256 }
+            sec/44100: { min: 0, max: 32768 }
+            sec/48000: { min: 0, max: 32768 }
       - delay_r:
           depends_on: delay_unit
           default: 160
@@ -1034,30 +1054,33 @@ module_types:
             line: { min: 0, max: 256 }
             line/2: { min: 0, max: 256 }
             line/3: { min: 0, max: 256 }
+            sec/44100: { min: 0, max: 32768 }
+            sec/48000: { min: 0, max: 32768 }
       - volume_l: { min: 0, max: 256, default: 256 }
       - volume_r: { min: 0, max: 256, default: 256 }
       - channels: { enum: Channels, default: "stereo" }
       - inverse: { bool: true, default: false }
       - delay_unit: { enum: DelayUnit, default: "sec/16384" }
+      - delay_multiplier: { min: 1, max: 15, default: 1 }
+      - feedback: { min: 0, max: 256, default: 0 }
 
   Distortion:
     defaultFlags: 0x51
     group: Effect
     enums:
       Type:
-        lim: 0
         clipping: 0
-        sat: 1
         foldback: 1
         foldback2: 2
         foldback3: 3
         overflow: 4
+        overflow2: 5
     controllers:
       - volume: { min: 0, max: 256, default: 128 }
-      - type: { enum: Type, default: "lim" }
+      - type: { enum: Type, default: "clipping" }
       - power: { min: 0, max: 256, default: 0 }
       - bit_depth: { min: 1, max: 16, default: 16 }
-      - freq_hz: { min: 0, max: 44100, default: 44100 }
+      - freq: { min: 0, max: 44100, default: 44100, units: "hz" }
       - noise: { min: 0, max: 256, default: 0 }
 
   DrumSynth:
@@ -1066,7 +1089,7 @@ module_types:
     controllers:
       - volume: { min: 0, max: 512, default: 256 }
       - panning: { min: -128, max: 128, default: 0 }
-      - polyphony_ch: { min: 1, max: 8, default: 4 }
+      - polyphony: { min: 1, max: 8, default: 4, units: "channels" }
       - bass_volume: { min: 0, max: 512, default: 200 }
       - bass_power: { min: 0, max: 256, default: 256 }
       - bass_tone: { min: 0, max: 256, default: 64 }
@@ -1084,9 +1107,6 @@ module_types:
     defaultFlags: 0x451
     group: Effect
     enums:
-      Channels:
-        mono: 0
-        stereo: 1
       DelayUnit:
         sec/256: 0
         ms: 1
@@ -1095,9 +1115,13 @@ module_types:
         line: 4
         line/2: 5
         line/3: 6
+      Filter:
+        "off": 0
+        lp_6dB: 1
+        hp_6dB: 2
     controllers:
       - dry: { min: 0, max: 256, default: 256 }
-      - wet: { min: 0, max: 256, default: 128 }
+      - wet: { min: 0, max: 256, default: 40 }
       - feedback: { min: 0, max: 256, default: 128 }
       - delay:
           depends_on: delay_unit
@@ -1110,8 +1134,11 @@ module_types:
             line: { min: 0, max: 256 }
             line/2: { min: 0, max: 256 }
             line/3: { min: 0, max: 256 }
-      - channels: { enum: Channels, default: "stereo" }
+      - right_channel_offset: { bool: true, default: true }
       - delay_unit: { enum: DelayUnit, default: "sec/256" }
+      - right_channel_offset_length: { min: 0, max: 32768, default: 16384, units: "delay/32768" }
+      - filter: { enum: Filter, default: "off" }
+      - filter_freq: { min: 0, max: 22000, default: 2000, units: "hz" }
 
   Eq:
     type: EQ
@@ -1138,6 +1165,56 @@ module_types:
       - volume: { min: 0, max: 10000, default: 1000 }
       - channels: { enum: Channels, default: "stereo" }
 
+  Fft:
+    defaultFlags: 0x02000051
+    group: Effect
+    enums:
+      SampleRate:
+        8000Hz: 0
+        11025Hz: 1
+        16000Hz: 2
+        22050Hz: 3
+        32000Hz: 4
+        44100Hz: 5
+        48000Hz: 6
+        88200Hz: 7
+        96000Hz: 8
+        119200Hz: 9
+      Channels:
+        mono: 0
+        stereo: 1
+      Buffer:
+        "64": 0
+        "128": 1
+        "256": 2
+        "512": 3
+        "1024": 4
+        "2048": 5
+        "4096": 6
+        "8192": 7
+      BufferOverlap:
+        "0": 0
+        "2x": 1
+        "4x": 2
+    controllers:
+      - sample_rate: { enum: SampleRate, default: "44100Hz" }
+      - channels: { enum: Channels, default: "mono" }
+      - buffer: { enum: Buffer, default: "1024" }
+      - buf_overlap: { enum: BufferOverlap, default: "2x" }
+      - feedback: { min: 0, max: 32768, default: 0 }
+      - noise_reduction: { min: 0, max: 32768, default: 0 }
+      - phase_gain: { min: 0, max: 32768, default: 16384, units: "norm=16384" }  # [TODO] something other than 'units'
+      - all_pass_filter: { min: 0, max: 32768, default: 0 }
+      - frequency_spread: { min: 0, max: 32768, default: 0 }
+      - random_phase: { min: 0, max: 32768, default: 0 }
+      - random_phase_lite: { min: 0, max: 32768, default: 0 }
+      - freq_shift: { min: -16384, max: 16384, default: 0 }
+      - deform1: { min: 0, max: 32768, default: 0 }
+      - deform2: { min: 0, max: 32768, default: 0 }
+      - hp_cutoff: { min: 0, max: 32768, default: 0 }
+      - lp_cutoff: { min: 0, max: 32768, default: 32768 }
+      - volume: { min: 0, max: 32768, default: 32768 }
+
   Filter:
     defaultFlags: 0x451
     group: Effect
@@ -1153,10 +1230,10 @@ module_types:
         lq: 2
         lq_mono: 3
       RollOff:
-        12db: 0
-        24db: 1
-        36db: 2
-        48db: 3
+        12dB: 0
+        24dB: 1
+        36dB: 2
+        48dB: 3
       LfoFreqUnit:
         hz*0.02: 0
         ms: 1
@@ -1173,18 +1250,18 @@ module_types:
         random: 4
     controllers:
       - volume: { min: 0, max: 256, default: 256 }
-      - freq: { min: 0, max: 14000, default: 14000 }
+      - freq: { min: 0, max: 14000, default: 14000, units: "hz" }
       - resonance: { min: 0, max: 1530, default: 0 }
       - type: { enum: Type, default: "lp" }
       - response: { min: 0, max: 256, default: 8 }
       - mode: { enum: Mode, default: "hq" }
-      - impulse: { min: 0, max: 14000, default: 0 }
+      - impulse: { min: 0, max: 14000, default: 0, units: "hz" }
       - mix: { min: 0, max: 256, default: 256 }
       - lfo_freq: { min: 0, max: 1024, default: 8 }
       - lfo_amp: { min: 0, max: 256, default: 0 }
       - set_lfo_phase: { min: 0, max: 256, default: 0 }
       - exponential_freq: { bool: true, default: false }
-      - roll_off: { enum: RollOff, default: "12db" }
+      - roll_off: { enum: RollOff, default: "12dB" }
       - lfo_freq_unit: { enum: LfoFreqUnit, default: "hz*0.02" }
       - lfo_waveform: { enum: LfoWaveform, default: "sin" }
 
@@ -1203,14 +1280,18 @@ module_types:
         peaking: 6
         low_shelf: 7
         high_shelf: 8
+        lp_6dB: 9
+        hp_6dB: 10
       RollOff:
-        12db: 0
-        24db: 1
-        36db: 2
-        48db: 3
+        12dB: 0
+        24dB: 1
+        36dB: 2
+        48dB: 3
       Mode:
         stereo: 0
         mono: 1
+        stereo_smoothing: 2
+        mono_smoothing: 3
       LfoWaveform:
         sin: 0
         saw: 1
@@ -1228,13 +1309,13 @@ module_types:
     controllers:
       - volume: { min: 0, max: 32768, default: 32768 }
       - type: { enum: Type, default: "lp" }
-      - freq_hz: { min: 0, max: 22000, default: 22000 }
-      - freq_finetune: { min: -1000, max: 1000, default: 0 }
-      - freq_scale: { min: 0, max: 200, default: 100 }
+      - freq: { min: 0, max: 22000, default: 22000, units: "Hz" }
+      - freq_finetune: { min: -1000, max: 1000, default: 0, units: "Hz/1000" }
+      - freq_scale: { min: 0, max: 200, default: 100, units: "%" }
       - exponential_freq: { bool: true, default: false }
       - q: { min: 0, max: 32768, default: 16384 }
       - gain: { min: -16384, max: 16384, default: 0 }
-      - roll_off: { enum: RollOff, default: "12db" }
+      - roll_off: { enum: RollOff, default: "12dB" }
       - response: { min: 0, max: 1000, default: 250 }
       - mode: { enum: Mode, default: "stereo" }
       - mix: { min: 0, max: 32768, default: 32768 }
@@ -1287,7 +1368,7 @@ module_types:
       - panning: { min: -128, max: 128, default: 0 }
       - c_freq_ratio: { min: 0, max: 16, default: 1 }
       - m_freq_ratio: { min: 0, max: 16, default: 1 }
-      - m_feedback: { min: 0, max: 256, default: 0 }
+      - m_self_modulation: { min: 0, max: 256, default: 0 }
       - c_attack: { min: 0, max: 512, default: 32 }
       - c_decay: { min: 0, max: 512, default: 32 }
       - c_sustain: { min: 0, max: 256, default: 128 }
@@ -1297,8 +1378,191 @@ module_types:
       - m_sustain: { min: 0, max: 256, default: 128 }
       - m_release: { min: 0, max: 512, default: 64 }
       - m_scaling_per_key: { min: 0, max: 4, default: 0 }
-      - polyphony_ch: { min: 1, max: 16, default: 4 }
+      - polyphony: { min: 1, max: 16, default: 4, units: "channels" }
       - mode: { enum: Mode, default: "hq" }
+
+  Fmx:
+    defaultFlags: 0x02000059
+    group: Synth
+    enums:
+      SampleRate:
+        8000Hz: 0
+        11025Hz: 1
+        16000Hz: 2
+        22050Hz: 3
+        32000Hz: 4
+        44100Hz: 5
+        native: 6
+      Channels:
+        mono: 0
+        stereo: 1
+      InputCustomWaveform:
+        "off": 0
+        single_cycle: 1
+        continuous: 2
+      AdsrSmoothTransitions:
+        "off": 0
+        restart_and_volume_change: 1
+        restart_smoother_and_volume_change: 2
+        volume_change: 3
+      AdsrCurve:
+        linear: 0
+        exp1: 1
+        exp2: 2
+        -exp1: 3
+        -exp2: 4
+        sin: 5
+      Sustain:
+        "off": 0
+        "on": 1
+        "repeat": 2
+      Waveform:
+        "custom": 0
+        "triangle": 1
+        "triangle^3": 2
+        "saw": 3
+        "saw^3": 4
+        "square": 5
+        "sin": 6
+        "hsin": 7
+        "asin": 8
+        "sin^3": 9
+      ModulationType:
+        "phase": 0
+        "frequency": 1
+        "amplitude_mul": 2
+        "add": 3
+        "sub": 4
+        "min": 5
+        "max": 6
+        "bitwise_and": 7
+        "bitwise_xor": 8
+    controllers:
+      - volume: { min: 0, max: 32768, default: 16384 }
+      - panning: { min: 0, max: 256, default: 128 }
+      - sample_rate: { enum: SampleRate, default: "44100Hz" }
+      - polyphony: { min: 1, max: 32, default: 4 }
+      - channels: { enum: Channels, default: "mono" }
+      - input_to_operator: { min: 0, max: 5, default: 0 }
+      - input_to_custom_waveform: { enum: InputCustomWaveform, default: "off" }
+      - adsr_smooth_transitions: { enum: AdsrSmoothTransitions, default: "restart_smoother_and_volume_change" }
+      - noise_filter: { min: 0, max: 32768, default: 32768 }
+      - op1_volume: { min: 0, max: 32768, default: 32768 }
+      - op2_volume: { min: 0, max: 32768, default: 32768 }
+      - op3_volume: { min: 0, max: 32768, default: 32768 }
+      - op4_volume: { min: 0, max: 32768, default: 32768 }
+      - op5_volume: { min: 0, max: 32768, default: 32768 }
+      - op1_attack: { min: 0, max: 10000, default: 100, units: "ms" }
+      - op2_attack: { min: 0, max: 10000, default: 100, units: "ms" }
+      - op3_attack: { min: 0, max: 10000, default: 100, units: "ms" }
+      - op4_attack: { min: 0, max: 10000, default: 100, units: "ms" }
+      - op5_attack: { min: 0, max: 10000, default: 100, units: "ms" }
+      - op1_decay: { min: 0, max: 10000, default: 100, units: "ms" }
+      - op2_decay: { min: 0, max: 10000, default: 100, units: "ms" }
+      - op3_decay: { min: 0, max: 10000, default: 100, units: "ms" }
+      - op4_decay: { min: 0, max: 10000, default: 100, units: "ms" }
+      - op5_decay: { min: 0, max: 10000, default: 100, units: "ms" }
+      - op1_sustain_level: { min: 0, max: 32768, default: 16384 }
+      - op2_sustain_level: { min: 0, max: 32768, default: 16384 }
+      - op3_sustain_level: { min: 0, max: 32768, default: 16384 }
+      - op4_sustain_level: { min: 0, max: 32768, default: 16384 }
+      - op5_sustain_level: { min: 0, max: 32768, default: 16384 }
+      - op1_release: { min: 0, max: 10000, default: 100, units: "ms" }
+      - op2_release: { min: 0, max: 10000, default: 100, units: "ms" }
+      - op3_release: { min: 0, max: 10000, default: 100, units: "ms" }
+      - op4_release: { min: 0, max: 10000, default: 100, units: "ms" }
+      - op5_release: { min: 0, max: 10000, default: 100, units: "ms" }
+      - op1_attack_curve: { enum: AdsrCurve, default: "linear" }
+      - op2_attack_curve: { enum: AdsrCurve, default: "linear" }
+      - op3_attack_curve: { enum: AdsrCurve, default: "linear" }
+      - op4_attack_curve: { enum: AdsrCurve, default: "linear" }
+      - op5_attack_curve: { enum: AdsrCurve, default: "linear" }
+      - op1_decay_curve: { enum: AdsrCurve, default: "linear" }
+      - op2_decay_curve: { enum: AdsrCurve, default: "linear" }
+      - op3_decay_curve: { enum: AdsrCurve, default: "linear" }
+      - op4_decay_curve: { enum: AdsrCurve, default: "linear" }
+      - op5_decay_curve: { enum: AdsrCurve, default: "linear" }
+      - op1_release_curve: { enum: AdsrCurve, default: "linear" }
+      - op2_release_curve: { enum: AdsrCurve, default: "linear" }
+      - op3_release_curve: { enum: AdsrCurve, default: "linear" }
+      - op4_release_curve: { enum: AdsrCurve, default: "linear" }
+      - op5_release_curve: { enum: AdsrCurve, default: "linear" }
+      - op1_sustain: { enum: Sustain, default: "off" }
+      - op2_sustain: { enum: Sustain, default: "off" }
+      - op3_sustain: { enum: Sustain, default: "off" }
+      - op4_sustain: { enum: Sustain, default: "off" }
+      - op5_sustain: { enum: Sustain, default: "off" }
+      - op1_sustain_pedal: { bool: true, default: false }
+      - op2_sustain_pedal: { bool: true, default: false }
+      - op3_sustain_pedal: { bool: true, default: false }
+      - op4_sustain_pedal: { bool: true, default: false }
+      - op5_sustain_pedal: { bool: true, default: false }
+      - op1_envelope_scaling_per_key: { min: -128, max: 128, default: 0 }
+      - op2_envelope_scaling_per_key: { min: -128, max: 128, default: 0 }
+      - op3_envelope_scaling_per_key: { min: -128, max: 128, default: 0 }
+      - op4_envelope_scaling_per_key: { min: -128, max: 128, default: 0 }
+      - op5_envelope_scaling_per_key: { min: -128, max: 128, default: 0 }
+      - op1_volume_scaling_per_key: { min: -128, max: 128, default: 0 }
+      - op2_volume_scaling_per_key: { min: -128, max: 128, default: 0 }
+      - op3_volume_scaling_per_key: { min: -128, max: 128, default: 0 }
+      - op4_volume_scaling_per_key: { min: -128, max: 128, default: 0 }
+      - op5_volume_scaling_per_key: { min: -128, max: 128, default: 0 }
+      - op1_velocity_sensitivity: { min: -128, max: 128, default: 64 }
+      - op2_velocity_sensitivity: { min: -128, max: 128, default: 64 }
+      - op3_velocity_sensitivity: { min: -128, max: 128, default: 64 }
+      - op4_velocity_sensitivity: { min: -128, max: 128, default: 64 }
+      - op5_velocity_sensitivity: { min: -128, max: 128, default: 64 }
+      - op1_waveform: { enum: Waveform, default: "sin" }
+      - op2_waveform: { enum: Waveform, default: "sin" }
+      - op3_waveform: { enum: Waveform, default: "sin" }
+      - op4_waveform: { enum: Waveform, default: "sin" }
+      - op5_waveform: { enum: Waveform, default: "sin" }
+      - op1_noise: { min: 0, max: 32768, default: 0 }
+      - op2_noise: { min: 0, max: 32768, default: 0 }
+      - op3_noise: { min: 0, max: 32768, default: 0 }
+      - op4_noise: { min: 0, max: 32768, default: 0 }
+      - op5_noise: { min: 0, max: 32768, default: 0 }
+      - op1_phase: { min: 0, max: 32768, default: 0 }
+      - op2_phase: { min: 0, max: 32768, default: 0 }
+      - op3_phase: { min: 0, max: 32768, default: 0 }
+      - op4_phase: { min: 0, max: 32768, default: 0 }
+      - op5_phase: { min: 0, max: 32768, default: 0 }
+      - op1_freq_multiply: { min: 0, max: 32000, default: 1000, units: "1/1000" }
+      - op2_freq_multiply: { min: 0, max: 32000, default: 1000, units: "1/1000" }
+      - op3_freq_multiply: { min: 0, max: 32000, default: 1000, units: "1/1000" }
+      - op4_freq_multiply: { min: 0, max: 32000, default: 1000, units: "1/1000" }
+      - op5_freq_multiply: { min: 0, max: 32000, default: 1000, units: "1/1000" }
+      - op1_constant_pitch: { min: -8192, max: 8192, default: 0, units: "semitone/64" }
+      - op2_constant_pitch: { min: -8192, max: 8192, default: 0, units: "semitone/64" }
+      - op3_constant_pitch: { min: -8192, max: 8192, default: 0, units: "semitone/64" }
+      - op4_constant_pitch: { min: -8192, max: 8192, default: 0, units: "semitone/64" }
+      - op5_constant_pitch: { min: -8192, max: 8192, default: 0, units: "semitone/64" }
+      - op1_self_modulation: { min: 0, max: 32768, default: 0 }
+      - op2_self_modulation: { min: 0, max: 32768, default: 0 }
+      - op3_self_modulation: { min: 0, max: 32768, default: 0 }
+      - op4_self_modulation: { min: 0, max: 32768, default: 0 }
+      - op5_self_modulation: { min: 0, max: 32768, default: 0 }
+      - op1_feedback: { min: 0, max: 32768, default: 0 }
+      - op2_feedback: { min: 0, max: 32768, default: 0 }
+      - op3_feedback: { min: 0, max: 32768, default: 0 }
+      - op4_feedback: { min: 0, max: 32768, default: 0 }
+      - op5_feedback: { min: 0, max: 32768, default: 0 }
+      - op1_modulation_type: { enum: ModulationType, default: "phase" }
+      - op2_modulation_type: { enum: ModulationType, default: "phase" }
+      - op3_modulation_type: { enum: ModulationType, default: "phase" }
+      - op4_modulation_type: { enum: ModulationType, default: "phase" }
+      - op5_modulation_type: { enum: ModulationType, default: "phase" }
+      - op1_output_mode: { min: 0, max: 31, default: 0 }
+      - op2_output_mode: { min: 0, max: 15, default: 0 }
+      - op3_output_mode: { min: 0, max: 7, default: 0 }
+      - op4_output_mode: { min: 0, max: 3, default: 0 }
+    chunks:
+      - name: custom_waveform
+        parent_type: Array
+        chnm: 0
+        length: 1024
+        element_type: float32
+        default: 0
 
   Generator:
     defaultFlags: 0x59
@@ -1321,9 +1585,9 @@ module_types:
       - volume: { min: 0, max: 256, default: 128 }
       - waveform: { enum: Waveform, default: "triangle" }
       - panning: { min: -128, max: 128, default: 0 }
-      - attack: { min: 0, max: 512, default: 0 }
-      - release: { min: 0, max: 512, default: 0 }
-      - polyphony_ch: { min: 1, max: 16, default: 8 }
+      - attack: { min: 0, max: 512, default: 0, units: "sec/256" }
+      - release: { min: 0, max: 512, default: 0, units: "sec/256" }
+      - polyphony: { min: 1, max: 16, default: 8, units: "channels" }
       - mode: { enum: Mode, default: "stereo" }
       - sustain: { bool: true, default: true }
       - freq_modulation_by_input: { min: 0, max: 256, default: 0 }
@@ -1338,11 +1602,11 @@ module_types:
     group: Misc
     controllers:
       - response: { min: 0, max: 1000, default: 500 }
-      - sample_rate_hz: { min: 1, max: 32768, default: 150 }
+      - sample_rate: { min: 1, max: 32768, default: 150, units: "Hz" }
       - reset_on_first_note: { bool: true, default: false }
       - polyphony: { bool: true, default: true }
-      - pitch: { min: -600, max: 600, default: 0 }
-      - pitch_scale: { min: 0, max: 200, default: 100 }
+      - pitch: { min: -600, max: 600, default: 0, units: "semitone/10" }
+      - pitch_scale: { min: 0, max: 200, default: 100, units: "%" }
       - reset: { bool: true, default: false }
 
   Gpio:
@@ -1352,11 +1616,11 @@ module_types:
     controllers:
       - out: { bool: true, default: false }
       - out_pin: { min: 0, max: 256, default: 0 }
-      - out_threshold: { min: 0, max: 100, default: 50 }
+      - out_threshold: { min: 0, max: 100, default: 50, units: "%" }
       - in: { bool: true, default: false }
       - in_pin: { min: 0, max: 256, default: 0 }
       - in_note: { min: 0, max: 128, default: 0 }
-      - in_amplitude: { min: 0, max: 100, default: 100 }
+      - in_amplitude: { min: 0, max: 100, default: 100, units: "%" }
 
   Input:
     defaultFlags: 0x49
@@ -1381,11 +1645,11 @@ module_types:
       - volume: { min: 0, max: 256, default: 256 }
       - waveform: { enum: Waveform, default: "triangle" }
       - panning: { min: -128, max: 128, default: 0 }
-      - attack: { min: 0, max: 512, default: 0 }
-      - release: { min: 0, max: 512, default: 32 }
+      - attack: { min: 0, max: 512, default: 0, units: "sec/256" }
+      - release: { min: 0, max: 512, default: 32, units: "sec/256" }
       - boost: { min: 0, max: 1024, default: 0 }
       - acceleration: { min: 0, max: 1024, default: 256 }
-      - polyphony_ch: { min: 1, max: 4, default: 1 }
+      - polyphony: { min: 1, max: 4, default: 1, units: "channels" }
       - no_click: { bool: true, default: false }
 
   Lfo:
@@ -1440,7 +1704,7 @@ module_types:
       - frequency_unit: { enum: FrequencyUnit, default: "hz/64" }
       - duty_cycle: { min: 0, max: 256, default: 128 }
       - generator: { bool: true, default: false }
-      - freq_scale_pct: { min: 0, max: 200, default: 100 }
+      - freq_scale: { min: 0, max: 200, default: 100, units: "%" }
       - smooth_transitions: { enum: SmoothTransitions, default: "waveform" }
 
   Loop:
@@ -1455,7 +1719,7 @@ module_types:
         ping_pong: 1
     controllers:
       - volume: { min: 0, max: 256, default: 256 }
-      - delay: { min: 0, max: 256, default: 256 }
+      - delay: { min: 0, max: 256, default: 256, units: "line/128" }
       - channels: { enum: Channels, default: "stereo" }
       - repeats: { min: 0, max: 64, default: 0 }
       - mode: { enum: Mode, default: "normal" }
@@ -1482,7 +1746,7 @@ module_types:
           bit: 0
           size: 4
           min: 0
-          max: 27
+          max: 96
           default: 0
       - arpeggiator:
           number: 0x7f
@@ -1544,10 +1808,10 @@ module_types:
     controllers:
       - value: { min: 0, max: 32768, default: 0 }
       - gain: { min: 0, max: 1024, default: 256 }
-      - quantization: { min: 0, max: 32768, default: 32768 }
+      - quantization: { min: 0, max: 32768, default: 32768, units: "levels" }
       - out_offset: { min: -16384, max: 16384, default: 0 }
       - response: { min: 0, max: 1000, default: 1000 }
-      - sample_rate_hz: { min: 1, max: 32768, default: 150 }
+      - sample_rate: { min: 1, max: 32768, default: 150, units: "Hz" }
     chunks:
       - name: mappings
         parent_type: Array
@@ -1658,26 +1922,33 @@ module_types:
           bit: 3
           size: 1
           default: false
-      - out_note_eq_out_note_minus_in_note_plus_C5:
+      - out_note_out_note_minus_in_note_plus_C5:
           number: 0x76
           byte: 4
           bit: 6
           size: 1
           default: false
-      - out_port_eq_note_mod_num_of_outs:
+      - out_port_note_mod_num_of_outs:
           number: 0x75
           byte: 4
           bit: 7
           size: 1
           default: false
-          exclusive_of: [out_port_eq_channel_mod_num_of_outs]
-      - out_port_eq_channel_mod_num_of_outs:
+          exclusive_of: [out_port_channel_mod_num_of_outs, out_port_round_robin_cyclic]
+      - out_port_channel_mod_num_of_outs:
           number: 0x74
           byte: 4
           bit: 8
           size: 1
           default: false
-          exclusive_of: [out_port_eq_note_mod_num_of_outs]
+          exclusive_of: [out_port_note_mod_num_of_outs, out_port_round_robin_cyclic]
+      - out_port_round_robin_cyclic:
+          number: 0x73
+          byte: 4
+          bit: 7
+          size: 2
+          default: 3
+          exclusive_of: [out_port_note_mod_num_of_outs, out_port_channel_mod_num_of_outs]
     chunks:
       - name: note_velocity_curve
         parent_type: Array
@@ -1752,7 +2023,7 @@ module_types:
       - mode: { enum: Mode, default: "frequency_hz" }
       - note_off_action: { enum: NoteOffAction, default: "do_nothing" }
       - first_note: { min: 0, max: 256, default: 0 }
-      - number_of_semitones: { min: 0, max: 256, default: 120 }
+      - range: { min: 0, max: 256, default: 120, units: "semitones" }
       - out_min: { min: 0, max: 32768, default: 0 }
       - out_max: { min: 0, max: 32768, default: 32768 }
       - out_controller: { min: 0, max: 255, default: 0 }
@@ -1767,10 +2038,10 @@ module_types:
         autocorrelation: 1
         cepstrum: 2
       RollOff:
-        12db: 0
-        24db: 1
-        36db: 2
-        48db: 3
+        12dB: 0
+        24dB: 1
+        36dB: 2
+        48dB: 3
       SampleRate:
         12000Hz: 0
         24000Hz: 1
@@ -1787,12 +2058,12 @@ module_types:
       - gain: { min: 0, max: 256, default: 0 }
       - microtones: { bool: true, default: true }
       - detector_finetune: { min: -256, max: 256, default: 0 }
-      - lp_filter_freq_hz: { min: 0, max: 4000, default: 1000}
-      - lp_filter_rolloff: { enum: RollOff, default: "12db" }
+      - lp_filter_freq: { min: 0, max: 4000, default: 1000, units: "Hz" }
+      - lp_filter_rolloff: { enum: RollOff, default: "12dB" }
       - alg_1_2_sample_rate: { enum: SampleRate, default: "12000Hz" }
       - alg_1_2_buffer: { enum: Buffer, default: "21ms" }
-      - alg_1_2_buffer_overlap_pct: { min: 0, max: 100, default: 50 }
-      - alg_1_sensitivity: { min: 0, max: 100, default: 10 }
+      - alg_1_2_buffer_overlap: { min: 0, max: 100, default: 50, units: "%" }
+      - alg_1_sensitivity: { min: 0, max: 100, default: 10, units: "absolute threshold" }  # TODO: what is better than 'units' here?
       - record_notes: { bool: true, default: false }
 
   PitchShifter:
@@ -1811,8 +2082,8 @@ module_types:
         fast_transition: 2
     controllers:
       - volume: { min: 0, max: 512, default: 256 }
-      - pitch: { min: -600, max: 600, default: 0 }
-      - pitch_scale: { min: 0, max: 200, default: 100 }
+      - pitch: { min: -600, max: 600, default: 0, units: "semitone/10" }
+      - pitch_scale: { min: 0, max: 200, default: 100, units: "%" }
       - feedback: { min: 0, max: 256, default: 0 }
       - grain_size: { min: 0, max: 256, default: 64 }
       - mode: { enum: Mode, default: "hq" }
@@ -1874,7 +2145,7 @@ module_types:
       - panning: { min: -128, max: 128, default: 0 }
       - sample_interpolation: { enum: SampleInterpolation, default: "spline" }
       - envelope_interpolation: { enum: EnvelopeInterpolation, default: "linear" }
-      - polyphony_ch: { min: 1, max: 32, default: 8 }
+      - polyphony: { min: 1, max: 32, default: 8, units: "channels" }
       - rec_threshold: { min: 0, max: 10000, default: 4 }
     options_chnm: 257
     options:
@@ -1914,6 +2185,12 @@ module_types:
           bit: 0
           size: 1
           default: false
+      - increased_freq_computation_accuracy:
+          number: 0x79
+          byte: 6
+          bit: 0
+          size: 1
+          default: false
 
   Sound2Ctl:
     defaultFlags: 0x60051
@@ -1926,7 +2203,7 @@ module_types:
         lq: 0
         hq: 1
     controllers:
-      - sample_rate_hz: { min: 1, max: 32768, default: 50 }
+      - sample_rate: { min: 1, max: 32768, default: 50, units: "Hz" }
       - channels: { enum: Channels, default: "mono" }
       - absolute: { bool: true, default: true }
       - gain: { min: 0, max: 1024, default: 256 }
@@ -1983,14 +2260,14 @@ module_types:
     controllers:
       - volume: { min: 0, max: 256, default: 128 }
       - panning: { min: -128, max: 128, default: 0 }
-      - attack: { min: 0, max: 512, default: 10 }
-      - release: { min: 0, max: 512, default: 512 }
-      - polyphony_ch: { min: 1, max: 32, default: 8 }
+      - attack: { min: 0, max: 512, default: 10, units: "sec/256" }
+      - release: { min: 0, max: 512, default: 512, units: "sec/256" }
+      - polyphony: { min: 1, max: 32, default: 8, units: "channels" }
       - mode: { enum: Mode, default: "hq_spline" }
       - sustain: { bool: true, default: true }
       - spectrum_resolution: { min: 0, max: 5, default: 1 }
       - harmonic: { min: 0, max: 15, default: 0 }
-      - h_freq_hz: { min: 0, max: 22050, default: 1098 }
+      - h_freq: { min: 0, max: 22050, default: 1098, units: "Hz" }
       - h_volume: { min: 0, max: 255, default: 255 }
       - h_width: { min: 0, max: 255, default: 3 }
       - h_type: { enum: HarmonicType, default: "hsin" }
@@ -2085,14 +2362,27 @@ module_types:
       Channels:
         stereo: 0
         mono: 1
+      Vowel:
+        a: 0
+        e: 1
+        i: 2
+        o: 3
+        u: 4
     controllers:
       - volume: { min: 0, max: 512, default: 256 }
-      - formant_width_hz: { min: 0, max: 256, default: 128 }
+      - formant_width: { min: 0, max: 256, default: 128, units: "Hz" }
       - intensity: { min: 0, max: 256, default: 128 }
       - formants: { min: 1, max: 5, default: 5 }
-      - vowel: { min: 0, max: 256, default: 0 }
+      - vowel: { min: 0, max: 256, default: 0, units: "a,e,i,o,u" }
       - voice_type: { enum: VoiceType, default: "soprano" }
       - channels: { enum: Channels, default: "stereo" }
+      - random_frequency: { min: 0, max: 1024, default: 0 }
+      - random_seed: { min: 0, max: 32768, default: 0 }
+      - vowel1: { enum: Vowel, default: "a" }
+      - vowel2: { enum: Vowel, default: "e" }
+      - vowel3: { enum: Vowel, default: "i" }
+      - vowel4: { enum: Vowel, default: "o" }
+      - vowel5: { enum: Vowel, default: "u" }
 
   VorbisPlayer:
     type: Vorbis player
@@ -2104,7 +2394,7 @@ module_types:
       - finetune: { min: -128, max: 128, default: 0, no_offset: true }
       - transpose: { min: -128, max: 128, default: 0 }
       - interpolation: { bool: true, default: true }
-      - polyphony_ch: { min: 1, max: 4, default: 1 }
+      - polyphony: { min: 1, max: 4, default: 1, units: "channels" }
       - repeat: { bool: true, default: false }
     chunks:
       - name: data
