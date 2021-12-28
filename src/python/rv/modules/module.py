@@ -60,7 +60,7 @@ class ModuleList(list):
 
 
 class Behavior(IntEnum):
-    """Different behaviors that """
+    """Different behaviors that"""  # [TODO] finish docstring
 
     receives_audio = 0x01
     receives_notes = 0x02
