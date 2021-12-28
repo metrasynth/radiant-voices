@@ -33,7 +33,7 @@ describe("Reading the filter.sunsynth file", () => {
     expect(c.lfoAmp).toEqual(250)
     expect(c.setLfoPhase).toEqual(32)
     expect(c.exponentialFreq).toEqual(false)
-    expect(c.rollOff).toEqual(m.Filter.RollOff.Db_36)
+    expect(c.rollOff).toEqual(m.Filter.RollOff._36db)
     expect(c.lfoFreqUnit).toEqual(m.Filter.LfoFreqUnit.Hz)
     expect(c.lfoWaveform).toEqual(m.Filter.LfoWaveform.Saw)
   })

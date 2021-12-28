@@ -28,7 +28,7 @@ describe("Reading the multictl.sunsynth file", () => {
     expect(c.quantization).toEqual(6784)
     expect(c.outOffset).toEqual(-2354)
     expect(c.response).toEqual(193)
-    expect(c.sampleRateHz).toEqual(9133)
+    expect(c.sampleRate).toEqual(9133)
   })
 })
 

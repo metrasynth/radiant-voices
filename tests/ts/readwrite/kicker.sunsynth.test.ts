@@ -28,7 +28,7 @@ describe("Reading the kicker.sunsynth file", () => {
     expect(c.release).toEqual(399)
     expect(c.boost).toEqual(842)
     expect(c.acceleration).toEqual(155)
-    expect(c.polyphonyCh).toEqual(1)
+    expect(c.polyphony).toEqual(1)
     expect(c.noClick).toEqual(false)
   })
 })

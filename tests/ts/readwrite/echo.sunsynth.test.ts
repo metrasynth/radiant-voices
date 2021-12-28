@@ -25,7 +25,7 @@ describe("Reading the echo.sunsynth file", () => {
     expect(c.wet).toEqual(88)
     expect(c.feedback).toEqual(234)
     expect(c.delay).toEqual(133)
-    expect(c.channels).toEqual(m.Echo.Channels.Mono)
+    expect(c.rightChannelOffset).toEqual(false)
     expect(c.delayUnit).toEqual(m.Echo.DelayUnit.Line)
   })
 })

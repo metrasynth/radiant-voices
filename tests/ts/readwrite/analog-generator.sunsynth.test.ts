@@ -36,15 +36,15 @@ describe("Reading the analog-generator.sunsynth file", () => {
     expect(c.sustain).toEqual(true)
     expect(c.exponentialEnvelope).toEqual(true)
     expect(c.dutyCycle).toEqual(534)
-    expect(c.freq2).toEqual(1393)
+    expect(c.osc2).toEqual(393)
     expect(c.filter).toEqual(m.AnalogGenerator.Filter.Bp_12db)
-    expect(c.fFreqHz).toEqual(5611)
+    expect(c.fFreq).toEqual(5611)
     expect(c.fResonance).toEqual(1183)
     expect(c.fExponentialFreq).toEqual(false)
     expect(c.fAttack).toEqual(87)
     expect(c.fRelease).toEqual(58)
     expect(c.fEnvelope).toEqual(m.AnalogGenerator.FilterEnvelope.Off)
-    expect(c.polyphonyCh).toEqual(32)
+    expect(c.polyphony).toEqual(32)
     expect(c.mode).toEqual(m.AnalogGenerator.Mode.Lq)
     expect(c.noise).toEqual(9)
     const { o } = mod
@@ -103,9 +103,12 @@ describe("Reading the analog-generator.sunsynth file", () => {
     expectCval(32)
     expectCval(2)
     expectCval(9)
+    expectCval(32768)
+    expectCval(0)
+
     const { name, type, values } = v()
     expect({ name, type }).toEqual({ name: "CMID", type: "midiMaps" })
-    expect((values as Array<MidiMap>).length).toEqual(19)
+    expect((values as Array<MidiMap>).length).toEqual(21)
     expect(values[0]).toEqual({
       channel: 1,
       messageType: MessageType.ControlChange,

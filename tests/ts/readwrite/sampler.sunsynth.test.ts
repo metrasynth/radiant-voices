@@ -33,7 +33,7 @@ describe("Reading the sampler.sunsynth file", () => {
     expect(c.panning).toEqual(50)
     expect(c.sampleInterpolation).toEqual(SampleInterpolation.Linear)
     expect(c.envelopeInterpolation).toEqual(EnvelopeInterpolation.Off)
-    expect(c.polyphonyCh).toEqual(32)
+    expect(c.polyphony).toEqual(32)
     expect(c.recThreshold).toEqual(2448)
 
     const { behavior } = mod

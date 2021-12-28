@@ -31,7 +31,7 @@ describe("Reading the generator.sunsynth file", () => {
     expect(c.panning).toEqual(-85)
     expect(c.attack).toEqual(359)
     expect(c.release).toEqual(115)
-    expect(c.polyphonyCh).toEqual(6)
+    expect(c.polyphony).toEqual(6)
     expect(c.mode).toEqual(m.Generator.Mode.Mono)
     expect(c.sustain).toEqual(true)
     expect(c.freqModulationByInput).toEqual(99)

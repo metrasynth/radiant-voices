@@ -22,7 +22,7 @@ describe("Reading the glide.sunsynth file", () => {
     expect(mod.name).toEqual("Glide")
     const { c } = mod
     expect(c.response).toEqual(220)
-    expect(c.sampleRateHz).toEqual(8676)
+    expect(c.sampleRate).toEqual(8676)
     expect(c.resetOnFirstNote).toEqual(false)
     expect(c.polyphony).toEqual(true)
     expect(c.pitch).toEqual(-537)
