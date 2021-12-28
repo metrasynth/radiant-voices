@@ -229,7 +229,7 @@ export namespace MultiSynth {
       outNoteOutNoteMinusInNotePlus_C5: false,
       outPortNoteModNumOfOuts: false,
       outPortChannelModNumOfOuts: false,
-      outPortRoundRobinCyclic: true,
+      outPortRoundRobinCyclic: false,
     }
     readonly options: MultiSynthOptions = new MultiSynthOptions(this.optionValues)
     readonly o = this.options
@@ -357,7 +357,7 @@ export namespace MultiSynth {
       bytes[4] |= (Number(ov.outNoteOutNoteMinusInNotePlus_C5) & (2 ** 1 - 1)) << 6
       bytes[4] |= (Number(ov.outPortNoteModNumOfOuts) & (2 ** 1 - 1)) << 7
       bytes[4] |= (Number(ov.outPortChannelModNumOfOuts) & (2 ** 1 - 1)) << 8
-      bytes[4] |= (Number(ov.outPortRoundRobinCyclic) & (2 ** 2 - 1)) << 7
+      bytes[4] |= (ov.outPortRoundRobinCyclic ? 3 : 0 & (2 ** 2 - 1)) << 7
       return bytes
     }
     setOptions(dataChunks: ModuleDataChunks) {
@@ -392,7 +392,8 @@ export namespace MultiSynth {
         this.optionValues.outPortChannelModNumOfOuts = Boolean(
           (chdt[4] >> 8) & (2 ** 1 - 1)
         )
-        this.optionValues.outPortRoundRobinCyclic = (chdt[4] >> 7) & (2 ** 2 - 1)
+        this.optionValues.outPortRoundRobinCyclic =
+          ((chdt[4] >> 7) & (2 ** 2 - 1)) === 3
       }
     }
   }
