@@ -65,10 +65,13 @@ def main():
         for gen_name in {"python", "ts"}
     }
     env = Environment(loader=PrefixLoader(loader_map))
-    env.filters["camelcase"] = camelcase
-    env.filters["enumname"] = enumname
-    env.filters["pascalcase"] = pascalcase
-    env.filters["repr"] = repr
+    env.filters.update(
+        camelcase=camelcase,
+        enumname=enumname,
+        hex=hex,
+        pascalcase=pascalcase,
+        repr=repr,
+    )
     parser = arg_parser()
     options = parser.parse_args()
     config_path = Path(options.config)
