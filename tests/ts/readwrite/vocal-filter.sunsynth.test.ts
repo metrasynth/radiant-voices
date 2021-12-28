@@ -22,7 +22,7 @@ describe("Reading the vocal-filter.sunsynth file", () => {
     expect(mod.name).toEqual("Vocal filter")
     const { c } = mod
     expect(c.volume).toEqual(271)
-    expect(c.formantWidthHz).toEqual(249)
+    expect(c.formantWidth).toEqual(249)
     expect(c.intensity).toEqual(207)
     expect(c.formants).toEqual(3)
     expect(c.vowel).toEqual(243)

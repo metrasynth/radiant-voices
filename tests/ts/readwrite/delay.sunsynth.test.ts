@@ -29,6 +29,6 @@ describe("Reading the delay.sunsynth file", () => {
     expect(c.volumeR).toEqual(57)
     expect(c.channels).toEqual(m.Delay.Channels.Stereo)
     expect(c.inverse).toEqual(true)
-    expect(c.delayUnit).toEqual(m.Delay.DelayUnit.Line_2)
+    expect(c.delayUnit).toEqual(m.Delay.DelayUnit.LineDiv_2)
   })
 })

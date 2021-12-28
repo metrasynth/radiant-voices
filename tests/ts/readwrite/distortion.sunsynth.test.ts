@@ -25,7 +25,7 @@ describe("Reading the distortion.sunsynth file", () => {
     expect(c.type).toEqual(m.Distortion.Type.Foldback2)
     expect(c.power).toEqual(94)
     expect(c.bitDepth).toEqual(15)
-    expect(c.freqHz).toEqual(23609)
+    expect(c.freq).toEqual(23609)
     expect(c.noise).toEqual(196)
   })
 })

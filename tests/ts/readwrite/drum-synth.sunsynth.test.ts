@@ -23,7 +23,7 @@ describe("Reading the drum-synth.sunsynth file", () => {
     const { c } = mod
     expect(c.volume).toEqual(255)
     expect(c.panning).toEqual(1)
-    expect(c.polyphonyCh).toEqual(3)
+    expect(c.polyphony).toEqual(3)
     expect(c.bassVolume).toEqual(201)
     expect(c.bassPower).toEqual(255)
     expect(c.bassTone).toEqual(65)

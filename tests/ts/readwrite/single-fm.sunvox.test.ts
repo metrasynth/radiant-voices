@@ -48,7 +48,7 @@ describe("Reading the single-fm.sunvox file", () => {
     expect(c.panning).toEqual(1)
     expect(c.cFreqRatio).toEqual(2)
     expect(c.mFreqRatio).toEqual(2)
-    expect(c.mFeedback).toEqual(1)
+    expect(c.mSelfModulation).toEqual(1)
     expect(c.cAttack).toEqual(33)
     expect(c.cDecay).toEqual(33)
     expect(c.cSustain).toEqual(129)
@@ -58,7 +58,7 @@ describe("Reading the single-fm.sunvox file", () => {
     expect(c.mSustain).toEqual(129)
     expect(c.mRelease).toEqual(65)
     expect(c.mScalingPerKey).toEqual(1)
-    expect(c.polyphonyCh).toEqual(5)
+    expect(c.polyphony).toEqual(5)
     expect(c.mode).toEqual(m.Fm.Mode.Lq)
   })
   test("has correct chunks when written out", () => {
