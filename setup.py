@@ -45,7 +45,7 @@ long_description = "{}\n{}".format(readme, changelog)
 
 setup(
     name="radiant-voices",
-    version="1.0.3",  # [TODO] generate this using a tool
+    version="1.1.0",  # [TODO] generate this using a tool
     url="https://github.com/metrasynth/radiant-voices",
     license="MIT",
     author="Matthew Scott",
