@@ -860,7 +860,7 @@ module_types:
       - sustain: { bool: true, default: true }
       - exponential_envelope: { bool: true, default: true }
       - duty_cycle: { min: 0, max: 1024, default: 512 }
-      - osc2_semitone_64: { min: -1000, max: 1000, default: 0 }
+      - osc2: { min: -1000, max: 1000, default: 0, units: "semitone/64" }
       - filter: { enum: Filter, default: "off" }
       - f_freq: { min: 0, max: 14000, default: 14000, units: "Hz" }
       - f_resonance: { min: 0, max: 1530, default: 0 }

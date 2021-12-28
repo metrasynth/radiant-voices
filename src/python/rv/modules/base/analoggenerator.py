@@ -73,7 +73,7 @@ class BaseAnalogGenerator:
     sustain = Controller(bool, True)
     exponential_envelope = Controller(bool, True)
     duty_cycle = Controller((0, 1024), 512)
-    osc2_semitone_64 = Controller((-1000, 1000), 0)
+    osc2 = Controller((-1000, 1000), 0)
     filter = Controller(Filter, Filter.off)
     f_freq = Controller((0, 14000), 14000)
     f_resonance = Controller((0, 1530), 0)
