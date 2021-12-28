@@ -44,12 +44,15 @@ def generate(env, generator, **options):
 
 
 def enumname(ekey: str) -> str:
-    ekey = str(ekey).replace("/", "_")
-    ekey = ekey.replace("*", "_")
+    ekey = str(ekey).replace("/", "_div_")
+    ekey = ekey.replace("*", "_mul_")
     ekey = ekey.replace(".", "_")
-    ekey = ekey.replace("+", "_plus")
+    ekey = ekey.replace("+", "_plus_")
+    ekey = ekey.replace("-", "_neg_")
     if ekey[0].isdigit():
-        ekey = f"{ekey[-2:].lower()}_{ekey[:2]}"
+        ekey = f"_{ekey}"
+    while "__" in ekey:
+        ekey = ekey.replace("__", "_")
     return ekey
 
 
