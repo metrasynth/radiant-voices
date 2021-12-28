@@ -1,8 +1,8 @@
 from rv.modules import Behavior as B
 from rv.modules import Module
-from rv.modules.base.fm import BaseFm
+from rv.modules.base.fmx import BaseFmx
 
 
-class Fm(BaseFm, Module):
+class Fmx(BaseFmx, Module):
 
     behaviors = {B.receives_notes, B.sends_audio}

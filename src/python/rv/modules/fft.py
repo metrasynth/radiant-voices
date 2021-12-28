@@ -1,8 +1,8 @@
 from rv.modules import Behavior as B
 from rv.modules import Module
-from rv.modules.base.eq import BaseEq
+from rv.modules.base.fft import BaseFft
 
 
-class Eq(BaseEq, Module):
+class Fft(BaseFft, Module):
 
     behaviors = {B.receives_audio, B.sends_audio}

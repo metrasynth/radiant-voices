@@ -38,10 +38,12 @@ from .drumsynth import DrumSynth
 from .echo import Echo
 from .eq import Eq
 from .feedback import Feedback
+from .fft import Fft
 from .filter import Filter
 from .filterpro import FilterPro
 from .flanger import Flanger
 from .fm import Fm
+from .fmx import Fmx
 from .generator import Generator
 from .glide import Glide
 from .gpio import Gpio
