@@ -2,6 +2,44 @@ Changelog
 =========
 
 
+1.1.0
+-----
+
+The themes of this release are:
+
+- Support for SunVox 2.0 file format:
+
+  - New modules, controllers, and options.
+
+  - New maximum number of user-defined MetaModule controllers.
+
+- More consistent naming of controllers:
+
+  - Matching SunVox nomenclature as much as possible.
+
+  - Including units of measure as metadata instead of inside the controller name.
+
+
+Additions (all versions)
+........................
+
+
+
+
+Changes (all versions)
+......................
+
+- Documentation cleanup.
+
+
+
+Additions (Python version)
+..........................
+
+- Python 3.10 is now supported (in addition to Python 3.8 and Python 3.9).
+
+
+
 1.0.4
 -----
 
