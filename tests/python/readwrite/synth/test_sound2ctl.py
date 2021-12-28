@@ -5,7 +5,7 @@ def test_sound2ctl(read_write_read_synth):
     mod: m.Sound2Ctl = read_write_read_synth("sound2ctl").module
     assert mod.flags == 393297
     assert mod.name == "Sound2Ctl"
-    assert mod.sample_rate_hz == 14687
+    assert mod.sample_rate == 14687
     assert not mod.absolute
     assert mod.gain == 741
     assert mod.smooth == 24

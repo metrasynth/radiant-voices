@@ -21,16 +21,16 @@ export namespace PitchDetector {
   }
   export enum RollOff {
     // noinspection JSUnusedGlobalSymbols
-    _12dB = 0,
-    _24dB = 1,
-    _36dB = 2,
-    _48dB = 3,
+    _12db = 0,
+    _24db = 1,
+    _36db = 2,
+    _48db = 3,
   }
   export enum SampleRate {
     // noinspection JSUnusedGlobalSymbols
-    _12000Hz = 0,
-    _24000Hz = 1,
-    _44100Hz = 2,
+    _12000hz = 0,
+    _24000hz = 1,
+    _44100hz = 2,
   }
   export enum Buffer {
     // noinspection JSUnusedGlobalSymbols
@@ -121,8 +121,8 @@ export namespace PitchDetector {
       microtones: true,
       detectorFinetune: 0,
       lpFilterFreq: 1000,
-      lpFilterRolloff: RollOff._12dB,
-      alg_1_2SampleRate: SampleRate._12000Hz,
+      lpFilterRolloff: RollOff._12db,
+      alg_1_2SampleRate: SampleRate._12000hz,
       alg_1_2Buffer: Buffer._21ms,
       alg_1_2BufferOverlap: 50,
       alg_1Sensitivity: 10,

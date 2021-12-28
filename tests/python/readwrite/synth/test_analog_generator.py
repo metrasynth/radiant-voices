@@ -57,13 +57,13 @@ def test_analog_generator(read_write_read_synth):
     assert mod.duty_cycle == 534
     assert mod.freq2 == 1393
     assert mod.filter == mod.Filter.bp_12db
-    assert mod.f_freq_hz == 5611
+    assert mod.f_freq == 5611
     assert mod.f_resonance == 1183
     assert not mod.f_exponential_freq
     assert mod.f_attack == 87
     assert mod.f_release == 58
     assert mod.f_envelope == mod.FilterEnvelope.off
-    assert mod.polyphony_ch == 32
+    assert mod.polyphony == 32
     assert mod.mode == mod.Mode.lq
     assert mod.noise == 9
     assert mod.volume_envelope_scaling_per_key

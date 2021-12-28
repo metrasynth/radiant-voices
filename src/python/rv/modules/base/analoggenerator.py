@@ -42,14 +42,14 @@ class BaseAnalogGenerator:
 
     class Filter(IntEnum):
         off = 0
-        lp_12dB = 1
-        hp_12dB = 2
-        bp_12dB = 3
-        br_12dB = 4
-        lp_24dB = 5
-        hp_24dB = 6
-        bp_24dB = 7
-        br_24dB = 8
+        lp_12db = 1
+        hp_12db = 2
+        bp_12db = 3
+        br_12db = 4
+        lp_24db = 5
+        hp_24db = 6
+        bp_24db = 7
+        br_24db = 8
 
     class FilterEnvelope(IntEnum):
         off = 0
