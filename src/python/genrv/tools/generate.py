@@ -54,6 +54,7 @@ def enumname(ekey: str) -> str:
         ekey = f"_{ekey}"
     while "__" in ekey:
         ekey = ekey.replace("__", "_")
+    ekey = ekey.lower()
     return ekey
 
 
