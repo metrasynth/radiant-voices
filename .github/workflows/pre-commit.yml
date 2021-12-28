@@ -5,8 +5,11 @@ jobs:
   pre-commit:
     runs-on: Ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-      - uses: pre-commit/action@v2.0.0
+      - uses: actions/checkout@v2.4.0
+      - uses: actions/setup-python@v2.3.1
+      - name: Install dependencies
+        run: |
+          pip install setuptools
+      - uses: pre-commit/action@v2.0.3
         with:
           extra_args: --all-files
