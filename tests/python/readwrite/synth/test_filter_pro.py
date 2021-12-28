@@ -21,4 +21,4 @@ def test_filter_pro(read_write_read_synth):
     assert mod.lfo_amp == 29983
     assert mod.lfo_waveform == mod.LfoWaveform.saw
     assert mod.set_lfo_phase == 30
-    assert mod.lfo_freq_unit == mod.LfoFreqUnit.line_3
+    assert mod.lfo_freq_unit == mod.LfoFreqUnit.line_div_3

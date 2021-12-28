@@ -8,7 +8,7 @@ def test_pitch2ctl(read_write_read_synth):
     assert mod.mode == mod.Mode.pitch
     assert mod.note_off_action == mod.NoteOffAction.pitch_down
     assert mod.first_note == 19
-    assert mod.number_of_semitones == 217
+    assert mod.range == 217
     assert mod.out_min == 27327
     assert mod.out_max == 7746
     assert mod.out_controller == 239
