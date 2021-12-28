@@ -13,4 +13,4 @@ def test_delay(read_write_read_synth):
     assert mod.volume_r == 57
     assert mod.channels == mod.Channels.stereo
     assert mod.inverse
-    assert mod.delay_unit == mod.DelayUnit.line_2
+    assert mod.delay_unit == mod.DelayUnit.line_div_2

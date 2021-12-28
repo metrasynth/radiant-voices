@@ -55,7 +55,7 @@ def test_analog_generator(read_write_read_synth):
     assert mod.sustain
     assert mod.exponential_envelope
     assert mod.duty_cycle == 534
-    assert mod.freq2 == 1393
+    assert mod.osc2 == 393
     assert mod.filter == mod.Filter.bp_12db
     assert mod.f_freq == 5611
     assert mod.f_resonance == 1183
@@ -127,10 +127,14 @@ def test_analog_generator_writes_correct_chunks(read_write_read_synth):
     expect_cval(32)
     expect_cval(2)
     expect_cval(9)
+    expect_cval(32768)
+    expect_cval(0)
 
     expect_chunk(
         b"CMID",
         b"\x03\x01\x01\x00\x02\x00\x00\xc8"
+        b"\x00\x00\x00\x00\x00\x00\x00\xff"
+        b"\x00\x00\x00\x00\x00\x00\x00\xff"
         b"\x00\x00\x00\x00\x00\x00\x00\xff"
         b"\x00\x00\x00\x00\x00\x00\x00\xff"
         b"\x00\x00\x00\x00\x00\x00\x00\xff"

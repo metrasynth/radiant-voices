@@ -34,7 +34,7 @@ def test_single_fm(read_write_read_project):
     assert fm.panning == 1
     assert fm.c_freq_ratio == 2
     assert fm.m_freq_ratio == 2
-    assert fm.m_feedback == 1
+    assert fm.m_self_modulation == 1
     assert fm.c_attack == 33
     assert fm.c_decay == 33
     assert fm.c_sustain == 129

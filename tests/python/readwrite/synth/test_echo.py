@@ -9,5 +9,5 @@ def test_echo(read_write_read_synth):
     assert mod.wet == 88
     assert mod.feedback == 234
     assert mod.delay == 133
-    assert mod.channels == mod.Channels.mono
+    assert mod.right_channel_offset is False
     assert mod.delay_unit == mod.DelayUnit.line
