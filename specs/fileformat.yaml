@@ -740,36 +740,36 @@ module_types:
     group: Misc
     enums:
       Curve:
-        linear: 0
-        exp1: 1
-        exp2: 2
-        neg_exp1: 3
-        neg_exp2: 4
-        sin: 5
+        "linear": 0
+        "exp1": 1
+        "exp2": 2
+        "neg_exp1": 3
+        "neg_exp2": 4
+        "sin": 5
       Sustain:
-        off: 0
-        on: 1
-        repeat: 2
+        "off": 0
+        "on": 1
+        "repeat": 2
       State:
-        stop: 0
-        start: 1
+        "stop": 0
+        "start": 1
       OnNoteOn:
-        do_nothing: 0
-        start_on_first_note: 1
-        start: 2
+        "do_nothing": 0
+        "start_on_first_note": 1
+        "start": 2
       OnNoteOff:
-        do_nothing: 0
-        stop_on_last_note: 1
-        stop: 2
+        "do_nothing": 0
+        "stop_on_last_note": 1
+        "stop": 2
       Mode:
-        generator: 0
-        amp_modulator_mono: 1
-        amp_modulator_stereo: 2
+        "generator": 0
+        "amp_modulator_mono": 1
+        "amp_modulator_stereo": 2
       SmoothTransitions:
         "off": 0
-        restart_and_volume_change: 1
-        restart_smoother_and_volume_change: 2
-        volume_change: 3
+        "restart_and_volume_change": 1
+        "restart_smoother_and_volume_change": 2
+        "volume_change": 3
     controllers:
       - volume: { min: 0, max: 32768, default: 32768 }
       - attack: { min: 0, max: 10000, default: 100, units: "ms" }
