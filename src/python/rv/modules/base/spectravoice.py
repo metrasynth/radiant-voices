@@ -13,7 +13,7 @@ class BaseSpectraVoice:
     name = "SpectraVoice"
     mtype = "SpectraVoice"
     mgroup = "Synth"
-    flags = 73
+    flags = 0x49
 
     class Mode(IntEnum):
         hq = 0
@@ -37,22 +37,22 @@ class BaseSpectraVoice:
         overtones2 = 11
         overtones3 = 12
         overtones4 = 13
-        overtones1_plus = 14
-        overtones2_plus = 15
-        overtones3_plus = 16
-        overtones4_plus = 17
+        overtones1_plus_ = 14
+        overtones2_plus_ = 15
+        overtones3_plus_ = 16
+        overtones4_plus_ = 17
         metal = 18
 
     volume = Controller((0, 256), 128)
     panning = Controller((-128, 128), 0)
     attack = Controller((0, 512), 10)
     release = Controller((0, 512), 512)
-    polyphony_ch = Controller((1, 32), 8)
+    polyphony = Controller((1, 32), 8)
     mode = Controller(Mode, Mode.hq_spline)
     sustain = Controller(bool, True)
     spectrum_resolution = Controller((0, 5), 1)
     harmonic = Controller((0, 15), 0)
-    h_freq_hz = Controller((0, 22050), 1098)
+    h_freq = Controller((0, 22050), 1098)
     h_volume = Controller((0, 255), 255)
     h_width = Controller((0, 255), 3)
     h_type = Controller(HarmonicType, HarmonicType.hsin)

@@ -13,4 +13,5 @@ export interface AmplifierControllerValues extends ControllerValues {
   absolute: boolean
   fineVolume: number
   gain: number
+  bipolarDcOffset: number
 }

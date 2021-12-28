@@ -12,7 +12,7 @@ class BaseAdsr:
     name = "Adsr"
     mtype = "ADSR"
     mgroup = "Misc"
-    flags = 89
+    flags = 0x59
 
     class Curve(IntEnum):
         linear = 0
@@ -21,6 +21,11 @@ class BaseAdsr:
         neg_exp1 = 3
         neg_exp2 = 4
         sin = 5
+
+    class Sustain(IntEnum):
+        off = 0
+        on = 1
+        repeat = 2
 
     class State(IntEnum):
         stop = 0
@@ -45,16 +50,17 @@ class BaseAdsr:
         off = 0
         restart_and_volume_change = 1
         restart_smoother_and_volume_change = 2
+        volume_change = 3
 
     volume = Controller((0, 32768), 32768)
-    attack_ms = Controller((0, 10000), 100)
-    decay_ms = Controller((0, 10000), 100)
+    attack = Controller((0, 10000), 100)
+    decay = Controller((0, 10000), 100)
     sustain_level = Controller((0, 32768), 16384)
-    release_ms = Controller((0, 10000), 100)
+    release = Controller((0, 10000), 100)
     attack_curve = Controller(Curve, Curve.linear)
     decay_curve = Controller(Curve, Curve.linear)
     release_curve = Controller(Curve, Curve.linear)
-    sustain = Controller(bool, True)
+    sustain = Controller(Sustain, Sustain.on)
     sustain_pedal = Controller(bool, False)
     state = Controller(State, State.stop)
     on_note_on = Controller(OnNoteOn, OnNoteOn.start_on_first_note)

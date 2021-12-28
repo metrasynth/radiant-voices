@@ -39,7 +39,7 @@ export namespace Velocity2Ctl {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Velocity2Ctl"
-    flags = 131145
+    flags = 0x20049
     readonly typeName = "Velocity2Ctl"
     readonly controllerSetters = [
       (val: number) => {

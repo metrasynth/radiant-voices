@@ -27,7 +27,7 @@ export namespace Kicker {
     Release = 5,
     Boost = 6,
     Acceleration = 7,
-    PolyphonyCh = 8,
+    Polyphony = 8,
     NoClick = 9,
   }
   interface KickerControllerMidiMaps extends ControllerMidiMaps {
@@ -38,7 +38,7 @@ export namespace Kicker {
     release: ControllerMidiMap
     boost: ControllerMidiMap
     acceleration: ControllerMidiMap
-    polyphonyCh: ControllerMidiMap
+    polyphony: ControllerMidiMap
     noClick: ControllerMidiMap
   }
   interface KickerOptionValues extends OptionValues {}
@@ -47,7 +47,7 @@ export namespace Kicker {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Kicker"
-    flags = 73
+    flags = 0x49
     readonly typeName = "Kicker"
     readonly controllerSetters = [
       (val: number) => {
@@ -72,7 +72,7 @@ export namespace Kicker {
         this.controllerValues.acceleration = val
       },
       (val: number) => {
-        this.controllerValues.polyphonyCh = val
+        this.controllerValues.polyphony = val
       },
       (val: number) => {
         this.controllerValues.noClick = Boolean(val)
@@ -86,7 +86,7 @@ export namespace Kicker {
       release: 32,
       boost: 0,
       acceleration: 256,
-      polyphonyCh: 1,
+      polyphony: 1,
       noClick: false,
     }
     readonly controllers: KickerControllers = new KickerControllers(
@@ -102,7 +102,7 @@ export namespace Kicker {
       release: new ControllerMidiMap(),
       boost: new ControllerMidiMap(),
       acceleration: new ControllerMidiMap(),
-      polyphonyCh: new ControllerMidiMap(),
+      polyphony: new ControllerMidiMap(),
       noClick: new ControllerMidiMap(),
     }
     readonly optionValues: KickerOptionValues = {}
@@ -141,7 +141,7 @@ export namespace Kicker {
           cv.acceleration = value
           break
         case 8:
-          cv.polyphonyCh = value
+          cv.polyphony = value
           break
         case 9:
           cv.noClick = Boolean(value)
@@ -157,7 +157,7 @@ export namespace Kicker {
       yield cv.release
       yield cv.boost
       yield cv.acceleration
-      yield cv.polyphonyCh
+      yield cv.polyphony
       yield Number(cv.noClick)
     }
     setMidiMaps(midiMaps: MidiMap[]) {
@@ -203,7 +203,7 @@ export namespace Kicker {
         messageParameter: 0,
         slope: 0,
       }
-      this.midiMaps.polyphonyCh = midiMaps[7] || {
+      this.midiMaps.polyphony = midiMaps[7] || {
         channel: 0,
         messageType: 0,
         messageParameter: 0,
@@ -225,7 +225,7 @@ export namespace Kicker {
       a.push(this.midiMaps.release)
       a.push(this.midiMaps.boost)
       a.push(this.midiMaps.acceleration)
-      a.push(this.midiMaps.polyphonyCh)
+      a.push(this.midiMaps.polyphony)
       a.push(this.midiMaps.noClick)
       return a
     }

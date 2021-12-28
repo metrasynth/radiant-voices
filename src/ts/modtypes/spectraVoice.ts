@@ -37,10 +37,10 @@ export namespace SpectraVoice {
     Overtones2 = 11,
     Overtones3 = 12,
     Overtones4 = 13,
-    Overtones1Plus = 14,
-    Overtones2Plus = 15,
-    Overtones3Plus = 16,
-    Overtones4Plus = 17,
+    Overtones1Plus_ = 14,
+    Overtones2Plus_ = 15,
+    Overtones3Plus_ = 16,
+    Overtones4Plus_ = 17,
     Metal = 18,
   }
   export enum CtlNum {
@@ -48,12 +48,12 @@ export namespace SpectraVoice {
     Panning = 2,
     Attack = 3,
     Release = 4,
-    PolyphonyCh = 5,
+    Polyphony = 5,
     Mode = 6,
     Sustain = 7,
     SpectrumResolution = 8,
     Harmonic = 9,
-    HFreqHz = 10,
+    HFreq = 10,
     HVolume = 11,
     HWidth = 12,
     HType = 13,
@@ -63,12 +63,12 @@ export namespace SpectraVoice {
     panning: ControllerMidiMap
     attack: ControllerMidiMap
     release: ControllerMidiMap
-    polyphonyCh: ControllerMidiMap
+    polyphony: ControllerMidiMap
     mode: ControllerMidiMap
     sustain: ControllerMidiMap
     spectrumResolution: ControllerMidiMap
     harmonic: ControllerMidiMap
-    hFreqHz: ControllerMidiMap
+    hFreq: ControllerMidiMap
     hVolume: ControllerMidiMap
     hWidth: ControllerMidiMap
     hType: ControllerMidiMap
@@ -79,7 +79,7 @@ export namespace SpectraVoice {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "SpectraVoice"
-    flags = 73
+    flags = 0x49
     readonly typeName = "SpectraVoice"
     readonly controllerSetters = [
       (val: number) => {
@@ -95,7 +95,7 @@ export namespace SpectraVoice {
         this.controllerValues.release = val
       },
       (val: number) => {
-        this.controllerValues.polyphonyCh = val
+        this.controllerValues.polyphony = val
       },
       (val: number) => {
         this.controllerValues.mode = val
@@ -110,7 +110,7 @@ export namespace SpectraVoice {
         this.controllerValues.harmonic = val
       },
       (val: number) => {
-        this.controllerValues.hFreqHz = val
+        this.controllerValues.hFreq = val
       },
       (val: number) => {
         this.controllerValues.hVolume = val
@@ -127,12 +127,12 @@ export namespace SpectraVoice {
       panning: 0,
       attack: 10,
       release: 512,
-      polyphonyCh: 8,
+      polyphony: 8,
       mode: Mode.HqSpline,
       sustain: true,
       spectrumResolution: 1,
       harmonic: 0,
-      hFreqHz: 1098,
+      hFreq: 1098,
       hVolume: 255,
       hWidth: 3,
       hType: HarmonicType.Hsin,
@@ -147,12 +147,12 @@ export namespace SpectraVoice {
       panning: new ControllerMidiMap(),
       attack: new ControllerMidiMap(),
       release: new ControllerMidiMap(),
-      polyphonyCh: new ControllerMidiMap(),
+      polyphony: new ControllerMidiMap(),
       mode: new ControllerMidiMap(),
       sustain: new ControllerMidiMap(),
       spectrumResolution: new ControllerMidiMap(),
       harmonic: new ControllerMidiMap(),
-      hFreqHz: new ControllerMidiMap(),
+      hFreq: new ControllerMidiMap(),
       hVolume: new ControllerMidiMap(),
       hWidth: new ControllerMidiMap(),
       hType: new ControllerMidiMap(),
@@ -184,7 +184,7 @@ export namespace SpectraVoice {
           cv.release = value
           break
         case 5:
-          cv.polyphonyCh = value
+          cv.polyphony = value
           break
         case 6:
           cv.mode = value
@@ -199,7 +199,7 @@ export namespace SpectraVoice {
           cv.harmonic = value
           break
         case 10:
-          cv.hFreqHz = value
+          cv.hFreq = value
           break
         case 11:
           cv.hVolume = value
@@ -218,12 +218,12 @@ export namespace SpectraVoice {
       yield cv.panning
       yield cv.attack
       yield cv.release
-      yield cv.polyphonyCh
+      yield cv.polyphony
       yield cv.mode
       yield Number(cv.sustain)
       yield cv.spectrumResolution
       yield cv.harmonic
-      yield cv.hFreqHz
+      yield cv.hFreq
       yield cv.hVolume
       yield cv.hWidth
       yield cv.hType
@@ -253,7 +253,7 @@ export namespace SpectraVoice {
         messageParameter: 0,
         slope: 0,
       }
-      this.midiMaps.polyphonyCh = midiMaps[4] || {
+      this.midiMaps.polyphony = midiMaps[4] || {
         channel: 0,
         messageType: 0,
         messageParameter: 0,
@@ -283,7 +283,7 @@ export namespace SpectraVoice {
         messageParameter: 0,
         slope: 0,
       }
-      this.midiMaps.hFreqHz = midiMaps[9] || {
+      this.midiMaps.hFreq = midiMaps[9] || {
         channel: 0,
         messageType: 0,
         messageParameter: 0,
@@ -314,12 +314,12 @@ export namespace SpectraVoice {
       a.push(this.midiMaps.panning)
       a.push(this.midiMaps.attack)
       a.push(this.midiMaps.release)
-      a.push(this.midiMaps.polyphonyCh)
+      a.push(this.midiMaps.polyphony)
       a.push(this.midiMaps.mode)
       a.push(this.midiMaps.sustain)
       a.push(this.midiMaps.spectrumResolution)
       a.push(this.midiMaps.harmonic)
-      a.push(this.midiMaps.hFreqHz)
+      a.push(this.midiMaps.hFreq)
       a.push(this.midiMaps.hVolume)
       a.push(this.midiMaps.hWidth)
       a.push(this.midiMaps.hType)

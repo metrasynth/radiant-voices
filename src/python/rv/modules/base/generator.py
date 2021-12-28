@@ -12,7 +12,7 @@ class BaseGenerator:
     name = "Generator"
     mtype = "Generator"
     mgroup = "Synth"
-    flags = 89
+    flags = 0x59
 
     class Waveform(IntEnum):
         triangle = 0
@@ -34,7 +34,7 @@ class BaseGenerator:
     panning = Controller((-128, 128), 0)
     attack = Controller((0, 512), 0)
     release = Controller((0, 512), 0)
-    polyphony_ch = Controller((1, 16), 8)
+    polyphony = Controller((1, 16), 8)
     mode = Controller(Mode, Mode.stereo)
     sustain = Controller(bool, True)
     freq_modulation_by_input = Controller((0, 256), 0)

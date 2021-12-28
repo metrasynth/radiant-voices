@@ -13,7 +13,7 @@ export interface FmControllerValues extends ControllerValues {
   panning: number
   cFreqRatio: number
   mFreqRatio: number
-  mFeedback: number
+  mSelfModulation: number
   cAttack: number
   cDecay: number
   cSustain: number
@@ -23,6 +23,6 @@ export interface FmControllerValues extends ControllerValues {
   mSustain: number
   mRelease: number
   mScalingPerKey: number
-  polyphonyCh: number
+  polyphony: number
   mode: Mode
 }

@@ -13,7 +13,7 @@ class BaseSound2Ctl:
     name = "Sound2Ctl"
     mtype = "Sound2Ctl"
     mgroup = "Misc"
-    flags = 393297
+    flags = 0x60051
 
     class Channels(IntEnum):
         mono = 0
@@ -23,7 +23,7 @@ class BaseSound2Ctl:
         lq = 0
         hq = 1
 
-    sample_rate_hz = Controller((1, 32768), 50)
+    sample_rate = Controller((1, 32768), 50)
     channels = Controller(Channels, Channels.mono)
     absolute = Controller(bool, True)
     gain = Controller((0, 1024), 256)

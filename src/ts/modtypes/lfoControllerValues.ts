@@ -30,6 +30,6 @@ export interface LfoControllerValues extends ControllerValues {
   frequencyUnit: FrequencyUnit
   dutyCycle: number
   generator: boolean
-  freqScalePct: number
+  freqScale: number
   smoothTransitions: SmoothTransitions
 }

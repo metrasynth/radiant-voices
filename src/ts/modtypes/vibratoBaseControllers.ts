@@ -44,7 +44,7 @@ export class VibratoBaseControllers implements Controllers {
   set freq(newValue: number) {
     const { controllerValues } = this
     switch (this.controllerValues.frequencyUnit) {
-      case FrequencyUnit.Hz_64:
+      case FrequencyUnit.HzDiv_64:
         newValue = Math.min(Math.max(newValue, 1), 2048)
         break
       case FrequencyUnit.Ms:
@@ -59,10 +59,10 @@ export class VibratoBaseControllers implements Controllers {
       case FrequencyUnit.Line:
         newValue = Math.min(Math.max(newValue, 1), 2048)
         break
-      case FrequencyUnit.Line_2:
+      case FrequencyUnit.LineDiv_2:
         newValue = Math.min(Math.max(newValue, 1), 2048)
         break
-      case FrequencyUnit.Line_3:
+      case FrequencyUnit.LineDiv_3:
         newValue = Math.min(Math.max(newValue, 1), 2048)
         break
     }

@@ -83,14 +83,14 @@ export class KickerBaseControllers implements Controllers {
     controllerValues.acceleration = newValue
   }
   // noinspection JSUnusedGlobalSymbols
-  get polyphonyCh(): number {
-    return this.controllerValues.polyphonyCh
+  get polyphony(): number {
+    return this.controllerValues.polyphony
   }
   // noinspection JSUnusedGlobalSymbols
-  set polyphonyCh(newValue: number) {
+  set polyphony(newValue: number) {
     const { controllerValues } = this
     newValue = Math.min(Math.max(newValue, 1), 4)
-    controllerValues.polyphonyCh = newValue
+    controllerValues.polyphony = newValue
   }
   // noinspection JSUnusedGlobalSymbols
   get noClick(): boolean {

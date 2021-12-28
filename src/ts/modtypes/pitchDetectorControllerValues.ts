@@ -22,11 +22,11 @@ export interface PitchDetectorControllerValues extends ControllerValues {
   gain: number
   microtones: boolean
   detectorFinetune: number
-  lpFilterFreqHz: number
+  lpFilterFreq: number
   lpFilterRolloff: RollOff
   alg_1_2SampleRate: SampleRate
   alg_1_2Buffer: Buffer
-  alg_1_2BufferOverlapPct: number
+  alg_1_2BufferOverlap: number
   alg_1Sensitivity: number
   recordNotes: boolean
 }

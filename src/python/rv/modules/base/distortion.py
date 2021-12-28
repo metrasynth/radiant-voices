@@ -12,20 +12,19 @@ class BaseDistortion:
     name = "Distortion"
     mtype = "Distortion"
     mgroup = "Effect"
-    flags = 81
+    flags = 0x51
 
     class Type(IntEnum):
-        lim = 0
         clipping = 0
-        sat = 1
         foldback = 1
         foldback2 = 2
         foldback3 = 3
         overflow = 4
+        overflow2 = 5
 
     volume = Controller((0, 256), 128)
-    type = Controller(Type, Type.lim)
+    type = Controller(Type, Type.clipping)
     power = Controller((0, 256), 0)
     bit_depth = Controller((1, 16), 16)
-    freq_hz = Controller((0, 44100), 44100)
+    freq = Controller((0, 44100), 44100)
     noise = Controller((0, 256), 0)

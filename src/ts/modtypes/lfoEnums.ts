@@ -28,13 +28,13 @@ export enum Channels {
 }
 export enum FrequencyUnit {
   // noinspection JSUnusedGlobalSymbols
-  Hz_64 = 0,
+  HzDiv_64 = 0,
   Ms = 1,
   Hz = 2,
   Tick = 3,
   Line = 4,
-  Line_2 = 5,
-  Line_3 = 6,
+  LineDiv_2 = 5,
+  LineDiv_3 = 6,
 }
 export enum SmoothTransitions {
   // noinspection JSUnusedGlobalSymbols

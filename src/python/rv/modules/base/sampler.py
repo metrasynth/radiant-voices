@@ -13,7 +13,7 @@ class BaseSampler:
     name = "Sampler"
     mtype = "Sampler"
     mgroup = "Synth"
-    flags = 33881
+    flags = 0x8459
 
     class SampleInterpolation(IntEnum):
         off = 0
@@ -54,7 +54,7 @@ class BaseSampler:
     envelope_interpolation = Controller(
         EnvelopeInterpolation, EnvelopeInterpolation.linear
     )
-    polyphony_ch = Controller((1, 32), 8)
+    polyphony = Controller((1, 32), 8)
     rec_threshold = Controller((0, 10000), 4)
     start_recording_on_project_play = Option(
         name="start_recording_on_project_play",
@@ -90,6 +90,14 @@ class BaseSampler:
         name="ignore_velocity_for_volume",
         number=122,
         byte=5,
+        bit=0,
+        size=1,
+        default=False,
+    )
+    increased_freq_computation_accuracy = Option(
+        name="increased_freq_computation_accuracy",
+        number=121,
+        byte=6,
         bit=0,
         size=1,
         default=False,

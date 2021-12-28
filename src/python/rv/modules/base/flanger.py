@@ -12,20 +12,20 @@ class BaseFlanger:
     name = "Flanger"
     mtype = "Flanger"
     mgroup = "Effect"
-    flags = 1105
+    flags = 0x451
 
     class LfoWaveform(IntEnum):
         hsin = 0
         sin = 1
 
     class LfoFreqUnit(IntEnum):
-        hz_0_05 = 0
+        hz_mul_0_05 = 0
         ms = 1
         hz = 2
         tick = 3
         line = 4
-        line_2 = 5
-        line_3 = 6
+        line_div_2 = 5
+        line_div_3 = 6
 
     dry = Controller((0, 256), 256)
     wet = Controller((0, 256), 128)
@@ -36,4 +36,4 @@ class BaseFlanger:
     lfo_amp = Controller((0, 256), 32)
     lfo_waveform = Controller(LfoWaveform, LfoWaveform.hsin)
     set_lfo_phase = Controller((0, 256), 0)
-    lfo_freq_unit = Controller(LfoFreqUnit, LfoFreqUnit.hz_0_05)
+    lfo_freq_unit = Controller(LfoFreqUnit, LfoFreqUnit.hz_mul_0_05)

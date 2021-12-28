@@ -50,7 +50,7 @@ export namespace MetaModule {
     }
     // noinspection JSUnusedGlobalSymbols
     set userDefinedControllers(newValue: number) {
-      if (newValue < 0 || newValue > 27) {
+      if (newValue < 0 || newValue > 96) {
         throw new Error("Option value is out of range")
       }
       this.optionValues.userDefinedControllers = newValue
@@ -100,7 +100,7 @@ export namespace MetaModule {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "MetaModule"
-    flags = 32849
+    flags = 0x8051
     readonly typeName = "MetaModule"
     readonly optionsChnm = 2
     readonly controllerSetters = [

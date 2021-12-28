@@ -16,6 +16,9 @@ import { Filter } from "./analogGeneratorEnums"
 // @ts-ignore
 // noinspection ES6UnusedImports
 import { FilterEnvelope } from "./analogGeneratorEnums"
+// @ts-ignore
+// noinspection ES6UnusedImports
+import { Osc2Mode } from "./analogGeneratorEnums"
 export interface AnalogGeneratorControllerValues extends ControllerValues {
   volume: number
   waveform: Waveform
@@ -25,15 +28,17 @@ export interface AnalogGeneratorControllerValues extends ControllerValues {
   sustain: boolean
   exponentialEnvelope: boolean
   dutyCycle: number
-  freq2: number
+  osc2Semitone_64: number
   filter: Filter
-  fFreqHz: number
+  fFreq: number
   fResonance: number
   fExponentialFreq: boolean
   fAttack: number
   fRelease: number
   fEnvelope: FilterEnvelope
-  polyphonyCh: number
+  polyphony: number
   mode: Mode
   noise: number
+  osc2Volume: number
+  osc2Mode: Osc2Mode
 }

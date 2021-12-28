@@ -34,34 +34,34 @@ export class CompressorBaseControllers implements Controllers {
     controllerValues.threshold = newValue
   }
   // noinspection JSUnusedGlobalSymbols
-  get slopePct(): number {
-    return this.controllerValues.slopePct
+  get slope(): number {
+    return this.controllerValues.slope
   }
   // noinspection JSUnusedGlobalSymbols
-  set slopePct(newValue: number) {
+  set slope(newValue: number) {
     const { controllerValues } = this
     newValue = Math.min(Math.max(newValue, 0), 200)
-    controllerValues.slopePct = newValue
+    controllerValues.slope = newValue
   }
   // noinspection JSUnusedGlobalSymbols
-  get attackMs(): number {
-    return this.controllerValues.attackMs
+  get attack(): number {
+    return this.controllerValues.attack
   }
   // noinspection JSUnusedGlobalSymbols
-  set attackMs(newValue: number) {
+  set attack(newValue: number) {
     const { controllerValues } = this
     newValue = Math.min(Math.max(newValue, 0), 500)
-    controllerValues.attackMs = newValue
+    controllerValues.attack = newValue
   }
   // noinspection JSUnusedGlobalSymbols
-  get releaseMs(): number {
-    return this.controllerValues.releaseMs
+  get release(): number {
+    return this.controllerValues.release
   }
   // noinspection JSUnusedGlobalSymbols
-  set releaseMs(newValue: number) {
+  set release(newValue: number) {
     const { controllerValues } = this
     newValue = Math.min(Math.max(newValue, 1), 1000)
-    controllerValues.releaseMs = newValue
+    controllerValues.release = newValue
   }
   // noinspection JSUnusedGlobalSymbols
   get mode(): Mode {
