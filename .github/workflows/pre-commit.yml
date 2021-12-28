@@ -1,20 +1,13 @@
 name: pre-commit-all
 on:
-  - push
+  pull_request:
+  push:
 jobs:
   pre-commit:
-    runs-on: ubuntu-20.04
-    strategy:
-      matrix:
-        python-version:
-          - "3.8"
-
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2.4.0
-      - uses: actions/setup-python@v2.3.1
-      - name: Install dependencies
-        run: |
-          pip install setuptools
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
       - uses: pre-commit/action@v2.0.3
         with:
           extra_args: --all-files
