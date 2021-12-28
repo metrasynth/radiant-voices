@@ -1947,7 +1947,8 @@ module_types:
           byte: 4
           bit: 7
           size: 2
-          default: 3
+          bool_value: 3
+          default: false
           exclusive_of: [out_port_note_mod_num_of_outs, out_port_channel_mod_num_of_outs]
     chunks:
       - name: note_velocity_curve

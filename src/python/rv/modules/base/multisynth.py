@@ -117,7 +117,7 @@ class BaseMultiSynth:
             "out_port_note_mod_num_of_outs",
             "out_port_channel_mod_num_of_outs",
         ],
-        default=3,
+        default=False,
     )
 
     class note_velocity_curve_chunk(ArrayChunk):
