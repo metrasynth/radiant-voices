@@ -24,14 +24,14 @@ class BaseFilterPro:
         peaking = 6
         low_shelf = 7
         high_shelf = 8
-        lp_6dB = 9
-        hp_6dB = 10
+        lp_6db = 9
+        hp_6db = 10
 
     class RollOff(IntEnum):
-        _12dB = 0
-        _24dB = 1
-        _36dB = 2
-        _48dB = 3
+        _12db = 0
+        _24db = 1
+        _36db = 2
+        _48db = 3
 
     class Mode(IntEnum):
         stereo = 0
@@ -63,7 +63,7 @@ class BaseFilterPro:
     exponential_freq = Controller(bool, False)
     q = Controller((0, 32768), 16384)
     gain = Controller((-16384, 16384), 0)
-    roll_off = Controller(RollOff, RollOff._12dB)
+    roll_off = Controller(RollOff, RollOff._12db)
     response = Controller((0, 1000), 250)
     mode = Controller(Mode, Mode.stereo)
     mix = Controller((0, 32768), 32768)

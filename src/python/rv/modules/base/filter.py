@@ -27,10 +27,10 @@ class BaseFilter:
         lq_mono = 3
 
     class RollOff(IntEnum):
-        _12dB = 0
-        _24dB = 1
-        _36dB = 2
-        _48dB = 3
+        _12db = 0
+        _24db = 1
+        _36db = 2
+        _48db = 3
 
     class LfoFreqUnit(IntEnum):
         hz_mul_0_02 = 0
@@ -60,6 +60,6 @@ class BaseFilter:
     lfo_amp = Controller((0, 256), 0)
     set_lfo_phase = Controller((0, 256), 0)
     exponential_freq = Controller(bool, False)
-    roll_off = Controller(RollOff, RollOff._12dB)
+    roll_off = Controller(RollOff, RollOff._12db)
     lfo_freq_unit = Controller(LfoFreqUnit, LfoFreqUnit.hz_mul_0_02)
     lfo_waveform = Controller(LfoWaveform, LfoWaveform.sin)

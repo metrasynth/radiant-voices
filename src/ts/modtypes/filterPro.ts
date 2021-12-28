@@ -24,15 +24,15 @@ export namespace FilterPro {
     Peaking = 6,
     LowShelf = 7,
     HighShelf = 8,
-    Lp_6dB = 9,
-    Hp_6dB = 10,
+    Lp_6db = 9,
+    Hp_6db = 10,
   }
   export enum RollOff {
     // noinspection JSUnusedGlobalSymbols
-    _12dB = 0,
-    _24dB = 1,
-    _36dB = 2,
-    _48dB = 3,
+    _12db = 0,
+    _24db = 1,
+    _36db = 2,
+    _48db = 3,
   }
   export enum Mode {
     // noinspection JSUnusedGlobalSymbols
@@ -167,7 +167,7 @@ export namespace FilterPro {
       exponentialFreq: false,
       q: 16384,
       gain: 0,
-      rollOff: RollOff._12dB,
+      rollOff: RollOff._12db,
       response: 250,
       mode: Mode.Stereo,
       mix: 32768,

@@ -25,8 +25,8 @@ class BaseEcho:
 
     class Filter(IntEnum):
         off = 0
-        lp_6dB = 1
-        hp_6dB = 2
+        lp_6db = 1
+        hp_6db = 2
 
     dry = Controller((0, 256), 256)
     wet = Controller((0, 256), 40)

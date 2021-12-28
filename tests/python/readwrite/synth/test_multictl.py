@@ -14,7 +14,7 @@ def test_multictl(read_write_read_synth):
     assert mod.quantization == 6784
     assert mod.out_offset == -2354
     assert mod.response == 193
-    assert mod.sample_rate_hz == 9133
+    assert mod.sample_rate == 9133
 
 
 EXPECTED_MAPPINGS = [

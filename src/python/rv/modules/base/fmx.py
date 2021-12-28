@@ -16,12 +16,12 @@ class BaseFmx:
     flags = 0x2000059
 
     class SampleRate(IntEnum):
-        _8000Hz = 0
-        _11025Hz = 1
-        _16000Hz = 2
-        _22050Hz = 3
-        _32000Hz = 4
-        _44100Hz = 5
+        _8000hz = 0
+        _11025hz = 1
+        _16000hz = 2
+        _22050hz = 3
+        _32000hz = 4
+        _44100hz = 5
         native = 6
 
     class Channels(IntEnum):
@@ -77,7 +77,7 @@ class BaseFmx:
 
     volume = Controller((0, 32768), 16384)
     panning = Controller((0, 256), 128)
-    sample_rate = Controller(SampleRate, SampleRate._44100Hz)
+    sample_rate = Controller(SampleRate, SampleRate._44100hz)
     polyphony = Controller((1, 32), 4)
     channels = Controller(Channels, Channels.mono)
     input_to_operator = Controller((0, 5), 0)

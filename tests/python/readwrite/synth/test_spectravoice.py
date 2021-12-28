@@ -16,12 +16,12 @@ def test_spectravoice(read_write_read_synth):
     assert mod.panning == -77
     assert mod.attack == 234
     assert mod.release == 324
-    assert mod.polyphony_ch == 21
+    assert mod.polyphony == 21
     assert mod.mode == mod.Mode.lq_mono
     assert not mod.sustain
     assert mod.spectrum_resolution == 4
     assert mod.harmonic == 10
-    assert mod.h_freq_hz == 14729
+    assert mod.h_freq == 14729
     assert mod.h_volume == 224
     assert mod.h_width == 94
     assert mod.h_type == mod.HarmonicType.overtones2

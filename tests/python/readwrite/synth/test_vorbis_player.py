@@ -10,5 +10,5 @@ def test_vorbis_player(read_write_read_synth):
     assert mod.finetune == -38
     assert mod.transpose == 16
     assert mod.interpolation
-    assert mod.polyphony_ch == 3
+    assert mod.polyphony == 3
     assert not mod.repeat

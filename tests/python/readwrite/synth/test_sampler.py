@@ -13,7 +13,7 @@ def test_sampler(read_write_read_synth):
     assert mod.panning == 50
     assert mod.sample_interpolation == mod.SampleInterpolation.linear
     assert mod.envelope_interpolation == mod.EnvelopeInterpolation.off
-    assert mod.polyphony_ch == 32
+    assert mod.polyphony == 32
     assert mod.rec_threshold == 2448
 
     # Global sampler config

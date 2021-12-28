@@ -7,16 +7,16 @@
 // (TypeScript does not allow exporting imported enums from inside a namespace)
 export enum SampleRate {
   // noinspection JSUnusedGlobalSymbols
-  _8000Hz = 0,
-  _11025Hz = 1,
-  _16000Hz = 2,
-  _22050Hz = 3,
-  _32000Hz = 4,
-  _44100Hz = 5,
-  _48000Hz = 6,
-  _88200Hz = 7,
-  _96000Hz = 8,
-  _119200Hz = 9,
+  _8000hz = 0,
+  _11025hz = 1,
+  _16000hz = 2,
+  _22050hz = 3,
+  _32000hz = 4,
+  _44100hz = 5,
+  _48000hz = 6,
+  _88200hz = 7,
+  _96000hz = 8,
+  _119200hz = 9,
 }
 export enum Channels {
   // noinspection JSUnusedGlobalSymbols

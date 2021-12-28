@@ -29,10 +29,10 @@ export namespace Filter {
   }
   export enum RollOff {
     // noinspection JSUnusedGlobalSymbols
-    _12dB = 0,
-    _24dB = 1,
-    _36dB = 2,
-    _48dB = 3,
+    _12db = 0,
+    _24db = 1,
+    _36db = 2,
+    _48db = 3,
   }
   export enum LfoFreqUnit {
     // noinspection JSUnusedGlobalSymbols
@@ -154,7 +154,7 @@ export namespace Filter {
       lfoAmp: 0,
       setLfoPhase: 0,
       exponentialFreq: false,
-      rollOff: RollOff._12dB,
+      rollOff: RollOff._12db,
       lfoFreqUnit: LfoFreqUnit.HzMul_0_02,
       lfoWaveform: LfoWaveform.Sin,
     }

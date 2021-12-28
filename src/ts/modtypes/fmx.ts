@@ -15,12 +15,12 @@ export namespace Fmx {
   // (TypeScript does not allow exporting imported enums from inside a namespace)
   export enum SampleRate {
     // noinspection JSUnusedGlobalSymbols
-    _8000Hz = 0,
-    _11025Hz = 1,
-    _16000Hz = 2,
-    _22050Hz = 3,
-    _32000Hz = 4,
-    _44100Hz = 5,
+    _8000hz = 0,
+    _11025hz = 1,
+    _16000hz = 2,
+    _22050hz = 3,
+    _32000hz = 4,
+    _44100hz = 5,
     Native = 6,
   }
   export enum Channels {
@@ -688,7 +688,7 @@ export namespace Fmx {
     readonly controllerValues: FmxControllerValues = {
       volume: 16384,
       panning: 128,
-      sampleRate: SampleRate._44100Hz,
+      sampleRate: SampleRate._44100hz,
       polyphony: 4,
       channels: Channels.Mono,
       inputToOperator: 0,

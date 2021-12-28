@@ -20,15 +20,15 @@ class BasePitchDetector:
         cepstrum = 2
 
     class RollOff(IntEnum):
-        _12dB = 0
-        _24dB = 1
-        _36dB = 2
-        _48dB = 3
+        _12db = 0
+        _24db = 1
+        _36db = 2
+        _48db = 3
 
     class SampleRate(IntEnum):
-        _12000Hz = 0
-        _24000Hz = 1
-        _44100Hz = 2
+        _12000hz = 0
+        _24000hz = 1
+        _44100hz = 2
 
     class Buffer(IntEnum):
         _5ms = 0
@@ -43,8 +43,8 @@ class BasePitchDetector:
     microtones = Controller(bool, True)
     detector_finetune = Controller((-256, 256), 0)
     lp_filter_freq = Controller((0, 4000), 1000)
-    lp_filter_rolloff = Controller(RollOff, RollOff._12dB)
-    alg_1_2_sample_rate = Controller(SampleRate, SampleRate._12000Hz)
+    lp_filter_rolloff = Controller(RollOff, RollOff._12db)
+    alg_1_2_sample_rate = Controller(SampleRate, SampleRate._12000hz)
     alg_1_2_buffer = Controller(Buffer, Buffer._21ms)
     alg_1_2_buffer_overlap = Controller((0, 100), 50)
     alg_1_sensitivity = Controller((0, 100), 10)

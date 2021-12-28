@@ -9,5 +9,5 @@ def test_distortion(read_write_read_synth):
     assert mod.type == mod.Type.foldback2
     assert mod.power == 94
     assert mod.bit_depth == 15
-    assert mod.freq_hz == 23609
+    assert mod.freq == 23609
     assert mod.noise == 196

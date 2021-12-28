@@ -18,6 +18,6 @@ export enum DelayUnit {
 export enum Filter {
   // noinspection JSUnusedGlobalSymbols
   Off = 0,
-  Lp_6dB = 1,
-  Hp_6dB = 2,
+  Lp_6db = 1,
+  Hp_6db = 2,
 }

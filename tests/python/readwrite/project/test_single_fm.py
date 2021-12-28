@@ -44,7 +44,7 @@ def test_single_fm(read_write_read_project):
     assert fm.m_sustain == 129
     assert fm.m_release == 65
     assert fm.m_scaling_per_key == 1
-    assert fm.polyphony_ch == 5
+    assert fm.polyphony == 5
     assert fm.mode == fm.Mode.lq
 
 
