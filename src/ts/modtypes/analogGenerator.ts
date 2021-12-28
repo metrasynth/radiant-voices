@@ -78,7 +78,7 @@ export namespace AnalogGenerator {
     Sustain = 6,
     ExponentialEnvelope = 7,
     DutyCycle = 8,
-    Osc2Semitone_64 = 9,
+    Osc2 = 9,
     Filter = 10,
     FFreq = 11,
     FResonance = 12,
@@ -101,7 +101,7 @@ export namespace AnalogGenerator {
     sustain: ControllerMidiMap
     exponentialEnvelope: ControllerMidiMap
     dutyCycle: ControllerMidiMap
-    osc2Semitone_64: ControllerMidiMap
+    osc2: ControllerMidiMap
     filter: ControllerMidiMap
     fFreq: ControllerMidiMap
     fResonance: ControllerMidiMap
@@ -268,7 +268,7 @@ export namespace AnalogGenerator {
         this.controllerValues.dutyCycle = val
       },
       (val: number) => {
-        this.controllerValues.osc2Semitone_64 = val
+        this.controllerValues.osc2 = val
       },
       (val: number) => {
         this.controllerValues.filter = val
@@ -316,7 +316,7 @@ export namespace AnalogGenerator {
       sustain: true,
       exponentialEnvelope: true,
       dutyCycle: 512,
-      osc2Semitone_64: 0,
+      osc2: 0,
       filter: Filter.Off,
       fFreq: 14000,
       fResonance: 0,
@@ -344,7 +344,7 @@ export namespace AnalogGenerator {
       sustain: new ControllerMidiMap(),
       exponentialEnvelope: new ControllerMidiMap(),
       dutyCycle: new ControllerMidiMap(),
-      osc2Semitone_64: new ControllerMidiMap(),
+      osc2: new ControllerMidiMap(),
       filter: new ControllerMidiMap(),
       fFreq: new ControllerMidiMap(),
       fResonance: new ControllerMidiMap(),
@@ -413,7 +413,7 @@ export namespace AnalogGenerator {
           cv.dutyCycle = value
           break
         case 9:
-          cv.osc2Semitone_64 = value
+          cv.osc2 = value
           break
         case 10:
           cv.filter = value
@@ -463,7 +463,7 @@ export namespace AnalogGenerator {
       yield Number(cv.sustain)
       yield Number(cv.exponentialEnvelope)
       yield cv.dutyCycle
-      yield cv.osc2Semitone_64
+      yield cv.osc2
       yield cv.filter
       yield cv.fFreq
       yield cv.fResonance
@@ -526,7 +526,7 @@ export namespace AnalogGenerator {
         messageParameter: 0,
         slope: 0,
       }
-      this.midiMaps.osc2Semitone_64 = midiMaps[8] || {
+      this.midiMaps.osc2 = midiMaps[8] || {
         channel: 0,
         messageType: 0,
         messageParameter: 0,
@@ -615,7 +615,7 @@ export namespace AnalogGenerator {
       a.push(this.midiMaps.sustain)
       a.push(this.midiMaps.exponentialEnvelope)
       a.push(this.midiMaps.dutyCycle)
-      a.push(this.midiMaps.osc2Semitone_64)
+      a.push(this.midiMaps.osc2)
       a.push(this.midiMaps.filter)
       a.push(this.midiMaps.fFreq)
       a.push(this.midiMaps.fResonance)

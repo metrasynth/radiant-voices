@@ -28,7 +28,7 @@ export interface AnalogGeneratorControllerValues extends ControllerValues {
   sustain: boolean
   exponentialEnvelope: boolean
   dutyCycle: number
-  osc2Semitone_64: number
+  osc2: number
   filter: Filter
   fFreq: number
   fResonance: number

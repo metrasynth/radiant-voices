@@ -103,14 +103,14 @@ export class AnalogGeneratorBaseControllers implements Controllers {
     controllerValues.dutyCycle = newValue
   }
   // noinspection JSUnusedGlobalSymbols
-  get osc2Semitone_64(): number {
-    return this.controllerValues.osc2Semitone_64 + -1000
+  get osc2(): number {
+    return this.controllerValues.osc2 + -1000
   }
   // noinspection JSUnusedGlobalSymbols
-  set osc2Semitone_64(newValue: number) {
+  set osc2(newValue: number) {
     const { controllerValues } = this
     newValue = Math.min(Math.max(newValue, -1000), 1000)
-    controllerValues.osc2Semitone_64 = newValue - -1000
+    controllerValues.osc2 = newValue - -1000
   }
   // noinspection JSUnusedGlobalSymbols
   get filter(): Filter {
