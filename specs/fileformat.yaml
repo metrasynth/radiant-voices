@@ -385,7 +385,7 @@ chunk_types:
   # length (int): number of frames in the waveform
   # format_enum (string): name of the enum type that defines the waveform formats
   # format (string): name of the format enum
-  # freq (int): frequency in hz
+  # freq (int): frequency in Hz
   # default (list of int): default samples for the waveform
 
   Bpm:
@@ -862,7 +862,7 @@ module_types:
       - duty_cycle: { min: 0, max: 1024, default: 512 }
       - osc2_semitone_64: { min: -1000, max: 1000, default: 0 }
       - filter: { enum: Filter, default: "off" }
-      - f_freq: { min: 0, max: 14000, default: 14000, units: "hz" }
+      - f_freq: { min: 0, max: 14000, default: 14000, units: "Hz" }
       - f_resonance: { min: 0, max: 1530, default: 0 }
       - f_exponential_freq: { bool: true, default: true }
       - f_attack: { min: 0, max: 256, default: 0 }
@@ -1020,7 +1020,7 @@ module_types:
       DelayUnit:
         sec/16384: 0
         ms: 1
-        hz: 2
+        Hz: 2
         tick: 3
         line: 4
         line/2: 5
@@ -1036,7 +1036,7 @@ module_types:
           ranges:
             sec/16384: { min: 0, max: 256 }
             ms: { min: 0, max: 4000 }
-            hz: { min: 0, max: 8192 }
+            Hz: { min: 0, max: 8192 }
             tick: { min: 0, max: 256 }
             line: { min: 0, max: 256 }
             line/2: { min: 0, max: 256 }
@@ -1049,7 +1049,7 @@ module_types:
           ranges:
             sec/16384: { min: 0, max: 256 }
             ms: { min: 0, max: 4000 }
-            hz: { min: 0, max: 8192 }
+            Hz: { min: 0, max: 8192 }
             tick: { min: 0, max: 256 }
             line: { min: 0, max: 256 }
             line/2: { min: 0, max: 256 }
@@ -1080,7 +1080,7 @@ module_types:
       - type: { enum: Type, default: "clipping" }
       - power: { min: 0, max: 256, default: 0 }
       - bit_depth: { min: 1, max: 16, default: 16 }
-      - freq: { min: 0, max: 44100, default: 44100, units: "hz" }
+      - freq: { min: 0, max: 44100, default: 44100, units: "Hz" }
       - noise: { min: 0, max: 256, default: 0 }
 
   DrumSynth:
@@ -1110,7 +1110,7 @@ module_types:
       DelayUnit:
         sec/256: 0
         ms: 1
-        hz: 2
+        Hz: 2
         tick: 3
         line: 4
         line/2: 5
@@ -1129,7 +1129,7 @@ module_types:
           ranges:
             sec/256: { min: 0, max: 256 }
             ms: { min: 0, max: 4000 }
-            hz: { min: 0, max: 8192 }
+            Hz: { min: 0, max: 8192 }
             tick: { min: 0, max: 256 }
             line: { min: 0, max: 256 }
             line/2: { min: 0, max: 256 }
@@ -1138,7 +1138,7 @@ module_types:
       - delay_unit: { enum: DelayUnit, default: "sec/256" }
       - right_channel_offset_length: { min: 0, max: 32768, default: 16384, units: "delay/32768" }
       - filter: { enum: Filter, default: "off" }
-      - filter_freq: { min: 0, max: 22000, default: 2000, units: "hz" }
+      - filter_freq: { min: 0, max: 22000, default: 2000, units: "Hz" }
 
   Eq:
     type: EQ
@@ -1235,9 +1235,9 @@ module_types:
         36dB: 2
         48dB: 3
       LfoFreqUnit:
-        hz*0.02: 0
+        Hz*0.02: 0
         ms: 1
-        hz: 2
+        Hz: 2
         tick: 3
         line: 4
         line/2: 5
@@ -1250,19 +1250,19 @@ module_types:
         random: 4
     controllers:
       - volume: { min: 0, max: 256, default: 256 }
-      - freq: { min: 0, max: 14000, default: 14000, units: "hz" }
+      - freq: { min: 0, max: 14000, default: 14000, units: "Hz" }
       - resonance: { min: 0, max: 1530, default: 0 }
       - type: { enum: Type, default: "lp" }
       - response: { min: 0, max: 256, default: 8 }
       - mode: { enum: Mode, default: "hq" }
-      - impulse: { min: 0, max: 14000, default: 0, units: "hz" }
+      - impulse: { min: 0, max: 14000, default: 0, units: "Hz" }
       - mix: { min: 0, max: 256, default: 256 }
       - lfo_freq: { min: 0, max: 1024, default: 8 }
       - lfo_amp: { min: 0, max: 256, default: 0 }
       - set_lfo_phase: { min: 0, max: 256, default: 0 }
       - exponential_freq: { bool: true, default: false }
       - roll_off: { enum: RollOff, default: "12dB" }
-      - lfo_freq_unit: { enum: LfoFreqUnit, default: "hz*0.02" }
+      - lfo_freq_unit: { enum: LfoFreqUnit, default: "Hz*0.02" }
       - lfo_waveform: { enum: LfoWaveform, default: "sin" }
 
   FilterPro:
@@ -1299,9 +1299,9 @@ module_types:
         square: 3
         random: 4
       LfoFreqUnit:
-        hz*0.02: 0
+        Hz*0.02: 0
         ms: 1
-        hz: 2
+        Hz: 2
         tick: 3
         line: 4
         line/2: 5
@@ -1323,7 +1323,7 @@ module_types:
       - lfo_amp: { min: 0, max: 32768, default: 0 }
       - lfo_waveform: { enum: LfoWaveform, default: "sin" }
       - set_lfo_phase: { min: 0, max: 256, default: 0 }
-      - lfo_freq_unit: { enum: LfoFreqUnit, default: "hz*0.02" }
+      - lfo_freq_unit: { enum: LfoFreqUnit, default: "Hz*0.02" }
 
   Flanger:
     defaultFlags: 0x451
@@ -1333,9 +1333,9 @@ module_types:
         hsin: 0
         sin: 1
       LfoFreqUnit:
-        hz*0.05: 0
+        Hz*0.05: 0
         ms: 1
-        hz: 2
+        Hz: 2
         tick: 3
         line: 4
         line/2: 5
@@ -1350,7 +1350,7 @@ module_types:
       - lfo_amp: { min: 0, max: 256, default: 32 }
       - lfo_waveform: { enum: LfoWaveform, default: "hsin" }
       - set_lfo_phase: { min: 0, max: 256, default: 0 }
-      - lfo_freq_unit: { enum: LfoFreqUnit, default: "hz*0.05" }
+      - lfo_freq_unit: { enum: LfoFreqUnit, default: "Hz*0.05" }
 
   Fm:
     type: FM
@@ -1673,9 +1673,9 @@ module_types:
         stereo: 0
         mono: 1
       FrequencyUnit:
-        hz/64: 0
+        Hz/64: 0
         ms: 1
-        hz: 2
+        Hz: 2
         tick: 3
         line: 4
         line/2: 5
@@ -1691,9 +1691,9 @@ module_types:
           depends_on: frequency_unit
           default: 256
           ranges:
-            hz/64: { min: 1, max: 2048 }
+            Hz/64: { min: 1, max: 2048 }
             ms: { min: 1, max: 4000 }
-            hz: { min: 1, max: 16384 }
+            Hz: { min: 1, max: 16384 }
             tick: { min: 1, max: 256 }
             line: { min: 1, max: 256 }
             line/2: { min: 1, max: 256 }
@@ -1701,7 +1701,7 @@ module_types:
       - waveform: { enum: Waveform, default: "sin" }
       - set_phase: { min: 0, max: 256, default: 0 }
       - channels: { enum: Channels, default: "stereo" }
-      - frequency_unit: { enum: FrequencyUnit, default: "hz/64" }
+      - frequency_unit: { enum: FrequencyUnit, default: "Hz/64" }
       - duty_cycle: { min: 0, max: 256, default: 128 }
       - generator: { bool: true, default: false }
       - freq_scale: { min: 0, max: 200, default: 100, units: "%" }
@@ -2013,14 +2013,14 @@ module_types:
     group: Misc
     enums:
       Mode:
-        frequency_hz: 0
+        frequency_Hz: 0
         pitch: 1
       NoteOffAction:
         do_nothing: 0
         pitch_down: 1
         pitch_up: 2
     controllers:
-      - mode: { enum: Mode, default: "frequency_hz" }
+      - mode: { enum: Mode, default: "frequency_Hz" }
       - note_off_action: { enum: NoteOffAction, default: "do_nothing" }
       - first_note: { min: 0, max: 256, default: 0 }
       - range: { min: 0, max: 256, default: 120, units: "semitones" }
@@ -2323,9 +2323,9 @@ module_types:
         stereo: 0
         mono: 1
       FrequencyUnit:
-        hz/64: 0
+        Hz/64: 0
         ms: 1
-        hz: 2
+        Hz: 2
         tick: 3
         line: 4
         line/2: 5
@@ -2337,16 +2337,16 @@ module_types:
           depends_on: frequency_unit
           default: 256
           ranges:
-            hz/64: { min: 1, max: 2048 }
+            Hz/64: { min: 1, max: 2048 }
             ms: { min: 1, max: 4000 }
-            hz: { min: 1, max: 16384 }
+            Hz: { min: 1, max: 16384 }
             tick: { min: 1, max: 2048 }
             line: { min: 1, max: 2048 }
             line/2: { min: 1, max: 2048 }
             line/3: { min: 1, max: 2048 }
       - channels: { enum: Channels, default: "stereo" }
       - set_phase: { min: 0, max: 256, default: 0 }
-      - frequency_unit: { enum: FrequencyUnit, default: "hz/64" }
+      - frequency_unit: { enum: FrequencyUnit, default: "Hz/64" }
       - exponential_amplitude: { bool: true, default: false }
 
   VocalFilter:
