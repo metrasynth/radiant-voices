@@ -6,7 +6,7 @@ from struct import unpack
 from logutils import BraceMessage as _F
 from rv import ENCODING
 from rv.modules import MODULE_CLASSES, Chunk, Module
-from rv.modules.metamodule import MetaModule
+from rv.modules.metamodule import MAX_USER_DEFINED_CONTROLLERS, MetaModule
 from rv.modules.output import Output
 from rv.readers.reader import Reader, ReaderFinished
 
@@ -47,7 +47,8 @@ class ModuleReader(Reader):
         ]
         if mtype == "MetaModule":
             self._controller_keys += [
-                "user_defined_{}".format(i + 1) for i in range(27)
+                "user_defined_{}".format(i + 1)
+                for i in range(MAX_USER_DEFINED_CONTROLLERS)
             ]
         self._object = new_module
 

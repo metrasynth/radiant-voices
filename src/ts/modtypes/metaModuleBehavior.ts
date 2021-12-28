@@ -7,6 +7,8 @@ import { toIffBuffer } from "../chunks/toIffBuffer"
 import { objectChunks } from "../writer/objectChunks"
 import { readSunVoxFile } from "../reader/readSunVoxFile"
 
+const MAX_USER_DEFINED_CONTROLLERS = 96
+
 export class MetaModuleBehavior extends ModuleSpecificBehavior {
   project?: Project
   readonly mappings = defaultMappings()
@@ -14,7 +16,7 @@ export class MetaModuleBehavior extends ModuleSpecificBehavior {
     Array.from(defaultControllerNames)
 
   chnk(): number {
-    return 8 + 27
+    return 8 + MAX_USER_DEFINED_CONTROLLERS
   }
 
   processDataChunks(dataChunks: ModuleDataChunks) {
@@ -86,7 +88,7 @@ export class MetaModuleBehavior extends ModuleSpecificBehavior {
     }
 
     const { controllerNames } = this
-    for (let i = 0; i < 27; ++i) {
+    for (let i = 0; i < MAX_USER_DEFINED_CONTROLLERS; ++i) {
       const name = controllerNames[i]
       if (name !== undefined) {
         yield { name: "CHNM", type: "uint32", value: 8 + i }
