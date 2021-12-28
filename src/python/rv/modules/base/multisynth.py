@@ -14,7 +14,7 @@ class BaseMultiSynth:
     name = "MultiSynth"
     mtype = "MultiSynth"
     mgroup = "Misc"
-    flags = 16912457
+    flags = 0x1021049
 
     class ActiveCurve(IntEnum):
         note_velocity = 0
@@ -78,31 +78,46 @@ class BaseMultiSynth:
         size=1,
         default=False,
     )
-    out_note_eq_out_note_minus_in_note_plus_C5 = Option(
-        name="out_note_eq_out_note_minus_in_note_plus_C5",
+    out_note_out_note_minus_in_note_plus_C5 = Option(
+        name="out_note_out_note_minus_in_note_plus_C5",
         number=118,
         byte=4,
         bit=6,
         size=1,
         default=False,
     )
-    out_port_eq_note_mod_num_of_outs = Option(
-        name="out_port_eq_note_mod_num_of_outs",
+    out_port_note_mod_num_of_outs = Option(
+        name="out_port_note_mod_num_of_outs",
         number=117,
         byte=4,
         bit=7,
         size=1,
-        exclusive_of=["out_port_eq_channel_mod_num_of_outs"],
+        exclusive_of=[
+            "out_port_channel_mod_num_of_outs",
+            "out_port_round_robin_cyclic",
+        ],
         default=False,
     )
-    out_port_eq_channel_mod_num_of_outs = Option(
-        name="out_port_eq_channel_mod_num_of_outs",
+    out_port_channel_mod_num_of_outs = Option(
+        name="out_port_channel_mod_num_of_outs",
         number=116,
         byte=4,
         bit=8,
         size=1,
-        exclusive_of=["out_port_eq_note_mod_num_of_outs"],
+        exclusive_of=["out_port_note_mod_num_of_outs", "out_port_round_robin_cyclic"],
         default=False,
+    )
+    out_port_round_robin_cyclic = Option(
+        name="out_port_round_robin_cyclic",
+        number=115,
+        byte=4,
+        bit=7,
+        size=2,
+        exclusive_of=[
+            "out_port_note_mod_num_of_outs",
+            "out_port_channel_mod_num_of_outs",
+        ],
+        default=3,
     )
 
     class note_velocity_curve_chunk(ArrayChunk):

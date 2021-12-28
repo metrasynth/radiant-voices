@@ -12,7 +12,7 @@ class BaseKicker:
     name = "Kicker"
     mtype = "Kicker"
     mgroup = "Synth"
-    flags = 73
+    flags = 0x49
 
     class Waveform(IntEnum):
         triangle = 0
@@ -26,5 +26,5 @@ class BaseKicker:
     release = Controller((0, 512), 32)
     boost = Controller((0, 1024), 0)
     acceleration = Controller((0, 1024), 256)
-    polyphony_ch = Controller((1, 4), 1)
+    polyphony = Controller((1, 4), 1)
     no_click = Controller(bool, False)

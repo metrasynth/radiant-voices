@@ -13,7 +13,7 @@ class BaseWaveShaper:
     name = "WaveShaper"
     mtype = "WaveShaper"
     mgroup = "Effect"
-    flags = 81
+    flags = 0x51
 
     class Mode(IntEnum):
         hq = 0

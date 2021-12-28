@@ -15,6 +15,6 @@ export interface KickerControllerValues extends ControllerValues {
   release: number
   boost: number
   acceleration: number
-  polyphonyCh: number
+  polyphony: number
   noClick: boolean
 }

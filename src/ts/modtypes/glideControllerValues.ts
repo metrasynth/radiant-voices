@@ -6,7 +6,7 @@
 import { ControllerValues } from "./moduleType"
 export interface GlideControllerValues extends ControllerValues {
   response: number
-  sampleRateHz: number
+  sampleRate: number
   resetOnFirstNote: boolean
   polyphony: boolean
   pitch: number

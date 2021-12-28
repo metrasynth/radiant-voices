@@ -24,18 +24,22 @@ export namespace FilterPro {
     Peaking = 6,
     LowShelf = 7,
     HighShelf = 8,
+    Lp_6dB = 9,
+    Hp_6dB = 10,
   }
   export enum RollOff {
     // noinspection JSUnusedGlobalSymbols
-    Db_12 = 0,
-    Db_24 = 1,
-    Db_36 = 2,
-    Db_48 = 3,
+    _12dB = 0,
+    _24dB = 1,
+    _36dB = 2,
+    _48dB = 3,
   }
   export enum Mode {
     // noinspection JSUnusedGlobalSymbols
     Stereo = 0,
     Mono = 1,
+    StereoSmoothing = 2,
+    MonoSmoothing = 3,
   }
   export enum LfoWaveform {
     // noinspection JSUnusedGlobalSymbols
@@ -47,18 +51,18 @@ export namespace FilterPro {
   }
   export enum LfoFreqUnit {
     // noinspection JSUnusedGlobalSymbols
-    Hz_0_02 = 0,
+    HzMul_0_02 = 0,
     Ms = 1,
     Hz = 2,
     Tick = 3,
     Line = 4,
-    Line_2 = 5,
-    Line_3 = 6,
+    LineDiv_2 = 5,
+    LineDiv_3 = 6,
   }
   export enum CtlNum {
     Volume = 1,
     Type = 2,
-    FreqHz = 3,
+    Freq = 3,
     FreqFinetune = 4,
     FreqScale = 5,
     ExponentialFreq = 6,
@@ -77,7 +81,7 @@ export namespace FilterPro {
   interface FilterProControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     type: ControllerMidiMap
-    freqHz: ControllerMidiMap
+    freq: ControllerMidiMap
     freqFinetune: ControllerMidiMap
     freqScale: ControllerMidiMap
     exponentialFreq: ControllerMidiMap
@@ -99,7 +103,7 @@ export namespace FilterPro {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Filter Pro"
-    flags = 1105
+    flags = 0x451
     readonly typeName = "Filter Pro"
     readonly controllerSetters = [
       (val: number) => {
@@ -109,7 +113,7 @@ export namespace FilterPro {
         this.controllerValues.type = val
       },
       (val: number) => {
-        this.controllerValues.freqHz = val
+        this.controllerValues.freq = val
       },
       (val: number) => {
         this.controllerValues.freqFinetune = val
@@ -157,13 +161,13 @@ export namespace FilterPro {
     readonly controllerValues: FilterProControllerValues = {
       volume: 32768,
       type: Type.Lp,
-      freqHz: 22000,
+      freq: 22000,
       freqFinetune: 0,
       freqScale: 100,
       exponentialFreq: false,
       q: 16384,
       gain: 0,
-      rollOff: RollOff.Db_12,
+      rollOff: RollOff._12dB,
       response: 250,
       mode: Mode.Stereo,
       mix: 32768,
@@ -171,7 +175,7 @@ export namespace FilterPro {
       lfoAmp: 0,
       lfoWaveform: LfoWaveform.Sin,
       setLfoPhase: 0,
-      lfoFreqUnit: LfoFreqUnit.Hz_0_02,
+      lfoFreqUnit: LfoFreqUnit.HzMul_0_02,
     }
     readonly controllers: FilterProControllers = new FilterProControllers(
       this,
@@ -181,7 +185,7 @@ export namespace FilterPro {
     readonly midiMaps: FilterProControllerMidiMaps = {
       volume: new ControllerMidiMap(),
       type: new ControllerMidiMap(),
-      freqHz: new ControllerMidiMap(),
+      freq: new ControllerMidiMap(),
       freqFinetune: new ControllerMidiMap(),
       freqScale: new ControllerMidiMap(),
       exponentialFreq: new ControllerMidiMap(),
@@ -218,7 +222,7 @@ export namespace FilterPro {
           cv.type = value
           break
         case 3:
-          cv.freqHz = value
+          cv.freq = value
           break
         case 4:
           cv.freqFinetune = value
@@ -268,7 +272,7 @@ export namespace FilterPro {
       const { controllerValues: cv } = this
       yield cv.volume
       yield cv.type
-      yield cv.freqHz
+      yield cv.freq
       yield cv.freqFinetune
       yield cv.freqScale
       yield Number(cv.exponentialFreq)
@@ -297,7 +301,7 @@ export namespace FilterPro {
         messageParameter: 0,
         slope: 0,
       }
-      this.midiMaps.freqHz = midiMaps[2] || {
+      this.midiMaps.freq = midiMaps[2] || {
         channel: 0,
         messageType: 0,
         messageParameter: 0,
@@ -392,7 +396,7 @@ export namespace FilterPro {
       const a: MidiMap[] = []
       a.push(this.midiMaps.volume)
       a.push(this.midiMaps.type)
-      a.push(this.midiMaps.freqHz)
+      a.push(this.midiMaps.freq)
       a.push(this.midiMaps.freqFinetune)
       a.push(this.midiMaps.freqScale)
       a.push(this.midiMaps.exponentialFreq)

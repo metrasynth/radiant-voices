@@ -25,23 +25,45 @@ export namespace VocalFilter {
     Stereo = 0,
     Mono = 1,
   }
+  export enum Vowel {
+    // noinspection JSUnusedGlobalSymbols
+    A = 0,
+    E = 1,
+    I = 2,
+    O = 3,
+    U = 4,
+  }
   export enum CtlNum {
     Volume = 1,
-    FormantWidthHz = 2,
+    FormantWidth = 2,
     Intensity = 3,
     Formants = 4,
     Vowel = 5,
     VoiceType = 6,
     Channels = 7,
+    RandomFrequency = 8,
+    RandomSeed = 9,
+    Vowel1 = 10,
+    Vowel2 = 11,
+    Vowel3 = 12,
+    Vowel4 = 13,
+    Vowel5 = 14,
   }
   interface VocalFilterControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
-    formantWidthHz: ControllerMidiMap
+    formantWidth: ControllerMidiMap
     intensity: ControllerMidiMap
     formants: ControllerMidiMap
     vowel: ControllerMidiMap
     voiceType: ControllerMidiMap
     channels: ControllerMidiMap
+    randomFrequency: ControllerMidiMap
+    randomSeed: ControllerMidiMap
+    vowel1: ControllerMidiMap
+    vowel2: ControllerMidiMap
+    vowel3: ControllerMidiMap
+    vowel4: ControllerMidiMap
+    vowel5: ControllerMidiMap
   }
   interface VocalFilterOptionValues extends OptionValues {}
   class VocalFilterOptions implements Options {
@@ -49,14 +71,14 @@ export namespace VocalFilter {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Vocal filter"
-    flags = 81
+    flags = 0x51
     readonly typeName = "Vocal filter"
     readonly controllerSetters = [
       (val: number) => {
         this.controllerValues.volume = val
       },
       (val: number) => {
-        this.controllerValues.formantWidthHz = val
+        this.controllerValues.formantWidth = val
       },
       (val: number) => {
         this.controllerValues.intensity = val
@@ -73,15 +95,43 @@ export namespace VocalFilter {
       (val: number) => {
         this.controllerValues.channels = val
       },
+      (val: number) => {
+        this.controllerValues.randomFrequency = val
+      },
+      (val: number) => {
+        this.controllerValues.randomSeed = val
+      },
+      (val: number) => {
+        this.controllerValues.vowel1 = val
+      },
+      (val: number) => {
+        this.controllerValues.vowel2 = val
+      },
+      (val: number) => {
+        this.controllerValues.vowel3 = val
+      },
+      (val: number) => {
+        this.controllerValues.vowel4 = val
+      },
+      (val: number) => {
+        this.controllerValues.vowel5 = val
+      },
     ]
     readonly controllerValues: VocalFilterControllerValues = {
       volume: 256,
-      formantWidthHz: 128,
+      formantWidth: 128,
       intensity: 128,
       formants: 5,
       vowel: 0,
       voiceType: VoiceType.Soprano,
       channels: Channels.Stereo,
+      randomFrequency: 0,
+      randomSeed: 0,
+      vowel1: Vowel.A,
+      vowel2: Vowel.E,
+      vowel3: Vowel.I,
+      vowel4: Vowel.O,
+      vowel5: Vowel.U,
     }
     readonly controllers: VocalFilterControllers = new VocalFilterControllers(
       this,
@@ -90,12 +140,19 @@ export namespace VocalFilter {
     readonly c = this.controllers
     readonly midiMaps: VocalFilterControllerMidiMaps = {
       volume: new ControllerMidiMap(),
-      formantWidthHz: new ControllerMidiMap(),
+      formantWidth: new ControllerMidiMap(),
       intensity: new ControllerMidiMap(),
       formants: new ControllerMidiMap(),
       vowel: new ControllerMidiMap(),
       voiceType: new ControllerMidiMap(),
       channels: new ControllerMidiMap(),
+      randomFrequency: new ControllerMidiMap(),
+      randomSeed: new ControllerMidiMap(),
+      vowel1: new ControllerMidiMap(),
+      vowel2: new ControllerMidiMap(),
+      vowel3: new ControllerMidiMap(),
+      vowel4: new ControllerMidiMap(),
+      vowel5: new ControllerMidiMap(),
     }
     readonly optionValues: VocalFilterOptionValues = {}
     readonly options: VocalFilterOptions = new VocalFilterOptions(this.optionValues)
@@ -115,7 +172,7 @@ export namespace VocalFilter {
           cv.volume = value
           break
         case 2:
-          cv.formantWidthHz = value
+          cv.formantWidth = value
           break
         case 3:
           cv.intensity = value
@@ -132,17 +189,45 @@ export namespace VocalFilter {
         case 7:
           cv.channels = value
           break
+        case 8:
+          cv.randomFrequency = value
+          break
+        case 9:
+          cv.randomSeed = value
+          break
+        case 10:
+          cv.vowel1 = value
+          break
+        case 11:
+          cv.vowel2 = value
+          break
+        case 12:
+          cv.vowel3 = value
+          break
+        case 13:
+          cv.vowel4 = value
+          break
+        case 14:
+          cv.vowel5 = value
+          break
       }
     }
     *rawControllerValues(): Generator<number> {
       const { controllerValues: cv } = this
       yield cv.volume
-      yield cv.formantWidthHz
+      yield cv.formantWidth
       yield cv.intensity
       yield cv.formants
       yield cv.vowel
       yield cv.voiceType
       yield cv.channels
+      yield cv.randomFrequency
+      yield cv.randomSeed
+      yield cv.vowel1
+      yield cv.vowel2
+      yield cv.vowel3
+      yield cv.vowel4
+      yield cv.vowel5
     }
     setMidiMaps(midiMaps: MidiMap[]) {
       this.midiMaps.volume = midiMaps[0] || {
@@ -151,7 +236,7 @@ export namespace VocalFilter {
         messageParameter: 0,
         slope: 0,
       }
-      this.midiMaps.formantWidthHz = midiMaps[1] || {
+      this.midiMaps.formantWidth = midiMaps[1] || {
         channel: 0,
         messageType: 0,
         messageParameter: 0,
@@ -187,16 +272,65 @@ export namespace VocalFilter {
         messageParameter: 0,
         slope: 0,
       }
+      this.midiMaps.randomFrequency = midiMaps[7] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.randomSeed = midiMaps[8] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.vowel1 = midiMaps[9] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.vowel2 = midiMaps[10] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.vowel3 = midiMaps[11] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.vowel4 = midiMaps[12] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.vowel5 = midiMaps[13] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []
       a.push(this.midiMaps.volume)
-      a.push(this.midiMaps.formantWidthHz)
+      a.push(this.midiMaps.formantWidth)
       a.push(this.midiMaps.intensity)
       a.push(this.midiMaps.formants)
       a.push(this.midiMaps.vowel)
       a.push(this.midiMaps.voiceType)
       a.push(this.midiMaps.channels)
+      a.push(this.midiMaps.randomFrequency)
+      a.push(this.midiMaps.randomSeed)
+      a.push(this.midiMaps.vowel1)
+      a.push(this.midiMaps.vowel2)
+      a.push(this.midiMaps.vowel3)
+      a.push(this.midiMaps.vowel4)
+      a.push(this.midiMaps.vowel5)
       return a
     }
   }

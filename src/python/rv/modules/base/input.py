@@ -12,7 +12,7 @@ class BaseInput:
     name = "Input"
     mtype = "Input"
     mgroup = "Synth"
-    flags = 73
+    flags = 0x49
 
     class Channels(IntEnum):
         mono = 0

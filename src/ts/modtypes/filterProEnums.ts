@@ -16,18 +16,22 @@ export enum Type {
   Peaking = 6,
   LowShelf = 7,
   HighShelf = 8,
+  Lp_6dB = 9,
+  Hp_6dB = 10,
 }
 export enum RollOff {
   // noinspection JSUnusedGlobalSymbols
-  Db_12 = 0,
-  Db_24 = 1,
-  Db_36 = 2,
-  Db_48 = 3,
+  _12dB = 0,
+  _24dB = 1,
+  _36dB = 2,
+  _48dB = 3,
 }
 export enum Mode {
   // noinspection JSUnusedGlobalSymbols
   Stereo = 0,
   Mono = 1,
+  StereoSmoothing = 2,
+  MonoSmoothing = 3,
 }
 export enum LfoWaveform {
   // noinspection JSUnusedGlobalSymbols
@@ -39,11 +43,11 @@ export enum LfoWaveform {
 }
 export enum LfoFreqUnit {
   // noinspection JSUnusedGlobalSymbols
-  Hz_0_02 = 0,
+  HzMul_0_02 = 0,
   Ms = 1,
   Hz = 2,
   Tick = 3,
   Line = 4,
-  Line_2 = 5,
-  Line_3 = 6,
+  LineDiv_2 = 5,
+  LineDiv_3 = 6,
 }

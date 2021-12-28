@@ -66,14 +66,14 @@ export class GeneratorBaseControllers implements Controllers {
     controllerValues.release = newValue
   }
   // noinspection JSUnusedGlobalSymbols
-  get polyphonyCh(): number {
-    return this.controllerValues.polyphonyCh
+  get polyphony(): number {
+    return this.controllerValues.polyphony
   }
   // noinspection JSUnusedGlobalSymbols
-  set polyphonyCh(newValue: number) {
+  set polyphony(newValue: number) {
     const { controllerValues } = this
     newValue = Math.min(Math.max(newValue, 1), 16)
-    controllerValues.polyphonyCh = newValue
+    controllerValues.polyphony = newValue
   }
   // noinspection JSUnusedGlobalSymbols
   get mode(): Mode {

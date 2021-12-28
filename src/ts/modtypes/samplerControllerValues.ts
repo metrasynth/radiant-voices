@@ -30,6 +30,6 @@ export interface SamplerControllerValues extends ControllerValues {
   panning: number
   sampleInterpolation: SampleInterpolation
   envelopeInterpolation: EnvelopeInterpolation
-  polyphonyCh: number
+  polyphony: number
   recThreshold: number
 }

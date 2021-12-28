@@ -12,7 +12,7 @@ class BaseFeedback:
     name = "Feedback"
     mtype = "Feedback"
     mgroup = "Misc"
-    flags = 6291537
+    flags = 0x600051
 
     class Channels(IntEnum):
         stereo = 0

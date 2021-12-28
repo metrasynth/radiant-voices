@@ -10,6 +10,6 @@ export interface VorbisPlayerControllerValues extends ControllerValues {
   finetune: number
   transpose: number
   interpolation: boolean
-  polyphonyCh: number
+  polyphony: number
   repeat: boolean
 }

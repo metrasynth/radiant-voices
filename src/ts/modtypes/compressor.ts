@@ -22,18 +22,18 @@ export namespace Compressor {
   export enum CtlNum {
     Volume = 1,
     Threshold = 2,
-    SlopePct = 3,
-    AttackMs = 4,
-    ReleaseMs = 5,
+    Slope = 3,
+    Attack = 4,
+    Release = 5,
     Mode = 6,
     SidechainInput = 7,
   }
   interface CompressorControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     threshold: ControllerMidiMap
-    slopePct: ControllerMidiMap
-    attackMs: ControllerMidiMap
-    releaseMs: ControllerMidiMap
+    slope: ControllerMidiMap
+    attack: ControllerMidiMap
+    release: ControllerMidiMap
     mode: ControllerMidiMap
     sidechainInput: ControllerMidiMap
   }
@@ -43,7 +43,7 @@ export namespace Compressor {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Compressor"
-    flags = 8273
+    flags = 0x2051
     readonly typeName = "Compressor"
     readonly controllerSetters = [
       (val: number) => {
@@ -53,13 +53,13 @@ export namespace Compressor {
         this.controllerValues.threshold = val
       },
       (val: number) => {
-        this.controllerValues.slopePct = val
+        this.controllerValues.slope = val
       },
       (val: number) => {
-        this.controllerValues.attackMs = val
+        this.controllerValues.attack = val
       },
       (val: number) => {
-        this.controllerValues.releaseMs = val
+        this.controllerValues.release = val
       },
       (val: number) => {
         this.controllerValues.mode = val
@@ -71,9 +71,9 @@ export namespace Compressor {
     readonly controllerValues: CompressorControllerValues = {
       volume: 256,
       threshold: 256,
-      slopePct: 100,
-      attackMs: 1,
-      releaseMs: 300,
+      slope: 100,
+      attack: 1,
+      release: 300,
       mode: Mode.Peak,
       sidechainInput: 0,
     }
@@ -85,9 +85,9 @@ export namespace Compressor {
     readonly midiMaps: CompressorControllerMidiMaps = {
       volume: new ControllerMidiMap(),
       threshold: new ControllerMidiMap(),
-      slopePct: new ControllerMidiMap(),
-      attackMs: new ControllerMidiMap(),
-      releaseMs: new ControllerMidiMap(),
+      slope: new ControllerMidiMap(),
+      attack: new ControllerMidiMap(),
+      release: new ControllerMidiMap(),
       mode: new ControllerMidiMap(),
       sidechainInput: new ControllerMidiMap(),
     }
@@ -112,13 +112,13 @@ export namespace Compressor {
           cv.threshold = value
           break
         case 3:
-          cv.slopePct = value
+          cv.slope = value
           break
         case 4:
-          cv.attackMs = value
+          cv.attack = value
           break
         case 5:
-          cv.releaseMs = value
+          cv.release = value
           break
         case 6:
           cv.mode = value
@@ -132,9 +132,9 @@ export namespace Compressor {
       const { controllerValues: cv } = this
       yield cv.volume
       yield cv.threshold
-      yield cv.slopePct
-      yield cv.attackMs
-      yield cv.releaseMs
+      yield cv.slope
+      yield cv.attack
+      yield cv.release
       yield cv.mode
       yield cv.sidechainInput
     }
@@ -151,19 +151,19 @@ export namespace Compressor {
         messageParameter: 0,
         slope: 0,
       }
-      this.midiMaps.slopePct = midiMaps[2] || {
+      this.midiMaps.slope = midiMaps[2] || {
         channel: 0,
         messageType: 0,
         messageParameter: 0,
         slope: 0,
       }
-      this.midiMaps.attackMs = midiMaps[3] || {
+      this.midiMaps.attack = midiMaps[3] || {
         channel: 0,
         messageType: 0,
         messageParameter: 0,
         slope: 0,
       }
-      this.midiMaps.releaseMs = midiMaps[4] || {
+      this.midiMaps.release = midiMaps[4] || {
         channel: 0,
         messageType: 0,
         messageParameter: 0,
@@ -186,9 +186,9 @@ export namespace Compressor {
       const a: MidiMap[] = []
       a.push(this.midiMaps.volume)
       a.push(this.midiMaps.threshold)
-      a.push(this.midiMaps.slopePct)
-      a.push(this.midiMaps.attackMs)
-      a.push(this.midiMaps.releaseMs)
+      a.push(this.midiMaps.slope)
+      a.push(this.midiMaps.attack)
+      a.push(this.midiMaps.release)
       a.push(this.midiMaps.mode)
       a.push(this.midiMaps.sidechainInput)
       return a

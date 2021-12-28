@@ -12,7 +12,7 @@ class BaseLfo:
     name = "Lfo"
     mtype = "LFO"
     mgroup = "Effect"
-    flags = 1105
+    flags = 0x451
 
     class Type(IntEnum):
         amplitude = 0
@@ -33,13 +33,13 @@ class BaseLfo:
         mono = 1
 
     class FrequencyUnit(IntEnum):
-        hz_64 = 0
+        hz_div_64 = 0
         ms = 1
         hz = 2
         tick = 3
         line = 4
-        line_2 = 5
-        line_3 = 6
+        line_div_2 = 5
+        line_div_3 = 6
 
     class SmoothTransitions(IntEnum):
         off = 0
@@ -52,13 +52,13 @@ class BaseLfo:
         DependentRange(
             "frequency_unit",
             {
-                FrequencyUnit.hz_64: WarnOnlyRange(1, 2048),
+                FrequencyUnit.hz_div_64: WarnOnlyRange(1, 2048),
                 FrequencyUnit.ms: WarnOnlyRange(1, 4000),
                 FrequencyUnit.hz: WarnOnlyRange(1, 16384),
                 FrequencyUnit.tick: WarnOnlyRange(1, 256),
                 FrequencyUnit.line: WarnOnlyRange(1, 256),
-                FrequencyUnit.line_2: WarnOnlyRange(1, 256),
-                FrequencyUnit.line_3: WarnOnlyRange(1, 256),
+                FrequencyUnit.line_div_2: WarnOnlyRange(1, 256),
+                FrequencyUnit.line_div_3: WarnOnlyRange(1, 256),
             },
             WarnOnlyRange(1, 2048),
         ),
@@ -67,8 +67,8 @@ class BaseLfo:
     waveform = Controller(Waveform, Waveform.sin)
     set_phase = Controller((0, 256), 0)
     channels = Controller(Channels, Channels.stereo)
-    frequency_unit = Controller(FrequencyUnit, FrequencyUnit.hz_64)
+    frequency_unit = Controller(FrequencyUnit, FrequencyUnit.hz_div_64)
     duty_cycle = Controller((0, 256), 128)
     generator = Controller(bool, False)
-    freq_scale_pct = Controller((0, 200), 100)
+    freq_scale = Controller((0, 200), 100)
     smooth_transitions = Controller(SmoothTransitions, SmoothTransitions.waveform)

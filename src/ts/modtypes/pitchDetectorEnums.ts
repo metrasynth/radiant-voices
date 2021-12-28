@@ -13,22 +13,22 @@ export enum Algorithm {
 }
 export enum RollOff {
   // noinspection JSUnusedGlobalSymbols
-  Db_12 = 0,
-  Db_24 = 1,
-  Db_36 = 2,
-  Db_48 = 3,
+  _12dB = 0,
+  _24dB = 1,
+  _36dB = 2,
+  _48dB = 3,
 }
 export enum SampleRate {
   // noinspection JSUnusedGlobalSymbols
-  Hz_12 = 0,
-  Hz_24 = 1,
-  Hz_44 = 2,
+  _12000Hz = 0,
+  _24000Hz = 1,
+  _44100Hz = 2,
 }
 export enum Buffer {
   // noinspection JSUnusedGlobalSymbols
-  Ms_5m = 0,
-  Ms_10 = 1,
-  Ms_21 = 2,
-  Ms_42 = 3,
-  Ms_85 = 4,
+  _5ms = 0,
+  _10ms = 1,
+  _21ms = 2,
+  _42ms = 3,
+  _85ms = 4,
 }

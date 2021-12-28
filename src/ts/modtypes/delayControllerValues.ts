@@ -20,4 +20,6 @@ export interface DelayControllerValues extends ControllerValues {
   channels: Channels
   inverse: boolean
   delayUnit: DelayUnit
+  delayMultiplier: number
+  feedback: number
 }

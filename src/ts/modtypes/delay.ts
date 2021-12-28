@@ -20,13 +20,15 @@ export namespace Delay {
   }
   export enum DelayUnit {
     // noinspection JSUnusedGlobalSymbols
-    Sec_16384 = 0,
+    SecDiv_16384 = 0,
     Ms = 1,
     Hz = 2,
     Tick = 3,
     Line = 4,
-    Line_2 = 5,
-    Line_3 = 6,
+    LineDiv_2 = 5,
+    LineDiv_3 = 6,
+    SecDiv_44100 = 7,
+    SecDiv_48000 = 8,
   }
   export enum CtlNum {
     Dry = 1,
@@ -38,6 +40,8 @@ export namespace Delay {
     Channels = 7,
     Inverse = 8,
     DelayUnit = 9,
+    DelayMultiplier = 10,
+    Feedback = 11,
   }
   interface DelayControllerMidiMaps extends ControllerMidiMaps {
     dry: ControllerMidiMap
@@ -49,6 +53,8 @@ export namespace Delay {
     channels: ControllerMidiMap
     inverse: ControllerMidiMap
     delayUnit: ControllerMidiMap
+    delayMultiplier: ControllerMidiMap
+    feedback: ControllerMidiMap
   }
   interface DelayOptionValues extends OptionValues {}
   class DelayOptions implements Options {
@@ -56,7 +62,7 @@ export namespace Delay {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Delay"
-    flags = 1105
+    flags = 0x451
     readonly typeName = "Delay"
     readonly controllerSetters = [
       (val: number) => {
@@ -86,6 +92,12 @@ export namespace Delay {
       (val: number) => {
         this.controllerValues.delayUnit = val
       },
+      (val: number) => {
+        this.controllerValues.delayMultiplier = val
+      },
+      (val: number) => {
+        this.controllerValues.feedback = val
+      },
     ]
     readonly controllerValues: DelayControllerValues = {
       dry: 256,
@@ -96,7 +108,9 @@ export namespace Delay {
       volumeR: 256,
       channels: Channels.Stereo,
       inverse: false,
-      delayUnit: DelayUnit.Sec_16384,
+      delayUnit: DelayUnit.SecDiv_16384,
+      delayMultiplier: 1,
+      feedback: 0,
     }
     readonly controllers: DelayControllers = new DelayControllers(
       this,
@@ -113,6 +127,8 @@ export namespace Delay {
       channels: new ControllerMidiMap(),
       inverse: new ControllerMidiMap(),
       delayUnit: new ControllerMidiMap(),
+      delayMultiplier: new ControllerMidiMap(),
+      feedback: new ControllerMidiMap(),
     }
     readonly optionValues: DelayOptionValues = {}
     readonly options: DelayOptions = new DelayOptions(this.optionValues)
@@ -155,6 +171,12 @@ export namespace Delay {
         case 9:
           cv.delayUnit = value
           break
+        case 10:
+          cv.delayMultiplier = value
+          break
+        case 11:
+          cv.feedback = value
+          break
       }
     }
     *rawControllerValues(): Generator<number> {
@@ -168,6 +190,8 @@ export namespace Delay {
       yield cv.channels
       yield Number(cv.inverse)
       yield cv.delayUnit
+      yield cv.delayMultiplier
+      yield cv.feedback
     }
     setMidiMaps(midiMaps: MidiMap[]) {
       this.midiMaps.dry = midiMaps[0] || {
@@ -224,6 +248,18 @@ export namespace Delay {
         messageParameter: 0,
         slope: 0,
       }
+      this.midiMaps.delayMultiplier = midiMaps[9] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.feedback = midiMaps[10] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []
@@ -236,6 +272,8 @@ export namespace Delay {
       a.push(this.midiMaps.channels)
       a.push(this.midiMaps.inverse)
       a.push(this.midiMaps.delayUnit)
+      a.push(this.midiMaps.delayMultiplier)
+      a.push(this.midiMaps.feedback)
       return a
     }
   }

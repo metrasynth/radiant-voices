@@ -16,10 +16,12 @@ import { DrumSynth } from "./drumSynth"
 import { Echo } from "./echo"
 import { Eq } from "./eq"
 import { Feedback } from "./feedback"
+import { Fft } from "./fft"
 import { Filter } from "./filter"
 import { FilterPro } from "./filterPro"
 import { Flanger } from "./flanger"
 import { Fm } from "./fm"
+import { Fmx } from "./fmx"
 import { Generator } from "./generator"
 import { Glide } from "./glide"
 import { Gpio } from "./gpio"
@@ -56,10 +58,12 @@ export { DrumSynth }
 export { Echo }
 export { Eq }
 export { Feedback }
+export { Fft }
 export { Filter }
 export { FilterPro }
 export { Flanger }
 export { Fm }
+export { Fmx }
 export { Generator }
 export { Glide }
 export { Gpio }
@@ -109,6 +113,8 @@ export const eq = () => new Eq.Module()
 // noinspection JSUnusedGlobalSymbols
 export const feedback = () => new Feedback.Module()
 // noinspection JSUnusedGlobalSymbols
+export const fft = () => new Fft.Module()
+// noinspection JSUnusedGlobalSymbols
 export const filter = () => new Filter.Module()
 // noinspection JSUnusedGlobalSymbols
 export const filterPro = () => new FilterPro.Module()
@@ -116,6 +122,8 @@ export const filterPro = () => new FilterPro.Module()
 export const flanger = () => new Flanger.Module()
 // noinspection JSUnusedGlobalSymbols
 export const fm = () => new Fm.Module()
+// noinspection JSUnusedGlobalSymbols
+export const fmx = () => new Fmx.Module()
 // noinspection JSUnusedGlobalSymbols
 export const generator = () => new Generator.Module()
 // noinspection JSUnusedGlobalSymbols
@@ -177,10 +185,12 @@ export const moduleTypesByName: Record<string, ModuleConstructor> = {
   Echo: Echo.Module,
   EQ: Eq.Module,
   Feedback: Feedback.Module,
+  Fft: Fft.Module,
   Filter: Filter.Module,
   "Filter Pro": FilterPro.Module,
   Flanger: Flanger.Module,
   FM: Fm.Module,
+  Fmx: Fmx.Module,
   Generator: Generator.Module,
   Glide: Glide.Module,
   GPIO: Gpio.Module,

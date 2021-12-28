@@ -12,6 +12,6 @@ export interface DistortionControllerValues extends ControllerValues {
   type: Type
   power: number
   bitDepth: number
-  freqHz: number
+  freq: number
   noise: number
 }

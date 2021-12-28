@@ -20,13 +20,13 @@ export namespace Flanger {
   }
   export enum LfoFreqUnit {
     // noinspection JSUnusedGlobalSymbols
-    Hz_0_05 = 0,
+    HzMul_0_05 = 0,
     Ms = 1,
     Hz = 2,
     Tick = 3,
     Line = 4,
-    Line_2 = 5,
-    Line_3 = 6,
+    LineDiv_2 = 5,
+    LineDiv_3 = 6,
   }
   export enum CtlNum {
     Dry = 1,
@@ -58,7 +58,7 @@ export namespace Flanger {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Flanger"
-    flags = 1105
+    flags = 0x451
     readonly typeName = "Flanger"
     readonly controllerSetters = [
       (val: number) => {
@@ -102,7 +102,7 @@ export namespace Flanger {
       lfoAmp: 32,
       lfoWaveform: LfoWaveform.Hsin,
       setLfoPhase: 0,
-      lfoFreqUnit: LfoFreqUnit.Hz_0_05,
+      lfoFreqUnit: LfoFreqUnit.HzMul_0_05,
     }
     readonly controllers: FlangerControllers = new FlangerControllers(
       this,

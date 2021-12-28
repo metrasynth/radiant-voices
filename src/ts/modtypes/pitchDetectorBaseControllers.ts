@@ -71,14 +71,14 @@ export class PitchDetectorBaseControllers implements Controllers {
     controllerValues.detectorFinetune = newValue - -256
   }
   // noinspection JSUnusedGlobalSymbols
-  get lpFilterFreqHz(): number {
-    return this.controllerValues.lpFilterFreqHz
+  get lpFilterFreq(): number {
+    return this.controllerValues.lpFilterFreq
   }
   // noinspection JSUnusedGlobalSymbols
-  set lpFilterFreqHz(newValue: number) {
+  set lpFilterFreq(newValue: number) {
     const { controllerValues } = this
     newValue = Math.min(Math.max(newValue, 0), 4000)
-    controllerValues.lpFilterFreqHz = newValue
+    controllerValues.lpFilterFreq = newValue
   }
   // noinspection JSUnusedGlobalSymbols
   get lpFilterRolloff(): RollOff {
@@ -108,14 +108,14 @@ export class PitchDetectorBaseControllers implements Controllers {
     controllerValues.alg_1_2Buffer = newValue
   }
   // noinspection JSUnusedGlobalSymbols
-  get alg_1_2BufferOverlapPct(): number {
-    return this.controllerValues.alg_1_2BufferOverlapPct
+  get alg_1_2BufferOverlap(): number {
+    return this.controllerValues.alg_1_2BufferOverlap
   }
   // noinspection JSUnusedGlobalSymbols
-  set alg_1_2BufferOverlapPct(newValue: number) {
+  set alg_1_2BufferOverlap(newValue: number) {
     const { controllerValues } = this
     newValue = Math.min(Math.max(newValue, 0), 100)
-    controllerValues.alg_1_2BufferOverlapPct = newValue
+    controllerValues.alg_1_2BufferOverlap = newValue
   }
   // noinspection JSUnusedGlobalSymbols
   get alg_1Sensitivity(): number {

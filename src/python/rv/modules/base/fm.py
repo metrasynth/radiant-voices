@@ -12,7 +12,7 @@ class BaseFm:
     name = "Fm"
     mtype = "FM"
     mgroup = "Synth"
-    flags = 73
+    flags = 0x49
 
     class Mode(IntEnum):
         hq = 0
@@ -25,7 +25,7 @@ class BaseFm:
     panning = Controller((-128, 128), 0)
     c_freq_ratio = Controller((0, 16), 1)
     m_freq_ratio = Controller((0, 16), 1)
-    m_feedback = Controller((0, 256), 0)
+    m_self_modulation = Controller((0, 256), 0)
     c_attack = Controller((0, 512), 32)
     c_decay = Controller((0, 512), 32)
     c_sustain = Controller((0, 256), 128)
@@ -35,5 +35,5 @@ class BaseFm:
     m_sustain = Controller((0, 256), 128)
     m_release = Controller((0, 512), 64)
     m_scaling_per_key = Controller((0, 4), 0)
-    polyphony_ch = Controller((1, 16), 4)
+    polyphony = Controller((1, 16), 4)
     mode = Controller(Mode, Mode.hq)

@@ -13,36 +13,43 @@ import { EchoControllerValues } from "./echoControllerValues"
 export namespace Echo {
   // Intentionally duplicated enums - see also echoEnums.ts
   // (TypeScript does not allow exporting imported enums from inside a namespace)
-  export enum Channels {
-    // noinspection JSUnusedGlobalSymbols
-    Mono = 0,
-    Stereo = 1,
-  }
   export enum DelayUnit {
     // noinspection JSUnusedGlobalSymbols
-    Sec_256 = 0,
+    SecDiv_256 = 0,
     Ms = 1,
     Hz = 2,
     Tick = 3,
     Line = 4,
-    Line_2 = 5,
-    Line_3 = 6,
+    LineDiv_2 = 5,
+    LineDiv_3 = 6,
+  }
+  export enum Filter {
+    // noinspection JSUnusedGlobalSymbols
+    Off = 0,
+    Lp_6dB = 1,
+    Hp_6dB = 2,
   }
   export enum CtlNum {
     Dry = 1,
     Wet = 2,
     Feedback = 3,
     Delay = 4,
-    Channels = 5,
+    RightChannelOffset = 5,
     DelayUnit = 6,
+    RightChannelOffsetLength = 7,
+    Filter = 8,
+    FilterFreq = 9,
   }
   interface EchoControllerMidiMaps extends ControllerMidiMaps {
     dry: ControllerMidiMap
     wet: ControllerMidiMap
     feedback: ControllerMidiMap
     delay: ControllerMidiMap
-    channels: ControllerMidiMap
+    rightChannelOffset: ControllerMidiMap
     delayUnit: ControllerMidiMap
+    rightChannelOffsetLength: ControllerMidiMap
+    filter: ControllerMidiMap
+    filterFreq: ControllerMidiMap
   }
   interface EchoOptionValues extends OptionValues {}
   class EchoOptions implements Options {
@@ -50,7 +57,7 @@ export namespace Echo {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Echo"
-    flags = 1105
+    flags = 0x451
     readonly typeName = "Echo"
     readonly controllerSetters = [
       (val: number) => {
@@ -66,19 +73,31 @@ export namespace Echo {
         this.controllerValues.delay = val
       },
       (val: number) => {
-        this.controllerValues.channels = val
+        this.controllerValues.rightChannelOffset = Boolean(val)
       },
       (val: number) => {
         this.controllerValues.delayUnit = val
       },
+      (val: number) => {
+        this.controllerValues.rightChannelOffsetLength = val
+      },
+      (val: number) => {
+        this.controllerValues.filter = val
+      },
+      (val: number) => {
+        this.controllerValues.filterFreq = val
+      },
     ]
     readonly controllerValues: EchoControllerValues = {
       dry: 256,
-      wet: 128,
+      wet: 40,
       feedback: 128,
       delay: 256,
-      channels: Channels.Stereo,
-      delayUnit: DelayUnit.Sec_256,
+      rightChannelOffset: true,
+      delayUnit: DelayUnit.SecDiv_256,
+      rightChannelOffsetLength: 16384,
+      filter: Filter.Off,
+      filterFreq: 2000,
     }
     readonly controllers: EchoControllers = new EchoControllers(
       this,
@@ -90,8 +109,11 @@ export namespace Echo {
       wet: new ControllerMidiMap(),
       feedback: new ControllerMidiMap(),
       delay: new ControllerMidiMap(),
-      channels: new ControllerMidiMap(),
+      rightChannelOffset: new ControllerMidiMap(),
       delayUnit: new ControllerMidiMap(),
+      rightChannelOffsetLength: new ControllerMidiMap(),
+      filter: new ControllerMidiMap(),
+      filterFreq: new ControllerMidiMap(),
     }
     readonly optionValues: EchoOptionValues = {}
     readonly options: EchoOptions = new EchoOptions(this.optionValues)
@@ -120,10 +142,19 @@ export namespace Echo {
           cv.delay = value
           break
         case 5:
-          cv.channels = value
+          cv.rightChannelOffset = Boolean(value)
           break
         case 6:
           cv.delayUnit = value
+          break
+        case 7:
+          cv.rightChannelOffsetLength = value
+          break
+        case 8:
+          cv.filter = value
+          break
+        case 9:
+          cv.filterFreq = value
           break
       }
     }
@@ -133,8 +164,11 @@ export namespace Echo {
       yield cv.wet
       yield cv.feedback
       yield cv.delay
-      yield cv.channels
+      yield Number(cv.rightChannelOffset)
       yield cv.delayUnit
+      yield cv.rightChannelOffsetLength
+      yield cv.filter
+      yield cv.filterFreq
     }
     setMidiMaps(midiMaps: MidiMap[]) {
       this.midiMaps.dry = midiMaps[0] || {
@@ -161,13 +195,31 @@ export namespace Echo {
         messageParameter: 0,
         slope: 0,
       }
-      this.midiMaps.channels = midiMaps[4] || {
+      this.midiMaps.rightChannelOffset = midiMaps[4] || {
         channel: 0,
         messageType: 0,
         messageParameter: 0,
         slope: 0,
       }
       this.midiMaps.delayUnit = midiMaps[5] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.rightChannelOffsetLength = midiMaps[6] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.filter = midiMaps[7] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.filterFreq = midiMaps[8] || {
         channel: 0,
         messageType: 0,
         messageParameter: 0,
@@ -180,8 +232,11 @@ export namespace Echo {
       a.push(this.midiMaps.wet)
       a.push(this.midiMaps.feedback)
       a.push(this.midiMaps.delay)
-      a.push(this.midiMaps.channels)
+      a.push(this.midiMaps.rightChannelOffset)
       a.push(this.midiMaps.delayUnit)
+      a.push(this.midiMaps.rightChannelOffsetLength)
+      a.push(this.midiMaps.filter)
+      a.push(this.midiMaps.filterFreq)
       return a
     }
   }

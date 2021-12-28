@@ -22,6 +22,12 @@ export namespace Adsr {
     NegExp2 = 4,
     Sin = 5,
   }
+  export enum Sustain {
+    // noinspection JSUnusedGlobalSymbols
+    Off = 0,
+    On = 1,
+    Repeat = 2,
+  }
   export enum State {
     // noinspection JSUnusedGlobalSymbols
     Stop = 0,
@@ -50,13 +56,14 @@ export namespace Adsr {
     Off = 0,
     RestartAndVolumeChange = 1,
     RestartSmootherAndVolumeChange = 2,
+    VolumeChange = 3,
   }
   export enum CtlNum {
     Volume = 1,
-    AttackMs = 2,
-    DecayMs = 3,
+    Attack = 2,
+    Decay = 3,
     SustainLevel = 4,
-    ReleaseMs = 5,
+    Release = 5,
     AttackCurve = 6,
     DecayCurve = 7,
     ReleaseCurve = 8,
@@ -70,10 +77,10 @@ export namespace Adsr {
   }
   interface AdsrControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
-    attackMs: ControllerMidiMap
-    decayMs: ControllerMidiMap
+    attack: ControllerMidiMap
+    decay: ControllerMidiMap
     sustainLevel: ControllerMidiMap
-    releaseMs: ControllerMidiMap
+    release: ControllerMidiMap
     attackCurve: ControllerMidiMap
     decayCurve: ControllerMidiMap
     releaseCurve: ControllerMidiMap
@@ -91,23 +98,23 @@ export namespace Adsr {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "ADSR"
-    flags = 89
+    flags = 0x59
     readonly typeName = "ADSR"
     readonly controllerSetters = [
       (val: number) => {
         this.controllerValues.volume = val
       },
       (val: number) => {
-        this.controllerValues.attackMs = val
+        this.controllerValues.attack = val
       },
       (val: number) => {
-        this.controllerValues.decayMs = val
+        this.controllerValues.decay = val
       },
       (val: number) => {
         this.controllerValues.sustainLevel = val
       },
       (val: number) => {
-        this.controllerValues.releaseMs = val
+        this.controllerValues.release = val
       },
       (val: number) => {
         this.controllerValues.attackCurve = val
@@ -119,7 +126,7 @@ export namespace Adsr {
         this.controllerValues.releaseCurve = val
       },
       (val: number) => {
-        this.controllerValues.sustain = Boolean(val)
+        this.controllerValues.sustain = val
       },
       (val: number) => {
         this.controllerValues.sustainPedal = Boolean(val)
@@ -142,14 +149,14 @@ export namespace Adsr {
     ]
     readonly controllerValues: AdsrControllerValues = {
       volume: 32768,
-      attackMs: 100,
-      decayMs: 100,
+      attack: 100,
+      decay: 100,
       sustainLevel: 16384,
-      releaseMs: 100,
+      release: 100,
       attackCurve: Curve.Linear,
       decayCurve: Curve.Linear,
       releaseCurve: Curve.Linear,
-      sustain: true,
+      sustain: Sustain.On,
       sustainPedal: false,
       state: State.Stop,
       onNoteOn: OnNoteOn.StartOnFirstNote,
@@ -164,10 +171,10 @@ export namespace Adsr {
     readonly c = this.controllers
     readonly midiMaps: AdsrControllerMidiMaps = {
       volume: new ControllerMidiMap(),
-      attackMs: new ControllerMidiMap(),
-      decayMs: new ControllerMidiMap(),
+      attack: new ControllerMidiMap(),
+      decay: new ControllerMidiMap(),
       sustainLevel: new ControllerMidiMap(),
-      releaseMs: new ControllerMidiMap(),
+      release: new ControllerMidiMap(),
       attackCurve: new ControllerMidiMap(),
       decayCurve: new ControllerMidiMap(),
       releaseCurve: new ControllerMidiMap(),
@@ -197,16 +204,16 @@ export namespace Adsr {
           cv.volume = value
           break
         case 2:
-          cv.attackMs = value
+          cv.attack = value
           break
         case 3:
-          cv.decayMs = value
+          cv.decay = value
           break
         case 4:
           cv.sustainLevel = value
           break
         case 5:
-          cv.releaseMs = value
+          cv.release = value
           break
         case 6:
           cv.attackCurve = value
@@ -218,7 +225,7 @@ export namespace Adsr {
           cv.releaseCurve = value
           break
         case 9:
-          cv.sustain = Boolean(value)
+          cv.sustain = value
           break
         case 10:
           cv.sustainPedal = Boolean(value)
@@ -243,14 +250,14 @@ export namespace Adsr {
     *rawControllerValues(): Generator<number> {
       const { controllerValues: cv } = this
       yield cv.volume
-      yield cv.attackMs
-      yield cv.decayMs
+      yield cv.attack
+      yield cv.decay
       yield cv.sustainLevel
-      yield cv.releaseMs
+      yield cv.release
       yield cv.attackCurve
       yield cv.decayCurve
       yield cv.releaseCurve
-      yield Number(cv.sustain)
+      yield cv.sustain
       yield Number(cv.sustainPedal)
       yield cv.state
       yield cv.onNoteOn
@@ -265,13 +272,13 @@ export namespace Adsr {
         messageParameter: 0,
         slope: 0,
       }
-      this.midiMaps.attackMs = midiMaps[1] || {
+      this.midiMaps.attack = midiMaps[1] || {
         channel: 0,
         messageType: 0,
         messageParameter: 0,
         slope: 0,
       }
-      this.midiMaps.decayMs = midiMaps[2] || {
+      this.midiMaps.decay = midiMaps[2] || {
         channel: 0,
         messageType: 0,
         messageParameter: 0,
@@ -283,7 +290,7 @@ export namespace Adsr {
         messageParameter: 0,
         slope: 0,
       }
-      this.midiMaps.releaseMs = midiMaps[4] || {
+      this.midiMaps.release = midiMaps[4] || {
         channel: 0,
         messageType: 0,
         messageParameter: 0,
@@ -353,10 +360,10 @@ export namespace Adsr {
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []
       a.push(this.midiMaps.volume)
-      a.push(this.midiMaps.attackMs)
-      a.push(this.midiMaps.decayMs)
+      a.push(this.midiMaps.attack)
+      a.push(this.midiMaps.decay)
       a.push(this.midiMaps.sustainLevel)
-      a.push(this.midiMaps.releaseMs)
+      a.push(this.midiMaps.release)
       a.push(this.midiMaps.attackCurve)
       a.push(this.midiMaps.decayCurve)
       a.push(this.midiMaps.releaseCurve)

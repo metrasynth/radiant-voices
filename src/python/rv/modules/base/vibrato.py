@@ -12,20 +12,20 @@ class BaseVibrato:
     name = "Vibrato"
     mtype = "Vibrato"
     mgroup = "Effect"
-    flags = 1105
+    flags = 0x451
 
     class Channels(IntEnum):
         stereo = 0
         mono = 1
 
     class FrequencyUnit(IntEnum):
-        hz_64 = 0
+        hz_div_64 = 0
         ms = 1
         hz = 2
         tick = 3
         line = 4
-        line_2 = 5
-        line_3 = 6
+        line_div_2 = 5
+        line_div_3 = 6
 
     volume = Controller((0, 256), 256)
     amplitude = Controller((0, 256), 16)
@@ -33,13 +33,13 @@ class BaseVibrato:
         DependentRange(
             "frequency_unit",
             {
-                FrequencyUnit.hz_64: WarnOnlyRange(1, 2048),
+                FrequencyUnit.hz_div_64: WarnOnlyRange(1, 2048),
                 FrequencyUnit.ms: WarnOnlyRange(1, 4000),
                 FrequencyUnit.hz: WarnOnlyRange(1, 16384),
                 FrequencyUnit.tick: WarnOnlyRange(1, 2048),
                 FrequencyUnit.line: WarnOnlyRange(1, 2048),
-                FrequencyUnit.line_2: WarnOnlyRange(1, 2048),
-                FrequencyUnit.line_3: WarnOnlyRange(1, 2048),
+                FrequencyUnit.line_div_2: WarnOnlyRange(1, 2048),
+                FrequencyUnit.line_div_3: WarnOnlyRange(1, 2048),
             },
             WarnOnlyRange(1, 2048),
         ),
@@ -47,5 +47,5 @@ class BaseVibrato:
     )
     channels = Controller(Channels, Channels.stereo)
     set_phase = Controller((0, 256), 0)
-    frequency_unit = Controller(FrequencyUnit, FrequencyUnit.hz_64)
+    frequency_unit = Controller(FrequencyUnit, FrequencyUnit.hz_div_64)
     exponential_amplitude = Controller(bool, False)

@@ -35,18 +35,28 @@ export enum Waveform {
 export enum Filter {
   // noinspection JSUnusedGlobalSymbols
   Off = 0,
-  Lp_12db = 1,
-  Hp_12db = 2,
-  Bp_12db = 3,
-  Br_12db = 4,
-  Lp_24db = 5,
-  Hp_24db = 6,
-  Bp_24db = 7,
-  Br_24db = 8,
+  Lp_12dB = 1,
+  Hp_12dB = 2,
+  Bp_12dB = 3,
+  Br_12dB = 4,
+  Lp_24dB = 5,
+  Hp_24dB = 6,
+  Bp_24dB = 7,
+  Br_24dB = 8,
 }
 export enum FilterEnvelope {
   // noinspection JSUnusedGlobalSymbols
   Off = 0,
   SustainOff = 1,
   SustainOn = 2,
+}
+export enum Osc2Mode {
+  // noinspection JSUnusedGlobalSymbols
+  Add = 0,
+  Sub = 1,
+  Mul = 2,
+  Min = 3,
+  Max = 4,
+  BitwiseAnd = 5,
+  BitwiseXor = 6,
 }

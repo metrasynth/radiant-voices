@@ -12,7 +12,7 @@ class BaseFilter:
     name = "Filter"
     mtype = "Filter"
     mgroup = "Effect"
-    flags = 1105
+    flags = 0x451
 
     class Type(IntEnum):
         lp = 0
@@ -27,19 +27,19 @@ class BaseFilter:
         lq_mono = 3
 
     class RollOff(IntEnum):
-        db_12 = 0
-        db_24 = 1
-        db_36 = 2
-        db_48 = 3
+        _12dB = 0
+        _24dB = 1
+        _36dB = 2
+        _48dB = 3
 
     class LfoFreqUnit(IntEnum):
-        hz_0_02 = 0
+        hz_mul_0_02 = 0
         ms = 1
         hz = 2
         tick = 3
         line = 4
-        line_2 = 5
-        line_3 = 6
+        line_div_2 = 5
+        line_div_3 = 6
 
     class LfoWaveform(IntEnum):
         sin = 0
@@ -60,6 +60,6 @@ class BaseFilter:
     lfo_amp = Controller((0, 256), 0)
     set_lfo_phase = Controller((0, 256), 0)
     exponential_freq = Controller(bool, False)
-    roll_off = Controller(RollOff, RollOff.db_12)
-    lfo_freq_unit = Controller(LfoFreqUnit, LfoFreqUnit.hz_0_02)
+    roll_off = Controller(RollOff, RollOff._12dB)
+    lfo_freq_unit = Controller(LfoFreqUnit, LfoFreqUnit.hz_mul_0_02)
     lfo_waveform = Controller(LfoWaveform, LfoWaveform.sin)

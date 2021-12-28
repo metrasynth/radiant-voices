@@ -13,7 +13,7 @@ class BaseAnalogGenerator:
     name = "AnalogGenerator"
     mtype = "Analog generator"
     mgroup = "Synth"
-    flags = 73
+    flags = 0x49
 
     class Mode(IntEnum):
         hq = 0
@@ -42,19 +42,28 @@ class BaseAnalogGenerator:
 
     class Filter(IntEnum):
         off = 0
-        lp_12db = 1
-        hp_12db = 2
-        bp_12db = 3
-        br_12db = 4
-        lp_24db = 5
-        hp_24db = 6
-        bp_24db = 7
-        br_24db = 8
+        lp_12dB = 1
+        hp_12dB = 2
+        bp_12dB = 3
+        br_12dB = 4
+        lp_24dB = 5
+        hp_24dB = 6
+        bp_24dB = 7
+        br_24dB = 8
 
     class FilterEnvelope(IntEnum):
         off = 0
         sustain_off = 1
         sustain_on = 2
+
+    class Osc2Mode(IntEnum):
+        add = 0
+        sub = 1
+        mul = 2
+        min = 3
+        max = 4
+        bitwise_and = 5
+        bitwise_xor = 6
 
     volume = Controller((0, 256), 80)
     waveform = Controller(Waveform, Waveform.triangle)
@@ -64,17 +73,19 @@ class BaseAnalogGenerator:
     sustain = Controller(bool, True)
     exponential_envelope = Controller(bool, True)
     duty_cycle = Controller((0, 1024), 512)
-    freq2 = Controller((0, 2000), 1000)
+    osc2_semitone_64 = Controller((-1000, 1000), 0)
     filter = Controller(Filter, Filter.off)
-    f_freq_hz = Controller((0, 14000), 14000)
+    f_freq = Controller((0, 14000), 14000)
     f_resonance = Controller((0, 1530), 0)
     f_exponential_freq = Controller(bool, True)
     f_attack = Controller((0, 256), 0)
     f_release = Controller((0, 256), 0)
     f_envelope = Controller(FilterEnvelope, FilterEnvelope.off)
-    polyphony_ch = Controller((1, 32), 16)
-    mode = Controller(Mode, Mode.hq)
+    polyphony = Controller((1, 32), 16)
+    mode = Controller(Mode, Mode.hq_mono)
     noise = Controller((0, 256), 0)
+    osc2_volume = Controller((0, 32768), 32768)
+    osc2_mode = Controller(Osc2Mode, Osc2Mode.add)
     volume_envelope_scaling_per_key = Option(
         name="volume_envelope_scaling_per_key",
         number=127,
@@ -102,10 +113,34 @@ class BaseAnalogGenerator:
         size=1,
         default=False,
     )
+    filter_freq_scaling_per_key_reverse = Option(
+        name="filter_freq_scaling_per_key_reverse",
+        number=120,
+        byte=7,
+        bit=0,
+        size=1,
+        default=False,
+    )
+    filter_freq_eq_note_freq = Option(
+        name="filter_freq_eq_note_freq",
+        number=117,
+        byte=10,
+        bit=0,
+        size=1,
+        default=False,
+    )
     velocity_dependent_filter_frequency = Option(
         name="velocity_dependent_filter_frequency",
         number=123,
         byte=4,
+        bit=0,
+        size=1,
+        default=False,
+    )
+    velocity_dependent_filter_resonance = Option(
+        name="velocity_dependent_filter_resonance",
+        number=116,
+        byte=11,
         bit=0,
         size=1,
         default=False,
@@ -122,35 +157,11 @@ class BaseAnalogGenerator:
         inverted=True,
         default=True,
     )
-    filter_freq_scaling_per_key_reverse = Option(
-        name="filter_freq_scaling_per_key_reverse",
-        number=120,
-        byte=7,
-        bit=0,
-        size=1,
-        default=False,
-    )
     retain_phase = Option(
         name="retain_phase", number=119, byte=8, bit=0, size=1, default=False
     )
     random_phase = Option(
         name="random_phase", number=118, byte=9, bit=0, size=1, default=False
-    )
-    filter_freq_eq_note_freq = Option(
-        name="filter_freq_eq_note_freq",
-        number=117,
-        byte=10,
-        bit=0,
-        size=1,
-        default=False,
-    )
-    velocity_dependent_filter_resonance = Option(
-        name="velocity_dependent_filter_resonance",
-        number=116,
-        byte=11,
-        bit=0,
-        size=1,
-        default=False,
     )
     true_zero_attack_release = Option(
         name="true_zero_attack_release",
