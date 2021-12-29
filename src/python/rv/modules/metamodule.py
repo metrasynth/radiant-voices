@@ -91,12 +91,18 @@ class MetaModule(BaseMetaModule, Module):
 
     class MappingArray(ArrayChunk):
         chnm = 1
-        length = 64
+        length = MAX_USER_DEFINED_CONTROLLERS
         type = "HH"
         element_size = 2 * 2
 
         def default(self, _):
             return MetaModule.Mapping((0, 0))
+
+        def _set_bytes(self, value):
+            super(MetaModule.MappingArray, self)._set_bytes(value)
+
+            while len(self.values) < self.length:
+                self.values.append(MetaModule.Mapping((0, 0)))
 
         @property
         def encoded_values(self):
@@ -226,7 +232,7 @@ class MetaModule(BaseMetaModule, Module):
         user_defined_94,
         user_defined_95,
         user_defined_96,
-    ) = [UserDefinedProxy(__i) for __i in range(96)]
+    ) = [UserDefinedProxy(__i) for __i in range(MAX_USER_DEFINED_CONTROLLERS)]
 
     def __init__(self, **kwargs):
         project = kwargs.get("project", None)
@@ -345,7 +351,7 @@ class MetaModule(BaseMetaModule, Module):
         elif chunk.chnm == 0:
             self.load_project(chunk)
         elif chunk.chnm == 1:
-            self.mappings.length = len(chunk.chdt) // self.mappings.element_size
+            # self.mappings.length = len(chunk.chdt) // self.mappings.element_size
             self.mappings.reset()
             self.mappings.bytes = chunk.chdt
         elif chunk.chnm >= 8:
