@@ -46,15 +46,15 @@ class ArrayChunk(Chunk):
         return self.bytes
 
     def reset(self):
-        if self.default is not None:
-            if callable(self.default):
-                self.set_via_fn(self.default)
-            elif isinstance(self.default, list):
-                self.values = self.default.copy()
-            else:
-                self.values = [self.default] * self.length
-        else:
+        if self.default is None:
             self.values = [0] * self.length
+
+        elif callable(self.default):
+            self.set_via_fn(self.default)
+        elif isinstance(self.default, list):
+            self.values = self.default.copy()
+        else:
+            self.values = [self.default] * self.length
 
     def set_via_fn(self, fn):
         values = []
