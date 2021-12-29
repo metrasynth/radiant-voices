@@ -23,8 +23,12 @@ class ArrayChunk(Chunk):
 
     @bytes.setter
     def bytes(self, value):
+        self._set_bytes(value)
+
+    def _set_bytes(self, value):
         self.values = []
-        for x in range(self.length):
+        length = len(value) // self.element_size
+        for x in range(length):
             start = x * self.element_size
             end = start + self.element_size
             data = value[start:end]
