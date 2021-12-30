@@ -1011,7 +1011,7 @@ module_types:
       - channels: { enum: Channels, default: "stereo" }
 
   Delay:
-    defaultFlags: 0x451
+    defaultFlags: 0x02000451
     group: Effect
     enums:
       Channels:
