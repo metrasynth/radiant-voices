@@ -3,7 +3,7 @@ from rv.api import m
 
 def test_amplifier(read_write_read_synth):
     mod: m.Amplifier = read_write_read_synth("amplifier").module
-    assert mod.flags == 81
+    assert mod.flags == 0x02000051
     assert mod.name == "amp"
     assert mod.volume == 378
     assert mod.balance == -63
@@ -13,3 +13,4 @@ def test_amplifier(read_write_read_synth):
     assert not mod.absolute
     assert mod.fine_volume == 21087
     assert mod.gain == 3948
+    assert mod.bipolar_dc_offset == -1902
