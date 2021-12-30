@@ -18,7 +18,7 @@ describe("Reading the delay.sunsynth file", () => {
   })
   test("has correct properties, controllers, and options", () => {
     const mod = synth.module as m.Delay.Module
-    expect(mod.flags).toEqual(1105)
+    expect(mod.flags).toEqual(0x02000451)
     expect(mod.name).toEqual("d e l a y")
     const { c } = mod
     expect(c.dry).toEqual(158)
@@ -30,5 +30,7 @@ describe("Reading the delay.sunsynth file", () => {
     expect(c.channels).toEqual(m.Delay.Channels.Stereo)
     expect(c.inverse).toEqual(true)
     expect(c.delayUnit).toEqual(m.Delay.DelayUnit.LineDiv_2)
+    expect(c.delayMultiplier).toEqual(3)
+    expect(c.feedback).toEqual(86)
   })
 })
