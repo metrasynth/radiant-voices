@@ -788,7 +788,7 @@ module_types:
       - smooth_transitions: { enum: SmoothTransitions, default: "restart_smoother_and_volume_change" }
 
   Amplifier:
-    defaultFlags: 0x51
+    defaultFlags: 0x02000051
     group: Effect
     controllers:
       - volume: { min: 0, max: 1024, default: 256 }
