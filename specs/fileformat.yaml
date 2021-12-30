@@ -803,7 +803,7 @@ module_types:
 
   AnalogGenerator:
     type: Analog generator
-    defaultFlags: 0x49
+    defaultFlags: 0x02000049
     group: Synth
     enums:
       Mode:

@@ -10,7 +10,7 @@ class BaseAmplifier:
     name = "Amplifier"
     mtype = "Amplifier"
     mgroup = "Effect"
-    flags = 0x51
+    flags = 0x2000051
     volume = Controller((0, 1024), 256)
     balance = Controller((-128, 128), 0)
     dc_offset = Controller((-128, 128), 0)
