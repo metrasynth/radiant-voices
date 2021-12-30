@@ -24,9 +24,10 @@ describe("Reading the analog-generator.sunsynth file", () => {
   })
   test("has correct properties, controllers, and options", () => {
     const mod = synth.module as m.AnalogGenerator.Module
-    expect(mod.flags).toEqual(0x49)
+    expect(mod.flags).toEqual(0x02000049)
     expect(mod.name).toEqual("analog-generator")
     expect(mod.behavior?.drawnWaveform).toEqual(expectedDrawnWaveform)
+
     const { c } = mod
     expect(c.volume).toEqual(103)
     expect(c.waveform).toEqual(m.AnalogGenerator.Waveform.Drawn)
@@ -47,6 +48,9 @@ describe("Reading the analog-generator.sunsynth file", () => {
     expect(c.polyphony).toEqual(32)
     expect(c.mode).toEqual(m.AnalogGenerator.Mode.Lq)
     expect(c.noise).toEqual(9)
+    expect(c.osc2Volume).toEqual(20640)
+    expect(c.osc2Mode).toEqual(m.AnalogGenerator.Osc2Mode.Mul)
+
     const { o } = mod
     expect(o.volumeEnvelopeScalingPerKey).toEqual(true)
     expect(o.filterEnvelopeScalingPerKey).toEqual(false)
@@ -72,8 +76,8 @@ describe("Reading the analog-generator.sunsynth file", () => {
       expectChunk({ name: "CVAL", type: "int32", value })
     }
     expectChunk({ name: "SSYN", type: "empty" })
-    expectChunk({ name: "VERS", type: "version", value: [1, 9, 5, 2] })
-    expectChunk({ name: "SFFF", type: "uint32", value: 0x49 })
+    expectChunk({ name: "VERS", type: "version", value: [2, 0, 0, 0] })
+    expectChunk({ name: "SFFF", type: "uint32", value: 0x02000049 })
     expectChunk({ name: "SNAM", type: "fixedString", value: "analog-generator" })
     expectChunk({ name: "STYP", type: "cstring", value: "Analog generator" })
     expectChunk({ name: "SFIN", type: "int32", value: 1 })
@@ -103,8 +107,8 @@ describe("Reading the analog-generator.sunsynth file", () => {
     expectCval(32)
     expectCval(2)
     expectCval(9)
-    expectCval(32768)
-    expectCval(0)
+    expectCval(20640)
+    expectCval(2)
 
     const { name, type, values } = v()
     expect({ name, type }).toEqual({ name: "CMID", type: "midiMaps" })

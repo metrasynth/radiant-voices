@@ -39,7 +39,7 @@ export namespace Amplifier {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Amplifier"
-    flags = 0x51
+    flags = 0x2000051
     readonly typeName = "Amplifier"
     readonly controllerSetters = [
       (val: number) => {
