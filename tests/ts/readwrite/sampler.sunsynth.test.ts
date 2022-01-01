@@ -24,7 +24,7 @@ describe("Reading the sampler.sunsynth file", () => {
   })
   test("has correct properties, controllers, and options", () => {
     const mod = synth.module as m.Sampler.Module
-    expect(mod.flags).toEqual(33881)
+    expect(mod.flags).toEqual(0x02008459)
     expect(mod.name).toEqual("Sampler")
 
     // Controllers

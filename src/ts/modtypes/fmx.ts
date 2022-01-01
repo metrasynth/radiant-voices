@@ -46,8 +46,8 @@ export namespace Fmx {
     Linear = 0,
     Exp1 = 1,
     Exp2 = 2,
-    _negExp1 = 3,
-    _negExp2 = 4,
+    NegExp1 = 3,
+    NegExp2 = 4,
     Sin = 5,
   }
   export enum Sustain {
@@ -326,9 +326,9 @@ export namespace Fmx {
     constructor(readonly optionValues: FmxOptionValues) {}
   }
   export class Module extends ModuleBase implements ModuleType {
-    name = "Fmx"
+    name = "FMX"
     flags = 0x2000059
-    readonly typeName = "Fmx"
+    readonly typeName = "FMX"
     readonly controllerSetters = [
       (val: number) => {
         this.controllerValues.volume = val

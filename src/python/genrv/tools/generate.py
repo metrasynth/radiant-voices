@@ -52,6 +52,8 @@ def enumname(ekey: str) -> str:
     ekey = ekey.replace("^", "_pow_")
     if ekey[0].isdigit():
         ekey = f"_{ekey}"
+    elif ekey[0] == "_":
+        ekey = ekey[1:]
     while "__" in ekey:
         ekey = ekey.replace("__", "_")
     ekey = ekey.lower()

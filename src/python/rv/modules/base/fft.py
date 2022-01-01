@@ -10,7 +10,7 @@ from rv.controller import Controller
 
 class BaseFft:
     name = "Fft"
-    mtype = "Fft"
+    mtype = "FFT"
     mgroup = "Effect"
     flags = 0x2000051
 

@@ -38,8 +38,8 @@ export enum AdsrCurve {
   Linear = 0,
   Exp1 = 1,
   Exp2 = 2,
-  _negExp1 = 3,
-  _negExp2 = 4,
+  NegExp1 = 3,
+  NegExp2 = 4,
   Sin = 5,
 }
 export enum Sustain {

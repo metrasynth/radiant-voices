@@ -3,41 +3,6 @@ from struct import pack
 from pytest import raises
 from rv.api import m
 
-EXPECTED_DRAWN_WAVEFORM = [
-    0,
-    -100,
-    -90,
-    0,
-    -35,
-    -35,
-    -35,
-    -35,
-    -35,
-    -35,
-    -35,
-    -32,
-    -24,
-    -17,
-    -4,
-    12,
-    36,
-    94,
-    77,
-    50,
-    33,
-    27,
-    50,
-    32,
-    -90,
-    -120,
-    100,
-    90,
-    59,
-    21,
-    0,
-    54,
-]
-
 
 def test_analog_generator(read_write_read_synth):
     mod: m.AnalogGenerator = read_write_read_synth("analog-generator").module
@@ -175,3 +140,39 @@ def test_analog_generator_writes_correct_chunks(read_write_read_synth):
     expect_chunk(b"SEND", b"")
     with raises(StopIteration):
         expect_chunk(b"", b"")
+
+
+EXPECTED_DRAWN_WAVEFORM = [
+    0,
+    -100,
+    -90,
+    0,
+    -35,
+    -35,
+    -35,
+    -35,
+    -35,
+    -35,
+    -35,
+    -32,
+    -24,
+    -17,
+    -4,
+    12,
+    36,
+    94,
+    77,
+    50,
+    33,
+    27,
+    50,
+    32,
+    -90,
+    -120,
+    100,
+    90,
+    59,
+    21,
+    0,
+    54,
+]

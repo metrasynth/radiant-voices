@@ -91,9 +91,9 @@ export namespace Fft {
     constructor(readonly optionValues: FftOptionValues) {}
   }
   export class Module extends ModuleBase implements ModuleType {
-    name = "Fft"
+    name = "FFT"
     flags = 0x2000051
-    readonly typeName = "Fft"
+    readonly typeName = "FFT"
     readonly controllerSetters = [
       (val: number) => {
         this.controllerValues.sampleRate = val
