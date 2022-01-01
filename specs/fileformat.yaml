@@ -1166,6 +1166,7 @@ module_types:
       - channels: { enum: Channels, default: "stereo" }
 
   Fft:
+    type: FFT
     defaultFlags: 0x02000051
     group: Effect
     enums:
@@ -1382,6 +1383,7 @@ module_types:
       - mode: { enum: Mode, default: "hq" }
 
   Fmx:
+    type: FMX
     defaultFlags: 0x02000059
     group: Synth
     enums:
@@ -1560,7 +1562,7 @@ module_types:
       - name: custom_waveform
         parent_type: Array
         chnm: 0
-        length: 1024
+        length: 256
         element_type: float32
         default: 0
 

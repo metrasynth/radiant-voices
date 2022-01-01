@@ -11,7 +11,7 @@ from rv.controller import Controller
 
 class BaseFmx:
     name = "Fmx"
-    mtype = "Fmx"
+    mtype = "FMX"
     mgroup = "Synth"
     flags = 0x2000059
 
@@ -43,8 +43,8 @@ class BaseFmx:
         linear = 0
         exp1 = 1
         exp2 = 2
-        _neg_exp1 = 3
-        _neg_exp2 = 4
+        neg_exp1 = 3
+        neg_exp2 = 4
         sin = 5
 
     class Sustain(IntEnum):
@@ -198,7 +198,7 @@ class BaseFmx:
 
     class custom_waveform_chunk(ArrayChunk):
         chnm = 0
-        length = 1024
+        length = 256
         type = None
         element_size = None
         default = 0

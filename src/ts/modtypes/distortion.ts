@@ -44,7 +44,7 @@ export namespace Distortion {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Distortion"
-    flags = 0x51
+    flags = 0x2000051
     readonly typeName = "Distortion"
     readonly controllerSetters = [
       (val: number) => {
