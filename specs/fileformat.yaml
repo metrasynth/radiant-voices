@@ -2102,7 +2102,7 @@ module_types:
       - random_seed: { min: 0, max: 32768, default: 0 }
 
   Sampler:
-    defaultFlags: 0x8459
+    defaultFlags: 0x02008459
     group: Synth
     enums:
       SampleInterpolation:
