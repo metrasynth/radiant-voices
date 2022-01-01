@@ -983,7 +983,7 @@ module_types:
       - record_notes: { bool: true, default: false }
 
   Compressor:
-    defaultFlags: 0x2051
+    defaultFlags: 0x02002051
     group: Effect
     enums:
       Mode:
@@ -1000,7 +1000,7 @@ module_types:
       - sidechain_input: { min: 0, max: 32, default: 0 }
 
   DcBlocker:
-    defaultFlags: 0x51
+    defaultFlags: 0x02000051
     type: DC Blocker
     group: Effect
     enums:

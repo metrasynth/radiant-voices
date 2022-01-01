@@ -18,7 +18,7 @@ describe("Reading the compressor.sunsynth file", () => {
   })
   test("has correct properties, controllers, and options", () => {
     const mod = synth.module as m.Compressor.Module
-    expect(mod.flags).toEqual(8273)
+    expect(mod.flags).toEqual(0x02002051)
     expect(mod.name).toEqual("compy")
     const { c } = mod
     expect(c.volume).toEqual(442)
