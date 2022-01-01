@@ -18,7 +18,7 @@ describe("Reading the drum-synth.sunsynth file", () => {
   })
   test("has correct properties, controllers, and options", () => {
     const mod = synth.module as m.DrumSynth.Module
-    expect(mod.flags).toEqual(73)
+    expect(mod.flags).toEqual(0x02000049)
     expect(mod.name).toEqual("drums")
     const { c } = mod
     expect(c.volume).toEqual(255)

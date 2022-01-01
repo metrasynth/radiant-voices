@@ -1065,7 +1065,7 @@ module_types:
       - feedback: { min: 0, max: 256, default: 0 }
 
   Distortion:
-    defaultFlags: 0x51
+    defaultFlags: 0x02000051
     group: Effect
     enums:
       Type:
@@ -1084,7 +1084,7 @@ module_types:
       - noise: { min: 0, max: 256, default: 0 }
 
   DrumSynth:
-    defaultFlags: 0x49
+    defaultFlags: 0x02000049
     group: Synth
     controllers:
       - volume: { min: 0, max: 512, default: 256 }
