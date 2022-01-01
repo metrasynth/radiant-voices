@@ -1209,7 +1209,7 @@ module_types:
       - frequency_spread: { min: 0, max: 32768, default: 0 }
       - random_phase: { min: 0, max: 32768, default: 0 }
       - random_phase_lite: { min: 0, max: 32768, default: 0 }
-      - freq_shift: { min: -16384, max: 16384, default: 0 }
+      - freq_shift: { min: -4096, max: 4096, default: 0 }
       - deform1: { min: 0, max: 32768, default: 0 }
       - deform2: { min: 0, max: 32768, default: 0 }
       - hp_cutoff: { min: 0, max: 32768, default: 0 }

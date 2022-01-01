@@ -56,7 +56,7 @@ class BaseFft:
     frequency_spread = Controller((0, 32768), 0)
     random_phase = Controller((0, 32768), 0)
     random_phase_lite = Controller((0, 32768), 0)
-    freq_shift = Controller((-16384, 16384), 0)
+    freq_shift = Controller((-4096, 4096), 0)
     deform1 = Controller((0, 32768), 0)
     deform2 = Controller((0, 32768), 0)
     hp_cutoff = Controller((0, 32768), 0)
