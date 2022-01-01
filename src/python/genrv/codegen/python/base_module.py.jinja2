@@ -104,7 +104,7 @@ class Base{{ modtype_name }}:
         {% if ospec.exclusive_of %}
             exclusive_of={{ ospec.exclusive_of | repr }},
         {% endif %}
-        default={{ ospec.default | repr }}
+        default={{ ospec.default | repr }},
     )
     {%- endfor %}
 {%- endfor %}

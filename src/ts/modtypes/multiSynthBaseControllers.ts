@@ -8,6 +8,9 @@ import { MultiSynthControllerValues } from "./multiSynthControllerValues"
 // @ts-ignore
 // noinspection ES6UnusedImports
 import { ActiveCurve } from "./multiSynthEnums"
+// @ts-ignore
+// noinspection ES6UnusedImports
+import { OutPortMode } from "./multiSynthEnums"
 export class MultiSynthBaseControllers implements Controllers {
   constructor(
     readonly module: ModuleType,

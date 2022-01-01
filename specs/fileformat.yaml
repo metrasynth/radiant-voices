@@ -1853,13 +1853,18 @@ module_types:
             0x8000 ]
 
   MultiSynth:
-    defaultFlags: 0x1021049
+    defaultFlags: 0x02021049
     group: Misc
     enums:
       ActiveCurve:
         note_velocity: 0
         velocity_velocity: 1
         note_pitch: 2
+      OutPortMode:
+        all: 0
+        note_mod_num_of_outs: 1
+        channel_mod_num_of_outs: 2
+        cyclic: 3
     controllers:
       - transpose: { min: -128, max: 128, default: 0, compact: true }
       - random_pitch: { min: 0, max: 4096, default: 0 }
@@ -1925,31 +1930,16 @@ module_types:
       - out_note_out_note_minus_in_note_plus_C5:
           number: 0x76
           byte: 4
+          bit: 5
+          size: 1
+          default: false
+      - out_port_mode:
+          number: 0x7d
+          byte: 4
           bit: 6
-          size: 1
-          default: false
-      - out_port_note_mod_num_of_outs:
-          number: 0x75
-          byte: 4
-          bit: 7
-          size: 1
-          default: false
-          exclusive_of: [out_port_channel_mod_num_of_outs, out_port_round_robin_cyclic]
-      - out_port_channel_mod_num_of_outs:
-          number: 0x74
-          byte: 4
-          bit: 8
-          size: 1
-          default: false
-          exclusive_of: [out_port_note_mod_num_of_outs, out_port_round_robin_cyclic]
-      - out_port_round_robin_cyclic:
-          number: 0x73
-          byte: 4
-          bit: 7
           size: 2
-          bool_value: 3
-          default: false
-          exclusive_of: [out_port_note_mod_num_of_outs, out_port_channel_mod_num_of_outs]
+          enum: OutPortMode
+          default: all
     chunks:
       - name: note_velocity_curve
         parent_type: Array

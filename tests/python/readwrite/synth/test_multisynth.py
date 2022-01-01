@@ -3,7 +3,7 @@ from rv.api import m
 
 def test_multisynth(read_write_read_synth):
     mod: m.MultiSynth = read_write_read_synth("multisynth").module
-    assert mod.flags == 16912457
+    assert mod.flags == 0x03021049
     assert mod.name == "MultiSynth"
 
     assert mod.nv_curve.values == EXPECTED_NOTE_VELOCITY_CURVE
@@ -18,11 +18,17 @@ def test_multisynth(read_write_read_synth):
     assert mod.random_velocity == 17602
     assert mod.phase == 15216
     assert mod.curve2_influence == 204
+
     assert mod.use_static_note_C5
     assert not mod.ignore_notes_with_zero_velocity
     assert mod.trigger
     assert mod.active_curve == mod.ActiveCurve.note_pitch
     assert mod.generate_missed_note_off_commands
+    assert not mod.round_note_x
+    assert mod.round_pitch_y
+    assert not mod.record_notes_to_scale_curve
+    assert mod.out_note_out_note_minus_in_note_plus_C5
+    assert mod.out_port_mode == mod.OutPortMode.cyclic
 
 
 EXPECTED_NOTE_VELOCITY_CURVE = [

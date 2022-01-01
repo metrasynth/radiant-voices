@@ -11,3 +11,10 @@ export enum ActiveCurve {
   VelocityVelocity = 1,
   NotePitch = 2,
 }
+export enum OutPortMode {
+  // noinspection JSUnusedGlobalSymbols
+  All = 0,
+  NoteModNumOfOuts = 1,
+  ChannelModNumOfOuts = 2,
+  Cyclic = 3,
+}
