@@ -33,8 +33,18 @@ class BaseSound2Ctl:
     out_max = Controller((0, 32768), 32768)
     out_controller = Controller((0, 255), 0)
     record_values = Option(
-        name="record_values", number=127, byte=0, bit=0, size=1, default=False
+        name="record_values",
+        number=127,
+        byte=0,
+        bit=0,
+        size=1,
+        default=False,
     )
     send_only_changed_values = Option(
-        name="send_only_changed_values", number=126, byte=1, bit=0, size=1, default=True
+        name="send_only_changed_values",
+        number=126,
+        byte=1,
+        bit=0,
+        size=1,
+        default=True,
     )

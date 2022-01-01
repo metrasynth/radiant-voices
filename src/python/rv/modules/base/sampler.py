@@ -73,7 +73,12 @@ class BaseSampler:
         default=False,
     )
     record_in_mono = Option(
-        name="record_in_mono", number=126, byte=1, bit=0, size=1, default=False
+        name="record_in_mono",
+        number=126,
+        byte=1,
+        bit=0,
+        size=1,
+        default=False,
     )
     record_with_reduced_sample_rate = Option(
         name="record_with_reduced_sample_rate",
@@ -84,7 +89,12 @@ class BaseSampler:
         default=False,
     )
     record_in_16_bit = Option(
-        name="record_in_16_bit", number=124, byte=3, bit=0, size=1, default=False
+        name="record_in_16_bit",
+        number=124,
+        byte=3,
+        bit=0,
+        size=1,
+        default=False,
     )
     ignore_velocity_for_volume = Option(
         name="ignore_velocity_for_volume",

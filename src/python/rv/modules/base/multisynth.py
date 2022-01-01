@@ -14,12 +14,18 @@ class BaseMultiSynth:
     name = "MultiSynth"
     mtype = "MultiSynth"
     mgroup = "Misc"
-    flags = 0x1021049
+    flags = 0x2021049
 
     class ActiveCurve(IntEnum):
         note_velocity = 0
         velocity_velocity = 1
         note_pitch = 2
+
+    class OutPortMode(IntEnum):
+        all = 0
+        note_mod_num_of_outs = 1
+        channel_mod_num_of_outs = 2
+        cyclic = 3
 
     transpose = Controller(CompactRange(-128, 128), 0)
     random_pitch = Controller((0, 4096), 0)
@@ -30,7 +36,12 @@ class BaseMultiSynth:
     phase = Controller((0, 32768), 0)
     curve2_influence = Controller((0, 256), 256)
     use_static_note_C5 = Option(
-        name="use_static_note_C5", number=127, byte=0, bit=0, size=1, default=False
+        name="use_static_note_C5",
+        number=127,
+        byte=0,
+        bit=0,
+        size=1,
+        default=False,
     )
     ignore_notes_with_zero_velocity = Option(
         name="ignore_notes_with_zero_velocity",
@@ -41,9 +52,21 @@ class BaseMultiSynth:
         default=False,
     )
     active_curve = Option(
-        name="active_curve", number=125, byte=2, bit=0, size=2, default="note_velocity"
+        name="active_curve",
+        number=125,
+        byte=2,
+        bit=0,
+        size=2,
+        default="note_velocity",
     )
-    trigger = Option(name="trigger", number=124, byte=3, bit=0, size=1, default=False)
+    trigger = Option(
+        name="trigger",
+        number=124,
+        byte=3,
+        bit=0,
+        size=1,
+        default=False,
+    )
     generate_missed_note_off_commands = Option(
         name="generate_missed_note_off_commands",
         number=123,
@@ -82,42 +105,17 @@ class BaseMultiSynth:
         name="out_note_out_note_minus_in_note_plus_C5",
         number=118,
         byte=4,
+        bit=5,
+        size=1,
+        default=False,
+    )
+    out_port_mode = Option(
+        name="out_port_mode",
+        number=125,
+        byte=4,
         bit=6,
-        size=1,
-        default=False,
-    )
-    out_port_note_mod_num_of_outs = Option(
-        name="out_port_note_mod_num_of_outs",
-        number=117,
-        byte=4,
-        bit=7,
-        size=1,
-        exclusive_of=[
-            "out_port_channel_mod_num_of_outs",
-            "out_port_round_robin_cyclic",
-        ],
-        default=False,
-    )
-    out_port_channel_mod_num_of_outs = Option(
-        name="out_port_channel_mod_num_of_outs",
-        number=116,
-        byte=4,
-        bit=8,
-        size=1,
-        exclusive_of=["out_port_note_mod_num_of_outs", "out_port_round_robin_cyclic"],
-        default=False,
-    )
-    out_port_round_robin_cyclic = Option(
-        name="out_port_round_robin_cyclic",
-        number=115,
-        byte=4,
-        bit=7,
         size=2,
-        exclusive_of=[
-            "out_port_note_mod_num_of_outs",
-            "out_port_channel_mod_num_of_outs",
-        ],
-        default=False,
+        default="all",
     )
 
     class note_velocity_curve_chunk(ArrayChunk):

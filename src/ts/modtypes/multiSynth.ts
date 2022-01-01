@@ -20,6 +20,13 @@ export namespace MultiSynth {
     VelocityVelocity = 1,
     NotePitch = 2,
   }
+  export enum OutPortMode {
+    // noinspection JSUnusedGlobalSymbols
+    All = 0,
+    NoteModNumOfOuts = 1,
+    ChannelModNumOfOuts = 2,
+    Cyclic = 3,
+  }
   export enum CtlNum {
     Transpose = 1,
     RandomPitch = 2,
@@ -50,9 +57,7 @@ export namespace MultiSynth {
     roundPitchY: boolean
     recordNotesToScaleCurve: boolean
     outNoteOutNoteMinusInNotePlus_C5: boolean
-    outPortNoteModNumOfOuts: boolean
-    outPortChannelModNumOfOuts: boolean
-    outPortRoundRobinCyclic: boolean
+    outPortMode: OutPortMode
   }
   class MultiSynthOptions implements Options {
     constructor(readonly optionValues: MultiSynthOptionValues) {}
@@ -131,39 +136,17 @@ export namespace MultiSynth {
       this.optionValues.outNoteOutNoteMinusInNotePlus_C5 = newValue
     }
     // noinspection JSUnusedGlobalSymbols
-    get outPortNoteModNumOfOuts(): boolean {
-      return this.optionValues.outPortNoteModNumOfOuts
+    get outPortMode(): OutPortMode {
+      return this.optionValues.outPortMode
     }
     // noinspection JSUnusedGlobalSymbols
-    set outPortNoteModNumOfOuts(newValue: boolean) {
-      this.optionValues.outPortNoteModNumOfOuts = newValue
-      this.optionValues.outPortChannelModNumOfOuts = false
-      this.optionValues.outPortRoundRobinCyclic = false
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get outPortChannelModNumOfOuts(): boolean {
-      return this.optionValues.outPortChannelModNumOfOuts
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set outPortChannelModNumOfOuts(newValue: boolean) {
-      this.optionValues.outPortChannelModNumOfOuts = newValue
-      this.optionValues.outPortNoteModNumOfOuts = false
-      this.optionValues.outPortRoundRobinCyclic = false
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get outPortRoundRobinCyclic(): boolean {
-      return this.optionValues.outPortRoundRobinCyclic
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set outPortRoundRobinCyclic(newValue: boolean) {
-      this.optionValues.outPortRoundRobinCyclic = newValue
-      this.optionValues.outPortNoteModNumOfOuts = false
-      this.optionValues.outPortChannelModNumOfOuts = false
+    set outPortMode(newValue: OutPortMode) {
+      this.optionValues.outPortMode = newValue
     }
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "MultiSynth"
-    flags = 0x1021049
+    flags = 0x2021049
     readonly typeName = "MultiSynth"
     readonly optionsChnm = 1
     readonly controllerSetters = [
@@ -227,9 +210,7 @@ export namespace MultiSynth {
       roundPitchY: false,
       recordNotesToScaleCurve: false,
       outNoteOutNoteMinusInNotePlus_C5: false,
-      outPortNoteModNumOfOuts: false,
-      outPortChannelModNumOfOuts: false,
-      outPortRoundRobinCyclic: false,
+      outPortMode: OutPortMode.All,
     }
     readonly options: MultiSynthOptions = new MultiSynthOptions(this.optionValues)
     readonly o = this.options
@@ -344,7 +325,7 @@ export namespace MultiSynth {
       return a
     }
     rawOptionBytes(): Uint8Array {
-      const bytes = new Uint8Array(12)
+      const bytes = new Uint8Array(10)
       const { optionValues: ov } = this
       bytes[0] |= (Number(ov.useStaticNote_C5) & (2 ** 1 - 1)) << 0
       bytes[1] |= (Number(ov.ignoreNotesWithZeroVelocity) & (2 ** 1 - 1)) << 0
@@ -354,10 +335,8 @@ export namespace MultiSynth {
       bytes[4] |= (Number(ov.roundNoteX) & (2 ** 1 - 1)) << 1
       bytes[4] |= (Number(ov.roundPitchY) & (2 ** 1 - 1)) << 2
       bytes[4] |= (Number(ov.recordNotesToScaleCurve) & (2 ** 1 - 1)) << 3
-      bytes[4] |= (Number(ov.outNoteOutNoteMinusInNotePlus_C5) & (2 ** 1 - 1)) << 6
-      bytes[4] |= (Number(ov.outPortNoteModNumOfOuts) & (2 ** 1 - 1)) << 7
-      bytes[4] |= (Number(ov.outPortChannelModNumOfOuts) & (2 ** 1 - 1)) << 8
-      bytes[4] |= (ov.outPortRoundRobinCyclic ? 3 : 0 & (2 ** 2 - 1)) << 7
+      bytes[4] |= (Number(ov.outNoteOutNoteMinusInNotePlus_C5) & (2 ** 1 - 1)) << 5
+      bytes[4] |= (Number(ov.outPortMode) & (2 ** 2 - 1)) << 6
       return bytes
     }
     setOptions(dataChunks: ModuleDataChunks) {
@@ -384,16 +363,9 @@ export namespace MultiSynth {
           (chdt[4] >> 3) & (2 ** 1 - 1)
         )
         this.optionValues.outNoteOutNoteMinusInNotePlus_C5 = Boolean(
-          (chdt[4] >> 6) & (2 ** 1 - 1)
+          (chdt[4] >> 5) & (2 ** 1 - 1)
         )
-        this.optionValues.outPortNoteModNumOfOuts = Boolean(
-          (chdt[4] >> 7) & (2 ** 1 - 1)
-        )
-        this.optionValues.outPortChannelModNumOfOuts = Boolean(
-          (chdt[4] >> 8) & (2 ** 1 - 1)
-        )
-        this.optionValues.outPortRoundRobinCyclic =
-          ((chdt[4] >> 7) & (2 ** 2 - 1)) === 3
+        this.optionValues.outPortMode = (chdt[4] >> 6) & (2 ** 2 - 1)
       }
     }
   }

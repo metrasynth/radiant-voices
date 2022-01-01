@@ -426,6 +426,8 @@ class Module(metaclass=ModuleMeta):
             option_value >>= option.bit
             option_value &= (2 ** option.size) - 1
             self.option_values[option.name] = option_value
+            for exclusive_of_name in option.exclusive_of:
+                self.option_values[exclusive_of_name] = False
 
     def finalize_load(self):
         pass

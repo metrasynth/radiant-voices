@@ -26,10 +26,19 @@ class BaseMetaModule:
     bpm = Controller((1, 800), 125)
     tpl = Controller((1, 31), 6)
     user_defined_controllers = Option(
-        name="user_defined_controllers", byte=0, bit=0, size=4, default=0
+        name="user_defined_controllers",
+        byte=0,
+        bit=0,
+        size=4,
+        default=0,
     )
     arpeggiator = Option(
-        name="arpeggiator", number=127, byte=1, bit=0, size=1, default=False
+        name="arpeggiator",
+        number=127,
+        byte=1,
+        bit=0,
+        size=1,
+        default=False,
     )
     apply_velocity_to_project = Option(
         name="apply_velocity_to_project",

@@ -103,7 +103,12 @@ class BaseAnalogGenerator:
         default=False,
     )
     volume_scaling_per_key = Option(
-        name="volume_scaling_per_key", number=125, byte=2, bit=0, size=1, default=False
+        name="volume_scaling_per_key",
+        number=125,
+        byte=2,
+        bit=0,
+        size=1,
+        default=False,
     )
     filter_freq_scaling_per_key = Option(
         name="filter_freq_scaling_per_key",
@@ -146,7 +151,12 @@ class BaseAnalogGenerator:
         default=False,
     )
     frequency_div_2 = Option(
-        name="frequency_div_2", number=122, byte=5, bit=0, size=1, default=False
+        name="frequency_div_2",
+        number=122,
+        byte=5,
+        bit=0,
+        size=1,
+        default=False,
     )
     smooth_frequency_change = Option(
         name="smooth_frequency_change",
@@ -158,10 +168,20 @@ class BaseAnalogGenerator:
         default=True,
     )
     retain_phase = Option(
-        name="retain_phase", number=119, byte=8, bit=0, size=1, default=False
+        name="retain_phase",
+        number=119,
+        byte=8,
+        bit=0,
+        size=1,
+        default=False,
     )
     random_phase = Option(
-        name="random_phase", number=118, byte=9, bit=0, size=1, default=False
+        name="random_phase",
+        number=118,
+        byte=9,
+        bit=0,
+        size=1,
+        default=False,
     )
     true_zero_attack_release = Option(
         name="true_zero_attack_release",

@@ -18,11 +18,12 @@ describe("Reading the multisynth.sunsynth file", () => {
   })
   test("has correct properties, controllers, and options", () => {
     const mod = synth.module as m.MultiSynth.Module
-    expect(mod.flags).toEqual(16912457)
+    expect(mod.flags).toEqual(0x03021049)
     expect(mod.name).toEqual("MultiSynth")
     expect(mod.behavior?.noteVelocityCurve).toEqual(expectedNoteVelocityCurve)
     expect(mod.behavior?.velocityVelocityCurve).toEqual(expectedVelocityVelocityCurve)
     expect(mod.behavior?.notePitchCurve).toEqual(expectedNotePitchCurve)
+
     const { c } = mod
     expect(c.transpose).toEqual(-29)
     expect(c.randomPitch).toEqual(3704)
@@ -32,12 +33,18 @@ describe("Reading the multisynth.sunsynth file", () => {
     expect(c.randomVelocity).toEqual(17602)
     expect(c.phase).toEqual(15216)
     expect(c.curve2Influence).toEqual(204)
+
     const { o } = mod
     expect(o.useStaticNote_C5).toEqual(true)
     expect(o.ignoreNotesWithZeroVelocity).toEqual(false)
     expect(o.trigger).toEqual(true)
     expect(o.activeCurve).toEqual(m.MultiSynth.ActiveCurve.NotePitch)
     expect(o.generateMissedNoteOffCommands).toEqual(true)
+    expect(o.roundNoteX).toEqual(false)
+    expect(o.roundPitchY).toEqual(true)
+    expect(o.recordNotesToScaleCurve).toEqual(false)
+    expect(o.outNoteOutNoteMinusInNotePlus_C5).toEqual(true)
+    expect(o.outPortMode).toEqual(m.MultiSynth.OutPortMode.Cyclic)
   })
 })
 const expectedNoteVelocityCurve = new Uint8Array([
