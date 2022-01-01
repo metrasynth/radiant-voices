@@ -18,7 +18,7 @@ describe("Reading the distortion.sunsynth file", () => {
   })
   test("has correct properties, controllers, and options", () => {
     const mod = synth.module as m.Distortion.Module
-    expect(mod.flags).toEqual(81)
+    expect(mod.flags).toEqual(0x02000051)
     expect(mod.name).toEqual("distortion")
     const { c } = mod
     expect(c.volume).toEqual(99)
