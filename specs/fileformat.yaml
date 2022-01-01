@@ -2342,7 +2342,7 @@ module_types:
 
   VocalFilter:
     type: Vocal filter
-    defaultFlags: 0x51
+    defaultFlags: 0x02000051
     group: Effect
     enums:
       VoiceType:
