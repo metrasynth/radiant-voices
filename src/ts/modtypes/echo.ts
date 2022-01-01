@@ -57,7 +57,7 @@ export namespace Echo {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Echo"
-    flags = 0x451
+    flags = 0x2000451
     readonly typeName = "Echo"
     readonly controllerSetters = [
       (val: number) => {

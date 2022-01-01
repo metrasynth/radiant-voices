@@ -12,7 +12,7 @@ class BaseEcho:
     name = "Echo"
     mtype = "Echo"
     mgroup = "Effect"
-    flags = 0x451
+    flags = 0x2000451
 
     class DelayUnit(IntEnum):
         sec_div_256 = 0
