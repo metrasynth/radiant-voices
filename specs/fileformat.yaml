@@ -1104,7 +1104,7 @@ module_types:
       - snare_panning: { min: -128, max: 128, default: 0 }
 
   Echo:
-    defaultFlags: 0x451
+    defaultFlags: 0x02000451
     group: Effect
     enums:
       DelayUnit:
