@@ -6,7 +6,7 @@ from rv.api import NOTE, m
 def test_sampler(read_write_read_synth):
     mod: m.Sampler = read_write_read_synth("sampler").module
 
-    assert mod.flags == 33881
+    assert mod.flags == 0x02008459
     assert mod.name == "Sampler"
 
     assert mod.volume == 267
@@ -15,6 +15,14 @@ def test_sampler(read_write_read_synth):
     assert mod.envelope_interpolation == mod.EnvelopeInterpolation.off
     assert mod.polyphony == 32
     assert mod.rec_threshold == 2448
+
+    assert mod.start_recording_on_project_play is True
+    assert mod.stop_recording_on_project_stop is False
+    assert mod.record_in_mono is True
+    assert mod.record_with_reduced_sample_rate is False
+    assert mod.record_in_16_bit is True
+    assert mod.ignore_velocity_for_volume is False
+    assert mod.increased_freq_computation_accuracy is True
 
     # Global sampler config
     assert mod.vibrato_type == mod.VibratoType.square
