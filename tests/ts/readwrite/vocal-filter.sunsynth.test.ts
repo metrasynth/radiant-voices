@@ -18,7 +18,7 @@ describe("Reading the vocal-filter.sunsynth file", () => {
   })
   test("has correct properties, controllers, and options", () => {
     const mod = synth.module as m.VocalFilter.Module
-    expect(mod.flags).toEqual(81)
+    expect(mod.flags).toEqual(0x02000051)
     expect(mod.name).toEqual("Vocal filter")
     const { c } = mod
     expect(c.volume).toEqual(271)
@@ -28,5 +28,12 @@ describe("Reading the vocal-filter.sunsynth file", () => {
     expect(c.vowel).toEqual(243)
     expect(c.voiceType).toEqual(m.VocalFilter.VoiceType.Bass)
     expect(c.channels).toEqual(m.VocalFilter.Channels.Stereo)
+    expect(c.randomFrequency).toEqual(726)
+    expect(c.randomSeed).toEqual(10401)
+    expect(c.vowel1).toEqual(m.VocalFilter.Vowel.O)
+    expect(c.vowel2).toEqual(m.VocalFilter.Vowel.U)
+    expect(c.vowel3).toEqual(m.VocalFilter.Vowel.O)
+    expect(c.vowel4).toEqual(m.VocalFilter.Vowel.I)
+    expect(c.vowel5).toEqual(m.VocalFilter.Vowel.E)
   })
 })

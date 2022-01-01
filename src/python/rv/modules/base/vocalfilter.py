@@ -12,7 +12,7 @@ class BaseVocalFilter:
     name = "VocalFilter"
     mtype = "Vocal filter"
     mgroup = "Effect"
-    flags = 0x51
+    flags = 0x2000051
 
     class VoiceType(IntEnum):
         soprano = 0

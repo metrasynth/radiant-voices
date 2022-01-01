@@ -13,7 +13,7 @@ class BaseSampler:
     name = "Sampler"
     mtype = "Sampler"
     mgroup = "Synth"
-    flags = 0x8459
+    flags = 0x2008459
 
     class SampleInterpolation(IntEnum):
         off = 0
