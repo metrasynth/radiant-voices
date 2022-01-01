@@ -3,7 +3,7 @@ from rv.api import m
 
 def test_compressor(read_write_read_synth):
     mod: m.Compressor = read_write_read_synth("compressor").module
-    assert mod.flags == 8273
+    assert mod.flags == 0x02002051
     assert mod.name == "compy"
     assert mod.volume == 442
     assert mod.threshold == 465
