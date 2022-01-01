@@ -130,13 +130,13 @@ export class FftBaseControllers implements Controllers {
   }
   // noinspection JSUnusedGlobalSymbols
   get freqShift(): number {
-    return this.controllerValues.freqShift + -16384
+    return this.controllerValues.freqShift + -4096
   }
   // noinspection JSUnusedGlobalSymbols
   set freqShift(newValue: number) {
     const { controllerValues } = this
-    newValue = Math.min(Math.max(newValue, -16384), 16384)
-    controllerValues.freqShift = newValue - -16384
+    newValue = Math.min(Math.max(newValue, -4096), 4096)
+    controllerValues.freqShift = newValue - -4096
   }
   // noinspection JSUnusedGlobalSymbols
   get deform1(): number {
