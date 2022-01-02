@@ -145,6 +145,9 @@ chunks:
   based_on_version:
     id: BVER
     type: Version
+  project_flags:
+    id: FLGS
+    type: ProjectFlags
   initial_bpm:
     id: "BPM "
     type: Bpm
@@ -516,6 +519,16 @@ chunk_types:
     parent_type: Array
     length: 4
     element_type: unsigned int8
+
+  ProjectFlag:
+    parent_type: Enum
+    value_type: unsigned int32
+    values:
+      supertracks: 0x1
+
+  ProjectFlags:
+    parent_type: Flags
+    enum: ProjectFlag
 
   ModuleFlag:
     parent_type: Enum
