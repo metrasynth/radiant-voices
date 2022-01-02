@@ -29,7 +29,7 @@ class PatternReader(Reader):
         (self.object.y_size,) = unpack("<I", data)
 
     def process_PFLG(self, data):
-        (self.object.appearance_flags,) = unpack("<I", data)
+        (self.object.flags_PFLG,) = unpack("<I", data)
 
     def process_PICO(self, data):
         self.object.icon = data
@@ -41,7 +41,7 @@ class PatternReader(Reader):
         self.object.bg_color = unpack("<BBB", data)
 
     def process_PFFF(self, data):
-        (self.object.flags,) = unpack("<I", data)
+        (self.object.flags_PFFF,) = unpack("<I", data)
 
     def process_PXXX(self, data):
         (self.object.x,) = unpack("<i", data)
@@ -68,7 +68,7 @@ class PatternCloneReader(Reader):
         self.object = PatternClone(source=source)
 
     def process_PFFF(self, data):
-        (self.object.flags,) = unpack("<I", data)
+        (self.object.flags_PFFF,) = unpack("<I", data)
 
     def process_PXXX(self, data):
         (self.object.x,) = unpack("<i", data)
