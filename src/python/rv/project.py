@@ -38,6 +38,7 @@ class Project(Container):
         self.output = self.attach_module(Output())
         self.sunvox_version = (1, 9, 6, 1)
         self.based_on_version = (1, 9, 6, 1)
+        self.flags = 0
         self.initial_bpm = 125
         self.initial_tpl = 6
         self.global_volume = 80
@@ -156,6 +157,8 @@ class Project(Container):
         yield self.MAGIC_CHUNK
         yield b"VERS", pack("BBBB", *reversed(self.sunvox_version))
         yield b"BVER", pack("BBBB", *reversed(self.based_on_version))
+        if self.flags:
+            yield b"FLGS", pack("<I", self.flags)
         yield (
             b"SFGS",
             pack("<I", self.receive_sync_midi | (self.receive_sync_other << 3)),

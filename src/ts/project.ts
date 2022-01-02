@@ -16,29 +16,29 @@ export enum SyncCommand {
 }
 
 export class Project implements SunVoxContainer {
-  initialBpm = 125
-  initialTpl = 6
-  globalVolume = 80
-  name = "Project"
-  timeGrid = 4
-  timeGrid2 = 4
-  modulesScale = 256
-  modulesZoom = 256
-  modulesXOffset = 0
-  modulesYOffset = 0
-  modulesLayerMask = 0x00000000
-  modulesCurrentLayer = 0
-  timelinePosition = 0
-  selectedModule = 0
-  lastSelectedGenerator = 0
+  basedOnVersion: SunVoxVersion = [1, 9, 6, 1]
+  currentLine = 1
   currentPattern = 0
   currentTrack = 0
-  currentLine = 1
+  flags = 0
+  globalVolume = 80
+  initialBpm = 125
+  initialTpl = 6
+  lastSelectedGenerator = 0
+  modulesCurrentLayer = 0
+  modulesLayerMask = 0x00000000
+  modulesScale = 256
+  modulesXOffset = 0
+  modulesYOffset = 0
+  modulesZoom = 256
+  name = "Project"
   receiveSyncMidi = SyncCommand.StartStop
   receiveSyncOther = SyncCommand.StartStop
-
+  selectedModule = 0
   sunVoxVersion: SunVoxVersion = [1, 9, 6, 1]
-  basedOnVersion: SunVoxVersion = [1, 9, 6, 1]
+  timeGrid = 4
+  timeGrid2 = 4
+  timelinePosition = 0
 
   readonly patterns: Array<PatternBase | undefined> = []
   readonly modules: Array<ModuleBase | undefined> = []

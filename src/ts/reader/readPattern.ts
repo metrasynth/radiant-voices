@@ -43,13 +43,13 @@ const handlers: Record<string, HandlerFunc> = {
   },
   PEND: () => true,
   PFFF: (pattern, chunk) => {
-    ;(pattern as Pattern).flags = (chunk as Uint32Chunk).value
+    ;(pattern as Pattern).flagsPFFF = (chunk as Uint32Chunk).value
   },
   PFGC: (pattern, chunk) => {
     ;(pattern as Pattern).fgColor = (chunk as ColorChunk).value
   },
   PFLG: (pattern, chunk) => {
-    ;(pattern as Pattern).appearance = (chunk as Uint32Chunk).value
+    ;(pattern as Pattern).flagsPFLG = (chunk as Uint32Chunk).value
   },
   PICO: (pattern, chunk) => {
     ;(pattern as Pattern).icon = (chunk as BytesChunk).value

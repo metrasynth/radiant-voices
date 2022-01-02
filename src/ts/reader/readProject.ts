@@ -24,6 +24,9 @@ const handlers: Record<string, HandlerFunc> = {
   CURL: (project, chunk) => {
     project.modulesCurrentLayer = (chunk as Uint32Chunk).value
   },
+  FLGS: (project, chunk) => {
+    project.flags = (chunk as Uint32Chunk).value
+  },
   GVOL: (project, chunk) => {
     project.globalVolume = (chunk as Uint32Chunk).value
   },

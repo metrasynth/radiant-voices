@@ -13,16 +13,16 @@ export function* patternChunks(pattern: PatternBase): Generator<Chunk> {
     yield { name: "PCHN", type: "uint32", value: pattern.tracks }
     yield { name: "PLIN", type: "uint32", value: pattern.lines }
     yield { name: "PYSZ", type: "uint32", value: pattern.ySize }
-    yield { name: "PFLG", type: "uint32", value: pattern.appearance }
+    yield { name: "PFLG", type: "uint32", value: pattern.flagsPFLG }
     yield { name: "PICO", type: "bytes", value: pattern.icon }
     yield { name: "PFGC", type: "color", value: pattern.fgColor }
     yield { name: "PBGC", type: "color", value: pattern.bgColor }
-    yield { name: "PFFF", type: "uint32", value: pattern.flags }
+    yield { name: "PFFF", type: "uint32", value: pattern.flagsPFFF }
     yield { name: "PXXX", type: "int32", value: pattern.x }
     yield { name: "PYYY", type: "int32", value: pattern.y }
   } else if (pattern instanceof PatternClone) {
     yield { name: "PPAR", type: "uint32", value: pattern.parent }
-    yield { name: "PFFF", type: "uint32", value: pattern.flags }
+    yield { name: "PFFF", type: "uint32", value: pattern.flagsPFFF }
     yield { name: "PXXX", type: "int32", value: pattern.x }
     yield { name: "PYYY", type: "int32", value: pattern.y }
   }
