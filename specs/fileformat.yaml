@@ -820,50 +820,50 @@ module_types:
     group: Synth
     enums:
       Mode:
-        hq: 0
-        hq_mono: 1
-        lq: 2
-        lq_mono: 3
+        "hq": 0
+        "hq_mono": 1
+        "lq": 2
+        "lq_mono": 3
       Waveform:
-        triangle: 0
-        saw: 1
-        square: 2
-        noise: 3
-        drawn: 4
-        sin: 5
-        hsin: 6
-        asin: 7
-        drawn_spline: 8
-        noise_spline: 9
-        white_noise: 10
-        pink_noise: 11
-        red_noise: 12
-        blue_noise: 13
-        violet_noise: 14
-        grey_noise: 15
-        harmonics: 16
+        "triangle": 0
+        "saw": 1
+        "square": 2
+        "noise": 3
+        "drawn": 4
+        "sin": 5
+        "hsin": 6
+        "asin": 7
+        "drawn_spline": 8
+        "noise_spline": 9
+        "white_noise": 10
+        "pink_noise": 11
+        "red_noise": 12
+        "blue_noise": 13
+        "violet_noise": 14
+        "grey_noise": 15
+        "harmonics": 16
       Filter:
         "off": 0
-        lp_12dB: 1
-        hp_12dB: 2
-        bp_12dB: 3
-        br_12dB: 4
-        lp_24dB: 5
-        hp_24dB: 6
-        bp_24dB: 7
-        br_24dB: 8
+        "lp_12dB": 1
+        "hp_12dB": 2
+        "bp_12dB": 3
+        "br_12dB": 4
+        "lp_24dB": 5
+        "hp_24dB": 6
+        "bp_24dB": 7
+        "br_24dB": 8
       FilterEnvelope:
         "off": 0
-        sustain_off: 1
-        sustain_on: 2
+        "sustain_off": 1
+        "sustain_on": 2
       Osc2Mode:
-        add: 0
-        sub: 1
-        mul: 2
-        min: 3
-        max: 4
-        bitwise_and: 5
-        bitwise_xor: 6
+        "add": 0
+        "sub": 1
+        "mul": 2
+        "min": 3
+        "max": 4
+        "bitwise_and": 5
+        "bitwise_xor": 6
     controllers:
       - volume: { min: 0, max: 256, default: 80 }
       - waveform: { enum: Waveform, default: "triangle" }
@@ -977,12 +977,12 @@ module_types:
     group: Misc
     enums:
       NoteOn:
-        no_trigger: 0
-        on_pitch_change: 1
+        "no_trigger": 0
+        "on_pitch_change": 1
       NoteOff:
-        no_trigger: 0
-        on_min_pitch: 1
-        on_max_pitch: 2
+        "no_trigger": 0
+        "on_min_pitch": 1
+        "on_max_pitch": 2
     controllers:
       - pitch: { min: 0, max: 32768, default: 0 }
       - first_note: { min: 0, max: 120, default: 0 }
@@ -1000,9 +1000,9 @@ module_types:
     group: Effect
     enums:
       Mode:
-        peak: 0
-        rms: 1
-        peak_zero_latency: 2
+        "peak": 0
+        "rms": 1
+        "peak_zero_latency": 2
     controllers:
       - volume: { min: 0, max: 512, default: 256 }
       - threshold: { min: 0, max: 512, default: 256 }
@@ -1018,8 +1018,8 @@ module_types:
     group: Effect
     enums:
       Channels:
-        stereo: 0
-        mono: 1
+        "stereo": 0
+        "mono": 1
     controllers:
       - channels: { enum: Channels, default: "stereo" }
 
@@ -1028,18 +1028,18 @@ module_types:
     group: Effect
     enums:
       Channels:
-        stereo: 0
-        mono: 1
+        "stereo": 0
+        "mono": 1
       DelayUnit:
-        sec/16384: 0
-        ms: 1
-        Hz: 2
-        tick: 3
-        line: 4
-        line/2: 5
-        line/3: 6
-        sec/44100: 7
-        sec/48000: 8
+        "sec/16384": 0
+        "ms": 1
+        "Hz": 2
+        "tick": 3
+        "line": 4
+        "line/2": 5
+        "line/3": 6
+        "sec/44100": 7
+        "sec/48000": 8
     controllers:
       - dry: { min: 0, max: 512, default: 256 }
       - wet: { min: 0, max: 512, default: 256 }
@@ -1082,12 +1082,12 @@ module_types:
     group: Effect
     enums:
       Type:
-        clipping: 0
-        foldback: 1
-        foldback2: 2
-        foldback3: 3
-        overflow: 4
-        overflow2: 5
+        "clipping": 0
+        "foldback": 1
+        "foldback2": 2
+        "foldback3": 3
+        "overflow": 4
+        "overflow2": 5
     controllers:
       - volume: { min: 0, max: 256, default: 128 }
       - type: { enum: Type, default: "clipping" }
@@ -1121,17 +1121,17 @@ module_types:
     group: Effect
     enums:
       DelayUnit:
-        sec/256: 0
-        ms: 1
-        Hz: 2
-        tick: 3
-        line: 4
-        line/2: 5
-        line/3: 6
+        "sec/256": 0
+        "ms": 1
+        "Hz": 2
+        "tick": 3
+        "line": 4
+        "line/2": 5
+        "line/3": 6
       Filter:
         "off": 0
-        lp_6dB: 1
-        hp_6dB: 2
+        "lp_6dB": 1
+        "hp_6dB": 2
     controllers:
       - dry: { min: 0, max: 256, default: 256 }
       - wet: { min: 0, max: 256, default: 40 }
@@ -1159,8 +1159,8 @@ module_types:
     group: Effect
     enums:
       Channels:
-        stereo: 0
-        mono: 1
+        "stereo": 0
+        "mono": 1
     controllers:
       - low: { min: 0, max: 512, default: 256 }
       - middle: { min: 0, max: 512, default: 256 }
@@ -1172,8 +1172,8 @@ module_types:
     group: Misc
     enums:
       Channels:
-        stereo: 0
-        mono: 1
+        "stereo": 0
+        "mono": 1
     controllers:
       - volume: { min: 0, max: 10000, default: 1000 }
       - channels: { enum: Channels, default: "stereo" }
@@ -1184,19 +1184,19 @@ module_types:
     group: Effect
     enums:
       SampleRate:
-        8000Hz: 0
-        11025Hz: 1
-        16000Hz: 2
-        22050Hz: 3
-        32000Hz: 4
-        44100Hz: 5
-        48000Hz: 6
-        88200Hz: 7
-        96000Hz: 8
-        119200Hz: 9
+        "8000Hz": 0
+        "11025Hz": 1
+        "16000Hz": 2
+        "22050Hz": 3
+        "32000Hz": 4
+        "44100Hz": 5
+        "48000Hz": 6
+        "88200Hz": 7
+        "96000Hz": 8
+        "119200Hz": 9
       Channels:
-        mono: 0
-        stereo: 1
+        "mono": 0
+        "stereo": 1
       Buffer:
         "64": 0
         "128": 1
@@ -1234,34 +1234,34 @@ module_types:
     group: Effect
     enums:
       Type:
-        lp: 0
-        hp: 1
-        bp: 2
-        notch: 3
+        "lp": 0
+        "hp": 1
+        "bp": 2
+        "notch": 3
       Mode:
-        hq: 0
-        hq_mono: 1
-        lq: 2
-        lq_mono: 3
+        "hq": 0
+        "hq_mono": 1
+        "lq": 2
+        "lq_mono": 3
       RollOff:
-        12dB: 0
-        24dB: 1
-        36dB: 2
-        48dB: 3
+        "12dB": 0
+        "24dB": 1
+        "36dB": 2
+        "48dB": 3
       LfoFreqUnit:
-        Hz*0.02: 0
-        ms: 1
-        Hz: 2
-        tick: 3
-        line: 4
-        line/2: 5
-        line/3: 6
+        "Hz*0.02": 0
+        "ms": 1
+        "Hz": 2
+        "tick": 3
+        "line": 4
+        "line/2": 5
+        "line/3": 6
       LfoWaveform:
-        sin: 0
-        saw: 1
-        saw2: 2
-        square: 3
-        random: 4
+        "sin": 0
+        "saw": 1
+        "saw2": 2
+        "square": 3
+        "random": 4
     controllers:
       - volume: { min: 0, max: 256, default: 256 }
       - freq: { min: 0, max: 14000, default: 14000, units: "Hz" }
@@ -1285,41 +1285,41 @@ module_types:
     group: Effect
     enums:
       Type:
-        lp: 0
-        hp: 1
-        bp_const_skirt_gain: 2
-        bp_const_peak_gain: 3
-        notch: 4
-        all_pass: 5
-        peaking: 6
-        low_shelf: 7
-        high_shelf: 8
-        lp_6dB: 9
-        hp_6dB: 10
+        "lp": 0
+        "hp": 1
+        "bp_const_skirt_gain": 2
+        "bp_const_peak_gain": 3
+        "notch": 4
+        "all_pass": 5
+        "peaking": 6
+        "low_shelf": 7
+        "high_shelf": 8
+        "lp_6dB": 9
+        "hp_6dB": 10
       RollOff:
-        12dB: 0
-        24dB: 1
-        36dB: 2
-        48dB: 3
+        "12dB": 0
+        "24dB": 1
+        "36dB": 2
+        "48dB": 3
       Mode:
-        stereo: 0
-        mono: 1
-        stereo_smoothing: 2
-        mono_smoothing: 3
+        "stereo": 0
+        "mono": 1
+        "stereo_smoothing": 2
+        "mono_smoothing": 3
       LfoWaveform:
-        sin: 0
-        saw: 1
-        saw2: 2
-        square: 3
-        random: 4
+        "sin": 0
+        "saw": 1
+        "saw2": 2
+        "square": 3
+        "random": 4
       LfoFreqUnit:
-        Hz*0.02: 0
-        ms: 1
-        Hz: 2
-        tick: 3
-        line: 4
-        line/2: 5
-        line/3: 6
+        "Hz*0.02": 0
+        "ms": 1
+        "Hz": 2
+        "tick": 3
+        "line": 4
+        "line/2": 5
+        "line/3": 6
     controllers:
       - volume: { min: 0, max: 32768, default: 32768 }
       - type: { enum: Type, default: "lp" }
@@ -1344,16 +1344,16 @@ module_types:
     group: Effect
     enums:
       LfoWaveform:
-        hsin: 0
-        sin: 1
+        "hsin": 0
+        "sin": 1
       LfoFreqUnit:
-        Hz*0.05: 0
-        ms: 1
-        Hz: 2
-        tick: 3
-        line: 4
-        line/2: 5
-        line/3: 6
+        "Hz*0.05": 0
+        "ms": 1
+        "Hz": 2
+        "tick": 3
+        "line": 4
+        "line/2": 5
+        "line/3": 6
     controllers:
       - dry: { min: 0, max: 256, default: 256 }
       - wet: { min: 0, max: 256, default: 128 }
@@ -1372,10 +1372,10 @@ module_types:
     group: Synth
     enums:
       Mode:
-        hq: 0
-        hq_mono: 1
-        lq: 2
-        lq_mono: 3
+        "hq": 0
+        "hq_mono": 1
+        "lq": 2
+        "lq_mono": 3
     controllers:
       - c_volume: { min: 0, max: 256, default: 128 }
       - m_volume: { min: 0, max: 256, default: 48 }
@@ -1401,32 +1401,32 @@ module_types:
     group: Synth
     enums:
       SampleRate:
-        8000Hz: 0
-        11025Hz: 1
-        16000Hz: 2
-        22050Hz: 3
-        32000Hz: 4
-        44100Hz: 5
-        native: 6
+        "8000Hz": 0
+        "11025Hz": 1
+        "16000Hz": 2
+        "22050Hz": 3
+        "32000Hz": 4
+        "44100Hz": 5
+        "native": 6
       Channels:
-        mono: 0
-        stereo: 1
+        "mono": 0
+        "stereo": 1
       InputCustomWaveform:
         "off": 0
-        single_cycle: 1
-        continuous: 2
+        "single_cycle": 1
+        "continuous": 2
       AdsrSmoothTransitions:
         "off": 0
-        restart_and_volume_change: 1
-        restart_smoother_and_volume_change: 2
-        volume_change: 3
+        "restart_and_volume_change": 1
+        "restart_smoother_and_volume_change": 2
+        "volume_change": 3
       AdsrCurve:
-        linear: 0
-        exp1: 1
-        exp2: 2
-        -exp1: 3
-        -exp2: 4
-        sin: 5
+        "linear": 0
+        "exp1": 1
+        "exp2": 2
+        "-exp1": 3
+        "-exp2": 4
+        "sin": 5
       Sustain:
         "off": 0
         "on": 1
@@ -1584,18 +1584,18 @@ module_types:
     group: Synth
     enums:
       Waveform:
-        triangle: 0
-        saw: 1
-        square: 2
-        noise: 3
-        drawn: 4
-        sin: 5
-        hsin: 6
-        asin: 7
-        psin: 8
+        "triangle": 0
+        "saw": 1
+        "square": 2
+        "noise": 3
+        "drawn": 4
+        "sin": 5
+        "hsin": 6
+        "asin": 7
+        "psin": 8
       Mode:
-        stereo: 0
-        mono: 1
+        "stereo": 0
+        "mono": 1
     controllers:
       - volume: { min: 0, max: 256, default: 128 }
       - waveform: { enum: Waveform, default: "triangle" }
@@ -1642,8 +1642,8 @@ module_types:
     group: Synth
     enums:
       Channels:
-        mono: 0
-        stereo: 1
+        "mono": 0
+        "stereo": 1
     controllers:
       - volume: { min: 0, max: 1024, default: 256 }
       - channels: { enum: Channels, default: "mono" }
@@ -1653,9 +1653,9 @@ module_types:
     group: Synth
     enums:
       Waveform:
-        triangle: 0
-        square: 1
-        sin: 2
+        "triangle": 0
+        "square": 1
+        "sin": 2
     controllers:
       - volume: { min: 0, max: 256, default: 256 }
       - waveform: { enum: Waveform, default: "triangle" }
@@ -1673,31 +1673,31 @@ module_types:
     group: Effect
     enums:
       Type:
-        amplitude: 0
-        panning: 1
+        "amplitude": 0
+        "panning": 1
       Waveform:
-        sin: 0
-        square: 1
-        sin2: 2
-        saw: 3
-        saw2: 4
-        random: 5
-        triangle: 6
-        random_interpolated: 7
+        "sin": 0
+        "square": 1
+        "sin2": 2
+        "saw": 3
+        "saw2": 4
+        "random": 5
+        "triangle": 6
+        "random_interpolated": 7
       Channels:
-        stereo: 0
-        mono: 1
+        "stereo": 0
+        "mono": 1
       FrequencyUnit:
-        Hz/64: 0
-        ms: 1
-        Hz: 2
-        tick: 3
-        line: 4
-        line/2: 5
-        line/3: 6
+        "Hz/64": 0
+        "ms": 1
+        "Hz": 2
+        "tick": 3
+        "line": 4
+        "line/2": 5
+        "line/3": 6
       SmoothTransitions:
         "off": 0
-        waveform: 1
+        "waveform": 1
     controllers:
       - volume: { min: 0, max: 512, default: 256 }
       - type: { enum: Type, default: "amplitude" }
@@ -1727,11 +1727,11 @@ module_types:
     group: Effect
     enums:
       Channels:
-        mono: 0
-        stereo: 1
+        "mono": 0
+        "stereo": 1
       Mode:
-        normal: 0
-        ping_pong: 1
+        "normal": 0
+        "ping_pong": 1
     controllers:
       - volume: { min: 0, max: 256, default: 256 }
       - delay: { min: 0, max: 256, default: 256, units: "line/128" }
@@ -1746,7 +1746,7 @@ module_types:
       PlayPatterns:
         "off": 0
         "on": 1
-        on_no_repeat: 2
+        "on_no_repeat": 2
     controllers:
       - volume: { min: 0, max: 1024, default: 256 }
       - input_module: { min: 1, max: 256, default: 1 }
@@ -1806,12 +1806,12 @@ module_types:
     group: Effect
     enums:
       ModulationType:
-        amplitude: 0
-        phase: 1
-        phase_abs: 2
+        "amplitude": 0
+        "phase": 1
+        "phase_abs": 2
       Channels:
-        stereo: 0
-        mono: 1
+        "stereo": 0
+        "mono": 1
     controllers:
       - volume: { min: 0, max: 512, default: 256 }
       - modulation_type: { enum: ModulationType, default: "amplitude" }
@@ -1872,14 +1872,14 @@ module_types:
     group: Misc
     enums:
       ActiveCurve:
-        note_velocity: 0
-        velocity_velocity: 1
-        note_pitch: 2
+        "note_velocity": 0
+        "velocity_velocity": 1
+        "note_pitch": 2
       OutPortMode:
-        all: 0
-        note_mod_num_of_outs: 1
-        channel_mod_num_of_outs: 2
-        cyclic: 3
+        "all": 0
+        "note_mod_num_of_outs": 1
+        "channel_mod_num_of_outs": 2
+        "cyclic": 3
     controllers:
       - transpose: { min: -128, max: 128, default: 0, compact: true }
       - random_pitch: { min: 0, max: 4096, default: 0 }
@@ -2019,12 +2019,12 @@ module_types:
     group: Misc
     enums:
       Mode:
-        frequency_Hz: 0
-        pitch: 1
+        "frequency_Hz": 0
+        "pitch": 1
       NoteOffAction:
-        do_nothing: 0
-        pitch_down: 1
-        pitch_up: 2
+        "do_nothing": 0
+        "pitch_down": 1
+        "pitch_up": 2
     controllers:
       - mode: { enum: Mode, default: "frequency_Hz" }
       - note_off_action: { enum: NoteOffAction, default: "do_nothing" }
@@ -2040,24 +2040,24 @@ module_types:
     group: Misc
     enums:
       Algorithm:
-        zero_crossing: 0
-        autocorrelation: 1
-        cepstrum: 2
+        "zero_crossing": 0
+        "autocorrelation": 1
+        "cepstrum": 2
       RollOff:
-        12dB: 0
-        24dB: 1
-        36dB: 2
-        48dB: 3
+        "12dB": 0
+        "24dB": 1
+        "36dB": 2
+        "48dB": 3
       SampleRate:
-        12000Hz: 0
-        24000Hz: 1
-        44100Hz: 2
+        "12000Hz": 0
+        "24000Hz": 1
+        "44100Hz": 2
       Buffer:
-        5ms: 0
-        10ms: 1
-        21ms: 2
-        42ms: 3
-        85ms: 4
+        "5ms": 0
+        "10ms": 1
+        "21ms": 2
+        "42ms": 3
+        "85ms": 4
     controllers:
       - algorithm: { enum: Algorithm, default: "autocorrelation" }
       - threshold: { min: 0, max: 10000, default: 80 }
@@ -2078,14 +2078,14 @@ module_types:
     group: Effect
     enums:
       Mode:
-        hq: 0
-        hq_mono: 1
-        lq: 2
-        lq_mono: 3
+        "hq": 0
+        "hq_mono": 1
+        "lq": 2
+        "lq_mono": 3
       BypassIfPitchEq0:
         "off": 0
-        slow_transition: 1
-        fast_transition: 2
+        "slow_transition": 1
+        "fast_transition": 2
     controllers:
       - volume: { min: 0, max: 512, default: 256 }
       - pitch: { min: -600, max: 600, default: 0, units: "semitone/10" }
@@ -2100,10 +2100,10 @@ module_types:
     group: Effect
     enums:
       Mode:
-        hq: 0
-        hq_mono: 1
-        lq: 2
-        lq_mono: 3
+        "hq": 0
+        "hq_mono": 1
+        "lq": 2
+        "lq_mono": 3
     controllers:
       - dry: { min: 0, max: 256, default: 256 }
       - wet: { min: 0, max: 256, default: 64 }
@@ -2122,30 +2122,30 @@ module_types:
     enums:
       SampleInterpolation:
         "off": 0
-        linear: 1
-        spline: 2
+        "linear": 1
+        "spline": 2
       EnvelopeInterpolation:
         "off": 0
-        linear: 1
+        "linear": 1
       VibratoType:
-        sin: 0
-        saw: 1
-        square: 2
+        "sin": 0
+        "saw": 1
+        "square": 2
       LoopType:
         "off": 0
-        forward: 1
-        ping_pong: 2
+        "forward": 1
+        "ping_pong": 2
       Format:
-        int8: 1
-        int16: 2
-        float32: 4
+        "int8": 1
+        "int16": 2
+        "float32": 4
       Channels:
-        mono: 0
-        stereo: 8
+        "mono": 0
+        "stereo": 8
       EnvelopeFlags:
-        enabled: 1
-        sustain: 2
-        loop: 4
+        "enabled": 1
+        "sustain": 2
+        "loop": 4
     controllers:
       - volume: { min: 0, max: 512, default: 256 }
       - panning: { min: -128, max: 128, default: 0 }
@@ -2203,11 +2203,11 @@ module_types:
     group: Misc
     enums:
       Channels:
-        mono: 0
-        stereo: 1
+        "mono": 0
+        "stereo": 1
       Mode:
-        lq: 0
-        hq: 1
+        "lq": 0
+        "hq": 1
     controllers:
       - sample_rate: { min: 1, max: 32768, default: 50, units: "Hz" }
       - channels: { enum: Channels, default: "mono" }
@@ -2238,31 +2238,31 @@ module_types:
     group: Synth
     enums:
       Mode:
-        hq: 0
-        hq_mono: 1
-        lq: 2
-        lq_mono: 3
-        hq_spline: 4
+        "hq": 0
+        "hq_mono": 1
+        "lq": 2
+        "lq_mono": 3
+        "hq_spline": 4
       HarmonicType:
-        hsin: 0
-        rect: 1
-        org1: 2
-        org2: 3
-        org3: 4
-        org4: 5
-        sin: 6
-        random: 7
-        triangle1: 8
-        triangle2: 9
-        overtones1: 10
-        overtones2: 11
-        overtones3: 12
-        overtones4: 13
-        overtones1+: 14
-        overtones2+: 15
-        overtones3+: 16
-        overtones4+: 17
-        metal: 18
+        "hsin": 0
+        "rect": 1
+        "org1": 2
+        "org2": 3
+        "org3": 4
+        "org4": 5
+        "sin": 6
+        "random": 7
+        "triangle1": 8
+        "triangle2": 9
+        "overtones1": 10
+        "overtones2": 11
+        "overtones3": 12
+        "overtones4": 13
+        "overtones1+": 14
+        "overtones2+": 15
+        "overtones3+": 16
+        "overtones4+": 17
+        "metal": 18
     controllers:
       - volume: { min: 0, max: 256, default: 128 }
       - panning: { min: -128, max: 128, default: 0 }
@@ -2311,9 +2311,9 @@ module_types:
     group: Misc
     enums:
       NoteOffAction:
-        do_nothing: 0
-        vel_down: 1
-        vel_up: 2
+        "do_nothing": 0
+        "vel_down": 1
+        "vel_up": 2
     controllers:
       - note_off_action: { enum: NoteOffAction, default: "do_nothing" }
       - out_min: { min: 0, max: 32768, default: 0 }
@@ -2326,16 +2326,16 @@ module_types:
     defaultFlags: 0x451
     enums:
       Channels:
-        stereo: 0
-        mono: 1
+        "stereo": 0
+        "mono": 1
       FrequencyUnit:
-        Hz/64: 0
-        ms: 1
-        Hz: 2
-        tick: 3
-        line: 4
-        line/2: 5
-        line/3: 6
+        "Hz/64": 0
+        "ms": 1
+        "Hz": 2
+        "tick": 3
+        "line": 4
+        "line/2": 5
+        "line/3": 6
     controllers:
       - volume: { min: 0, max: 256, default: 256 }
       - amplitude: { min: 0, max: 256, default: 16 }
@@ -2361,19 +2361,19 @@ module_types:
     group: Effect
     enums:
       VoiceType:
-        soprano: 0
-        alto: 1
-        tenor: 2
-        bass: 3
+        "soprano": 0
+        "alto": 1
+        "tenor": 2
+        "bass": 3
       Channels:
-        stereo: 0
-        mono: 1
+        "stereo": 0
+        "mono": 1
       Vowel:
-        a: 0
-        e: 1
-        i: 2
-        o: 3
-        u: 4
+        "a": 0
+        "e": 1
+        "i": 2
+        "o": 3
+        "u": 4
     controllers:
       - volume: { min: 0, max: 512, default: 256 }
       - formant_width: { min: 0, max: 256, default: 128, units: "Hz" }
@@ -2411,10 +2411,10 @@ module_types:
     group: Effect
     enums:
       Mode:
-        hq: 0
-        hq_mono: 1
-        lq: 2
-        lq_mono: 3
+        "hq": 0
+        "hq_mono": 1
+        "lq": 2
+        "lq_mono": 3
     controllers:
       - input_volume: { min: 0, max: 512, default: 256 }
       - mix: { min: 0, max: 256, default: 256 }
