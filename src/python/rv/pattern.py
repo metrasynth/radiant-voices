@@ -8,12 +8,13 @@ from rv.lib.validators import in_range, is_length
 from rv.note import ALL_NOTES, NOTECMD, Note
 
 
-class PatternAppearanceFlags(IntEnum):
+class PatternFlagsPFLG(IntEnum):
 
     no_icon = 0x01
+    continue_notes_at_end = 0x02
 
 
-class PatternFlags(IntEnum):
+class PatternFlagsPFFF(IntEnum):
 
     clone = 0x01
     selected = 0x02
@@ -28,11 +29,11 @@ class Pattern:
     tracks = attr(validator=in_range(1, 32), default=4)
     lines = attr(validator=in_range(1, 2 ** 19), default=32)
     y_size = attr(default=32)
-    appearance_flags = attr(default=0)
+    flags_PFLG = attr(default=0)
     icon = attr(default=b"\0" * 32, validator=is_length(32))
     fg_color = attr(default=(0, 0, 0))
     bg_color = attr(default=(255, 255, 255))
-    flags = attr(default=0)
+    flags_PFFF = attr(default=0)
     x = attr(default=0)
     y = attr(default=0)
     project = attr(default=None)
@@ -100,17 +101,17 @@ class Pattern:
         yield b"PCHN", pack("<I", self.tracks)
         yield b"PLIN", pack("<I", self.lines)
         yield b"PYSZ", pack("<I", self.y_size)
-        yield b"PFLG", pack("<I", self.appearance_flags)
+        yield b"PFLG", pack("<I", self.flags_PFLG)
         yield b"PICO", self.icon
         yield b"PFGC", pack("<BBB", *self.fg_color)
         yield b"PBGC", pack("<BBB", *self.bg_color)
-        yield b"PFFF", pack("<I", self.flags)
+        yield b"PFFF", pack("<I", self.flags_PFFF)
         yield b"PXXX", pack("<i", self.x)
         yield b"PYYY", pack("<i", self.y)
 
     def clear(self):
         self._data = []
-        for line_no in range(self.lines):
+        for _ in range(self.lines):
             line = []
             self._data.append(line)
             for _ in range(self.tracks):
@@ -132,7 +133,7 @@ class Pattern:
                 notes.append(note.tabular_repr(notes_on[track_no], note_format))
         return "\n".join(
             [" | ".join([" " * lineno_len] + [note_format] * self.tracks)]
-            + [" | ".join([lineno] + [n for n in notes]) for lineno, notes in lines]
+            + [" | ".join([lineno] + notes) for lineno, notes in lines]
         )
 
     @property
@@ -144,7 +145,7 @@ class Pattern:
 class PatternClone:
 
     source = attr()
-    flags = attr(default=PatternFlags.clone)
+    flags = attr(default=PatternFlagsPFFF.clone)
     x = attr(default=0)
     y = attr(default=0)
     project = attr(default=None)
