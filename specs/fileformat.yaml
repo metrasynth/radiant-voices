@@ -801,7 +801,7 @@ module_types:
       - smooth_transitions: { enum: SmoothTransitions, default: "restart_smoother_and_volume_change" }
 
   Amplifier:
-    defaultFlags: 0x02000051
+    defaultFlags: 0x00000051
     group: Effect
     controllers:
       - volume: { min: 0, max: 1024, default: 256 }
@@ -816,7 +816,7 @@ module_types:
 
   AnalogGenerator:
     type: Analog generator
-    defaultFlags: 0x02000049
+    defaultFlags: 0x00000049
     group: Synth
     enums:
       Mode:
@@ -996,7 +996,7 @@ module_types:
       - record_notes: { bool: true, default: false }
 
   Compressor:
-    defaultFlags: 0x02002051
+    defaultFlags: 0x00002051
     group: Effect
     enums:
       Mode:
@@ -1013,7 +1013,7 @@ module_types:
       - sidechain_input: { min: 0, max: 32, default: 0 }
 
   DcBlocker:
-    defaultFlags: 0x02000051
+    defaultFlags: 0x00000051
     type: DC Blocker
     group: Effect
     enums:
@@ -1024,7 +1024,7 @@ module_types:
       - channels: { enum: Channels, default: "stereo" }
 
   Delay:
-    defaultFlags: 0x02000451
+    defaultFlags: 0x00000451
     group: Effect
     enums:
       Channels:
@@ -1078,7 +1078,7 @@ module_types:
       - feedback: { min: 0, max: 256, default: 0 }
 
   Distortion:
-    defaultFlags: 0x02000051
+    defaultFlags: 0x00000051
     group: Effect
     enums:
       Type:
@@ -1097,7 +1097,7 @@ module_types:
       - noise: { min: 0, max: 256, default: 0 }
 
   DrumSynth:
-    defaultFlags: 0x02000049
+    defaultFlags: 0x00000049
     group: Synth
     controllers:
       - volume: { min: 0, max: 512, default: 256 }
@@ -1117,7 +1117,7 @@ module_types:
       - snare_panning: { min: -128, max: 128, default: 0 }
 
   Echo:
-    defaultFlags: 0x02000451
+    defaultFlags: 0x00000451
     group: Effect
     enums:
       DelayUnit:
@@ -1180,7 +1180,7 @@ module_types:
 
   Fft:
     type: FFT
-    defaultFlags: 0x02000051
+    defaultFlags: 0x00000051
     group: Effect
     enums:
       SampleRate:
@@ -1397,7 +1397,7 @@ module_types:
 
   Fmx:
     type: FMX
-    defaultFlags: 0x02000059
+    defaultFlags: 0x00000059
     group: Synth
     enums:
       SampleRate:
@@ -1868,7 +1868,7 @@ module_types:
             0x8000 ]
 
   MultiSynth:
-    defaultFlags: 0x02021049
+    defaultFlags: 0x00021049
     group: Misc
     enums:
       ActiveCurve:
@@ -2117,7 +2117,7 @@ module_types:
       - random_seed: { min: 0, max: 32768, default: 0 }
 
   Sampler:
-    defaultFlags: 0x02008459
+    defaultFlags: 0x00008459
     group: Synth
     enums:
       SampleInterpolation:
@@ -2357,7 +2357,7 @@ module_types:
 
   VocalFilter:
     type: Vocal filter
-    defaultFlags: 0x02000051
+    defaultFlags: 0x00000051
     group: Effect
     enums:
       VoiceType:

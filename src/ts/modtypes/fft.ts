@@ -92,7 +92,7 @@ export namespace Fft {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "FFT"
-    flags = 0x2000051
+    flags = 0x51
     readonly typeName = "FFT"
     readonly controllerSetters = [
       (val: number) => {

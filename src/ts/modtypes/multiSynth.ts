@@ -146,7 +146,7 @@ export namespace MultiSynth {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "MultiSynth"
-    flags = 0x2021049
+    flags = 0x21049
     readonly typeName = "MultiSynth"
     readonly optionsChnm = 1
     readonly controllerSetters = [
