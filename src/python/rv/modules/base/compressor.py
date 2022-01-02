@@ -12,7 +12,7 @@ class BaseCompressor:
     name = "Compressor"
     mtype = "Compressor"
     mgroup = "Effect"
-    flags = 0x2002051
+    flags = 0x2051
 
     class Mode(IntEnum):
         peak = 0

@@ -12,7 +12,7 @@ class BaseFft:
     name = "Fft"
     mtype = "FFT"
     mgroup = "Effect"
-    flags = 0x2000051
+    flags = 0x51
 
     class SampleRate(IntEnum):
         _8000hz = 0

@@ -327,7 +327,7 @@ export namespace Fmx {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "FMX"
-    flags = 0x2000059
+    flags = 0x59
     readonly typeName = "FMX"
     readonly controllerSetters = [
       (val: number) => {

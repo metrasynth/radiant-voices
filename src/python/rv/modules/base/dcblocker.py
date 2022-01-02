@@ -12,7 +12,7 @@ class BaseDcBlocker:
     name = "DcBlocker"
     mtype = "DC Blocker"
     mgroup = "Effect"
-    flags = 0x2000051
+    flags = 0x51
 
     class Channels(IntEnum):
         stereo = 0

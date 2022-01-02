@@ -12,7 +12,7 @@ class BaseDistortion:
     name = "Distortion"
     mtype = "Distortion"
     mgroup = "Effect"
-    flags = 0x2000051
+    flags = 0x51
 
     class Type(IntEnum):
         clipping = 0
