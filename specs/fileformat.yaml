@@ -1567,10 +1567,10 @@ module_types:
       - op3_modulation_type: { enum: ModulationType, default: "phase" }
       - op4_modulation_type: { enum: ModulationType, default: "phase" }
       - op5_modulation_type: { enum: ModulationType, default: "phase" }
-      - op1_output_mode: { min: 0, max: 31, default: 0 }
-      - op2_output_mode: { min: 0, max: 15, default: 0 }
-      - op3_output_mode: { min: 0, max: 7, default: 0 }
-      - op4_output_mode: { min: 0, max: 3, default: 0 }
+      - op1_output_mode: { min: 0, max: 31, default: 0, compact: true }
+      - op2_output_mode: { min: 0, max: 15, default: 0, compact: true }
+      - op3_output_mode: { min: 0, max: 7, default: 0, compact: true }
+      - op4_output_mode: { min: 0, max: 3, default: 0, compact: true }
     chunks:
       - name: custom_waveform
         parent_type: Array
