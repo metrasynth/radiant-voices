@@ -39,6 +39,12 @@ Additions (Python version)
 - Python 3.10 is now supported (in addition to Python 3.8 and Python 3.9).
 
 
+Bug fixes (Python version)
+..........................
+
+- ``rv.controller.Controller.pattern_value()`` now returns correct values for
+  ``compact`` ranges.
+
 
 1.0.4
 -----

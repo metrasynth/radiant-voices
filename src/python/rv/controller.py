@@ -59,12 +59,13 @@ class Controller:
     def pattern_value(self, instance, value):
         """Convert a controller value to a pattern value (0x0000-0x8000)"""
         t = self.instance_value_type(instance)
-        if isinstance(t, Range) and t.min == 0:
-            shifted = value - t.min
-            shifted_max = t.max - t.min
-            return int(shifted / (shifted_max / 32768))
-        else:
+        if not isinstance(t, Range):
             return value
+        shifted = value - t.min
+        shifted_max = t.max - t.min
+        if isinstance(t, CompactRange):
+            return shifted
+        return int(shifted / (shifted_max / 32768))
 
     def propagate(self, instance, value, down=False, up=False):
         self.set_initial(instance, value)
