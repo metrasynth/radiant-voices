@@ -10,17 +10,20 @@ from rv.note import ALL_NOTES, NOTECMD, Note
 
 
 class PatternFlagsPFLG(IntEnum):
-
     no_icon = 0x01
     continue_notes_at_end = 0x02
 
 
 class PatternFlagsPFFF(IntEnum):
-
     clone = 0x01
     selected = 0x02
     mute = 0x08
     solo = 0x10
+
+
+# Legacy names:
+PatternAppearanceFlags = PatternFlagsPFLG
+PatternFlags = PatternFlagsPFFF
 
 
 TrackNumber = LineNumber = int
@@ -32,7 +35,7 @@ class Pattern:
 
     name = attr(None)
     tracks = attr(validator=in_range(1, 32), default=4)
-    lines = attr(validator=in_range(1, 2 ** 19), default=32)
+    lines = attr(validator=in_range(1, 2**19), default=32)
     y_size = attr(default=32)
     flags_PFLG = attr(default=0)
     icon = attr(default=b"\0" * 32, validator=is_length(32))
