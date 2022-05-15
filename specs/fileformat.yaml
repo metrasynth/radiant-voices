@@ -1452,6 +1452,70 @@ module_types:
         "max": 6
         "bitwise_and": 7
         "bitwise_xor": 8
+      Op1OutputMode:
+        "none": 0
+        "to_output": 1
+        "to_5": 2
+        "to_output_5": 3
+        "to_4": 4
+        "to_output_4": 5
+        "to_5_4": 6
+        "to_output_5_4": 7
+        "to_3": 8
+        "to_output_3": 9
+        "to_5_3": 10
+        "to_output_5_3": 11
+        "to_4_3": 12
+        "to_output_4_3": 13
+        "to_5_4_3": 14
+        "to_output_5_4_3": 15
+        "to_2": 16
+        "to_output_2": 17
+        "to_5_2": 18
+        "to_output_5_2": 19
+        "to_4_2": 20
+        "to_output_4_2": 21
+        "to_5_4_2": 22
+        "to_output_5_4_2": 23
+        "to_3_2": 24
+        "to_output_3_2": 25
+        "to_5_3_2": 26
+        "to_output_5_3_2": 27
+        "to_4_3_2": 28
+        "to_output_4_3_2": 29
+        "to_5_4_3_2": 30
+        "to_output_5_4_3_2": 31
+      Op2OutputMode:
+        "none": 0
+        "to_output": 1
+        "to_5": 2
+        "to_output_5": 3
+        "to_4": 4
+        "to_output_4": 5
+        "to_5_4": 6
+        "to_output_5_4": 7
+        "to_3": 8
+        "to_output_3": 9
+        "to_5_3": 10
+        "to_output_5_3": 11
+        "to_4_3": 12
+        "to_output_4_3": 13
+        "to_5_4_3": 14
+        "to_output_5_4_3": 15
+      Op3OutputMode:
+        "none": 0
+        "to_output": 1
+        "to_5": 2
+        "to_output_5": 3
+        "to_4": 4
+        "to_output_4": 5
+        "to_5_4": 6
+        "to_output_5_4": 7
+      Op4OutputMode:
+        "none": 0
+        "to_output": 1
+        "to_5": 2
+        "to_output_5": 3
     controllers:
       - volume: { min: 0, max: 32768, default: 16384 }
       - panning: { min: 0, max: 256, default: 128 }
@@ -1567,10 +1631,10 @@ module_types:
       - op3_modulation_type: { enum: ModulationType, default: "phase" }
       - op4_modulation_type: { enum: ModulationType, default: "phase" }
       - op5_modulation_type: { enum: ModulationType, default: "phase" }
-      - op1_output_mode: { min: 0, max: 31, default: 0, compact: true }
-      - op2_output_mode: { min: 0, max: 15, default: 0, compact: true }
-      - op3_output_mode: { min: 0, max: 7, default: 0, compact: true }
-      - op4_output_mode: { min: 0, max: 3, default: 0, compact: true }
+      - op1_output_mode: { enum: Op1OutputMode, default: "none" }
+      - op2_output_mode: { enum: Op2OutputMode, default: "none" }
+      - op3_output_mode: { enum: Op3OutputMode, default: "none" }
+      - op4_output_mode: { enum: Op4OutputMode, default: "to_5" }
     chunks:
       - name: custom_waveform
         parent_type: Array

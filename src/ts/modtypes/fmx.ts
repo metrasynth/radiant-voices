@@ -81,6 +81,78 @@ export namespace Fmx {
     BitwiseAnd = 7,
     BitwiseXor = 8,
   }
+  export enum Op1OutputMode {
+    // noinspection JSUnusedGlobalSymbols
+    None = 0,
+    ToOutput = 1,
+    To_5 = 2,
+    ToOutput_5 = 3,
+    To_4 = 4,
+    ToOutput_4 = 5,
+    To_5_4 = 6,
+    ToOutput_5_4 = 7,
+    To_3 = 8,
+    ToOutput_3 = 9,
+    To_5_3 = 10,
+    ToOutput_5_3 = 11,
+    To_4_3 = 12,
+    ToOutput_4_3 = 13,
+    To_5_4_3 = 14,
+    ToOutput_5_4_3 = 15,
+    To_2 = 16,
+    ToOutput_2 = 17,
+    To_5_2 = 18,
+    ToOutput_5_2 = 19,
+    To_4_2 = 20,
+    ToOutput_4_2 = 21,
+    To_5_4_2 = 22,
+    ToOutput_5_4_2 = 23,
+    To_3_2 = 24,
+    ToOutput_3_2 = 25,
+    To_5_3_2 = 26,
+    ToOutput_5_3_2 = 27,
+    To_4_3_2 = 28,
+    ToOutput_4_3_2 = 29,
+    To_5_4_3_2 = 30,
+    ToOutput_5_4_3_2 = 31,
+  }
+  export enum Op2OutputMode {
+    // noinspection JSUnusedGlobalSymbols
+    None = 0,
+    ToOutput = 1,
+    To_5 = 2,
+    ToOutput_5 = 3,
+    To_4 = 4,
+    ToOutput_4 = 5,
+    To_5_4 = 6,
+    ToOutput_5_4 = 7,
+    To_3 = 8,
+    ToOutput_3 = 9,
+    To_5_3 = 10,
+    ToOutput_5_3 = 11,
+    To_4_3 = 12,
+    ToOutput_4_3 = 13,
+    To_5_4_3 = 14,
+    ToOutput_5_4_3 = 15,
+  }
+  export enum Op3OutputMode {
+    // noinspection JSUnusedGlobalSymbols
+    None = 0,
+    ToOutput = 1,
+    To_5 = 2,
+    ToOutput_5 = 3,
+    To_4 = 4,
+    ToOutput_4 = 5,
+    To_5_4 = 6,
+    ToOutput_5_4 = 7,
+  }
+  export enum Op4OutputMode {
+    // noinspection JSUnusedGlobalSymbols
+    None = 0,
+    ToOutput = 1,
+    To_5 = 2,
+    ToOutput_5 = 3,
+  }
   export enum CtlNum {
     Volume = 1,
     Panning = 2,
@@ -800,10 +872,10 @@ export namespace Fmx {
       op3ModulationType: ModulationType.Phase,
       op4ModulationType: ModulationType.Phase,
       op5ModulationType: ModulationType.Phase,
-      op1OutputMode: 0,
-      op2OutputMode: 0,
-      op3OutputMode: 0,
-      op4OutputMode: 0,
+      op1OutputMode: Op1OutputMode.None,
+      op2OutputMode: Op2OutputMode.None,
+      op3OutputMode: Op3OutputMode.None,
+      op4OutputMode: Op4OutputMode.To_5,
     }
     readonly controllers: FmxControllers = new FmxControllers(
       this,

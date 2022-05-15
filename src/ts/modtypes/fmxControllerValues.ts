@@ -28,6 +28,18 @@ import { Waveform } from "./fmxEnums"
 // @ts-ignore
 // noinspection ES6UnusedImports
 import { ModulationType } from "./fmxEnums"
+// @ts-ignore
+// noinspection ES6UnusedImports
+import { Op1OutputMode } from "./fmxEnums"
+// @ts-ignore
+// noinspection ES6UnusedImports
+import { Op2OutputMode } from "./fmxEnums"
+// @ts-ignore
+// noinspection ES6UnusedImports
+import { Op3OutputMode } from "./fmxEnums"
+// @ts-ignore
+// noinspection ES6UnusedImports
+import { Op4OutputMode } from "./fmxEnums"
 export interface FmxControllerValues extends ControllerValues {
   volume: number
   panning: number
@@ -143,8 +155,8 @@ export interface FmxControllerValues extends ControllerValues {
   op3ModulationType: ModulationType
   op4ModulationType: ModulationType
   op5ModulationType: ModulationType
-  op1OutputMode: number
-  op2OutputMode: number
-  op3OutputMode: number
-  op4OutputMode: number
+  op1OutputMode: Op1OutputMode
+  op2OutputMode: Op2OutputMode
+  op3OutputMode: Op3OutputMode
+  op4OutputMode: Op4OutputMode
 }
