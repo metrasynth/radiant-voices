@@ -29,6 +29,18 @@ import { Waveform } from "./fmxEnums"
 // @ts-ignore
 // noinspection ES6UnusedImports
 import { ModulationType } from "./fmxEnums"
+// @ts-ignore
+// noinspection ES6UnusedImports
+import { Op1OutputMode } from "./fmxEnums"
+// @ts-ignore
+// noinspection ES6UnusedImports
+import { Op2OutputMode } from "./fmxEnums"
+// @ts-ignore
+// noinspection ES6UnusedImports
+import { Op3OutputMode } from "./fmxEnums"
+// @ts-ignore
+// noinspection ES6UnusedImports
+import { Op4OutputMode } from "./fmxEnums"
 export class FmxBaseControllers implements Controllers {
   constructor(
     readonly module: ModuleType,
@@ -1136,43 +1148,39 @@ export class FmxBaseControllers implements Controllers {
     controllerValues.op5ModulationType = newValue
   }
   // noinspection JSUnusedGlobalSymbols
-  get op1OutputMode(): number {
+  get op1OutputMode(): Op1OutputMode {
     return this.controllerValues.op1OutputMode
   }
   // noinspection JSUnusedGlobalSymbols
-  set op1OutputMode(newValue: number) {
+  set op1OutputMode(newValue: Op1OutputMode) {
     const { controllerValues } = this
-    newValue = Math.min(Math.max(newValue, 0), 31)
     controllerValues.op1OutputMode = newValue
   }
   // noinspection JSUnusedGlobalSymbols
-  get op2OutputMode(): number {
+  get op2OutputMode(): Op2OutputMode {
     return this.controllerValues.op2OutputMode
   }
   // noinspection JSUnusedGlobalSymbols
-  set op2OutputMode(newValue: number) {
+  set op2OutputMode(newValue: Op2OutputMode) {
     const { controllerValues } = this
-    newValue = Math.min(Math.max(newValue, 0), 15)
     controllerValues.op2OutputMode = newValue
   }
   // noinspection JSUnusedGlobalSymbols
-  get op3OutputMode(): number {
+  get op3OutputMode(): Op3OutputMode {
     return this.controllerValues.op3OutputMode
   }
   // noinspection JSUnusedGlobalSymbols
-  set op3OutputMode(newValue: number) {
+  set op3OutputMode(newValue: Op3OutputMode) {
     const { controllerValues } = this
-    newValue = Math.min(Math.max(newValue, 0), 7)
     controllerValues.op3OutputMode = newValue
   }
   // noinspection JSUnusedGlobalSymbols
-  get op4OutputMode(): number {
+  get op4OutputMode(): Op4OutputMode {
     return this.controllerValues.op4OutputMode
   }
   // noinspection JSUnusedGlobalSymbols
-  set op4OutputMode(newValue: number) {
+  set op4OutputMode(newValue: Op4OutputMode) {
     const { controllerValues } = this
-    newValue = Math.min(Math.max(newValue, 0), 3)
     controllerValues.op4OutputMode = newValue
   }
 }
