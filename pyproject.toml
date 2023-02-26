@@ -40,6 +40,7 @@ numpy = "^1.24.2"
 scipy = "^1.9.3"
 sunvox-dll-python = "^0.3.4.2.1.0.2"
 tqdm = "^4.64.1"
+rich = "^13.3.1"
 
 [build-system]
 requires = ["poetry-core"]
