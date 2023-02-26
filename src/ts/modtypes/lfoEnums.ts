@@ -41,3 +41,10 @@ export enum SmoothTransitions {
   Off = 0,
   Waveform = 1,
 }
+export enum SineQuality {
+  // noinspection JSUnusedGlobalSymbols
+  Auto = 0,
+  Low = 1,
+  Middle = 2,
+  High = 3,
+}

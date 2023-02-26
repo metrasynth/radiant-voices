@@ -17,8 +17,10 @@ export namespace MetaModule {
   export enum PlayPatterns {
     // noinspection JSUnusedGlobalSymbols
     Off = 0,
-    On = 1,
+    OnRepeat = 1,
     OnNoRepeat = 2,
+    OnRepeatEndless = 3,
+    OnNoRepeatEndless = 4,
   }
   export enum CtlNum {
     Volume = 1,

@@ -80,7 +80,7 @@ export namespace Kicker {
     ]
     readonly controllerValues: KickerControllerValues = {
       volume: 256,
-      waveform: Waveform.Triangle,
+      waveform: Waveform.Sin,
       panning: 0,
       attack: 0,
       release: 32,

@@ -33,6 +33,7 @@ def test_analog_generator(read_write_read_synth):
     assert mod.noise == 9
     assert mod.osc2_volume == 20640
     assert mod.osc2_mode == mod.Osc2Mode.mul
+    assert mod.osc2_phase == 0
 
     assert mod.volume_envelope_scaling_per_key
     assert not mod.filter_envelope_scaling_per_key
@@ -97,10 +98,12 @@ def test_analog_generator_writes_correct_chunks(read_write_read_synth):
     expect_cval(9)
     expect_cval(20640)
     expect_cval(2)
+    expect_cval(0)
 
     expect_chunk(
         b"CMID",
         b"\x03\x01\x01\x00\x02\x00\x00\xc8"
+        b"\x00\x00\x00\x00\x00\x00\x00\xff"
         b"\x00\x00\x00\x00\x00\x00\x00\xff"
         b"\x00\x00\x00\x00\x00\x00\x00\xff"
         b"\x00\x00\x00\x00\x00\x00\x00\xff"

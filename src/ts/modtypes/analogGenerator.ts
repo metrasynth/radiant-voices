@@ -91,6 +91,7 @@ export namespace AnalogGenerator {
     Noise = 19,
     Osc2Volume = 20,
     Osc2Mode = 21,
+    Osc2Phase = 22,
   }
   interface AnalogGeneratorControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
@@ -114,6 +115,7 @@ export namespace AnalogGenerator {
     noise: ControllerMidiMap
     osc2Volume: ControllerMidiMap
     osc2Mode: ControllerMidiMap
+    osc2Phase: ControllerMidiMap
   }
   interface AnalogGeneratorOptionValues extends OptionValues {
     volumeEnvelopeScalingPerKey: boolean
@@ -306,6 +308,9 @@ export namespace AnalogGenerator {
       (val: number) => {
         this.controllerValues.osc2Mode = val
       },
+      (val: number) => {
+        this.controllerValues.osc2Phase = val
+      },
     ]
     readonly controllerValues: AnalogGeneratorControllerValues = {
       volume: 80,
@@ -329,6 +334,7 @@ export namespace AnalogGenerator {
       noise: 0,
       osc2Volume: 32768,
       osc2Mode: Osc2Mode.Add,
+      osc2Phase: 0,
     }
     readonly controllers: AnalogGeneratorControllers = new AnalogGeneratorControllers(
       this,
@@ -357,6 +363,7 @@ export namespace AnalogGenerator {
       noise: new ControllerMidiMap(),
       osc2Volume: new ControllerMidiMap(),
       osc2Mode: new ControllerMidiMap(),
+      osc2Phase: new ControllerMidiMap(),
     }
     readonly optionValues: AnalogGeneratorOptionValues = {
       volumeEnvelopeScalingPerKey: false,
@@ -451,6 +458,9 @@ export namespace AnalogGenerator {
         case 21:
           cv.osc2Mode = value
           break
+        case 22:
+          cv.osc2Phase = value
+          break
       }
     }
     *rawControllerValues(): Generator<number> {
@@ -476,6 +486,7 @@ export namespace AnalogGenerator {
       yield cv.noise
       yield cv.osc2Volume
       yield cv.osc2Mode
+      yield cv.osc2Phase
     }
     setMidiMaps(midiMaps: MidiMap[]) {
       this.midiMaps.volume = midiMaps[0] || {
@@ -604,6 +615,12 @@ export namespace AnalogGenerator {
         messageParameter: 0,
         slope: 0,
       }
+      this.midiMaps.osc2Phase = midiMaps[21] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []
@@ -628,6 +645,7 @@ export namespace AnalogGenerator {
       a.push(this.midiMaps.noise)
       a.push(this.midiMaps.osc2Volume)
       a.push(this.midiMaps.osc2Mode)
+      a.push(this.midiMaps.osc2Phase)
       return a
     }
     rawOptionBytes(): Uint8Array {

@@ -20,7 +20,7 @@ class BaseKicker:
         sin = 2
 
     volume = Controller((0, 256), 256)
-    waveform = Controller(Waveform, Waveform.triangle)
+    waveform = Controller(Waveform, Waveform.sin)
     panning = Controller((-128, 128), 0)
     attack = Controller((0, 512), 0)
     release = Controller((0, 512), 32)

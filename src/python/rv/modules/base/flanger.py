@@ -30,7 +30,7 @@ class BaseFlanger:
     dry = Controller((0, 256), 256)
     wet = Controller((0, 256), 128)
     feedback = Controller((0, 256), 128)
-    delay = Controller((0, 1000), 200)
+    delay = Controller((8, 1000), 200)
     response = Controller((0, 256), 2)
     lfo_freq = Controller((0, 512), 8)
     lfo_amp = Controller((0, 256), 32)

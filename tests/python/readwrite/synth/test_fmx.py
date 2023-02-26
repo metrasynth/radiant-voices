@@ -10,7 +10,7 @@ def test_fmx(read_write_read_synth):
     assert mod.custom_waveform.values == EXPECTED_CUSTOM_WAVEFORM
 
     assert mod.volume == 24762
-    assert mod.panning == 197
+    assert mod.panning == 69
     assert mod.sample_rate == mod.SampleRate._11025hz
     assert mod.polyphony == 15
     assert mod.channels == mod.Channels.stereo

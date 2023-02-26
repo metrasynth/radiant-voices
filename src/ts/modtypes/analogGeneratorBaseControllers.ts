@@ -227,4 +227,14 @@ export class AnalogGeneratorBaseControllers implements Controllers {
     const { controllerValues } = this
     controllerValues.osc2Mode = newValue
   }
+  // noinspection JSUnusedGlobalSymbols
+  get osc2Phase(): number {
+    return this.controllerValues.osc2Phase
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set osc2Phase(newValue: number) {
+    const { controllerValues } = this
+    newValue = Math.min(Math.max(newValue, 0), 32768)
+    controllerValues.osc2Phase = newValue
+  }
 }

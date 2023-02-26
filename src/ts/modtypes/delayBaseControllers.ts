@@ -71,6 +71,9 @@ export class DelayBaseControllers implements Controllers {
       case DelayUnit.SecDiv_48000:
         newValue = Math.min(Math.max(newValue, 0), 32768)
         break
+      case DelayUnit.Sample:
+        newValue = Math.min(Math.max(newValue, 0), 32768)
+        break
     }
     controllerValues.delayL = newValue
   }
@@ -107,6 +110,9 @@ export class DelayBaseControllers implements Controllers {
         newValue = Math.min(Math.max(newValue, 0), 32768)
         break
       case DelayUnit.SecDiv_48000:
+        newValue = Math.min(Math.max(newValue, 0), 32768)
+        break
+      case DelayUnit.Sample:
         newValue = Math.min(Math.max(newValue, 0), 32768)
         break
     }
@@ -178,7 +184,7 @@ export class DelayBaseControllers implements Controllers {
   // noinspection JSUnusedGlobalSymbols
   set feedback(newValue: number) {
     const { controllerValues } = this
-    newValue = Math.min(Math.max(newValue, 0), 256)
+    newValue = Math.min(Math.max(newValue, 0), 32768)
     controllerValues.feedback = newValue
   }
 }

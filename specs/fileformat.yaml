@@ -759,6 +759,12 @@ module_types:
         "neg_exp1": 3
         "neg_exp2": 4
         "sin": 5
+        "rect": 6
+        "smooth_rect": 7
+        "bit2": 8
+        "bit3": 9
+        "bit4": 10
+        "bit5": 11
       Sustain:
         "off": 0
         "on": 1
@@ -886,6 +892,7 @@ module_types:
       - noise: { min: 0, max: 256, default: 0 }
       - osc2_volume: { min: 0, max: 32768, default: 32768 }
       - osc2_mode: { enum: Osc2Mode, default: "add" }
+      - osc2_phase: { min: 0, max: 32768, default: 0 }
     options_chnm: 1
     options:
       - volume_envelope_scaling_per_key:
@@ -1040,6 +1047,7 @@ module_types:
         "line/3": 6
         "sec/44100": 7
         "sec/48000": 8
+        "sample": 9
     controllers:
       - dry: { min: 0, max: 512, default: 256 }
       - wet: { min: 0, max: 512, default: 256 }
@@ -1056,6 +1064,7 @@ module_types:
             line/3: { min: 0, max: 256 }
             sec/44100: { min: 0, max: 32768 }
             sec/48000: { min: 0, max: 32768 }
+            sample: { min: 0, max: 32768 }
       - delay_r:
           depends_on: delay_unit
           default: 160
@@ -1069,13 +1078,14 @@ module_types:
             line/3: { min: 0, max: 256 }
             sec/44100: { min: 0, max: 32768 }
             sec/48000: { min: 0, max: 32768 }
+            sample: { min: 0, max: 32768 }
       - volume_l: { min: 0, max: 256, default: 256 }
       - volume_r: { min: 0, max: 256, default: 256 }
       - channels: { enum: Channels, default: "stereo" }
       - inverse: { bool: true, default: false }
       - delay_unit: { enum: DelayUnit, default: "sec/16384" }
       - delay_multiplier: { min: 1, max: 15, default: 1 }
-      - feedback: { min: 0, max: 256, default: 0 }
+      - feedback: { min: 0, max: 32768, default: 0 }
 
   Distortion:
     defaultFlags: 0x00000051
@@ -1088,6 +1098,11 @@ module_types:
         "foldback3": 3
         "overflow": 4
         "overflow2": 5
+        "saturation_foldback": 6
+        "saturation_foldback_sin": 7
+        "saturation3": 8
+        "saturation4": 9
+        "saturation5": 10
     controllers:
       - volume: { min: 0, max: 256, default: 128 }
       - type: { enum: Type, default: "clipping" }
@@ -1358,7 +1373,7 @@ module_types:
       - dry: { min: 0, max: 256, default: 256 }
       - wet: { min: 0, max: 256, default: 128 }
       - feedback: { min: 0, max: 256, default: 128 }
-      - delay: { min: 0, max: 1000, default: 200 }
+      - delay: { min: 8, max: 1000, default: 200 }  # todo: check me
       - response: { min: 0, max: 256, default: 2 }
       - lfo_freq: { min: 0, max: 512, default: 8 }
       - lfo_amp: { min: 0, max: 256, default: 32 }
@@ -1393,7 +1408,7 @@ module_types:
       - m_release: { min: 0, max: 512, default: 64 }
       - m_scaling_per_key: { min: 0, max: 4, default: 0 }
       - polyphony: { min: 1, max: 16, default: 4, units: "channels" }
-      - mode: { enum: Mode, default: "hq" }
+      - mode: { enum: Mode, default: "hq_mono" }
 
   Fmx:
     type: FMX
@@ -1427,6 +1442,12 @@ module_types:
         "-exp1": 3
         "-exp2": 4
         "sin": 5
+        "rect": 6
+        "smooth_rect": 7
+        "bit2": 8
+        "bit3": 9
+        "bit4": 10
+        "bit5": 11
       Sustain:
         "off": 0
         "on": 1
@@ -1452,6 +1473,7 @@ module_types:
         "max": 6
         "bitwise_and": 7
         "bitwise_xor": 8
+        "phase_plus": 9
       Op1OutputMode:
         "none": 0
         "to_output": 1
@@ -1518,7 +1540,7 @@ module_types:
         "to_output_5": 3
     controllers:
       - volume: { min: 0, max: 32768, default: 16384 }
-      - panning: { min: 0, max: 256, default: 128 }
+      - panning: { min: -128, max: 128, default: 0 }
       - sample_rate: { enum: SampleRate, default: "44100Hz" }
       - polyphony: { min: 1, max: 32, default: 4 }
       - channels: { enum: Channels, default: "mono" }
@@ -1570,7 +1592,7 @@ module_types:
       - op2_sustain: { enum: Sustain, default: "off" }
       - op3_sustain: { enum: Sustain, default: "off" }
       - op4_sustain: { enum: Sustain, default: "off" }
-      - op5_sustain: { enum: Sustain, default: "off" }
+      - op5_sustain: { enum: Sustain, default: "on" }
       - op1_sustain_pedal: { bool: true, default: false }
       - op2_sustain_pedal: { bool: true, default: false }
       - op3_sustain_pedal: { bool: true, default: false }
@@ -1635,6 +1657,7 @@ module_types:
       - op2_output_mode: { enum: Op2OutputMode, default: "none" }
       - op3_output_mode: { enum: Op3OutputMode, default: "none" }
       - op4_output_mode: { enum: Op4OutputMode, default: "to_5" }
+      - envelope_gain: { min: 0, max: 8000, default: 1000 }
     chunks:
       - name: custom_waveform
         parent_type: Array
@@ -1667,7 +1690,7 @@ module_types:
       - attack: { min: 0, max: 512, default: 0, units: "sec/256" }
       - release: { min: 0, max: 512, default: 0, units: "sec/256" }
       - polyphony: { min: 1, max: 16, default: 8, units: "channels" }
-      - mode: { enum: Mode, default: "stereo" }
+      - mode: { enum: Mode, default: "mono" }
       - sustain: { bool: true, default: true }
       - freq_modulation_by_input: { min: 0, max: 256, default: 0 }
       - duty_cycle: { min: 0, max: 1022, default: 511 }
@@ -1722,7 +1745,7 @@ module_types:
         "sin": 2
     controllers:
       - volume: { min: 0, max: 256, default: 256 }
-      - waveform: { enum: Waveform, default: "triangle" }
+      - waveform: { enum: Waveform, default: "sin" }
       - panning: { min: -128, max: 128, default: 0 }
       - attack: { min: 0, max: 512, default: 0, units: "sec/256" }
       - release: { min: 0, max: 512, default: 32, units: "sec/256" }
@@ -1762,6 +1785,11 @@ module_types:
       SmoothTransitions:
         "off": 0
         "waveform": 1
+      SineQuality:
+        "auto": 0
+        "low": 1
+        "middle": 2
+        "high": 3
     controllers:
       - volume: { min: 0, max: 512, default: 256 }
       - type: { enum: Type, default: "amplitude" }
@@ -1777,7 +1805,7 @@ module_types:
             line: { min: 1, max: 256 }
             line/2: { min: 1, max: 256 }
             line/3: { min: 1, max: 256 }
-      - waveform: { enum: Waveform, default: "sin" }
+      - waveform: { enum: Waveform, default: "sin2" }
       - set_phase: { min: 0, max: 256, default: 0 }
       - channels: { enum: Channels, default: "stereo" }
       - frequency_unit: { enum: FrequencyUnit, default: "Hz/64" }
@@ -1785,6 +1813,7 @@ module_types:
       - generator: { bool: true, default: false }
       - freq_scale: { min: 0, max: 200, default: 100, units: "%" }
       - smooth_transitions: { enum: SmoothTransitions, default: "waveform" }
+      - sine_quality: { enum: SineQuality, default: "auto" }
 
   Loop:
     defaultFlags: 0x451
@@ -1796,12 +1825,36 @@ module_types:
       Mode:
         "normal": 0
         "ping_pong": 1
+      LengthUnit:
+        "line/128": 0
+        "line": 1
+        "line/2": 2
+        "line/3": 3
+        "tick": 4
+        "ms": 5
+        "hz": 6
+      OnNoteOn:
+        "restart": 0
+        "restart_current_iteration": 1
     controllers:
       - volume: { min: 0, max: 256, default: 256 }
-      - delay: { min: 0, max: 256, default: 256, units: "line/128" }
+      - length:
+          depends_on: length_unit
+          default: 256
+          ranges:
+            "line/128": { min: 0, max: 256 }
+            "line": { min: 0, max: 8192 }
+            "line/2": { min: 0, max: 8192 }
+            "line/3": { min: 0, max: 8192 }
+            "tick": { min: 0, max: 8192 }
+            "ms": { min: 0, max: 8192 }
+            "hz": { min: 0, max: 8192 }
       - channels: { enum: Channels, default: "stereo" }
-      - repeats: { min: 0, max: 64, default: 0 }
+      - repeats: { min: 0, max: 128, default: 0 }
       - mode: { enum: Mode, default: "normal" }
+      - length_unit: { enum: LengthUnit, default: "line/128" }
+      - max_buffer_size: { min: 1, max: 240, default: 4, units: "sec" }
+      - on_note_on: { enum: OnNoteOn, default: "restart" }
 
   MetaModule:
     defaultFlags: 0x8051
@@ -1809,13 +1862,15 @@ module_types:
     enums:
       PlayPatterns:
         "off": 0
-        "on": 1
+        "on_repeat": 1
         "on_no_repeat": 2
+        "on_repeat_endless": 3
+        "on_no_repeat_endless": 4
     controllers:
       - volume: { min: 0, max: 1024, default: 256 }
       - input_module: { min: 1, max: 256, default: 1 }
       - play_patterns: { enum: PlayPatterns, default: "off" }
-      - bpm: { min: 1, max: 800, default: 125 }
+      - bpm: { min: 1, max: 1000, default: 125 }
       - tpl: { min: 1, max: 31, default: 6 }
       # user-defined ...
     options_chnm: 2
@@ -2170,7 +2225,7 @@ module_types:
         "lq_mono": 3
     controllers:
       - dry: { min: 0, max: 256, default: 256 }
-      - wet: { min: 0, max: 256, default: 64 }
+      - wet: { min: 0, max: 256, default: 40 }
       - feedback: { min: 0, max: 256, default: 256 }
       - damp: { min: 0, max: 256, default: 128 }
       - stereo_width: { min: 0, max: 256, default: 256 }
@@ -2330,7 +2385,7 @@ module_types:
     controllers:
       - volume: { min: 0, max: 256, default: 128 }
       - panning: { min: -128, max: 128, default: 0 }
-      - attack: { min: 0, max: 512, default: 10, units: "sec/256" }
+      - attack: { min: 0, max: 512, default: 1, units: "sec/256" }
       - release: { min: 0, max: 512, default: 512, units: "sec/256" }
       - polyphony: { min: 1, max: 32, default: 8, units: "channels" }
       - mode: { enum: Mode, default: "hq_spline" }

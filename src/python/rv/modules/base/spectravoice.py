@@ -45,7 +45,7 @@ class BaseSpectraVoice:
 
     volume = Controller((0, 256), 128)
     panning = Controller((-128, 128), 0)
-    attack = Controller((0, 512), 10)
+    attack = Controller((0, 512), 1)
     release = Controller((0, 512), 512)
     polyphony = Controller((1, 32), 8)
     mode = Controller(Mode, Mode.hq_spline)

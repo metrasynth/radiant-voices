@@ -28,6 +28,7 @@ class BaseDelay:
         line_div_3 = 6
         sec_div_44100 = 7
         sec_div_48000 = 8
+        sample = 9
 
     dry = Controller((0, 512), 256)
     wet = Controller((0, 512), 256)
@@ -44,6 +45,7 @@ class BaseDelay:
                 DelayUnit.line_div_3: WarnOnlyRange(0, 256),
                 DelayUnit.sec_div_44100: WarnOnlyRange(0, 32768),
                 DelayUnit.sec_div_48000: WarnOnlyRange(0, 32768),
+                DelayUnit.sample: WarnOnlyRange(0, 32768),
             },
             WarnOnlyRange(0, 256),
         ),
@@ -62,6 +64,7 @@ class BaseDelay:
                 DelayUnit.line_div_3: WarnOnlyRange(0, 256),
                 DelayUnit.sec_div_44100: WarnOnlyRange(0, 32768),
                 DelayUnit.sec_div_48000: WarnOnlyRange(0, 32768),
+                DelayUnit.sample: WarnOnlyRange(0, 32768),
             },
             WarnOnlyRange(0, 256),
         ),
@@ -73,4 +76,4 @@ class BaseDelay:
     inverse = Controller(bool, False)
     delay_unit = Controller(DelayUnit, DelayUnit.sec_div_16384)
     delay_multiplier = Controller((1, 15), 1)
-    feedback = Controller((0, 256), 0)
+    feedback = Controller((0, 32768), 0)

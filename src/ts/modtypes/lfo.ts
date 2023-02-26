@@ -49,6 +49,13 @@ export namespace Lfo {
     Off = 0,
     Waveform = 1,
   }
+  export enum SineQuality {
+    // noinspection JSUnusedGlobalSymbols
+    Auto = 0,
+    Low = 1,
+    Middle = 2,
+    High = 3,
+  }
   export enum CtlNum {
     Volume = 1,
     Type = 2,
@@ -62,6 +69,7 @@ export namespace Lfo {
     Generator = 10,
     FreqScale = 11,
     SmoothTransitions = 12,
+    SineQuality = 13,
   }
   interface LfoControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
@@ -76,6 +84,7 @@ export namespace Lfo {
     generator: ControllerMidiMap
     freqScale: ControllerMidiMap
     smoothTransitions: ControllerMidiMap
+    sineQuality: ControllerMidiMap
   }
   interface LfoOptionValues extends OptionValues {}
   class LfoOptions implements Options {
@@ -122,13 +131,16 @@ export namespace Lfo {
       (val: number) => {
         this.controllerValues.smoothTransitions = val
       },
+      (val: number) => {
+        this.controllerValues.sineQuality = val
+      },
     ]
     readonly controllerValues: LfoControllerValues = {
       volume: 256,
       type: Type.Amplitude,
       amplitude: 256,
       freq: 256,
-      waveform: Waveform.Sin,
+      waveform: Waveform.Sin2,
       setPhase: 0,
       channels: Channels.Stereo,
       frequencyUnit: FrequencyUnit.HzDiv_64,
@@ -136,6 +148,7 @@ export namespace Lfo {
       generator: false,
       freqScale: 100,
       smoothTransitions: SmoothTransitions.Waveform,
+      sineQuality: SineQuality.Auto,
     }
     readonly controllers: LfoControllers = new LfoControllers(
       this,
@@ -155,6 +168,7 @@ export namespace Lfo {
       generator: new ControllerMidiMap(),
       freqScale: new ControllerMidiMap(),
       smoothTransitions: new ControllerMidiMap(),
+      sineQuality: new ControllerMidiMap(),
     }
     readonly optionValues: LfoOptionValues = {}
     readonly options: LfoOptions = new LfoOptions(this.optionValues)
@@ -206,6 +220,9 @@ export namespace Lfo {
         case 12:
           cv.smoothTransitions = value
           break
+        case 13:
+          cv.sineQuality = value
+          break
       }
     }
     *rawControllerValues(): Generator<number> {
@@ -222,6 +239,7 @@ export namespace Lfo {
       yield Number(cv.generator)
       yield cv.freqScale
       yield cv.smoothTransitions
+      yield cv.sineQuality
     }
     setMidiMaps(midiMaps: MidiMap[]) {
       this.midiMaps.volume = midiMaps[0] || {
@@ -296,6 +314,12 @@ export namespace Lfo {
         messageParameter: 0,
         slope: 0,
       }
+      this.midiMaps.sineQuality = midiMaps[12] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []
@@ -311,6 +335,7 @@ export namespace Lfo {
       a.push(this.midiMaps.generator)
       a.push(this.midiMaps.freqScale)
       a.push(this.midiMaps.smoothTransitions)
+      a.push(this.midiMaps.sineQuality)
       return a
     }
   }

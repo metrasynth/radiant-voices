@@ -41,4 +41,5 @@ export interface AnalogGeneratorControllerValues extends ControllerValues {
   noise: number
   osc2Volume: number
   osc2Mode: Osc2Mode
+  osc2Phase: number
 }

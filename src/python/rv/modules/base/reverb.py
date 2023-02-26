@@ -21,7 +21,7 @@ class BaseReverb:
         lq_mono = 3
 
     dry = Controller((0, 256), 256)
-    wet = Controller((0, 256), 64)
+    wet = Controller((0, 256), 40)
     feedback = Controller((0, 256), 256)
     damp = Controller((0, 256), 128)
     stereo_width = Controller((0, 256), 256)
