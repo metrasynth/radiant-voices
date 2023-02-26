@@ -8,11 +8,13 @@ For example, to refer to the "Analog Generator" SunVox module, you
 only need to refer to ``rv.modules.AnalogGenerator`` (instead of
 ``rv.modules.analoggenerator.AnalogGenerator``).
 """
+from __future__ import annotations
+from typing import Dict, Type
 
 # isort:skip_file
 # flake8: noqa
 
-MODULE_CLASSES = {}
+MODULE_CLASSES: Dict[str, Type[Module]] = {}
 
 # Must come first to avoid circular imports.
 from .module import (
