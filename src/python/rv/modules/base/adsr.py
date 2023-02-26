@@ -21,6 +21,12 @@ class BaseAdsr:
         neg_exp1 = 3
         neg_exp2 = 4
         sin = 5
+        rect = 6
+        smooth_rect = 7
+        bit2 = 8
+        bit3 = 9
+        bit4 = 10
+        bit5 = 11
 
     class Sustain(IntEnum):
         off = 0

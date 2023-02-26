@@ -49,6 +49,12 @@ export namespace Fmx {
     NegExp1 = 3,
     NegExp2 = 4,
     Sin = 5,
+    Rect = 6,
+    SmoothRect = 7,
+    Bit2 = 8,
+    Bit3 = 9,
+    Bit4 = 10,
+    Bit5 = 11,
   }
   export enum Sustain {
     // noinspection JSUnusedGlobalSymbols
@@ -80,6 +86,7 @@ export namespace Fmx {
     Max = 6,
     BitwiseAnd = 7,
     BitwiseXor = 8,
+    PhasePlus = 9,
   }
   export enum Op1OutputMode {
     // noinspection JSUnusedGlobalSymbols
@@ -272,6 +279,7 @@ export namespace Fmx {
     Op2OutputMode = 116,
     Op3OutputMode = 117,
     Op4OutputMode = 118,
+    EnvelopeGain = 119,
   }
   interface FmxControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
@@ -392,6 +400,7 @@ export namespace Fmx {
     op2OutputMode: ControllerMidiMap
     op3OutputMode: ControllerMidiMap
     op4OutputMode: ControllerMidiMap
+    envelopeGain: ControllerMidiMap
   }
   interface FmxOptionValues extends OptionValues {}
   class FmxOptions implements Options {
@@ -756,10 +765,13 @@ export namespace Fmx {
       (val: number) => {
         this.controllerValues.op4OutputMode = val
       },
+      (val: number) => {
+        this.controllerValues.envelopeGain = val
+      },
     ]
     readonly controllerValues: FmxControllerValues = {
       volume: 16384,
-      panning: 128,
+      panning: 0,
       sampleRate: SampleRate._44100hz,
       polyphony: 4,
       channels: Channels.Mono,
@@ -811,7 +823,7 @@ export namespace Fmx {
       op2Sustain: Sustain.Off,
       op3Sustain: Sustain.Off,
       op4Sustain: Sustain.Off,
-      op5Sustain: Sustain.Off,
+      op5Sustain: Sustain.On,
       op1SustainPedal: false,
       op2SustainPedal: false,
       op3SustainPedal: false,
@@ -876,6 +888,7 @@ export namespace Fmx {
       op2OutputMode: Op2OutputMode.None,
       op3OutputMode: Op3OutputMode.None,
       op4OutputMode: Op4OutputMode.To_5,
+      envelopeGain: 1000,
     }
     readonly controllers: FmxControllers = new FmxControllers(
       this,
@@ -1001,6 +1014,7 @@ export namespace Fmx {
       op2OutputMode: new ControllerMidiMap(),
       op3OutputMode: new ControllerMidiMap(),
       op4OutputMode: new ControllerMidiMap(),
+      envelopeGain: new ControllerMidiMap(),
     }
     readonly optionValues: FmxOptionValues = {}
     readonly options: FmxOptions = new FmxOptions(this.optionValues)
@@ -1370,6 +1384,9 @@ export namespace Fmx {
         case 118:
           cv.op4OutputMode = value
           break
+        case 119:
+          cv.envelopeGain = value
+          break
       }
     }
     *rawControllerValues(): Generator<number> {
@@ -1492,6 +1509,7 @@ export namespace Fmx {
       yield cv.op2OutputMode
       yield cv.op3OutputMode
       yield cv.op4OutputMode
+      yield cv.envelopeGain
     }
     setMidiMaps(midiMaps: MidiMap[]) {
       this.midiMaps.volume = midiMaps[0] || {
@@ -2202,6 +2220,12 @@ export namespace Fmx {
         messageParameter: 0,
         slope: 0,
       }
+      this.midiMaps.envelopeGain = midiMaps[118] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []
@@ -2323,6 +2347,7 @@ export namespace Fmx {
       a.push(this.midiMaps.op2OutputMode)
       a.push(this.midiMaps.op3OutputMode)
       a.push(this.midiMaps.op4OutputMode)
+      a.push(this.midiMaps.envelopeGain)
       return a
     }
   }

@@ -20,6 +20,9 @@ import { FrequencyUnit } from "./lfoEnums"
 // @ts-ignore
 // noinspection ES6UnusedImports
 import { SmoothTransitions } from "./lfoEnums"
+// @ts-ignore
+// noinspection ES6UnusedImports
+import { SineQuality } from "./lfoEnums"
 export class LfoBaseControllers implements Controllers {
   constructor(
     readonly module: ModuleType,
@@ -161,5 +164,14 @@ export class LfoBaseControllers implements Controllers {
   set smoothTransitions(newValue: SmoothTransitions) {
     const { controllerValues } = this
     controllerValues.smoothTransitions = newValue
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get sineQuality(): SineQuality {
+    return this.controllerValues.sineQuality
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set sineQuality(newValue: SineQuality) {
+    const { controllerValues } = this
+    controllerValues.sineQuality = newValue
   }
 }

@@ -125,7 +125,7 @@ export namespace SpectraVoice {
     readonly controllerValues: SpectraVoiceControllerValues = {
       volume: 128,
       panning: 0,
-      attack: 10,
+      attack: 1,
       release: 512,
       polyphony: 8,
       mode: Mode.HqSpline,

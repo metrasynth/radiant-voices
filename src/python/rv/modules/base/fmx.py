@@ -46,6 +46,12 @@ class BaseFmx:
         neg_exp1 = 3
         neg_exp2 = 4
         sin = 5
+        rect = 6
+        smooth_rect = 7
+        bit2 = 8
+        bit3 = 9
+        bit4 = 10
+        bit5 = 11
 
     class Sustain(IntEnum):
         off = 0
@@ -74,6 +80,7 @@ class BaseFmx:
         max = 6
         bitwise_and = 7
         bitwise_xor = 8
+        phase_plus = 9
 
     class Op1OutputMode(IntEnum):
         none = 0
@@ -144,7 +151,7 @@ class BaseFmx:
         to_output_5 = 3
 
     volume = Controller((0, 32768), 16384)
-    panning = Controller((0, 256), 128)
+    panning = Controller((-128, 128), 0)
     sample_rate = Controller(SampleRate, SampleRate._44100hz)
     polyphony = Controller((1, 32), 4)
     channels = Controller(Channels, Channels.mono)
@@ -198,7 +205,7 @@ class BaseFmx:
     op2_sustain = Controller(Sustain, Sustain.off)
     op3_sustain = Controller(Sustain, Sustain.off)
     op4_sustain = Controller(Sustain, Sustain.off)
-    op5_sustain = Controller(Sustain, Sustain.off)
+    op5_sustain = Controller(Sustain, Sustain.on)
     op1_sustain_pedal = Controller(bool, False)
     op2_sustain_pedal = Controller(bool, False)
     op3_sustain_pedal = Controller(bool, False)
@@ -263,6 +270,7 @@ class BaseFmx:
     op2_output_mode = Controller(Op2OutputMode, Op2OutputMode.none)
     op3_output_mode = Controller(Op3OutputMode, Op3OutputMode.none)
     op4_output_mode = Controller(Op4OutputMode, Op4OutputMode.to_5)
+    envelope_gain = Controller((0, 8000), 1000)
 
     class custom_waveform_chunk(ArrayChunk):
         chnm = 0

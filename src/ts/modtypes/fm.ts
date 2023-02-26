@@ -136,7 +136,7 @@ export namespace Fm {
       mRelease: 64,
       mScalingPerKey: 0,
       polyphony: 4,
-      mode: Mode.Hq,
+      mode: Mode.HqMono,
     }
     readonly controllers: FmControllers = new FmControllers(this, this.controllerValues)
     readonly c = this.controllers

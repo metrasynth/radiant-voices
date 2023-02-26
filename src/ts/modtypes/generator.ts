@@ -101,7 +101,7 @@ export namespace Generator {
       attack: 0,
       release: 0,
       polyphony: 8,
-      mode: Mode.Stereo,
+      mode: Mode.Mono,
       sustain: true,
       freqModulationByInput: 0,
       dutyCycle: 511,

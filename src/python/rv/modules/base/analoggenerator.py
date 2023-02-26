@@ -86,6 +86,7 @@ class BaseAnalogGenerator:
     noise = Controller((0, 256), 0)
     osc2_volume = Controller((0, 32768), 32768)
     osc2_mode = Controller(Osc2Mode, Osc2Mode.add)
+    osc2_phase = Controller((0, 32768), 0)
     volume_envelope_scaling_per_key = Option(
         name="volume_envelope_scaling_per_key",
         number=127,

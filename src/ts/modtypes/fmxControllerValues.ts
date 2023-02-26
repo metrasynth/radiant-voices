@@ -159,4 +159,5 @@ export interface FmxControllerValues extends ControllerValues {
   op2OutputMode: Op2OutputMode
   op3OutputMode: Op3OutputMode
   op4OutputMode: Op4OutputMode
+  envelopeGain: number
 }

@@ -21,6 +21,11 @@ class BaseDistortion:
         foldback3 = 3
         overflow = 4
         overflow2 = 5
+        saturation_foldback = 6
+        saturation_foldback_sin = 7
+        saturation3 = 8
+        saturation4 = 9
+        saturation5 = 10
 
     volume = Controller((0, 256), 128)
     type = Controller(Type, Type.clipping)

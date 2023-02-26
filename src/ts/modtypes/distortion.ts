@@ -21,6 +21,11 @@ export namespace Distortion {
     Foldback3 = 3,
     Overflow = 4,
     Overflow2 = 5,
+    SaturationFoldback = 6,
+    SaturationFoldbackSin = 7,
+    Saturation3 = 8,
+    Saturation4 = 9,
+    Saturation5 = 10,
   }
   export enum CtlNum {
     Volume = 1,

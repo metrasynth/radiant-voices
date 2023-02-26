@@ -36,4 +36,4 @@ class BaseFm:
     m_release = Controller((0, 512), 64)
     m_scaling_per_key = Controller((0, 4), 0)
     polyphony = Controller((1, 16), 4)
-    mode = Controller(Mode, Mode.hq)
+    mode = Controller(Mode, Mode.hq_mono)

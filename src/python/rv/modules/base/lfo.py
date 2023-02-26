@@ -45,6 +45,12 @@ class BaseLfo:
         off = 0
         waveform = 1
 
+    class SineQuality(IntEnum):
+        auto = 0
+        low = 1
+        middle = 2
+        high = 3
+
     volume = Controller((0, 512), 256)
     type = Controller(Type, Type.amplitude)
     amplitude = Controller((0, 256), 256)
@@ -64,7 +70,7 @@ class BaseLfo:
         ),
         256,
     )
-    waveform = Controller(Waveform, Waveform.sin)
+    waveform = Controller(Waveform, Waveform.sin2)
     set_phase = Controller((0, 256), 0)
     channels = Controller(Channels, Channels.stereo)
     frequency_unit = Controller(FrequencyUnit, FrequencyUnit.hz_div_64)
@@ -72,3 +78,4 @@ class BaseLfo:
     generator = Controller(bool, False)
     freq_scale = Controller((0, 200), 100)
     smooth_transitions = Controller(SmoothTransitions, SmoothTransitions.waveform)
+    sine_quality = Controller(SineQuality, SineQuality.auto)

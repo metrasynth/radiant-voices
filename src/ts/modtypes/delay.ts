@@ -29,6 +29,7 @@ export namespace Delay {
     LineDiv_3 = 6,
     SecDiv_44100 = 7,
     SecDiv_48000 = 8,
+    Sample = 9,
   }
   export enum CtlNum {
     Dry = 1,

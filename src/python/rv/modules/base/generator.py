@@ -35,7 +35,7 @@ class BaseGenerator:
     attack = Controller((0, 512), 0)
     release = Controller((0, 512), 0)
     polyphony = Controller((1, 16), 8)
-    mode = Controller(Mode, Mode.stereo)
+    mode = Controller(Mode, Mode.mono)
     sustain = Controller(bool, True)
     freq_modulation_by_input = Controller((0, 256), 0)
     duty_cycle = Controller((0, 1022), 511)

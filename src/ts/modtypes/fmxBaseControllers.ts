@@ -58,13 +58,13 @@ export class FmxBaseControllers implements Controllers {
   }
   // noinspection JSUnusedGlobalSymbols
   get panning(): number {
-    return this.controllerValues.panning
+    return this.controllerValues.panning + -128
   }
   // noinspection JSUnusedGlobalSymbols
   set panning(newValue: number) {
     const { controllerValues } = this
-    newValue = Math.min(Math.max(newValue, 0), 256)
-    controllerValues.panning = newValue
+    newValue = Math.min(Math.max(newValue, -128), 128)
+    controllerValues.panning = newValue - -128
   }
   // noinspection JSUnusedGlobalSymbols
   get sampleRate(): SampleRate {
@@ -1182,5 +1182,15 @@ export class FmxBaseControllers implements Controllers {
   set op4OutputMode(newValue: Op4OutputMode) {
     const { controllerValues } = this
     controllerValues.op4OutputMode = newValue
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get envelopeGain(): number {
+    return this.controllerValues.envelopeGain
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set envelopeGain(newValue: number) {
+    const { controllerValues } = this
+    newValue = Math.min(Math.max(newValue, 0), 8000)
+    controllerValues.envelopeGain = newValue
   }
 }
