@@ -1,0 +1,46 @@
+[tool.poetry]
+name = "radiant-voices"
+version = "1.1.0"
+description = "Create, read, modify, and write SunVox files."
+authors = ["Matthew Scott <matt@11craft.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "rv", from = "src/python"}]
+
+[tool.poetry.dependencies]
+python = ">=3.8,<3.12"
+attrs = "^22.2.0"
+python-slugify = "^8.0.1"
+logutils = "^0.3.5"
+networkx = "^3.0"
+
+[tool.poetry.group.dev.dependencies]
+hexdump = "^3.3"
+
+[tool.poetry.group.docs.dependencies]
+plantweb = "^1.2.1"
+sphinx = "^6.1.3"
+sphinx_rtd_theme = "^1.2.0"
+
+[tool.poetry.group.genrv.dependencies]
+PyYAML = "^6.0"
+jinja2 = "^3.1.2"
+black = "^23.1.0"
+isort = "^5.12.0"
+stringcase = "^1.2.0"
+
+[tool.poetry.group.tests.dependencies]
+pre-commit = "^3.1.0"
+pytest = "^7.2.1"
+pytest-watch = "^4.2.0"
+numpy = "^1.24.2"
+
+[tool.poetry.group.tools.dependencies]
+numpy = "^1.24.2"
+scipy = "^1.9.3"
+sunvox-dll-python = "^0.3.4.2.1.0.2"
+tqdm = "^4.64.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
