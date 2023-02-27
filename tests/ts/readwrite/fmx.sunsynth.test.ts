@@ -24,7 +24,7 @@ describe("Reading the fmx.sunsynth file", () => {
     const { c } = mod
 
     expect(c.volume).toEqual(24762)
-    expect(c.panning).toEqual(197)
+    expect(c.panning).toEqual(69)
     expect(c.sampleRate).toEqual(m.Fmx.SampleRate._11025hz)
     expect(c.polyphony).toEqual(15)
     expect(c.channels).toEqual(m.Fmx.Channels.Stereo)

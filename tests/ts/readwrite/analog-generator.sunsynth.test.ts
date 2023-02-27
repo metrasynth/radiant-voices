@@ -109,10 +109,11 @@ describe("Reading the analog-generator.sunsynth file", () => {
     expectCval(9)
     expectCval(20640)
     expectCval(2)
+    expectCval(0)
 
     const { name, type, values } = v()
     expect({ name, type }).toEqual({ name: "CMID", type: "midiMaps" })
-    expect((values as Array<MidiMap>).length).toEqual(21)
+    expect((values as Array<MidiMap>).length).toEqual(22)
     expect(values[0]).toEqual({
       channel: 1,
       messageType: MessageType.ControlChange,
