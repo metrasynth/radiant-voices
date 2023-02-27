@@ -27,7 +27,7 @@ class Pattern:
 
     name = attr(None)
     tracks = attr(validator=in_range(1, 32), default=4)
-    lines = attr(validator=in_range(1, 2 ** 19), default=32)
+    lines = attr(validator=in_range(1, 2**19), default=32)
     y_size = attr(default=32)
     flags_PFLG = attr(default=0)
     icon = attr(default=b"\0" * 32, validator=is_length(32))

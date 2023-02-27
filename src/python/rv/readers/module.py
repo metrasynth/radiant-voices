@@ -47,8 +47,7 @@ class ModuleReader(Reader):
         ]
         if mtype == "MetaModule":
             self._controller_keys += [
-                f"user_defined_{i + 1}"
-                for i in range(MAX_USER_DEFINED_CONTROLLERS)
+                f"user_defined_{i + 1}" for i in range(MAX_USER_DEFINED_CONTROLLERS)
             ]
         self._object = new_module
 
