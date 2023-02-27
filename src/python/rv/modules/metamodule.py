@@ -31,7 +31,7 @@ class UserDefined(Controller):
     label = None
 
     def __init__(self, number):
-        self.name = "user_defined_{}".format(number + 1)
+        self.name = f"user_defined_{number + 1}"
         self.number = number + 6
         super().__init__((0, 44100), 0, attached=False)
 
@@ -235,7 +235,7 @@ class MetaModule(BaseMetaModule, Module):
     ) = [UserDefinedProxy(__i) for __i in range(MAX_USER_DEFINED_CONTROLLERS)]
 
     def __init__(self, **kwargs):
-        project = kwargs.get("project", None)
+        project = kwargs.get("project")
         self.user_defined = [
             UserDefined(i) for i in range(MAX_USER_DEFINED_CONTROLLERS)
         ]
@@ -288,7 +288,7 @@ class MetaModule(BaseMetaModule, Module):
     def user_defined_aliases(self):
         return (
             [
-                "u_{}".format(slugify(ctl.label).lower()) if ctl.label else None
+                f"u_{slugify(ctl.label).lower()}" if ctl.label else None
                 for ctl in self.user_defined
                 if ctl.attached(self)
             ]

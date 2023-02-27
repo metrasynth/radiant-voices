@@ -32,7 +32,7 @@ class ArrayChunk(Chunk):
             start = x * self.element_size
             end = start + self.element_size
             data = value[start:end]
-            unpacked = unpack("<" + self.type, data)
+            unpacked = unpack(f"<{self.type}", data)
             if len(unpacked) == 1:
                 (unpacked,) = unpacked
             actual = self.python_type(unpacked)
