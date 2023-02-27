@@ -241,24 +241,24 @@ class Module(metaclass=ModuleMeta):
     parent: Optional[Project]
 
     def __init__(self, **kw):
-        self.index = kw.get("index", None)
-        self.parent = kw.get("parent", None)
+        self.index = kw.get("index")
+        self.parent = kw.get("parent")
         self.controller_values = {}
         self.controllers_loaded = set()
         self.controller_midi_maps = defaultdict(ControllerMidiMap)
         for k, controller in self.controllers.items():
             if not isinstance(controller.value_type, DependentRange):
-                v = kw.get(k) if k in kw else controller.default
+                v = kw.get(k, controller.default)
                 controller.set_initial(self, v)
                 self.controllers_loaded.add(k)
         for k, controller in self.controllers.items():
             if isinstance(controller.value_type, DependentRange):
-                v = kw.get(k) if k in kw else controller.default
+                v = kw.get(k, controller.default)
                 controller.set_initial(self, v)
                 self.controllers_loaded.add(k)
         self.option_values = {}
         for k, option in self.options.items():
-            v = kw.get(k) if k in kw else option.default
+            v = kw.get(k, option.default)
             setattr(self, k, v)
         self.finetune = kw.get("finetune", 0)
         self.relative_note = kw.get("relative_note", 0)
@@ -269,7 +269,7 @@ class Module(metaclass=ModuleMeta):
         self.color = kw.get("color", (255, 255, 255))
         self.midi_in_always = kw.get("midi_in_always", False)
         self.midi_in_channel = kw.get("midi_in_channel", 0)
-        self.midi_out_name = kw.get("midi_out_name", None)
+        self.midi_out_name = kw.get("midi_out_name")
         self.midi_out_channel = kw.get("midi_out_channel", 0)
         self.midi_out_bank = kw.get("midi_out_bank", -1)
         self.midi_out_program = kw.get("midi_out_program", -1)
@@ -283,10 +283,10 @@ class Module(metaclass=ModuleMeta):
     def __repr__(self):
         attrs = [self.__class__.__name__]
         if self.index is not None:
-            attrs.append("index={}".format(self.index))
+            attrs.append(f"index={self.index}")
         if type(self) is not Module and self.name != self.mtype:
-            attrs.append("name={}".format(self.name))
-        return "<{}>".format(" ".join(attrs))
+            attrs.append(f"name={self.name}")
+        return f'<{" ".join(attrs)}>'
 
     def __lshift__(self, other):
         self.parent.connect(other, self)

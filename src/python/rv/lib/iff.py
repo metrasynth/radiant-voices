@@ -35,7 +35,7 @@ def dump_file(f):
         i = None
         for i, line in enumerate(hexdump(data, "generator")):
             if i > 0:
-                print("      " + line)
+                print(f"      {line}")
             else:
                 print(line)
         if i is None:
