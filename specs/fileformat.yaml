@@ -2063,7 +2063,7 @@ module_types:
           bit: 6
           size: 2
           enum: OutPortMode
-          default: all
+          default: all_or_random1
       - out_port_mode_random:
           byte: 5
           bit: 0

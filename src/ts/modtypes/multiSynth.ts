@@ -219,7 +219,7 @@ export namespace MultiSynth {
       roundPitchY: false,
       recordNotesToScaleCurve: false,
       outNoteOutNoteMinusInNotePlus_C5: false,
-      outPortMode: OutPortMode.All,
+      outPortMode: OutPortMode.AllOrRandom1,
       outPortModeRandom: false,
     }
     readonly options: MultiSynthOptions = new MultiSynthOptions(this.optionValues)

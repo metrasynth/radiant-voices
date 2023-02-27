@@ -105,7 +105,7 @@ class BaseMultiSynth:
         byte=4,
         bit=6,
         size=2,
-        default="all",
+        default="all_or_random1",
     )
     out_port_mode_random = Option(
         name="out_port_mode_random",
