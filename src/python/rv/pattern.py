@@ -114,8 +114,7 @@ class Pattern:
         for _ in range(self.lines):
             line = []
             self._data.append(line)
-            for _ in range(self.tracks):
-                line.append(Note(pattern=self))
+            line.extend(Note(pattern=self) for _ in range(self.tracks))
 
     def tabular_repr(self, note_format="NN VV MMMM CC EE XXYY"):
         lines = []

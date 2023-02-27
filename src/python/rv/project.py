@@ -281,8 +281,9 @@ class Project(Container):
         ):
             for index, pattern in deactivate_at.get(line, []):
                 active_patterns.remove((index, pattern))
-            for index, pattern in activate_at.get(line, []):
-                active_patterns.append((index, pattern))
+            active_patterns.extend(
+                (index, pattern) for index, pattern in activate_at.get(line, [])
+            )
             pattern_lines = [
                 PatternLine(index, pattern.source or index, line - pattern.x)
                 for index, pattern in active_patterns

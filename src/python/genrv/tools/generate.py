@@ -44,7 +44,7 @@ def generate(env, generator, **options):
 
 
 def enumname(ekey: str) -> str:
-    ekey = str(ekey).replace("/", "_div_")
+    ekey = ekey.replace("/", "_div_")
     ekey = ekey.replace("*", "_mul_")
     ekey = ekey.replace(".", "_")
     ekey = ekey.replace("+", "_plus_")
