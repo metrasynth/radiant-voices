@@ -401,7 +401,7 @@ class Module(metaclass=ModuleMeta):
         bytemap = [0] * 64
         for option in self.options.values():
             option_value = self.option_values.get(option.name)
-            option_value &= (2 ** option.size) - 1
+            option_value &= (2**option.size) - 1
             option_value <<= option.bit
             bytemap[option.byte] |= option_value
         yield b"CHNM", pack("<I", self.options_chnm)
@@ -426,7 +426,7 @@ class Module(metaclass=ModuleMeta):
         for option in self.options.values():
             option_value = bytemap[option.byte]
             option_value >>= option.bit
-            option_value &= (2 ** option.size) - 1
+            option_value &= (2**option.size) - 1
             if option.size == 1:
                 option_value = bool(option_value)
             self.option_values[option.name] = option_value
