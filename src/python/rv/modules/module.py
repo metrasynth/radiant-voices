@@ -110,7 +110,6 @@ class VisibleModuleFlags(IntEnum):
 
 
 class LevelMode(IntEnum):
-
     off = 0
     mono = 1
     stereo = 2
@@ -119,13 +118,11 @@ class LevelMode(IntEnum):
 
 
 class Orientation(IntEnum):
-
     horizontal = 0
     vertical = 1
 
 
 class OscilloscopeMode(IntEnum):
-
     off = 0
     points = 1
     lines = 2

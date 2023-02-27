@@ -9,13 +9,11 @@ from rv.note import ALL_NOTES, NOTECMD, Note
 
 
 class PatternFlagsPFLG(IntEnum):
-
     no_icon = 0x01
     continue_notes_at_end = 0x02
 
 
 class PatternFlagsPFFF(IntEnum):
-
     clone = 0x01
     selected = 0x02
     mute = 0x08
@@ -24,7 +22,6 @@ class PatternFlagsPFFF(IntEnum):
 
 @attributes
 class Pattern:
-
     name = attr(None)
     tracks = attr(validator=in_range(1, 32), default=4)
     lines = attr(validator=in_range(1, 2**19), default=32)
@@ -142,7 +139,6 @@ class Pattern:
 
 @attributes
 class PatternClone:
-
     source = attr()
     flags = attr(default=PatternFlagsPFFF.clone)
     x = attr(default=0)

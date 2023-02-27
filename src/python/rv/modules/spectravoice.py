@@ -4,7 +4,6 @@ from rv.modules.base.spectravoice import BaseSpectraVoice
 
 
 class SpectraVoice(BaseSpectraVoice, Module):
-
     chnk = 4
 
     behaviors = {B.receives_notes, B.sends_audio}

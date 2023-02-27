@@ -4,7 +4,6 @@ from rv.modules.base.waveshaper import BaseWaveShaper
 
 
 class WaveShaper(BaseWaveShaper, Module):
-
     chnk = 1
 
     behaviors = {B.receives_audio, B.sends_audio}

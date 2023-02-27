@@ -4,7 +4,6 @@ from rv.modules.base.multisynth import BaseMultiSynth
 
 
 class MultiSynth(BaseMultiSynth, Module):
-
     chnk = 4
     options_chnm = 1
 

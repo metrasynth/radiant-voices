@@ -5,7 +5,6 @@ from rv.modules.base.analoggenerator import BaseAnalogGenerator
 
 
 class AnalogGenerator(BaseAnalogGenerator, Module):
-
     chnk = 2
     options_chnm = 1
 
