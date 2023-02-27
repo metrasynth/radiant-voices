@@ -13,8 +13,8 @@ export enum ActiveCurve {
 }
 export enum OutPortMode {
   // noinspection JSUnusedGlobalSymbols
-  All = 0,
-  NoteModNumOfOuts = 1,
-  ChannelModNumOfOuts = 2,
+  AllOrRandom1 = 0,
+  NoteModNumOfOutsOrRandom2 = 1,
+  PolyChModNumOfOutsOrRandom3 = 2,
   Cyclic = 3,
 }

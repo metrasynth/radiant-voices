@@ -1,5 +1,6 @@
 import struct
-from chunk import Chunk
+
+from rv._vendor.chunk import Chunk
 
 
 def write_chunk(f, name, data):

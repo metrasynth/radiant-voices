@@ -22,9 +22,9 @@ class BaseMultiSynth:
         note_pitch = 2
 
     class OutPortMode(IntEnum):
-        all = 0
-        note_mod_num_of_outs = 1
-        channel_mod_num_of_outs = 2
+        all_or_random1 = 0
+        note_mod_num_of_outs_or_random2 = 1
+        poly_ch_mod_num_of_outs_or_random3 = 2
         cyclic = 3
 
     transpose = Controller(CompactRange(-128, 128), 0)
@@ -37,7 +37,6 @@ class BaseMultiSynth:
     curve2_influence = Controller((0, 256), 256)
     use_static_note_C5 = Option(
         name="use_static_note_C5",
-        number=127,
         byte=0,
         bit=0,
         size=1,
@@ -45,7 +44,6 @@ class BaseMultiSynth:
     )
     ignore_notes_with_zero_velocity = Option(
         name="ignore_notes_with_zero_velocity",
-        number=126,
         byte=1,
         bit=0,
         size=1,
@@ -53,7 +51,6 @@ class BaseMultiSynth:
     )
     active_curve = Option(
         name="active_curve",
-        number=125,
         byte=2,
         bit=0,
         size=2,
@@ -61,7 +58,6 @@ class BaseMultiSynth:
     )
     trigger = Option(
         name="trigger",
-        number=124,
         byte=3,
         bit=0,
         size=1,
@@ -69,7 +65,6 @@ class BaseMultiSynth:
     )
     generate_missed_note_off_commands = Option(
         name="generate_missed_note_off_commands",
-        number=123,
         byte=4,
         bit=0,
         size=1,
@@ -77,7 +72,6 @@ class BaseMultiSynth:
     )
     round_note_x = Option(
         name="round_note_x",
-        number=122,
         byte=4,
         bit=1,
         size=1,
@@ -86,7 +80,6 @@ class BaseMultiSynth:
     )
     round_pitch_y = Option(
         name="round_pitch_y",
-        number=121,
         byte=4,
         bit=2,
         size=1,
@@ -95,7 +88,6 @@ class BaseMultiSynth:
     )
     record_notes_to_scale_curve = Option(
         name="record_notes_to_scale_curve",
-        number=120,
         byte=4,
         bit=3,
         size=1,
@@ -103,7 +95,6 @@ class BaseMultiSynth:
     )
     out_note_out_note_minus_in_note_plus_C5 = Option(
         name="out_note_out_note_minus_in_note_plus_C5",
-        number=118,
         byte=4,
         bit=5,
         size=1,
@@ -111,11 +102,17 @@ class BaseMultiSynth:
     )
     out_port_mode = Option(
         name="out_port_mode",
-        number=125,
         byte=4,
         bit=6,
         size=2,
         default="all",
+    )
+    out_port_mode_random = Option(
+        name="out_port_mode_random",
+        byte=5,
+        bit=0,
+        size=1,
+        default=False,
     )
 
     class note_velocity_curve_chunk(ArrayChunk):
