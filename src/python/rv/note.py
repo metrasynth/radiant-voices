@@ -264,13 +264,31 @@ class NOTECMD(IntEnum):
     ) = range(1, 121)
 
     EMPTY = 0
+
     NOTE_OFF = 128
-    ALL_NOTES_OFF = 129  # notes of all synths off
-    CLEAN_SYNTHS = 130  # stop and clean all synths
+
+    ALL_NOTES_OFF = 129
+    'send "note off" to all modules'
+
+    CLEAN_SYNTHS = 130
+    "stop all modules - clear their internal buffers and put them into standby mode"
+
     STOP = 131
+
     PLAY = 132
+
     SET_PITCH = 133
+    """
+    set the pitch specified in column XXYY, where 0x0000
+    - highest possible pitch, 0x7800
+    - lowest pitch (note C0);
+    one semitone = 0x100
+    """
+
     PREV_TRACK = 134
+
+    CLEAN_MODULE = 140
+    "stop the module - clear its internal buffers and put it into standby mode"
 
 
 class PatternEffect(IntEnum):
@@ -310,6 +328,7 @@ class PatternEffect(IntEnum):
     SET_JUMP_ADDRESS_MODE = 0x32
     SLOT_SYNC = 0x33
     SET_XX_OR_RESET_YY_PROJECT_OPTIONS = 0x34
+    BIND_MIDI_OUT_MESSAGE_XX_TO_CONTROLLER_YY = 0x35  # [TODO] copy to JS version
     DELETE_EVENT_ON_TRACK_XX_WITH_PROBABILITY_YY = 0x38
     CYCLIC_SHIFT_TRACK_DOWN_BY_YY_LINES = 0x39
     GENERATE_NEW_ITERATION_OF_YY_LINE_POLYRHYTHM_ON_TRACK_XX = 0x3A
