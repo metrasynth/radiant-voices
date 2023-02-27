@@ -145,12 +145,10 @@ class MultiCtl(BaseMultiCtl, Module):
         It is the inverse of setting value.
         """
         if index >= len(self.out_links):
-            raise IndexError("No destination module mapped at index {}".format(index))
+            raise IndexError(f"No destination module mapped at index {index}")
         mapping = self.mappings.values[index]
         if mapping.controller == 0:
-            raise IndexError(
-                "No destination controller mapped at index {}".format(index)
-            )
+            raise IndexError(f"No destination controller mapped at index {index}")
         reflect_mod = self.parent.modules[self.out_links[index]]
         reflect_ctl_name = list(reflect_mod.controllers)[mapping.controller - 1]
         reflect_ctl = reflect_mod.controllers[reflect_ctl_name]
