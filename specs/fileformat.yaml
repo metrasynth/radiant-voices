@@ -394,7 +394,7 @@ chunk_types:
   Bpm:
     parent_type: unsigned int32
     min: 1
-    max: 800
+    max: 1000
 
   Tpl:
     parent_type: unsigned int32
