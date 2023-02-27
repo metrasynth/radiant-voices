@@ -29,6 +29,25 @@ def test_multisynth(read_write_read_synth):
     assert not mod.record_notes_to_scale_curve
     assert mod.out_note_out_note_minus_in_note_plus_C5
     assert mod.out_port_mode == mod.OutPortMode.cyclic
+    assert not mod.out_port_mode_random
+
+
+def test_multisynth_random1(read_write_read_synth):
+    mod: m.MultiSynth = read_write_read_synth("multisynth-random1").module
+    assert mod.out_port_mode_random
+    assert mod.out_port_mode == mod.OutPortMode.all_or_random1
+
+
+def test_multisynth_random2(read_write_read_synth):
+    mod: m.MultiSynth = read_write_read_synth("multisynth-random2").module
+    assert mod.out_port_mode_random
+    assert mod.out_port_mode == mod.OutPortMode.note_mod_num_of_outs_or_random2
+
+
+def test_multisynth_random3(read_write_read_synth):
+    mod: m.MultiSynth = read_write_read_synth("multisynth-random3").module
+    assert mod.out_port_mode_random
+    assert mod.out_port_mode == mod.OutPortMode.poly_ch_mod_num_of_outs_or_random3
 
 
 EXPECTED_NOTE_VELOCITY_CURVE = [

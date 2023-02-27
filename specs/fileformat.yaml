@@ -1995,9 +1995,9 @@ module_types:
         "velocity_velocity": 1
         "note_pitch": 2
       OutPortMode:
-        "all": 0
-        "note_mod_num_of_outs": 1
-        "channel_mod_num_of_outs": 2
+        "all_or_random1": 0
+        "note_mod_num_of_outs_or_random2": 1
+        "poly_ch_mod_num_of_outs_or_random3": 2
         "cyclic": 3
     controllers:
       - transpose: { min: -128, max: 128, default: 0, compact: true }
@@ -2011,69 +2011,92 @@ module_types:
     options_chnm: 1
     options:
       - use_static_note_C5:
-          number: 0x7f
           byte: 0
           bit: 0
           size: 1
           default: false
       - ignore_notes_with_zero_velocity:
-          number: 0x7e
           byte: 1
           bit: 0
           size: 1
           default: false
       - active_curve:
-          number: 0x7d
           byte: 2
           bit: 0
           size: 2
           enum: ActiveCurve
           default: note_velocity
       - trigger:
-          number: 0x7c
           byte: 3
           bit: 0
           size: 1
           default: false
       - generate_missed_note_off_commands:
-          number: 0x7b
           byte: 4
           bit: 0
           size: 1
           default: false
       - round_note_x:
-          number: 0x7a
           byte: 4
           bit: 1
           size: 1
           default: false
           exclusive_of: [round_pitch_y]
       - round_pitch_y:
-          number: 0x79
           byte: 4
           bit: 2
           size: 1
           default: false
           exclusive_of: [round_note_x]
       - record_notes_to_scale_curve:
-          number: 0x78
           byte: 4
           bit: 3
           size: 1
           default: false
       - out_note_out_note_minus_in_note_plus_C5:
-          number: 0x76
           byte: 4
           bit: 5
           size: 1
           default: false
       - out_port_mode:
-          number: 0x7d
           byte: 4
           bit: 6
           size: 2
           enum: OutPortMode
           default: all
+      - out_port_mode_random:
+          byte: 5
+          bit: 0
+          size: 1
+          default: false
+    option_controllers:
+      0x7f: use_static_note_C5
+      0x7e: ignore_notes_with_zero_velocity
+      0x7d: active_curve
+      0x7c: trigger
+      0x7b: generate_missed_note_off_commands
+      0x7a: round_note_x
+      0x79: round_note_y
+      0x78: record_notes_to_scale_curve
+      0x76: out_note_out_note_minus_in_note_plus_C5
+      0x75:
+        true: { out_port_mode: note_mod_num_of_outs_or_random2, out_port_mode_random: false }
+        false: { out_port_mode: all_or_random1, out_port_mode_random: false }
+      0x74:
+        true: { out_port_mode: poly_ch_mod_num_of_outs_or_random3, out_port_mode_random: false }
+        false: { out_port_mode: all_or_random1, out_port_mode_random: false }
+      0x73:
+        true: { out_port_mode: cyclic, out_port_mode_random: false }
+        false: { out_port_mode: all_or_random1, out_port_mode_random: false }
+      0x72:
+        true: { out_port_mode: all_or_random1, out_port_mode_random: true }
+        false: { out_port_mode: all_or_random1, out_port_mode_random: false }
+      0x71:
+        true: { out_port_mode: note_mod_num_of_outs_or_random2, out_port_mode_random: true }
+        false: { out_port_mode: all_or_random1, out_port_mode_random: false }
+      0x70:
+        true: { out_port_mode: poly_ch_mod_num_of_outs_or_random3, out_port_mode_random: true }
+        false: { out_port_mode: all_or_random1, out_port_mode_random: false }
     chunks:
       - name: note_velocity_curve
         parent_type: Array

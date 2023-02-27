@@ -22,9 +22,9 @@ export namespace MultiSynth {
   }
   export enum OutPortMode {
     // noinspection JSUnusedGlobalSymbols
-    All = 0,
-    NoteModNumOfOuts = 1,
-    ChannelModNumOfOuts = 2,
+    AllOrRandom1 = 0,
+    NoteModNumOfOutsOrRandom2 = 1,
+    PolyChModNumOfOutsOrRandom3 = 2,
     Cyclic = 3,
   }
   export enum CtlNum {
@@ -58,6 +58,7 @@ export namespace MultiSynth {
     recordNotesToScaleCurve: boolean
     outNoteOutNoteMinusInNotePlus_C5: boolean
     outPortMode: OutPortMode
+    outPortModeRandom: boolean
   }
   class MultiSynthOptions implements Options {
     constructor(readonly optionValues: MultiSynthOptionValues) {}
@@ -143,6 +144,14 @@ export namespace MultiSynth {
     set outPortMode(newValue: OutPortMode) {
       this.optionValues.outPortMode = newValue
     }
+    // noinspection JSUnusedGlobalSymbols
+    get outPortModeRandom(): boolean {
+      return this.optionValues.outPortModeRandom
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set outPortModeRandom(newValue: boolean) {
+      this.optionValues.outPortModeRandom = newValue
+    }
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "MultiSynth"
@@ -211,6 +220,7 @@ export namespace MultiSynth {
       recordNotesToScaleCurve: false,
       outNoteOutNoteMinusInNotePlus_C5: false,
       outPortMode: OutPortMode.All,
+      outPortModeRandom: false,
     }
     readonly options: MultiSynthOptions = new MultiSynthOptions(this.optionValues)
     readonly o = this.options
@@ -325,7 +335,7 @@ export namespace MultiSynth {
       return a
     }
     rawOptionBytes(): Uint8Array {
-      const bytes = new Uint8Array(10)
+      const bytes = new Uint8Array(11)
       const { optionValues: ov } = this
       bytes[0] |= (Number(ov.useStaticNote_C5) & (2 ** 1 - 1)) << 0
       bytes[1] |= (Number(ov.ignoreNotesWithZeroVelocity) & (2 ** 1 - 1)) << 0
@@ -337,6 +347,7 @@ export namespace MultiSynth {
       bytes[4] |= (Number(ov.recordNotesToScaleCurve) & (2 ** 1 - 1)) << 3
       bytes[4] |= (Number(ov.outNoteOutNoteMinusInNotePlus_C5) & (2 ** 1 - 1)) << 5
       bytes[4] |= (Number(ov.outPortMode) & (2 ** 2 - 1)) << 6
+      bytes[5] |= (Number(ov.outPortModeRandom) & (2 ** 1 - 1)) << 0
       return bytes
     }
     setOptions(dataChunks: ModuleDataChunks) {
@@ -366,6 +377,7 @@ export namespace MultiSynth {
           (chdt[4] >> 5) & (2 ** 1 - 1)
         )
         this.optionValues.outPortMode = (chdt[4] >> 6) & (2 ** 2 - 1)
+        this.optionValues.outPortModeRandom = Boolean((chdt[5] >> 0) & (2 ** 1 - 1))
       }
     }
   }
