@@ -4,7 +4,6 @@ from rv.modules.base.fmx import BaseFmx
 
 
 class Fmx(BaseFmx, Module):
-
     chnk = 4
 
     behaviors = {B.receives_notes, B.sends_audio}

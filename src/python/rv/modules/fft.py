@@ -4,5 +4,4 @@ from rv.modules.base.fft import BaseFft
 
 
 class Fft(BaseFft, Module):
-
     behaviors = {B.receives_audio, B.sends_audio}

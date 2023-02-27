@@ -4,7 +4,6 @@ from .chunk import Chunk
 
 
 class ArrayChunk(Chunk):
-
     length = None
     element_size = None
     type = None
