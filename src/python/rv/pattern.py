@@ -37,7 +37,7 @@ class Pattern:
     source = None
 
     @property
-    def data(self):
+    def data(self) -> list[list[Note]]:
         if not hasattr(self, "_data"):
             self.clear()
         return self._data
