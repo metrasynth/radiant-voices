@@ -300,6 +300,10 @@ class Module(metaclass=ModuleMeta):
     def __invert__(self):
         return DisconnectingModule(self)
 
+    def __int__(self):
+        """Returns the module number needed to use the module in a pattern."""
+        return self.index + 1
+
     @property
     def visualization(self):
         return Visualization(self._visualization)
