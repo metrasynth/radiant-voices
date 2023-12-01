@@ -16,7 +16,7 @@ export namespace Output {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Output"
-    flags = 67
+    flags = 0x43
     readonly typeName = "Output"
     readonly controllerSetters = []
     readonly controllerValues: OutputControllerValues = {}

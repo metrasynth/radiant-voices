@@ -12,7 +12,7 @@ class BaseEq:
     name = "Eq"
     mtype = "EQ"
     mgroup = "Effect"
-    flags = 81
+    flags = 0x51
 
     class Channels(IntEnum):
         stereo = 0

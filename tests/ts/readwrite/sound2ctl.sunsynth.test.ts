@@ -21,7 +21,7 @@ describe("Reading the sound2ctl.sunsynth file", () => {
     expect(mod.flags).toEqual(393297)
     expect(mod.name).toEqual("Sound2Ctl")
     const { c } = mod
-    expect(c.sampleRateHz).toEqual(14687)
+    expect(c.sampleRate).toEqual(14687)
     expect(c.channels).toEqual(m.Sound2Ctl.Channels.Mono)
     expect(c.absolute).toEqual(false)
     expect(c.gain).toEqual(741)

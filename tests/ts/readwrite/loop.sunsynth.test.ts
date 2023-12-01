@@ -22,9 +22,12 @@ describe("Reading the loop.sunsynth file", () => {
     expect(mod.name).toEqual("Loop")
     const { c } = mod
     expect(c.volume).toEqual(200)
-    expect(c.delay).toEqual(110)
+    expect(c.length).toEqual(110)
     expect(c.channels).toEqual(m.Loop.Channels.Mono)
     expect(c.repeats).toEqual(35)
     expect(c.mode).toEqual(m.Loop.Mode.Normal)
+    expect(c.lengthUnit).toEqual(m.Loop.LengthUnit.LineDiv_128)
+    expect(c.maxBufferSize).toEqual(4)
+    expect(c.onNoteOn).toEqual(m.Loop.OnNoteOn.Restart)
   })
 })

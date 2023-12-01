@@ -30,6 +30,6 @@ describe("Reading the flanger.sunsynth file", () => {
     expect(c.lfoAmp).toEqual(203)
     expect(c.lfoWaveform).toEqual(m.Flanger.LfoWaveform.Hsin)
     expect(c.setLfoPhase).toEqual(37)
-    expect(c.lfoFreqUnit).toEqual(m.Flanger.LfoFreqUnit.Hz_0_05)
+    expect(c.lfoFreqUnit).toEqual(m.Flanger.LfoFreqUnit.HzMul_0_05)
   })
 })

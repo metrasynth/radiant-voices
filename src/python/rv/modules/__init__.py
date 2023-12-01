@@ -8,11 +8,13 @@ For example, to refer to the "Analog Generator" SunVox module, you
 only need to refer to ``rv.modules.AnalogGenerator`` (instead of
 ``rv.modules.analoggenerator.AnalogGenerator``).
 """
+from __future__ import annotations
+from typing import Dict, Type
 
 # isort:skip_file
 # flake8: noqa
 
-MODULE_CLASSES = {}
+MODULE_CLASSES: Dict[str, Type[Module]] = {}
 
 # Must come first to avoid circular imports.
 from .module import (
@@ -38,10 +40,12 @@ from .drumsynth import DrumSynth
 from .echo import Echo
 from .eq import Eq
 from .feedback import Feedback
+from .fft import Fft
 from .filter import Filter
 from .filterpro import FilterPro
 from .flanger import Flanger
 from .fm import Fm
+from .fmx import Fmx
 from .generator import Generator
 from .glide import Glide
 from .gpio import Gpio
@@ -82,10 +86,12 @@ __all__ = [
     "Echo",
     "Eq",
     "Feedback",
+    "Fft",
     "Filter",
     "FilterPro",
     "Flanger",
     "Fm",
+    "Fmx",
     "Generator",
     "Glide",
     "Gpio",

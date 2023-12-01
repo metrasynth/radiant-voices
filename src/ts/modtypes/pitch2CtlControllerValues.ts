@@ -14,7 +14,7 @@ export interface Pitch2CtlControllerValues extends ControllerValues {
   mode: Mode
   noteOffAction: NoteOffAction
   firstNote: number
-  numberOfSemitones: number
+  range: number
   outMin: number
   outMax: number
   outController: number

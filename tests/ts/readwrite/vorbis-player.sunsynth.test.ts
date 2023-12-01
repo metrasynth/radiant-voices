@@ -27,7 +27,7 @@ describe("Reading the vorbis-player.sunsynth file", () => {
     expect(c.finetune).toEqual(-38)
     expect(c.transpose).toEqual(16)
     expect(c.interpolation).toEqual(true)
-    expect(c.polyphonyCh).toEqual(3)
+    expect(c.polyphony).toEqual(3)
     expect(c.repeat).toEqual(false)
   })
 })

@@ -18,14 +18,17 @@ describe("Reading the echo.sunsynth file", () => {
   })
   test("has correct properties, controllers, and options", () => {
     const mod = synth.module as m.Echo.Module
-    expect(mod.flags).toEqual(1105)
+    expect(mod.flags).toEqual(0x02000451)
     expect(mod.name).toEqual("echo")
     const { c } = mod
     expect(c.dry).toEqual(80)
     expect(c.wet).toEqual(88)
     expect(c.feedback).toEqual(234)
     expect(c.delay).toEqual(133)
-    expect(c.channels).toEqual(m.Echo.Channels.Mono)
+    expect(c.rightChannelOffset).toEqual(true)
     expect(c.delayUnit).toEqual(m.Echo.DelayUnit.Line)
+    expect(c.rightChannelOffsetLength).toEqual(25648)
+    expect(c.filter).toEqual(m.Echo.Filter.Lp_6db)
+    expect(c.filterFreq).toEqual(6373)
   })
 })

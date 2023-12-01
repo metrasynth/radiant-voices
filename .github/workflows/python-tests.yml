@@ -3,18 +3,19 @@ on:
   - push
 jobs:
   test:
-    runs-on: Ubuntu-20.04
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
         python-version:
           - "3.8"
           - "3.9"
+          - "3.10"
 
     steps:
       - uses: actions/checkout@v2
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v2.3.1
         with:
           python-version: ${{ matrix.python-version }}
 

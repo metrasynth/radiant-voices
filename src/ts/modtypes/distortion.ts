@@ -15,20 +15,24 @@ export namespace Distortion {
   // (TypeScript does not allow exporting imported enums from inside a namespace)
   export enum Type {
     // noinspection JSUnusedGlobalSymbols
-    Lim = 0,
     Clipping = 0,
-    Sat = 1,
     Foldback = 1,
     Foldback2 = 2,
     Foldback3 = 3,
     Overflow = 4,
+    Overflow2 = 5,
+    SaturationFoldback = 6,
+    SaturationFoldbackSin = 7,
+    Saturation3 = 8,
+    Saturation4 = 9,
+    Saturation5 = 10,
   }
   export enum CtlNum {
     Volume = 1,
     Type = 2,
     Power = 3,
     BitDepth = 4,
-    FreqHz = 5,
+    Freq = 5,
     Noise = 6,
   }
   interface DistortionControllerMidiMaps extends ControllerMidiMaps {
@@ -36,7 +40,7 @@ export namespace Distortion {
     type: ControllerMidiMap
     power: ControllerMidiMap
     bitDepth: ControllerMidiMap
-    freqHz: ControllerMidiMap
+    freq: ControllerMidiMap
     noise: ControllerMidiMap
   }
   interface DistortionOptionValues extends OptionValues {}
@@ -45,7 +49,7 @@ export namespace Distortion {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Distortion"
-    flags = 81
+    flags = 0x51
     readonly typeName = "Distortion"
     readonly controllerSetters = [
       (val: number) => {
@@ -61,7 +65,7 @@ export namespace Distortion {
         this.controllerValues.bitDepth = val
       },
       (val: number) => {
-        this.controllerValues.freqHz = val
+        this.controllerValues.freq = val
       },
       (val: number) => {
         this.controllerValues.noise = val
@@ -69,10 +73,10 @@ export namespace Distortion {
     ]
     readonly controllerValues: DistortionControllerValues = {
       volume: 128,
-      type: Type.Lim,
+      type: Type.Clipping,
       power: 0,
       bitDepth: 16,
-      freqHz: 44100,
+      freq: 44100,
       noise: 0,
     }
     readonly controllers: DistortionControllers = new DistortionControllers(
@@ -85,7 +89,7 @@ export namespace Distortion {
       type: new ControllerMidiMap(),
       power: new ControllerMidiMap(),
       bitDepth: new ControllerMidiMap(),
-      freqHz: new ControllerMidiMap(),
+      freq: new ControllerMidiMap(),
       noise: new ControllerMidiMap(),
     }
     readonly optionValues: DistortionOptionValues = {}
@@ -115,7 +119,7 @@ export namespace Distortion {
           cv.bitDepth = value
           break
         case 5:
-          cv.freqHz = value
+          cv.freq = value
           break
         case 6:
           cv.noise = value
@@ -128,7 +132,7 @@ export namespace Distortion {
       yield cv.type
       yield cv.power
       yield cv.bitDepth
-      yield cv.freqHz
+      yield cv.freq
       yield cv.noise
     }
     setMidiMaps(midiMaps: MidiMap[]) {
@@ -156,7 +160,7 @@ export namespace Distortion {
         messageParameter: 0,
         slope: 0,
       }
-      this.midiMaps.freqHz = midiMaps[4] || {
+      this.midiMaps.freq = midiMaps[4] || {
         channel: 0,
         messageType: 0,
         messageParameter: 0,
@@ -175,7 +179,7 @@ export namespace Distortion {
       a.push(this.midiMaps.type)
       a.push(this.midiMaps.power)
       a.push(this.midiMaps.bitDepth)
-      a.push(this.midiMaps.freqHz)
+      a.push(this.midiMaps.freq)
       a.push(this.midiMaps.noise)
       return a
     }

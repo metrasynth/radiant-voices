@@ -50,7 +50,7 @@ export namespace PitchShifter {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Pitch shifter"
-    flags = 81
+    flags = 0x51
     readonly typeName = "Pitch shifter"
     readonly controllerSetters = [
       (val: number) => {

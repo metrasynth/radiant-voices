@@ -36,7 +36,7 @@ export namespace Eq {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "EQ"
-    flags = 81
+    flags = 0x51
     readonly typeName = "EQ"
     readonly controllerSetters = [
       (val: number) => {

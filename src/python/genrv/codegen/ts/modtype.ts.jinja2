@@ -107,7 +107,7 @@ export namespace {{ modtype_name }} {
 
     export class Module extends ModuleBase implements ModuleType {
         name = {{ (modtype.type or modtype_name) | repr }}
-        flags = {{ (modtype.defaultFlags or 0) | repr }}
+        flags = {{ (modtype.defaultFlags or 0) | hex }}
         readonly typeName = {{ (modtype.type or modtype_name) | repr }}
         {% if modtype.options %}
             readonly optionsChnm = {{ modtype.options_chnm }}
@@ -234,10 +234,17 @@ export namespace {{ modtype_name }} {
                 const { optionValues: ov } = this
                 {% for opt in modtype.options %}{% for oname, ospec in opt.items() %}
                     bytes[{{ ospec.byte }}] |= (
-                        Number(
+                        {% if ospec.bool_value %}
                             {% if ospec.inverted %}!{% endif %}
                             ov.{{ oname | camelcase }}
-                        )
+                            ? {{ ospec.bool_value }}
+                            : 0
+                        {% else %}
+                            Number(
+                                {% if ospec.inverted %}!{% endif %}
+                                ov.{{ oname | camelcase }}
+                            )
+                        {% endif %}
                         & (2 ** {{ ospec.size }} - 1)
                     ) << {{ ospec.bit }}
                 {% endfor %}{% endfor %}
@@ -256,9 +263,14 @@ export namespace {{ modtype_name }} {
                     {% for opt in modtype.options %}{% for oname, ospec in opt.items() %}
                         this.optionValues.{{ oname | camelcase }} =
                             {% if ospec.inverted %}!{% endif %}
-                            {% if ospec.size == 1 %}Boolean({% endif %}
-                            chdt[{{ ospec.byte }}] >> {{ ospec.bit }} & (2 ** {{ ospec.size }} - 1)
-                            {% if ospec.size == 1 %}){% endif %}
+                            {% if ospec.bool_value %}
+                                (chdt[{{ ospec.byte }}] >> {{ ospec.bit }} & (2 ** {{ ospec.size }} - 1))
+                                === {{ ospec.bool_value }}
+                            {% else %}
+                                {% if ospec.size == 1 %}Boolean({% endif %}
+                                chdt[{{ ospec.byte }}] >> {{ ospec.bit }} & (2 ** {{ ospec.size }} - 1)
+                                {% if ospec.size == 1 %}){% endif %}
+                            {% endif %}
                     {% endfor %}{% endfor %}
                 }
             }

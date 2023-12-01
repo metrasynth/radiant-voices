@@ -10,10 +10,19 @@ import { Channels } from "./loopEnums"
 // @ts-ignore
 // noinspection ES6UnusedImports
 import { Mode } from "./loopEnums"
+// @ts-ignore
+// noinspection ES6UnusedImports
+import { LengthUnit } from "./loopEnums"
+// @ts-ignore
+// noinspection ES6UnusedImports
+import { OnNoteOn } from "./loopEnums"
 export interface LoopControllerValues extends ControllerValues {
   volume: number
-  delay: number
+  length: number
   channels: Channels
   repeats: number
   mode: Mode
+  lengthUnit: LengthUnit
+  maxBufferSize: number
+  onNoteOn: OnNoteOn
 }

@@ -64,14 +64,14 @@ export class FmBaseControllers implements Controllers {
     controllerValues.mFreqRatio = newValue
   }
   // noinspection JSUnusedGlobalSymbols
-  get mFeedback(): number {
-    return this.controllerValues.mFeedback
+  get mSelfModulation(): number {
+    return this.controllerValues.mSelfModulation
   }
   // noinspection JSUnusedGlobalSymbols
-  set mFeedback(newValue: number) {
+  set mSelfModulation(newValue: number) {
     const { controllerValues } = this
     newValue = Math.min(Math.max(newValue, 0), 256)
-    controllerValues.mFeedback = newValue
+    controllerValues.mSelfModulation = newValue
   }
   // noinspection JSUnusedGlobalSymbols
   get cAttack(): number {
@@ -164,14 +164,14 @@ export class FmBaseControllers implements Controllers {
     controllerValues.mScalingPerKey = newValue
   }
   // noinspection JSUnusedGlobalSymbols
-  get polyphonyCh(): number {
-    return this.controllerValues.polyphonyCh
+  get polyphony(): number {
+    return this.controllerValues.polyphony
   }
   // noinspection JSUnusedGlobalSymbols
-  set polyphonyCh(newValue: number) {
+  set polyphony(newValue: number) {
     const { controllerValues } = this
     newValue = Math.min(Math.max(newValue, 1), 16)
-    controllerValues.polyphonyCh = newValue
+    controllerValues.polyphony = newValue
   }
   // noinspection JSUnusedGlobalSymbols
   get mode(): Mode {

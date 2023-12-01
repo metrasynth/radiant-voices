@@ -22,7 +22,7 @@ import { LfoFreqUnit } from "./filterProEnums"
 export interface FilterProControllerValues extends ControllerValues {
   volume: number
   type: Type
-  freqHz: number
+  freq: number
   freqFinetune: number
   freqScale: number
   exponentialFreq: boolean

@@ -19,7 +19,7 @@ interface HandlerFunc {
 const handlers: Record<string, HandlerFunc> = {
   PEND: () => true,
   PFFF: (pattern, chunk) => {
-    ;(pattern as PatternClone).flags = (chunk as Uint32Chunk).value
+    ;(pattern as PatternClone).flagsPFFF = (chunk as Uint32Chunk).value
   },
   PPAR: (pattern, chunk) => {
     const { value: source } = chunk as Uint32Chunk

@@ -49,7 +49,7 @@ export class MetaModuleBaseControllers implements Controllers {
   // noinspection JSUnusedGlobalSymbols
   set bpm(newValue: number) {
     const { controllerValues } = this
-    newValue = Math.min(Math.max(newValue, 1), 800)
+    newValue = Math.min(Math.max(newValue, 1), 1000)
     controllerValues.bpm = newValue
   }
   // noinspection JSUnusedGlobalSymbols

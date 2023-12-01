@@ -23,19 +23,40 @@ export namespace Loop {
     Normal = 0,
     PingPong = 1,
   }
+  export enum LengthUnit {
+    // noinspection JSUnusedGlobalSymbols
+    LineDiv_128 = 0,
+    Line = 1,
+    LineDiv_2 = 2,
+    LineDiv_3 = 3,
+    Tick = 4,
+    Ms = 5,
+    Hz = 6,
+  }
+  export enum OnNoteOn {
+    // noinspection JSUnusedGlobalSymbols
+    Restart = 0,
+    RestartCurrentIteration = 1,
+  }
   export enum CtlNum {
     Volume = 1,
-    Delay = 2,
+    Length = 2,
     Channels = 3,
     Repeats = 4,
     Mode = 5,
+    LengthUnit = 6,
+    MaxBufferSize = 7,
+    OnNoteOn = 8,
   }
   interface LoopControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
-    delay: ControllerMidiMap
+    length: ControllerMidiMap
     channels: ControllerMidiMap
     repeats: ControllerMidiMap
     mode: ControllerMidiMap
+    lengthUnit: ControllerMidiMap
+    maxBufferSize: ControllerMidiMap
+    onNoteOn: ControllerMidiMap
   }
   interface LoopOptionValues extends OptionValues {}
   class LoopOptions implements Options {
@@ -43,14 +64,14 @@ export namespace Loop {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Loop"
-    flags = 1105
+    flags = 0x451
     readonly typeName = "Loop"
     readonly controllerSetters = [
       (val: number) => {
         this.controllerValues.volume = val
       },
       (val: number) => {
-        this.controllerValues.delay = val
+        this.controllerValues.length = val
       },
       (val: number) => {
         this.controllerValues.channels = val
@@ -61,13 +82,25 @@ export namespace Loop {
       (val: number) => {
         this.controllerValues.mode = val
       },
+      (val: number) => {
+        this.controllerValues.lengthUnit = val
+      },
+      (val: number) => {
+        this.controllerValues.maxBufferSize = val
+      },
+      (val: number) => {
+        this.controllerValues.onNoteOn = val
+      },
     ]
     readonly controllerValues: LoopControllerValues = {
       volume: 256,
-      delay: 256,
+      length: 256,
       channels: Channels.Stereo,
       repeats: 0,
       mode: Mode.Normal,
+      lengthUnit: LengthUnit.LineDiv_128,
+      maxBufferSize: 4,
+      onNoteOn: OnNoteOn.Restart,
     }
     readonly controllers: LoopControllers = new LoopControllers(
       this,
@@ -76,10 +109,13 @@ export namespace Loop {
     readonly c = this.controllers
     readonly midiMaps: LoopControllerMidiMaps = {
       volume: new ControllerMidiMap(),
-      delay: new ControllerMidiMap(),
+      length: new ControllerMidiMap(),
       channels: new ControllerMidiMap(),
       repeats: new ControllerMidiMap(),
       mode: new ControllerMidiMap(),
+      lengthUnit: new ControllerMidiMap(),
+      maxBufferSize: new ControllerMidiMap(),
+      onNoteOn: new ControllerMidiMap(),
     }
     readonly optionValues: LoopOptionValues = {}
     readonly options: LoopOptions = new LoopOptions(this.optionValues)
@@ -99,7 +135,7 @@ export namespace Loop {
           cv.volume = value
           break
         case 2:
-          cv.delay = value
+          cv.length = value
           break
         case 3:
           cv.channels = value
@@ -110,15 +146,27 @@ export namespace Loop {
         case 5:
           cv.mode = value
           break
+        case 6:
+          cv.lengthUnit = value
+          break
+        case 7:
+          cv.maxBufferSize = value
+          break
+        case 8:
+          cv.onNoteOn = value
+          break
       }
     }
     *rawControllerValues(): Generator<number> {
       const { controllerValues: cv } = this
       yield cv.volume
-      yield cv.delay
+      yield cv.length
       yield cv.channels
       yield cv.repeats
       yield cv.mode
+      yield cv.lengthUnit
+      yield cv.maxBufferSize
+      yield cv.onNoteOn
     }
     setMidiMaps(midiMaps: MidiMap[]) {
       this.midiMaps.volume = midiMaps[0] || {
@@ -127,7 +175,7 @@ export namespace Loop {
         messageParameter: 0,
         slope: 0,
       }
-      this.midiMaps.delay = midiMaps[1] || {
+      this.midiMaps.length = midiMaps[1] || {
         channel: 0,
         messageType: 0,
         messageParameter: 0,
@@ -151,14 +199,35 @@ export namespace Loop {
         messageParameter: 0,
         slope: 0,
       }
+      this.midiMaps.lengthUnit = midiMaps[5] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.maxBufferSize = midiMaps[6] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.onNoteOn = midiMaps[7] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []
       a.push(this.midiMaps.volume)
-      a.push(this.midiMaps.delay)
+      a.push(this.midiMaps.length)
       a.push(this.midiMaps.channels)
       a.push(this.midiMaps.repeats)
       a.push(this.midiMaps.mode)
+      a.push(this.midiMaps.lengthUnit)
+      a.push(this.midiMaps.maxBufferSize)
+      a.push(this.midiMaps.onNoteOn)
       return a
     }
   }

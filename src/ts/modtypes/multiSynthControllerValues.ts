@@ -7,6 +7,9 @@ import { ControllerValues } from "./moduleType"
 // @ts-ignore
 // noinspection ES6UnusedImports
 import { ActiveCurve } from "./multiSynthEnums"
+// @ts-ignore
+// noinspection ES6UnusedImports
+import { OutPortMode } from "./multiSynthEnums"
 export interface MultiSynthControllerValues extends ControllerValues {
   transpose: number
   randomPitch: number

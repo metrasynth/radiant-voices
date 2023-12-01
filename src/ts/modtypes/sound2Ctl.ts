@@ -25,7 +25,7 @@ export namespace Sound2Ctl {
     Hq = 1,
   }
   export enum CtlNum {
-    SampleRateHz = 1,
+    SampleRate = 1,
     Channels = 2,
     Absolute = 3,
     Gain = 4,
@@ -36,7 +36,7 @@ export namespace Sound2Ctl {
     OutController = 9,
   }
   interface Sound2CtlControllerMidiMaps extends ControllerMidiMaps {
-    sampleRateHz: ControllerMidiMap
+    sampleRate: ControllerMidiMap
     channels: ControllerMidiMap
     absolute: ControllerMidiMap
     gain: ControllerMidiMap
@@ -71,12 +71,12 @@ export namespace Sound2Ctl {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Sound2Ctl"
-    flags = 393297
+    flags = 0x60051
     readonly typeName = "Sound2Ctl"
     readonly optionsChnm = 0
     readonly controllerSetters = [
       (val: number) => {
-        this.controllerValues.sampleRateHz = val
+        this.controllerValues.sampleRate = val
       },
       (val: number) => {
         this.controllerValues.channels = val
@@ -104,7 +104,7 @@ export namespace Sound2Ctl {
       },
     ]
     readonly controllerValues: Sound2CtlControllerValues = {
-      sampleRateHz: 50,
+      sampleRate: 50,
       channels: Channels.Mono,
       absolute: true,
       gain: 256,
@@ -120,7 +120,7 @@ export namespace Sound2Ctl {
     )
     readonly c = this.controllers
     readonly midiMaps: Sound2CtlControllerMidiMaps = {
-      sampleRateHz: new ControllerMidiMap(),
+      sampleRate: new ControllerMidiMap(),
       channels: new ControllerMidiMap(),
       absolute: new ControllerMidiMap(),
       gain: new ControllerMidiMap(),
@@ -148,7 +148,7 @@ export namespace Sound2Ctl {
       const { controllerValues: cv } = this
       switch (ctlNum) {
         case 1:
-          cv.sampleRateHz = value
+          cv.sampleRate = value
           break
         case 2:
           cv.channels = value
@@ -178,7 +178,7 @@ export namespace Sound2Ctl {
     }
     *rawControllerValues(): Generator<number> {
       const { controllerValues: cv } = this
-      yield cv.sampleRateHz
+      yield cv.sampleRate
       yield cv.channels
       yield Number(cv.absolute)
       yield cv.gain
@@ -189,7 +189,7 @@ export namespace Sound2Ctl {
       yield cv.outController
     }
     setMidiMaps(midiMaps: MidiMap[]) {
-      this.midiMaps.sampleRateHz = midiMaps[0] || {
+      this.midiMaps.sampleRate = midiMaps[0] || {
         channel: 0,
         messageType: 0,
         messageParameter: 0,
@@ -246,7 +246,7 @@ export namespace Sound2Ctl {
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []
-      a.push(this.midiMaps.sampleRateHz)
+      a.push(this.midiMaps.sampleRate)
       a.push(this.midiMaps.channels)
       a.push(this.midiMaps.absolute)
       a.push(this.midiMaps.gain)

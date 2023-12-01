@@ -18,14 +18,14 @@ describe("Reading the compressor.sunsynth file", () => {
   })
   test("has correct properties, controllers, and options", () => {
     const mod = synth.module as m.Compressor.Module
-    expect(mod.flags).toEqual(8273)
+    expect(mod.flags).toEqual(0x02002051)
     expect(mod.name).toEqual("compy")
     const { c } = mod
     expect(c.volume).toEqual(442)
     expect(c.threshold).toEqual(465)
-    expect(c.slopePct).toEqual(61)
-    expect(c.attackMs).toEqual(62)
-    expect(c.releaseMs).toEqual(925)
+    expect(c.slope).toEqual(61)
+    expect(c.attack).toEqual(62)
+    expect(c.release).toEqual(925)
     expect(c.mode).toEqual(m.Compressor.Mode.Peak)
     expect(c.sidechainInput).toEqual(32)
   })

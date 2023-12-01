@@ -654,16 +654,16 @@ var SunVoxLib = (function () {
           !isDataURI(wasmBinaryFile) &&
           typeof fetch === "function"
         ) {
-          fetch(wasmBinaryFile, { credentials: "same-origin" }).then(function (
-            response
-          ) {
-            var result = WebAssembly.instantiateStreaming(response, info)
-            return result.then(receiveInstantiatedSource, function (reason) {
-              err("wasm streaming compile failed: " + reason)
-              err("falling back to ArrayBuffer instantiation")
-              instantiateArrayBuffer(receiveInstantiatedSource)
-            })
-          })
+          fetch(wasmBinaryFile, { credentials: "same-origin" }).then(
+            function (response) {
+              var result = WebAssembly.instantiateStreaming(response, info)
+              return result.then(receiveInstantiatedSource, function (reason) {
+                err("wasm streaming compile failed: " + reason)
+                err("falling back to ArrayBuffer instantiation")
+                instantiateArrayBuffer(receiveInstantiatedSource)
+              })
+            }
+          )
         } else {
           return instantiateArrayBuffer(receiveInstantiatedSource)
         }
@@ -791,7 +791,8 @@ var SunVoxLib = (function () {
     function ___lock() {}
     var PATH = {
       splitPath: function (filename) {
-        var splitPathRe = /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/
+        var splitPathRe =
+          /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/
         return splitPathRe.exec(filename).slice(1)
       },
       normalizeArray: function (parts, allowAboveRoot) {
@@ -3979,11 +3980,10 @@ var SunVoxLib = (function () {
     var _sv_get_current_line2 = (Module["_sv_get_current_line2"] = function () {
       return Module["asm"]["ea"].apply(null, arguments)
     })
-    var _sv_get_current_signal_level = (Module[
-      "_sv_get_current_signal_level"
-    ] = function () {
-      return Module["asm"]["fa"].apply(null, arguments)
-    })
+    var _sv_get_current_signal_level = (Module["_sv_get_current_signal_level"] =
+      function () {
+        return Module["asm"]["fa"].apply(null, arguments)
+      })
     var _sv_get_song_name = (Module["_sv_get_song_name"] = function () {
       return Module["asm"]["ga"].apply(null, arguments)
     })
@@ -3993,11 +3993,10 @@ var SunVoxLib = (function () {
     var _sv_get_song_tpl = (Module["_sv_get_song_tpl"] = function () {
       return Module["asm"]["ia"].apply(null, arguments)
     })
-    var _sv_get_song_length_frames = (Module[
-      "_sv_get_song_length_frames"
-    ] = function () {
-      return Module["asm"]["ja"].apply(null, arguments)
-    })
+    var _sv_get_song_length_frames = (Module["_sv_get_song_length_frames"] =
+      function () {
+        return Module["asm"]["ja"].apply(null, arguments)
+      })
     var _sv_get_song_length_lines = (Module["_sv_get_song_length_lines"] = function () {
       return Module["asm"]["ka"].apply(null, arguments)
     })
@@ -4013,16 +4012,14 @@ var SunVoxLib = (function () {
     var _sv_disconnect_module = (Module["_sv_disconnect_module"] = function () {
       return Module["asm"]["oa"].apply(null, arguments)
     })
-    var _sv_load_module_from_memory = (Module[
-      "_sv_load_module_from_memory"
-    ] = function () {
-      return Module["asm"]["pa"].apply(null, arguments)
-    })
-    var _sv_sampler_load_from_memory = (Module[
-      "_sv_sampler_load_from_memory"
-    ] = function () {
-      return Module["asm"]["qa"].apply(null, arguments)
-    })
+    var _sv_load_module_from_memory = (Module["_sv_load_module_from_memory"] =
+      function () {
+        return Module["asm"]["pa"].apply(null, arguments)
+      })
+    var _sv_sampler_load_from_memory = (Module["_sv_sampler_load_from_memory"] =
+      function () {
+        return Module["asm"]["qa"].apply(null, arguments)
+      })
     var _sv_get_number_of_modules = (Module["_sv_get_number_of_modules"] = function () {
       return Module["asm"]["ra"].apply(null, arguments)
     })
@@ -4056,22 +4053,20 @@ var SunVoxLib = (function () {
     var _sv_module_curve = (Module["_sv_module_curve"] = function () {
       return Module["asm"]["Ba"].apply(null, arguments)
     })
-    var _sv_get_number_of_module_ctls = (Module[
-      "_sv_get_number_of_module_ctls"
-    ] = function () {
-      return Module["asm"]["Ca"].apply(null, arguments)
-    })
+    var _sv_get_number_of_module_ctls = (Module["_sv_get_number_of_module_ctls"] =
+      function () {
+        return Module["asm"]["Ca"].apply(null, arguments)
+      })
     var _sv_get_module_ctl_name = (Module["_sv_get_module_ctl_name"] = function () {
       return Module["asm"]["Da"].apply(null, arguments)
     })
     var _sv_get_module_ctl_value = (Module["_sv_get_module_ctl_value"] = function () {
       return Module["asm"]["Ea"].apply(null, arguments)
     })
-    var _sv_get_number_of_patterns = (Module[
-      "_sv_get_number_of_patterns"
-    ] = function () {
-      return Module["asm"]["Fa"].apply(null, arguments)
-    })
+    var _sv_get_number_of_patterns = (Module["_sv_get_number_of_patterns"] =
+      function () {
+        return Module["asm"]["Fa"].apply(null, arguments)
+      })
     var _sv_find_pattern = (Module["_sv_find_pattern"] = function () {
       return Module["asm"]["Ga"].apply(null, arguments)
     })

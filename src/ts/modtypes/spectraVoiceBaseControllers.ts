@@ -57,14 +57,14 @@ export class SpectraVoiceBaseControllers implements Controllers {
     controllerValues.release = newValue
   }
   // noinspection JSUnusedGlobalSymbols
-  get polyphonyCh(): number {
-    return this.controllerValues.polyphonyCh
+  get polyphony(): number {
+    return this.controllerValues.polyphony
   }
   // noinspection JSUnusedGlobalSymbols
-  set polyphonyCh(newValue: number) {
+  set polyphony(newValue: number) {
     const { controllerValues } = this
     newValue = Math.min(Math.max(newValue, 1), 32)
-    controllerValues.polyphonyCh = newValue
+    controllerValues.polyphony = newValue
   }
   // noinspection JSUnusedGlobalSymbols
   get mode(): Mode {
@@ -105,14 +105,14 @@ export class SpectraVoiceBaseControllers implements Controllers {
     controllerValues.harmonic = newValue
   }
   // noinspection JSUnusedGlobalSymbols
-  get hFreqHz(): number {
-    return this.controllerValues.hFreqHz
+  get hFreq(): number {
+    return this.controllerValues.hFreq
   }
   // noinspection JSUnusedGlobalSymbols
-  set hFreqHz(newValue: number) {
+  set hFreq(newValue: number) {
     const { controllerValues } = this
     newValue = Math.min(Math.max(newValue, 0), 22050)
-    controllerValues.hFreqHz = newValue
+    controllerValues.hFreq = newValue
   }
   // noinspection JSUnusedGlobalSymbols
   get hVolume(): number {

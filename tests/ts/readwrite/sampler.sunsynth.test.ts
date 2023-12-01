@@ -24,7 +24,7 @@ describe("Reading the sampler.sunsynth file", () => {
   })
   test("has correct properties, controllers, and options", () => {
     const mod = synth.module as m.Sampler.Module
-    expect(mod.flags).toEqual(33881)
+    expect(mod.flags).toEqual(0x02008459)
     expect(mod.name).toEqual("Sampler")
 
     // Controllers
@@ -33,7 +33,7 @@ describe("Reading the sampler.sunsynth file", () => {
     expect(c.panning).toEqual(50)
     expect(c.sampleInterpolation).toEqual(SampleInterpolation.Linear)
     expect(c.envelopeInterpolation).toEqual(EnvelopeInterpolation.Off)
-    expect(c.polyphonyCh).toEqual(32)
+    expect(c.polyphony).toEqual(32)
     expect(c.recThreshold).toEqual(2448)
 
     const { behavior } = mod

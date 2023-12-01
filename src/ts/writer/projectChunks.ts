@@ -9,6 +9,9 @@ export function* projectChunks(project: Project): Generator<Chunk> {
   yield { name: "SVOX", type: "empty" }
   yield { name: "VERS", type: "version", value: project.sunVoxVersion }
   yield { name: "BVER", type: "version", value: project.basedOnVersion }
+  if (project.flags) {
+    yield { name: "FLGS", type: "uint32", value: project.flags }
+  }
   yield {
     name: "SFGS",
     type: "uint32",

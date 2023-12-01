@@ -14,4 +14,4 @@ def test_flanger(read_write_read_synth):
     assert mod.lfo_amp == 203
     assert mod.lfo_waveform == mod.LfoWaveform.hsin
     assert mod.set_lfo_phase == 37
-    assert mod.lfo_freq_unit == mod.LfoFreqUnit.hz_0_05
+    assert mod.lfo_freq_unit == mod.LfoFreqUnit.hz_mul_0_05

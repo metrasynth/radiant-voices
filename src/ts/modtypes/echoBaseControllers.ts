@@ -7,10 +7,10 @@ import { Controllers, ModuleType } from "./moduleType"
 import { EchoControllerValues } from "./echoControllerValues"
 // @ts-ignore
 // noinspection ES6UnusedImports
-import { Channels } from "./echoEnums"
+import { DelayUnit } from "./echoEnums"
 // @ts-ignore
 // noinspection ES6UnusedImports
-import { DelayUnit } from "./echoEnums"
+import { Filter } from "./echoEnums"
 export class EchoBaseControllers implements Controllers {
   constructor(
     readonly module: ModuleType,
@@ -54,7 +54,7 @@ export class EchoBaseControllers implements Controllers {
   set delay(newValue: number) {
     const { controllerValues } = this
     switch (this.controllerValues.delayUnit) {
-      case DelayUnit.Sec_256:
+      case DelayUnit.SecDiv_256:
         newValue = Math.min(Math.max(newValue, 0), 256)
         break
       case DelayUnit.Ms:
@@ -69,23 +69,23 @@ export class EchoBaseControllers implements Controllers {
       case DelayUnit.Line:
         newValue = Math.min(Math.max(newValue, 0), 256)
         break
-      case DelayUnit.Line_2:
+      case DelayUnit.LineDiv_2:
         newValue = Math.min(Math.max(newValue, 0), 256)
         break
-      case DelayUnit.Line_3:
+      case DelayUnit.LineDiv_3:
         newValue = Math.min(Math.max(newValue, 0), 256)
         break
     }
     controllerValues.delay = newValue
   }
   // noinspection JSUnusedGlobalSymbols
-  get channels(): Channels {
-    return this.controllerValues.channels
+  get rightChannelOffset(): boolean {
+    return this.controllerValues.rightChannelOffset
   }
   // noinspection JSUnusedGlobalSymbols
-  set channels(newValue: Channels) {
+  set rightChannelOffset(newValue: boolean) {
     const { controllerValues } = this
-    controllerValues.channels = newValue
+    controllerValues.rightChannelOffset = newValue
   }
   // noinspection JSUnusedGlobalSymbols
   get delayUnit(): DelayUnit {
@@ -96,5 +96,34 @@ export class EchoBaseControllers implements Controllers {
     const { controllerValues } = this
     controllerValues.delayUnit = newValue
     this.delay = this.delay
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get rightChannelOffsetLength(): number {
+    return this.controllerValues.rightChannelOffsetLength
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set rightChannelOffsetLength(newValue: number) {
+    const { controllerValues } = this
+    newValue = Math.min(Math.max(newValue, 0), 32768)
+    controllerValues.rightChannelOffsetLength = newValue
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get filter(): Filter {
+    return this.controllerValues.filter
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set filter(newValue: Filter) {
+    const { controllerValues } = this
+    controllerValues.filter = newValue
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get filterFreq(): number {
+    return this.controllerValues.filterFreq
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set filterFreq(newValue: number) {
+    const { controllerValues } = this
+    newValue = Math.min(Math.max(newValue, 0), 22000)
+    controllerValues.filterFreq = newValue
   }
 }

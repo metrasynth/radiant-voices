@@ -16,7 +16,7 @@ export interface GeneratorControllerValues extends ControllerValues {
   panning: number
   attack: number
   release: number
-  polyphonyCh: number
+  polyphony: number
   mode: Mode
   sustain: boolean
   freqModulationByInput: number

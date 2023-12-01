@@ -32,7 +32,7 @@ export namespace Feedback {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Feedback"
-    flags = 6291537
+    flags = 0x600051
     readonly typeName = "Feedback"
     readonly controllerSetters = [
       (val: number) => {

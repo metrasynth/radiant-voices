@@ -13,23 +13,34 @@ class BaseMetaModule:
     name = "MetaModule"
     mtype = "MetaModule"
     mgroup = "Misc"
-    flags = 32849
+    flags = 0x8051
 
     class PlayPatterns(IntEnum):
         off = 0
-        on = 1
+        on_repeat = 1
         on_no_repeat = 2
+        on_repeat_endless = 3
+        on_no_repeat_endless = 4
 
     volume = Controller((0, 1024), 256)
     input_module = Controller((1, 256), 1)
     play_patterns = Controller(PlayPatterns, PlayPatterns.off)
-    bpm = Controller((1, 800), 125)
+    bpm = Controller((1, 1000), 125)
     tpl = Controller((1, 31), 6)
     user_defined_controllers = Option(
-        name="user_defined_controllers", byte=0, bit=0, size=4, default=0
+        name="user_defined_controllers",
+        byte=0,
+        bit=0,
+        size=4,
+        default=0,
     )
     arpeggiator = Option(
-        name="arpeggiator", number=127, byte=1, bit=0, size=1, default=False
+        name="arpeggiator",
+        number=127,
+        byte=1,
+        bit=0,
+        size=1,
+        default=False,
     )
     apply_velocity_to_project = Option(
         name="apply_velocity_to_project",

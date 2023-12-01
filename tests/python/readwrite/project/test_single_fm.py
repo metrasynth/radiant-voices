@@ -34,7 +34,7 @@ def test_single_fm(read_write_read_project):
     assert fm.panning == 1
     assert fm.c_freq_ratio == 2
     assert fm.m_freq_ratio == 2
-    assert fm.m_feedback == 1
+    assert fm.m_self_modulation == 1
     assert fm.c_attack == 33
     assert fm.c_decay == 33
     assert fm.c_sustain == 129
@@ -44,7 +44,7 @@ def test_single_fm(read_write_read_project):
     assert fm.m_sustain == 129
     assert fm.m_release == 65
     assert fm.m_scaling_per_key == 1
-    assert fm.polyphony_ch == 5
+    assert fm.polyphony == 5
     assert fm.mode == fm.Mode.lq
 
 
@@ -112,7 +112,7 @@ def test_single_fm_writes_correct_chunks(read_write_read_project):
     expect_chunk(b"PYYY", b"\0\0\0\0")
     expect_chunk(b"PEND", b"")
     expect_chunk(b"PPAR", b"\0\0\0\0")
-    expect_chunk(b"PFFF", b"\3\0\0\0")
+    expect_chunk(b"PFFF", b"\1\0\0\0")
     expect_chunk(b"PXXX", b"\4\0\0\0")
     expect_chunk(b"PYYY", b"\0\0\0\0")
     expect_chunk(b"PEND", b"")

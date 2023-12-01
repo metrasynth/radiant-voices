@@ -35,10 +35,7 @@ class Controller:
         Controller._next_order += 1
 
     def __get__(self, instance, owner):
-        if instance is None:
-            return self
-        else:
-            return instance.controller_values[self.name]
+        return self if instance is None else instance.controller_values[self.name]
 
     def __set__(self, instance, value):
         if instance is not None:
@@ -59,16 +56,17 @@ class Controller:
     def pattern_value(self, instance, value):
         """Convert a controller value to a pattern value (0x0000-0x8000)"""
         t = self.instance_value_type(instance)
-        if isinstance(t, Range) and t.min == 0:
-            shifted = value - t.min
-            shifted_max = t.max - t.min
-            return int(shifted / (shifted_max / 32768))
-        else:
+        if not isinstance(t, Range):
             return value
+        shifted = value - t.min
+        shifted_max = t.max - t.min
+        if isinstance(t, CompactRange):
+            return shifted
+        return int(shifted / (shifted_max / 32768))
 
     def propagate(self, instance, value, down=False, up=False):
         self.set_initial(instance, value)
-        callback = getattr(instance, "on_{}_changed".format(self.name), None)
+        callback = getattr(instance, f"on_{self.name}_changed", None)
         if callable(callback):
             callback(value, down=down, up=up)
         callback = getattr(instance, "on_controller_changed", None)
@@ -120,7 +118,7 @@ class Range:
         )
 
     def __repr__(self):
-        return "<{} {}..{}>".format(self.__class__.__name__, self.min, self.max)
+        return f"<{self.__class__.__name__} {self.min}..{self.max}>"
 
     def from_raw_value(self, raw_value):
         return raw_value + self.min if self.min < 0 else raw_value
@@ -181,9 +179,5 @@ class DependentRange:
         loaded = instance.controllers_loaded
         if not loaded or self.ctl_name not in loaded:
             return self.default
-        else:
-            ctl_val = instance.controller_values.get(self.ctl_name, None)
-            if ctl_val is not None:
-                return self.range_map[ctl_val]
-            else:
-                return self.default
+        ctl_val = instance.controller_values.get(self.ctl_name, None)
+        return self.range_map[ctl_val] if ctl_val is not None else self.default

@@ -17,3 +17,11 @@ export enum Channels {
   Stereo = 0,
   Mono = 1,
 }
+export enum Vowel {
+  // noinspection JSUnusedGlobalSymbols
+  A = 0,
+  E = 1,
+  I = 2,
+  O = 3,
+  U = 4,
+}

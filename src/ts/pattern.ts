@@ -16,11 +16,12 @@ export type Line = Event[]
 
 export type PatternData = Line[]
 
-export enum PatternAppearanceFlags {
+export enum PatternFlagsPFLG {
   NoIcon = 1 << 0,
+  ContinueNotesAtEnd = 2 << 0,
 }
 
-export enum PatternFlags {
+export enum PatternFlagsPFFF {
   Clone = 1 << 0,
   Selected = 1 << 1,
   Mute = 1 << 3,
@@ -33,7 +34,7 @@ export class PatternBase {
   parent?: number
   x = 0
   y = 0
-  flags: PatternFlags = 0
+  flagsPFFF: PatternFlagsPFFF = 0
 
   get index(): number | undefined {
     if (this._index === undefined) {
@@ -61,7 +62,7 @@ export class Pattern extends PatternBase {
   tracks = 4
   lines = 32
   ySize = 32
-  appearance = 0
+  flagsPFLG: PatternFlagsPFLG = 0
   icon = new Uint8Array(32)
   fgColor: Color = [0, 0, 0]
   bgColor: Color = [255, 255, 255]
@@ -103,7 +104,7 @@ export class Pattern extends PatternBase {
 }
 
 export class PatternClone extends PatternBase {
-  flags = PatternFlags.Clone
+  flagsPFFF = PatternFlagsPFFF.Clone
   constructor(readonly parent: number) {
     super()
   }

@@ -16,6 +16,6 @@ def test_filter(read_write_read_synth):
     assert mod.lfo_amp == 250
     assert mod.set_lfo_phase == 32
     assert not mod.exponential_freq
-    assert mod.roll_off == mod.RollOff.db_36
+    assert mod.roll_off == mod.RollOff._36db
     assert mod.lfo_freq_unit == mod.LfoFreqUnit.hz
     assert mod.lfo_waveform == mod.LfoWaveform.saw

@@ -4,7 +4,6 @@ from rv.modules.base.sound2ctl import BaseSound2Ctl
 
 
 class Sound2Ctl(BaseSound2Ctl, Module):
-
     chnk = 1
     options_chnm = 0
 

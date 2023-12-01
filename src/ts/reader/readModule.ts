@@ -61,7 +61,7 @@ const handlers: Record<string, HandlerFunc> = {
   },
   CVAL: (module, chunk, chunks, ctx) => {
     const cval = (chunk as Int32Chunk).value
-    const controllerSetter = ((module as unknown) as ModuleType).controllerSetters[
+    const controllerSetter = (module as unknown as ModuleType).controllerSetters[
       ctx.ctlIndex
     ]
     if (controllerSetter instanceof Function) {

@@ -30,7 +30,7 @@ export namespace DcBlocker {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "DC Blocker"
-    flags = 81
+    flags = 0x51
     readonly typeName = "DC Blocker"
     readonly controllerSetters = [
       (val: number) => {

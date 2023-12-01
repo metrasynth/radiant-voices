@@ -11,6 +11,9 @@ import { VoiceType } from "./vocalFilterEnums"
 // @ts-ignore
 // noinspection ES6UnusedImports
 import { Channels } from "./vocalFilterEnums"
+// @ts-ignore
+// noinspection ES6UnusedImports
+import { Vowel } from "./vocalFilterEnums"
 export class VocalFilterBaseControllers implements Controllers {
   constructor(
     readonly module: ModuleType,
@@ -27,14 +30,14 @@ export class VocalFilterBaseControllers implements Controllers {
     controllerValues.volume = newValue
   }
   // noinspection JSUnusedGlobalSymbols
-  get formantWidthHz(): number {
-    return this.controllerValues.formantWidthHz
+  get formantWidth(): number {
+    return this.controllerValues.formantWidth
   }
   // noinspection JSUnusedGlobalSymbols
-  set formantWidthHz(newValue: number) {
+  set formantWidth(newValue: number) {
     const { controllerValues } = this
     newValue = Math.min(Math.max(newValue, 0), 256)
-    controllerValues.formantWidthHz = newValue
+    controllerValues.formantWidth = newValue
   }
   // noinspection JSUnusedGlobalSymbols
   get intensity(): number {
@@ -83,5 +86,70 @@ export class VocalFilterBaseControllers implements Controllers {
   set channels(newValue: Channels) {
     const { controllerValues } = this
     controllerValues.channels = newValue
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get randomFrequency(): number {
+    return this.controllerValues.randomFrequency
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set randomFrequency(newValue: number) {
+    const { controllerValues } = this
+    newValue = Math.min(Math.max(newValue, 0), 1024)
+    controllerValues.randomFrequency = newValue
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get randomSeed(): number {
+    return this.controllerValues.randomSeed
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set randomSeed(newValue: number) {
+    const { controllerValues } = this
+    newValue = Math.min(Math.max(newValue, 0), 32768)
+    controllerValues.randomSeed = newValue
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get vowel1(): Vowel {
+    return this.controllerValues.vowel1
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set vowel1(newValue: Vowel) {
+    const { controllerValues } = this
+    controllerValues.vowel1 = newValue
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get vowel2(): Vowel {
+    return this.controllerValues.vowel2
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set vowel2(newValue: Vowel) {
+    const { controllerValues } = this
+    controllerValues.vowel2 = newValue
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get vowel3(): Vowel {
+    return this.controllerValues.vowel3
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set vowel3(newValue: Vowel) {
+    const { controllerValues } = this
+    controllerValues.vowel3 = newValue
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get vowel4(): Vowel {
+    return this.controllerValues.vowel4
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set vowel4(newValue: Vowel) {
+    const { controllerValues } = this
+    controllerValues.vowel4 = newValue
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get vowel5(): Vowel {
+    return this.controllerValues.vowel5
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set vowel5(newValue: Vowel) {
+    const { controllerValues } = this
+    controllerValues.vowel5 = newValue
   }
 }

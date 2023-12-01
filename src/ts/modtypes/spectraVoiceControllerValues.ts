@@ -15,12 +15,12 @@ export interface SpectraVoiceControllerValues extends ControllerValues {
   panning: number
   attack: number
   release: number
-  polyphonyCh: number
+  polyphony: number
   mode: Mode
   sustain: boolean
   spectrumResolution: number
   harmonic: number
-  hFreqHz: number
+  hFreq: number
   hVolume: number
   hWidth: number
   hType: HarmonicType

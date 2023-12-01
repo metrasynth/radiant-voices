@@ -12,7 +12,7 @@ class BaseCompressor:
     name = "Compressor"
     mtype = "Compressor"
     mgroup = "Effect"
-    flags = 8273
+    flags = 0x2051
 
     class Mode(IntEnum):
         peak = 0
@@ -21,8 +21,8 @@ class BaseCompressor:
 
     volume = Controller((0, 512), 256)
     threshold = Controller((0, 512), 256)
-    slope_pct = Controller((0, 200), 100)
-    attack_ms = Controller((0, 500), 1)
-    release_ms = Controller((1, 1000), 300)
+    slope = Controller((0, 200), 100)
+    attack = Controller((0, 500), 1)
+    release = Controller((1, 1000), 300)
     mode = Controller(Mode, Mode.peak)
     sidechain_input = Controller((0, 32), 0)

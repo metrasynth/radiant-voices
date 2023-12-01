@@ -10,9 +10,9 @@ import { Mode } from "./compressorEnums"
 export interface CompressorControllerValues extends ControllerValues {
   volume: number
   threshold: number
-  slopePct: number
-  attackMs: number
-  releaseMs: number
+  slope: number
+  attack: number
+  release: number
   mode: Mode
   sidechainInput: number
 }

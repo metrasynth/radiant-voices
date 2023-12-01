@@ -10,10 +10,10 @@ class BaseDrumSynth:
     name = "DrumSynth"
     mtype = "DrumSynth"
     mgroup = "Synth"
-    flags = 73
+    flags = 0x49
     volume = Controller((0, 512), 256)
     panning = Controller((-128, 128), 0)
-    polyphony_ch = Controller((1, 8), 4)
+    polyphony = Controller((1, 8), 4)
     bass_volume = Controller((0, 512), 200)
     bass_power = Controller((0, 256), 256)
     bass_tone = Controller((0, 256), 64)

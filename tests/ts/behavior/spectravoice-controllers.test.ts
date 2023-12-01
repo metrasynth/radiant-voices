@@ -8,21 +8,21 @@ describe("SpectraVoice controllers", () => {
   })
   test("changing harmonic index controller changes harmonic value controllers", () => {
     expect(mod.c.harmonic).toEqual(0)
-    expect(mod.c.hFreqHz).toEqual(1098)
+    expect(mod.c.hFreq).toEqual(1098)
     expect(mod.c.hVolume).toEqual(255)
     expect(mod.c.hWidth).toEqual(3)
     expect(mod.c.hType).toEqual(HarmonicType.Hsin)
 
     mod.c.harmonic = 1
     expect(mod.c.harmonic).toEqual(1)
-    expect(mod.c.hFreqHz).toEqual(0)
+    expect(mod.c.hFreq).toEqual(0)
     expect(mod.c.hVolume).toEqual(0)
     expect(mod.c.hWidth).toEqual(0)
     expect(mod.c.hType).toEqual(HarmonicType.Hsin)
   })
   test("changing harmonic value controllers updates harmonic tables", () => {
     expect(mod.c.harmonic).toEqual(0)
-    expect(mod.c.hFreqHz).toEqual(1098)
+    expect(mod.c.hFreq).toEqual(1098)
     expect(mod.c.hVolume).toEqual(255)
     expect(mod.c.hWidth).toEqual(3)
     expect(mod.c.hType).toEqual(HarmonicType.Hsin)
@@ -30,7 +30,7 @@ describe("SpectraVoice controllers", () => {
     expect(mod.behavior?.harmonicVolumes[0]).toEqual(255)
     expect(mod.behavior?.harmonicWidths[0]).toEqual(3)
     expect(mod.behavior?.harmonicTypes[0]).toEqual(HarmonicType.Hsin)
-    mod.c.hFreqHz = 1099
+    mod.c.hFreq = 1099
     mod.c.hVolume = 254
     mod.c.hWidth = 4
     mod.c.hType = HarmonicType.Overtones1

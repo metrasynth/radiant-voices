@@ -18,14 +18,14 @@ describe("Reading the distortion.sunsynth file", () => {
   })
   test("has correct properties, controllers, and options", () => {
     const mod = synth.module as m.Distortion.Module
-    expect(mod.flags).toEqual(81)
+    expect(mod.flags).toEqual(0x02000051)
     expect(mod.name).toEqual("distortion")
     const { c } = mod
     expect(c.volume).toEqual(99)
     expect(c.type).toEqual(m.Distortion.Type.Foldback2)
     expect(c.power).toEqual(94)
     expect(c.bitDepth).toEqual(15)
-    expect(c.freqHz).toEqual(23609)
+    expect(c.freq).toEqual(23609)
     expect(c.noise).toEqual(196)
   })
 })

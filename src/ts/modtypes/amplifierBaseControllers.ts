@@ -88,4 +88,14 @@ export class AmplifierBaseControllers implements Controllers {
     newValue = Math.min(Math.max(newValue, 0), 5000)
     controllerValues.gain = newValue
   }
+  // noinspection JSUnusedGlobalSymbols
+  get bipolarDcOffset(): number {
+    return this.controllerValues.bipolarDcOffset + -16384
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set bipolarDcOffset(newValue: number) {
+    const { controllerValues } = this
+    newValue = Math.min(Math.max(newValue, -16384), 16384)
+    controllerValues.bipolarDcOffset = newValue - -16384
+  }
 }

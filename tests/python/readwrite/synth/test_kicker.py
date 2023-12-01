@@ -12,5 +12,5 @@ def test_kicker(read_write_read_synth):
     assert mod.release == 399
     assert mod.boost == 842
     assert mod.acceleration == 155
-    assert mod.polyphony_ch == 1
+    assert mod.polyphony == 1
     assert not mod.no_click

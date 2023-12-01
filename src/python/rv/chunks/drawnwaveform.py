@@ -2,7 +2,6 @@ from .waveform import WaveformChunk
 
 
 class DrawnWaveformChunk(WaveformChunk):
-
     fixed_length = 32
     fixed_format = WaveformChunk.Format.mono_8bit
     fixed_freq = 44100

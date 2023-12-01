@@ -44,12 +44,19 @@ def generate(env, generator, **options):
 
 
 def enumname(ekey: str) -> str:
-    ekey = str(ekey).replace("/", "_")
-    ekey = ekey.replace("*", "_")
+    ekey = ekey.replace("/", "_div_")
+    ekey = ekey.replace("*", "_mul_")
     ekey = ekey.replace(".", "_")
-    ekey = ekey.replace("+", "_plus")
+    ekey = ekey.replace("+", "_plus_")
+    ekey = ekey.replace("-", "_neg_")
+    ekey = ekey.replace("^", "_pow_")
     if ekey[0].isdigit():
-        ekey = f"{ekey[-2:].lower()}_{ekey[:2]}"
+        ekey = f"_{ekey}"
+    elif ekey[0] == "_":
+        ekey = ekey[1:]
+    while "__" in ekey:
+        ekey = ekey.replace("__", "_")
+    ekey = ekey.lower()
     return ekey
 
 
@@ -62,10 +69,13 @@ def main():
         for gen_name in {"python", "ts"}
     }
     env = Environment(loader=PrefixLoader(loader_map))
-    env.filters["camelcase"] = camelcase
-    env.filters["enumname"] = enumname
-    env.filters["pascalcase"] = pascalcase
-    env.filters["repr"] = repr
+    env.filters.update(
+        camelcase=camelcase,
+        enumname=enumname,
+        hex=hex,
+        pascalcase=pascalcase,
+        repr=repr,
+    )
     parser = arg_parser()
     options = parser.parse_args()
     config_path = Path(options.config)

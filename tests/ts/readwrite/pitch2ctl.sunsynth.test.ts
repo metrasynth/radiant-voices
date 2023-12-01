@@ -24,7 +24,7 @@ describe("Reading the pitch2ctl.sunsynth file", () => {
     expect(c.mode).toEqual(m.Pitch2Ctl.Mode.Pitch)
     expect(c.noteOffAction).toEqual(m.Pitch2Ctl.NoteOffAction.PitchDown)
     expect(c.firstNote).toEqual(19)
-    expect(c.numberOfSemitones).toEqual(217)
+    expect(c.range).toEqual(217)
     expect(c.outMin).toEqual(27327)
     expect(c.outMax).toEqual(7746)
     expect(c.outController).toEqual(239) // [TODO] out of range

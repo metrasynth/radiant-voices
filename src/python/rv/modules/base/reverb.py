@@ -12,7 +12,7 @@ class BaseReverb:
     name = "Reverb"
     mtype = "Reverb"
     mgroup = "Effect"
-    flags = 81
+    flags = 0x51
 
     class Mode(IntEnum):
         hq = 0
@@ -21,7 +21,7 @@ class BaseReverb:
         lq_mono = 3
 
     dry = Controller((0, 256), 256)
-    wet = Controller((0, 256), 64)
+    wet = Controller((0, 256), 40)
     feedback = Controller((0, 256), 256)
     damp = Controller((0, 256), 128)
     stereo_width = Controller((0, 256), 256)

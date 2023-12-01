@@ -59,7 +59,7 @@ export namespace Sampler {
     Panning = 2,
     SampleInterpolation = 3,
     EnvelopeInterpolation = 4,
-    PolyphonyCh = 5,
+    Polyphony = 5,
     RecThreshold = 6,
   }
   interface SamplerControllerMidiMaps extends ControllerMidiMaps {
@@ -67,7 +67,7 @@ export namespace Sampler {
     panning: ControllerMidiMap
     sampleInterpolation: ControllerMidiMap
     envelopeInterpolation: ControllerMidiMap
-    polyphonyCh: ControllerMidiMap
+    polyphony: ControllerMidiMap
     recThreshold: ControllerMidiMap
   }
   interface SamplerOptionValues extends OptionValues {
@@ -77,6 +77,7 @@ export namespace Sampler {
     recordWithReducedSampleRate: boolean
     recordIn_16Bit: boolean
     ignoreVelocityForVolume: boolean
+    increasedFreqComputationAccuracy: boolean
   }
   class SamplerOptions implements Options {
     constructor(readonly optionValues: SamplerOptionValues) {}
@@ -128,10 +129,18 @@ export namespace Sampler {
     set ignoreVelocityForVolume(newValue: boolean) {
       this.optionValues.ignoreVelocityForVolume = newValue
     }
+    // noinspection JSUnusedGlobalSymbols
+    get increasedFreqComputationAccuracy(): boolean {
+      return this.optionValues.increasedFreqComputationAccuracy
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set increasedFreqComputationAccuracy(newValue: boolean) {
+      this.optionValues.increasedFreqComputationAccuracy = newValue
+    }
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Sampler"
-    flags = 33881
+    flags = 0x8459
     readonly typeName = "Sampler"
     readonly optionsChnm = 257
     readonly controllerSetters = [
@@ -148,7 +157,7 @@ export namespace Sampler {
         this.controllerValues.envelopeInterpolation = val
       },
       (val: number) => {
-        this.controllerValues.polyphonyCh = val
+        this.controllerValues.polyphony = val
       },
       (val: number) => {
         this.controllerValues.recThreshold = val
@@ -159,7 +168,7 @@ export namespace Sampler {
       panning: 0,
       sampleInterpolation: SampleInterpolation.Spline,
       envelopeInterpolation: EnvelopeInterpolation.Linear,
-      polyphonyCh: 8,
+      polyphony: 8,
       recThreshold: 4,
     }
     readonly controllers: SamplerControllers = new SamplerControllers(
@@ -172,7 +181,7 @@ export namespace Sampler {
       panning: new ControllerMidiMap(),
       sampleInterpolation: new ControllerMidiMap(),
       envelopeInterpolation: new ControllerMidiMap(),
-      polyphonyCh: new ControllerMidiMap(),
+      polyphony: new ControllerMidiMap(),
       recThreshold: new ControllerMidiMap(),
     }
     readonly optionValues: SamplerOptionValues = {
@@ -182,6 +191,7 @@ export namespace Sampler {
       recordWithReducedSampleRate: false,
       recordIn_16Bit: false,
       ignoreVelocityForVolume: false,
+      increasedFreqComputationAccuracy: false,
     }
     readonly options: SamplerOptions = new SamplerOptions(this.optionValues)
     readonly o = this.options
@@ -209,7 +219,7 @@ export namespace Sampler {
           cv.envelopeInterpolation = value
           break
         case 5:
-          cv.polyphonyCh = value
+          cv.polyphony = value
           break
         case 6:
           cv.recThreshold = value
@@ -222,7 +232,7 @@ export namespace Sampler {
       yield cv.panning
       yield cv.sampleInterpolation
       yield cv.envelopeInterpolation
-      yield cv.polyphonyCh
+      yield cv.polyphony
       yield cv.recThreshold
     }
     setMidiMaps(midiMaps: MidiMap[]) {
@@ -250,7 +260,7 @@ export namespace Sampler {
         messageParameter: 0,
         slope: 0,
       }
-      this.midiMaps.polyphonyCh = midiMaps[4] || {
+      this.midiMaps.polyphony = midiMaps[4] || {
         channel: 0,
         messageType: 0,
         messageParameter: 0,
@@ -269,12 +279,12 @@ export namespace Sampler {
       a.push(this.midiMaps.panning)
       a.push(this.midiMaps.sampleInterpolation)
       a.push(this.midiMaps.envelopeInterpolation)
-      a.push(this.midiMaps.polyphonyCh)
+      a.push(this.midiMaps.polyphony)
       a.push(this.midiMaps.recThreshold)
       return a
     }
     rawOptionBytes(): Uint8Array {
-      const bytes = new Uint8Array(6)
+      const bytes = new Uint8Array(7)
       const { optionValues: ov } = this
       bytes[0] |= (Number(ov.startRecordingOnProjectPlay) & (2 ** 1 - 1)) << 0
       bytes[4] |= (Number(ov.stopRecordingOnProjectStop) & (2 ** 1 - 1)) << 0
@@ -282,6 +292,7 @@ export namespace Sampler {
       bytes[2] |= (Number(ov.recordWithReducedSampleRate) & (2 ** 1 - 1)) << 0
       bytes[3] |= (Number(ov.recordIn_16Bit) & (2 ** 1 - 1)) << 0
       bytes[5] |= (Number(ov.ignoreVelocityForVolume) & (2 ** 1 - 1)) << 0
+      bytes[6] |= (Number(ov.increasedFreqComputationAccuracy) & (2 ** 1 - 1)) << 0
       return bytes
     }
     setOptions(dataChunks: ModuleDataChunks) {
@@ -306,6 +317,9 @@ export namespace Sampler {
         this.optionValues.recordIn_16Bit = Boolean((chdt[3] >> 0) & (2 ** 1 - 1))
         this.optionValues.ignoreVelocityForVolume = Boolean(
           (chdt[5] >> 0) & (2 ** 1 - 1)
+        )
+        this.optionValues.increasedFreqComputationAccuracy = Boolean(
+          (chdt[6] >> 0) & (2 ** 1 - 1)
         )
       }
     }

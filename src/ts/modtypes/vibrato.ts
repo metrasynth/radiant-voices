@@ -20,13 +20,13 @@ export namespace Vibrato {
   }
   export enum FrequencyUnit {
     // noinspection JSUnusedGlobalSymbols
-    Hz_64 = 0,
+    HzDiv_64 = 0,
     Ms = 1,
     Hz = 2,
     Tick = 3,
     Line = 4,
-    Line_2 = 5,
-    Line_3 = 6,
+    LineDiv_2 = 5,
+    LineDiv_3 = 6,
   }
   export enum CtlNum {
     Volume = 1,
@@ -52,7 +52,7 @@ export namespace Vibrato {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Vibrato"
-    flags = 1105
+    flags = 0x451
     readonly typeName = "Vibrato"
     readonly controllerSetters = [
       (val: number) => {
@@ -83,7 +83,7 @@ export namespace Vibrato {
       freq: 256,
       channels: Channels.Stereo,
       setPhase: 0,
-      frequencyUnit: FrequencyUnit.Hz_64,
+      frequencyUnit: FrequencyUnit.HzDiv_64,
       exponentialAmplitude: false,
     }
     readonly controllers: VibratoControllers = new VibratoControllers(

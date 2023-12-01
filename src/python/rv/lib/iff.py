@@ -1,5 +1,6 @@
 import struct
-from chunk import Chunk
+
+from rv._vendor.chunk import Chunk
 
 
 def write_chunk(f, name, data):
@@ -34,7 +35,7 @@ def dump_file(f):
         i = None
         for i, line in enumerate(hexdump(data, "generator")):
             if i > 0:
-                print("      " + line)
+                print(f"      {line}")
             else:
                 print(line)
         if i is None:

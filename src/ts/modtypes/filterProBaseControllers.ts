@@ -45,14 +45,14 @@ export class FilterProBaseControllers implements Controllers {
     controllerValues.type = newValue
   }
   // noinspection JSUnusedGlobalSymbols
-  get freqHz(): number {
-    return this.controllerValues.freqHz
+  get freq(): number {
+    return this.controllerValues.freq
   }
   // noinspection JSUnusedGlobalSymbols
-  set freqHz(newValue: number) {
+  set freq(newValue: number) {
     const { controllerValues } = this
     newValue = Math.min(Math.max(newValue, 0), 22000)
-    controllerValues.freqHz = newValue
+    controllerValues.freq = newValue
   }
   // noinspection JSUnusedGlobalSymbols
   get freqFinetune(): number {

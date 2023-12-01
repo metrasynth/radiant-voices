@@ -25,6 +25,9 @@ class SunVoxReader(Reader):
     def process_BVER(self, data):
         self.object.based_on_version = tuple(reversed(unpack("BBBB", data)))
 
+    def process_FLGS(self, data):
+        (self.object.flags,) = unpack("<I", data)
+
     def process_SFGS(self, data):
         (val,) = unpack("<I", data)
         self.object.receive_sync_midi = val & 0b111

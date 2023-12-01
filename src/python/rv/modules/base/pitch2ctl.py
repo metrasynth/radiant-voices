@@ -12,7 +12,7 @@ class BasePitch2Ctl:
     name = "Pitch2Ctl"
     mtype = "Pitch2Ctl"
     mgroup = "Misc"
-    flags = 131145
+    flags = 0x20049
 
     class Mode(IntEnum):
         frequency_hz = 0
@@ -26,7 +26,7 @@ class BasePitch2Ctl:
     mode = Controller(Mode, Mode.frequency_hz)
     note_off_action = Controller(NoteOffAction, NoteOffAction.do_nothing)
     first_note = Controller((0, 256), 0)
-    number_of_semitones = Controller((0, 256), 120)
+    range = Controller((0, 256), 120)
     out_min = Controller((0, 32768), 0)
     out_max = Controller((0, 32768), 32768)
     out_controller = Controller((0, 255), 0)

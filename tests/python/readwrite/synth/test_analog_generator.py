@@ -3,46 +3,11 @@ from struct import pack
 from pytest import raises
 from rv.api import m
 
-EXPECTED_DRAWN_WAVEFORM = [
-    0,
-    -100,
-    -90,
-    0,
-    -35,
-    -35,
-    -35,
-    -35,
-    -35,
-    -35,
-    -35,
-    -32,
-    -24,
-    -17,
-    -4,
-    12,
-    36,
-    94,
-    77,
-    50,
-    33,
-    27,
-    50,
-    32,
-    -90,
-    -120,
-    100,
-    90,
-    59,
-    21,
-    0,
-    54,
-]
-
 
 def test_analog_generator(read_write_read_synth):
     mod: m.AnalogGenerator = read_write_read_synth("analog-generator").module
 
-    assert mod.flags == 0x49
+    assert mod.flags == 0x02000049
     assert mod.name == "analog-generator"
 
     assert mod.drawn_waveform.samples == EXPECTED_DRAWN_WAVEFORM
@@ -55,17 +20,21 @@ def test_analog_generator(read_write_read_synth):
     assert mod.sustain
     assert mod.exponential_envelope
     assert mod.duty_cycle == 534
-    assert mod.freq2 == 1393
+    assert mod.osc2 == 393
     assert mod.filter == mod.Filter.bp_12db
-    assert mod.f_freq_hz == 5611
+    assert mod.f_freq == 5611
     assert mod.f_resonance == 1183
     assert not mod.f_exponential_freq
     assert mod.f_attack == 87
     assert mod.f_release == 58
     assert mod.f_envelope == mod.FilterEnvelope.off
-    assert mod.polyphony_ch == 32
+    assert mod.polyphony == 32
     assert mod.mode == mod.Mode.lq
     assert mod.noise == 9
+    assert mod.osc2_volume == 20640
+    assert mod.osc2_mode == mod.Osc2Mode.mul
+    assert mod.osc2_phase == 0
+
     assert mod.volume_envelope_scaling_per_key
     assert not mod.filter_envelope_scaling_per_key
     assert mod.volume_scaling_per_key
@@ -95,8 +64,8 @@ def test_analog_generator_writes_correct_chunks(read_write_read_synth):
         expect_chunk(b"CVAL", pack("<i", value))
 
     expect_chunk(b"SSYN", b"")
-    expect_chunk(b"VERS", b"\x02\x05\x09\x01")
-    expect_chunk(b"SFFF", b"\x49\0\0\0")
+    expect_chunk(b"VERS", b"\x00\x00\x00\x02")
+    expect_chunk(b"SFFF", b"\x49\0\0\x02")
     expect_chunk(b"SNAM", b"analog-generator\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0")
     expect_chunk(b"STYP", b"Analog generator\0")
     expect_chunk(b"SFIN", b"\x01\0\0\0")
@@ -127,10 +96,16 @@ def test_analog_generator_writes_correct_chunks(read_write_read_synth):
     expect_cval(32)
     expect_cval(2)
     expect_cval(9)
+    expect_cval(20640)
+    expect_cval(2)
+    expect_cval(0)
 
     expect_chunk(
         b"CMID",
         b"\x03\x01\x01\x00\x02\x00\x00\xc8"
+        b"\x00\x00\x00\x00\x00\x00\x00\xff"
+        b"\x00\x00\x00\x00\x00\x00\x00\xff"
+        b"\x00\x00\x00\x00\x00\x00\x00\xff"
         b"\x00\x00\x00\x00\x00\x00\x00\xff"
         b"\x00\x00\x00\x00\x00\x00\x00\xff"
         b"\x00\x00\x00\x00\x00\x00\x00\xff"
@@ -168,3 +143,39 @@ def test_analog_generator_writes_correct_chunks(read_write_read_synth):
     expect_chunk(b"SEND", b"")
     with raises(StopIteration):
         expect_chunk(b"", b"")
+
+
+EXPECTED_DRAWN_WAVEFORM = [
+    0,
+    -100,
+    -90,
+    0,
+    -35,
+    -35,
+    -35,
+    -35,
+    -35,
+    -35,
+    -35,
+    -32,
+    -24,
+    -17,
+    -4,
+    12,
+    36,
+    94,
+    77,
+    50,
+    33,
+    27,
+    50,
+    32,
+    -90,
+    -120,
+    100,
+    90,
+    59,
+    21,
+    0,
+    54,
+]

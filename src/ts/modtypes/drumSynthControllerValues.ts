@@ -7,7 +7,7 @@ import { ControllerValues } from "./moduleType"
 export interface DrumSynthControllerValues extends ControllerValues {
   volume: number
   panning: number
-  polyphonyCh: number
+  polyphony: number
   bassVolume: number
   bassPower: number
   bassTone: number

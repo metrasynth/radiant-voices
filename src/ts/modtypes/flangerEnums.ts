@@ -12,11 +12,11 @@ export enum LfoWaveform {
 }
 export enum LfoFreqUnit {
   // noinspection JSUnusedGlobalSymbols
-  Hz_0_05 = 0,
+  HzMul_0_05 = 0,
   Ms = 1,
   Hz = 2,
   Tick = 3,
   Line = 4,
-  Line_2 = 5,
-  Line_3 = 6,
+  LineDiv_2 = 5,
+  LineDiv_3 = 6,
 }

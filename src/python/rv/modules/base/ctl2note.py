@@ -12,7 +12,7 @@ class BaseCtl2Note:
     name = "Ctl2Note"
     mtype = "Ctl2Note"
     mgroup = "Misc"
-    flags = 25301057
+    flags = 0x1821041
 
     class NoteOn(IntEnum):
         no_trigger = 0

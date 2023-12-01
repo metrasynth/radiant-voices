@@ -6,7 +6,7 @@ def test_glide(read_write_read_synth):
     assert mod.flags == 135241
     assert mod.name == "Glide"
     assert mod.response == 220
-    assert mod.sample_rate_hz == 8676
+    assert mod.sample_rate == 8676
     assert not mod.reset_on_first_note
     assert mod.polyphony
     assert mod.pitch == -537

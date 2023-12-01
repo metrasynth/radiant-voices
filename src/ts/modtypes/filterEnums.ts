@@ -21,20 +21,20 @@ export enum Mode {
 }
 export enum RollOff {
   // noinspection JSUnusedGlobalSymbols
-  Db_12 = 0,
-  Db_24 = 1,
-  Db_36 = 2,
-  Db_48 = 3,
+  _12db = 0,
+  _24db = 1,
+  _36db = 2,
+  _48db = 3,
 }
 export enum LfoFreqUnit {
   // noinspection JSUnusedGlobalSymbols
-  Hz_0_02 = 0,
+  HzMul_0_02 = 0,
   Ms = 1,
   Hz = 2,
   Tick = 3,
   Line = 4,
-  Line_2 = 5,
-  Line_3 = 6,
+  LineDiv_2 = 5,
+  LineDiv_3 = 6,
 }
 export enum LfoWaveform {
   // noinspection JSUnusedGlobalSymbols

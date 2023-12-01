@@ -53,7 +53,7 @@ export class FlangerBaseControllers implements Controllers {
   // noinspection JSUnusedGlobalSymbols
   set delay(newValue: number) {
     const { controllerValues } = this
-    newValue = Math.min(Math.max(newValue, 0), 1000)
+    newValue = Math.min(Math.max(newValue, 8), 1000)
     controllerValues.delay = newValue
   }
   // noinspection JSUnusedGlobalSymbols

@@ -9,6 +9,9 @@ import { ControllerValues } from "./moduleType"
 import { Curve } from "./adsrEnums"
 // @ts-ignore
 // noinspection ES6UnusedImports
+import { Sustain } from "./adsrEnums"
+// @ts-ignore
+// noinspection ES6UnusedImports
 import { State } from "./adsrEnums"
 // @ts-ignore
 // noinspection ES6UnusedImports
@@ -24,14 +27,14 @@ import { Mode } from "./adsrEnums"
 import { SmoothTransitions } from "./adsrEnums"
 export interface AdsrControllerValues extends ControllerValues {
   volume: number
-  attackMs: number
-  decayMs: number
+  attack: number
+  decay: number
   sustainLevel: number
-  releaseMs: number
+  release: number
   attackCurve: Curve
   decayCurve: Curve
   releaseCurve: Curve
-  sustain: boolean
+  sustain: Sustain
   sustainPedal: boolean
   state: State
   onNoteOn: OnNoteOn

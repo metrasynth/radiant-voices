@@ -18,7 +18,7 @@ describe("Reading the dc-blocker.sunsynth file", () => {
   })
   test("has correct properties, controllers, and options", () => {
     const mod = synth.module as m.DcBlocker.Module
-    expect(mod.flags).toEqual(81)
+    expect(mod.flags).toEqual(0x02000051)
     expect(mod.name).toEqual("dcb")
     const { c } = mod
     expect(c.channels).toEqual(m.DcBlocker.Channels.Mono)

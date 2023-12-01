@@ -12,22 +12,22 @@ export class SpectraVoiceControllers extends SpectraVoiceBaseControllers {
     super.harmonic = newValue
     const index = this.harmonic
     if (behavior) {
-      super.hFreqHz = behavior.harmonicFrequencies[index]
+      super.hFreq = behavior.harmonicFrequencies[index]
       super.hVolume = behavior.harmonicVolumes[index]
       super.hWidth = behavior.harmonicWidths[index]
       super.hType = behavior.harmonicTypes[index]
     }
   }
 
-  get hFreqHz(): number {
-    return super.hFreqHz
+  get hFreq(): number {
+    return super.hFreq
   }
 
-  set hFreqHz(newValue: number) {
+  set hFreq(newValue: number) {
     const { behavior } = this.module as SpectraVoice.Module
-    super.hFreqHz = newValue
+    super.hFreq = newValue
     if (behavior) {
-      behavior.harmonicFrequencies[this.harmonic] = this.hFreqHz
+      behavior.harmonicFrequencies[this.harmonic] = this.hFreq
     }
   }
 

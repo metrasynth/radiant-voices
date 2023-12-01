@@ -14,7 +14,7 @@ export namespace DrumSynth {
   export enum CtlNum {
     Volume = 1,
     Panning = 2,
-    PolyphonyCh = 3,
+    Polyphony = 3,
     BassVolume = 4,
     BassPower = 5,
     BassTone = 6,
@@ -31,7 +31,7 @@ export namespace DrumSynth {
   interface DrumSynthControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     panning: ControllerMidiMap
-    polyphonyCh: ControllerMidiMap
+    polyphony: ControllerMidiMap
     bassVolume: ControllerMidiMap
     bassPower: ControllerMidiMap
     bassTone: ControllerMidiMap
@@ -51,7 +51,7 @@ export namespace DrumSynth {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "DrumSynth"
-    flags = 73
+    flags = 0x49
     readonly typeName = "DrumSynth"
     readonly controllerSetters = [
       (val: number) => {
@@ -61,7 +61,7 @@ export namespace DrumSynth {
         this.controllerValues.panning = val
       },
       (val: number) => {
-        this.controllerValues.polyphonyCh = val
+        this.controllerValues.polyphony = val
       },
       (val: number) => {
         this.controllerValues.bassVolume = val
@@ -103,7 +103,7 @@ export namespace DrumSynth {
     readonly controllerValues: DrumSynthControllerValues = {
       volume: 256,
       panning: 0,
-      polyphonyCh: 4,
+      polyphony: 4,
       bassVolume: 200,
       bassPower: 256,
       bassTone: 64,
@@ -125,7 +125,7 @@ export namespace DrumSynth {
     readonly midiMaps: DrumSynthControllerMidiMaps = {
       volume: new ControllerMidiMap(),
       panning: new ControllerMidiMap(),
-      polyphonyCh: new ControllerMidiMap(),
+      polyphony: new ControllerMidiMap(),
       bassVolume: new ControllerMidiMap(),
       bassPower: new ControllerMidiMap(),
       bassTone: new ControllerMidiMap(),
@@ -160,7 +160,7 @@ export namespace DrumSynth {
           cv.panning = value
           break
         case 3:
-          cv.polyphonyCh = value
+          cv.polyphony = value
           break
         case 4:
           cv.bassVolume = value
@@ -204,7 +204,7 @@ export namespace DrumSynth {
       const { controllerValues: cv } = this
       yield cv.volume
       yield cv.panning
-      yield cv.polyphonyCh
+      yield cv.polyphony
       yield cv.bassVolume
       yield cv.bassPower
       yield cv.bassTone
@@ -231,7 +231,7 @@ export namespace DrumSynth {
         messageParameter: 0,
         slope: 0,
       }
-      this.midiMaps.polyphonyCh = midiMaps[2] || {
+      this.midiMaps.polyphony = midiMaps[2] || {
         channel: 0,
         messageType: 0,
         messageParameter: 0,
@@ -314,7 +314,7 @@ export namespace DrumSynth {
       const a: MidiMap[] = []
       a.push(this.midiMaps.volume)
       a.push(this.midiMaps.panning)
-      a.push(this.midiMaps.polyphonyCh)
+      a.push(this.midiMaps.polyphony)
       a.push(this.midiMaps.bassVolume)
       a.push(this.midiMaps.bassPower)
       a.push(this.midiMaps.bassTone)
