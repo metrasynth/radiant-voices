@@ -654,16 +654,16 @@ var SunVoxLib = (function () {
           !isDataURI(wasmBinaryFile) &&
           typeof fetch === "function"
         ) {
-          fetch(wasmBinaryFile, { credentials: "same-origin" }).then(function (
-            response
-          ) {
-            var result = WebAssembly.instantiateStreaming(response, info)
-            return result.then(receiveInstantiatedSource, function (reason) {
-              err("wasm streaming compile failed: " + reason)
-              err("falling back to ArrayBuffer instantiation")
-              instantiateArrayBuffer(receiveInstantiatedSource)
-            })
-          })
+          fetch(wasmBinaryFile, { credentials: "same-origin" }).then(
+            function (response) {
+              var result = WebAssembly.instantiateStreaming(response, info)
+              return result.then(receiveInstantiatedSource, function (reason) {
+                err("wasm streaming compile failed: " + reason)
+                err("falling back to ArrayBuffer instantiation")
+                instantiateArrayBuffer(receiveInstantiatedSource)
+              })
+            }
+          )
         } else {
           return instantiateArrayBuffer(receiveInstantiatedSource)
         }
