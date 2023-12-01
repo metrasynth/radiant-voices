@@ -57,16 +57,13 @@ class Chunk:
 
         self.closed = False
         self.align = align  # whether to align to word (2-byte) boundaries
-        if bigendian:
-            strflag = ">"
-        else:
-            strflag = "<"
+        strflag = ">" if bigendian else "<"
         self.file = file
         self.chunkname = file.read(4)
         if len(self.chunkname) < 4:
             raise EOFError
         try:
-            self.chunksize = struct.unpack_from(strflag + "L", file.read(4))[0]
+            self.chunksize = struct.unpack_from(f"{strflag}L", file.read(4))[0]
         except struct.error:
             raise EOFError from None
         if inclheader:
@@ -135,8 +132,7 @@ class Chunk:
             return b""
         if size < 0:
             size = self.chunksize - self.size_read
-        if size > self.chunksize - self.size_read:
-            size = self.chunksize - self.size_read
+        size = min(size, self.chunksize - self.size_read)
         data = self.file.read(size)
         self.size_read = self.size_read + len(data)
         if self.size_read == self.chunksize and self.align and (self.chunksize & 1):
