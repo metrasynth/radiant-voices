@@ -277,6 +277,9 @@ class Module(metaclass=ModuleMeta):
         self.out_links = []
         self.out_link_slots = []
 
+    def __hash__(self):
+        return hash((id(self.parent), self.index))
+
     def __repr__(self):
         attrs = [self.__class__.__name__]
         if self.index is not None:
