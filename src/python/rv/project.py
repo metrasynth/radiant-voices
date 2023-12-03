@@ -1,7 +1,7 @@
 from collections import namedtuple
 from enum import IntEnum
 from struct import pack
-from typing import List, Optional
+from typing import List, Optional, TypeVar
 
 import networkx as nx
 from rv import ENCODING
@@ -12,6 +12,8 @@ from rv.modules.output import Output
 from rv.pattern import Pattern, PatternClone
 
 PatternLine = namedtuple("PatternLine", ["index", "source", "line"])
+
+M = TypeVar("M", bound=Module)
 
 
 class Project(Container):
@@ -73,7 +75,7 @@ class Project(Container):
             self.attach_pattern(other)
         return self
 
-    def attach_module(self, module, loading=False):
+    def attach_module(self, module: M, loading=False) -> M:
         """Attach the module to the project."""
         if module is None:
             self.modules.append(module)
