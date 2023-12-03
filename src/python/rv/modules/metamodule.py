@@ -301,7 +301,7 @@ class MetaModule(BaseMetaModule, Module):
             mapping_index = controller.number - self.user_defined[0].number
             mapping = self.mappings.values[mapping_index]
             mod = self.project.modules[mapping.module]
-            controller_index = mapping.controller - 1
+            controller_index = mapping.controller
             controllers = list(mod.controllers.items())
             ctl_name, ctl = controllers[controller_index]
             t = ctl.instance_value_type(mod)
