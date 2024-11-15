@@ -1,363 +1,326 @@
-import argparse
+import rv.api
+
+from rv.note import Note, NOTECMD
+from rv.pattern import Pattern, PatternClone
+from rv.project import Project
+from rv.readers.reader import read_sunvox_file
+
+from collections import OrderedDict
+
+import json
 import logging
-import math
 import os
-import random
 import re
 import sys
+import traceback
 
-from rv.api import NOTECMD, Note, Pattern, PatternClone, Project, read_sunvox_file
-
-log = logging.getLogger(__name__)
-
-IGNORE = ["Compressor"]
-
-
-def init_logger():
-    root = logging.getLogger()
-    root.setLevel(logging.INFO)
-    handler = logging.StreamHandler(sys.stdout)
-    handler.setLevel(logging.INFO)
-    formatter = logging.Formatter("%(levelname)s - %(message)s")
-    handler.setFormatter(formatter)
-    root.addHandler(handler)
-
-
-def class_name(mod):
-    return [tok for tok in re.split("\\W", str(mod.__class__)) if tok not in [""]][-1]
-
+logging.basicConfig(stream=sys.stdout,
+                    level=logging.INFO,
+                    format="%(levelname)s: %(message)s")
 
 class ModuleChain(list):
+
     @staticmethod
-    def expand(proj):
-        mods = {mod.index: mod for mod in proj.modules if hasattr(mod, "index")}
-        # [TODO] proj.module_connections was removed in Radiant Voices 1.0.
-        # This code must be rewritten for compatibility.
-        connections = dict(proj.module_connections)
-        chains = []
-
-        def expand(i, state=[]):
-            if i in state:
-                log.warning(f"ignoring loop {i} -> {state}")
-                return
-            state.append(i)
-            if not connections[i]:
-                chains.append(state)
-            for j in connections[i]:
-                if j in connections:
-                    expand(j, list(state))
-
-        expand(0)
-        return [
-            ModuleChain(
-                [mods[i] for i in reversed(chain) if class_name(mods[i]) not in IGNORE]
-            )
-            for chain in chains
+    def parse_modules(project):
+        # Replace None entries with placeholders to preserve indexing
+        modules = [
+            {"name": mod.name,
+             "index": mod.index,
+             "links": {"in": mod.in_links, "out": mod.out_links}} if mod else None
+            for mod in project.modules
         ]
 
-    def __init__(self, mods):
-        list.__init__(self, mods)
+        # Create a dictionary of valid modules
+        module_dict = {mod['index']: mod['name'] for mod in modules if mod}
+
+        def dfs(current_index, visited=None):
+            if visited is None:
+                visited = set()
+
+            # Skip invalid or already visited modules
+            if current_index in visited or current_index not in module_dict:
+                return []
+
+            visited.add(current_index)
+            current_module_name = module_dict[current_index]
+            current_module = (current_module_name, current_index)
+
+            # If no input links, return the current module as a standalone chain
+            if not modules[current_index] or not modules[current_index]['links']['in']:
+                return [ModuleChain([current_module])]
+
+            chains = []
+            for prev_index in modules[current_index]['links']['in']:
+                if prev_index not in module_dict or modules[prev_index] is None:
+                    logging.warning(f"Skipping invalid or missing module index: {prev_index}")
+                    continue
+                for chain in dfs(prev_index, visited.copy()):
+                    chains.append(ModuleChain(chain + [current_module]))
+            return sorted(chains, key=lambda x: x[0][1])
+
+        return dfs(0)
+    
+    def __init__(self, items=[]):
+        list.__init__(self, items)
+
+    """
+    Note cloning a module -
+    - detaches it from project
+    - resets indexing
+    - removes connections
+    """
+
+    def is_output(self, item):
+        return item[1] == 0
+    
+    def clone_modules(self, project):
+        modules = {mod.index: mod for mod in project.modules if mod}
+        return [modules[item[1]].clone() for item in self
+                if not self.is_output(item)]
+        
+    @property
+    def names(self):
+        return [re.sub("\\W", "", item[0]) for item in self
+                if not self.is_output(item)]
 
     @property
-    def modules(self):
-        return [mod.index for mod in self]
-
-    @property
-    def mapping(self):
-        return {mod.index: i for i, mod in enumerate(reversed(self))}
-
-    def detach(self):
-        def detach(mod):
-            try:
-                return mod.clone()
-            except Exception as error:
-                log.error(f"problem detaching {mod}: {error!s}")
-                newmod = mod.__class__()
-                for key, value in mod.controller_values.items():
-                    setattr(newmod, key, value)
-                return newmod
-
-        return [detach(mod) for mod in self]
-
+    def indexes(self):
+        return [item[1] for item in self
+                if not self.is_output(item)]
+    
     def __str__(self):
-        return "~".join([str(mod.index) for mod in self])
+        return "-".join([f"{name[:3].lower()}-{index:02X}"
+                         for name, index in zip(self.names, self.indexes)])
 
-
-class Notes(list):
-    def __init__(self, notes=[]):
-        list.__init__(self, notes)
-
-    def normalise(self, mod):
-        for note in self:
-            if note.module:
-                note.module = mod
-        return self
-
-    def __str__(self):
-        return "/".join([str(note) for note in self])
-
+"""
+RV thinks in terms of lines, and then tracks belonging to a line
+But this is fucked up as it means the track data is atomised
+Better to rotate so you can work in terms of tracks (cols) and then rotate back on output
+"""
+    
+def rotate_matrix(matrix, clockwise = True):
+    if clockwise:
+        return [list(row) for row in zip(*matrix[::-1])]
+    else:
+        return [list(row) for row in zip(*matrix)][::-1]
 
 class Track(list):
-    @staticmethod
-    def split(pat):
-        tracks, last = {}, None
-        for j in range(pat.tracks):
-            for i in range(pat.lines):
-                note = pat.data[i][j].clone()
-                if note.module:
-                    note.module -= 1  # NB
-                    tracks.setdefault(note.module, Track(pat.lines))
-                    track = tracks[note.module]
-                    if not track[i]:
-                        track[i] = Notes()
-                    track[i].append(note)
-                    last = note.module
-                elif note.note == NOTECMD.NOTE_OFF.value and last is not None:
-                    track = tracks[last]
-                    track[i].append(note)
-                    last = None
-        return tracks
 
-    def __init__(self, n):
-        list.__init__(self, [Notes() for i in range(n)])
+    def __init__(self, notes = []):
+        list.__init__(self, notes)
 
-    @property
-    def polyphony(self):
-        return max(len(notes) for notes in self)
-
-    @property
-    def audible(self):
-        for notes in self:
-            for note in notes:
-                if note.note:
-                    return True
+    def has_content(self):
+        for note in self:
+            if not (note == None or
+                    (note.note == NOTECMD.EMPTY and
+                     note.vel == 0 and
+                     note.module == 0 and
+                     note.ctl == 0 and
+                     note.val == 0 and
+                     note.pattern == None) or
+                    note.note == NOTECMD.NOTE_OFF):                    
+                return True
         return False
 
-    def normalise(self, mod):
-        for notes in self:
-            notes.normalise(mod)
-        return self
+class Tracks(list):
 
-    def __str__(self):
-        return ",".join(
-            [f"{i}:{notes!s}" for i, notes in enumerate(self) if len(notes) != 0]
-        )
+    @staticmethod
+    def from_pattern_data(pattern_data):
+        return Tracks(rotate_matrix(pattern_data))
+    
+    def __init__(self, items = []):
+        list.__init__(self, items)
 
-
-class Tracks(dict):
-    def __init__(self, values={}):
-        dict.__init__(self, values)
+    """
+    Note that module indexes start at 1 not 0 (because Output is 0)
+    Nice thing about this routine is that mod.index is never directly references so you don't need a +1 hack anywhere :)
+    """
+        
+    def filter_by_chain(self, chain, modules):
+        mod_indexes, tracks = chain.indexes, []
+        for _track in self:
+            track = Track()
+            for _note in _track:
+                if _note.mod and _note.mod.index in mod_indexes:
+                    mod_index = mod_indexes.index(_note.mod.index)
+                    note = _note.clone()
+                    note.mod = modules[mod_index]
+                    track.append(note)
+                elif _note.note in [NOTECMD.NOTE_OFF]:
+                    note = _note.clone()
+                    track.append(note)
+                else:
+                    track.append(Note())
+            if track.has_content():
+                tracks.append(track)
+        return Tracks(tracks)
 
     @property
-    def lines(self):
-        return sorted([len(self[mod]) for mod in self if mod in self])[0]
+    def lengths(self):
+        lengths = set()
+        for track in self:
+            lengths.add(len(track))
+        return lengths
+    
+    def to_pattern_data(self):
+        return rotate_matrix(self, clockwise = False)
+        
+class PatternGroup(list):
 
-    def subset(self, mods):
-        cache = Tracks()
-        for mod in mods:
-            if mod in self:
-                cache[mod] = self[mod]
-        return cache
-
-    def normalise(self, mapping):
-        for mod in self:
-            self[mod].normalise(mapping[mod])
-        return self
-
+    def __init__(self, x, items = []):
+        list.__init__(self, items)
+        self.x = x
+        
     @property
-    def audible(self):
-        return any(track.audible for track in self.values())
+    def mod_indexes(self):
+        mod_indexes = set()
+        for pattern in self:
+            for track in pattern.data:
+                for note in track:
+                    if note.mod:
+                        mod_indexes.add(note.mod.index)
+        return sorted(list(mod_indexes))
 
-    def flatten(self):
-        mods = sorted(list(self.keys()))
-        index = [(mod, i) for mod in mods for i in range(self[mod].polyphony)]
-        pat = Pattern(lines=self.lines, tracks=len(index))
+    def master_tracks(self, chain, modules):
+        master = Tracks()
+        for pat in self:
+            tracks = Tracks.from_pattern_data(pat.data)
+            filtered_tracks = tracks.filter_by_chain(chain, modules)
+            if filtered_tracks != []:
+                track_lengths = filtered_tracks.lengths
+                if len(track_lengths) != 1:
+                    raise RuntimeError(f"chain {chain} has multiple track lengths {track_lengths}")
+                master += filtered_tracks
+        return master
+         
+class PatternGroups(list):
 
-        def notefn(track, i, j):
-            mod, k = index[j]
-            notes = self[mod][i]
-            if k < len(notes):
-                note = notes[k].clone()
-                if note.module:
-                    note.module += 1  # NB
-                return note
-            else:
-                return Note()
-
-        pat.set_via_fn(notefn)
-        return pat
-
-    def __str__(self):
-        return "|".join([f"{mod}:{self[mod]!s}" for mod in self])
-
-
-def parse_timeline(proj):
-    trackmap, timeline = {}, {}
-    for i, pat in enumerate(proj.patterns):
-        if isinstance(pat, PatternClone) and pat.source not in trackmap:
-            continue
-        if not isinstance(pat, PatternClone):
-            trackmap[i] = tracks = Track.split(pat)
-        else:
-            tracks = trackmap[pat.source]
-        if len(tracks) == 0:
-            continue
-        timeline.setdefault(pat.x, Tracks())
-        timeline[pat.x].update(tracks)
-    return timeline
-
-
-def decompile(proj):
-    chains = ModuleChain.expand(proj)
-    timeline = parse_timeline(proj)
-
-    def patch_name(chain, n=3):
-        return "-".join(
-            [mod.name[:n] for mod in chain if not mod.name.lower().startswith("out")]
-        )
-
-    cache, patches = {}, []
-    for x in sorted(timeline.keys()):
-        tracks = timeline[x]
-        for chain in chains:
-            name, key = patch_name(chain), str(chain)
-            key = str(chain)
-            cache.setdefault(key, [])
-            group = tracks.subset(chain.modules)
-            if len(group) == 0:
+    @staticmethod
+    def parse_timeline(project):
+        groups = OrderedDict()
+        for i, _pattern in enumerate(project.patterns):
+            if _pattern == None:
                 continue
-            if key in cache and str(group) in cache[key]:
-                continue
-            if not group.audible:
-                log.warning(f"{name}/{x} is inaudible")
-                continue
-            pat = group.normalise(chain.mapping).flatten()
-            patch = {"name": name, "x": x, "modules": chain.detach(), "pattern": pat}
-            patches.append(patch)
-            cache[key].append(str(group))
-    return patches
+            if isinstance(_pattern, PatternClone):
+                pattern = project.patterns[_pattern.source]
+            elif isinstance(_pattern, Pattern):
+                pattern = _pattern
+            x = _pattern.x
+            groups.setdefault(x, PatternGroup(x))
+            groups[x].append(pattern)
+        return PatternGroups(list(groups.values()))
+    
+    def __init__(self, items = {}):
+        list.__init__(self, items)
 
+    def filter_by_chain(self, chain, filter_fn):
+        return PatternGroups([group for group in self
+                              if filter_fn(chain, group)])
 
-def module_layout(n, seed=13, offset=(512, 512), mult=(256, 256), tries=50):
-    random.seed(seed)
+"""
+The VCO is typically at the start of the chain; is this module present in a pattern group's list of modules?
+"""
+    
+def DefaultChainFilter(chain, group):
+    return chain.indexes[0] in group.mod_indexes
+    
+def create_patch(project, chain, groups,
+                 filter_fn = DefaultChainFilter):
+    patch = Project()
+    for attr in ["initial_bpm",
+                 "global_volume"]:
+        setattr(patch, attr, getattr(project, attr))
+    chain_modules = chain.clone_modules(project) # excludes Output, indexing
+    for mod in reversed(chain_modules):
+        patch.attach_module(mod)
+    patch_modules = patch.modules # includes Output, indexing
+    for i in range(len(chain_modules)):
+        patch.connect(patch_modules[i+1], patch_modules[i])
+    chain_groups = groups.filter_by_chain(chain, filter_fn)
+    patch.patterns, existing, x = [], set(), 0
+    for group in chain_groups:
+        master = group.master_tracks(chain, chain_modules)
+        pat_data = master.to_pattern_data()
+        pattern = Pattern(lines = len(pat_data),
+                          tracks = len(master),
+                          x = x,
+                          y = 0)
+        pattern.set_via_fn(lambda self, i, j: pat_data[i][j])
+        pat_repr = pattern.tabular_repr()
+        if pat_repr not in existing:
+            patch.patterns.append(pattern)
+            x += len(pat_data)
+            existing.add(pat_repr)
+    return patch
 
-    def is_neighbour(p, q):
-        return (
-            (
-                (p[0] == q[0] and abs(p[1] - q[1]) == 1)
-                or (p[1] == q[1] and abs(p[0] - q[0]) == 1)
-            )
-        ) and (abs(p[0] - q[0]) != 1 or abs(p[1] - q[1]) != 1)
+def dump_sunvox(project_name, chain, patch):
+    file_name = f"tmp/decompiler/{project_name}/sunvox/{chain}.sunvox"
+    dir_name = "/".join(file_name.split("/")[:-1])
+    if not os.path.exists(dir_name):
+        os.makedirs(dir_name)
+    with open(file_name, 'wb') as f:            
+        patch.write_to(f)
 
-    def normalise(r):
-        return [(i - r[0][0], j - r[0][1]) for i, j in r]
+def dump_modules(project_name, chain, patch):
+    mod_struct = [{"name": mod.name,
+                   "class": str(mod.__class__).split("'")[1],
+                   "controller_values": mod.controller_values}
+                  for mod in patch.modules if mod.index != 0]
+    file_name = f"tmp/decompiler/{project_name}/modules/{chain}.json"
+    dir_name = "/".join(file_name.split("/")[:-1])
+    if not os.path.exists(dir_name):        
+        os.makedirs(dir_name)
+    class EnumEncoder(json.JSONEncoder):
+        def default(self, obj):
+            if isinstance(obj, Enum):
+                return obj.value
+            return super().default(obj)
+    with open(file_name, 'w') as f:
+        f.write(json.dumps(mod_struct,
+                           cls = EnumEncoder,
+                           indent = 2))
+                
+def decompile_project(project_name, project, max_chains = 100):
+    chains = ModuleChain.parse_modules(project)
+    if len(chains) > max_chains:
+        raise RuntimeError(f"skipping as {len(chains)} chains found")
+    groups = PatternGroups.parse_timeline(project)
+    for chain in chains:
+        patch = create_patch(project = project,
+                             chain = chain,
+                             groups = groups)
+        if (patch.modules != [] and
+            patch.patterns != []):
+            logging.info(chain)
+            dump_sunvox(project_name, chain, patch)
+            dump_modules(project_name, chain, patch)
 
-    def sample(n, matcher=is_neighbour, padding=2):
-        sz = padding + int(math.ceil(math.sqrt(n)))
-        pairs = [(i, j) for i in range(sz) for j in range(sz)]
-        q0 = q = tuple([random.choice(range(sz)), random.choice(range(sz))])
-        pairs.remove(q)
-        r = [q0]
-        for _ in range(n - 1):
-            adjacent = [p for p in pairs if matcher(p, q)]
-            if adjacent == []:
-                raise RuntimeError("No adjacent pairs")
-            q = random.choice(adjacent)
-            pairs.remove(q)
-            r.append(q)
-        return normalise(r)
-
-    def div_zero(fn):
-        def wrapped(r):
-            if len(r) == 1:
-                return 1
-            return fn(r)
-
-        return wrapped
-
-    @div_zero
-    def compactness(r):
-        head, tail = r[0], r[1:]
-
-        def err(s):
-            return sum((s[i] - head[i]) ** 2 for i in range(2))
-
-        return (sum([err(s) for s in tail]) / (len(r) - 1)) ** 0.5
-
-    def best(n, tries):
-        best, besterr = None, 1e10
-        for _ in range(tries):
-            try:
-                L = sample(n + 1)
-            except RuntimeError:
-                continue
-            err = compactness(L)
-            if err < besterr:
-                best, besterr = L, err
-        return best[1:]
-
-    def expand(r):
-        oi, oj = offset
-        mi, mj = mult
-        return [(oi + mi * i, oj + mj * j) for i, j in r]
-
-    return expand(best(n, tries))
-
-
-def dump(props, patch, output_dir, dirname):
-    patch_dir = f"{output_dir}/{dirname}/{patch['name']}"
-    os.makedirs(patch_dir, exist_ok=True)
-    proj = Project()
-    proj.initial_bpm = props["bpm"]
-    proj.initial_tpl = props["tpl"]
-    layout = module_layout(len(patch["modules"]))
-    for i, mod in enumerate(reversed(patch["modules"][:-1])):
-        mod.x, mod.y = layout[i]
-        proj.attach_module(mod)
-    for i in range(len(proj.modules) - 1):
-        proj.connect(proj.modules[i + 1], proj.modules[i])
-    proj.patterns.append(patch["pattern"])
-    destfilename = f"{patch_dir}/{patch['x']}.sunvox"
-    with open(destfilename, "wb") as f:
-        proj.write_to(f)
-
-
-parser = argparse.ArgumentParser(description="SunVox patch decompiler")
-parser.add_argument(
-    "--output-dir",
-    metavar="PATH",
-    type=str,
-    default="patch-decompiler-output",
-    help="Base directory to write patches to",
-)
-parser.add_argument(
-    "filename", metavar="FILE", type=str, nargs=1, help="SunVox project to decompile"
-)
-
-
-def main():
-    init_logger()
-    args = parser.parse_args()
-    filename = args.filename[0]
-    output_dir = args.output_dir
-    if not os.path.exists(filename):
-        raise RuntimeError("File does not exist")
-    if not filename.endswith(".sunvox"):
-        raise RuntimeError("File must be a .sunvox file")
-    dirname = filename.split("/")[-1].split(".")[0]
-    os.makedirs(f"{output_dir}/{dirname}", exist_ok=True)
-
-    proj = read_sunvox_file(filename)
-    props = {"bpm": proj.initial_bpm, "tpl": proj.initial_tpl}
-    patches = decompile(proj)
-    npatches = len(list({patch["name"] for patch in patches}))
-    nversions = len(patches)
-    log.info(
-        f"dumping {npatches} patches [{nversions} versions] to {output_dir}/{dirname}"
-    )
-    for patch in patches:
-        dump(props, patch, output_dir, dirname)
-
-
+def parse_project_name(filename):
+    return "-".join([tok.lower() for tok in re.split("\\W", filename.split("/")[-1].split(".")[0]) if tok != ''])
+                
 if __name__ == "__main__":
-    main()
+    try:
+        if len(sys.argv) < 2:
+            raise RuntimeError("please enter directory")
+        dirname = sys.argv[1]
+        if not os.path.exists(dirname):
+            raise RuntimeError("directory does not exist")
+        if not os.path.isdir(dirname):
+            raise RuntimeError("path is not a directory")
+        for filename in sorted(os.listdir(dirname)):
+            if not filename.endswith(".sunvox"):
+                continue
+            project_name = parse_project_name(filename)
+            logging.info(f"--- {project_name} ---")
+            abs_filename = f"{dirname}/{filename}"
+            try:
+                project = read_sunvox_file(abs_filename)
+                decompile_project(project_name, project)
+            except RuntimeError as error:
+                logging.warning(str(error))
+            except Exception as e:
+                logging.warning(f"{traceback.format_exc()}")
+    except RuntimeError as error:
+        logging.error(str(error))
+
+                        
