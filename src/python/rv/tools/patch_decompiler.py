@@ -9,6 +9,7 @@ from collections import OrderedDict
 
 import json
 import logging
+import math
 import os
 import re
 import sys
@@ -220,12 +221,17 @@ class PatternGroups(list):
 """
 The VCO is typically at the start of the chain; is this module present in a pattern group's list of modules?
 """
-    
+
 def DefaultChainFilter(chain, group):
     return chain.indexes[0] in group.mod_indexes
-    
+
 def create_patch(project, chain, groups,
-                 filter_fn = DefaultChainFilter):
+                 filter_fn = DefaultChainFilter,
+                 x_offset = 128,
+                 y_offset = 128,
+                 x0 = 128,
+                 y0 = 256,
+                 scale = 256):
     patch = Project()
     for attr in ["initial_bpm",
                  "global_volume"]:
@@ -234,6 +240,12 @@ def create_patch(project, chain, groups,
     for mod in reversed(chain_modules):
         patch.attach_module(mod)
     patch_modules = patch.modules # includes Output, indexing
+    grid_sz = int(math.ceil(len(patch_modules) ** 0.5))
+    for i, mod in enumerate(patch_modules):
+        x = x0 + int(x_offset * ((i + 1) % grid_sz))
+        y = y0 + int(y_offset * math.floor((i + 1) / grid_sz))
+        for k, v in [("x", x), ("y", y), ("scale", scale)]:
+            setattr(mod, k,  v)        
     for i in range(len(chain_modules)):
         patch.connect(patch_modules[i+1], patch_modules[i])
     chain_groups = groups.filter_by_chain(chain, filter_fn)
