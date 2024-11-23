@@ -283,7 +283,7 @@ def module_layout(n, seed=13, offset=(512, 512), mult=(256, 256), tries=50):
         def err(s):
             return sum((s[i] - head[i]) ** 2 for i in range(2))
 
-        return (sum(err(s) for s in tail) / (len(r) - 1)) ** 0.5
+        return (sum(err(s) for s in tail) / (len(r) - 1))**0.5
 
     def best(n, tries):
         best, besterr = None, 1e10
