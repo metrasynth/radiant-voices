@@ -123,7 +123,7 @@ class Track(list):
         return tracks
 
     def __init__(self, n):
-        list.__init__(self, [Notes() for _ in range(n)])
+        list.__init__(self, [Notes() for i in range(n)])
 
     @property
     def polyphony(self):
@@ -258,12 +258,12 @@ def module_layout(n, seed=13, offset=(512, 512), mult=(256, 256), tries=50):
     def sample(n, matcher=is_neighbour, padding=2):
         sz = padding + int(math.ceil(math.sqrt(n)))
         pairs = [(i, j) for i in range(sz) for j in range(sz)]
-        q0 = q = random.choice(range(sz)), random.choice(range(sz))
+        q0 = q = tuple([random.choice(range(sz)), random.choice(range(sz))])
         pairs.remove(q)
         r = [q0]
         for _ in range(n - 1):
             adjacent = [p for p in pairs if matcher(p, q)]
-            if not adjacent:
+            if adjacent == []:
                 raise RuntimeError("No adjacent pairs")
             q = random.choice(adjacent)
             pairs.remove(q)
@@ -272,7 +272,9 @@ def module_layout(n, seed=13, offset=(512, 512), mult=(256, 256), tries=50):
 
     def div_zero(fn):
         def wrapped(r):
-            return 1 if len(r) == 1 else fn(r)
+            if len(r) == 1:
+                return 1
+            return fn(r)
 
         return wrapped
 
@@ -283,7 +285,7 @@ def module_layout(n, seed=13, offset=(512, 512), mult=(256, 256), tries=50):
         def err(s):
             return sum((s[i] - head[i]) ** 2 for i in range(2))
 
-        return (sum(err(s) for s in tail) / (len(r) - 1))**0.5
+        return (sum([err(s) for s in tail]) / (len(r) - 1)) ** 0.5
 
     def best(n, tries):
         best, besterr = None, 1e10
