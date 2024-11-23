@@ -31,13 +31,9 @@ class ModuleChain(list):
     @staticmethod
     def expand(proj):
         mods = {mod.index: mod for mod in proj.modules if hasattr(mod, "index")}
-
-        connections = {}
-        for module in proj.modules:
-            if module is None:
-                continue
-            connections[module.index] = module.in_links
-
+        # [TODO] proj.module_connections was removed in Radiant Voices 1.0.
+        # This code must be rewritten for compatibility.
+        connections = dict(proj.module_connections)
         chains = []
 
         def expand(i, state=[]):
