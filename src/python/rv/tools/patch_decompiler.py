@@ -180,12 +180,13 @@ class Tracks(dict):
         def notefn(track, i, j):
             mod, k = index[j]
             notes = self[mod][i]
-            if k >= len(notes):
+            if k < len(notes):
+                note = notes[k].clone()
+                if note.module:
+                    note.module += 1  # NB
+                return note
+            else:
                 return Note()
-            note = notes[k].clone()
-            if note.module:
-                note.module += 1  # NB
-            return note
 
         pat.set_via_fn(notefn)
         return pat
