@@ -294,6 +294,8 @@ class NOTECMD(IntEnum):
 class PatternEffect(IntEnum):
     """Effects available for the EE effect column."""
 
+    # [TODO] copy to JS version
+
     SLIDE_UP = 0x01
     SLIDE_DOWN = 0x02
     SLIDE_TO_NOTE = 0x03
@@ -328,7 +330,7 @@ class PatternEffect(IntEnum):
     SET_JUMP_ADDRESS_MODE = 0x32
     SLOT_SYNC = 0x33
     SET_XX_OR_RESET_YY_PROJECT_OPTIONS = 0x34
-    BIND_MIDI_OUT_MESSAGE_XX_TO_CONTROLLER_YY = 0x35  # [TODO] copy to JS version
+    BIND_MIDI_OUT_MESSAGE_XX_TO_CONTROLLER_YY = 0x35
     DELETE_EVENT_ON_TRACK_XX_WITH_PROBABILITY_YY = 0x38
     CYCLIC_SHIFT_TRACK_DOWN_BY_YY_LINES = 0x39
     GENERATE_NEW_ITERATION_OF_YY_LINE_POLYRHYTHM_ON_TRACK_XX = 0x3A
