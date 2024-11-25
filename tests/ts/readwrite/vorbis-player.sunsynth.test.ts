@@ -18,7 +18,7 @@ describe("Reading the vorbis-player.sunsynth file", () => {
   })
   test("has correct properties, controllers, and options", () => {
     const mod = synth.module as m.VorbisPlayer.Module
-    expect(mod.flags).toEqual(32841)
+    expect(mod.flags).toEqual(32841 | 33554432)
     expect(mod.name).toEqual("moo")
     expect(mod.behavior?.data?.length).toEqual(10785)
     const { c } = mod
@@ -29,5 +29,6 @@ describe("Reading the vorbis-player.sunsynth file", () => {
     expect(c.interpolation).toEqual(true)
     expect(c.polyphony).toEqual(3)
     expect(c.repeat).toEqual(false)
+    expect(c.ignoreNoteOff).toEqual(true)
   })
 })

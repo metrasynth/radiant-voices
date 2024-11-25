@@ -77,4 +77,13 @@ export class VorbisPlayerBaseControllers implements Controllers {
     const { controllerValues } = this
     controllerValues.repeat = newValue
   }
+  // noinspection JSUnusedGlobalSymbols
+  get ignoreNoteOff(): boolean {
+    return this.controllerValues.ignoreNoteOff
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set ignoreNoteOff(newValue: boolean) {
+    const { controllerValues } = this
+    controllerValues.ignoreNoteOff = newValue
+  }
 }

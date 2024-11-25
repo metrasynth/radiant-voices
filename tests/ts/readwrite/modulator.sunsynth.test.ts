@@ -18,7 +18,7 @@ describe("Reading the modulator.sunsynth file", () => {
   })
   test("has correct properties, controllers, and options", () => {
     const mod = synth.module as m.Modulator.Module
-    expect(mod.flags).toEqual(33562705)
+    expect(mod.flags).toEqual(8273 | 33554432)
     expect(mod.name).toEqual("Modulator")
     const { c } = mod
     expect(c.volume).toEqual(141)

@@ -19,6 +19,7 @@ export namespace VorbisPlayer {
     Interpolation = 5,
     Polyphony = 6,
     Repeat = 7,
+    IgnoreNoteOff = 8,
   }
   interface VorbisPlayerControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
@@ -28,6 +29,7 @@ export namespace VorbisPlayer {
     interpolation: ControllerMidiMap
     polyphony: ControllerMidiMap
     repeat: ControllerMidiMap
+    ignoreNoteOff: ControllerMidiMap
   }
   interface VorbisPlayerOptionValues extends OptionValues {}
   class VorbisPlayerOptions implements Options {
@@ -59,6 +61,9 @@ export namespace VorbisPlayer {
       (val: number) => {
         this.controllerValues.repeat = Boolean(val)
       },
+      (val: number) => {
+        this.controllerValues.ignoreNoteOff = Boolean(val)
+      },
     ]
     readonly controllerValues: VorbisPlayerControllerValues = {
       volume: 256,
@@ -68,6 +73,7 @@ export namespace VorbisPlayer {
       interpolation: true,
       polyphony: 1,
       repeat: false,
+      ignoreNoteOff: false,
     }
     readonly controllers: VorbisPlayerControllers = new VorbisPlayerControllers(
       this,
@@ -82,6 +88,7 @@ export namespace VorbisPlayer {
       interpolation: new ControllerMidiMap(),
       polyphony: new ControllerMidiMap(),
       repeat: new ControllerMidiMap(),
+      ignoreNoteOff: new ControllerMidiMap(),
     }
     readonly optionValues: VorbisPlayerOptionValues = {}
     readonly options: VorbisPlayerOptions = new VorbisPlayerOptions(this.optionValues)
@@ -118,6 +125,9 @@ export namespace VorbisPlayer {
         case 7:
           cv.repeat = Boolean(value)
           break
+        case 8:
+          cv.ignoreNoteOff = Boolean(value)
+          break
       }
     }
     *rawControllerValues(): Generator<number> {
@@ -129,6 +139,7 @@ export namespace VorbisPlayer {
       yield Number(cv.interpolation)
       yield cv.polyphony
       yield Number(cv.repeat)
+      yield Number(cv.ignoreNoteOff)
     }
     setMidiMaps(midiMaps: MidiMap[]) {
       this.midiMaps.volume = midiMaps[0] || {
@@ -173,6 +184,12 @@ export namespace VorbisPlayer {
         messageParameter: 0,
         slope: 0,
       }
+      this.midiMaps.ignoreNoteOff = midiMaps[7] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []
@@ -183,6 +200,7 @@ export namespace VorbisPlayer {
       a.push(this.midiMaps.interpolation)
       a.push(this.midiMaps.polyphony)
       a.push(this.midiMaps.repeat)
+      a.push(this.midiMaps.ignoreNoteOff)
       return a
     }
   }

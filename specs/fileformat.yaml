@@ -2553,6 +2553,7 @@ module_types:
       - interpolation: { bool: true, default: true }
       - polyphony: { min: 1, max: 4, default: 1, units: "channels" }
       - repeat: { bool: true, default: false }
+      - ignore_note_off: { bool: true, default: false }
     chunks:
       - name: data
         type: Data

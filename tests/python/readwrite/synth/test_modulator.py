@@ -3,8 +3,7 @@ from rv.api import m
 
 def test_modulator(read_write_read_synth):
     mod: m.Modulator = read_write_read_synth("modulator").module
-    # assert mod.flags == 0b00000000000010000001010001
-    assert mod.flags == 0b10000000000010000001010001
+    assert mod.flags == 8273 | 33554432
     assert mod.name == "Modulator"
     assert mod.volume == 141
     assert mod.modulation_type == mod.ModulationType.phase_abs

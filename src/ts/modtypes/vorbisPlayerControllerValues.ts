@@ -12,4 +12,5 @@ export interface VorbisPlayerControllerValues extends ControllerValues {
   interpolation: boolean
   polyphony: number
   repeat: boolean
+  ignoreNoteOff: boolean
 }

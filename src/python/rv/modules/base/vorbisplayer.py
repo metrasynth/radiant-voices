@@ -18,3 +18,4 @@ class BaseVorbisPlayer:
     interpolation = Controller(bool, True)
     polyphony = Controller((1, 4), 1)
     repeat = Controller(bool, False)
+    ignore_note_off = Controller(bool, False)
