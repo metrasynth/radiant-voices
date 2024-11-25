@@ -16,3 +16,13 @@ export enum Channels {
   Stereo = 0,
   Mono = 1,
 }
+export enum MaxPhaseModulationDelay {
+  // noinspection JSUnusedGlobalSymbols
+  Sec_0_04 = 0,
+  Sec_0_08 = 1,
+  Sec_0_2 = 2,
+  Sec_0_5 = 3,
+  Sec_1 = 4,
+  Sec_2 = 5,
+  Sec_4 = 6,
+}

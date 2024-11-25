@@ -1931,10 +1931,19 @@ module_types:
       Channels:
         "stereo": 0
         "mono": 1
+      MaxPhaseModulationDelay:
+        "sec_0_04": 0
+        "sec_0_08": 1
+        "sec_0_2": 2
+        "sec_0_5": 3
+        "sec_1": 4
+        "sec_2": 5
+        "sec_4": 6
     controllers:
       - volume: { min: 0, max: 512, default: 256 }
       - modulation_type: { enum: ModulationType, default: "amplitude" }
       - channels: { enum: Channels, default: "stereo" }
+      - max_phase_modulation_delay: { enum: MaxPhaseModulationDelay, default: "sec_0_04" }
 
   MultiCtl:
     defaultFlags: 0x20051

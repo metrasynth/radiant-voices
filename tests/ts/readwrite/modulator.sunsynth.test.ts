@@ -18,11 +18,14 @@ describe("Reading the modulator.sunsynth file", () => {
   })
   test("has correct properties, controllers, and options", () => {
     const mod = synth.module as m.Modulator.Module
-    expect(mod.flags).toEqual(8273)
+    expect(mod.flags).toEqual(33562705)
     expect(mod.name).toEqual("Modulator")
     const { c } = mod
     expect(c.volume).toEqual(141)
     expect(c.modulationType).toEqual(m.Modulator.ModulationType.PhaseAbs)
     expect(c.channels).toEqual(m.Modulator.Channels.Mono)
+    expect(c.maxPhaseModulationDelay).toEqual(
+      m.Modulator.MaxPhaseModulationDelay.Sec_0_5
+    )
   })
 })

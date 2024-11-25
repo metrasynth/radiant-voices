@@ -24,15 +24,27 @@ export namespace Modulator {
     Stereo = 0,
     Mono = 1,
   }
+  export enum MaxPhaseModulationDelay {
+    // noinspection JSUnusedGlobalSymbols
+    Sec_0_04 = 0,
+    Sec_0_08 = 1,
+    Sec_0_2 = 2,
+    Sec_0_5 = 3,
+    Sec_1 = 4,
+    Sec_2 = 5,
+    Sec_4 = 6,
+  }
   export enum CtlNum {
     Volume = 1,
     ModulationType = 2,
     Channels = 3,
+    MaxPhaseModulationDelay = 4,
   }
   interface ModulatorControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     modulationType: ControllerMidiMap
     channels: ControllerMidiMap
+    maxPhaseModulationDelay: ControllerMidiMap
   }
   interface ModulatorOptionValues extends OptionValues {}
   class ModulatorOptions implements Options {
@@ -52,11 +64,15 @@ export namespace Modulator {
       (val: number) => {
         this.controllerValues.channels = val
       },
+      (val: number) => {
+        this.controllerValues.maxPhaseModulationDelay = val
+      },
     ]
     readonly controllerValues: ModulatorControllerValues = {
       volume: 256,
       modulationType: ModulationType.Amplitude,
       channels: Channels.Stereo,
+      maxPhaseModulationDelay: MaxPhaseModulationDelay.Sec_0_04,
     }
     readonly controllers: ModulatorControllers = new ModulatorControllers(
       this,
@@ -67,6 +83,7 @@ export namespace Modulator {
       volume: new ControllerMidiMap(),
       modulationType: new ControllerMidiMap(),
       channels: new ControllerMidiMap(),
+      maxPhaseModulationDelay: new ControllerMidiMap(),
     }
     readonly optionValues: ModulatorOptionValues = {}
     readonly options: ModulatorOptions = new ModulatorOptions(this.optionValues)
@@ -91,6 +108,9 @@ export namespace Modulator {
         case 3:
           cv.channels = value
           break
+        case 4:
+          cv.maxPhaseModulationDelay = value
+          break
       }
     }
     *rawControllerValues(): Generator<number> {
@@ -98,6 +118,7 @@ export namespace Modulator {
       yield cv.volume
       yield cv.modulationType
       yield cv.channels
+      yield cv.maxPhaseModulationDelay
     }
     setMidiMaps(midiMaps: MidiMap[]) {
       this.midiMaps.volume = midiMaps[0] || {
@@ -118,12 +139,19 @@ export namespace Modulator {
         messageParameter: 0,
         slope: 0,
       }
+      this.midiMaps.maxPhaseModulationDelay = midiMaps[3] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []
       a.push(this.midiMaps.volume)
       a.push(this.midiMaps.modulationType)
       a.push(this.midiMaps.channels)
+      a.push(this.midiMaps.maxPhaseModulationDelay)
       return a
     }
   }

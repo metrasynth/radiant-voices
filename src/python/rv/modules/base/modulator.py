@@ -23,6 +23,18 @@ class BaseModulator:
         stereo = 0
         mono = 1
 
+    class MaxPhaseModulationDelay(IntEnum):
+        sec_0_04 = 0
+        sec_0_08 = 1
+        sec_0_2 = 2
+        sec_0_5 = 3
+        sec_1 = 4
+        sec_2 = 5
+        sec_4 = 6
+
     volume = Controller((0, 512), 256)
     modulation_type = Controller(ModulationType, ModulationType.amplitude)
     channels = Controller(Channels, Channels.stereo)
+    max_phase_modulation_delay = Controller(
+        MaxPhaseModulationDelay, MaxPhaseModulationDelay.sec_0_04
+    )
