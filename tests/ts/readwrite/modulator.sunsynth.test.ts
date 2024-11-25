@@ -22,7 +22,7 @@ describe("Reading the modulator.sunsynth file", () => {
     expect(mod.name).toEqual("Modulator")
     const { c } = mod
     expect(c.volume).toEqual(141)
-    expect(c.modulationType).toEqual(m.Modulator.ModulationType.PhaseAbs)
+    expect(c.modulationType).toEqual(m.Modulator.ModulationType.MaxAbs)
     expect(c.channels).toEqual(m.Modulator.Channels.Mono)
     expect(c.maxPhaseModulationDelay).toEqual(
       m.Modulator.MaxPhaseModulationDelay.Sec_0_5

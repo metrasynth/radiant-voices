@@ -18,6 +18,14 @@ class BaseModulator:
         amplitude = 0
         phase = 1
         phase_abs = 2
+        add = 3
+        sub = 4
+        min = 5
+        max = 6
+        bitwise_and = 7
+        bitwise_xor = 8
+        min_abs = 9
+        max_abs = 10
 
     class Channels(IntEnum):
         stereo = 0

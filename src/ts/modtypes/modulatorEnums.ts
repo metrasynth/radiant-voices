@@ -10,6 +10,14 @@ export enum ModulationType {
   Amplitude = 0,
   Phase = 1,
   PhaseAbs = 2,
+  Add = 3,
+  Sub = 4,
+  Min = 5,
+  Max = 6,
+  BitwiseAnd = 7,
+  BitwiseXor = 8,
+  MinAbs = 9,
+  MaxAbs = 10,
 }
 export enum Channels {
   // noinspection JSUnusedGlobalSymbols

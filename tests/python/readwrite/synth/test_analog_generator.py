@@ -64,7 +64,7 @@ def test_analog_generator_writes_correct_chunks(read_write_read_synth):
         expect_chunk(b"CVAL", pack("<i", value))
 
     expect_chunk(b"SSYN", b"")
-    expect_chunk(b"VERS", b"\x00\x00\x00\x02")
+    expect_chunk(b"VERS", b"\x00\x02\x01\x02")
     expect_chunk(b"SFFF", b"\x49\0\0\x02")
     expect_chunk(b"SNAM", b"analog-generator\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0")
     expect_chunk(b"STYP", b"Analog generator\0")
@@ -97,7 +97,7 @@ def test_analog_generator_writes_correct_chunks(read_write_read_synth):
     expect_cval(2)
     expect_cval(9)
     expect_cval(20640)
-    expect_cval(2)
+    expect_cval(8)
     expect_cval(0)
 
     expect_chunk(
