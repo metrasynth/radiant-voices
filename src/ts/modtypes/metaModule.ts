@@ -43,6 +43,7 @@ export namespace MetaModule {
     eventOutput: boolean
     receiveNotesFromKeyboard: boolean
     doNotReceiveNotesFromKeyboard: boolean
+    autoBpmTpl: boolean
   }
   class MetaModuleOptions implements Options {
     constructor(readonly optionValues: MetaModuleOptionValues) {}
@@ -99,6 +100,14 @@ export namespace MetaModule {
       this.optionValues.doNotReceiveNotesFromKeyboard = newValue
       this.optionValues.receiveNotesFromKeyboard = false
     }
+    // noinspection JSUnusedGlobalSymbols
+    get autoBpmTpl(): boolean {
+      return this.optionValues.autoBpmTpl
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set autoBpmTpl(newValue: boolean) {
+      this.optionValues.autoBpmTpl = newValue
+    }
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "MetaModule"
@@ -148,6 +157,7 @@ export namespace MetaModule {
       eventOutput: true,
       receiveNotesFromKeyboard: false,
       doNotReceiveNotesFromKeyboard: false,
+      autoBpmTpl: false,
     }
     readonly options: MetaModuleOptions = new MetaModuleOptions(this.optionValues)
     readonly o = this.options
@@ -229,7 +239,7 @@ export namespace MetaModule {
       return a
     }
     rawOptionBytes(): Uint8Array {
-      const bytes = new Uint8Array(6)
+      const bytes = new Uint8Array(7)
       const { optionValues: ov } = this
       bytes[0] |= (Number(ov.userDefinedControllers) & (2 ** 4 - 1)) << 0
       bytes[1] |= (Number(ov.arpeggiator) & (2 ** 1 - 1)) << 0
@@ -237,6 +247,7 @@ export namespace MetaModule {
       bytes[3] |= (Number(!ov.eventOutput) & (2 ** 1 - 1)) << 0
       bytes[4] |= (Number(ov.receiveNotesFromKeyboard) & (2 ** 1 - 1)) << 0
       bytes[4] |= (Number(ov.doNotReceiveNotesFromKeyboard) & (2 ** 1 - 1)) << 1
+      bytes[4] |= (Number(ov.autoBpmTpl) & (2 ** 1 - 1)) << 2
       return bytes
     }
     setOptions(dataChunks: ModuleDataChunks) {
@@ -260,6 +271,7 @@ export namespace MetaModule {
         this.optionValues.doNotReceiveNotesFromKeyboard = Boolean(
           (chdt[4] >> 1) & (2 ** 1 - 1)
         )
+        this.optionValues.autoBpmTpl = Boolean((chdt[4] >> 2) & (2 ** 1 - 1))
       }
     }
   }

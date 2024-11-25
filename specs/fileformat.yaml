@@ -1915,6 +1915,12 @@ module_types:
           size: 1
           default: false
           exclusive_of: [receive_notes_from_keyboard]
+      - auto_bpm_tpl:
+          number: 0x7a
+          byte: 4
+          bit: 2
+          size: 1
+          default: false
     chunks:
       - name: mappings
         type: MetaModuleMappings

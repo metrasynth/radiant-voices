@@ -1,8 +1,9 @@
+from contextlib import contextmanager
 from io import BytesIO
 from pathlib import Path
 
 import pytest
-from rv.api import Project, Synth, read_sunvox_file
+from rv.api import Project, Synth, m, read_sunvox_file
 from rv.lib.iff import dump_file
 
 
@@ -50,3 +51,24 @@ def read_write_read_project(test_files_path):
         return project
 
     return _read_write_read_project
+
+
+@pytest.fixture
+def dump_on_failure():
+    """Context manager useful for debugging test failures for module tests."""
+
+    @contextmanager
+    def _dump_on_failure(module: m.Module):
+        try:
+            yield
+        except Exception:
+            from rv.lib.iff import dump_file
+
+            f = BytesIO()
+            synth = Synth(module)
+            synth.write_to(f)
+            f.seek(0)
+            dump_file(f)
+            raise
+
+    return _dump_on_failure

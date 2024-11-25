@@ -77,3 +77,11 @@ class BaseMetaModule:
         exclusive_of=["receive_notes_from_keyboard"],
         default=False,
     )
+    auto_bpm_tpl = Option(
+        name="auto_bpm_tpl",
+        number=122,
+        byte=4,
+        bit=2,
+        size=1,
+        default=False,
+    )

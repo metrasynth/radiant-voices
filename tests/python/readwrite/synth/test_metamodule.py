@@ -1,5 +1,16 @@
 from rv.api import m
 
+EXPECTED_MAPPINGS = [
+    {"module": 1, "controller": 0},
+    {"module": 1, "controller": 1},
+] + [{"module": 0, "controller": 0}] * 94
+
+
+EXPECTED_CONTROLLER_NAMES = [
+    "V",
+    "W",
+] + [None] * 94
+
 
 def test_metamodule(read_write_read_synth):
     mod: m.MetaModule = read_write_read_synth("metamodule").module
@@ -35,13 +46,6 @@ def test_metamodule(read_write_read_synth):
     assert isinstance(project.modules[1], m.AnalogGenerator)
 
 
-EXPECTED_MAPPINGS = [
-    {"module": 1, "controller": 0},
-    {"module": 1, "controller": 1},
-] + [{"module": 0, "controller": 0}] * 94
-
-
-EXPECTED_CONTROLLER_NAMES = [
-    "V",
-    "W",
-] + [None] * 94
+def test_metamodule_auto_bpm_tpl(read_write_read_synth):
+    mod: m.MetaModule = read_write_read_synth("metamodule-auto-bpm-tpl").module
+    assert mod.auto_bpm_tpl is True
