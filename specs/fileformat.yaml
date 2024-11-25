@@ -2361,6 +2361,23 @@ module_types:
           size: 1
           default: false
 
+  Smooth:
+    defaultFlags: 0x49
+    group: Effect
+    enums:
+      Mode:
+        "linear": 0
+        "lp_filter": 1
+      Channels:
+        "stereo": 0
+        "mono": 1
+    controllers:
+      - rise: { min: 0, max: 32768, default: 5000 }
+      - fall: { min: 0, max: 32768, default: 5000 }
+      - fall_eq_rise: { bool: true, default: false }
+      - scale: { min: 0, max: 400, default: 100 }
+      - mode: { enum: Mode, default: "linear" }
+      - channels: { enum: Channels, default: "stereo" }
   Sound2Ctl:
     defaultFlags: 0x60051
     group: Misc

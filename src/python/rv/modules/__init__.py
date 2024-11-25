@@ -63,6 +63,7 @@ from .pitchdetector import PitchDetector
 from .pitchshifter import PitchShifter
 from .reverb import Reverb
 from .sampler import Sampler
+from .smooth import Smooth
 from .sound2ctl import Sound2Ctl
 from .spectravoice import SpectraVoice
 from .velocity2ctl import Velocity2Ctl
@@ -114,6 +115,7 @@ __all__ = [
     "PitchShifter",
     "Reverb",
     "Sampler",
+    "Smooth",
     "Sound2Ctl",
     "SpectraVoice",
     "Velocity2Ctl",

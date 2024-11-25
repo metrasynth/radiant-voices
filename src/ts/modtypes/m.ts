@@ -39,6 +39,7 @@ import { PitchDetector } from "./pitchDetector"
 import { PitchShifter } from "./pitchShifter"
 import { Reverb } from "./reverb"
 import { Sampler } from "./sampler"
+import { Smooth } from "./smooth"
 import { Sound2Ctl } from "./sound2Ctl"
 import { SpectraVoice } from "./spectraVoice"
 import { Velocity2Ctl } from "./velocity2Ctl"
@@ -81,6 +82,7 @@ export { PitchDetector }
 export { PitchShifter }
 export { Reverb }
 export { Sampler }
+export { Smooth }
 export { Sound2Ctl }
 export { SpectraVoice }
 export { Velocity2Ctl }
@@ -159,6 +161,8 @@ export const reverb = () => new Reverb.Module()
 // noinspection JSUnusedGlobalSymbols
 export const sampler = () => new Sampler.Module()
 // noinspection JSUnusedGlobalSymbols
+export const smooth = () => new Smooth.Module()
+// noinspection JSUnusedGlobalSymbols
 export const sound2Ctl = () => new Sound2Ctl.Module()
 // noinspection JSUnusedGlobalSymbols
 export const spectraVoice = () => new SpectraVoice.Module()
@@ -208,6 +212,7 @@ export const moduleTypesByName: Record<string, ModuleConstructor> = {
   "Pitch shifter": PitchShifter.Module,
   Reverb: Reverb.Module,
   Sampler: Sampler.Module,
+  Smooth: Smooth.Module,
   Sound2Ctl: Sound2Ctl.Module,
   SpectraVoice: SpectraVoice.Module,
   Velocity2Ctl: Velocity2Ctl.Module,
