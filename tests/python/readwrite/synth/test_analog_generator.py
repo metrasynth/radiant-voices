@@ -32,7 +32,7 @@ def test_analog_generator(read_write_read_synth):
     assert mod.mode == mod.Mode.lq
     assert mod.noise == 9
     assert mod.osc2_volume == 20640
-    assert mod.osc2_mode == mod.Osc2Mode.mul
+    assert mod.osc2_mode == mod.Osc2Mode.max_abs
     assert mod.osc2_phase == 0
 
     assert mod.volume_envelope_scaling_per_key

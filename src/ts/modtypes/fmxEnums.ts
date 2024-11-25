@@ -79,6 +79,8 @@ export enum ModulationType {
   BitwiseAnd = 7,
   BitwiseXor = 8,
   PhasePlus = 9,
+  MinAbs = 10,
+  MaxAbs = 11,
 }
 export enum Op1OutputMode {
   // noinspection JSUnusedGlobalSymbols

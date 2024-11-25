@@ -59,4 +59,6 @@ export enum Osc2Mode {
   Max = 4,
   BitwiseAnd = 5,
   BitwiseXor = 6,
+  MinAbs = 7,
+  MaxAbs = 8,
 }

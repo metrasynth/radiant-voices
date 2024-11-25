@@ -49,7 +49,7 @@ describe("Reading the analog-generator.sunsynth file", () => {
     expect(c.mode).toEqual(m.AnalogGenerator.Mode.Lq)
     expect(c.noise).toEqual(9)
     expect(c.osc2Volume).toEqual(20640)
-    expect(c.osc2Mode).toEqual(m.AnalogGenerator.Osc2Mode.Mul)
+    expect(c.osc2Mode).toEqual(m.AnalogGenerator.Osc2Mode.MaxAbs)
 
     const { o } = mod
     expect(o.volumeEnvelopeScalingPerKey).toEqual(true)
@@ -76,7 +76,7 @@ describe("Reading the analog-generator.sunsynth file", () => {
       expectChunk({ name: "CVAL", type: "int32", value })
     }
     expectChunk({ name: "SSYN", type: "empty" })
-    expectChunk({ name: "VERS", type: "version", value: [2, 0, 0, 0] })
+    expectChunk({ name: "VERS", type: "version", value: [2, 1, 2, 0] })
     expectChunk({ name: "SFFF", type: "uint32", value: 0x02000049 })
     expectChunk({ name: "SNAM", type: "fixedString", value: "analog-generator" })
     expectChunk({ name: "STYP", type: "cstring", value: "Analog generator" })
@@ -108,7 +108,7 @@ describe("Reading the analog-generator.sunsynth file", () => {
     expectCval(2)
     expectCval(9)
     expectCval(20640)
-    expectCval(2)
+    expectCval(8)
     expectCval(0)
 
     const { name, type, values } = v()

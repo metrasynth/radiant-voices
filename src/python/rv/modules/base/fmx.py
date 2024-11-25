@@ -81,6 +81,8 @@ class BaseFmx:
         bitwise_and = 7
         bitwise_xor = 8
         phase_plus = 9
+        min_abs = 10
+        max_abs = 11
 
     class Op1OutputMode(IntEnum):
         none = 0

@@ -870,6 +870,8 @@ module_types:
         "max": 4
         "bitwise_and": 5
         "bitwise_xor": 6
+        "min_abs": 7
+        "max_abs": 8
     controllers:
       - volume: { min: 0, max: 256, default: 80 }
       - waveform: { enum: Waveform, default: "triangle" }
@@ -1474,6 +1476,8 @@ module_types:
         "bitwise_and": 7
         "bitwise_xor": 8
         "phase_plus": 9
+        "min_abs": 10
+        "max_abs": 11
       Op1OutputMode:
         "none": 0
         "to_output": 1

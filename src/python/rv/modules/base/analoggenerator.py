@@ -64,6 +64,8 @@ class BaseAnalogGenerator:
         max = 4
         bitwise_and = 5
         bitwise_xor = 6
+        min_abs = 7
+        max_abs = 8
 
     volume = Controller((0, 256), 80)
     waveform = Controller(Waveform, Waveform.triangle)
