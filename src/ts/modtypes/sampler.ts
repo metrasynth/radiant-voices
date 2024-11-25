@@ -54,6 +54,12 @@ export namespace Sampler {
     Sustain = 2,
     Loop = 4,
   }
+  export enum Record {
+    // noinspection JSUnusedGlobalSymbols
+    Stop = 0,
+    Pause = 1,
+    Start = 2,
+  }
   export enum CtlNum {
     Volume = 1,
     Panning = 2,
@@ -61,6 +67,8 @@ export namespace Sampler {
     EnvelopeInterpolation = 4,
     Polyphony = 5,
     RecThreshold = 6,
+    TickLength = 7,
+    Record = 8,
   }
   interface SamplerControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
@@ -69,6 +77,8 @@ export namespace Sampler {
     envelopeInterpolation: ControllerMidiMap
     polyphony: ControllerMidiMap
     recThreshold: ControllerMidiMap
+    tickLength: ControllerMidiMap
+    record: ControllerMidiMap
   }
   interface SamplerOptionValues extends OptionValues {
     startRecordingOnProjectPlay: boolean
@@ -162,6 +172,12 @@ export namespace Sampler {
       (val: number) => {
         this.controllerValues.recThreshold = val
       },
+      (val: number) => {
+        this.controllerValues.tickLength = val
+      },
+      (val: number) => {
+        this.controllerValues.record = val
+      },
     ]
     readonly controllerValues: SamplerControllerValues = {
       volume: 256,
@@ -170,6 +186,8 @@ export namespace Sampler {
       envelopeInterpolation: EnvelopeInterpolation.Linear,
       polyphony: 8,
       recThreshold: 4,
+      tickLength: 128,
+      record: Record.Stop,
     }
     readonly controllers: SamplerControllers = new SamplerControllers(
       this,
@@ -183,6 +201,8 @@ export namespace Sampler {
       envelopeInterpolation: new ControllerMidiMap(),
       polyphony: new ControllerMidiMap(),
       recThreshold: new ControllerMidiMap(),
+      tickLength: new ControllerMidiMap(),
+      record: new ControllerMidiMap(),
     }
     readonly optionValues: SamplerOptionValues = {
       startRecordingOnProjectPlay: false,
@@ -224,6 +244,12 @@ export namespace Sampler {
         case 6:
           cv.recThreshold = value
           break
+        case 7:
+          cv.tickLength = value
+          break
+        case 8:
+          cv.record = value
+          break
       }
     }
     *rawControllerValues(): Generator<number> {
@@ -234,6 +260,8 @@ export namespace Sampler {
       yield cv.envelopeInterpolation
       yield cv.polyphony
       yield cv.recThreshold
+      yield cv.tickLength
+      yield cv.record
     }
     setMidiMaps(midiMaps: MidiMap[]) {
       this.midiMaps.volume = midiMaps[0] || {
@@ -272,6 +300,18 @@ export namespace Sampler {
         messageParameter: 0,
         slope: 0,
       }
+      this.midiMaps.tickLength = midiMaps[6] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.record = midiMaps[7] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []
@@ -281,6 +321,8 @@ export namespace Sampler {
       a.push(this.midiMaps.envelopeInterpolation)
       a.push(this.midiMaps.polyphony)
       a.push(this.midiMaps.recThreshold)
+      a.push(this.midiMaps.tickLength)
+      a.push(this.midiMaps.record)
       return a
     }
     rawOptionBytes(): Uint8Array {

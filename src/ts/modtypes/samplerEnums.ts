@@ -45,3 +45,9 @@ export enum EnvelopeFlags {
   Sustain = 2,
   Loop = 4,
 }
+export enum Record {
+  // noinspection JSUnusedGlobalSymbols
+  Stop = 0,
+  Pause = 1,
+  Start = 2,
+}

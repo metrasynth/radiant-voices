@@ -48,6 +48,11 @@ class BaseSampler:
         sustain = 2
         loop = 4
 
+    class Record(IntEnum):
+        stop = 0
+        pause = 1
+        start = 2
+
     volume = Controller((0, 512), 256)
     panning = Controller((-128, 128), 0)
     sample_interpolation = Controller(SampleInterpolation, SampleInterpolation.spline)
@@ -56,6 +61,8 @@ class BaseSampler:
     )
     polyphony = Controller((1, 32), 8)
     rec_threshold = Controller((0, 10000), 4)
+    tick_length = Controller((0, 2048), 128)
+    record = Controller(Record, Record.stop)
     start_recording_on_project_play = Option(
         name="start_recording_on_project_play",
         number=127,

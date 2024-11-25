@@ -2303,6 +2303,10 @@ module_types:
         "enabled": 1
         "sustain": 2
         "loop": 4
+      Record:
+        "stop": 0
+        "pause": 1
+        "start": 2
     controllers:
       - volume: { min: 0, max: 512, default: 256 }
       - panning: { min: -128, max: 128, default: 0 }
@@ -2310,6 +2314,8 @@ module_types:
       - envelope_interpolation: { enum: EnvelopeInterpolation, default: "linear" }
       - polyphony: { min: 1, max: 32, default: 8, units: "channels" }
       - rec_threshold: { min: 0, max: 10000, default: 4 }
+      - tick_length: { min: 0, max: 2048, default: 128 }
+      - record: { enum: Record, default: "stop" }
     options_chnm: 257
     options:
       - start_recording_on_project_play:

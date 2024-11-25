@@ -15,6 +15,8 @@ def test_sampler(read_write_read_synth):
     assert mod.envelope_interpolation == mod.EnvelopeInterpolation.off
     assert mod.polyphony == 32
     assert mod.rec_threshold == 2448
+    assert mod.tick_length == 627
+    assert mod.record == mod.Record.stop
 
     assert mod.start_recording_on_project_play is True
     assert mod.stop_recording_on_project_stop is False
