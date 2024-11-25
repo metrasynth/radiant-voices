@@ -44,6 +44,8 @@ export namespace MetaModule {
     receiveNotesFromKeyboard: boolean
     doNotReceiveNotesFromKeyboard: boolean
     autoBpmTpl: boolean
+    ignoreEff_31AfterLastNoteOff: boolean
+    jumpToRlPatternAfterLastNoteOff: boolean
   }
   class MetaModuleOptions implements Options {
     constructor(readonly optionValues: MetaModuleOptionValues) {}
@@ -108,6 +110,22 @@ export namespace MetaModule {
     set autoBpmTpl(newValue: boolean) {
       this.optionValues.autoBpmTpl = newValue
     }
+    // noinspection JSUnusedGlobalSymbols
+    get ignoreEff_31AfterLastNoteOff(): boolean {
+      return this.optionValues.ignoreEff_31AfterLastNoteOff
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set ignoreEff_31AfterLastNoteOff(newValue: boolean) {
+      this.optionValues.ignoreEff_31AfterLastNoteOff = newValue
+    }
+    // noinspection JSUnusedGlobalSymbols
+    get jumpToRlPatternAfterLastNoteOff(): boolean {
+      return this.optionValues.jumpToRlPatternAfterLastNoteOff
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set jumpToRlPatternAfterLastNoteOff(newValue: boolean) {
+      this.optionValues.jumpToRlPatternAfterLastNoteOff = newValue
+    }
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "MetaModule"
@@ -158,6 +176,8 @@ export namespace MetaModule {
       receiveNotesFromKeyboard: false,
       doNotReceiveNotesFromKeyboard: false,
       autoBpmTpl: false,
+      ignoreEff_31AfterLastNoteOff: false,
+      jumpToRlPatternAfterLastNoteOff: false,
     }
     readonly options: MetaModuleOptions = new MetaModuleOptions(this.optionValues)
     readonly o = this.options
@@ -239,7 +259,7 @@ export namespace MetaModule {
       return a
     }
     rawOptionBytes(): Uint8Array {
-      const bytes = new Uint8Array(7)
+      const bytes = new Uint8Array(9)
       const { optionValues: ov } = this
       bytes[0] |= (Number(ov.userDefinedControllers) & (2 ** 4 - 1)) << 0
       bytes[1] |= (Number(ov.arpeggiator) & (2 ** 1 - 1)) << 0
@@ -248,6 +268,8 @@ export namespace MetaModule {
       bytes[4] |= (Number(ov.receiveNotesFromKeyboard) & (2 ** 1 - 1)) << 0
       bytes[4] |= (Number(ov.doNotReceiveNotesFromKeyboard) & (2 ** 1 - 1)) << 1
       bytes[4] |= (Number(ov.autoBpmTpl) & (2 ** 1 - 1)) << 2
+      bytes[4] |= (Number(ov.ignoreEff_31AfterLastNoteOff) & (2 ** 1 - 1)) << 3
+      bytes[4] |= (Number(ov.jumpToRlPatternAfterLastNoteOff) & (2 ** 1 - 1)) << 4
       return bytes
     }
     setOptions(dataChunks: ModuleDataChunks) {
@@ -272,6 +294,12 @@ export namespace MetaModule {
           (chdt[4] >> 1) & (2 ** 1 - 1)
         )
         this.optionValues.autoBpmTpl = Boolean((chdt[4] >> 2) & (2 ** 1 - 1))
+        this.optionValues.ignoreEff_31AfterLastNoteOff = Boolean(
+          (chdt[4] >> 3) & (2 ** 1 - 1)
+        )
+        this.optionValues.jumpToRlPatternAfterLastNoteOff = Boolean(
+          (chdt[4] >> 4) & (2 ** 1 - 1)
+        )
       }
     }
   }

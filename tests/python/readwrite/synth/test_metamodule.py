@@ -46,6 +46,16 @@ def test_metamodule(read_write_read_synth):
     assert isinstance(project.modules[1], m.AnalogGenerator)
 
 
-def test_metamodule_auto_bpm_tpl(read_write_read_synth):
-    mod: m.MetaModule = read_write_read_synth("metamodule-auto-bpm-tpl").module
+def test_metamodule_7a(read_write_read_synth):
+    mod: m.MetaModule = read_write_read_synth("metamodule-option-7a").module
     assert mod.auto_bpm_tpl is True
+
+
+def test_metamodule_79(read_write_read_synth):
+    mod: m.MetaModule = read_write_read_synth("metamodule-option-79").module
+    assert mod.ignore_eff_31_after_last_note_off is True
+
+
+def test_metamodule_78(read_write_read_synth):
+    mod: m.MetaModule = read_write_read_synth("metamodule-option-78").module
+    assert mod.jump_to_rl_pattern_after_last_note_off is True

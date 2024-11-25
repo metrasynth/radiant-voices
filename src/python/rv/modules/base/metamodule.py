@@ -85,3 +85,19 @@ class BaseMetaModule:
         size=1,
         default=False,
     )
+    ignore_eff_31_after_last_note_off = Option(
+        name="ignore_eff_31_after_last_note_off",
+        number=121,
+        byte=4,
+        bit=3,
+        size=1,
+        default=False,
+    )
+    jump_to_rl_pattern_after_last_note_off = Option(
+        name="jump_to_rl_pattern_after_last_note_off",
+        number=120,
+        byte=4,
+        bit=4,
+        size=1,
+        default=False,
+    )

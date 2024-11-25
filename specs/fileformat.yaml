@@ -1925,6 +1925,18 @@ module_types:
           bit: 2
           size: 1
           default: false
+      - ignore_eff_31_after_last_note_off:
+          number: 0x79
+          byte: 4
+          bit: 3
+          size: 1
+          default: false
+      - jump_to_rl_pattern_after_last_note_off:
+          number: 0x78
+          byte: 4
+          bit: 4
+          size: 1
+          default: false
     chunks:
       - name: mappings
         type: MetaModuleMappings
