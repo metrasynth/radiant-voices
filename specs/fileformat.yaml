@@ -1088,6 +1088,8 @@ module_types:
       - delay_unit: { enum: DelayUnit, default: "sec/16384" }
       - delay_multiplier: { min: 1, max: 15, default: 1 }
       - feedback: { min: 0, max: 32768, default: 0 }
+      - negative_feedback: { bool: true, default: false }
+      - all_pass_filter: { bool: true, default: false }
 
   Distortion:
     defaultFlags: 0x00000051

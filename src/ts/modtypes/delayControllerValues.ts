@@ -22,4 +22,6 @@ export interface DelayControllerValues extends ControllerValues {
   delayUnit: DelayUnit
   delayMultiplier: number
   feedback: number
+  negativeFeedback: boolean
+  allPassFilter: boolean
 }

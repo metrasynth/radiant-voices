@@ -77,3 +77,5 @@ class BaseDelay:
     delay_unit = Controller(DelayUnit, DelayUnit.sec_div_16384)
     delay_multiplier = Controller((1, 15), 1)
     feedback = Controller((0, 32768), 0)
+    negative_feedback = Controller(bool, False)
+    all_pass_filter = Controller(bool, False)

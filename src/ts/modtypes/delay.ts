@@ -43,6 +43,8 @@ export namespace Delay {
     DelayUnit = 9,
     DelayMultiplier = 10,
     Feedback = 11,
+    NegativeFeedback = 12,
+    AllPassFilter = 13,
   }
   interface DelayControllerMidiMaps extends ControllerMidiMaps {
     dry: ControllerMidiMap
@@ -56,6 +58,8 @@ export namespace Delay {
     delayUnit: ControllerMidiMap
     delayMultiplier: ControllerMidiMap
     feedback: ControllerMidiMap
+    negativeFeedback: ControllerMidiMap
+    allPassFilter: ControllerMidiMap
   }
   interface DelayOptionValues extends OptionValues {}
   class DelayOptions implements Options {
@@ -99,6 +103,12 @@ export namespace Delay {
       (val: number) => {
         this.controllerValues.feedback = val
       },
+      (val: number) => {
+        this.controllerValues.negativeFeedback = Boolean(val)
+      },
+      (val: number) => {
+        this.controllerValues.allPassFilter = Boolean(val)
+      },
     ]
     readonly controllerValues: DelayControllerValues = {
       dry: 256,
@@ -112,6 +122,8 @@ export namespace Delay {
       delayUnit: DelayUnit.SecDiv_16384,
       delayMultiplier: 1,
       feedback: 0,
+      negativeFeedback: false,
+      allPassFilter: false,
     }
     readonly controllers: DelayControllers = new DelayControllers(
       this,
@@ -130,6 +142,8 @@ export namespace Delay {
       delayUnit: new ControllerMidiMap(),
       delayMultiplier: new ControllerMidiMap(),
       feedback: new ControllerMidiMap(),
+      negativeFeedback: new ControllerMidiMap(),
+      allPassFilter: new ControllerMidiMap(),
     }
     readonly optionValues: DelayOptionValues = {}
     readonly options: DelayOptions = new DelayOptions(this.optionValues)
@@ -178,6 +192,12 @@ export namespace Delay {
         case 11:
           cv.feedback = value
           break
+        case 12:
+          cv.negativeFeedback = Boolean(value)
+          break
+        case 13:
+          cv.allPassFilter = Boolean(value)
+          break
       }
     }
     *rawControllerValues(): Generator<number> {
@@ -193,6 +213,8 @@ export namespace Delay {
       yield cv.delayUnit
       yield cv.delayMultiplier
       yield cv.feedback
+      yield Number(cv.negativeFeedback)
+      yield Number(cv.allPassFilter)
     }
     setMidiMaps(midiMaps: MidiMap[]) {
       this.midiMaps.dry = midiMaps[0] || {
@@ -261,6 +283,18 @@ export namespace Delay {
         messageParameter: 0,
         slope: 0,
       }
+      this.midiMaps.negativeFeedback = midiMaps[11] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.allPassFilter = midiMaps[12] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []
@@ -275,6 +309,8 @@ export namespace Delay {
       a.push(this.midiMaps.delayUnit)
       a.push(this.midiMaps.delayMultiplier)
       a.push(this.midiMaps.feedback)
+      a.push(this.midiMaps.negativeFeedback)
+      a.push(this.midiMaps.allPassFilter)
       return a
     }
   }

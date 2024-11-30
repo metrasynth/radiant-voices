@@ -187,4 +187,22 @@ export class DelayBaseControllers implements Controllers {
     newValue = Math.min(Math.max(newValue, 0), 32768)
     controllerValues.feedback = newValue
   }
+  // noinspection JSUnusedGlobalSymbols
+  get negativeFeedback(): boolean {
+    return this.controllerValues.negativeFeedback
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set negativeFeedback(newValue: boolean) {
+    const { controllerValues } = this
+    controllerValues.negativeFeedback = newValue
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get allPassFilter(): boolean {
+    return this.controllerValues.allPassFilter
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set allPassFilter(newValue: boolean) {
+    const { controllerValues } = this
+    controllerValues.allPassFilter = newValue
+  }
 }
