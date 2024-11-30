@@ -28,7 +28,7 @@ describe("Reading the reverb.sunsynth file", () => {
     expect(c.stereoWidth).toEqual(75)
     expect(c.freeze).toEqual(true)
     expect(c.mode).toEqual(m.Reverb.Mode.Lq)
-    expect(c.allPassFilter).toEqual(true)
+    expect(c.allPassFilter).toEqual(m.Reverb.AllPassFilter.On)
     expect(c.roomSize).toEqual(32)
     expect(c.randomSeed).toEqual(23552)
   })

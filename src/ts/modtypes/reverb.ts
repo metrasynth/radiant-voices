@@ -20,6 +20,12 @@ export namespace Reverb {
     Lq = 2,
     LqMono = 3,
   }
+  export enum AllPassFilter {
+    // noinspection JSUnusedGlobalSymbols
+    Off = 0,
+    On = 1,
+    OnImproved = 2,
+  }
   export enum CtlNum {
     Dry = 1,
     Wet = 2,
@@ -75,7 +81,7 @@ export namespace Reverb {
         this.controllerValues.mode = val
       },
       (val: number) => {
-        this.controllerValues.allPassFilter = Boolean(val)
+        this.controllerValues.allPassFilter = val
       },
       (val: number) => {
         this.controllerValues.roomSize = val
@@ -92,7 +98,7 @@ export namespace Reverb {
       stereoWidth: 256,
       freeze: false,
       mode: Mode.Hq,
-      allPassFilter: true,
+      allPassFilter: AllPassFilter.On,
       roomSize: 16,
       randomSeed: 0,
     }
@@ -149,7 +155,7 @@ export namespace Reverb {
           cv.mode = value
           break
         case 8:
-          cv.allPassFilter = Boolean(value)
+          cv.allPassFilter = value
           break
         case 9:
           cv.roomSize = value
@@ -168,7 +174,7 @@ export namespace Reverb {
       yield cv.stereoWidth
       yield Number(cv.freeze)
       yield cv.mode
-      yield Number(cv.allPassFilter)
+      yield cv.allPassFilter
       yield cv.roomSize
       yield cv.randomSeed
     }

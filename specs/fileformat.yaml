@@ -2289,6 +2289,10 @@ module_types:
         "hq_mono": 1
         "lq": 2
         "lq_mono": 3
+      AllPassFilter:
+        "off": 0
+        "on": 1
+        "on_improved": 2
     controllers:
       - dry: { min: 0, max: 256, default: 256 }
       - wet: { min: 0, max: 256, default: 40 }
@@ -2297,7 +2301,7 @@ module_types:
       - stereo_width: { min: 0, max: 256, default: 256 }
       - freeze: { bool: true, default: false }
       - mode: { enum: Mode, default: "hq" }
-      - all_pass_filter: { bool: true, default: true }
+      - all_pass_filter: { enum: AllPassFilter, default: "on" }
       - room_size: { min: 0, max: 128, default: 16 }
       - random_seed: { min: 0, max: 32768, default: 0 }
 

@@ -20,6 +20,11 @@ class BaseReverb:
         lq = 2
         lq_mono = 3
 
+    class AllPassFilter(IntEnum):
+        off = 0
+        on = 1
+        on_improved = 2
+
     dry = Controller((0, 256), 256)
     wet = Controller((0, 256), 40)
     feedback = Controller((0, 256), 256)
@@ -27,6 +32,6 @@ class BaseReverb:
     stereo_width = Controller((0, 256), 256)
     freeze = Controller(bool, False)
     mode = Controller(Mode, Mode.hq)
-    all_pass_filter = Controller(bool, True)
+    all_pass_filter = Controller(AllPassFilter, AllPassFilter.on)
     room_size = Controller((0, 128), 16)
     random_seed = Controller((0, 32768), 0)

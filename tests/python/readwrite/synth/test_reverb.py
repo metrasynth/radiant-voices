@@ -12,6 +12,6 @@ def test_reverb(read_write_read_synth):
     assert mod.stereo_width == 75
     assert mod.freeze
     assert mod.mode == mod.Mode.lq
-    assert mod.all_pass_filter
+    assert mod.all_pass_filter == mod.AllPassFilter.on
     assert mod.room_size == 32
     assert mod.random_seed == 23552
