@@ -1318,6 +1318,10 @@ module_types:
         "24dB": 1
         "36dB": 2
         "48dB": 3
+        "60dB": 4
+        "72dB": 5
+        "84dB": 6
+        "96dB": 7
       Mode:
         "stereo": 0
         "mono": 1

@@ -33,6 +33,10 @@ export namespace FilterPro {
     _24db = 1,
     _36db = 2,
     _48db = 3,
+    _60db = 4,
+    _72db = 5,
+    _84db = 6,
+    _96db = 7,
   }
   export enum Mode {
     // noinspection JSUnusedGlobalSymbols
