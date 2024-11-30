@@ -18,7 +18,7 @@ describe("Reading the glide.sunsynth file", () => {
   })
   test("has correct properties, controllers, and options", () => {
     const mod = synth.module as m.Glide.Module
-    expect(mod.flags).toEqual(135241)
+    expect(mod.flags).toEqual(33951817)
     expect(mod.name).toEqual("Glide")
     const { c } = mod
     expect(c.response).toEqual(220)
@@ -28,5 +28,8 @@ describe("Reading the glide.sunsynth file", () => {
     expect(c.pitch).toEqual(-537)
     expect(c.pitchScale).toEqual(48)
     expect(c.reset).toEqual(false)
+    expect(c.octave).toEqual(3)
+    expect(c.freqMultiply).toEqual(5)
+    expect(c.freqDivide).toEqual(7)
   })
 })

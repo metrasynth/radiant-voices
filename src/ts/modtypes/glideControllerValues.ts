@@ -12,4 +12,7 @@ export interface GlideControllerValues extends ControllerValues {
   pitch: number
   pitchScale: number
   reset: boolean
+  octave: number
+  freqMultiply: number
+  freqDivide: number
 }

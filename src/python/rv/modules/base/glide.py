@@ -18,3 +18,6 @@ class BaseGlide:
     pitch = Controller((-600, 600), 0)
     pitch_scale = Controller((0, 200), 100)
     reset = Controller(bool, False)
+    octave = Controller((-10, 10), 0)
+    freq_multiply = Controller((1, 256), 1)
+    freq_divide = Controller((1, 256), 1)

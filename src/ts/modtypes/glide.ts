@@ -19,6 +19,9 @@ export namespace Glide {
     Pitch = 5,
     PitchScale = 6,
     Reset = 7,
+    Octave = 8,
+    FreqMultiply = 9,
+    FreqDivide = 10,
   }
   interface GlideControllerMidiMaps extends ControllerMidiMaps {
     response: ControllerMidiMap
@@ -28,6 +31,9 @@ export namespace Glide {
     pitch: ControllerMidiMap
     pitchScale: ControllerMidiMap
     reset: ControllerMidiMap
+    octave: ControllerMidiMap
+    freqMultiply: ControllerMidiMap
+    freqDivide: ControllerMidiMap
   }
   interface GlideOptionValues extends OptionValues {}
   class GlideOptions implements Options {
@@ -59,6 +65,15 @@ export namespace Glide {
       (val: number) => {
         this.controllerValues.reset = Boolean(val)
       },
+      (val: number) => {
+        this.controllerValues.octave = val
+      },
+      (val: number) => {
+        this.controllerValues.freqMultiply = val
+      },
+      (val: number) => {
+        this.controllerValues.freqDivide = val
+      },
     ]
     readonly controllerValues: GlideControllerValues = {
       response: 500,
@@ -68,6 +83,9 @@ export namespace Glide {
       pitch: 0,
       pitchScale: 100,
       reset: false,
+      octave: 0,
+      freqMultiply: 1,
+      freqDivide: 1,
     }
     readonly controllers: GlideControllers = new GlideControllers(
       this,
@@ -82,6 +100,9 @@ export namespace Glide {
       pitch: new ControllerMidiMap(),
       pitchScale: new ControllerMidiMap(),
       reset: new ControllerMidiMap(),
+      octave: new ControllerMidiMap(),
+      freqMultiply: new ControllerMidiMap(),
+      freqDivide: new ControllerMidiMap(),
     }
     readonly optionValues: GlideOptionValues = {}
     readonly options: GlideOptions = new GlideOptions(this.optionValues)
@@ -118,6 +139,15 @@ export namespace Glide {
         case 7:
           cv.reset = Boolean(value)
           break
+        case 8:
+          cv.octave = value
+          break
+        case 9:
+          cv.freqMultiply = value
+          break
+        case 10:
+          cv.freqDivide = value
+          break
       }
     }
     *rawControllerValues(): Generator<number> {
@@ -129,6 +159,9 @@ export namespace Glide {
       yield cv.pitch
       yield cv.pitchScale
       yield Number(cv.reset)
+      yield cv.octave
+      yield cv.freqMultiply
+      yield cv.freqDivide
     }
     setMidiMaps(midiMaps: MidiMap[]) {
       this.midiMaps.response = midiMaps[0] || {
@@ -173,6 +206,24 @@ export namespace Glide {
         messageParameter: 0,
         slope: 0,
       }
+      this.midiMaps.octave = midiMaps[7] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.freqMultiply = midiMaps[8] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.freqDivide = midiMaps[9] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []
@@ -183,6 +234,9 @@ export namespace Glide {
       a.push(this.midiMaps.pitch)
       a.push(this.midiMaps.pitchScale)
       a.push(this.midiMaps.reset)
+      a.push(this.midiMaps.octave)
+      a.push(this.midiMaps.freqMultiply)
+      a.push(this.midiMaps.freqDivide)
       return a
     }
   }

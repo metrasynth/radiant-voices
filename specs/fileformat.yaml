@@ -1720,6 +1720,9 @@ module_types:
       - pitch: { min: -600, max: 600, default: 0, units: "semitone/10" }
       - pitch_scale: { min: 0, max: 200, default: 100, units: "%" }
       - reset: { bool: true, default: false }
+      - octave: { min: -10, max: 10, default: 0 }
+      - freq_multiply: { min: 1, max: 256, default: 1 }
+      - freq_divide: { min: 1, max: 256, default: 1 }
 
   Gpio:
     type: GPIO
