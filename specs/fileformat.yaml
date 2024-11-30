@@ -2233,6 +2233,7 @@ module_types:
         "zero_crossing": 0
         "autocorrelation": 1
         "cepstrum": 2
+        "spectral_peak": 3
       RollOff:
         "12dB": 0
         "24dB": 1

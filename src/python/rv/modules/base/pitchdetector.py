@@ -18,6 +18,7 @@ class BasePitchDetector:
         zero_crossing = 0
         autocorrelation = 1
         cepstrum = 2
+        spectral_peak = 3
 
     class RollOff(IntEnum):
         _12db = 0

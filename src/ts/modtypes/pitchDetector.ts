@@ -18,6 +18,7 @@ export namespace PitchDetector {
     ZeroCrossing = 0,
     Autocorrelation = 1,
     Cepstrum = 2,
+    SpectralPeak = 3,
   }
   export enum RollOff {
     // noinspection JSUnusedGlobalSymbols
