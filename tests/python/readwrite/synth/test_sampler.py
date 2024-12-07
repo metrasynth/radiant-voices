@@ -167,6 +167,7 @@ def test_sampler(read_write_read_synth):
     assert sample1.finetune == 72
     assert sample1.panning == 58
     assert sample1.relative_note == 28
+    assert sample1.start_pos == 3
     assert sample1.data == pack(
         "<" + ("b" * len(EXPECTED_SAMPLE1_SAMPLES)),
         *EXPECTED_SAMPLE1_SAMPLES,
@@ -181,6 +182,7 @@ def test_sampler(read_write_read_synth):
     assert sample2.finetune == 78
     assert sample2.panning == -27
     assert sample2.relative_note == -16
+    assert sample2.start_pos == 0
     assert sample2.data == pack(
         "<" + ("h" * len(EXPECTED_SAMPLE2_SAMPLES)),
         *EXPECTED_SAMPLE2_SAMPLES,
@@ -195,6 +197,7 @@ def test_sampler(read_write_read_synth):
     assert sample3.finetune == -49
     assert sample3.panning == 37
     assert sample3.relative_note == 8
+    assert sample3.start_pos == 0
     assert sample3.data == pack(
         "<" + ("f" * len(EXPECTED_SAMPLE3_SAMPLES)),
         *EXPECTED_SAMPLE3_SAMPLES,

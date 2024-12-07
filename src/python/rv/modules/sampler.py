@@ -2,7 +2,7 @@ import logging
 from io import BytesIO
 from itertools import chain
 from struct import pack, unpack
-from typing import List, Optional
+from typing import BinaryIO, List, Optional
 
 from logutils import BraceMessage as _F
 from rv.controller import Controller
@@ -27,6 +27,9 @@ class Sampler(BaseSampler, Module):
         in the ``simple_examples`` included with SunVox, must first be
         loaded into the latest version of SunVox and then saved.
     """
+
+    INS_VERSION = 6
+    XI_ENV_POINTS = 12
 
     chnk = 0x109
     options_chnm = 0x0101
@@ -138,8 +141,7 @@ class Sampler(BaseSampler, Module):
             )
             data += b"\0\0\0\0"
             for x, y in self.points:
-                y -= self.range[0]
-                data += pack("<HH", x, y)
+                data += pack("<HH", x, y - self.range[0])
             yield b"CHDT", data
 
         def load_chdt(self, chdt):
@@ -215,6 +217,7 @@ class Sampler(BaseSampler, Module):
     class Sample:
         def __init__(self):
             self.data = b""
+            self._length = 0
             self.loop_start = 0
             self.loop_len = 0
             self.volume = 64
@@ -226,7 +229,9 @@ class Sampler(BaseSampler, Module):
             self.loop_sustain = False
             self.panning = 0
             self.relative_note = 16
-            self.unknown6 = b"\0" * 23
+            self.reserved2 = 0
+            self.name = b""
+            self.start_pos = 0
 
         @property
         def frame_size(self):
@@ -251,6 +256,24 @@ class Sampler(BaseSampler, Module):
     volume_fadeout = Controller((0, 8192), 0, attached=False)
 
     samples: List[Optional[Sample]]
+    version: int
+    max_version: int
+
+    # Legacy
+    instrument_name: bytes
+    volume_old: int
+    ins_finetune: int
+    ins_relative_note: int
+    editor_cursor: int
+    editor_selected_size: int
+
+    # Unused
+    unused1: int
+    unused2: int
+    unused3: int
+    unused4: int
+    unused5: int
+    unused6: int
 
     def __init__(self, **kwargs):
         super(Sampler, self).__init__(**kwargs)
@@ -265,11 +288,18 @@ class Sampler(BaseSampler, Module):
         ]
         self.note_samples = self.NoteSampleMap()
         self.samples = [None] * 128
-        self.unknown1 = b"\0" * 28
-        self.unknown2 = b"\0" * 4
-        self.unknown3 = b"\x40\x00\x80\x00\x00\x00\x00\x00"
-        self.unknown4 = b"\x04\x00\x00\x00"
-        self.unknown5 = b"\0" * 9
+        self.instrument_name = kwargs.get("instrument_name", b"")
+        self.version = self.INS_VERSION
+        self.max_version = self.INS_VERSION
+        self.unused1 = 0
+        self.unused2 = 0
+        self.unused3 = 0
+        self.unused4 = 0
+        self.volume_old = 64
+        self.ins_finetune = 0
+        self.ins_relative_note = 0
+        self.editor_cursor = 0
+        self.editor_selected_size = 0
         self.effect = None
 
     def specialized_iff_chunks(self):
@@ -297,42 +327,86 @@ class Sampler(BaseSampler, Module):
                 yield from self.sample_chunks(i, sample)
 
     def global_config_chunks(self):
-        def b(v):
-            return pack("<B", v)
-
         f = BytesIO()
-        w = f.write
-        w(self.unknown1)
+        w = _StructWriter(f)
+
+        vol = self.volume_envelope
+        pan = self.panning_envelope
+
+        # uint32_t unused1;
+        w.uint32(self.unused1)
+        # char name[ 22 ];
+        w.char(self.instrument_name, 22)
+        # uint16_t unused2;
+        w.uint16(self.unused2)
+        # uint16_t samples_num;
         compacted_samples = self.samples.copy()
         while compacted_samples and compacted_samples[-1] is None:
             compacted_samples.pop()
-        w(pack("<I", len(compacted_samples)))
-        w(self.unknown2)
-        w(self.note_samples.bytes[:96])
-        vol = self.volume_envelope
-        pan = self.panning_envelope
-        w(vol.point_bytes)
-        w(pan.point_bytes)
-        w(b(len(vol.points)))
-        w(b(len(pan.points)))
-        w(b(vol.sustain_point))
-        w(b(vol.loop_start_point))
-        w(b(vol.loop_end_point))
-        w(b(pan.sustain_point))
-        w(b(pan.loop_start_point))
-        w(b(pan.loop_end_point))
-        w(b(vol.bitmask))
-        w(b(pan.bitmask))
-        w(b(self.vibrato_type.value))
-        w(b(self.vibrato_attack))
-        w(b(self.vibrato_depth))
-        w(b(self.vibrato_rate))
-        w(pack("<H", self.volume_fadeout))
-        w(self.unknown3)
-        w(b"PMAS")
-        w(self.unknown4)
-        w(self.note_samples.bytes)
-        w(self.unknown5)
+        w.uint16(len(compacted_samples))
+        # uint16_t unused3;
+        w.uint16(self.unused3)
+        # uint32_t unused4;
+        w.uint32(self.unused4)
+        # uint8_t smp_num_old[ 96 ];
+        f.write(self.note_samples.bytes[:96])
+        # uint16_t volume_points_old[ XI_ENV_POINTS * 2 ];
+        f.write(vol.point_bytes)
+        # uint16_t panning_points_old[ XI_ENV_POINTS * 2 ];
+        f.write(pan.point_bytes)
+        # uint8_t volume_points_num_old;
+        w.uint8(len(vol.points))
+        # uint8_t panning_points_num_old;
+        w.uint8(len(pan.points))
+        # uint8_t vol_sustain_old;
+        w.uint8(vol.sustain_point)
+        # uint8_t vol_loop_start_old;
+        w.uint8(vol.loop_start_point)
+        # uint8_t vol_loop_end_old;
+        w.uint8(vol.loop_end_point)
+        # uint8_t pan_sustain_old;
+        w.uint8(pan.sustain_point)
+        # uint8_t pan_loop_start_old;
+        w.uint8(pan.loop_start_point)
+        # uint8_t pan_loop_end_old;
+        w.uint8(pan.loop_end_point)
+        # uint8_t volume_type_old;
+        w.uint8(vol.bitmask)
+        # uint8_t panning_type_old;
+        w.uint8(pan.bitmask)
+        # uint8_t vibrato_type;
+        w.uint8(self.vibrato_type.value)
+        # uint8_t vibrato_sweep;
+        w.uint8(self.vibrato_attack)
+        # uint8_t vibrato_depth;
+        w.uint8(self.vibrato_depth)
+        # uint8_t vibrato_rate;
+        w.uint8(self.vibrato_rate)
+        # uint16_t volume_fadeout;
+        w.uint16(self.volume_fadeout)
+        # uint8_t volume_old;
+        w.uint8(self.volume_old)
+        # int8_t finetune;
+        w.int8(self.ins_finetune)
+        # uint8_t unused5;
+        w.uint8(self.unused5)
+        # int8_t relative_note;
+        w.int8(self.ins_relative_note)
+        # uint32_t unused6;
+        w.uint32(self.unused6)
+        # uint32_t sign;
+        f.write(b"PMAS")  # "SAMP" in little-endian
+        # uint32_t version;
+        w.uint32(self.version)
+        # uint8_t smp_num[ 128 ];
+        f.write(self.note_samples.bytes)
+        # uint32_t max_version;
+        w.uint32(self.max_version)
+        # int32_t editor_cursor;
+        w.int32(self.editor_cursor)
+        # int32_t editor_selected_size;
+        w.int32(self.editor_selected_size)
+
         yield b"CHNM", pack("<I", 0)
         yield b"CHDT", f.getvalue()
         f.close()
@@ -343,12 +417,19 @@ class Sampler(BaseSampler, Module):
 
     def sample_chunks(self, i, sample):
         f = BytesIO()
-        w = f.write
-        w(pack("<I", sample.frames))
-        w(pack("<I", sample.loop_start))
-        w(pack("<I", sample.loop_len))
-        w(pack("<B", sample.volume))
-        w(pack("<b", sample.finetune))
+        w = _StructWriter(f)
+
+        # uint32_t length;
+        w.uint32(sample.frames)
+        # uint32_t reppnt;
+        w.uint32(sample.loop_start)
+        # uint32_t replen;
+        w.uint32(sample.loop_len)
+        # uint8_t volume;
+        w.uint8(sample.volume)
+        # int8_t finetune;
+        w.int8(sample.finetune)
+        # uint8_t type;
         sustain_flag = 4 if sample.loop_sustain else 0
         format_flag = {
             self.Format.int8: 0x00,
@@ -361,10 +442,18 @@ class Sampler(BaseSampler, Module):
         loop_format_flags = (
             sample.loop_type.value | format_flag | channels_flag | sustain_flag
         )
-        w(pack("<B", loop_format_flags))
-        w(pack("<B", sample.panning + 0x80))
-        w(pack("<b", sample.relative_note))
-        w(sample.unknown6)
+        w.uint8(loop_format_flags)
+        # uint8_t panning;
+        w.uint8(sample.panning + 0x80)
+        # int8_t relative_note;
+        w.int8(sample.relative_note)
+        # uint8_t reserved2;
+        w.uint8(sample.reserved2)
+        # char name[ 22 ];
+        w.char(sample.name, 22)
+        # uint32_t start_pos;
+        w.uint32(sample.start_pos)
+
         yield b"CHNM", pack("<I", i * 2 + 1)
         yield b"CHDT", f.getvalue()
         f.close()
@@ -380,7 +469,7 @@ class Sampler(BaseSampler, Module):
         if chnm == self.options_chnm:
             self.load_options(chunk)
         elif chnm == 0:
-            self.load_envelopes(chunk)
+            self.load_instrument(chunk)
         elif chnm < 0x101 and chnm % 2 == 1:
             self.load_sample_meta(chunk)
         elif chnm < 0x101 and chnm % 2 == 0:
@@ -398,43 +487,105 @@ class Sampler(BaseSampler, Module):
         elif chnm == 0x10A:
             self.effect = read_sunvox_file(BytesIO(chdt))
 
-    def load_envelopes(self, chunk):
+    def load_instrument(self, chunk):
         data = chunk.chdt
+        r = _StructReader(data)
+
         vol = self.volume_envelope
         pan = self.panning_envelope
-        vol._legacy_point_bytes = data[0x84:0xB4]
-        pan._legacy_point_bytes = data[0xB4:0xE4]
-        vol._legacy_active_points = data[0xE4]
-        pan._legacy_active_points = data[0xE5]
-        vol._legacy_sustain_point = data[0xE6]
-        vol._legacy_loop_start_point = data[0xE7]
-        vol._legacy_loop_end_point = data[0xE8]
-        pan._legacy_sustain_point = data[0xE9]
-        pan._legacy_loop_start_point = data[0xEA]
-        pan._legacy_loop_end_point = data[0xEB]
-        vol._legacy_bitmask = data[0xEC]
-        pan._legacy_bitmask = data[0xED]
-        self.vibrato_type = self.VibratoType(data[0xEE])
-        self.vibrato_attack = data[0xEF]
-        self.vibrato_depth = data[0xF0]
-        self.vibrato_rate = data[0xF1]
-        (self.volume_fadeout,) = unpack("<H", data[0xF2:0xF4])
-        self.note_samples.bytes = data[0x104:0x17B]
-        self.unknown1 = data[0x00:0x1C]
-        self.unknown2 = data[0x20:0x24]
-        self.unknown3 = data[0xF4:0xFC]
-        self.unknown4 = data[0x100:0x104]
-        self.unknown5 = data[0x17B:0x184]
+
+        # uint32_t unused1;
+        self.unused1 = r.uint32()
+        # char name[ 22 ];
+        self.instrument_name = r.char(22)
+        # uint16_t unused2;
+        self.unused2 = r.uint16()
+        # uint16_t samples_num;
+        _ = r.uint16()
+        # uint16_t unused3;
+        self.unused3 = r.uint16()
+        # uint32_t unused4;
+        self.unused4 = r.uint32()
+        # uint8_t smp_num_old[ 96 ];
+        self.note_samples.bytes = r.bytes(96)
+        # uint16_t volume_points_old[ XI_ENV_POINTS * 2 ];
+        vol._legacy_point_bytes = r.bytes(self.XI_ENV_POINTS * 2 * 2)
+        # uint16_t panning_points_old[ XI_ENV_POINTS * 2 ];
+        pan._legacy_point_bytes = r.bytes(self.XI_ENV_POINTS * 2 * 2)
+        # uint8_t volume_points_num_old;
+        vol._legacy_active_points = r.uint8()
+        # uint8_t panning_points_num_old;
+        pan._legacy_active_points = r.uint8()
+        # uint8_t vol_sustain_old;
+        vol._legacy_sustain_point = r.uint8()
+        # uint8_t vol_loop_start_old;
+        vol._legacy_loop_start_point = r.uint8()
+        # uint8_t vol_loop_end_old;
+        vol._legacy_loop_end_point = r.uint8()
+        # uint8_t pan_sustain_old;
+        pan._legacy_sustain_point = r.uint8()
+        # uint8_t pan_loop_start_old;
+        pan._legacy_loop_start_point = r.uint8()
+        # uint8_t pan_loop_end_old;
+        pan._legacy_loop_end_point = r.uint8()
+        # uint8_t volume_type_old;
+        vol._legacy_bitmask = r.uint8()
+        # uint8_t panning_type_old;
+        pan._legacy_bitmask = r.uint8()
+        # uint8_t vibrato_type;
+        self.vibrato_type = self.VibratoType(r.uint8())
+        # uint8_t vibrato_sweep;
+        self.vibrato_attack = r.uint8()
+        # uint8_t vibrato_depth;
+        self.vibrato_depth = r.uint8()
+        # uint8_t vibrato_rate;
+        self.vibrato_rate = r.uint8()
+        # uint16_t volume_fadeout;
+        self.volume_fadeout = r.uint16()
+        # uint8_t volume_old;
+        self.volume_old = r.uint8()
+        # int8_t finetune;
+        self.ins_finetune = r.int8()
+        # uint8_t unused5;
+        self.unused5 = r.uint8()
+        # int8_t relative_note;
+        self.ins_relative_note = r.int8()
+        # uint32_t unused6;
+        self.unused6 = r.uint32()
+        # uint32_t sign;
+        sign = r.char(4)
+        if sign != b"PMAS":
+            raise NotImplementedError(f"Unknown signature {sign!r}")
+        # uint32_t version;
+        self.version = r.uint32()
+        # uint8_t smp_num[ 128 ];
+        self.note_samples.bytes = r.char(128)
+        # uint32_t max_version;
+        self.max_version = r.uint32(self.INS_VERSION)
+        # int32_t editor_cursor;
+        self.editor_cursor = r.int32(0)
+        # int32_t editor_selected_size;
+        self.editor_selected_size = r.int32(0)
 
     def load_sample_meta(self, chunk):
         index = (chunk.chnm - 1) // 2
         sample = self.samples[index] = self.Sample()
         data = chunk.chdt
-        (sample.loop_start,) = unpack("<I", data[0x04:0x08])
-        (sample.loop_len,) = unpack("<I", data[0x08:0x0C])
-        sample.volume = data[0x0C]
-        (sample.finetune,) = unpack("<b", data[0x0D:0x0E])
-        loop_format_flags = data[0x0E]
+
+        r = _StructReader(data)
+
+        # uint32_t length;
+        sample._length = r.uint32()
+        # uint32_t reppnt;
+        sample.loop_start = r.uint32()
+        # uint32_t replen;
+        sample.loop_len = r.uint32()
+        # uint8_t volume;
+        sample.volume = r.uint8()
+        # int8_t finetune;
+        sample.finetune = r.int8()
+        # uint8_t type;
+        loop_format_flags = r.uint8()
         loop = loop_format_flags & (0 | 1 | 2)
         sample.loop_type = self.LoopType(loop)
         format = loop_format_flags & (0x00 | 0x10 | 0x20)
@@ -448,9 +599,16 @@ class Sampler(BaseSampler, Module):
         else:
             sample.channels = self.Channels.mono
         sample.loop_sustain = bool(loop_format_flags & 4)
-        sample.panning = data[0x0F] - 0x80
-        (sample.relative_note,) = unpack("<b", data[0x10:0x11])
-        sample.unknown6 = data[0x11:0x28]
+        # uint8_t panning;
+        sample.panning = r.uint8() - 0x80
+        # int8_t relative_note;
+        sample.relative_note = r.int8()
+        # uint8_t reserved2;
+        sample.reserved2 = r.uint8()
+        # char name[ 22 ];
+        sample.name = r.char(22)
+        # uint32_t start_pos;
+        sample.start_pos = r.uint32(0)
 
     def load_sample_data(self, chunk):
         index = (chunk.chnm - 2) // 2
@@ -494,10 +652,12 @@ class Sampler(BaseSampler, Module):
         ]
         vol_y_points = [
             unpack("<H", vol._legacy_point_bytes[4 * i + 2 : 4 * i + 4])[0] * 0x200
+            + vol.range[0]
             for i in range(vol._legacy_active_points)
         ]
         pan_y_points = [
             unpack("<H", pan._legacy_point_bytes[4 * i + 2 : 4 * i + 4])[0] * 0x200
+            + pan.range[0]
             - pan.range[0]
             for i in range(pan._legacy_active_points)
         ]
@@ -507,3 +667,77 @@ class Sampler(BaseSampler, Module):
         pan.points = [
             (pan_x_points[i], pan_y_points[i]) for i in range(pan._legacy_active_points)
         ]
+
+
+class _StructWriter:
+    def __init__(self, f: BinaryIO):
+        self._f = f
+
+    def char(self, value: bytes, width: int) -> None:
+        self._f.write(value.ljust(width, b"\0")[:width])
+
+    def int8(self, value: int) -> None:
+        self._f.write(pack("<b", value))
+
+    def uint8(self, value: int) -> None:
+        self._f.write(pack("<B", value))
+
+    def int16(self, value: int) -> None:
+        self._f.write(pack("<h", value))
+
+    def uint16(self, value: int) -> None:
+        self._f.write(pack("<H", value))
+
+    def int32(self, value: int) -> None:
+        self._f.write(pack("<i", value))
+
+    def uint32(self, value: int) -> None:
+        self._f.write(pack("<I", value))
+
+
+class _StructReader:
+    def __init__(self, data: bytes):
+        self._data = data
+        self._index = 0
+
+    def bytes(self, length: int) -> bytes:
+        start = self._index
+        new_index = start + length
+        buf = self._data[start:new_index]
+        self._index = new_index
+        return buf
+
+    def char(self, length: int) -> bytes:
+        return self.bytes(length).rstrip(b"\0")
+
+    def skip(self, length: int) -> None:
+        self._index += length
+
+    def int8(self, default=None) -> int:
+        return self._read("<b", 1, default)
+
+    def uint8(self, default=None) -> int:
+        return self._read("<B", 1, default)
+
+    def int16(self, default=None) -> int:
+        return self._read("<h", 2, default)
+
+    def uint16(self, default=None) -> int:
+        return self._read("<H", 2, default)
+
+    def int32(self, default=None) -> int:
+        return self._read("<i", 4, default)
+
+    def uint32(self, default=None) -> int:
+        return self._read("<I", 4, default)
+
+    def _read(self, spec: str, length: int, default=None) -> int:
+        start = self._index
+        new_index = start + length
+        buf = self._data[start:new_index]
+        if len(buf) < length:
+            if default is None:
+                raise RuntimeError("default not provided")
+            return default
+        self._index = new_index
+        return unpack(spec, buf)[0]
