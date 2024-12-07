@@ -26,21 +26,21 @@ def chunks(f):
             break
 
 
-def dump_file(f):
+def dump_file(f, outfile=None):
     from hexdump import hexdump
     from rv import ENCODING
 
     for name, data in chunks(f):
-        print(name.decode(ENCODING), end="  ")
+        print(name.decode(ENCODING), end="  ", file=outfile)
         i = None
         for i, line in enumerate(hexdump(data, "generator")):
             if i > 0:
-                print(f"      {line}")
+                print(f"      {line}", file=outfile)
             else:
-                print(line)
+                print(line, file=outfile)
         if i is None:
-            print()
-        print()
+            print(file=outfile)
+        print(file=outfile)
 
 
 def dump_tool():

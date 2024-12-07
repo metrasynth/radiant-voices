@@ -6,6 +6,10 @@ Usage: python -m rv.tools.rendiff FILE
 Note: Before running, install the necessary packages::
 
     $ pip install -r requirements/tools.txt
+
+You can run it across all SunVox examples using multiple cores:
+
+    $ find . -name '*.sunvox' -print0 | xargs -0 -n 1 -P 8 python -m rv.tools.rendiff
 """
 
 import argparse
@@ -14,6 +18,7 @@ import os
 import sys
 
 import rv.api
+from rv.lib.iff import dump_file
 
 log = logging.getLogger(__name__)
 
@@ -28,7 +33,7 @@ def main():
     try:
         import numpy as np
         from scipy.io import wavfile
-        from sunvox import Slot
+        from sunvox.api import Slot
         from sunvox.buffered import BufferedProcess, float32
         from tqdm import tqdm
     except ImportError:
@@ -39,7 +44,7 @@ def main():
         return 1
     args = parser.parse_args()
     in_filename = args.filename[0]
-    log.debug("Loading into rv")
+    log.info("Loading %r into rv", in_filename)
     project = rv.api.read_sunvox_file(in_filename)
     root, ext = os.path.splitext(in_filename)
     out_filename = "{}.diff.wav".format(root)
@@ -89,6 +94,21 @@ def main():
         log.warning("Found differences using SunVox-only rendering.")
         p.kill()
         p2.kill()
+        svdiff_filename = in_filename + ".sunvox.diff.wav"
+        log.info("Saving SunVox-only differences to %r", svdiff_filename)
+        diff = output - output2
+        wavfile.write(svdiff_filename, freq, diff)
+        svcompare_filename = in_filename + ".sunvox.compare.wav"
+        log.info(
+            "Saving differences to %r (SV mono mix 1, mix 2 on right)",
+            svcompare_filename,
+        )
+        sv_left, sv_right = output.transpose()
+        sv_mixdown = sv_left / 2 + sv_right / 2
+        sv2_left, sv2_right = output2.transpose()
+        sv2_mixdown = sv2_left / 2 + sv2_right / 2
+        comparison = np.stack((sv_mixdown, sv2_mixdown))
+        wavfile.write(svcompare_filename, freq, comparison.transpose())
         return 1
 
     log.info("Rendering with rv preprocessing")
@@ -116,7 +136,10 @@ def main():
     else:
         log.info("Saving differences to %r", out_filename)
         wavfile.write(out_filename, freq, diff)
-        log.info("Saving comparison to %r", out2_filename)
+        log.info(
+            "Saving comparison to %r (SV mono mix on left, RV mono mix on right)",
+            out2_filename,
+        )
         sv_left, sv_right = output.transpose()
         sv_mixdown = sv_left / 2 + sv_right / 2
         rv_left, rv_right = output_rv.transpose()
@@ -126,6 +149,14 @@ def main():
         log.info("Saving rv version to %r", rv_filename)
         with open(rv_filename, "wb") as f:
             project.write_to(f)
+        sv_hexdump_filename = in_filename + ".hexdump.txt"
+        rv_hexdump_filename = in_filename + ".rv.hexdump.txt"
+        log.info("Saving sv IFF hexdump to %r", sv_hexdump_filename)
+        with open(sv_hexdump_filename, "w") as outfile, open(in_filename, "rb") as f:
+            dump_file(f, outfile)
+        log.info("Saving rv IFF hexdump to %r", rv_hexdump_filename)
+        with open(rv_hexdump_filename, "w") as outfile, open(rv_filename, "rb") as f:
+            dump_file(f, outfile)
     log.info("Finished")
 
     p.kill()
