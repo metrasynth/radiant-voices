@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING, Union
 
 from logutils import BraceMessage as _F
 from rv import ENCODING
+from rv.errors import RAISE_RANGE_ERRORS_ON_READ, override_raise_controller_value_errors
 from rv.lib.iff import chunks
 
 if TYPE_CHECKING:
@@ -18,16 +19,17 @@ log = logging.getLogger(__name__)
 def read_sunvox_file(file_or_name) -> Union[Project, Synth]:
     from rv.readers.initial import InitialReader
 
-    close = False
-    if isinstance(file_or_name, (Path, str)):
-        file_or_name = Path(file_or_name).open("rb")
-        close = True
-    try:
-        reader = InitialReader(file_or_name)
-        return reader.object
-    finally:
-        if close:
-            file_or_name.close()
+    with override_raise_controller_value_errors(RAISE_RANGE_ERRORS_ON_READ):
+        close = False
+        if isinstance(file_or_name, (Path, str)):
+            file_or_name = Path(file_or_name).open("rb")
+            close = True
+        try:
+            reader = InitialReader(file_or_name)
+            return reader.object
+        finally:
+            if close:
+                file_or_name.close()
 
 
 class Reader:

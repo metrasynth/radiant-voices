@@ -8,7 +8,6 @@ repos:
       - id: check-builtin-literals
       - id: check-byte-order-marker
       - id: check-case-conflict
-      - id: check-docstring-first
       - id: check-merge-conflict
       - id: debug-statements
       - id: end-of-file-fixer

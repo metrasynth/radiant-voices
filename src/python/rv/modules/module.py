@@ -11,7 +11,7 @@ from logutils import BraceMessage as _F
 from rv import ENCODING
 from rv.cmidmap import ControllerMidiMap
 from rv.controller import Controller, DependentRange
-from rv.errors import ControllerValueError, RangeValidationError
+from rv.errors import RangeValidationError, raise_or_warn_controller_value_validation
 from rv.modules.meta import ModuleMeta
 from rv.option import Option
 from rv.readers.reader import read_sunvox_file
@@ -343,11 +343,14 @@ class Module(metaclass=ModuleMeta):
             value = t(from_raw_value(raw_value))
         except RangeValidationError as e:
             evalue, emin, emax = e.args
-            raise ControllerValueError(
+            raise_or_warn_controller_value_validation(
+                e,
+                log,
                 "{:x}({}).{}={} is not within [{}, {}]".format(
                     self.index or 0, self.mtype, name, evalue, emin, emax
-                )
+                ),
             )
+            value = raw_value
         self.controller_values[name] = value
 
     def propagate_down(self, controller_name, value):

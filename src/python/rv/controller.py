@@ -1,7 +1,7 @@
 import logging
 from enum import Enum
 
-from rv.errors import ControllerValueError, RangeValidationError
+from rv.errors import RangeValidationError, raise_or_warn_controller_value_validation
 
 log = logging.getLogger(__name__)
 
@@ -84,7 +84,9 @@ class Controller:
                 value = t(value)
             except RangeValidationError as e:
                 evalue, emin, emax = e.args
-                raise ControllerValueError(
+                raise_or_warn_controller_value_validation(
+                    e,
+                    log,
                     "{:x}({}).{}={} is not within [{}, {}]".format(
                         instance.index or 0,
                         instance.mtype,
@@ -92,7 +94,7 @@ class Controller:
                         evalue,
                         emin,
                         emax,
-                    )
+                    ),
                 )
         instance.controller_values[self.name] = value
 

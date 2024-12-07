@@ -17,17 +17,7 @@ log = logging.getLogger(__name__)
 
 
 class Sampler(BaseSampler, Module):
-    """
-    ..  note::
-
-        Radiant Voices only supports sampler modules in files that were
-        saved using newer versions of SunVox.
-
-        Files created using older versions of SunVox, such as some of the files
-        in the ``simple_examples`` included with SunVox, must first be
-        loaded into the latest version of SunVox and then saved.
-    """
-
+    INS_SIGN = b"PMAS"  # "SAMP" in little-endian
     INS_VERSION = 6
     XI_ENV_POINTS = 12
 
@@ -395,7 +385,7 @@ class Sampler(BaseSampler, Module):
         # uint32_t unused6;
         w.uint32(self.unused6)
         # uint32_t sign;
-        f.write(b"PMAS")  # "SAMP" in little-endian
+        f.write(self.INS_SIGN)  # "SAMP" in little-endian
         # uint32_t version;
         w.uint32(self.version)
         # uint8_t smp_num[ 128 ];
@@ -554,8 +544,8 @@ class Sampler(BaseSampler, Module):
         self.unused6 = r.uint32()
         # uint32_t sign;
         sign = r.char(4)
-        if sign != b"PMAS":
-            raise NotImplementedError(f"Unknown signature {sign!r}")
+        if sign != self.INS_SIGN:
+            log.warning("legacy signature %r != %r", sign, self.INS_SIGN)
         # uint32_t version;
         self.version = r.uint32()
         # uint8_t smp_num[ 128 ];
