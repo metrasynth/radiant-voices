@@ -16,8 +16,12 @@ class SunVoxReader(Reader):
 
     def process_chunks(self):
         self.object = Project()
+        self.object.based_on_version = None
         self.object.modules.clear()
         super().process_chunks()
+        if self.object.based_on_version is None:
+            # Legacy SunVox files don't have a "based on" version.
+            self.object.based_on_version = (1, 7, 0, 0)
 
     def process_VERS(self, data):
         self.object.sunvox_version = tuple(reversed(unpack("BBBB", data)))
