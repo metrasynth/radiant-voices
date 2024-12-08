@@ -1,4 +1,6 @@
 import struct
+from io import BytesIO, StringIO
+from textwrap import indent
 
 from rv._vendor.chunk import Chunk
 
@@ -31,13 +33,31 @@ def dump_file(f, outfile=None):
     from rv import ENCODING
 
     for name, data in chunks(f):
-        print(name.decode(ENCODING), end="  ", file=outfile)
+        print(
+            name.decode(ENCODING),
+            sep="",
+            end="  ",
+            file=outfile,
+        )
         i = None
+        if data.startswith(b"SVOX") or data.startswith(b"SSYN"):
+            print(file=outfile)
+            in_f = BytesIO(data)
+            out_f = StringIO()
+            dump_file(in_f, out_f)
+            print(indent(out_f.getvalue(), "      "), file=outfile)
+            continue
+
         for i, line in enumerate(hexdump(data, "generator")):
             if i > 0:
-                print(f"      {line}", file=outfile)
+                print(
+                    "      ",
+                    line,
+                    sep="",
+                    file=outfile,
+                )
             else:
-                print(line, file=outfile)
+                print(line, sep="", file=outfile)
         if i is None:
             print(file=outfile)
         print(file=outfile)
