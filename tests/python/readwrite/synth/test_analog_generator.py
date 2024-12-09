@@ -128,6 +128,10 @@ def test_analog_generator_writes_correct_chunks(read_write_read_synth):
 
     expect_chunk(b"CHNK", b"\2\0\0\0")
 
+    expect_chunk(b"CHNM", b"\0\0\0\0")
+    expect_chunk(b"CHDT", bytes(y & ((1 << 8) - 1) for y in EXPECTED_DRAWN_WAVEFORM))
+    expect_chunk(b"CHFR", pack("<I", 44100))
+
     expect_chunk(b"CHNM", b"\1\0\0\0")
     expect_chunk(
         b"CHDT",
@@ -137,9 +141,6 @@ def test_analog_generator_writes_correct_chunks(read_write_read_synth):
         b"\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
     )
 
-    expect_chunk(b"CHNM", b"\0\0\0\0")
-    expect_chunk(b"CHDT", bytes(y & ((1 << 8) - 1) for y in EXPECTED_DRAWN_WAVEFORM))
-    expect_chunk(b"CHFR", pack("<I", 44100))
     expect_chunk(b"SEND", b"")
     with raises(StopIteration):
         expect_chunk(b"", b"")
