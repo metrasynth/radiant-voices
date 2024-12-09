@@ -285,6 +285,8 @@ class Sampler(BaseSampler, Module):
         self.unused2 = 0
         self.unused3 = 0
         self.unused4 = 0
+        self.unused5 = 0
+        self.unused6 = 0
         self.volume_old = 64
         self.ins_finetune = 0
         self.ins_relative_note = 0
