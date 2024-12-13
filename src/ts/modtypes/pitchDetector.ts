@@ -75,7 +75,7 @@ export namespace PitchDetector {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Pitch Detector"
-    flags = 0x861041
+    flags = 0x860051
     readonly typeName = "Pitch Detector"
     readonly controllerSetters = [
       (val: number) => {

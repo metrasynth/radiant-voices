@@ -45,7 +45,7 @@ export namespace Smooth {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Smooth"
-    flags = 0x49
+    flags = 0x51
     readonly typeName = "Smooth"
     readonly controllerSetters = [
       (val: number) => {

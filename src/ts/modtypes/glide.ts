@@ -41,7 +41,7 @@ export namespace Glide {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Glide"
-    flags = 0x21049
+    flags = 0x60049
     readonly typeName = "Glide"
     readonly controllerSetters = [
       (val: number) => {

@@ -749,7 +749,7 @@ module_types:
 
   Adsr:
     type: ADSR
-    defaultFlags: 0x59
+    defaultFlags: 0x59  # exists | initialized | effect | generator
     group: Misc
     enums:
       Curve:
@@ -807,7 +807,7 @@ module_types:
       - smooth_transitions: { enum: SmoothTransitions, default: "restart_smoother_and_volume_change" }
 
   Amplifier:
-    defaultFlags: 0x00000051
+    defaultFlags: 0x51  # exists | initialized | effect
     group: Effect
     controllers:
       - volume: { min: 0, max: 1024, default: 256 }
@@ -822,7 +822,7 @@ module_types:
 
   AnalogGenerator:
     type: Analog generator
-    defaultFlags: 0x00000049
+    defaultFlags: 0x49  # exists | initialized | generator
     group: Synth
     enums:
       Mode:
@@ -982,7 +982,7 @@ module_types:
         chnm: 0
 
   Ctl2Note:
-    defaultFlags: 0x01821041
+    defaultFlags: 0x1820041  # exists | initialized | no_scope_buffer | get_stop_commands | no_render
     group: Misc
     enums:
       NoteOn:
@@ -1005,7 +1005,7 @@ module_types:
       - record_notes: { bool: true, default: false }
 
   Compressor:
-    defaultFlags: 0x00002051
+    defaultFlags: 0x2051  # exists | initialized | effect | no_fill_input
     group: Effect
     enums:
       Mode:
@@ -1022,7 +1022,7 @@ module_types:
       - sidechain_input: { min: 0, max: 32, default: 0 }
 
   DcBlocker:
-    defaultFlags: 0x00000051
+    defaultFlags: 0x51  # exists | initialized | effect
     type: DC Blocker
     group: Effect
     enums:
@@ -1033,7 +1033,7 @@ module_types:
       - channels: { enum: Channels, default: "stereo" }
 
   Delay:
-    defaultFlags: 0x00000451
+    defaultFlags: 0x451  # exists | initialized | effect | get_speed_changes
     group: Effect
     enums:
       Channels:
@@ -1092,7 +1092,7 @@ module_types:
       - all_pass_filter: { bool: true, default: false }
 
   Distortion:
-    defaultFlags: 0x00000051
+    defaultFlags: 0x51  # exists | initialized | effect
     group: Effect
     enums:
       Type:
@@ -1116,7 +1116,7 @@ module_types:
       - noise: { min: 0, max: 256, default: 0 }
 
   DrumSynth:
-    defaultFlags: 0x00000049
+    defaultFlags: 0x49  # exists | initialized | generator
     group: Synth
     controllers:
       - volume: { min: 0, max: 512, default: 256 }
@@ -1136,7 +1136,7 @@ module_types:
       - snare_panning: { min: -128, max: 128, default: 0 }
 
   Echo:
-    defaultFlags: 0x00000451
+    defaultFlags: 0x451  # exists | initialized | effect | get_speed_changes
     group: Effect
     enums:
       DelayUnit:
@@ -1174,7 +1174,7 @@ module_types:
 
   Eq:
     type: EQ
-    defaultFlags: 0x51
+    defaultFlags: 0x51  # exists | initialized | effect
     group: Effect
     enums:
       Channels:
@@ -1187,7 +1187,7 @@ module_types:
       - channels: { enum: Channels, default: "stereo" }
 
   Feedback:
-    defaultFlags: 0x600051
+    defaultFlags: 0x600051  # exists | initialized | effect | feedback | get_render_setup_commands
     group: Misc
     enums:
       Channels:
@@ -1199,7 +1199,7 @@ module_types:
 
   Fft:
     type: FFT
-    defaultFlags: 0x00000051
+    defaultFlags: 0x51  # exists | initialized | effect
     group: Effect
     enums:
       SampleRate:
@@ -1249,7 +1249,7 @@ module_types:
       - volume: { min: 0, max: 32768, default: 32768 }
 
   Filter:
-    defaultFlags: 0x451
+    defaultFlags: 0x451  # exists | initialized | effect | get_speed_changes
     group: Effect
     enums:
       Type:
@@ -1299,7 +1299,7 @@ module_types:
       - lfo_waveform: { enum: LfoWaveform, default: "sin" }
 
   FilterPro:
-    defaultFlags: 0x451
+    defaultFlags: 0x451  # exists | initialized | effect | get_speed_changes
     type: Filter Pro
     group: Effect
     enums:
@@ -1363,7 +1363,7 @@ module_types:
       - lfo_freq_unit: { enum: LfoFreqUnit, default: "Hz*0.02" }
 
   Flanger:
-    defaultFlags: 0x451
+    defaultFlags: 0x451  # exists | initialized | effect | get_speed_changes
     group: Effect
     enums:
       LfoWaveform:
@@ -1391,7 +1391,7 @@ module_types:
 
   Fm:
     type: FM
-    defaultFlags: 0x49
+    defaultFlags: 0x49  # exists | initialized | generator
     group: Synth
     enums:
       Mode:
@@ -1420,7 +1420,7 @@ module_types:
 
   Fmx:
     type: FMX
-    defaultFlags: 0x00000059
+    defaultFlags: 0x59  # exists | initialized | generator | effect
     group: Synth
     enums:
       SampleRate:
@@ -1677,7 +1677,7 @@ module_types:
         default: 0
 
   Generator:
-    defaultFlags: 0x59
+    defaultFlags: 0x59  # exists | initialized | generator | effect
     group: Synth
     enums:
       Waveform:
@@ -1710,7 +1710,7 @@ module_types:
         chnm: 0
 
   Glide:
-    defaultFlags: 0x21049
+    defaultFlags: 0x60049  # exists | initialized | generator | no_scope_buffer | output_is_empty
     group: Misc
     controllers:
       - response: { min: 0, max: 1000, default: 500 }
@@ -1726,7 +1726,7 @@ module_types:
 
   Gpio:
     type: GPIO
-    defaultFlags: 0x51
+    defaultFlags: 0x51  # exists | initialized | effect
     group: Misc
     controllers:
       - out: { bool: true, default: false }
@@ -1738,7 +1738,7 @@ module_types:
       - in_amplitude: { min: 0, max: 100, default: 100, units: "%" }
 
   Input:
-    defaultFlags: 0x49
+    defaultFlags: 0x49  # exists | initialized | generator
     group: Synth
     enums:
       Channels:
@@ -1749,7 +1749,7 @@ module_types:
       - channels: { enum: Channels, default: "mono" }
 
   Kicker:
-    defaultFlags: 0x49
+    defaultFlags: 0x49  # exists | initialized | generator
     group: Synth
     enums:
       Waveform:
@@ -1769,7 +1769,7 @@ module_types:
 
   Lfo:
     type: LFO
-    defaultFlags: 0x451
+    defaultFlags: 0x451  # exists | initialized | effect | get_speed_changes
     group: Effect
     enums:
       Type:
@@ -1829,7 +1829,7 @@ module_types:
       - sine_quality: { enum: SineQuality, default: "auto" }
 
   Loop:
-    defaultFlags: 0x451
+    defaultFlags: 0x451  # exists | initialized | effect | get_speed_changes
     group: Effect
     enums:
       Channels:
@@ -1870,7 +1870,7 @@ module_types:
       - on_note_on: { enum: OnNoteOn, default: "restart" }
 
   MetaModule:
-    defaultFlags: 0x8051
+    defaultFlags: 0x8051  # exists | initialized | effect | use_mutex
     group: Misc
     enums:
       PlayPatterns:
@@ -1952,7 +1952,7 @@ module_types:
         chmm: 1
 
   Modulator:
-    defaultFlags: 0x2051
+    defaultFlags: 0x2051  # exists | initialized | effect | no_fill_input
     group: Effect
     enums:
       ModulationType:
@@ -1985,7 +1985,7 @@ module_types:
       - max_phase_modulation_delay: { enum: MaxPhaseModulationDelay, default: "sec_0_04" }
 
   MultiCtl:
-    defaultFlags: 0x20051
+    defaultFlags: 0x60051  # exists | initialized | effect | no_scope_buffer | output_is_empty
     group: Misc
     controllers:
       - value: { min: 0, max: 32768, default: 0 }
@@ -2035,7 +2035,7 @@ module_types:
             0x8000 ]
 
   MultiSynth:
-    defaultFlags: 0x00021049
+    defaultFlags: 0x1020049  # exists | initialized | generator | no_scope_buffer | no_render
     group: Misc
     enums:
       ActiveCurve:
@@ -2201,11 +2201,11 @@ module_types:
 
   Output:
     group: Output
-    defaultFlags: 0x43
+    defaultFlags: 0x43  # exists | initialized | output
     controllers: []
 
   Pitch2Ctl:
-    defaultFlags: 0x20049
+    defaultFlags: 0x1020049  # exists | initialized | generator | no_scope_buffer | no_render
     group: Misc
     enums:
       Mode:
@@ -2226,7 +2226,7 @@ module_types:
 
   PitchDetector:
     type: Pitch Detector
-    defaultFlags: 0x861041
+    defaultFlags: 0x860051  # exists | initialized | effect | no_scope_buffer | output_is_empty | get_stop_commands
     group: Misc
     enums:
       Algorithm:
@@ -2287,7 +2287,7 @@ module_types:
       - bypass_if_pitch_eq_0: { enum: BypassIfPitchEq0, default: "off" }
 
   Reverb:
-    defaultFlags: 0x51
+    defaultFlags: 0x51  # exists | initialized | effect
     group: Effect
     enums:
       Mode:
@@ -2312,7 +2312,7 @@ module_types:
       - random_seed: { min: 0, max: 32768, default: 0 }
 
   Sampler:
-    defaultFlags: 0x00008459
+    defaultFlags: 0x8459  # exists | initialized | generator | get_speed_changes | effect | use_mutex
     group: Synth
     enums:
       SampleInterpolation:
@@ -2400,7 +2400,7 @@ module_types:
           default: false
 
   Smooth:
-    defaultFlags: 0x49
+    defaultFlags: 0x51  # exists | initialized | effect
     group: Effect
     enums:
       Mode:
@@ -2417,7 +2417,7 @@ module_types:
       - mode: { enum: Mode, default: "linear" }
       - channels: { enum: Channels, default: "stereo" }
   Sound2Ctl:
-    defaultFlags: 0x60051
+    defaultFlags: 0x60051  # exists | initialized | effect | no_scope_buffer | output_is_empty
     group: Misc
     enums:
       Channels:
@@ -2452,7 +2452,7 @@ module_types:
           default: true
 
   SpectraVoice:
-    defaultFlags: 0x49
+    defaultFlags: 0x49  # exists | initialized | generator
     group: Synth
     enums:
       Mode:
@@ -2525,7 +2525,7 @@ module_types:
         default: [ hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin, hsin ]
 
   Velocity2Ctl:
-    defaultFlags: 0x20049
+    defaultFlags: 0x1020049  # exists | initialized | generator | no_scope_buffer | no_render
     group: Misc
     enums:
       NoteOffAction:
@@ -2541,7 +2541,7 @@ module_types:
 
   Vibrato:
     group: Effect
-    defaultFlags: 0x451
+    defaultFlags: 0x451  # exists | initialized | effect | get_speed_changes
     enums:
       Channels:
         "stereo": 0
@@ -2575,7 +2575,7 @@ module_types:
 
   VocalFilter:
     type: Vocal filter
-    defaultFlags: 0x00000051
+    defaultFlags: 0x51  # exists | initialized | effect
     group: Effect
     enums:
       VoiceType:
@@ -2610,7 +2610,7 @@ module_types:
 
   VorbisPlayer:
     type: Vorbis player
-    defaultFlags: 0x8049
+    defaultFlags: 0x8049  # exists | initialized | generator | use_mutex
     group: Synth
     controllers:
       - volume: { min: 0, max: 512, default: 256 }
@@ -2626,7 +2626,7 @@ module_types:
         type: Data
 
   WaveShaper:
-    defaultFlags: 0x51
+    defaultFlags: 0x51  # exists | initialized | effect
     group: Effect
     enums:
       Mode:

@@ -74,30 +74,35 @@ class Behavior(IntEnum):
 
 
 class ModuleFlags(IntEnum):
-    """All flags that can exist for a module's flags."""
+    """
+    All flags that can exist for a module's flags.
 
-    exists = 0x00000001
-    output = 0x00000002
-    generator = 0x00000008
-    effect = 0x00000010
-    initialized = 0x00000040
-    mute = 0x00000080
-    solo = 0x00000100
-    get_speed_changes = 0x00000400
-    hidden = 0x00000800
-    multi = 0x00001000
-    no_fill_input = 0x00002000
-    bypass = 0x00004000
-    use_mutex = 0x00008000
-    ignore_mute = 0x00010000
-    no_scope_buffer = 0x00020000
-    output_is_empty = 0x00040000
-    open = 0x00080000
-    get_play_commands = 0x00100000
-    get_render_setup_commands = 0x00200000
-    feedback = 0x00400000
-    get_stop_commands = 0x00800000
-    selected = 0x02000000
+    Refer to lib_sunvox/psynth/psynth.h#L424 in SunVox library source code.
+    """
+
+    exists = 1 << 0
+    output = 1 << 1
+    generator = 1 << 3
+    effect = 1 << 4
+    initialized = 1 << 6
+    mute = 1 << 7
+    solo = 1 << 8
+    get_speed_changes = 1 << 10
+    hidden = 1 << 11
+    no_fill_input = 1 << 13
+    bypass = 1 << 14
+    mute_solo_bypass = mute | solo | bypass
+    use_mutex = 1 << 15
+    ignore_mute = 1 << 16
+    no_scope_buffer = 1 << 17
+    output_is_empty = 1 << 18
+    open = 1 << 19
+    get_play_commands = 1 << 20
+    get_render_setup_commands = 1 << 21
+    feedback = 1 << 22
+    get_stop_commands = 1 << 23
+    no_render = 1 << 24
+    selected = 1 << 25
 
 
 class VisibleModuleFlags(IntEnum):
