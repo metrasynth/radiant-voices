@@ -94,22 +94,24 @@ class ModuleReader(Reader):
         (self.object.midi_out_program,) = unpack("<i", data)
 
     def process_SLNK(self, data):
-        if len(data) > 0:
-            link_count = len(data) // 4
-            structure = "<" + "i" * link_count
-            links = self.object.in_links
-            links.extend(unpack(structure, data))
-            while links[-1:] == [-1]:
-                links.pop()
+        if not data:
+            return
+        link_count = len(data) // 4
+        structure = "<" + "i" * link_count
+        links = self.object.in_links
+        links.extend(unpack(structure, data))
+        while links[-1:] == [-1]:
+            links.pop()
 
     def process_SLnK(self, data):
-        if len(data) > 0:
-            link_count = len(data) // 4
-            structure = "<" + "i" * link_count
-            slots = self.object.in_link_slots
-            slots.extend(unpack(structure, data))
-            while slots[-1:] == [-1]:
-                slots.pop()
+        if not data:
+            return
+        link_count = len(data) // 4
+        structure = "<" + "i" * link_count
+        slots = self.object.in_link_slots
+        slots.extend(unpack(structure, data))
+        while slots[-1:] == [-1]:
+            slots.pop()
 
     def process_CVAL(self, data):
         (raw_value,) = unpack("<i", data)

@@ -150,7 +150,6 @@ def test_single_fm_writes_correct_chunks(read_write_read_project):
     expect_chunk(b"SMIB", b"\xff\xff\xff\xff")
     expect_chunk(b"SMIP", b"\xff\xff\xff\xff")
     expect_chunk(b"SLNK", b"")
-    expect_chunk(b"SLnK", b"")
 
     expect_cval(0x81)
     expect_cval(0x31)

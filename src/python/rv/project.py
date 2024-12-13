@@ -202,7 +202,8 @@ class Project(Container):
                     links = b""
                     link_slots = b""
                 yield b"SLNK", links
-                yield b"SLnK", link_slots
+                if link_slots:
+                    yield b"SLnK", link_slots
                 controllers = [
                     n for n, c in module.controllers.items() if c.attached(module)
                 ]
