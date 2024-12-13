@@ -54,7 +54,7 @@ class BaseMultiSynth:
         byte=2,
         bit=0,
         size=2,
-        default="note_velocity",
+        default=ActiveCurve.note_velocity,
     )
     trigger = Option(
         name="trigger",
@@ -105,7 +105,7 @@ class BaseMultiSynth:
         byte=4,
         bit=6,
         size=2,
-        default="all_or_random1",
+        default=OutPortMode.all_or_random1,
     )
     out_port_mode_random = Option(
         name="out_port_mode_random",
