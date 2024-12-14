@@ -26,7 +26,7 @@ class ModuleReader(Reader):
         super().process_chunks()
 
     def process_SFFF(self, data):
-        (self.object.flags,) = unpack("<I", data)
+        (self.object.loaded_flags,) = unpack("<I", data)
 
     def process_SNAM(self, data):
         data = data[: data.find(0)] if 0 in data else data
@@ -37,7 +37,7 @@ class ModuleReader(Reader):
         mtype = data.decode(ENCODING)
         cls = MODULE_CLASSES[mtype]
         new_module: Module = cls()
-        new_module.flags = self.object.flags
+        new_module.loaded_flags = self.object.loaded_flags
         new_module.name = self.object.name
         new_module.mtype = mtype
         self._controller_keys = [

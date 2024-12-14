@@ -80,29 +80,29 @@ class ModuleFlags(IntEnum):
     Refer to lib_sunvox/psynth/psynth.h#L424 in SunVox library source code.
     """
 
-    exists = 1 << 0
-    output = 1 << 1
-    generator = 1 << 3
-    effect = 1 << 4
-    initialized = 1 << 6
-    mute = 1 << 7
-    solo = 1 << 8
-    get_speed_changes = 1 << 10
-    hidden = 1 << 11
-    no_fill_input = 1 << 13
-    bypass = 1 << 14
-    mute_solo_bypass = mute | solo | bypass
-    use_mutex = 1 << 15
-    ignore_mute = 1 << 16
-    no_scope_buffer = 1 << 17
-    output_is_empty = 1 << 18
-    open = 1 << 19
-    get_play_commands = 1 << 20
-    get_render_setup_commands = 1 << 21
-    feedback = 1 << 22
-    get_stop_commands = 1 << 23
-    no_render = 1 << 24
-    selected = 1 << 25
+    exists = 1 << 0  # 0x1
+    output = 1 << 1  # 0x2
+    generator = 1 << 3  # 0x8
+    effect = 1 << 4  # 0x10
+    initialized = 1 << 6  # 0x40
+    mute = 1 << 7  # 0x80
+    solo = 1 << 8  # 0x100
+    get_speed_changes = 1 << 10  # 0x400
+    hidden = 1 << 11  # 0x800
+    no_fill_input = 1 << 13  # 0x2000
+    bypass = 1 << 14  # 0x4000
+    mute_solo_bypass = mute | solo | bypass  # 0x4180
+    use_mutex = 1 << 15  # 0x8000
+    ignore_mute = 1 << 16  # 0x10000
+    no_scope_buffer = 1 << 17  # 0x20000
+    output_is_empty = 1 << 18  # 0x40000
+    open = 1 << 19  # 0x80000
+    get_play_commands = 1 << 20  # 0x100000
+    get_render_setup_commands = 1 << 21  # 0x200000
+    feedback = 1 << 22  # 0x400000
+    get_stop_commands = 1 << 23  # 0x800000
+    no_render = 1 << 24  # 0x1000000
+    selected = 1 << 25  # 0x2000000
 
 
 class VisibleModuleFlags(IntEnum):
@@ -227,6 +227,7 @@ class Module(metaclass=ModuleMeta):
     mtype: str  # module type
     mgroup: str  # module group
     flags: int
+    loaded_flags: int
     chnk: Union[int, bool] = False
 
     behaviors = set()
@@ -243,6 +244,7 @@ class Module(metaclass=ModuleMeta):
     parent: Optional[Project]
 
     def __init__(self, **kw):
+        self.loaded_flags = None
         self.index = kw.get("index")
         self.parent = kw.get("parent")
         self.controller_values = {}
