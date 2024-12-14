@@ -58,10 +58,10 @@ class Project(Container):
         self.timeline_position = 0
         self.restart_position = 0
         self.selected_module = 0
-        self.selected_generator = 0
+        self.selected_generator = -1
         self.current_pattern = 0
         self.current_track = 0
-        self.current_line = 1
+        self.current_line = 0
         self.receive_sync_midi = self.SyncCommand.start_stop
         self.receive_sync_other = self.SyncCommand.start_stop
         self.patterns = []
