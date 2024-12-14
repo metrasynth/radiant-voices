@@ -296,24 +296,26 @@ class Sampler(BaseSampler, Module):
 
     def specialized_iff_chunks(self):
         iters = [
-            self.global_config_chunks(),
-            self.envelope_config_chunks(),
-            self.volume_envelope.chunks(),
-            self.panning_envelope.chunks(),
-            self.pitch_envelope.chunks(),
-            self.effect_control_envelopes[0].chunks(),
-            self.effect_control_envelopes[1].chunks(),
-            self.effect_control_envelopes[2].chunks(),
-            self.effect_control_envelopes[3].chunks(),
+            self.global_config_chunks(),  # CHNM 0x0000
+            self.sample_data_chunks(),  # CHNM i*2+1, i*2+2
+            super(Sampler, self).specialized_iff_chunks(),  # CHNM 0x0101
+            self.volume_envelope.chunks(),  # CHNM 0x0102
+            self.panning_envelope.chunks(),  # CHNM 0x0103
+            self.pitch_envelope.chunks(),  # CHNM 0x0104
+            self.effect_control_envelopes[0].chunks(),  # CHNM 0x0105
+            self.effect_control_envelopes[1].chunks(),  # CHNM 0x0106
+            self.effect_control_envelopes[2].chunks(),  # CHNM 0x0107
+            self.effect_control_envelopes[3].chunks(),  # CHNM 0x0108
         ]
         for iter in iters:
             yield from iter
-        if self.effect:
+        if self.effect:  # CHNM 0x010a
             f = BytesIO()
             self.effect.write_to(f)
-            yield b"CHNM", b"\x0a\1\0\0"
+            yield b"CHNM", b"\x0a\x01\0\0"
             yield b"CHDT", f.getvalue()
-        yield from super(Sampler, self).specialized_iff_chunks()
+
+    def sample_data_chunks(self):
         for i, sample in enumerate(self.samples):
             if sample is not None:
                 yield from self.sample_chunks(i, sample)
@@ -452,8 +454,7 @@ class Sampler(BaseSampler, Module):
         yield b"CHNM", pack("<I", i * 2 + 2)
         yield b"CHDT", sample.data
         yield b"CHFF", pack("<I", sample.format.value | sample.channels.value)
-        if sample.rate != 44100:
-            yield b"CHFR", pack("<I", sample.rate)
+        yield b"CHFR", pack("<I", sample.rate)
 
     def load_chunk(self, chunk):
         chnm = chunk.chnm
