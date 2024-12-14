@@ -14,7 +14,8 @@ class Synth(Container):
     MAGIC_CHUNK = (b"SSYN", b"")
 
     def __init__(self, module=None):
-        self.sunsynth_version = (1, 9, 6, 1)
+        self.sunsynth_version = (2, 1, 2, 0)
+        self.loaded_sunsynth_version = (2, 1, 2, 0)
         self.module = module
 
     def chunks(self):
