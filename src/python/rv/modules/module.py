@@ -413,13 +413,15 @@ class Module(metaclass=ModuleMeta):
     def options_chunks(self):
         """Yield chunks necessary to save options for this module."""
         bytemap = [0] * 64
+        bytes = 0
         for option in self.options.values():
             option_value = self.option_values.get(option.name)
             option_value &= (2**option.size) - 1
             option_value <<= option.bit
             bytemap[option.byte] |= option_value
+            bytes = max(bytes, option.byte + 1)
         yield b"CHNM", pack("<I", self.options_chnm)
-        yield b"CHDT", pack("B" * 64, *bytemap)
+        yield b"CHDT", pack("B" * bytes, *bytemap[:bytes])
 
     def load_chunk(self, chunk):
         """Load a CHNK/CHNM/CHDT/CHFF/CHFR block into this module."""
