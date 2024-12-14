@@ -82,12 +82,13 @@ export namespace Sampler {
   }
   interface SamplerOptionValues extends OptionValues {
     startRecordingOnProjectPlay: boolean
-    stopRecordingOnProjectStop: boolean
     recordInMono: boolean
     recordWithReducedSampleRate: boolean
     recordIn_16Bit: boolean
+    stopRecordingOnProjectStop: boolean
     ignoreVelocityForVolume: boolean
     increasedFreqComputationAccuracy: boolean
+    fitToPattern: boolean
   }
   class SamplerOptions implements Options {
     constructor(readonly optionValues: SamplerOptionValues) {}
@@ -98,14 +99,6 @@ export namespace Sampler {
     // noinspection JSUnusedGlobalSymbols
     set startRecordingOnProjectPlay(newValue: boolean) {
       this.optionValues.startRecordingOnProjectPlay = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get stopRecordingOnProjectStop(): boolean {
-      return this.optionValues.stopRecordingOnProjectStop
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set stopRecordingOnProjectStop(newValue: boolean) {
-      this.optionValues.stopRecordingOnProjectStop = newValue
     }
     // noinspection JSUnusedGlobalSymbols
     get recordInMono(): boolean {
@@ -132,6 +125,14 @@ export namespace Sampler {
       this.optionValues.recordIn_16Bit = newValue
     }
     // noinspection JSUnusedGlobalSymbols
+    get stopRecordingOnProjectStop(): boolean {
+      return this.optionValues.stopRecordingOnProjectStop
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set stopRecordingOnProjectStop(newValue: boolean) {
+      this.optionValues.stopRecordingOnProjectStop = newValue
+    }
+    // noinspection JSUnusedGlobalSymbols
     get ignoreVelocityForVolume(): boolean {
       return this.optionValues.ignoreVelocityForVolume
     }
@@ -146,6 +147,14 @@ export namespace Sampler {
     // noinspection JSUnusedGlobalSymbols
     set increasedFreqComputationAccuracy(newValue: boolean) {
       this.optionValues.increasedFreqComputationAccuracy = newValue
+    }
+    // noinspection JSUnusedGlobalSymbols
+    get fitToPattern(): boolean {
+      return this.optionValues.fitToPattern
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set fitToPattern(newValue: boolean) {
+      this.optionValues.fitToPattern = newValue
     }
   }
   export class Module extends ModuleBase implements ModuleType {
@@ -206,12 +215,13 @@ export namespace Sampler {
     }
     readonly optionValues: SamplerOptionValues = {
       startRecordingOnProjectPlay: false,
-      stopRecordingOnProjectStop: false,
       recordInMono: false,
       recordWithReducedSampleRate: false,
       recordIn_16Bit: false,
+      stopRecordingOnProjectStop: false,
       ignoreVelocityForVolume: false,
       increasedFreqComputationAccuracy: false,
+      fitToPattern: false,
     }
     readonly options: SamplerOptions = new SamplerOptions(this.optionValues)
     readonly o = this.options
@@ -326,15 +336,16 @@ export namespace Sampler {
       return a
     }
     rawOptionBytes(): Uint8Array {
-      const bytes = new Uint8Array(7)
+      const bytes = new Uint8Array(8)
       const { optionValues: ov } = this
       bytes[0] |= (Number(ov.startRecordingOnProjectPlay) & (2 ** 1 - 1)) << 0
-      bytes[4] |= (Number(ov.stopRecordingOnProjectStop) & (2 ** 1 - 1)) << 0
       bytes[1] |= (Number(ov.recordInMono) & (2 ** 1 - 1)) << 0
       bytes[2] |= (Number(ov.recordWithReducedSampleRate) & (2 ** 1 - 1)) << 0
       bytes[3] |= (Number(ov.recordIn_16Bit) & (2 ** 1 - 1)) << 0
+      bytes[4] |= (Number(ov.stopRecordingOnProjectStop) & (2 ** 1 - 1)) << 0
       bytes[5] |= (Number(ov.ignoreVelocityForVolume) & (2 ** 1 - 1)) << 0
       bytes[6] |= (Number(ov.increasedFreqComputationAccuracy) & (2 ** 1 - 1)) << 0
+      bytes[7] |= (Number(ov.fitToPattern) & (2 ** 8 - 1)) << 0
       return bytes
     }
     setOptions(dataChunks: ModuleDataChunks) {
@@ -349,20 +360,21 @@ export namespace Sampler {
         this.optionValues.startRecordingOnProjectPlay = Boolean(
           (chdt[0] >> 0) & (2 ** 1 - 1)
         )
-        this.optionValues.stopRecordingOnProjectStop = Boolean(
-          (chdt[4] >> 0) & (2 ** 1 - 1)
-        )
         this.optionValues.recordInMono = Boolean((chdt[1] >> 0) & (2 ** 1 - 1))
         this.optionValues.recordWithReducedSampleRate = Boolean(
           (chdt[2] >> 0) & (2 ** 1 - 1)
         )
         this.optionValues.recordIn_16Bit = Boolean((chdt[3] >> 0) & (2 ** 1 - 1))
+        this.optionValues.stopRecordingOnProjectStop = Boolean(
+          (chdt[4] >> 0) & (2 ** 1 - 1)
+        )
         this.optionValues.ignoreVelocityForVolume = Boolean(
           (chdt[5] >> 0) & (2 ** 1 - 1)
         )
         this.optionValues.increasedFreqComputationAccuracy = Boolean(
           (chdt[6] >> 0) & (2 ** 1 - 1)
         )
+        this.optionValues.fitToPattern = (chdt[7] >> 0) & (2 ** 8 - 1)
       }
     }
   }

@@ -2356,15 +2356,11 @@ module_types:
       - record: { enum: Record, default: "stop" }
     options_chnm: 257
     options:
+      # These are in the order they appear in psynths_sampler.cpp#sampler_options,
+      #  not the order they appear in the UI.
       - start_recording_on_project_play:
           number: 0x7f
           byte: 0
-          bit: 0
-          size: 1
-          default: false
-      - stop_recording_on_project_stop:
-          number: 0x7b
-          byte: 4
           bit: 0
           size: 1
           default: false
@@ -2386,6 +2382,12 @@ module_types:
           bit: 0
           size: 1
           default: false
+      - stop_recording_on_project_stop:
+          number: 0x7b
+          byte: 4
+          bit: 0
+          size: 1
+          default: false
       - ignore_velocity_for_volume:
           number: 0x7a
           byte: 5
@@ -2398,6 +2400,12 @@ module_types:
           bit: 0
           size: 1
           default: false
+      - fit_to_pattern:
+          number: 0x78
+          byte: 7
+          bit: 0
+          size: 8
+          default: 0
 
   Smooth:
     defaultFlags: 0x51  # exists | initialized | effect

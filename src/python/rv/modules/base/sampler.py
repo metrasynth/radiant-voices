@@ -71,14 +71,6 @@ class BaseSampler:
         size=1,
         default=False,
     )
-    stop_recording_on_project_stop = Option(
-        name="stop_recording_on_project_stop",
-        number=123,
-        byte=4,
-        bit=0,
-        size=1,
-        default=False,
-    )
     record_in_mono = Option(
         name="record_in_mono",
         number=126,
@@ -103,6 +95,14 @@ class BaseSampler:
         size=1,
         default=False,
     )
+    stop_recording_on_project_stop = Option(
+        name="stop_recording_on_project_stop",
+        number=123,
+        byte=4,
+        bit=0,
+        size=1,
+        default=False,
+    )
     ignore_velocity_for_volume = Option(
         name="ignore_velocity_for_volume",
         number=122,
@@ -118,4 +118,12 @@ class BaseSampler:
         bit=0,
         size=1,
         default=False,
+    )
+    fit_to_pattern = Option(
+        name="fit_to_pattern",
+        number=120,
+        byte=7,
+        bit=0,
+        size=8,
+        default=0,
     )
