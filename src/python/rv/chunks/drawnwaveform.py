@@ -43,5 +43,15 @@ class DrawnWaveformChunk(WaveformChunk):
         54,
     ]
 
+    @property
+    def is_default(self):
+        return self.samples == self.default
+
+    def chunks(self):
+        if self.is_default:
+            # Don't write out if not changed.
+            return
+        yield from super().chunks()
+
 
 __all__ = ["DrawnWaveformChunk"]

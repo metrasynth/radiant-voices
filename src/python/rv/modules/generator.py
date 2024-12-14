@@ -5,8 +5,6 @@ from rv.modules.base.generator import BaseGenerator
 
 
 class Generator(BaseGenerator, Module):
-    chnk = 1
-
     behaviors = {B.receives_notes, B.receives_modulator, B.sends_audio}
 
     class DrawnWaveform(DrawnWaveformChunk):
@@ -18,6 +16,10 @@ class Generator(BaseGenerator, Module):
         self.drawn_waveform = self.DrawnWaveform()
         if samples is not None:
             self.drawn_waveform.samples = samples
+
+    @property
+    def chnk(self):
+        return False if self.drawn_waveform.is_default else 1
 
     def specialized_iff_chunks(self):
         yield from self.drawn_waveform.chunks()
