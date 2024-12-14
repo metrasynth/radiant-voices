@@ -21,7 +21,7 @@ class Sampler(BaseSampler, Module):
     INS_VERSION = 6
     XI_ENV_POINTS = 12
 
-    chnk = 0x109
+    chnk = 0x010B
     options_chnm = 0x0101
 
     behaviors = {B.receives_notes, B.sends_audio}
