@@ -1,3 +1,4 @@
+import logging
 from struct import unpack
 from typing import Optional
 
@@ -6,6 +7,8 @@ from rv.project import Project
 from rv.readers.module import ModuleReader
 from rv.readers.pattern import PatternCloneReader, PatternReader
 from rv.readers.reader import Reader, ReaderFinished
+
+log = logging.getLogger(__name__)
 
 
 class SunVoxReader(Reader):
@@ -127,10 +130,25 @@ class SunVoxReader(Reader):
         # inLinkSlots are not written out by SunVox if all zeros;
         # initialize them if missing.
         for mod in self.object.modules:
-            if not mod:
+            if not mod or mod.in_link_slots:
                 continue
-            while len(mod.in_link_slots) < len(mod.in_links):
-                mod.in_link_slots.append(0)
+            for other_mod_num in mod.in_links:
+                if other_mod_num == -1:
+                    mod.in_link_slots.append(0)
+                    continue
+                if other_mod_num >= len(self.object.modules):
+                    log.warning(
+                        "Found SLNK on %r referencing non-existent module %r",
+                        mod.index,
+                        other_mod_num,
+                    )
+                    continue
+                other_mod = self.object.modules[other_mod_num]
+                in_slot = len(other_mod.out_link_slots)
+                out_slot = len(mod.in_link_slots)
+                mod.in_link_slots.append(in_slot)
+                other_mod.out_links.append(mod.index)
+                other_mod.out_link_slots.append(out_slot)
         # generate outLinks based on inLinks
         for mod in self.object.modules:
             if not mod:
