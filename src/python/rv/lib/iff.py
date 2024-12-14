@@ -32,7 +32,14 @@ def dump_file(f, outfile=None):
     from hexdump import hexdump
     from rv import ENCODING
 
+    module_index = 0
+
     for name, data in chunks(f):
+        if name == b"SEND":
+            module_index += 1
+        if name == b"SFFF":
+            print(f"====  Module {module_index:x}  ====", file=outfile)
+            print(file=outfile)
         print(
             name.decode(ENCODING),
             sep="",
