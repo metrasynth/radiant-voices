@@ -1,3 +1,4 @@
+import logging
 from contextlib import contextmanager
 from io import BytesIO
 from pathlib import Path
@@ -5,6 +6,12 @@ from pathlib import Path
 import pytest
 from rv.api import Project, Synth, m, read_sunvox_file
 from rv.lib.iff import dump_file
+
+DEFAULT_TEST_LOG_LEVEL = logging.WARNING
+
+
+def pytest_configure(config):
+    logging.basicConfig(level=DEFAULT_TEST_LOG_LEVEL)
 
 
 @pytest.fixture
