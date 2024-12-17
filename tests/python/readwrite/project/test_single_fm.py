@@ -113,7 +113,7 @@ def test_single_fm_writes_correct_chunks(read_write_read_project):
     expect_chunk(b"PYYY", b"\0\0\0\0")
     expect_chunk(b"PEND", b"")
     expect_chunk(b"PPAR", b"\0\0\0\0")
-    expect_chunk(b"PFFF", b"\1\0\0\0")
+    expect_chunk(b"PFFF", b"\3\0\0\0")
     expect_chunk(b"PXXX", b"\4\0\0\0")
     expect_chunk(b"PYYY", b"\0\0\0\0")
     expect_chunk(b"PEND", b"")

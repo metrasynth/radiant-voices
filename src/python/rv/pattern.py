@@ -140,14 +140,14 @@ class Pattern:
 @attributes
 class PatternClone:
     source = attr()
-    flags = attr(default=PatternFlagsPFFF.clone)
+    flags_PFFF = attr(default=PatternFlagsPFFF.clone)
     x = attr(default=0)
     y = attr(default=0)
     project = attr(default=None)
 
     def iff_chunks(self):
         yield b"PPAR", pack("<I", self.source)
-        yield b"PFFF", pack("<I", self.flags)
+        yield b"PFFF", pack("<I", self.flags_PFFF)
         yield b"PXXX", pack("<i", self.x)
         yield b"PYYY", pack("<i", self.y)
 
