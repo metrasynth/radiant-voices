@@ -124,15 +124,16 @@ export namespace AnalogGenerator {
     filterEnvelopeScalingPerKey: boolean
     volumeScalingPerKey: boolean
     filterFreqScalingPerKey: boolean
-    filterFreqScalingPerKeyReverse: boolean
-    filterFreqEqNoteFreq: boolean
     velocityDependentFilterFrequency: boolean
-    velocityDependentFilterResonance: boolean
     frequencyDiv_2: boolean
     smoothFrequencyChange: boolean
+    filterFreqScalingPerKeyReverse: boolean
     retainPhase: boolean
     randomPhase: boolean
+    filterFreqEqNoteFreq: boolean
+    velocityDependentFilterResonance: boolean
     trueZeroAttackRelease: boolean
+    increasedFreqComputationAccuracy: boolean
   }
   class AnalogGeneratorOptions implements Options {
     constructor(readonly optionValues: AnalogGeneratorOptionValues) {}
@@ -169,36 +170,12 @@ export namespace AnalogGenerator {
       this.optionValues.filterFreqScalingPerKey = newValue
     }
     // noinspection JSUnusedGlobalSymbols
-    get filterFreqScalingPerKeyReverse(): boolean {
-      return this.optionValues.filterFreqScalingPerKeyReverse
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set filterFreqScalingPerKeyReverse(newValue: boolean) {
-      this.optionValues.filterFreqScalingPerKeyReverse = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get filterFreqEqNoteFreq(): boolean {
-      return this.optionValues.filterFreqEqNoteFreq
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set filterFreqEqNoteFreq(newValue: boolean) {
-      this.optionValues.filterFreqEqNoteFreq = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
     get velocityDependentFilterFrequency(): boolean {
       return this.optionValues.velocityDependentFilterFrequency
     }
     // noinspection JSUnusedGlobalSymbols
     set velocityDependentFilterFrequency(newValue: boolean) {
       this.optionValues.velocityDependentFilterFrequency = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get velocityDependentFilterResonance(): boolean {
-      return this.optionValues.velocityDependentFilterResonance
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set velocityDependentFilterResonance(newValue: boolean) {
-      this.optionValues.velocityDependentFilterResonance = newValue
     }
     // noinspection JSUnusedGlobalSymbols
     get frequencyDiv_2(): boolean {
@@ -217,6 +194,14 @@ export namespace AnalogGenerator {
       this.optionValues.smoothFrequencyChange = newValue
     }
     // noinspection JSUnusedGlobalSymbols
+    get filterFreqScalingPerKeyReverse(): boolean {
+      return this.optionValues.filterFreqScalingPerKeyReverse
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set filterFreqScalingPerKeyReverse(newValue: boolean) {
+      this.optionValues.filterFreqScalingPerKeyReverse = newValue
+    }
+    // noinspection JSUnusedGlobalSymbols
     get retainPhase(): boolean {
       return this.optionValues.retainPhase
     }
@@ -233,12 +218,36 @@ export namespace AnalogGenerator {
       this.optionValues.randomPhase = newValue
     }
     // noinspection JSUnusedGlobalSymbols
+    get filterFreqEqNoteFreq(): boolean {
+      return this.optionValues.filterFreqEqNoteFreq
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set filterFreqEqNoteFreq(newValue: boolean) {
+      this.optionValues.filterFreqEqNoteFreq = newValue
+    }
+    // noinspection JSUnusedGlobalSymbols
+    get velocityDependentFilterResonance(): boolean {
+      return this.optionValues.velocityDependentFilterResonance
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set velocityDependentFilterResonance(newValue: boolean) {
+      this.optionValues.velocityDependentFilterResonance = newValue
+    }
+    // noinspection JSUnusedGlobalSymbols
     get trueZeroAttackRelease(): boolean {
       return this.optionValues.trueZeroAttackRelease
     }
     // noinspection JSUnusedGlobalSymbols
     set trueZeroAttackRelease(newValue: boolean) {
       this.optionValues.trueZeroAttackRelease = newValue
+    }
+    // noinspection JSUnusedGlobalSymbols
+    get increasedFreqComputationAccuracy(): boolean {
+      return this.optionValues.increasedFreqComputationAccuracy
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set increasedFreqComputationAccuracy(newValue: boolean) {
+      this.optionValues.increasedFreqComputationAccuracy = newValue
     }
   }
   export class Module extends ModuleBase implements ModuleType {
@@ -372,15 +381,16 @@ export namespace AnalogGenerator {
       filterEnvelopeScalingPerKey: false,
       volumeScalingPerKey: false,
       filterFreqScalingPerKey: false,
-      filterFreqScalingPerKeyReverse: false,
-      filterFreqEqNoteFreq: false,
       velocityDependentFilterFrequency: false,
-      velocityDependentFilterResonance: false,
       frequencyDiv_2: false,
       smoothFrequencyChange: true,
+      filterFreqScalingPerKeyReverse: false,
       retainPhase: false,
       randomPhase: false,
+      filterFreqEqNoteFreq: false,
+      velocityDependentFilterResonance: false,
       trueZeroAttackRelease: false,
+      increasedFreqComputationAccuracy: false,
     }
     readonly options: AnalogGeneratorOptions = new AnalogGeneratorOptions(
       this.optionValues
@@ -651,21 +661,22 @@ export namespace AnalogGenerator {
       return a
     }
     rawOptionBytes(): Uint8Array {
-      const bytes = new Uint8Array(13)
+      const bytes = new Uint8Array(14)
       const { optionValues: ov } = this
       bytes[0] |= (Number(ov.volumeEnvelopeScalingPerKey) & (2 ** 1 - 1)) << 0
       bytes[1] |= (Number(ov.filterEnvelopeScalingPerKey) & (2 ** 1 - 1)) << 0
       bytes[2] |= (Number(ov.volumeScalingPerKey) & (2 ** 1 - 1)) << 0
       bytes[3] |= (Number(ov.filterFreqScalingPerKey) & (2 ** 1 - 1)) << 0
-      bytes[7] |= (Number(ov.filterFreqScalingPerKeyReverse) & (2 ** 1 - 1)) << 0
-      bytes[10] |= (Number(ov.filterFreqEqNoteFreq) & (2 ** 1 - 1)) << 0
       bytes[4] |= (Number(ov.velocityDependentFilterFrequency) & (2 ** 1 - 1)) << 0
-      bytes[11] |= (Number(ov.velocityDependentFilterResonance) & (2 ** 1 - 1)) << 0
       bytes[5] |= (Number(ov.frequencyDiv_2) & (2 ** 1 - 1)) << 0
       bytes[6] |= (Number(!ov.smoothFrequencyChange) & (2 ** 1 - 1)) << 0
+      bytes[7] |= (Number(ov.filterFreqScalingPerKeyReverse) & (2 ** 1 - 1)) << 0
       bytes[8] |= (Number(ov.retainPhase) & (2 ** 1 - 1)) << 0
       bytes[9] |= (Number(ov.randomPhase) & (2 ** 1 - 1)) << 0
+      bytes[10] |= (Number(ov.filterFreqEqNoteFreq) & (2 ** 1 - 1)) << 0
+      bytes[11] |= (Number(ov.velocityDependentFilterResonance) & (2 ** 1 - 1)) << 0
       bytes[12] |= (Number(ov.trueZeroAttackRelease) & (2 ** 1 - 1)) << 0
+      bytes[13] |= (Number(ov.increasedFreqComputationAccuracy) & (2 ** 1 - 1)) << 0
       return bytes
     }
     setOptions(dataChunks: ModuleDataChunks) {
@@ -687,24 +698,27 @@ export namespace AnalogGenerator {
         this.optionValues.filterFreqScalingPerKey = Boolean(
           (chdt[3] >> 0) & (2 ** 1 - 1)
         )
-        this.optionValues.filterFreqScalingPerKeyReverse = Boolean(
-          (chdt[7] >> 0) & (2 ** 1 - 1)
-        )
-        this.optionValues.filterFreqEqNoteFreq = Boolean((chdt[10] >> 0) & (2 ** 1 - 1))
         this.optionValues.velocityDependentFilterFrequency = Boolean(
           (chdt[4] >> 0) & (2 ** 1 - 1)
-        )
-        this.optionValues.velocityDependentFilterResonance = Boolean(
-          (chdt[11] >> 0) & (2 ** 1 - 1)
         )
         this.optionValues.frequencyDiv_2 = Boolean((chdt[5] >> 0) & (2 ** 1 - 1))
         this.optionValues.smoothFrequencyChange = !Boolean(
           (chdt[6] >> 0) & (2 ** 1 - 1)
         )
+        this.optionValues.filterFreqScalingPerKeyReverse = Boolean(
+          (chdt[7] >> 0) & (2 ** 1 - 1)
+        )
         this.optionValues.retainPhase = Boolean((chdt[8] >> 0) & (2 ** 1 - 1))
         this.optionValues.randomPhase = Boolean((chdt[9] >> 0) & (2 ** 1 - 1))
+        this.optionValues.filterFreqEqNoteFreq = Boolean((chdt[10] >> 0) & (2 ** 1 - 1))
+        this.optionValues.velocityDependentFilterResonance = Boolean(
+          (chdt[11] >> 0) & (2 ** 1 - 1)
+        )
         this.optionValues.trueZeroAttackRelease = Boolean(
           (chdt[12] >> 0) & (2 ** 1 - 1)
+        )
+        this.optionValues.increasedFreqComputationAccuracy = Boolean(
+          (chdt[13] >> 0) & (2 ** 1 - 1)
         )
       }
     }

@@ -897,6 +897,8 @@ module_types:
       - osc2_phase: { min: 0, max: 32768, default: 0 }
     options_chnm: 1
     options:
+      # These are in the order they appear in psynths_generator2.cpp#gen2_options,
+      #  not the order they appear in the UI.
       - volume_envelope_scaling_per_key:
           number: 0x7f
           byte: 0
@@ -921,27 +923,9 @@ module_types:
           bit: 0
           size: 1
           default: false
-      - filter_freq_scaling_per_key_reverse:
-          number: 0x78
-          byte: 7
-          bit: 0
-          size: 1
-          default: false
-      - filter_freq_eq_note_freq:
-          number: 0x75
-          byte: 10
-          bit: 0
-          size: 1
-          default: false
       - velocity_dependent_filter_frequency:
           number: 0x7b
           byte: 4
-          bit: 0
-          size: 1
-          default: false
-      - velocity_dependent_filter_resonance:
-          number: 0x74
-          byte: 11
           bit: 0
           size: 1
           default: false
@@ -958,6 +942,12 @@ module_types:
           size: 1
           default: true
           inverted: true
+      - filter_freq_scaling_per_key_reverse:
+          number: 0x78
+          byte: 7
+          bit: 0
+          size: 1
+          default: false
       - retain_phase:
           number: 0x77
           byte: 8
@@ -970,9 +960,27 @@ module_types:
           bit: 0
           size: 1
           default: false
+      - filter_freq_eq_note_freq:
+          number: 0x75
+          byte: 10
+          bit: 0
+          size: 1
+          default: false
+      - velocity_dependent_filter_resonance:
+          number: 0x74
+          byte: 11
+          bit: 0
+          size: 1
+          default: false
       - true_zero_attack_release:
           number: 0x73
           byte: 12
+          bit: 0
+          size: 1
+          default: false
+      - increased_freq_computation_accuracy:
+          number: 0x72
+          byte: 13
           bit: 0
           size: 1
           default: false
@@ -2114,6 +2122,16 @@ module_types:
           default: all_or_random1
       - out_port_mode_random:
           byte: 5
+          bit: 0
+          size: 1
+          default: false
+      - dummy6:
+          byte: 6
+          bit: 0
+          size: 1
+          default: false
+      - dummy7:
+          byte: 7
           bit: 0
           size: 1
           default: false

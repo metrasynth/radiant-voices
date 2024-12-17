@@ -121,34 +121,10 @@ class BaseAnalogGenerator:
         size=1,
         default=False,
     )
-    filter_freq_scaling_per_key_reverse = Option(
-        name="filter_freq_scaling_per_key_reverse",
-        number=120,
-        byte=7,
-        bit=0,
-        size=1,
-        default=False,
-    )
-    filter_freq_eq_note_freq = Option(
-        name="filter_freq_eq_note_freq",
-        number=117,
-        byte=10,
-        bit=0,
-        size=1,
-        default=False,
-    )
     velocity_dependent_filter_frequency = Option(
         name="velocity_dependent_filter_frequency",
         number=123,
         byte=4,
-        bit=0,
-        size=1,
-        default=False,
-    )
-    velocity_dependent_filter_resonance = Option(
-        name="velocity_dependent_filter_resonance",
-        number=116,
-        byte=11,
         bit=0,
         size=1,
         default=False,
@@ -170,6 +146,14 @@ class BaseAnalogGenerator:
         inverted=True,
         default=True,
     )
+    filter_freq_scaling_per_key_reverse = Option(
+        name="filter_freq_scaling_per_key_reverse",
+        number=120,
+        byte=7,
+        bit=0,
+        size=1,
+        default=False,
+    )
     retain_phase = Option(
         name="retain_phase",
         number=119,
@@ -186,10 +170,34 @@ class BaseAnalogGenerator:
         size=1,
         default=False,
     )
+    filter_freq_eq_note_freq = Option(
+        name="filter_freq_eq_note_freq",
+        number=117,
+        byte=10,
+        bit=0,
+        size=1,
+        default=False,
+    )
+    velocity_dependent_filter_resonance = Option(
+        name="velocity_dependent_filter_resonance",
+        number=116,
+        byte=11,
+        bit=0,
+        size=1,
+        default=False,
+    )
     true_zero_attack_release = Option(
         name="true_zero_attack_release",
         number=115,
         byte=12,
+        bit=0,
+        size=1,
+        default=False,
+    )
+    increased_freq_computation_accuracy = Option(
+        name="increased_freq_computation_accuracy",
+        number=114,
+        byte=13,
         bit=0,
         size=1,
         default=False,
