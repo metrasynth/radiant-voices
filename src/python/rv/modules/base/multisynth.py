@@ -114,6 +114,20 @@ class BaseMultiSynth:
         size=1,
         default=False,
     )
+    dummy6 = Option(
+        name="dummy6",
+        byte=6,
+        bit=0,
+        size=1,
+        default=False,
+    )
+    dummy7 = Option(
+        name="dummy7",
+        byte=7,
+        bit=0,
+        size=1,
+        default=False,
+    )
 
     class note_velocity_curve_chunk(ArrayChunk):
         chnm = 0
