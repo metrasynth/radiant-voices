@@ -126,7 +126,7 @@ def test_analog_generator_writes_correct_chunks(read_write_read_synth):
         b"\x00\x00\x00\x00\x00\x00\x00\xff",
     )
 
-    expect_chunk(b"CHNK", b"\2\0\0\0")
+    expect_chunk(b"CHNK", b"\4\0\0\0")
 
     expect_chunk(b"CHNM", b"\0\0\0\0")
     expect_chunk(b"CHDT", bytes(y & ((1 << 8) - 1) for y in EXPECTED_DRAWN_WAVEFORM))

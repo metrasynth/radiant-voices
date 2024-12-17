@@ -5,7 +5,7 @@ from rv.modules.base.analoggenerator import BaseAnalogGenerator
 
 
 class AnalogGenerator(BaseAnalogGenerator, Module):
-    chnk = 2
+    chnk = 4
     options_chnm = 1
 
     behaviors = {B.receives_notes, B.sends_audio}
