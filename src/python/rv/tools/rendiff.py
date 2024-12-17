@@ -145,6 +145,10 @@ def main():
     log.info("Saving IFF hexdump of RV-parsed SunVox file to %r", rv_hexdump_path)
     with rv_path.open("rb") as f, rv_hexdump_path.open("w") as outfile:
         dump_file(f, outfile)
+    project.layout(scale=1024)
+    layout_path = in_path.with_suffix(".rv.layout.sunvox")
+    with layout_path.open("wb") as f:
+        project.write_to(f)
 
     log.info("Rendering without rv preprocessing (pass 1/2)")
     output = render(in_path)
