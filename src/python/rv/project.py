@@ -199,7 +199,7 @@ class Project(Container):
                     structure = "<" + "i" * len(links)
                     links = pack(structure, *links)
                     link_slots = pack(structure, *link_slots)
-                    yield b"SLNK", links + b"\xff\xff\xff\xff"
+                    yield b"SLNK", links
                     if any(s != 0 for s in module.in_link_slots):
                         # Only write out SLnK if there are non-zero slots.
                         yield b"SLnK", link_slots

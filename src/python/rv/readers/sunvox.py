@@ -127,11 +127,12 @@ class SunVoxReader(Reader):
         # Clear out empty modules at end of list.
         while self.object.modules and self.object.modules[-1] is None:
             self.object.modules.pop()
-        # inLinkSlots are not written out by SunVox if all zeros;
-        # initialize them if missing.
-        for mod in self.object.modules:
+        # inLinkSlots are not written out by SunVox if all zeros; initialize if missing.
+        # Start with the first non-output module, work our way up, then output module.
+        for mod in self.object.modules[1:] + self.object.modules[:1]:
             if not mod or mod.in_link_slots:
                 continue
+            mod.in_links = [idx for idx in mod.in_links if idx != -1]
             for other_mod_num in mod.in_links:
                 if other_mod_num == -1:
                     mod.in_link_slots.append(0)

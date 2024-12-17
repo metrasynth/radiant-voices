@@ -38,17 +38,14 @@ def test_issue109(test_files_path):
     assert generator2.in_links == [multisynth.index]
     assert generator2.in_link_slots == [1]
     assert generator2.out_links == [vibrato.index]
-    assert generator2.out_link_slots == [2]
+    assert generator2.out_link_slots == [1]
 
-    assert vibrato.in_links == [generator.index, -1, generator2.index]
-    assert vibrato.in_link_slots == [0, 0, 0]
+    assert vibrato.in_links == [generator.index, generator2.index]
+    assert vibrato.in_link_slots == [0, 0]
     assert vibrato.out_links == [echo.index]
     assert vibrato.out_link_slots == [0]
 
     assert filter.in_links == [echo.index]
     assert filter.in_link_slots == [0]
-    # [TODO] these don't make sense and should be the following instead:
-    # assert filter.out_links == [output.index]
-    # assert filter.out_link_slots == [1]
-    assert filter.out_links == [vibrato.index]
-    assert filter.out_link_slots == [1]
+    assert filter.out_links == [output.index]
+    assert filter.out_link_slots == [0]
