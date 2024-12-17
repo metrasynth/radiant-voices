@@ -487,77 +487,81 @@ class Sampler(BaseSampler, Module):
         vol = self.volume_envelope
         pan = self.panning_envelope
 
-        # uint32_t unused1;
+        # $0000 uint32_t unused1;
         self.unused1 = r.uint32()
-        # char name[ 22 ];
+        # $0004 char name[ 22 ];
         self.instrument_name = r.char(22)
-        # uint16_t unused2;
+        # $001a uint16_t unused2;
         self.unused2 = r.uint16()
-        # uint16_t samples_num;
+        # $001c uint16_t samples_num;
         _ = r.uint16()
-        # uint16_t unused3;
+        # $001e uint16_t unused3;
         self.unused3 = r.uint16()
-        # uint32_t unused4;
+        # $0020 uint32_t unused4;
         self.unused4 = r.uint32()
-        # uint8_t smp_num_old[ 96 ];
+        # $0024 uint8_t smp_num_old[ 96 ];
         self.note_samples.bytes = r.bytes(96)
-        # uint16_t volume_points_old[ XI_ENV_POINTS * 2 ];
+        # $0084 uint16_t volume_points_old[ XI_ENV_POINTS * 2 ];
         vol._legacy_point_bytes = r.bytes(self.XI_ENV_POINTS * 2 * 2)
-        # uint16_t panning_points_old[ XI_ENV_POINTS * 2 ];
+        # $0086 uint16_t panning_points_old[ XI_ENV_POINTS * 2 ];
         pan._legacy_point_bytes = r.bytes(self.XI_ENV_POINTS * 2 * 2)
-        # uint8_t volume_points_num_old;
+        # $0088 uint8_t volume_points_num_old;
         vol._legacy_active_points = r.uint8()
-        # uint8_t panning_points_num_old;
+        # $0089 uint8_t panning_points_num_old;
         pan._legacy_active_points = r.uint8()
-        # uint8_t vol_sustain_old;
+        # $008a uint8_t vol_sustain_old;
         vol._legacy_sustain_point = r.uint8()
-        # uint8_t vol_loop_start_old;
+        # $008b uint8_t vol_loop_start_old;
         vol._legacy_loop_start_point = r.uint8()
-        # uint8_t vol_loop_end_old;
+        # $008c uint8_t vol_loop_end_old;
         vol._legacy_loop_end_point = r.uint8()
-        # uint8_t pan_sustain_old;
+        # $008d uint8_t pan_sustain_old;
         pan._legacy_sustain_point = r.uint8()
-        # uint8_t pan_loop_start_old;
+        # $008e uint8_t pan_loop_start_old;
         pan._legacy_loop_start_point = r.uint8()
-        # uint8_t pan_loop_end_old;
+        # $008f uint8_t pan_loop_end_old;
         pan._legacy_loop_end_point = r.uint8()
-        # uint8_t volume_type_old;
+        # $0090 uint8_t volume_type_old;
         vol._legacy_bitmask = r.uint8()
-        # uint8_t panning_type_old;
+        # $0091 uint8_t panning_type_old;
         pan._legacy_bitmask = r.uint8()
-        # uint8_t vibrato_type;
+        # $0092 uint8_t vibrato_type;
         self.vibrato_type = self.VibratoType(r.uint8())
-        # uint8_t vibrato_sweep;
+        # $0093 uint8_t vibrato_sweep;
         self.vibrato_attack = r.uint8()
-        # uint8_t vibrato_depth;
+        # $0094 uint8_t vibrato_depth;
         self.vibrato_depth = r.uint8()
-        # uint8_t vibrato_rate;
+        # $0095 uint8_t vibrato_rate;
         self.vibrato_rate = r.uint8()
-        # uint16_t volume_fadeout;
+        # $0096 uint16_t volume_fadeout;
         self.volume_fadeout = r.uint16()
-        # uint8_t volume_old;
+        # $0098 uint8_t volume_old;
         self.volume_old = r.uint8()
-        # int8_t finetune;
+        # $0099 int8_t finetune;
         self.ins_finetune = r.int8()
-        # uint8_t unused5;
+        # $009a uint8_t unused5;
         self.unused5 = r.uint8()
-        # int8_t relative_note;
+        # $009b int8_t relative_note;
         self.ins_relative_note = r.int8()
-        # uint32_t unused6;
+        # $009c uint32_t unused6;
         self.unused6 = r.uint32()
-        # uint32_t sign;
+        # $00a0 uint32_t sign;
         sign = r.char(4)
         if sign != self.INS_SIGN:
             log.warning("legacy signature %r != %r", sign, self.INS_SIGN)
-        # uint32_t version;
+            self.is_legacy = True
+        else:
+            self.is_legacy = False
+            self.legacy_chunks = None
+        # $00a4 uint32_t version;
         self.version = r.uint32()
-        # uint8_t smp_num[ 128 ];
+        # $00a8 uint8_t smp_num[ 128 ];
         self.note_samples.bytes = r.char(128)
-        # uint32_t max_version;
+        # $0128 uint32_t max_version;
         self.max_version = r.uint32(self.INS_VERSION)
-        # int32_t editor_cursor;
+        # $012b int32_t editor_cursor;
         self.editor_cursor = r.int32(0)
-        # int32_t editor_selected_size;
+        # $012f int32_t editor_selected_size;
         self.editor_selected_size = r.int32(0)
 
     def load_sample_meta(self, chunk):
