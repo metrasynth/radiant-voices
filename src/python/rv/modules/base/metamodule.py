@@ -101,3 +101,24 @@ class BaseMetaModule:
         size=1,
         default=False,
     )
+    dummy5 = Option(
+        name="dummy5",
+        byte=5,
+        bit=0,
+        size=1,
+        default=False,
+    )
+    dummy6 = Option(
+        name="dummy6",
+        byte=6,
+        bit=0,
+        size=1,
+        default=False,
+    )
+    dummy7 = Option(
+        name="dummy7",
+        byte=7,
+        bit=0,
+        size=1,
+        default=False,
+    )

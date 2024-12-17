@@ -46,6 +46,9 @@ export namespace MetaModule {
     autoBpmTpl: boolean
     ignoreEff_31AfterLastNoteOff: boolean
     jumpToRlPatternAfterLastNoteOff: boolean
+    dummy5: boolean
+    dummy6: boolean
+    dummy7: boolean
   }
   class MetaModuleOptions implements Options {
     constructor(readonly optionValues: MetaModuleOptionValues) {}
@@ -126,6 +129,30 @@ export namespace MetaModule {
     set jumpToRlPatternAfterLastNoteOff(newValue: boolean) {
       this.optionValues.jumpToRlPatternAfterLastNoteOff = newValue
     }
+    // noinspection JSUnusedGlobalSymbols
+    get dummy5(): boolean {
+      return this.optionValues.dummy5
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set dummy5(newValue: boolean) {
+      this.optionValues.dummy5 = newValue
+    }
+    // noinspection JSUnusedGlobalSymbols
+    get dummy6(): boolean {
+      return this.optionValues.dummy6
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set dummy6(newValue: boolean) {
+      this.optionValues.dummy6 = newValue
+    }
+    // noinspection JSUnusedGlobalSymbols
+    get dummy7(): boolean {
+      return this.optionValues.dummy7
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set dummy7(newValue: boolean) {
+      this.optionValues.dummy7 = newValue
+    }
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "MetaModule"
@@ -178,6 +205,9 @@ export namespace MetaModule {
       autoBpmTpl: false,
       ignoreEff_31AfterLastNoteOff: false,
       jumpToRlPatternAfterLastNoteOff: false,
+      dummy5: false,
+      dummy6: false,
+      dummy7: false,
     }
     readonly options: MetaModuleOptions = new MetaModuleOptions(this.optionValues)
     readonly o = this.options
@@ -259,7 +289,7 @@ export namespace MetaModule {
       return a
     }
     rawOptionBytes(): Uint8Array {
-      const bytes = new Uint8Array(9)
+      const bytes = new Uint8Array(12)
       const { optionValues: ov } = this
       bytes[0] |= (Number(ov.userDefinedControllers) & (2 ** 4 - 1)) << 0
       bytes[1] |= (Number(ov.arpeggiator) & (2 ** 1 - 1)) << 0
@@ -270,6 +300,9 @@ export namespace MetaModule {
       bytes[4] |= (Number(ov.autoBpmTpl) & (2 ** 1 - 1)) << 2
       bytes[4] |= (Number(ov.ignoreEff_31AfterLastNoteOff) & (2 ** 1 - 1)) << 3
       bytes[4] |= (Number(ov.jumpToRlPatternAfterLastNoteOff) & (2 ** 1 - 1)) << 4
+      bytes[5] |= (Number(ov.dummy5) & (2 ** 1 - 1)) << 0
+      bytes[6] |= (Number(ov.dummy6) & (2 ** 1 - 1)) << 0
+      bytes[7] |= (Number(ov.dummy7) & (2 ** 1 - 1)) << 0
       return bytes
     }
     setOptions(dataChunks: ModuleDataChunks) {
@@ -300,6 +333,9 @@ export namespace MetaModule {
         this.optionValues.jumpToRlPatternAfterLastNoteOff = Boolean(
           (chdt[4] >> 4) & (2 ** 1 - 1)
         )
+        this.optionValues.dummy5 = Boolean((chdt[5] >> 0) & (2 ** 1 - 1))
+        this.optionValues.dummy6 = Boolean((chdt[6] >> 0) & (2 ** 1 - 1))
+        this.optionValues.dummy7 = Boolean((chdt[7] >> 0) & (2 ** 1 - 1))
       }
     }
   }

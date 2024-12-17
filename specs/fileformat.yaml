@@ -1954,6 +1954,21 @@ module_types:
           bit: 4
           size: 1
           default: false
+      - dummy5:
+          byte: 5
+          bit: 0
+          size: 1
+          default: false
+      - dummy6:
+          byte: 6
+          bit: 0
+          size: 1
+          default: false
+      - dummy7:
+          byte: 7
+          bit: 0
+          size: 1
+          default: false
     chunks:
       - name: mappings
         type: MetaModuleMappings
