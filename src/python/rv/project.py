@@ -299,11 +299,14 @@ class Project(Container):
         """Auto-layout modules."""
         g = nx.Graph()
         for module in self.modules:
+            if module is None:
+                continue
             to_idx = module.index
             for from_idx in module.in_links:
-                if from_idx >= 0:
-                    g.add_nodes_from([from_idx, to_idx])
-                    g.add_edge(from_idx, to_idx)
+                if from_idx < 0:
+                    continue
+                g.add_nodes_from([from_idx, to_idx])
+                g.add_edge(from_idx, to_idx)
         pos = nx.spring_layout(g, scale=scale, **spring_layout_args)
         for idx, (x, y) in pos.items():
             mod = self.modules[idx]
