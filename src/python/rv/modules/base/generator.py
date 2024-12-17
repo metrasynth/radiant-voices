@@ -12,7 +12,7 @@ class BaseGenerator:
     name = "Generator"
     mtype = "Generator"
     mgroup = "Synth"
-    flags = 0x59
+    flags = default_flags = 0x59
 
     class Waveform(IntEnum):
         triangle = 0

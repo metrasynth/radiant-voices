@@ -12,7 +12,7 @@ class BaseAdsr:
     name = "Adsr"
     mtype = "ADSR"
     mgroup = "Misc"
-    flags = 0x59
+    flags = default_flags = 0x59
 
     class Curve(IntEnum):
         linear = 0

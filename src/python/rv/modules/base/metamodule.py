@@ -13,7 +13,7 @@ class BaseMetaModule:
     name = "MetaModule"
     mtype = "MetaModule"
     mgroup = "Misc"
-    flags = 0x8051
+    flags = default_flags = 0x8051
 
     class PlayPatterns(IntEnum):
         off = 0

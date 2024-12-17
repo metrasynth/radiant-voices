@@ -11,7 +11,7 @@ class BaseMultiCtl:
     name = "MultiCtl"
     mtype = "MultiCtl"
     mgroup = "Misc"
-    flags = 0x60051
+    flags = default_flags = 0x60051
     value = Controller((0, 32768), 0)
     gain = Controller((0, 1024), 256)
     quantization = Controller((0, 32768), 32768)

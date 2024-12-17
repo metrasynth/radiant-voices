@@ -12,7 +12,7 @@ class BaseKicker:
     name = "Kicker"
     mtype = "Kicker"
     mgroup = "Synth"
-    flags = 0x49
+    flags = default_flags = 0x49
 
     class Waveform(IntEnum):
         triangle = 0

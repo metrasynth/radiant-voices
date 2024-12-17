@@ -12,7 +12,7 @@ class BasePitchShifter:
     name = "PitchShifter"
     mtype = "Pitch shifter"
     mgroup = "Effect"
-    flags = 0x51
+    flags = default_flags = 0x51
 
     class Mode(IntEnum):
         hq = 0

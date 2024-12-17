@@ -13,7 +13,7 @@ class BaseFmx:
     name = "Fmx"
     mtype = "FMX"
     mgroup = "Synth"
-    flags = 0x59
+    flags = default_flags = 0x59
 
     class SampleRate(IntEnum):
         _8000hz = 0

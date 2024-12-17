@@ -12,7 +12,7 @@ class BaseFilter:
     name = "Filter"
     mtype = "Filter"
     mgroup = "Effect"
-    flags = 0x451
+    flags = default_flags = 0x451
 
     class Type(IntEnum):
         lp = 0

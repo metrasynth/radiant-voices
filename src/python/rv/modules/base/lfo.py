@@ -12,7 +12,7 @@ class BaseLfo:
     name = "Lfo"
     mtype = "LFO"
     mgroup = "Effect"
-    flags = 0x451
+    flags = default_flags = 0x451
 
     class Type(IntEnum):
         amplitude = 0

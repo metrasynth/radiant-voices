@@ -12,7 +12,7 @@ class BaseFlanger:
     name = "Flanger"
     mtype = "Flanger"
     mgroup = "Effect"
-    flags = 0x451
+    flags = default_flags = 0x451
 
     class LfoWaveform(IntEnum):
         hsin = 0

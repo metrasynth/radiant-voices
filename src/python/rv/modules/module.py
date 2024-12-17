@@ -226,8 +226,8 @@ class Module(metaclass=ModuleMeta):
     name: str = ""
     mtype: str  # module type
     mgroup: str  # module group
+    default_flags: int
     flags: int
-    loaded_flags: int
     chnk: Union[int, bool] = False
 
     behaviors = set()
@@ -244,7 +244,6 @@ class Module(metaclass=ModuleMeta):
     parent: Optional[Project]
 
     def __init__(self, **kw):
-        self.loaded_flags = None
         self.index = kw.get("index")
         self.parent = kw.get("parent")
         self.controller_values = {}

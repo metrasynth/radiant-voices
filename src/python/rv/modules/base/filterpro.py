@@ -12,7 +12,7 @@ class BaseFilterPro:
     name = "FilterPro"
     mtype = "Filter Pro"
     mgroup = "Effect"
-    flags = 0x451
+    flags = default_flags = 0x451
 
     class Type(IntEnum):
         lp = 0

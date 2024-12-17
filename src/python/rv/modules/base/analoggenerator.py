@@ -13,7 +13,7 @@ class BaseAnalogGenerator:
     name = "AnalogGenerator"
     mtype = "Analog generator"
     mgroup = "Synth"
-    flags = 0x49
+    flags = default_flags = 0x49
 
     class Mode(IntEnum):
         hq = 0

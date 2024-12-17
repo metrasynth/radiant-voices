@@ -12,7 +12,7 @@ class BasePitchDetector:
     name = "PitchDetector"
     mtype = "Pitch Detector"
     mgroup = "Misc"
-    flags = 0x860051
+    flags = default_flags = 0x860051
 
     class Algorithm(IntEnum):
         zero_crossing = 0

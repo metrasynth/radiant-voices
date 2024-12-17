@@ -9,4 +9,4 @@ class BaseOutput:
     name = "Output"
     mtype = "Output"
     mgroup = "Output"
-    flags = 0x43
+    flags = default_flags = 0x43

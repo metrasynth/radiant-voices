@@ -14,7 +14,7 @@ class BaseMultiSynth:
     name = "MultiSynth"
     mtype = "MultiSynth"
     mgroup = "Misc"
-    flags = 0x1020049
+    flags = default_flags = 0x1020049
 
     class ActiveCurve(IntEnum):
         note_velocity = 0

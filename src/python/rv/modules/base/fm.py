@@ -12,7 +12,7 @@ class BaseFm:
     name = "Fm"
     mtype = "FM"
     mgroup = "Synth"
-    flags = 0x49
+    flags = default_flags = 0x49
 
     class Mode(IntEnum):
         hq = 0

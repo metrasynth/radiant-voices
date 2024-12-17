@@ -13,7 +13,7 @@ class BaseSpectraVoice:
     name = "SpectraVoice"
     mtype = "SpectraVoice"
     mgroup = "Synth"
-    flags = 0x49
+    flags = default_flags = 0x49
 
     class Mode(IntEnum):
         hq = 0

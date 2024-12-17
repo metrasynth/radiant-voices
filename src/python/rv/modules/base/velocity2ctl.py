@@ -12,7 +12,7 @@ class BaseVelocity2Ctl:
     name = "Velocity2Ctl"
     mtype = "Velocity2Ctl"
     mgroup = "Misc"
-    flags = 0x1020049
+    flags = default_flags = 0x1020049
 
     class NoteOffAction(IntEnum):
         do_nothing = 0

@@ -12,7 +12,7 @@ class BaseSmooth:
     name = "Smooth"
     mtype = "Smooth"
     mgroup = "Effect"
-    flags = 0x51
+    flags = default_flags = 0x51
 
     class Mode(IntEnum):
         linear = 0
