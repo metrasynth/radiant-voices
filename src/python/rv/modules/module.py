@@ -38,6 +38,14 @@ class Chunk:
         self.chff = 0
         self.chfr = 44100
 
+    def chunks(self):
+        yield b"CHNM", pack("<I", self.chnm)
+        yield b"CHDT", self.chdt
+        if self.chff is not None:
+            yield b"CHFF", pack("<I", self.chff)
+        if self.chfr is not None:
+            yield b"CHFR", pack("<I", self.chfr)
+
 
 class ModuleList(list):
     """Ensures `>>` and `<<` work with lists."""

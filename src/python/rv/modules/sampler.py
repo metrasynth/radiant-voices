@@ -5,6 +5,7 @@ from struct import pack, unpack
 from typing import BinaryIO, List, Optional
 
 from logutils import BraceMessage as _F
+from rv.chunks.chunk import Chunk
 from rv.controller import Controller
 from rv.modules import Behavior as B
 from rv.modules import Module
@@ -293,8 +294,21 @@ class Sampler(BaseSampler, Module):
         self.editor_cursor = 0
         self.editor_selected_size = 0
         self.effect = None
+        # Special handling for legacy instruments.
+        # Starts out as an empty list, then populated with raw chunks during load.
+        # If the INS_SIGN signature is not found, the `is_legacy` flag is set True.
+        # If it is found, it is set False and `legacy_chunks` is cleared.
+        # When writing out, if this is None then new chunks are written.
+        # If it is a list, then raw chunks are written out instead.
+        # This can go away once we better support legacy instruments.
+        self.is_legacy: bool | None = None
+        self.legacy_chunks: list[Chunk] | None = []
 
     def specialized_iff_chunks(self):
+        if self.is_legacy:
+            for chunk in self.legacy_chunks:
+                yield from chunk.chunks()
+            return
         iters = [
             self.global_config_chunks(),  # CHNM 0x0000
             self.sample_data_chunks(),  # CHNM i*2+1, i*2+2
@@ -457,6 +471,8 @@ class Sampler(BaseSampler, Module):
         yield b"CHFR", pack("<I", sample.rate)
 
     def load_chunk(self, chunk):
+        if self.is_legacy is not False:
+            self.legacy_chunks.append(chunk)
         chnm = chunk.chnm
         chdt = chunk.chdt
         if chnm == self.options_chnm:
