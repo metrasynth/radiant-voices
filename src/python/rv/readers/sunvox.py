@@ -132,7 +132,6 @@ class SunVoxReader(Reader):
         for mod in self.object.modules[1:] + self.object.modules[:1]:
             if not mod or mod.in_link_slots:
                 continue
-            mod.in_links = [idx for idx in mod.in_links if idx != -1]
             for other_mod_num in mod.in_links:
                 if other_mod_num == -1:
                     mod.in_link_slots.append(0)
