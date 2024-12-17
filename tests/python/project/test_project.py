@@ -29,4 +29,4 @@ def test_initial_project(project):
     assert project.selected_module == 0
     assert project.current_pattern == 0
     assert project.current_track == 0
-    assert project.current_line == 1
+    assert project.current_line == 0
