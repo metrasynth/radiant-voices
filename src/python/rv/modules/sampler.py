@@ -566,9 +566,6 @@ class Sampler(BaseSampler, Module):
         if sign != self.INS_SIGN:
             log.warning("legacy signature %r != %r", sign, self.INS_SIGN)
             self.is_legacy = True
-        else:
-            self.is_legacy = False
-            self.legacy_chunks = None
         # $00a4 uint32_t version;
         self.version = r.uint32()
         # $00a8 uint8_t smp_num[ 128 ];
@@ -579,6 +576,13 @@ class Sampler(BaseSampler, Module):
         self.editor_cursor = r.int32(0)
         # $012f int32_t editor_selected_size;
         self.editor_selected_size = r.int32(0)
+
+        if not self.is_legacy and len(data) >= 0x190:
+            log.warning(f"legacy instrument data of length {len(data)}")
+            self.is_legacy = True
+        if not self.is_legacy:
+            self.is_legacy = False
+            self.legacy_chunks = None
 
     def load_sample_meta(self, chunk):
         index = (chunk.chnm - 1) // 2
