@@ -3,6 +3,7 @@ from struct import unpack
 from typing import Optional
 
 from rv import ENCODING
+from rv.pattern import Pattern
 from rv.project import Project
 from rv.readers.module import ModuleReader
 from rv.readers.pattern import PatternCloneReader, PatternReader
@@ -169,4 +170,12 @@ class SunVoxReader(Reader):
                 if out_link_idx != -1:
                     out_links[out_link_idx] = mod.index
                     out_link_slots[out_link_idx] = in_link_idx
+        # Clear high byte of module in patterns if version was < 1.9.5.0
+        if self.object.loaded_sunvox_version < (1, 9, 5, 0):
+            for pat in self.object.patterns:
+                if not isinstance(pat, Pattern):
+                    continue
+                for line in pat.data:
+                    for note in line:
+                        note.module &= 0xFF
         raise ReaderFinished()
