@@ -134,7 +134,7 @@ class SunVoxReader(Reader):
                 continue
             for other_mod_num in mod.in_links:
                 if other_mod_num == -1:
-                    mod.in_link_slots.append(0)
+                    mod.in_link_slots.append(-1)
                     continue
                 if other_mod_num >= len(self.object.modules):
                     log.warning(
