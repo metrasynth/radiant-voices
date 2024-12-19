@@ -128,6 +128,8 @@ class MetaModule(BaseMetaModule, Module):
                     continue
                 controller_index = mapping.controller
                 controller_values = list(mod.controllers.values())
+                if controller_index >= len(controller_values):
+                    continue
                 controller = controller_values[controller_index]
                 user_defined_controller.value_type = controller.instance_value_type(mod)
                 user_defined_controller.default = controller.default
