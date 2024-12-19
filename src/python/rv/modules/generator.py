@@ -19,7 +19,7 @@ class Generator(BaseGenerator, Module):
 
     @property
     def chnk(self):
-        return False if self.drawn_waveform.is_default else 1
+        return False if self.drawn_waveform.is_default else 4
 
     def specialized_iff_chunks(self):
         yield from self.drawn_waveform.chunks()
