@@ -94,23 +94,23 @@ class ModuleFlags(IntEnum):
     effect = 1 << 4  # 0x10
     initialized = 1 << 6  # 0x40
     mute = 1 << 7  # 0x80
-    solo = 1 << 8  # 0x100
-    get_speed_changes = 1 << 10  # 0x400
-    hidden = 1 << 11  # 0x800
-    no_fill_input = 1 << 13  # 0x2000
-    bypass = 1 << 14  # 0x4000
-    mute_solo_bypass = mute | solo | bypass  # 0x4180
-    use_mutex = 1 << 15  # 0x8000
-    ignore_mute = 1 << 16  # 0x10000
-    no_scope_buffer = 1 << 17  # 0x20000
-    output_is_empty = 1 << 18  # 0x40000
-    open = 1 << 19  # 0x80000
-    get_play_commands = 1 << 20  # 0x100000
-    get_render_setup_commands = 1 << 21  # 0x200000
-    feedback = 1 << 22  # 0x400000
-    get_stop_commands = 1 << 23  # 0x800000
-    no_render = 1 << 24  # 0x1000000
-    selected = 1 << 25  # 0x2000000
+    solo = 1 << 8  # 0x1_00
+    get_speed_changes = 1 << 10  # 0x4_00
+    hidden = 1 << 11  # 0x8_00
+    no_fill_input = 1 << 13  # 0x20_00
+    bypass = 1 << 14  # 0x40_00
+    mute_solo_bypass = mute | solo | bypass  # 0x41_80
+    use_mutex = 1 << 15  # 0x80_00
+    ignore_mute = 1 << 16  # 0x1_00_00
+    no_scope_buffer = 1 << 17  # 0x2_00_00
+    output_is_empty = 1 << 18  # 0x4_00_00
+    open = 1 << 19  # 0x8_00_00
+    get_play_commands = 1 << 20  # 0x10_00_00
+    get_render_setup_commands = 1 << 21  # 0x20_00_00
+    feedback = 1 << 22  # 0x40_00_00
+    get_stop_commands = 1 << 23  # 0x80_00_00
+    no_render = 1 << 24  # 0x1_00_00_00
+    selected = 1 << 25  # 0x2_00_00_00
 
 
 class VisibleModuleFlags(IntEnum):
