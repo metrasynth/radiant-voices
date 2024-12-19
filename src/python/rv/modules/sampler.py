@@ -675,7 +675,6 @@ class Sampler(BaseSampler, Module):
         pan_y_points = [
             unpack("<H", pan._legacy_point_bytes[4 * i + 2 : 4 * i + 4])[0] * 0x200
             + pan.range[0]
-            - pan.range[0]
             for i in range(pan._legacy_active_points)
         ]
         vol.points = [
