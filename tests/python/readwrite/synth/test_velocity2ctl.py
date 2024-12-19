@@ -3,7 +3,7 @@ from rv.api import m
 
 def test_velocity2ctl(read_write_read_synth):
     mod: m.Velocity2Ctl = read_write_read_synth("velocity2ctl").module
-    assert mod.flags == 131145
+    assert mod.flags == 16908361
     assert mod.name == "Velocity2Ctl"
     assert mod.note_off_action == mod.NoteOffAction.vel_up
     assert mod.out_min == 32391

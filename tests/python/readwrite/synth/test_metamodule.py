@@ -14,7 +14,7 @@ EXPECTED_CONTROLLER_NAMES = [
 
 def test_metamodule(read_write_read_synth):
     mod: m.MetaModule = read_write_read_synth("metamodule").module
-    assert mod.flags == 32841
+    assert mod.flags == 32857
     assert mod.name == "MetaModule"
 
     assert [mapping.__dict__ for mapping in mod.mappings.values] == EXPECTED_MAPPINGS

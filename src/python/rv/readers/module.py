@@ -37,7 +37,7 @@ class ModuleReader(Reader):
         mtype = data.decode(ENCODING)
         cls = MODULE_CLASSES[mtype]
         new_module: Module = cls()
-        new_module.flags = self.object.flags
+        new_module.flags = self.object.flags | new_module.default_flags
         new_module.name = self.object.name
         new_module.mtype = mtype
         self._controller_keys = [
