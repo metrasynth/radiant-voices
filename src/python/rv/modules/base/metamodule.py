@@ -31,7 +31,7 @@ class BaseMetaModule:
         name="user_defined_controllers",
         byte=0,
         bit=0,
-        size=4,
+        size=8,
         default=0,
     )
     arpeggiator = Option(

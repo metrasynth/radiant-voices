@@ -291,7 +291,7 @@ export namespace MetaModule {
     rawOptionBytes(): Uint8Array {
       const bytes = new Uint8Array(12)
       const { optionValues: ov } = this
-      bytes[0] |= (Number(ov.userDefinedControllers) & (2 ** 4 - 1)) << 0
+      bytes[0] |= (Number(ov.userDefinedControllers) & (2 ** 8 - 1)) << 0
       bytes[1] |= (Number(ov.arpeggiator) & (2 ** 1 - 1)) << 0
       bytes[2] |= (Number(ov.applyVelocityToProject) & (2 ** 1 - 1)) << 0
       bytes[3] |= (Number(!ov.eventOutput) & (2 ** 1 - 1)) << 0
@@ -314,7 +314,7 @@ export namespace MetaModule {
         }
       }
       if (chdt) {
-        this.optionValues.userDefinedControllers = (chdt[0] >> 0) & (2 ** 4 - 1)
+        this.optionValues.userDefinedControllers = (chdt[0] >> 0) & (2 ** 8 - 1)
         this.optionValues.arpeggiator = Boolean((chdt[1] >> 0) & (2 ** 1 - 1))
         this.optionValues.applyVelocityToProject = Boolean(
           (chdt[2] >> 0) & (2 ** 1 - 1)

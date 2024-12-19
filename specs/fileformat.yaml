@@ -1899,7 +1899,7 @@ module_types:
       - user_defined_controllers:
           byte: 0
           bit: 0
-          size: 4
+          size: 8
           min: 0
           max: 96
           default: 0
