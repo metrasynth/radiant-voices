@@ -22,8 +22,8 @@ def test_single_fm(read_write_read_project):
     assert project.based_on_version == (1, 9, 5, 2)
     assert len(project.modules) == 2
     output = project.output
-    assert output.finetune == 0
-    assert output.relative_note == 0
+    assert output.mod_finetune == 0
+    assert output.mod_relative_note == 0
     assert output.layer == 0
     assert base2_to_base10(output.scale) == 100
     fm = project.modules[1]

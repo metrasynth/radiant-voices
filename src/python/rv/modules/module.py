@@ -271,8 +271,8 @@ class Module(metaclass=ModuleMeta):
         for k, option in self.options.items():
             v = kw.get(k, option.default)
             setattr(self, k, v)
-        self.finetune = kw.get("finetune", 0)
-        self.relative_note = kw.get("relative_note", 0)
+        self.mod_finetune = kw.get("finetune", 0)
+        self.mod_relative_note = kw.get("relative_note", 0)
         self.x = kw.get("x", 512)
         self.y = kw.get("y", 512)
         self.layer = kw.get("layer", 0)
@@ -387,8 +387,8 @@ class Module(metaclass=ModuleMeta):
         yield b"SNAM", self.name.encode(ENCODING)[:32].ljust(32, b"\0")
         if self.mtype is not None and self.mtype != "Output":
             yield b"STYP", self.mtype.encode(ENCODING) + b"\0"
-        yield b"SFIN", pack("<i", self.finetune)
-        yield b"SREL", pack("<i", self.relative_note)
+        yield b"SFIN", pack("<i", self.mod_finetune)
+        yield b"SREL", pack("<i", self.mod_relative_note)
         if in_project:
             yield b"SXXX", pack("<i", self.x)
             yield b"SYYY", pack("<i", self.y)

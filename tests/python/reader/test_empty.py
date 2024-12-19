@@ -17,7 +17,7 @@ def test_empty():
     assert len(project.modules) == 1
     output = project.modules[0]
     assert isinstance(output, modules.Output)
-    assert output.finetune == 0
-    assert output.relative_note == 0
+    assert output.mod_finetune == 0
+    assert output.mod_relative_note == 0
     assert output.layer == 0
     assert base2_to_base10(output.scale) == 100

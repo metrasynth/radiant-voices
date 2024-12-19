@@ -52,10 +52,10 @@ class ModuleReader(Reader):
         self._object = new_module
 
     def process_SFIN(self, data):
-        (self.object.finetune,) = unpack("<i", data)
+        (self.object.mod_finetune,) = unpack("<i", data)
 
     def process_SREL(self, data):
-        (self.object.relative_note,) = unpack("<i", data)
+        (self.object.mod_relative_note,) = unpack("<i", data)
 
     def process_SXXX(self, data):
         (self.object.x,) = unpack("<i", data)
