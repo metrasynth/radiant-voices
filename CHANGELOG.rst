@@ -2,8 +2,8 @@ Changelog
 =========
 
 
-1.1.0
------
+2.0.0.2.1.2.0
+-------------
 
 The themes of this release are:
 
