@@ -1,54 +1,14 @@
 Overview of Radiant Voices
 ==========================
 
-..  start-badges
-
-|javascript-tests| |python-tests| |pre-commit| |docs|
-
-.. |javascript-tests| image:: https://github.com/metrasynth/radiant-voices/workflows/javascript-tests/badge.svg
-    :alt: javascript-tests status
-    :scale: 100%
-    :target: https://github.com/metrasynth/radiant-voices/actions?query=workflow:javascript-tests
-
-.. |python-tests| image:: https://github.com/metrasynth/radiant-voices/workflows/python-tests/badge.svg
-    :alt: python-tests status
-    :scale: 100%
-    :target: https://github.com/metrasynth/radiant-voices/actions?query=workflow:python-tests
-
-.. |pre-commit| image:: https://github.com/metrasynth/radiant-voices/workflows/pre-commit/badge.svg
-    :alt: pre-commit status
-    :scale: 100%
-    :target: https://github.com/metrasynth/radiant-voices/actions?query=workflow:pre-commit
-
-.. |docs| image:: https://readthedocs.org/projects/radiant-voices/badge/?version=latest
-    :alt: Documentation Status
-    :scale: 100%
-    :target: https://radiant-voices.readthedocs.io/en/latest/?badge=latest
-
-..  end-badges
-
 Part of the Metrasynth_ project.
 
 .. _Metrasynth: https://metrasynth.github.io/
 
-Radiant Voices provides tools to
+Radiant Voices provides tools and an object model to
 **create, read, modify, and write SunVox files**.
 This includes project files ending in ``.sunvox``,
 and module/synth files ending in ``.sunsynth``.
-
-..  uml::
-
-    @startuml
-    rectangle "Your Preferred Programming Language" as lang {
-        rectangle "Your App" as app {
-            rectangle "Radiant Voices\nobject model" as obj
-        }
-        rectangle "Radiant Voices\nPython package" as rv
-    }
-    rectangle "SunVox file\nor buffer" as file
-    rv <-up-> obj
-    rv <-down-> file
-    @enduml
 
 
 SunVox data structures and APIs
