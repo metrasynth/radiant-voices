@@ -15,3 +15,18 @@ export enum Mode {
   Normal = 0,
   PingPong = 1,
 }
+export enum LengthUnit {
+  // noinspection JSUnusedGlobalSymbols
+  LineDiv_128 = 0,
+  Line = 1,
+  LineDiv_2 = 2,
+  LineDiv_3 = 3,
+  Tick = 4,
+  Ms = 5,
+  Hz = 6,
+}
+export enum OnNoteOn {
+  // noinspection JSUnusedGlobalSymbols
+  Restart = 0,
+  RestartCurrentIteration = 1,
+}

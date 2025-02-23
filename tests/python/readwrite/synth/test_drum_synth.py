@@ -3,7 +3,7 @@ from rv.api import m
 
 def test_drum_synth(read_write_read_synth):
     mod: m.DrumSynth = read_write_read_synth("drum-synth").module
-    assert mod.flags == 73
+    assert mod.flags == 0x02000049
     assert mod.name == "drums"
     assert mod.volume == 255
     assert mod.panning == 1

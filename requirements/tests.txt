@@ -1,6 +1,0 @@
--r base.txt
-pre-commit
-py
-pytest
-pytest-watch
-numpy

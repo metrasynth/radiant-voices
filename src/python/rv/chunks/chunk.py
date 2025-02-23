@@ -2,7 +2,6 @@ from struct import pack
 
 
 class Chunk:
-
     chnm = None
     has_chff = False
     has_chfr = False

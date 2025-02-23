@@ -4,7 +4,6 @@ from rv.modules.base.multisynth import BaseMultiSynth
 
 
 class MultiSynth(BaseMultiSynth, Module):
-
     chnk = 4
     options_chnm = 1
 
@@ -26,7 +25,8 @@ class MultiSynth(BaseMultiSynth, Module):
         yield from self.nv_curve.chunks()
         yield from super(MultiSynth, self).specialized_iff_chunks()
         yield from self.vv_curve.chunks()
-        yield from self.np_curve.chunks()
+        if self.np_curve.values != self.np_curve.default:
+            yield from self.np_curve.chunks()
 
     def load_chunk(self, chunk):
         if chunk.chnm == self.options_chnm:

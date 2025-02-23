@@ -18,12 +18,12 @@ def test_single_fm(read_write_read_project):
     assert project.initial_bpm == 126
     assert project.initial_tpl == 7
     assert project.global_volume == 80
-    assert project.sunvox_version == (1, 9, 5, 2)
+    assert project.sunvox_version == (2, 1, 2, 1)
     assert project.based_on_version == (1, 9, 5, 2)
     assert len(project.modules) == 2
     output = project.output
-    assert output.finetune == 0
-    assert output.relative_note == 0
+    assert output.mod_finetune == 0
+    assert output.mod_relative_note == 0
     assert output.layer == 0
     assert base2_to_base10(output.scale) == 100
     fm = project.modules[1]
@@ -34,7 +34,7 @@ def test_single_fm(read_write_read_project):
     assert fm.panning == 1
     assert fm.c_freq_ratio == 2
     assert fm.m_freq_ratio == 2
-    assert fm.m_feedback == 1
+    assert fm.m_self_modulation == 1
     assert fm.c_attack == 33
     assert fm.c_decay == 33
     assert fm.c_sustain == 129
@@ -44,7 +44,7 @@ def test_single_fm(read_write_read_project):
     assert fm.m_sustain == 129
     assert fm.m_release == 65
     assert fm.m_scaling_per_key == 1
-    assert fm.polyphony_ch == 5
+    assert fm.polyphony == 5
     assert fm.mode == fm.Mode.lq
 
 
@@ -62,8 +62,9 @@ def test_single_fm_writes_correct_chunks(read_write_read_project):
         expect_chunk(b"CVAL", pack("<i", value))
 
     expect_chunk(b"SVOX", b"")
-    expect_chunk(b"VERS", b"\x02\x05\x09\x01")
+    expect_chunk(b"VERS", b"\x01\x02\x01\x02")
     expect_chunk(b"BVER", b"\x02\x05\x09\x01")
+    expect_chunk(b"FLGS", b"\0\0\0\0")
     expect_chunk(b"SFGS", b"\x2a\0\0\0")
     expect_chunk(b"BPM ", b"\x7e\0\0\0")
     expect_chunk(b"SPED", b"\7\0\0\0")
@@ -132,7 +133,6 @@ def test_single_fm_writes_correct_chunks(read_write_read_project):
     expect_chunk(b"SMIB", b"\xff\xff\xff\xff")
     expect_chunk(b"SMIP", b"\xff\xff\xff\xff")
     expect_chunk(b"SLNK", b"\1\0\0\0")
-    expect_chunk(b"SLnK", b"\0\0\0\0")
     expect_chunk(b"SEND", b"")
     expect_chunk(b"SFFF", b"\x49\0\0\0")
     expect_chunk(b"SNAM", b"FM" + b"\0" * (32 - 2))
@@ -150,7 +150,6 @@ def test_single_fm_writes_correct_chunks(read_write_read_project):
     expect_chunk(b"SMIB", b"\xff\xff\xff\xff")
     expect_chunk(b"SMIP", b"\xff\xff\xff\xff")
     expect_chunk(b"SLNK", b"")
-    expect_chunk(b"SLnK", b"")
 
     expect_cval(0x81)
     expect_cval(0x31)

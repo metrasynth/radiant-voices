@@ -6,12 +6,10 @@ from rv.modules.base.drumsynth import BaseDrumSynth
 
 
 class DrumSynth(BaseDrumSynth, Module):
-
     behaviors = {B.receives_notes, B.sends_audio}
 
 
 class DRUMNOTE(IntEnum):
-
     (
         BD01,
         BD02,
@@ -137,7 +135,6 @@ class DRUMNOTE(IntEnum):
 
 
 class BDNOTE(IntEnum):
-
     BD01, BD02, BD03, BD04 = DRUMNOTE.BD01, DRUMNOTE.BD02, DRUMNOTE.BD03, DRUMNOTE.BD04
     BD11, BD12, BD13, BD14 = DRUMNOTE.BD11, DRUMNOTE.BD12, DRUMNOTE.BD13, DRUMNOTE.BD14
     BD21, BD22, BD23, BD24 = DRUMNOTE.BD21, DRUMNOTE.BD22, DRUMNOTE.BD23, DRUMNOTE.BD24
@@ -151,7 +148,6 @@ class BDNOTE(IntEnum):
 
 
 class HHNOTE(IntEnum):
-
     HH01, HH02, HH03 = DRUMNOTE.HH01, DRUMNOTE.HH02, DRUMNOTE.HH03
     HH11, HH12, HH13 = DRUMNOTE.HH11, DRUMNOTE.HH12, DRUMNOTE.HH13
     HH21, HH22, HH23 = DRUMNOTE.HH21, DRUMNOTE.HH22, DRUMNOTE.HH23
@@ -165,7 +161,6 @@ class HHNOTE(IntEnum):
 
 
 class SDNOTE(IntEnum):
-
     SD01, SD02, SD03, SD04, SD05 = (
         DRUMNOTE.SD01,
         DRUMNOTE.SD02,

@@ -13,21 +13,27 @@ import { GlideControllerValues } from "./glideControllerValues"
 export namespace Glide {
   export enum CtlNum {
     Response = 1,
-    SampleRateHz = 2,
+    SampleRate = 2,
     ResetOnFirstNote = 3,
     Polyphony = 4,
     Pitch = 5,
     PitchScale = 6,
     Reset = 7,
+    Octave = 8,
+    FreqMultiply = 9,
+    FreqDivide = 10,
   }
   interface GlideControllerMidiMaps extends ControllerMidiMaps {
     response: ControllerMidiMap
-    sampleRateHz: ControllerMidiMap
+    sampleRate: ControllerMidiMap
     resetOnFirstNote: ControllerMidiMap
     polyphony: ControllerMidiMap
     pitch: ControllerMidiMap
     pitchScale: ControllerMidiMap
     reset: ControllerMidiMap
+    octave: ControllerMidiMap
+    freqMultiply: ControllerMidiMap
+    freqDivide: ControllerMidiMap
   }
   interface GlideOptionValues extends OptionValues {}
   class GlideOptions implements Options {
@@ -35,14 +41,14 @@ export namespace Glide {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Glide"
-    flags = 135241
+    flags = 0x60049
     readonly typeName = "Glide"
     readonly controllerSetters = [
       (val: number) => {
         this.controllerValues.response = val
       },
       (val: number) => {
-        this.controllerValues.sampleRateHz = val
+        this.controllerValues.sampleRate = val
       },
       (val: number) => {
         this.controllerValues.resetOnFirstNote = Boolean(val)
@@ -59,15 +65,27 @@ export namespace Glide {
       (val: number) => {
         this.controllerValues.reset = Boolean(val)
       },
+      (val: number) => {
+        this.controllerValues.octave = val
+      },
+      (val: number) => {
+        this.controllerValues.freqMultiply = val
+      },
+      (val: number) => {
+        this.controllerValues.freqDivide = val
+      },
     ]
     readonly controllerValues: GlideControllerValues = {
       response: 500,
-      sampleRateHz: 150,
+      sampleRate: 150,
       resetOnFirstNote: false,
       polyphony: true,
       pitch: 0,
       pitchScale: 100,
       reset: false,
+      octave: 0,
+      freqMultiply: 1,
+      freqDivide: 1,
     }
     readonly controllers: GlideControllers = new GlideControllers(
       this,
@@ -76,12 +94,15 @@ export namespace Glide {
     readonly c = this.controllers
     readonly midiMaps: GlideControllerMidiMaps = {
       response: new ControllerMidiMap(),
-      sampleRateHz: new ControllerMidiMap(),
+      sampleRate: new ControllerMidiMap(),
       resetOnFirstNote: new ControllerMidiMap(),
       polyphony: new ControllerMidiMap(),
       pitch: new ControllerMidiMap(),
       pitchScale: new ControllerMidiMap(),
       reset: new ControllerMidiMap(),
+      octave: new ControllerMidiMap(),
+      freqMultiply: new ControllerMidiMap(),
+      freqDivide: new ControllerMidiMap(),
     }
     readonly optionValues: GlideOptionValues = {}
     readonly options: GlideOptions = new GlideOptions(this.optionValues)
@@ -101,7 +122,7 @@ export namespace Glide {
           cv.response = value
           break
         case 2:
-          cv.sampleRateHz = value
+          cv.sampleRate = value
           break
         case 3:
           cv.resetOnFirstNote = Boolean(value)
@@ -118,17 +139,29 @@ export namespace Glide {
         case 7:
           cv.reset = Boolean(value)
           break
+        case 8:
+          cv.octave = value
+          break
+        case 9:
+          cv.freqMultiply = value
+          break
+        case 10:
+          cv.freqDivide = value
+          break
       }
     }
     *rawControllerValues(): Generator<number> {
       const { controllerValues: cv } = this
       yield cv.response
-      yield cv.sampleRateHz
+      yield cv.sampleRate
       yield Number(cv.resetOnFirstNote)
       yield Number(cv.polyphony)
       yield cv.pitch
       yield cv.pitchScale
       yield Number(cv.reset)
+      yield cv.octave
+      yield cv.freqMultiply
+      yield cv.freqDivide
     }
     setMidiMaps(midiMaps: MidiMap[]) {
       this.midiMaps.response = midiMaps[0] || {
@@ -137,7 +170,7 @@ export namespace Glide {
         messageParameter: 0,
         slope: 0,
       }
-      this.midiMaps.sampleRateHz = midiMaps[1] || {
+      this.midiMaps.sampleRate = midiMaps[1] || {
         channel: 0,
         messageType: 0,
         messageParameter: 0,
@@ -173,16 +206,37 @@ export namespace Glide {
         messageParameter: 0,
         slope: 0,
       }
+      this.midiMaps.octave = midiMaps[7] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.freqMultiply = midiMaps[8] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.freqDivide = midiMaps[9] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []
       a.push(this.midiMaps.response)
-      a.push(this.midiMaps.sampleRateHz)
+      a.push(this.midiMaps.sampleRate)
       a.push(this.midiMaps.resetOnFirstNote)
       a.push(this.midiMaps.polyphony)
       a.push(this.midiMaps.pitch)
       a.push(this.midiMaps.pitchScale)
       a.push(this.midiMaps.reset)
+      a.push(this.midiMaps.octave)
+      a.push(this.midiMaps.freqMultiply)
+      a.push(this.midiMaps.freqDivide)
       return a
     }
   }

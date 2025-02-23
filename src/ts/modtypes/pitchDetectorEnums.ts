@@ -10,25 +10,26 @@ export enum Algorithm {
   ZeroCrossing = 0,
   Autocorrelation = 1,
   Cepstrum = 2,
+  SpectralPeak = 3,
 }
 export enum RollOff {
   // noinspection JSUnusedGlobalSymbols
-  Db_12 = 0,
-  Db_24 = 1,
-  Db_36 = 2,
-  Db_48 = 3,
+  _12db = 0,
+  _24db = 1,
+  _36db = 2,
+  _48db = 3,
 }
 export enum SampleRate {
   // noinspection JSUnusedGlobalSymbols
-  Hz_12 = 0,
-  Hz_24 = 1,
-  Hz_44 = 2,
+  _12000hz = 0,
+  _24000hz = 1,
+  _44100hz = 2,
 }
 export enum Buffer {
   // noinspection JSUnusedGlobalSymbols
-  Ms_5m = 0,
-  Ms_10 = 1,
-  Ms_21 = 2,
-  Ms_42 = 3,
-  Ms_85 = 4,
+  _5ms = 0,
+  _10ms = 1,
+  _21ms = 2,
+  _42ms = 3,
+  _85ms = 4,
 }

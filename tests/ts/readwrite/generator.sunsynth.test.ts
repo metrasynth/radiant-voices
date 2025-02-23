@@ -7,38 +7,8 @@ import { objectChunks } from "@radiant-voices/writer/objectChunks"
 import { toIffBuffer } from "@radiant-voices/chunks/toIffBuffer"
 
 const expectedDrawnWaveform = new Int8Array([
-  0,
-  -100,
-  -90,
-  0,
-  90,
-  -119,
-  -55,
-  -38,
-  6,
-  44,
-  68,
-  68,
-  52,
-  19,
-  -31,
-  -49,
-  -58,
-  -58,
-  -50,
-  -25,
-  38,
-  58,
-  58,
-  58,
-  -90,
-  -120,
-  100,
-  90,
-  59,
-  21,
-  0,
-  54,
+  0, -100, -90, 0, 90, -119, -55, -38, 6, 44, 68, 68, 52, 19, -31, -49, -58, -58, -50,
+  -25, 38, 58, 58, 58, -90, -120, 100, 90, 59, 21, 0, 54,
 ])
 describe("Reading the generator.sunsynth file", () => {
   const filePath = "tests/files/generator.sunsynth"
@@ -61,7 +31,7 @@ describe("Reading the generator.sunsynth file", () => {
     expect(c.panning).toEqual(-85)
     expect(c.attack).toEqual(359)
     expect(c.release).toEqual(115)
-    expect(c.polyphonyCh).toEqual(6)
+    expect(c.polyphony).toEqual(6)
     expect(c.mode).toEqual(m.Generator.Mode.Mono)
     expect(c.sustain).toEqual(true)
     expect(c.freqModulationByInput).toEqual(99)

@@ -44,7 +44,7 @@ export class DelayBaseControllers implements Controllers {
   set delayL(newValue: number) {
     const { controllerValues } = this
     switch (this.controllerValues.delayUnit) {
-      case DelayUnit.Sec_16384:
+      case DelayUnit.SecDiv_16384:
         newValue = Math.min(Math.max(newValue, 0), 256)
         break
       case DelayUnit.Ms:
@@ -59,11 +59,20 @@ export class DelayBaseControllers implements Controllers {
       case DelayUnit.Line:
         newValue = Math.min(Math.max(newValue, 0), 256)
         break
-      case DelayUnit.Line_2:
+      case DelayUnit.LineDiv_2:
         newValue = Math.min(Math.max(newValue, 0), 256)
         break
-      case DelayUnit.Line_3:
+      case DelayUnit.LineDiv_3:
         newValue = Math.min(Math.max(newValue, 0), 256)
+        break
+      case DelayUnit.SecDiv_44100:
+        newValue = Math.min(Math.max(newValue, 0), 32768)
+        break
+      case DelayUnit.SecDiv_48000:
+        newValue = Math.min(Math.max(newValue, 0), 32768)
+        break
+      case DelayUnit.Sample:
+        newValue = Math.min(Math.max(newValue, 0), 32768)
         break
     }
     controllerValues.delayL = newValue
@@ -76,7 +85,7 @@ export class DelayBaseControllers implements Controllers {
   set delayR(newValue: number) {
     const { controllerValues } = this
     switch (this.controllerValues.delayUnit) {
-      case DelayUnit.Sec_16384:
+      case DelayUnit.SecDiv_16384:
         newValue = Math.min(Math.max(newValue, 0), 256)
         break
       case DelayUnit.Ms:
@@ -91,11 +100,20 @@ export class DelayBaseControllers implements Controllers {
       case DelayUnit.Line:
         newValue = Math.min(Math.max(newValue, 0), 256)
         break
-      case DelayUnit.Line_2:
+      case DelayUnit.LineDiv_2:
         newValue = Math.min(Math.max(newValue, 0), 256)
         break
-      case DelayUnit.Line_3:
+      case DelayUnit.LineDiv_3:
         newValue = Math.min(Math.max(newValue, 0), 256)
+        break
+      case DelayUnit.SecDiv_44100:
+        newValue = Math.min(Math.max(newValue, 0), 32768)
+        break
+      case DelayUnit.SecDiv_48000:
+        newValue = Math.min(Math.max(newValue, 0), 32768)
+        break
+      case DelayUnit.Sample:
+        newValue = Math.min(Math.max(newValue, 0), 32768)
         break
     }
     controllerValues.delayR = newValue
@@ -148,5 +166,43 @@ export class DelayBaseControllers implements Controllers {
     controllerValues.delayUnit = newValue
     this.delayL = this.delayL
     this.delayR = this.delayR
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get delayMultiplier(): number {
+    return this.controllerValues.delayMultiplier
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set delayMultiplier(newValue: number) {
+    const { controllerValues } = this
+    newValue = Math.min(Math.max(newValue, 1), 15)
+    controllerValues.delayMultiplier = newValue
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get feedback(): number {
+    return this.controllerValues.feedback
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set feedback(newValue: number) {
+    const { controllerValues } = this
+    newValue = Math.min(Math.max(newValue, 0), 32768)
+    controllerValues.feedback = newValue
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get negativeFeedback(): boolean {
+    return this.controllerValues.negativeFeedback
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set negativeFeedback(newValue: boolean) {
+    const { controllerValues } = this
+    controllerValues.negativeFeedback = newValue
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get allPassFilter(): boolean {
+    return this.controllerValues.allPassFilter
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set allPassFilter(newValue: boolean) {
+    const { controllerValues } = this
+    controllerValues.allPassFilter = newValue
   }
 }

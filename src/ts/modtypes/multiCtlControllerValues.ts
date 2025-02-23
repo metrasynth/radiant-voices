@@ -10,5 +10,5 @@ export interface MultiCtlControllerValues extends ControllerValues {
   quantization: number
   outOffset: number
   response: number
-  sampleRateHz: number
+  sampleRate: number
 }

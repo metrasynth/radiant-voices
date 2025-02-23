@@ -2,6 +2,44 @@ Changelog
 =========
 
 
+2.0.0.2.1.2.0
+-------------
+
+This is a major release after a long period of development.
+
+The themes of this release are:
+
+- Support for SunVox 2.0 file format:
+
+  - New modules, controllers, and options.
+
+  - New maximum number of user-defined MetaModule controllers.
+
+- More consistent naming of controllers:
+
+  - Matching SunVox nomenclature as much as possible.
+
+  - Including units of measure as metadata instead of inside the controller name.
+
+- Version number reflects the most recent supported version of SunVox.
+
+- Retire the TypeScript port of the project:
+
+  - The TypeScript port was taking too much effort to maintain, with little benefit.
+
+  - Radiant Voices can be imported by PyScript_ if needed in a browser.
+
+.. _PyScript: https://pyscript.net/
+
+
+Additions, changes, and bug fixes
+.................................
+
+Too many to list here!
+
+Future releases in the 2.x series will include a more detailed changelog.
+
+
 1.0.4
 -----
 

@@ -26,7 +26,7 @@ export namespace Fm {
     Panning = 3,
     CFreqRatio = 4,
     MFreqRatio = 5,
-    MFeedback = 6,
+    MSelfModulation = 6,
     CAttack = 7,
     CDecay = 8,
     CSustain = 9,
@@ -36,7 +36,7 @@ export namespace Fm {
     MSustain = 13,
     MRelease = 14,
     MScalingPerKey = 15,
-    PolyphonyCh = 16,
+    Polyphony = 16,
     Mode = 17,
   }
   interface FmControllerMidiMaps extends ControllerMidiMaps {
@@ -45,7 +45,7 @@ export namespace Fm {
     panning: ControllerMidiMap
     cFreqRatio: ControllerMidiMap
     mFreqRatio: ControllerMidiMap
-    mFeedback: ControllerMidiMap
+    mSelfModulation: ControllerMidiMap
     cAttack: ControllerMidiMap
     cDecay: ControllerMidiMap
     cSustain: ControllerMidiMap
@@ -55,7 +55,7 @@ export namespace Fm {
     mSustain: ControllerMidiMap
     mRelease: ControllerMidiMap
     mScalingPerKey: ControllerMidiMap
-    polyphonyCh: ControllerMidiMap
+    polyphony: ControllerMidiMap
     mode: ControllerMidiMap
   }
   interface FmOptionValues extends OptionValues {}
@@ -64,7 +64,7 @@ export namespace Fm {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "FM"
-    flags = 73
+    flags = 0x49
     readonly typeName = "FM"
     readonly controllerSetters = [
       (val: number) => {
@@ -83,7 +83,7 @@ export namespace Fm {
         this.controllerValues.mFreqRatio = val
       },
       (val: number) => {
-        this.controllerValues.mFeedback = val
+        this.controllerValues.mSelfModulation = val
       },
       (val: number) => {
         this.controllerValues.cAttack = val
@@ -113,7 +113,7 @@ export namespace Fm {
         this.controllerValues.mScalingPerKey = val
       },
       (val: number) => {
-        this.controllerValues.polyphonyCh = val
+        this.controllerValues.polyphony = val
       },
       (val: number) => {
         this.controllerValues.mode = val
@@ -125,7 +125,7 @@ export namespace Fm {
       panning: 0,
       cFreqRatio: 1,
       mFreqRatio: 1,
-      mFeedback: 0,
+      mSelfModulation: 0,
       cAttack: 32,
       cDecay: 32,
       cSustain: 128,
@@ -135,8 +135,8 @@ export namespace Fm {
       mSustain: 128,
       mRelease: 64,
       mScalingPerKey: 0,
-      polyphonyCh: 4,
-      mode: Mode.Hq,
+      polyphony: 4,
+      mode: Mode.HqMono,
     }
     readonly controllers: FmControllers = new FmControllers(this, this.controllerValues)
     readonly c = this.controllers
@@ -146,7 +146,7 @@ export namespace Fm {
       panning: new ControllerMidiMap(),
       cFreqRatio: new ControllerMidiMap(),
       mFreqRatio: new ControllerMidiMap(),
-      mFeedback: new ControllerMidiMap(),
+      mSelfModulation: new ControllerMidiMap(),
       cAttack: new ControllerMidiMap(),
       cDecay: new ControllerMidiMap(),
       cSustain: new ControllerMidiMap(),
@@ -156,7 +156,7 @@ export namespace Fm {
       mSustain: new ControllerMidiMap(),
       mRelease: new ControllerMidiMap(),
       mScalingPerKey: new ControllerMidiMap(),
-      polyphonyCh: new ControllerMidiMap(),
+      polyphony: new ControllerMidiMap(),
       mode: new ControllerMidiMap(),
     }
     readonly optionValues: FmOptionValues = {}
@@ -189,7 +189,7 @@ export namespace Fm {
           cv.mFreqRatio = value
           break
         case 6:
-          cv.mFeedback = value
+          cv.mSelfModulation = value
           break
         case 7:
           cv.cAttack = value
@@ -219,7 +219,7 @@ export namespace Fm {
           cv.mScalingPerKey = value
           break
         case 16:
-          cv.polyphonyCh = value
+          cv.polyphony = value
           break
         case 17:
           cv.mode = value
@@ -233,7 +233,7 @@ export namespace Fm {
       yield cv.panning
       yield cv.cFreqRatio
       yield cv.mFreqRatio
-      yield cv.mFeedback
+      yield cv.mSelfModulation
       yield cv.cAttack
       yield cv.cDecay
       yield cv.cSustain
@@ -243,7 +243,7 @@ export namespace Fm {
       yield cv.mSustain
       yield cv.mRelease
       yield cv.mScalingPerKey
-      yield cv.polyphonyCh
+      yield cv.polyphony
       yield cv.mode
     }
     setMidiMaps(midiMaps: MidiMap[]) {
@@ -277,7 +277,7 @@ export namespace Fm {
         messageParameter: 0,
         slope: 0,
       }
-      this.midiMaps.mFeedback = midiMaps[5] || {
+      this.midiMaps.mSelfModulation = midiMaps[5] || {
         channel: 0,
         messageType: 0,
         messageParameter: 0,
@@ -337,7 +337,7 @@ export namespace Fm {
         messageParameter: 0,
         slope: 0,
       }
-      this.midiMaps.polyphonyCh = midiMaps[15] || {
+      this.midiMaps.polyphony = midiMaps[15] || {
         channel: 0,
         messageType: 0,
         messageParameter: 0,
@@ -357,7 +357,7 @@ export namespace Fm {
       a.push(this.midiMaps.panning)
       a.push(this.midiMaps.cFreqRatio)
       a.push(this.midiMaps.mFreqRatio)
-      a.push(this.midiMaps.mFeedback)
+      a.push(this.midiMaps.mSelfModulation)
       a.push(this.midiMaps.cAttack)
       a.push(this.midiMaps.cDecay)
       a.push(this.midiMaps.cSustain)
@@ -367,7 +367,7 @@ export namespace Fm {
       a.push(this.midiMaps.mSustain)
       a.push(this.midiMaps.mRelease)
       a.push(this.midiMaps.mScalingPerKey)
-      a.push(this.midiMaps.polyphonyCh)
+      a.push(this.midiMaps.polyphony)
       a.push(this.midiMaps.mode)
       return a
     }

@@ -6,7 +6,7 @@ from struct import unpack
 from logutils import BraceMessage as _F
 from rv import ENCODING
 from rv.modules import MODULE_CLASSES, Chunk, Module
-from rv.modules.metamodule import MetaModule
+from rv.modules.metamodule import MAX_USER_DEFINED_CONTROLLERS, MetaModule
 from rv.modules.output import Output
 from rv.readers.reader import Reader, ReaderFinished
 
@@ -37,7 +37,7 @@ class ModuleReader(Reader):
         mtype = data.decode(ENCODING)
         cls = MODULE_CLASSES[mtype]
         new_module: Module = cls()
-        new_module.flags = self.object.flags
+        new_module.flags = self.object.flags | new_module.default_flags
         new_module.name = self.object.name
         new_module.mtype = mtype
         self._controller_keys = [
@@ -47,15 +47,15 @@ class ModuleReader(Reader):
         ]
         if mtype == "MetaModule":
             self._controller_keys += [
-                "user_defined_{}".format(i + 1) for i in range(27)
+                f"user_defined_{i + 1}" for i in range(MAX_USER_DEFINED_CONTROLLERS)
             ]
         self._object = new_module
 
     def process_SFIN(self, data):
-        (self.object.finetune,) = unpack("<i", data)
+        (self.object.mod_finetune,) = unpack("<i", data)
 
     def process_SREL(self, data):
-        (self.object.relative_note,) = unpack("<i", data)
+        (self.object.mod_relative_note,) = unpack("<i", data)
 
     def process_SXXX(self, data):
         (self.object.x,) = unpack("<i", data)
@@ -94,22 +94,24 @@ class ModuleReader(Reader):
         (self.object.midi_out_program,) = unpack("<i", data)
 
     def process_SLNK(self, data):
-        if len(data) > 0:
-            link_count = len(data) // 4
-            structure = "<" + "i" * link_count
-            links = self.object.in_links
-            links.extend(unpack(structure, data))
-            while links[-1:] == [-1]:
-                links.pop()
+        if not data:
+            return
+        link_count = len(data) // 4
+        structure = "<" + "i" * link_count
+        links = self.object.in_links
+        links.extend(unpack(structure, data))
+        while links[-1:] == [-1]:
+            links.pop()
 
     def process_SLnK(self, data):
-        if len(data) > 0:
-            link_count = len(data) // 4
-            structure = "<" + "i" * link_count
-            slots = self.object.in_link_slots
-            slots.extend(unpack(structure, data))
-            while slots[-1:] == [-1]:
-                slots.pop()
+        if not data:
+            return
+        link_count = len(data) // 4
+        structure = "<" + "i" * link_count
+        slots = self.object.in_link_slots
+        slots.extend(unpack(structure, data))
+        while slots[-1:] == [-1]:
+            slots.pop()
 
     def process_CVAL(self, data):
         (raw_value,) = unpack("<i", data)

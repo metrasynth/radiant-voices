@@ -50,3 +50,15 @@ export enum FilterEnvelope {
   SustainOff = 1,
   SustainOn = 2,
 }
+export enum Osc2Mode {
+  // noinspection JSUnusedGlobalSymbols
+  Add = 0,
+  Sub = 1,
+  Mul = 2,
+  Min = 3,
+  Max = 4,
+  BitwiseAnd = 5,
+  BitwiseXor = 6,
+  MinAbs = 7,
+  MaxAbs = 8,
+}

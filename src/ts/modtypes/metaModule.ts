@@ -17,8 +17,10 @@ export namespace MetaModule {
   export enum PlayPatterns {
     // noinspection JSUnusedGlobalSymbols
     Off = 0,
-    On = 1,
+    OnRepeat = 1,
     OnNoRepeat = 2,
+    OnRepeatEndless = 3,
+    OnNoRepeatEndless = 4,
   }
   export enum CtlNum {
     Volume = 1,
@@ -41,6 +43,12 @@ export namespace MetaModule {
     eventOutput: boolean
     receiveNotesFromKeyboard: boolean
     doNotReceiveNotesFromKeyboard: boolean
+    autoBpmTpl: boolean
+    ignoreEff_31AfterLastNoteOff: boolean
+    jumpToRlPatternAfterLastNoteOff: boolean
+    dummy5: boolean
+    dummy6: boolean
+    dummy7: boolean
   }
   class MetaModuleOptions implements Options {
     constructor(readonly optionValues: MetaModuleOptionValues) {}
@@ -50,7 +58,7 @@ export namespace MetaModule {
     }
     // noinspection JSUnusedGlobalSymbols
     set userDefinedControllers(newValue: number) {
-      if (newValue < 0 || newValue > 27) {
+      if (newValue < 0 || newValue > 96) {
         throw new Error("Option value is out of range")
       }
       this.optionValues.userDefinedControllers = newValue
@@ -97,10 +105,58 @@ export namespace MetaModule {
       this.optionValues.doNotReceiveNotesFromKeyboard = newValue
       this.optionValues.receiveNotesFromKeyboard = false
     }
+    // noinspection JSUnusedGlobalSymbols
+    get autoBpmTpl(): boolean {
+      return this.optionValues.autoBpmTpl
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set autoBpmTpl(newValue: boolean) {
+      this.optionValues.autoBpmTpl = newValue
+    }
+    // noinspection JSUnusedGlobalSymbols
+    get ignoreEff_31AfterLastNoteOff(): boolean {
+      return this.optionValues.ignoreEff_31AfterLastNoteOff
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set ignoreEff_31AfterLastNoteOff(newValue: boolean) {
+      this.optionValues.ignoreEff_31AfterLastNoteOff = newValue
+    }
+    // noinspection JSUnusedGlobalSymbols
+    get jumpToRlPatternAfterLastNoteOff(): boolean {
+      return this.optionValues.jumpToRlPatternAfterLastNoteOff
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set jumpToRlPatternAfterLastNoteOff(newValue: boolean) {
+      this.optionValues.jumpToRlPatternAfterLastNoteOff = newValue
+    }
+    // noinspection JSUnusedGlobalSymbols
+    get dummy5(): boolean {
+      return this.optionValues.dummy5
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set dummy5(newValue: boolean) {
+      this.optionValues.dummy5 = newValue
+    }
+    // noinspection JSUnusedGlobalSymbols
+    get dummy6(): boolean {
+      return this.optionValues.dummy6
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set dummy6(newValue: boolean) {
+      this.optionValues.dummy6 = newValue
+    }
+    // noinspection JSUnusedGlobalSymbols
+    get dummy7(): boolean {
+      return this.optionValues.dummy7
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set dummy7(newValue: boolean) {
+      this.optionValues.dummy7 = newValue
+    }
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "MetaModule"
-    flags = 32849
+    flags = 0x8051
     readonly typeName = "MetaModule"
     readonly optionsChnm = 2
     readonly controllerSetters = [
@@ -146,6 +202,12 @@ export namespace MetaModule {
       eventOutput: true,
       receiveNotesFromKeyboard: false,
       doNotReceiveNotesFromKeyboard: false,
+      autoBpmTpl: false,
+      ignoreEff_31AfterLastNoteOff: false,
+      jumpToRlPatternAfterLastNoteOff: false,
+      dummy5: false,
+      dummy6: false,
+      dummy7: false,
     }
     readonly options: MetaModuleOptions = new MetaModuleOptions(this.optionValues)
     readonly o = this.options
@@ -227,14 +289,20 @@ export namespace MetaModule {
       return a
     }
     rawOptionBytes(): Uint8Array {
-      const bytes = new Uint8Array(6)
+      const bytes = new Uint8Array(12)
       const { optionValues: ov } = this
-      bytes[0] |= (Number(ov.userDefinedControllers) & (2 ** 4 - 1)) << 0
+      bytes[0] |= (Number(ov.userDefinedControllers) & (2 ** 8 - 1)) << 0
       bytes[1] |= (Number(ov.arpeggiator) & (2 ** 1 - 1)) << 0
       bytes[2] |= (Number(ov.applyVelocityToProject) & (2 ** 1 - 1)) << 0
       bytes[3] |= (Number(!ov.eventOutput) & (2 ** 1 - 1)) << 0
       bytes[4] |= (Number(ov.receiveNotesFromKeyboard) & (2 ** 1 - 1)) << 0
       bytes[4] |= (Number(ov.doNotReceiveNotesFromKeyboard) & (2 ** 1 - 1)) << 1
+      bytes[4] |= (Number(ov.autoBpmTpl) & (2 ** 1 - 1)) << 2
+      bytes[4] |= (Number(ov.ignoreEff_31AfterLastNoteOff) & (2 ** 1 - 1)) << 3
+      bytes[4] |= (Number(ov.jumpToRlPatternAfterLastNoteOff) & (2 ** 1 - 1)) << 4
+      bytes[5] |= (Number(ov.dummy5) & (2 ** 1 - 1)) << 0
+      bytes[6] |= (Number(ov.dummy6) & (2 ** 1 - 1)) << 0
+      bytes[7] |= (Number(ov.dummy7) & (2 ** 1 - 1)) << 0
       return bytes
     }
     setOptions(dataChunks: ModuleDataChunks) {
@@ -246,7 +314,7 @@ export namespace MetaModule {
         }
       }
       if (chdt) {
-        this.optionValues.userDefinedControllers = (chdt[0] >> 0) & (2 ** 4 - 1)
+        this.optionValues.userDefinedControllers = (chdt[0] >> 0) & (2 ** 8 - 1)
         this.optionValues.arpeggiator = Boolean((chdt[1] >> 0) & (2 ** 1 - 1))
         this.optionValues.applyVelocityToProject = Boolean(
           (chdt[2] >> 0) & (2 ** 1 - 1)
@@ -258,6 +326,16 @@ export namespace MetaModule {
         this.optionValues.doNotReceiveNotesFromKeyboard = Boolean(
           (chdt[4] >> 1) & (2 ** 1 - 1)
         )
+        this.optionValues.autoBpmTpl = Boolean((chdt[4] >> 2) & (2 ** 1 - 1))
+        this.optionValues.ignoreEff_31AfterLastNoteOff = Boolean(
+          (chdt[4] >> 3) & (2 ** 1 - 1)
+        )
+        this.optionValues.jumpToRlPatternAfterLastNoteOff = Boolean(
+          (chdt[4] >> 4) & (2 ** 1 - 1)
+        )
+        this.optionValues.dummy5 = Boolean((chdt[5] >> 0) & (2 ** 1 - 1))
+        this.optionValues.dummy6 = Boolean((chdt[6] >> 0) & (2 ** 1 - 1))
+        this.optionValues.dummy7 = Boolean((chdt[7] >> 0) & (2 ** 1 - 1))
       }
     }
   }

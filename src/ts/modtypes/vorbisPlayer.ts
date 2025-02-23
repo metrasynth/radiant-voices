@@ -17,8 +17,9 @@ export namespace VorbisPlayer {
     Finetune = 3,
     Transpose = 4,
     Interpolation = 5,
-    PolyphonyCh = 6,
+    Polyphony = 6,
     Repeat = 7,
+    IgnoreNoteOff = 8,
   }
   interface VorbisPlayerControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
@@ -26,8 +27,9 @@ export namespace VorbisPlayer {
     finetune: ControllerMidiMap
     transpose: ControllerMidiMap
     interpolation: ControllerMidiMap
-    polyphonyCh: ControllerMidiMap
+    polyphony: ControllerMidiMap
     repeat: ControllerMidiMap
+    ignoreNoteOff: ControllerMidiMap
   }
   interface VorbisPlayerOptionValues extends OptionValues {}
   class VorbisPlayerOptions implements Options {
@@ -35,7 +37,7 @@ export namespace VorbisPlayer {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Vorbis player"
-    flags = 32841
+    flags = 0x8049
     readonly typeName = "Vorbis player"
     readonly controllerSetters = [
       (val: number) => {
@@ -54,10 +56,13 @@ export namespace VorbisPlayer {
         this.controllerValues.interpolation = Boolean(val)
       },
       (val: number) => {
-        this.controllerValues.polyphonyCh = val
+        this.controllerValues.polyphony = val
       },
       (val: number) => {
         this.controllerValues.repeat = Boolean(val)
+      },
+      (val: number) => {
+        this.controllerValues.ignoreNoteOff = Boolean(val)
       },
     ]
     readonly controllerValues: VorbisPlayerControllerValues = {
@@ -66,8 +71,9 @@ export namespace VorbisPlayer {
       finetune: 0,
       transpose: 0,
       interpolation: true,
-      polyphonyCh: 1,
+      polyphony: 1,
       repeat: false,
+      ignoreNoteOff: false,
     }
     readonly controllers: VorbisPlayerControllers = new VorbisPlayerControllers(
       this,
@@ -80,8 +86,9 @@ export namespace VorbisPlayer {
       finetune: new ControllerMidiMap(),
       transpose: new ControllerMidiMap(),
       interpolation: new ControllerMidiMap(),
-      polyphonyCh: new ControllerMidiMap(),
+      polyphony: new ControllerMidiMap(),
       repeat: new ControllerMidiMap(),
+      ignoreNoteOff: new ControllerMidiMap(),
     }
     readonly optionValues: VorbisPlayerOptionValues = {}
     readonly options: VorbisPlayerOptions = new VorbisPlayerOptions(this.optionValues)
@@ -113,10 +120,13 @@ export namespace VorbisPlayer {
           cv.interpolation = Boolean(value)
           break
         case 6:
-          cv.polyphonyCh = value
+          cv.polyphony = value
           break
         case 7:
           cv.repeat = Boolean(value)
+          break
+        case 8:
+          cv.ignoreNoteOff = Boolean(value)
           break
       }
     }
@@ -127,8 +137,9 @@ export namespace VorbisPlayer {
       yield cv.finetune
       yield cv.transpose
       yield Number(cv.interpolation)
-      yield cv.polyphonyCh
+      yield cv.polyphony
       yield Number(cv.repeat)
+      yield Number(cv.ignoreNoteOff)
     }
     setMidiMaps(midiMaps: MidiMap[]) {
       this.midiMaps.volume = midiMaps[0] || {
@@ -161,13 +172,19 @@ export namespace VorbisPlayer {
         messageParameter: 0,
         slope: 0,
       }
-      this.midiMaps.polyphonyCh = midiMaps[5] || {
+      this.midiMaps.polyphony = midiMaps[5] || {
         channel: 0,
         messageType: 0,
         messageParameter: 0,
         slope: 0,
       }
       this.midiMaps.repeat = midiMaps[6] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.ignoreNoteOff = midiMaps[7] || {
         channel: 0,
         messageType: 0,
         messageParameter: 0,
@@ -181,8 +198,9 @@ export namespace VorbisPlayer {
       a.push(this.midiMaps.finetune)
       a.push(this.midiMaps.transpose)
       a.push(this.midiMaps.interpolation)
-      a.push(this.midiMaps.polyphonyCh)
+      a.push(this.midiMaps.polyphony)
       a.push(this.midiMaps.repeat)
+      a.push(this.midiMaps.ignoreNoteOff)
       return a
     }
   }

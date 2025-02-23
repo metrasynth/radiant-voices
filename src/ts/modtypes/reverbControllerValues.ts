@@ -7,6 +7,9 @@ import { ControllerValues } from "./moduleType"
 // @ts-ignore
 // noinspection ES6UnusedImports
 import { Mode } from "./reverbEnums"
+// @ts-ignore
+// noinspection ES6UnusedImports
+import { AllPassFilter } from "./reverbEnums"
 export interface ReverbControllerValues extends ControllerValues {
   dry: number
   wet: number
@@ -15,7 +18,7 @@ export interface ReverbControllerValues extends ControllerValues {
   stereoWidth: number
   freeze: boolean
   mode: Mode
-  allPassFilter: boolean
+  allPassFilter: AllPassFilter
   roomSize: number
   randomSeed: number
 }

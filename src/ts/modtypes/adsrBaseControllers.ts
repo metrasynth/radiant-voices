@@ -10,6 +10,9 @@ import { AdsrControllerValues } from "./adsrControllerValues"
 import { Curve } from "./adsrEnums"
 // @ts-ignore
 // noinspection ES6UnusedImports
+import { Sustain } from "./adsrEnums"
+// @ts-ignore
+// noinspection ES6UnusedImports
 import { State } from "./adsrEnums"
 // @ts-ignore
 // noinspection ES6UnusedImports
@@ -39,24 +42,24 @@ export class AdsrBaseControllers implements Controllers {
     controllerValues.volume = newValue
   }
   // noinspection JSUnusedGlobalSymbols
-  get attackMs(): number {
-    return this.controllerValues.attackMs
+  get attack(): number {
+    return this.controllerValues.attack
   }
   // noinspection JSUnusedGlobalSymbols
-  set attackMs(newValue: number) {
+  set attack(newValue: number) {
     const { controllerValues } = this
     newValue = Math.min(Math.max(newValue, 0), 10000)
-    controllerValues.attackMs = newValue
+    controllerValues.attack = newValue
   }
   // noinspection JSUnusedGlobalSymbols
-  get decayMs(): number {
-    return this.controllerValues.decayMs
+  get decay(): number {
+    return this.controllerValues.decay
   }
   // noinspection JSUnusedGlobalSymbols
-  set decayMs(newValue: number) {
+  set decay(newValue: number) {
     const { controllerValues } = this
     newValue = Math.min(Math.max(newValue, 0), 10000)
-    controllerValues.decayMs = newValue
+    controllerValues.decay = newValue
   }
   // noinspection JSUnusedGlobalSymbols
   get sustainLevel(): number {
@@ -69,14 +72,14 @@ export class AdsrBaseControllers implements Controllers {
     controllerValues.sustainLevel = newValue
   }
   // noinspection JSUnusedGlobalSymbols
-  get releaseMs(): number {
-    return this.controllerValues.releaseMs
+  get release(): number {
+    return this.controllerValues.release
   }
   // noinspection JSUnusedGlobalSymbols
-  set releaseMs(newValue: number) {
+  set release(newValue: number) {
     const { controllerValues } = this
     newValue = Math.min(Math.max(newValue, 0), 10000)
-    controllerValues.releaseMs = newValue
+    controllerValues.release = newValue
   }
   // noinspection JSUnusedGlobalSymbols
   get attackCurve(): Curve {
@@ -106,11 +109,11 @@ export class AdsrBaseControllers implements Controllers {
     controllerValues.releaseCurve = newValue
   }
   // noinspection JSUnusedGlobalSymbols
-  get sustain(): boolean {
+  get sustain(): Sustain {
     return this.controllerValues.sustain
   }
   // noinspection JSUnusedGlobalSymbols
-  set sustain(newValue: boolean) {
+  set sustain(newValue: Sustain) {
     const { controllerValues } = this
     controllerValues.sustain = newValue
   }

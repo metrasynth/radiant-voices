@@ -59,6 +59,18 @@ export namespace AnalogGenerator {
     SustainOff = 1,
     SustainOn = 2,
   }
+  export enum Osc2Mode {
+    // noinspection JSUnusedGlobalSymbols
+    Add = 0,
+    Sub = 1,
+    Mul = 2,
+    Min = 3,
+    Max = 4,
+    BitwiseAnd = 5,
+    BitwiseXor = 6,
+    MinAbs = 7,
+    MaxAbs = 8,
+  }
   export enum CtlNum {
     Volume = 1,
     Waveform = 2,
@@ -68,17 +80,20 @@ export namespace AnalogGenerator {
     Sustain = 6,
     ExponentialEnvelope = 7,
     DutyCycle = 8,
-    Freq2 = 9,
+    Osc2 = 9,
     Filter = 10,
-    FFreqHz = 11,
+    FFreq = 11,
     FResonance = 12,
     FExponentialFreq = 13,
     FAttack = 14,
     FRelease = 15,
     FEnvelope = 16,
-    PolyphonyCh = 17,
+    Polyphony = 17,
     Mode = 18,
     Noise = 19,
+    Osc2Volume = 20,
+    Osc2Mode = 21,
+    Osc2Phase = 22,
   }
   interface AnalogGeneratorControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
@@ -89,17 +104,20 @@ export namespace AnalogGenerator {
     sustain: ControllerMidiMap
     exponentialEnvelope: ControllerMidiMap
     dutyCycle: ControllerMidiMap
-    freq2: ControllerMidiMap
+    osc2: ControllerMidiMap
     filter: ControllerMidiMap
-    fFreqHz: ControllerMidiMap
+    fFreq: ControllerMidiMap
     fResonance: ControllerMidiMap
     fExponentialFreq: ControllerMidiMap
     fAttack: ControllerMidiMap
     fRelease: ControllerMidiMap
     fEnvelope: ControllerMidiMap
-    polyphonyCh: ControllerMidiMap
+    polyphony: ControllerMidiMap
     mode: ControllerMidiMap
     noise: ControllerMidiMap
+    osc2Volume: ControllerMidiMap
+    osc2Mode: ControllerMidiMap
+    osc2Phase: ControllerMidiMap
   }
   interface AnalogGeneratorOptionValues extends OptionValues {
     volumeEnvelopeScalingPerKey: boolean
@@ -115,6 +133,7 @@ export namespace AnalogGenerator {
     filterFreqEqNoteFreq: boolean
     velocityDependentFilterResonance: boolean
     trueZeroAttackRelease: boolean
+    increasedFreqComputationAccuracy: boolean
   }
   class AnalogGeneratorOptions implements Options {
     constructor(readonly optionValues: AnalogGeneratorOptionValues) {}
@@ -222,10 +241,18 @@ export namespace AnalogGenerator {
     set trueZeroAttackRelease(newValue: boolean) {
       this.optionValues.trueZeroAttackRelease = newValue
     }
+    // noinspection JSUnusedGlobalSymbols
+    get increasedFreqComputationAccuracy(): boolean {
+      return this.optionValues.increasedFreqComputationAccuracy
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set increasedFreqComputationAccuracy(newValue: boolean) {
+      this.optionValues.increasedFreqComputationAccuracy = newValue
+    }
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Analog generator"
-    flags = 73
+    flags = 0x49
     readonly typeName = "Analog generator"
     readonly optionsChnm = 1
     readonly controllerSetters = [
@@ -254,13 +281,13 @@ export namespace AnalogGenerator {
         this.controllerValues.dutyCycle = val
       },
       (val: number) => {
-        this.controllerValues.freq2 = val
+        this.controllerValues.osc2 = val
       },
       (val: number) => {
         this.controllerValues.filter = val
       },
       (val: number) => {
-        this.controllerValues.fFreqHz = val
+        this.controllerValues.fFreq = val
       },
       (val: number) => {
         this.controllerValues.fResonance = val
@@ -278,13 +305,22 @@ export namespace AnalogGenerator {
         this.controllerValues.fEnvelope = val
       },
       (val: number) => {
-        this.controllerValues.polyphonyCh = val
+        this.controllerValues.polyphony = val
       },
       (val: number) => {
         this.controllerValues.mode = val
       },
       (val: number) => {
         this.controllerValues.noise = val
+      },
+      (val: number) => {
+        this.controllerValues.osc2Volume = val
+      },
+      (val: number) => {
+        this.controllerValues.osc2Mode = val
+      },
+      (val: number) => {
+        this.controllerValues.osc2Phase = val
       },
     ]
     readonly controllerValues: AnalogGeneratorControllerValues = {
@@ -296,17 +332,20 @@ export namespace AnalogGenerator {
       sustain: true,
       exponentialEnvelope: true,
       dutyCycle: 512,
-      freq2: 1000,
+      osc2: 0,
       filter: Filter.Off,
-      fFreqHz: 14000,
+      fFreq: 14000,
       fResonance: 0,
       fExponentialFreq: true,
       fAttack: 0,
       fRelease: 0,
       fEnvelope: FilterEnvelope.Off,
-      polyphonyCh: 16,
-      mode: Mode.Hq,
+      polyphony: 16,
+      mode: Mode.HqMono,
       noise: 0,
+      osc2Volume: 32768,
+      osc2Mode: Osc2Mode.Add,
+      osc2Phase: 0,
     }
     readonly controllers: AnalogGeneratorControllers = new AnalogGeneratorControllers(
       this,
@@ -322,17 +361,20 @@ export namespace AnalogGenerator {
       sustain: new ControllerMidiMap(),
       exponentialEnvelope: new ControllerMidiMap(),
       dutyCycle: new ControllerMidiMap(),
-      freq2: new ControllerMidiMap(),
+      osc2: new ControllerMidiMap(),
       filter: new ControllerMidiMap(),
-      fFreqHz: new ControllerMidiMap(),
+      fFreq: new ControllerMidiMap(),
       fResonance: new ControllerMidiMap(),
       fExponentialFreq: new ControllerMidiMap(),
       fAttack: new ControllerMidiMap(),
       fRelease: new ControllerMidiMap(),
       fEnvelope: new ControllerMidiMap(),
-      polyphonyCh: new ControllerMidiMap(),
+      polyphony: new ControllerMidiMap(),
       mode: new ControllerMidiMap(),
       noise: new ControllerMidiMap(),
+      osc2Volume: new ControllerMidiMap(),
+      osc2Mode: new ControllerMidiMap(),
+      osc2Phase: new ControllerMidiMap(),
     }
     readonly optionValues: AnalogGeneratorOptionValues = {
       volumeEnvelopeScalingPerKey: false,
@@ -348,6 +390,7 @@ export namespace AnalogGenerator {
       filterFreqEqNoteFreq: false,
       velocityDependentFilterResonance: false,
       trueZeroAttackRelease: false,
+      increasedFreqComputationAccuracy: false,
     }
     readonly options: AnalogGeneratorOptions = new AnalogGeneratorOptions(
       this.optionValues
@@ -389,13 +432,13 @@ export namespace AnalogGenerator {
           cv.dutyCycle = value
           break
         case 9:
-          cv.freq2 = value
+          cv.osc2 = value
           break
         case 10:
           cv.filter = value
           break
         case 11:
-          cv.fFreqHz = value
+          cv.fFreq = value
           break
         case 12:
           cv.fResonance = value
@@ -413,13 +456,22 @@ export namespace AnalogGenerator {
           cv.fEnvelope = value
           break
         case 17:
-          cv.polyphonyCh = value
+          cv.polyphony = value
           break
         case 18:
           cv.mode = value
           break
         case 19:
           cv.noise = value
+          break
+        case 20:
+          cv.osc2Volume = value
+          break
+        case 21:
+          cv.osc2Mode = value
+          break
+        case 22:
+          cv.osc2Phase = value
           break
       }
     }
@@ -433,17 +485,20 @@ export namespace AnalogGenerator {
       yield Number(cv.sustain)
       yield Number(cv.exponentialEnvelope)
       yield cv.dutyCycle
-      yield cv.freq2
+      yield cv.osc2
       yield cv.filter
-      yield cv.fFreqHz
+      yield cv.fFreq
       yield cv.fResonance
       yield Number(cv.fExponentialFreq)
       yield cv.fAttack
       yield cv.fRelease
       yield cv.fEnvelope
-      yield cv.polyphonyCh
+      yield cv.polyphony
       yield cv.mode
       yield cv.noise
+      yield cv.osc2Volume
+      yield cv.osc2Mode
+      yield cv.osc2Phase
     }
     setMidiMaps(midiMaps: MidiMap[]) {
       this.midiMaps.volume = midiMaps[0] || {
@@ -494,7 +549,7 @@ export namespace AnalogGenerator {
         messageParameter: 0,
         slope: 0,
       }
-      this.midiMaps.freq2 = midiMaps[8] || {
+      this.midiMaps.osc2 = midiMaps[8] || {
         channel: 0,
         messageType: 0,
         messageParameter: 0,
@@ -506,7 +561,7 @@ export namespace AnalogGenerator {
         messageParameter: 0,
         slope: 0,
       }
-      this.midiMaps.fFreqHz = midiMaps[10] || {
+      this.midiMaps.fFreq = midiMaps[10] || {
         channel: 0,
         messageType: 0,
         messageParameter: 0,
@@ -542,7 +597,7 @@ export namespace AnalogGenerator {
         messageParameter: 0,
         slope: 0,
       }
-      this.midiMaps.polyphonyCh = midiMaps[16] || {
+      this.midiMaps.polyphony = midiMaps[16] || {
         channel: 0,
         messageType: 0,
         messageParameter: 0,
@@ -560,6 +615,24 @@ export namespace AnalogGenerator {
         messageParameter: 0,
         slope: 0,
       }
+      this.midiMaps.osc2Volume = midiMaps[19] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.osc2Mode = midiMaps[20] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.osc2Phase = midiMaps[21] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []
@@ -571,21 +644,24 @@ export namespace AnalogGenerator {
       a.push(this.midiMaps.sustain)
       a.push(this.midiMaps.exponentialEnvelope)
       a.push(this.midiMaps.dutyCycle)
-      a.push(this.midiMaps.freq2)
+      a.push(this.midiMaps.osc2)
       a.push(this.midiMaps.filter)
-      a.push(this.midiMaps.fFreqHz)
+      a.push(this.midiMaps.fFreq)
       a.push(this.midiMaps.fResonance)
       a.push(this.midiMaps.fExponentialFreq)
       a.push(this.midiMaps.fAttack)
       a.push(this.midiMaps.fRelease)
       a.push(this.midiMaps.fEnvelope)
-      a.push(this.midiMaps.polyphonyCh)
+      a.push(this.midiMaps.polyphony)
       a.push(this.midiMaps.mode)
       a.push(this.midiMaps.noise)
+      a.push(this.midiMaps.osc2Volume)
+      a.push(this.midiMaps.osc2Mode)
+      a.push(this.midiMaps.osc2Phase)
       return a
     }
     rawOptionBytes(): Uint8Array {
-      const bytes = new Uint8Array(13)
+      const bytes = new Uint8Array(14)
       const { optionValues: ov } = this
       bytes[0] |= (Number(ov.volumeEnvelopeScalingPerKey) & (2 ** 1 - 1)) << 0
       bytes[1] |= (Number(ov.filterEnvelopeScalingPerKey) & (2 ** 1 - 1)) << 0
@@ -600,6 +676,7 @@ export namespace AnalogGenerator {
       bytes[10] |= (Number(ov.filterFreqEqNoteFreq) & (2 ** 1 - 1)) << 0
       bytes[11] |= (Number(ov.velocityDependentFilterResonance) & (2 ** 1 - 1)) << 0
       bytes[12] |= (Number(ov.trueZeroAttackRelease) & (2 ** 1 - 1)) << 0
+      bytes[13] |= (Number(ov.increasedFreqComputationAccuracy) & (2 ** 1 - 1)) << 0
       return bytes
     }
     setOptions(dataChunks: ModuleDataChunks) {
@@ -639,6 +716,9 @@ export namespace AnalogGenerator {
         )
         this.optionValues.trueZeroAttackRelease = Boolean(
           (chdt[12] >> 0) & (2 ** 1 - 1)
+        )
+        this.optionValues.increasedFreqComputationAccuracy = Boolean(
+          (chdt[13] >> 0) & (2 ** 1 - 1)
         )
       }
     }

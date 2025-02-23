@@ -18,27 +18,28 @@ export namespace PitchDetector {
     ZeroCrossing = 0,
     Autocorrelation = 1,
     Cepstrum = 2,
+    SpectralPeak = 3,
   }
   export enum RollOff {
     // noinspection JSUnusedGlobalSymbols
-    Db_12 = 0,
-    Db_24 = 1,
-    Db_36 = 2,
-    Db_48 = 3,
+    _12db = 0,
+    _24db = 1,
+    _36db = 2,
+    _48db = 3,
   }
   export enum SampleRate {
     // noinspection JSUnusedGlobalSymbols
-    Hz_12 = 0,
-    Hz_24 = 1,
-    Hz_44 = 2,
+    _12000hz = 0,
+    _24000hz = 1,
+    _44100hz = 2,
   }
   export enum Buffer {
     // noinspection JSUnusedGlobalSymbols
-    Ms_5m = 0,
-    Ms_10 = 1,
-    Ms_21 = 2,
-    Ms_42 = 3,
-    Ms_85 = 4,
+    _5ms = 0,
+    _10ms = 1,
+    _21ms = 2,
+    _42ms = 3,
+    _85ms = 4,
   }
   export enum CtlNum {
     Algorithm = 1,
@@ -46,11 +47,11 @@ export namespace PitchDetector {
     Gain = 3,
     Microtones = 4,
     DetectorFinetune = 5,
-    LpFilterFreqHz = 6,
+    LpFilterFreq = 6,
     LpFilterRolloff = 7,
     Alg_1_2SampleRate = 8,
     Alg_1_2Buffer = 9,
-    Alg_1_2BufferOverlapPct = 10,
+    Alg_1_2BufferOverlap = 10,
     Alg_1Sensitivity = 11,
     RecordNotes = 12,
   }
@@ -60,11 +61,11 @@ export namespace PitchDetector {
     gain: ControllerMidiMap
     microtones: ControllerMidiMap
     detectorFinetune: ControllerMidiMap
-    lpFilterFreqHz: ControllerMidiMap
+    lpFilterFreq: ControllerMidiMap
     lpFilterRolloff: ControllerMidiMap
     alg_1_2SampleRate: ControllerMidiMap
     alg_1_2Buffer: ControllerMidiMap
-    alg_1_2BufferOverlapPct: ControllerMidiMap
+    alg_1_2BufferOverlap: ControllerMidiMap
     alg_1Sensitivity: ControllerMidiMap
     recordNotes: ControllerMidiMap
   }
@@ -74,7 +75,7 @@ export namespace PitchDetector {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Pitch Detector"
-    flags = 8785985
+    flags = 0x860051
     readonly typeName = "Pitch Detector"
     readonly controllerSetters = [
       (val: number) => {
@@ -93,7 +94,7 @@ export namespace PitchDetector {
         this.controllerValues.detectorFinetune = val
       },
       (val: number) => {
-        this.controllerValues.lpFilterFreqHz = val
+        this.controllerValues.lpFilterFreq = val
       },
       (val: number) => {
         this.controllerValues.lpFilterRolloff = val
@@ -105,7 +106,7 @@ export namespace PitchDetector {
         this.controllerValues.alg_1_2Buffer = val
       },
       (val: number) => {
-        this.controllerValues.alg_1_2BufferOverlapPct = val
+        this.controllerValues.alg_1_2BufferOverlap = val
       },
       (val: number) => {
         this.controllerValues.alg_1Sensitivity = val
@@ -120,11 +121,11 @@ export namespace PitchDetector {
       gain: 0,
       microtones: true,
       detectorFinetune: 0,
-      lpFilterFreqHz: 1000,
-      lpFilterRolloff: RollOff.Db_12,
-      alg_1_2SampleRate: SampleRate.Hz_12,
-      alg_1_2Buffer: Buffer.Ms_21,
-      alg_1_2BufferOverlapPct: 50,
+      lpFilterFreq: 1000,
+      lpFilterRolloff: RollOff._12db,
+      alg_1_2SampleRate: SampleRate._12000hz,
+      alg_1_2Buffer: Buffer._21ms,
+      alg_1_2BufferOverlap: 50,
       alg_1Sensitivity: 10,
       recordNotes: false,
     }
@@ -139,11 +140,11 @@ export namespace PitchDetector {
       gain: new ControllerMidiMap(),
       microtones: new ControllerMidiMap(),
       detectorFinetune: new ControllerMidiMap(),
-      lpFilterFreqHz: new ControllerMidiMap(),
+      lpFilterFreq: new ControllerMidiMap(),
       lpFilterRolloff: new ControllerMidiMap(),
       alg_1_2SampleRate: new ControllerMidiMap(),
       alg_1_2Buffer: new ControllerMidiMap(),
-      alg_1_2BufferOverlapPct: new ControllerMidiMap(),
+      alg_1_2BufferOverlap: new ControllerMidiMap(),
       alg_1Sensitivity: new ControllerMidiMap(),
       recordNotes: new ControllerMidiMap(),
     }
@@ -177,7 +178,7 @@ export namespace PitchDetector {
           cv.detectorFinetune = value
           break
         case 6:
-          cv.lpFilterFreqHz = value
+          cv.lpFilterFreq = value
           break
         case 7:
           cv.lpFilterRolloff = value
@@ -189,7 +190,7 @@ export namespace PitchDetector {
           cv.alg_1_2Buffer = value
           break
         case 10:
-          cv.alg_1_2BufferOverlapPct = value
+          cv.alg_1_2BufferOverlap = value
           break
         case 11:
           cv.alg_1Sensitivity = value
@@ -206,11 +207,11 @@ export namespace PitchDetector {
       yield cv.gain
       yield Number(cv.microtones)
       yield cv.detectorFinetune
-      yield cv.lpFilterFreqHz
+      yield cv.lpFilterFreq
       yield cv.lpFilterRolloff
       yield cv.alg_1_2SampleRate
       yield cv.alg_1_2Buffer
-      yield cv.alg_1_2BufferOverlapPct
+      yield cv.alg_1_2BufferOverlap
       yield cv.alg_1Sensitivity
       yield Number(cv.recordNotes)
     }
@@ -245,7 +246,7 @@ export namespace PitchDetector {
         messageParameter: 0,
         slope: 0,
       }
-      this.midiMaps.lpFilterFreqHz = midiMaps[5] || {
+      this.midiMaps.lpFilterFreq = midiMaps[5] || {
         channel: 0,
         messageType: 0,
         messageParameter: 0,
@@ -269,7 +270,7 @@ export namespace PitchDetector {
         messageParameter: 0,
         slope: 0,
       }
-      this.midiMaps.alg_1_2BufferOverlapPct = midiMaps[9] || {
+      this.midiMaps.alg_1_2BufferOverlap = midiMaps[9] || {
         channel: 0,
         messageType: 0,
         messageParameter: 0,
@@ -295,11 +296,11 @@ export namespace PitchDetector {
       a.push(this.midiMaps.gain)
       a.push(this.midiMaps.microtones)
       a.push(this.midiMaps.detectorFinetune)
-      a.push(this.midiMaps.lpFilterFreqHz)
+      a.push(this.midiMaps.lpFilterFreq)
       a.push(this.midiMaps.lpFilterRolloff)
       a.push(this.midiMaps.alg_1_2SampleRate)
       a.push(this.midiMaps.alg_1_2Buffer)
-      a.push(this.midiMaps.alg_1_2BufferOverlapPct)
+      a.push(this.midiMaps.alg_1_2BufferOverlap)
       a.push(this.midiMaps.alg_1Sensitivity)
       a.push(this.midiMaps.recordNotes)
       return a

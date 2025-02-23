@@ -21,14 +21,14 @@ export class GlideBaseControllers implements Controllers {
     controllerValues.response = newValue
   }
   // noinspection JSUnusedGlobalSymbols
-  get sampleRateHz(): number {
-    return this.controllerValues.sampleRateHz
+  get sampleRate(): number {
+    return this.controllerValues.sampleRate
   }
   // noinspection JSUnusedGlobalSymbols
-  set sampleRateHz(newValue: number) {
+  set sampleRate(newValue: number) {
     const { controllerValues } = this
     newValue = Math.min(Math.max(newValue, 1), 32768)
-    controllerValues.sampleRateHz = newValue
+    controllerValues.sampleRate = newValue
   }
   // noinspection JSUnusedGlobalSymbols
   get resetOnFirstNote(): boolean {
@@ -76,5 +76,35 @@ export class GlideBaseControllers implements Controllers {
   set reset(newValue: boolean) {
     const { controllerValues } = this
     controllerValues.reset = newValue
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get octave(): number {
+    return this.controllerValues.octave + -10
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set octave(newValue: number) {
+    const { controllerValues } = this
+    newValue = Math.min(Math.max(newValue, -10), 10)
+    controllerValues.octave = newValue - -10
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get freqMultiply(): number {
+    return this.controllerValues.freqMultiply
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set freqMultiply(newValue: number) {
+    const { controllerValues } = this
+    newValue = Math.min(Math.max(newValue, 1), 256)
+    controllerValues.freqMultiply = newValue
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get freqDivide(): number {
+    return this.controllerValues.freqDivide
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set freqDivide(newValue: number) {
+    const { controllerValues } = this
+    newValue = Math.min(Math.max(newValue, 1), 256)
+    controllerValues.freqDivide = newValue
   }
 }

@@ -9,6 +9,7 @@ import { Note } from "@radiant-voices"
 import EnvelopeFlags = m.Sampler.EnvelopeFlags
 import EnvelopeInterpolation = m.Sampler.EnvelopeInterpolation
 import LoopType = m.Sampler.LoopType
+import Record = m.Sampler.Record
 import SampleInterpolation = m.Sampler.SampleInterpolation
 import VibratoType = m.Sampler.VibratoType
 
@@ -24,7 +25,7 @@ describe("Reading the sampler.sunsynth file", () => {
   })
   test("has correct properties, controllers, and options", () => {
     const mod = synth.module as m.Sampler.Module
-    expect(mod.flags).toEqual(33881)
+    expect(mod.flags).toEqual(0x02008459)
     expect(mod.name).toEqual("Sampler")
 
     // Controllers
@@ -33,8 +34,10 @@ describe("Reading the sampler.sunsynth file", () => {
     expect(c.panning).toEqual(50)
     expect(c.sampleInterpolation).toEqual(SampleInterpolation.Linear)
     expect(c.envelopeInterpolation).toEqual(EnvelopeInterpolation.Off)
-    expect(c.polyphonyCh).toEqual(32)
+    expect(c.polyphony).toEqual(32)
     expect(c.recThreshold).toEqual(2448)
+    expect(c.tickLength).toEqual(627)
+    expect(c.record).toEqual(Record.Stop)
 
     const { behavior } = mod
     expect(behavior).toBeDefined()

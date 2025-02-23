@@ -12,3 +12,12 @@ class Output(BaseOutput, Module):
     behaviors = {B.receives_audio}
 
     index = 0
+
+    # Module name cannot be changed.
+    @property
+    def name(self):
+        return "Output"
+
+    @name.setter
+    def name(self, value):
+        pass

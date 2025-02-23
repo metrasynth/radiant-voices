@@ -11,6 +11,12 @@ import { Channels } from "./loopEnums"
 // @ts-ignore
 // noinspection ES6UnusedImports
 import { Mode } from "./loopEnums"
+// @ts-ignore
+// noinspection ES6UnusedImports
+import { LengthUnit } from "./loopEnums"
+// @ts-ignore
+// noinspection ES6UnusedImports
+import { OnNoteOn } from "./loopEnums"
 export class LoopBaseControllers implements Controllers {
   constructor(
     readonly module: ModuleType,
@@ -27,14 +33,36 @@ export class LoopBaseControllers implements Controllers {
     controllerValues.volume = newValue
   }
   // noinspection JSUnusedGlobalSymbols
-  get delay(): number {
-    return this.controllerValues.delay
+  get length(): number {
+    return this.controllerValues.length
   }
   // noinspection JSUnusedGlobalSymbols
-  set delay(newValue: number) {
+  set length(newValue: number) {
     const { controllerValues } = this
-    newValue = Math.min(Math.max(newValue, 0), 256)
-    controllerValues.delay = newValue
+    switch (this.controllerValues.lengthUnit) {
+      case LengthUnit.LineDiv_128:
+        newValue = Math.min(Math.max(newValue, 0), 256)
+        break
+      case LengthUnit.Line:
+        newValue = Math.min(Math.max(newValue, 0), 8192)
+        break
+      case LengthUnit.LineDiv_2:
+        newValue = Math.min(Math.max(newValue, 0), 8192)
+        break
+      case LengthUnit.LineDiv_3:
+        newValue = Math.min(Math.max(newValue, 0), 8192)
+        break
+      case LengthUnit.Tick:
+        newValue = Math.min(Math.max(newValue, 0), 8192)
+        break
+      case LengthUnit.Ms:
+        newValue = Math.min(Math.max(newValue, 0), 8192)
+        break
+      case LengthUnit.Hz:
+        newValue = Math.min(Math.max(newValue, 0), 8192)
+        break
+    }
+    controllerValues.length = newValue
   }
   // noinspection JSUnusedGlobalSymbols
   get channels(): Channels {
@@ -52,7 +80,7 @@ export class LoopBaseControllers implements Controllers {
   // noinspection JSUnusedGlobalSymbols
   set repeats(newValue: number) {
     const { controllerValues } = this
-    newValue = Math.min(Math.max(newValue, 0), 64)
+    newValue = Math.min(Math.max(newValue, 0), 128)
     controllerValues.repeats = newValue
   }
   // noinspection JSUnusedGlobalSymbols
@@ -63,5 +91,34 @@ export class LoopBaseControllers implements Controllers {
   set mode(newValue: Mode) {
     const { controllerValues } = this
     controllerValues.mode = newValue
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get lengthUnit(): LengthUnit {
+    return this.controllerValues.lengthUnit
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set lengthUnit(newValue: LengthUnit) {
+    const { controllerValues } = this
+    controllerValues.lengthUnit = newValue
+    this.length = this.length
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get maxBufferSize(): number {
+    return this.controllerValues.maxBufferSize
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set maxBufferSize(newValue: number) {
+    const { controllerValues } = this
+    newValue = Math.min(Math.max(newValue, 1), 240)
+    controllerValues.maxBufferSize = newValue
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get onNoteOn(): OnNoteOn {
+    return this.controllerValues.onNoteOn
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set onNoteOn(newValue: OnNoteOn) {
+    const { controllerValues } = this
+    controllerValues.onNoteOn = newValue
   }
 }

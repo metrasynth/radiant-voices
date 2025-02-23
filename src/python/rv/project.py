@@ -1,7 +1,7 @@
 from collections import namedtuple
 from enum import IntEnum
 from struct import pack
-from typing import List, Optional
+from typing import List, Optional, TypeVar
 
 import networkx as nx
 from rv import ENCODING
@@ -12,6 +12,8 @@ from rv.modules.output import Output
 from rv.pattern import Pattern, PatternClone
 
 PatternLine = namedtuple("PatternLine", ["index", "source", "line"])
+
+M = TypeVar("M", bound=Module)
 
 
 class Project(Container):
@@ -36,8 +38,9 @@ class Project(Container):
     def __init__(self):
         self.modules = []
         self.output = self.attach_module(Output())
-        self.sunvox_version = (1, 9, 6, 1)
-        self.based_on_version = (1, 9, 6, 1)
+        self.sunvox_version = (2, 1, 2, 1)
+        self.based_on_version = self.loaded_sunvox_version = self.sunvox_version
+        self.flags = 0
         self.initial_bpm = 125
         self.initial_tpl = 6
         self.global_volume = 80
@@ -54,10 +57,10 @@ class Project(Container):
         self.timeline_position = 0
         self.restart_position = 0
         self.selected_module = 0
-        self.selected_generator = 0
+        self.selected_generator = -1
         self.current_pattern = 0
         self.current_track = 0
-        self.current_line = 1
+        self.current_line = 0
         self.receive_sync_midi = self.SyncCommand.start_stop
         self.receive_sync_other = self.SyncCommand.start_stop
         self.patterns = []
@@ -72,7 +75,7 @@ class Project(Container):
             self.attach_pattern(other)
         return self
 
-    def attach_module(self, module, loading=False):
+    def attach_module(self, module: M, loading=False) -> M:
         """Attach the module to the project."""
         if module is None:
             self.modules.append(module)
@@ -156,6 +159,7 @@ class Project(Container):
         yield self.MAGIC_CHUNK
         yield b"VERS", pack("BBBB", *reversed(self.sunvox_version))
         yield b"BVER", pack("BBBB", *reversed(self.based_on_version))
+        yield b"FLGS", pack("<I", self.flags)
         yield (
             b"SFGS",
             pack("<I", self.receive_sync_midi | (self.receive_sync_other << 3)),
@@ -172,11 +176,12 @@ class Project(Container):
         yield b"MYOF", pack("<i", self.modules_y_offset)
         yield b"LMSK", pack("<I", self.modules_layer_mask)
         yield b"CURL", pack("<I", self.modules_current_layer)
-        yield b"TIME", pack("<i", self.timeline_position)
+        if self.timeline_position != 0:
+            yield b"TIME", pack("<i", self.timeline_position)
         if self.restart_position != 0:
             yield b"REPS", pack("<i", self.restart_position)
         yield b"SELS", pack("<I", self.selected_module)
-        yield b"LGEN", pack("<I", self.selected_generator)
+        yield b"LGEN", pack("<i", self.selected_generator)
         yield b"PATN", pack("<I", self.current_pattern)
         yield b"PATT", pack("<I", self.current_track)
         yield b"PATL", pack("<I", self.current_line)
@@ -193,11 +198,12 @@ class Project(Container):
                     structure = "<" + "i" * len(links)
                     links = pack(structure, *links)
                     link_slots = pack(structure, *link_slots)
+                    yield b"SLNK", links
+                    if any(s not in (-1, 0) for s in module.in_link_slots):
+                        # Only write out SLnK if there are non-zero slots.
+                        yield b"SLnK", link_slots
                 else:
-                    links = b""
-                    link_slots = b""
-                yield b"SLNK", links
-                yield b"SLnK", link_slots
+                    yield b"SLNK", b""
                 controllers = [
                     n for n, c in module.controllers.items() if c.attached(module)
                 ]
@@ -278,8 +284,9 @@ class Project(Container):
         ):
             for index, pattern in deactivate_at.get(line, []):
                 active_patterns.remove((index, pattern))
-            for index, pattern in activate_at.get(line, []):
-                active_patterns.append((index, pattern))
+            active_patterns.extend(
+                (index, pattern) for index, pattern in activate_at.get(line, [])
+            )
             pattern_lines = [
                 PatternLine(index, pattern.source or index, line - pattern.x)
                 for index, pattern in active_patterns
@@ -291,11 +298,14 @@ class Project(Container):
         """Auto-layout modules."""
         g = nx.Graph()
         for module in self.modules:
+            if module is None:
+                continue
             to_idx = module.index
             for from_idx in module.in_links:
-                if from_idx >= 0:
-                    g.add_nodes_from([from_idx, to_idx])
-                    g.add_edge(from_idx, to_idx)
+                if from_idx < 0:
+                    continue
+                g.add_nodes_from([from_idx, to_idx])
+                g.add_edge(from_idx, to_idx)
         pos = nx.spring_layout(g, scale=scale, **spring_layout_args)
         for idx, (x, y) in pos.items():
             mod = self.modules[idx]

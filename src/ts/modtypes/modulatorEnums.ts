@@ -10,9 +10,27 @@ export enum ModulationType {
   Amplitude = 0,
   Phase = 1,
   PhaseAbs = 2,
+  Add = 3,
+  Sub = 4,
+  Min = 5,
+  Max = 6,
+  BitwiseAnd = 7,
+  BitwiseXor = 8,
+  MinAbs = 9,
+  MaxAbs = 10,
 }
 export enum Channels {
   // noinspection JSUnusedGlobalSymbols
   Stereo = 0,
   Mono = 1,
+}
+export enum MaxPhaseModulationDelay {
+  // noinspection JSUnusedGlobalSymbols
+  Sec_0_04 = 0,
+  Sec_0_08 = 1,
+  Sec_0_2 = 2,
+  Sec_0_5 = 3,
+  Sec_1 = 4,
+  Sec_2 = 5,
+  Sec_4 = 6,
 }

@@ -1,9 +1,20 @@
 from rv.api import m
 
+EXPECTED_MAPPINGS = [
+    {"module": 1, "controller": 0},
+    {"module": 1, "controller": 1},
+] + [{"module": 0, "controller": 0}] * 94
+
+
+EXPECTED_CONTROLLER_NAMES = [
+    "V",
+    "W",
+] + [None] * 94
+
 
 def test_metamodule(read_write_read_synth):
     mod: m.MetaModule = read_write_read_synth("metamodule").module
-    assert mod.flags == 32841
+    assert mod.flags == 32857
     assert mod.name == "MetaModule"
 
     assert [mapping.__dict__ for mapping in mod.mappings.values] == EXPECTED_MAPPINGS
@@ -35,100 +46,16 @@ def test_metamodule(read_write_read_synth):
     assert isinstance(project.modules[1], m.AnalogGenerator)
 
 
-EXPECTED_MAPPINGS = [
-    {"module": 1, "controller": 0},
-    {"module": 1, "controller": 1},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-    {"module": 0, "controller": 0},
-]
+def test_metamodule_7a(read_write_read_synth):
+    mod: m.MetaModule = read_write_read_synth("metamodule-option-7a").module
+    assert mod.auto_bpm_tpl is True
 
 
-EXPECTED_CONTROLLER_NAMES = [
-    "V",
-    "W",
-    None,
-    None,
-    None,
-    None,
-    None,
-    None,
-    None,
-    None,
-    None,
-    None,
-    None,
-    None,
-    None,
-    None,
-    None,
-    None,
-    None,
-    None,
-    None,
-    None,
-    None,
-    None,
-    None,
-    None,
-    None,
-]
+def test_metamodule_79(read_write_read_synth):
+    mod: m.MetaModule = read_write_read_synth("metamodule-option-79").module
+    assert mod.ignore_eff_31_after_last_note_off is True
+
+
+def test_metamodule_78(read_write_read_synth):
+    mod: m.MetaModule = read_write_read_synth("metamodule-option-78").module
+    assert mod.jump_to_rl_pattern_after_last_note_off is True

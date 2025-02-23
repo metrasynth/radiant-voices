@@ -13,6 +13,18 @@ export enum Curve {
   NegExp1 = 3,
   NegExp2 = 4,
   Sin = 5,
+  Rect = 6,
+  SmoothRect = 7,
+  Bit2 = 8,
+  Bit3 = 9,
+  Bit4 = 10,
+  Bit5 = 11,
+}
+export enum Sustain {
+  // noinspection JSUnusedGlobalSymbols
+  Off = 0,
+  On = 1,
+  Repeat = 2,
 }
 export enum State {
   // noinspection JSUnusedGlobalSymbols
@@ -42,4 +54,5 @@ export enum SmoothTransitions {
   Off = 0,
   RestartAndVolumeChange = 1,
   RestartSmootherAndVolumeChange = 2,
+  VolumeChange = 3,
 }

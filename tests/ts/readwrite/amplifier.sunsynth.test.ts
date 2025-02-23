@@ -18,7 +18,7 @@ describe("Reading the amplifier.sunsynth file", () => {
   })
   test("has correct properties, controllers, and options", () => {
     const mod = synth.module as m.Amplifier.Module
-    expect(mod.flags).toEqual(81)
+    expect(mod.flags).toEqual(0x02000051)
     expect(mod.name).toEqual("amp")
     const { c } = mod
     expect(c.volume).toEqual(378)
@@ -29,5 +29,6 @@ describe("Reading the amplifier.sunsynth file", () => {
     expect(c.absolute).toEqual(false)
     expect(c.fineVolume).toEqual(21087)
     expect(c.gain).toEqual(3948)
+    expect(c.bipolarDcOffset).toEqual(-1902)
   })
 })

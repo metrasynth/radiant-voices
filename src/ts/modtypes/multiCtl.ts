@@ -17,7 +17,7 @@ export namespace MultiCtl {
     Quantization = 3,
     OutOffset = 4,
     Response = 5,
-    SampleRateHz = 6,
+    SampleRate = 6,
   }
   interface MultiCtlControllerMidiMaps extends ControllerMidiMaps {
     value: ControllerMidiMap
@@ -25,7 +25,7 @@ export namespace MultiCtl {
     quantization: ControllerMidiMap
     outOffset: ControllerMidiMap
     response: ControllerMidiMap
-    sampleRateHz: ControllerMidiMap
+    sampleRate: ControllerMidiMap
   }
   interface MultiCtlOptionValues extends OptionValues {}
   class MultiCtlOptions implements Options {
@@ -33,7 +33,7 @@ export namespace MultiCtl {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "MultiCtl"
-    flags = 131153
+    flags = 0x60051
     readonly typeName = "MultiCtl"
     readonly controllerSetters = [
       (val: number) => {
@@ -52,7 +52,7 @@ export namespace MultiCtl {
         this.controllerValues.response = val
       },
       (val: number) => {
-        this.controllerValues.sampleRateHz = val
+        this.controllerValues.sampleRate = val
       },
     ]
     readonly controllerValues: MultiCtlControllerValues = {
@@ -61,7 +61,7 @@ export namespace MultiCtl {
       quantization: 32768,
       outOffset: 0,
       response: 1000,
-      sampleRateHz: 150,
+      sampleRate: 150,
     }
     readonly controllers: MultiCtlControllers = new MultiCtlControllers(
       this,
@@ -74,7 +74,7 @@ export namespace MultiCtl {
       quantization: new ControllerMidiMap(),
       outOffset: new ControllerMidiMap(),
       response: new ControllerMidiMap(),
-      sampleRateHz: new ControllerMidiMap(),
+      sampleRate: new ControllerMidiMap(),
     }
     readonly optionValues: MultiCtlOptionValues = {}
     readonly options: MultiCtlOptions = new MultiCtlOptions(this.optionValues)
@@ -106,7 +106,7 @@ export namespace MultiCtl {
           cv.response = value
           break
         case 6:
-          cv.sampleRateHz = value
+          cv.sampleRate = value
           break
       }
     }
@@ -117,7 +117,7 @@ export namespace MultiCtl {
       yield cv.quantization
       yield cv.outOffset
       yield cv.response
-      yield cv.sampleRateHz
+      yield cv.sampleRate
     }
     setMidiMaps(midiMaps: MidiMap[]) {
       this.midiMaps.value = midiMaps[0] || {
@@ -150,7 +150,7 @@ export namespace MultiCtl {
         messageParameter: 0,
         slope: 0,
       }
-      this.midiMaps.sampleRateHz = midiMaps[5] || {
+      this.midiMaps.sampleRate = midiMaps[5] || {
         channel: 0,
         messageType: 0,
         messageParameter: 0,
@@ -164,7 +164,7 @@ export namespace MultiCtl {
       a.push(this.midiMaps.quantization)
       a.push(this.midiMaps.outOffset)
       a.push(this.midiMaps.response)
-      a.push(this.midiMaps.sampleRateHz)
+      a.push(this.midiMaps.sampleRate)
       return a
     }
   }

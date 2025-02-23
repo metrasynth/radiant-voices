@@ -4,8 +4,7 @@ from rv.modules.base.sound2ctl import BaseSound2Ctl
 
 
 class Sound2Ctl(BaseSound2Ctl, Module):
-
-    chnk = 1
+    chnk = 4
     options_chnm = 0
 
     behaviors = {B.receives_audio, B.sends_controls}

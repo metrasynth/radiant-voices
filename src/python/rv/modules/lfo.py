@@ -4,5 +4,4 @@ from rv.modules.base.lfo import BaseLfo
 
 
 class Lfo(BaseLfo, Module):
-
     behaviors = {B.sends_audio}

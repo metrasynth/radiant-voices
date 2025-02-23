@@ -25,11 +25,16 @@ import { Channels } from "./samplerEnums"
 // @ts-ignore
 // noinspection ES6UnusedImports
 import { EnvelopeFlags } from "./samplerEnums"
+// @ts-ignore
+// noinspection ES6UnusedImports
+import { Record } from "./samplerEnums"
 export interface SamplerControllerValues extends ControllerValues {
   volume: number
   panning: number
   sampleInterpolation: SampleInterpolation
   envelopeInterpolation: EnvelopeInterpolation
-  polyphonyCh: number
+  polyphony: number
   recThreshold: number
+  tickLength: number
+  record: Record
 }

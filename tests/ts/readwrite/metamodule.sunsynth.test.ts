@@ -147,3 +147,54 @@ const expectedControllerNames = [
   undefined,
   undefined,
 ]
+
+describe("Reading the metamodule-option-7a file", () => {
+  const filePath = "tests/files/metamodule-option-7a.sunsynth"
+  let synth: Synth
+  beforeAll(() => {
+    // read, write, read
+    const f = readFileSync(filePath)
+    synth = readSunVoxFile(fromIffBuffer(f)) as Synth
+    const f2 = toIffBuffer(objectChunks(synth))
+    synth = readSunVoxFile(fromIffBuffer(f2)) as Synth
+  })
+  test("has correct properties, controllers, and options", () => {
+    const mod = synth.module as m.MetaModule.Module
+    const { o } = mod
+    expect(o.autoBpmTpl).toBeTruthy()
+  })
+})
+
+describe("Reading the metamodule-option-79 file", () => {
+  const filePath = "tests/files/metamodule-option-79.sunsynth"
+  let synth: Synth
+  beforeAll(() => {
+    // read, write, read
+    const f = readFileSync(filePath)
+    synth = readSunVoxFile(fromIffBuffer(f)) as Synth
+    const f2 = toIffBuffer(objectChunks(synth))
+    synth = readSunVoxFile(fromIffBuffer(f2)) as Synth
+  })
+  test("has correct properties, controllers, and options", () => {
+    const mod = synth.module as m.MetaModule.Module
+    const { o } = mod
+    expect(o.ignoreEff_31AfterLastNoteOff).toBeTruthy()
+  })
+})
+
+describe("Reading the metamodule-option-78 file", () => {
+  const filePath = "tests/files/metamodule-option-78.sunsynth"
+  let synth: Synth
+  beforeAll(() => {
+    // read, write, read
+    const f = readFileSync(filePath)
+    synth = readSunVoxFile(fromIffBuffer(f)) as Synth
+    const f2 = toIffBuffer(objectChunks(synth))
+    synth = readSunVoxFile(fromIffBuffer(f2)) as Synth
+  })
+  test("has correct properties, controllers, and options", () => {
+    const mod = synth.module as m.MetaModule.Module
+    const { o } = mod
+    expect(o.jumpToRlPatternAfterLastNoteOff).toBeTruthy()
+  })
+})

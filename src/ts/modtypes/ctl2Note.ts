@@ -54,7 +54,7 @@ export namespace Ctl2Note {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Ctl2Note"
-    flags = 25301057
+    flags = 0x1820041
     readonly typeName = "Ctl2Note"
     readonly controllerSetters = [
       (val: number) => {

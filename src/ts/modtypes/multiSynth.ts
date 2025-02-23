@@ -20,6 +20,13 @@ export namespace MultiSynth {
     VelocityVelocity = 1,
     NotePitch = 2,
   }
+  export enum OutPortMode {
+    // noinspection JSUnusedGlobalSymbols
+    AllOrRandom1 = 0,
+    NoteModNumOfOutsOrRandom2 = 1,
+    PolyChModNumOfOutsOrRandom3 = 2,
+    Cyclic = 3,
+  }
   export enum CtlNum {
     Transpose = 1,
     RandomPitch = 2,
@@ -49,9 +56,11 @@ export namespace MultiSynth {
     roundNoteX: boolean
     roundPitchY: boolean
     recordNotesToScaleCurve: boolean
-    outNoteEqOutNoteMinusInNotePlus_C5: boolean
-    outPortEqNoteModNumOfOuts: boolean
-    outPortEqChannelModNumOfOuts: boolean
+    outNoteOutNoteMinusInNotePlus_C5: boolean
+    outPortMode: OutPortMode
+    outPortModeRandom: boolean
+    dummy6: boolean
+    dummy7: boolean
   }
   class MultiSynthOptions implements Options {
     constructor(readonly optionValues: MultiSynthOptionValues) {}
@@ -122,35 +131,49 @@ export namespace MultiSynth {
       this.optionValues.recordNotesToScaleCurve = newValue
     }
     // noinspection JSUnusedGlobalSymbols
-    get outNoteEqOutNoteMinusInNotePlus_C5(): boolean {
-      return this.optionValues.outNoteEqOutNoteMinusInNotePlus_C5
+    get outNoteOutNoteMinusInNotePlus_C5(): boolean {
+      return this.optionValues.outNoteOutNoteMinusInNotePlus_C5
     }
     // noinspection JSUnusedGlobalSymbols
-    set outNoteEqOutNoteMinusInNotePlus_C5(newValue: boolean) {
-      this.optionValues.outNoteEqOutNoteMinusInNotePlus_C5 = newValue
+    set outNoteOutNoteMinusInNotePlus_C5(newValue: boolean) {
+      this.optionValues.outNoteOutNoteMinusInNotePlus_C5 = newValue
     }
     // noinspection JSUnusedGlobalSymbols
-    get outPortEqNoteModNumOfOuts(): boolean {
-      return this.optionValues.outPortEqNoteModNumOfOuts
+    get outPortMode(): OutPortMode {
+      return this.optionValues.outPortMode
     }
     // noinspection JSUnusedGlobalSymbols
-    set outPortEqNoteModNumOfOuts(newValue: boolean) {
-      this.optionValues.outPortEqNoteModNumOfOuts = newValue
-      this.optionValues.outPortEqChannelModNumOfOuts = false
+    set outPortMode(newValue: OutPortMode) {
+      this.optionValues.outPortMode = newValue
     }
     // noinspection JSUnusedGlobalSymbols
-    get outPortEqChannelModNumOfOuts(): boolean {
-      return this.optionValues.outPortEqChannelModNumOfOuts
+    get outPortModeRandom(): boolean {
+      return this.optionValues.outPortModeRandom
     }
     // noinspection JSUnusedGlobalSymbols
-    set outPortEqChannelModNumOfOuts(newValue: boolean) {
-      this.optionValues.outPortEqChannelModNumOfOuts = newValue
-      this.optionValues.outPortEqNoteModNumOfOuts = false
+    set outPortModeRandom(newValue: boolean) {
+      this.optionValues.outPortModeRandom = newValue
+    }
+    // noinspection JSUnusedGlobalSymbols
+    get dummy6(): boolean {
+      return this.optionValues.dummy6
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set dummy6(newValue: boolean) {
+      this.optionValues.dummy6 = newValue
+    }
+    // noinspection JSUnusedGlobalSymbols
+    get dummy7(): boolean {
+      return this.optionValues.dummy7
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set dummy7(newValue: boolean) {
+      this.optionValues.dummy7 = newValue
     }
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "MultiSynth"
-    flags = 16912457
+    flags = 0x1020049
     readonly typeName = "MultiSynth"
     readonly optionsChnm = 1
     readonly controllerSetters = [
@@ -213,9 +236,11 @@ export namespace MultiSynth {
       roundNoteX: false,
       roundPitchY: false,
       recordNotesToScaleCurve: false,
-      outNoteEqOutNoteMinusInNotePlus_C5: false,
-      outPortEqNoteModNumOfOuts: false,
-      outPortEqChannelModNumOfOuts: false,
+      outNoteOutNoteMinusInNotePlus_C5: false,
+      outPortMode: OutPortMode.AllOrRandom1,
+      outPortModeRandom: false,
+      dummy6: false,
+      dummy7: false,
     }
     readonly options: MultiSynthOptions = new MultiSynthOptions(this.optionValues)
     readonly o = this.options
@@ -330,7 +355,7 @@ export namespace MultiSynth {
       return a
     }
     rawOptionBytes(): Uint8Array {
-      const bytes = new Uint8Array(11)
+      const bytes = new Uint8Array(13)
       const { optionValues: ov } = this
       bytes[0] |= (Number(ov.useStaticNote_C5) & (2 ** 1 - 1)) << 0
       bytes[1] |= (Number(ov.ignoreNotesWithZeroVelocity) & (2 ** 1 - 1)) << 0
@@ -340,9 +365,11 @@ export namespace MultiSynth {
       bytes[4] |= (Number(ov.roundNoteX) & (2 ** 1 - 1)) << 1
       bytes[4] |= (Number(ov.roundPitchY) & (2 ** 1 - 1)) << 2
       bytes[4] |= (Number(ov.recordNotesToScaleCurve) & (2 ** 1 - 1)) << 3
-      bytes[4] |= (Number(ov.outNoteEqOutNoteMinusInNotePlus_C5) & (2 ** 1 - 1)) << 6
-      bytes[4] |= (Number(ov.outPortEqNoteModNumOfOuts) & (2 ** 1 - 1)) << 7
-      bytes[4] |= (Number(ov.outPortEqChannelModNumOfOuts) & (2 ** 1 - 1)) << 8
+      bytes[4] |= (Number(ov.outNoteOutNoteMinusInNotePlus_C5) & (2 ** 1 - 1)) << 5
+      bytes[4] |= (Number(ov.outPortMode) & (2 ** 2 - 1)) << 6
+      bytes[5] |= (Number(ov.outPortModeRandom) & (2 ** 1 - 1)) << 0
+      bytes[6] |= (Number(ov.dummy6) & (2 ** 1 - 1)) << 0
+      bytes[7] |= (Number(ov.dummy7) & (2 ** 1 - 1)) << 0
       return bytes
     }
     setOptions(dataChunks: ModuleDataChunks) {
@@ -368,15 +395,13 @@ export namespace MultiSynth {
         this.optionValues.recordNotesToScaleCurve = Boolean(
           (chdt[4] >> 3) & (2 ** 1 - 1)
         )
-        this.optionValues.outNoteEqOutNoteMinusInNotePlus_C5 = Boolean(
-          (chdt[4] >> 6) & (2 ** 1 - 1)
+        this.optionValues.outNoteOutNoteMinusInNotePlus_C5 = Boolean(
+          (chdt[4] >> 5) & (2 ** 1 - 1)
         )
-        this.optionValues.outPortEqNoteModNumOfOuts = Boolean(
-          (chdt[4] >> 7) & (2 ** 1 - 1)
-        )
-        this.optionValues.outPortEqChannelModNumOfOuts = Boolean(
-          (chdt[4] >> 8) & (2 ** 1 - 1)
-        )
+        this.optionValues.outPortMode = (chdt[4] >> 6) & (2 ** 2 - 1)
+        this.optionValues.outPortModeRandom = Boolean((chdt[5] >> 0) & (2 ** 1 - 1))
+        this.optionValues.dummy6 = Boolean((chdt[6] >> 0) & (2 ** 1 - 1))
+        this.optionValues.dummy7 = Boolean((chdt[7] >> 0) & (2 ** 1 - 1))
       }
     }
   }

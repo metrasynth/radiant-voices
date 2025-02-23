@@ -11,6 +11,9 @@ import { ModulationType } from "./modulatorEnums"
 // @ts-ignore
 // noinspection ES6UnusedImports
 import { Channels } from "./modulatorEnums"
+// @ts-ignore
+// noinspection ES6UnusedImports
+import { MaxPhaseModulationDelay } from "./modulatorEnums"
 export class ModulatorBaseControllers implements Controllers {
   constructor(
     readonly module: ModuleType,
@@ -43,5 +46,14 @@ export class ModulatorBaseControllers implements Controllers {
   set channels(newValue: Channels) {
     const { controllerValues } = this
     controllerValues.channels = newValue
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get maxPhaseModulationDelay(): MaxPhaseModulationDelay {
+    return this.controllerValues.maxPhaseModulationDelay
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set maxPhaseModulationDelay(newValue: MaxPhaseModulationDelay) {
+    const { controllerValues } = this
+    controllerValues.maxPhaseModulationDelay = newValue
   }
 }

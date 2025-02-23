@@ -35,3 +35,7 @@ twine-upload:
 npm-build: clean
 	npm install
 	npm run tsc
+
+.PHONY: genrv
+genrv:
+	python -m genrv.tools.generate --config genrv-config.yaml

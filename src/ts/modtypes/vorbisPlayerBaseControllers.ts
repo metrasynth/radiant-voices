@@ -59,14 +59,14 @@ export class VorbisPlayerBaseControllers implements Controllers {
     controllerValues.interpolation = newValue
   }
   // noinspection JSUnusedGlobalSymbols
-  get polyphonyCh(): number {
-    return this.controllerValues.polyphonyCh
+  get polyphony(): number {
+    return this.controllerValues.polyphony
   }
   // noinspection JSUnusedGlobalSymbols
-  set polyphonyCh(newValue: number) {
+  set polyphony(newValue: number) {
     const { controllerValues } = this
     newValue = Math.min(Math.max(newValue, 1), 4)
-    controllerValues.polyphonyCh = newValue
+    controllerValues.polyphony = newValue
   }
   // noinspection JSUnusedGlobalSymbols
   get repeat(): boolean {
@@ -76,5 +76,14 @@ export class VorbisPlayerBaseControllers implements Controllers {
   set repeat(newValue: boolean) {
     const { controllerValues } = this
     controllerValues.repeat = newValue
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get ignoreNoteOff(): boolean {
+    return this.controllerValues.ignoreNoteOff
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set ignoreNoteOff(newValue: boolean) {
+    const { controllerValues } = this
+    controllerValues.ignoreNoteOff = newValue
   }
 }

@@ -20,6 +20,7 @@ export namespace Amplifier {
     Absolute = 6,
     FineVolume = 7,
     Gain = 8,
+    BipolarDcOffset = 9,
   }
   interface AmplifierControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
@@ -30,6 +31,7 @@ export namespace Amplifier {
     absolute: ControllerMidiMap
     fineVolume: ControllerMidiMap
     gain: ControllerMidiMap
+    bipolarDcOffset: ControllerMidiMap
   }
   interface AmplifierOptionValues extends OptionValues {}
   class AmplifierOptions implements Options {
@@ -37,7 +39,7 @@ export namespace Amplifier {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Amplifier"
-    flags = 81
+    flags = 0x51
     readonly typeName = "Amplifier"
     readonly controllerSetters = [
       (val: number) => {
@@ -64,6 +66,9 @@ export namespace Amplifier {
       (val: number) => {
         this.controllerValues.gain = val
       },
+      (val: number) => {
+        this.controllerValues.bipolarDcOffset = val
+      },
     ]
     readonly controllerValues: AmplifierControllerValues = {
       volume: 256,
@@ -74,6 +79,7 @@ export namespace Amplifier {
       absolute: false,
       fineVolume: 32768,
       gain: 1,
+      bipolarDcOffset: 0,
     }
     readonly controllers: AmplifierControllers = new AmplifierControllers(
       this,
@@ -89,6 +95,7 @@ export namespace Amplifier {
       absolute: new ControllerMidiMap(),
       fineVolume: new ControllerMidiMap(),
       gain: new ControllerMidiMap(),
+      bipolarDcOffset: new ControllerMidiMap(),
     }
     readonly optionValues: AmplifierOptionValues = {}
     readonly options: AmplifierOptions = new AmplifierOptions(this.optionValues)
@@ -128,6 +135,9 @@ export namespace Amplifier {
         case 8:
           cv.gain = value
           break
+        case 9:
+          cv.bipolarDcOffset = value
+          break
       }
     }
     *rawControllerValues(): Generator<number> {
@@ -140,6 +150,7 @@ export namespace Amplifier {
       yield Number(cv.absolute)
       yield cv.fineVolume
       yield cv.gain
+      yield cv.bipolarDcOffset
     }
     setMidiMaps(midiMaps: MidiMap[]) {
       this.midiMaps.volume = midiMaps[0] || {
@@ -190,6 +201,12 @@ export namespace Amplifier {
         messageParameter: 0,
         slope: 0,
       }
+      this.midiMaps.bipolarDcOffset = midiMaps[8] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []
@@ -201,6 +218,7 @@ export namespace Amplifier {
       a.push(this.midiMaps.absolute)
       a.push(this.midiMaps.fineVolume)
       a.push(this.midiMaps.gain)
+      a.push(this.midiMaps.bipolarDcOffset)
       return a
     }
   }

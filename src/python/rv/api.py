@@ -1,7 +1,7 @@
 import rv.modules
 from rv import ENCODING
 from rv.note import ALL_NOTES, NOTE, NOTECMD, Note
-from rv.pattern import Pattern, PatternAppearanceFlags, PatternClone, PatternFlags
+from rv.pattern import Pattern, PatternClone, PatternFlagsPFFF, PatternFlagsPFLG
 from rv.project import Project
 from rv.readers.reader import read_sunvox_file
 from rv.synth import Synth
@@ -16,9 +16,9 @@ __all__ = [
     "NOTE",
     "NOTECMD",
     "Pattern",
-    "PatternAppearanceFlags",
+    "PatternFlagsPFLG",
     "PatternClone",
-    "PatternFlags",
+    "PatternFlagsPFFF",
     "Project",
     "read_sunvox_file",
     "Synth",

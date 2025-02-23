@@ -12,3 +12,9 @@ export enum Mode {
   Lq = 2,
   LqMono = 3,
 }
+export enum AllPassFilter {
+  // noinspection JSUnusedGlobalSymbols
+  Off = 0,
+  On = 1,
+  OnImproved = 2,
+}

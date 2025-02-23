@@ -5,8 +5,7 @@ from rv.modules.base.analoggenerator import BaseAnalogGenerator
 
 
 class AnalogGenerator(BaseAnalogGenerator, Module):
-
-    chnk = 2
+    chnk = 4
     options_chnm = 1
 
     behaviors = {B.receives_notes, B.sends_audio}
@@ -23,8 +22,8 @@ class AnalogGenerator(BaseAnalogGenerator, Module):
             print(self.drawn_waveform.samples)
 
     def specialized_iff_chunks(self):
-        yield from super(AnalogGenerator, self).specialized_iff_chunks()
         yield from self.drawn_waveform.chunks()
+        yield from super(AnalogGenerator, self).specialized_iff_chunks()
 
     def load_chunk(self, chunk):
         if chunk.chnm == self.options_chnm:

@@ -1,5 +1,6 @@
 import black
 from genrv.codegen.base import CodeGenerator
+from isort import Config
 from isort.main import sort_imports
 
 
@@ -25,4 +26,5 @@ class PythonGenerator(CodeGenerator):
                 content = content.replace("\n\n", "\n")
             content = black.format_str(content, mode=filemode)
             self.write_file(outpath, content)
-            sort_imports(outpath)
+            isort_config = Config()
+            sort_imports(outpath, isort_config)

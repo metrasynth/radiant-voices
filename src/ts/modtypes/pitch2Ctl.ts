@@ -28,7 +28,7 @@ export namespace Pitch2Ctl {
     Mode = 1,
     NoteOffAction = 2,
     FirstNote = 3,
-    NumberOfSemitones = 4,
+    Range = 4,
     OutMin = 5,
     OutMax = 6,
     OutController = 7,
@@ -37,7 +37,7 @@ export namespace Pitch2Ctl {
     mode: ControllerMidiMap
     noteOffAction: ControllerMidiMap
     firstNote: ControllerMidiMap
-    numberOfSemitones: ControllerMidiMap
+    range: ControllerMidiMap
     outMin: ControllerMidiMap
     outMax: ControllerMidiMap
     outController: ControllerMidiMap
@@ -48,7 +48,7 @@ export namespace Pitch2Ctl {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Pitch2Ctl"
-    flags = 131145
+    flags = 0x1020049
     readonly typeName = "Pitch2Ctl"
     readonly controllerSetters = [
       (val: number) => {
@@ -61,7 +61,7 @@ export namespace Pitch2Ctl {
         this.controllerValues.firstNote = val
       },
       (val: number) => {
-        this.controllerValues.numberOfSemitones = val
+        this.controllerValues.range = val
       },
       (val: number) => {
         this.controllerValues.outMin = val
@@ -77,7 +77,7 @@ export namespace Pitch2Ctl {
       mode: Mode.FrequencyHz,
       noteOffAction: NoteOffAction.DoNothing,
       firstNote: 0,
-      numberOfSemitones: 120,
+      range: 120,
       outMin: 0,
       outMax: 32768,
       outController: 0,
@@ -91,7 +91,7 @@ export namespace Pitch2Ctl {
       mode: new ControllerMidiMap(),
       noteOffAction: new ControllerMidiMap(),
       firstNote: new ControllerMidiMap(),
-      numberOfSemitones: new ControllerMidiMap(),
+      range: new ControllerMidiMap(),
       outMin: new ControllerMidiMap(),
       outMax: new ControllerMidiMap(),
       outController: new ControllerMidiMap(),
@@ -120,7 +120,7 @@ export namespace Pitch2Ctl {
           cv.firstNote = value
           break
         case 4:
-          cv.numberOfSemitones = value
+          cv.range = value
           break
         case 5:
           cv.outMin = value
@@ -138,7 +138,7 @@ export namespace Pitch2Ctl {
       yield cv.mode
       yield cv.noteOffAction
       yield cv.firstNote
-      yield cv.numberOfSemitones
+      yield cv.range
       yield cv.outMin
       yield cv.outMax
       yield cv.outController
@@ -162,7 +162,7 @@ export namespace Pitch2Ctl {
         messageParameter: 0,
         slope: 0,
       }
-      this.midiMaps.numberOfSemitones = midiMaps[3] || {
+      this.midiMaps.range = midiMaps[3] || {
         channel: 0,
         messageType: 0,
         messageParameter: 0,
@@ -192,7 +192,7 @@ export namespace Pitch2Ctl {
       a.push(this.midiMaps.mode)
       a.push(this.midiMaps.noteOffAction)
       a.push(this.midiMaps.firstNote)
-      a.push(this.midiMaps.numberOfSemitones)
+      a.push(this.midiMaps.range)
       a.push(this.midiMaps.outMin)
       a.push(this.midiMaps.outMax)
       a.push(this.midiMaps.outController)

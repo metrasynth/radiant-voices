@@ -9,38 +9,8 @@ import { MessageType, MidiMap, Slope } from "@radiant-voices/controllerMidiMap"
 import { Chunk } from "@radiant-voices/chunks/chunk"
 
 const expectedDrawnWaveform = new Int8Array([
-  0,
-  -100,
-  -90,
-  0,
-  -35,
-  -35,
-  -35,
-  -35,
-  -35,
-  -35,
-  -35,
-  -32,
-  -24,
-  -17,
-  -4,
-  12,
-  36,
-  94,
-  77,
-  50,
-  33,
-  27,
-  50,
-  32,
-  -90,
-  -120,
-  100,
-  90,
-  59,
-  21,
-  0,
-  54,
+  0, -100, -90, 0, -35, -35, -35, -35, -35, -35, -35, -32, -24, -17, -4, 12, 36, 94, 77,
+  50, 33, 27, 50, 32, -90, -120, 100, 90, 59, 21, 0, 54,
 ])
 describe("Reading the analog-generator.sunsynth file", () => {
   const filePath = "tests/files/analog-generator.sunsynth"
@@ -54,9 +24,10 @@ describe("Reading the analog-generator.sunsynth file", () => {
   })
   test("has correct properties, controllers, and options", () => {
     const mod = synth.module as m.AnalogGenerator.Module
-    expect(mod.flags).toEqual(0x49)
+    expect(mod.flags).toEqual(0x02000049)
     expect(mod.name).toEqual("analog-generator")
     expect(mod.behavior?.drawnWaveform).toEqual(expectedDrawnWaveform)
+
     const { c } = mod
     expect(c.volume).toEqual(103)
     expect(c.waveform).toEqual(m.AnalogGenerator.Waveform.Drawn)
@@ -66,17 +37,20 @@ describe("Reading the analog-generator.sunsynth file", () => {
     expect(c.sustain).toEqual(true)
     expect(c.exponentialEnvelope).toEqual(true)
     expect(c.dutyCycle).toEqual(534)
-    expect(c.freq2).toEqual(1393)
+    expect(c.osc2).toEqual(393)
     expect(c.filter).toEqual(m.AnalogGenerator.Filter.Bp_12db)
-    expect(c.fFreqHz).toEqual(5611)
+    expect(c.fFreq).toEqual(5611)
     expect(c.fResonance).toEqual(1183)
     expect(c.fExponentialFreq).toEqual(false)
     expect(c.fAttack).toEqual(87)
     expect(c.fRelease).toEqual(58)
     expect(c.fEnvelope).toEqual(m.AnalogGenerator.FilterEnvelope.Off)
-    expect(c.polyphonyCh).toEqual(32)
+    expect(c.polyphony).toEqual(32)
     expect(c.mode).toEqual(m.AnalogGenerator.Mode.Lq)
     expect(c.noise).toEqual(9)
+    expect(c.osc2Volume).toEqual(20640)
+    expect(c.osc2Mode).toEqual(m.AnalogGenerator.Osc2Mode.MaxAbs)
+
     const { o } = mod
     expect(o.volumeEnvelopeScalingPerKey).toEqual(true)
     expect(o.filterEnvelopeScalingPerKey).toEqual(false)
@@ -102,8 +76,8 @@ describe("Reading the analog-generator.sunsynth file", () => {
       expectChunk({ name: "CVAL", type: "int32", value })
     }
     expectChunk({ name: "SSYN", type: "empty" })
-    expectChunk({ name: "VERS", type: "version", value: [1, 9, 5, 2] })
-    expectChunk({ name: "SFFF", type: "uint32", value: 0x49 })
+    expectChunk({ name: "VERS", type: "version", value: [2, 1, 2, 0] })
+    expectChunk({ name: "SFFF", type: "uint32", value: 0x02000049 })
     expectChunk({ name: "SNAM", type: "fixedString", value: "analog-generator" })
     expectChunk({ name: "STYP", type: "cstring", value: "Analog generator" })
     expectChunk({ name: "SFIN", type: "int32", value: 1 })
@@ -133,9 +107,13 @@ describe("Reading the analog-generator.sunsynth file", () => {
     expectCval(32)
     expectCval(2)
     expectCval(9)
+    expectCval(20640)
+    expectCval(8)
+    expectCval(0)
+
     const { name, type, values } = v()
     expect({ name, type }).toEqual({ name: "CMID", type: "midiMaps" })
-    expect((values as Array<MidiMap>).length).toEqual(19)
+    expect((values as Array<MidiMap>).length).toEqual(22)
     expect(values[0]).toEqual({
       channel: 1,
       messageType: MessageType.ControlChange,

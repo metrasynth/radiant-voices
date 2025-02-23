@@ -17,6 +17,9 @@ import { Filter } from "./analogGeneratorEnums"
 // @ts-ignore
 // noinspection ES6UnusedImports
 import { FilterEnvelope } from "./analogGeneratorEnums"
+// @ts-ignore
+// noinspection ES6UnusedImports
+import { Osc2Mode } from "./analogGeneratorEnums"
 export class AnalogGeneratorBaseControllers implements Controllers {
   constructor(
     readonly module: ModuleType,
@@ -100,14 +103,14 @@ export class AnalogGeneratorBaseControllers implements Controllers {
     controllerValues.dutyCycle = newValue
   }
   // noinspection JSUnusedGlobalSymbols
-  get freq2(): number {
-    return this.controllerValues.freq2
+  get osc2(): number {
+    return this.controllerValues.osc2 + -1000
   }
   // noinspection JSUnusedGlobalSymbols
-  set freq2(newValue: number) {
+  set osc2(newValue: number) {
     const { controllerValues } = this
-    newValue = Math.min(Math.max(newValue, 0), 2000)
-    controllerValues.freq2 = newValue
+    newValue = Math.min(Math.max(newValue, -1000), 1000)
+    controllerValues.osc2 = newValue - -1000
   }
   // noinspection JSUnusedGlobalSymbols
   get filter(): Filter {
@@ -119,14 +122,14 @@ export class AnalogGeneratorBaseControllers implements Controllers {
     controllerValues.filter = newValue
   }
   // noinspection JSUnusedGlobalSymbols
-  get fFreqHz(): number {
-    return this.controllerValues.fFreqHz
+  get fFreq(): number {
+    return this.controllerValues.fFreq
   }
   // noinspection JSUnusedGlobalSymbols
-  set fFreqHz(newValue: number) {
+  set fFreq(newValue: number) {
     const { controllerValues } = this
     newValue = Math.min(Math.max(newValue, 0), 14000)
-    controllerValues.fFreqHz = newValue
+    controllerValues.fFreq = newValue
   }
   // noinspection JSUnusedGlobalSymbols
   get fResonance(): number {
@@ -177,14 +180,14 @@ export class AnalogGeneratorBaseControllers implements Controllers {
     controllerValues.fEnvelope = newValue
   }
   // noinspection JSUnusedGlobalSymbols
-  get polyphonyCh(): number {
-    return this.controllerValues.polyphonyCh
+  get polyphony(): number {
+    return this.controllerValues.polyphony
   }
   // noinspection JSUnusedGlobalSymbols
-  set polyphonyCh(newValue: number) {
+  set polyphony(newValue: number) {
     const { controllerValues } = this
     newValue = Math.min(Math.max(newValue, 1), 32)
-    controllerValues.polyphonyCh = newValue
+    controllerValues.polyphony = newValue
   }
   // noinspection JSUnusedGlobalSymbols
   get mode(): Mode {
@@ -204,5 +207,34 @@ export class AnalogGeneratorBaseControllers implements Controllers {
     const { controllerValues } = this
     newValue = Math.min(Math.max(newValue, 0), 256)
     controllerValues.noise = newValue
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get osc2Volume(): number {
+    return this.controllerValues.osc2Volume
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set osc2Volume(newValue: number) {
+    const { controllerValues } = this
+    newValue = Math.min(Math.max(newValue, 0), 32768)
+    controllerValues.osc2Volume = newValue
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get osc2Mode(): Osc2Mode {
+    return this.controllerValues.osc2Mode
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set osc2Mode(newValue: Osc2Mode) {
+    const { controllerValues } = this
+    controllerValues.osc2Mode = newValue
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get osc2Phase(): number {
+    return this.controllerValues.osc2Phase
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set osc2Phase(newValue: number) {
+    const { controllerValues } = this
+    newValue = Math.min(Math.max(newValue, 0), 32768)
+    controllerValues.osc2Phase = newValue
   }
 }

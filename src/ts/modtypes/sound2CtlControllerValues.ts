@@ -11,7 +11,7 @@ import { Channels } from "./sound2CtlEnums"
 // noinspection ES6UnusedImports
 import { Mode } from "./sound2CtlEnums"
 export interface Sound2CtlControllerValues extends ControllerValues {
-  sampleRateHz: number
+  sampleRate: number
   channels: Channels
   absolute: boolean
   gain: number

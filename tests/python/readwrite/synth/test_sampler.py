@@ -6,15 +6,25 @@ from rv.api import NOTE, m
 def test_sampler(read_write_read_synth):
     mod: m.Sampler = read_write_read_synth("sampler").module
 
-    assert mod.flags == 33881
+    assert mod.flags == 0x02008459
     assert mod.name == "Sampler"
 
     assert mod.volume == 267
     assert mod.panning == 50
     assert mod.sample_interpolation == mod.SampleInterpolation.linear
     assert mod.envelope_interpolation == mod.EnvelopeInterpolation.off
-    assert mod.polyphony_ch == 32
+    assert mod.polyphony == 32
     assert mod.rec_threshold == 2448
+    assert mod.tick_length == 627
+    assert mod.record == mod.Record.stop
+
+    assert mod.start_recording_on_project_play is True
+    assert mod.stop_recording_on_project_stop is False
+    assert mod.record_in_mono is True
+    assert mod.record_with_reduced_sample_rate is False
+    assert mod.record_in_16_bit is True
+    assert mod.ignore_velocity_for_volume is False
+    assert mod.increased_freq_computation_accuracy is True
 
     # Global sampler config
     assert mod.vibrato_type == mod.VibratoType.square
@@ -157,6 +167,7 @@ def test_sampler(read_write_read_synth):
     assert sample1.finetune == 72
     assert sample1.panning == 58
     assert sample1.relative_note == 28
+    assert sample1.start_pos == 3
     assert sample1.data == pack(
         "<" + ("b" * len(EXPECTED_SAMPLE1_SAMPLES)),
         *EXPECTED_SAMPLE1_SAMPLES,
@@ -171,6 +182,7 @@ def test_sampler(read_write_read_synth):
     assert sample2.finetune == 78
     assert sample2.panning == -27
     assert sample2.relative_note == -16
+    assert sample2.start_pos == 0
     assert sample2.data == pack(
         "<" + ("h" * len(EXPECTED_SAMPLE2_SAMPLES)),
         *EXPECTED_SAMPLE2_SAMPLES,
@@ -185,6 +197,7 @@ def test_sampler(read_write_read_synth):
     assert sample3.finetune == -49
     assert sample3.panning == 37
     assert sample3.relative_note == 8
+    assert sample3.start_pos == 0
     assert sample3.data == pack(
         "<" + ("f" * len(EXPECTED_SAMPLE3_SAMPLES)),
         *EXPECTED_SAMPLE3_SAMPLES,

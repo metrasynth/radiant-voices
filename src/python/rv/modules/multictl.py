@@ -67,15 +67,23 @@ def invert_value(gain, smin, smax, dmin, dmax, vmax, value):
 
 
 class MultiCtl(BaseMultiCtl, Module):
-
     mgroup = "Misc"
-    chnk = 2
+    chnk = 4
 
     behaviors = {B.sends_controls}
 
     class Mapping:
         def __init__(self, value):
-            self.min, self.max, self.controller = value[:3]
+            (
+                self.min,
+                self.max,
+                self.controller,
+                self.flags,  # 1 if mapping to the same module as previous mapping
+                self.future_use2,
+                self.future_use3,
+                self.future_use4,
+                self.future_use5,
+            ) = value[:8]
 
     class MappingArray(ArrayChunk):
         chnm = 0
@@ -84,13 +92,23 @@ class MultiCtl(BaseMultiCtl, Module):
         element_size = 4 * 8
 
         def default(self, _):
-            return MultiCtl.Mapping((0, 0x8000, 0))
+            return MultiCtl.Mapping((0, 0x8000, 0, 0, 0, 0, 0, 0))
 
         @property
         def encoded_values(self):
             return list(
                 chain.from_iterable(
-                    (x.min, x.max, x.controller, 0, 0, 0, 0, 0) for x in self.values
+                    (
+                        x.min,
+                        x.max,
+                        x.controller,
+                        x.flags,
+                        x.future_use2,
+                        x.future_use3,
+                        x.future_use4,
+                        x.future_use5,
+                    )
+                    for x in self.values
                 )
             )
 
@@ -110,6 +128,7 @@ class MultiCtl(BaseMultiCtl, Module):
             self.mappings.values[i] = self.Mapping(mapping)
 
     def on_value_changed(self, value, down, up):
+        # [TODO] this needs to be updated to handle the new flags field
         if self.parent is None or not down:
             return
         for i, to_mod in enumerate(self.out_links):
@@ -145,13 +164,12 @@ class MultiCtl(BaseMultiCtl, Module):
 
         It is the inverse of setting value.
         """
+        # [TODO] this needs to be updated to handle the new flags field
         if index >= len(self.out_links):
-            raise IndexError("No destination module mapped at index {}".format(index))
+            raise IndexError(f"No destination module mapped at index {index}")
         mapping = self.mappings.values[index]
         if mapping.controller == 0:
-            raise IndexError(
-                "No destination controller mapped at index {}".format(index)
-            )
+            raise IndexError(f"No destination controller mapped at index {index}")
         reflect_mod = self.parent.modules[self.out_links[index]]
         reflect_ctl_name = list(reflect_mod.controllers)[mapping.controller - 1]
         reflect_ctl = reflect_mod.controllers[reflect_ctl_name]

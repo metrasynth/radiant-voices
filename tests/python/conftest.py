@@ -1,9 +1,17 @@
+import logging
+from contextlib import contextmanager
 from io import BytesIO
 from pathlib import Path
 
 import pytest
-from rv.api import Project, Synth, read_sunvox_file
+from rv.api import Project, Synth, m, read_sunvox_file
 from rv.lib.iff import dump_file
+
+DEFAULT_TEST_LOG_LEVEL = logging.WARNING
+
+
+def pytest_configure(config):
+    logging.basicConfig(level=DEFAULT_TEST_LOG_LEVEL)
 
 
 @pytest.fixture
@@ -14,11 +22,12 @@ def test_files_path() -> Path:
 @pytest.fixture
 def read_write_read_synth(test_files_path):
     def _read_write_read_synth(name: str) -> Synth:
-        synth = read_sunvox_file(test_files_path / f"{name}.sunsynth")
+        synth = read_sunvox_file(path := test_files_path / f"{name}.sunsynth")
         f = BytesIO()
         synth.write_to(f)
         f.seek(0)
         synth = read_sunvox_file(f)
+        synth.module.path = path  # for inspecting original file as needed
         return synth
 
     return _read_write_read_synth
@@ -50,3 +59,36 @@ def read_write_read_project(test_files_path):
         return project
 
     return _read_write_read_project
+
+
+@pytest.fixture
+def dump_on_failure():
+    """
+    Context manager to print a hex dump of the module on failure.
+
+    Include the fixture and then use it like this:
+
+        with dump_on_failure(mod):  # or mod.path to dump the original file
+            assert mod.custom_waveform.values == EXPECTED_CUSTOM_WAVEFORM
+    """
+
+    @contextmanager
+    def _dump_on_failure(module: m.Module | Path):
+        try:
+            yield
+        except Exception:
+            from rv.lib.iff import dump_file
+
+            if isinstance(module, m.Module):
+                f = BytesIO()
+                synth = Synth(module)
+                synth.write_to(f)
+                f.seek(0)
+            elif isinstance(module, Path):
+                f = module.open("rb")
+            else:
+                raise TypeError(f"Don't know how to dump {type(module)}")
+            dump_file(f)
+            raise
+
+    return _dump_on_failure

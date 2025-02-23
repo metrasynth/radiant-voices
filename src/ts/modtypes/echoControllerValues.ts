@@ -6,15 +6,18 @@
 import { ControllerValues } from "./moduleType"
 // @ts-ignore
 // noinspection ES6UnusedImports
-import { Channels } from "./echoEnums"
+import { DelayUnit } from "./echoEnums"
 // @ts-ignore
 // noinspection ES6UnusedImports
-import { DelayUnit } from "./echoEnums"
+import { Filter } from "./echoEnums"
 export interface EchoControllerValues extends ControllerValues {
   dry: number
   wet: number
   feedback: number
   delay: number
-  channels: Channels
+  rightChannelOffset: boolean
   delayUnit: DelayUnit
+  rightChannelOffsetLength: number
+  filter: Filter
+  filterFreq: number
 }

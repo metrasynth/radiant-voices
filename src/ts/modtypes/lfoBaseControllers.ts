@@ -20,6 +20,9 @@ import { FrequencyUnit } from "./lfoEnums"
 // @ts-ignore
 // noinspection ES6UnusedImports
 import { SmoothTransitions } from "./lfoEnums"
+// @ts-ignore
+// noinspection ES6UnusedImports
+import { SineQuality } from "./lfoEnums"
 export class LfoBaseControllers implements Controllers {
   constructor(
     readonly module: ModuleType,
@@ -62,7 +65,7 @@ export class LfoBaseControllers implements Controllers {
   set freq(newValue: number) {
     const { controllerValues } = this
     switch (this.controllerValues.frequencyUnit) {
-      case FrequencyUnit.Hz_64:
+      case FrequencyUnit.HzDiv_64:
         newValue = Math.min(Math.max(newValue, 1), 2048)
         break
       case FrequencyUnit.Ms:
@@ -77,10 +80,10 @@ export class LfoBaseControllers implements Controllers {
       case FrequencyUnit.Line:
         newValue = Math.min(Math.max(newValue, 1), 256)
         break
-      case FrequencyUnit.Line_2:
+      case FrequencyUnit.LineDiv_2:
         newValue = Math.min(Math.max(newValue, 1), 256)
         break
-      case FrequencyUnit.Line_3:
+      case FrequencyUnit.LineDiv_3:
         newValue = Math.min(Math.max(newValue, 1), 256)
         break
     }
@@ -144,14 +147,14 @@ export class LfoBaseControllers implements Controllers {
     controllerValues.generator = newValue
   }
   // noinspection JSUnusedGlobalSymbols
-  get freqScalePct(): number {
-    return this.controllerValues.freqScalePct
+  get freqScale(): number {
+    return this.controllerValues.freqScale
   }
   // noinspection JSUnusedGlobalSymbols
-  set freqScalePct(newValue: number) {
+  set freqScale(newValue: number) {
     const { controllerValues } = this
     newValue = Math.min(Math.max(newValue, 0), 200)
-    controllerValues.freqScalePct = newValue
+    controllerValues.freqScale = newValue
   }
   // noinspection JSUnusedGlobalSymbols
   get smoothTransitions(): SmoothTransitions {
@@ -161,5 +164,14 @@ export class LfoBaseControllers implements Controllers {
   set smoothTransitions(newValue: SmoothTransitions) {
     const { controllerValues } = this
     controllerValues.smoothTransitions = newValue
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get sineQuality(): SineQuality {
+    return this.controllerValues.sineQuality
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set sineQuality(newValue: SineQuality) {
+    const { controllerValues } = this
+    controllerValues.sineQuality = newValue
   }
 }

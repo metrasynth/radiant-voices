@@ -26,6 +26,9 @@ import { Channels } from "./samplerEnums"
 // @ts-ignore
 // noinspection ES6UnusedImports
 import { EnvelopeFlags } from "./samplerEnums"
+// @ts-ignore
+// noinspection ES6UnusedImports
+import { Record } from "./samplerEnums"
 export class SamplerBaseControllers implements Controllers {
   constructor(
     readonly module: ModuleType,
@@ -70,14 +73,14 @@ export class SamplerBaseControllers implements Controllers {
     controllerValues.envelopeInterpolation = newValue
   }
   // noinspection JSUnusedGlobalSymbols
-  get polyphonyCh(): number {
-    return this.controllerValues.polyphonyCh
+  get polyphony(): number {
+    return this.controllerValues.polyphony
   }
   // noinspection JSUnusedGlobalSymbols
-  set polyphonyCh(newValue: number) {
+  set polyphony(newValue: number) {
     const { controllerValues } = this
     newValue = Math.min(Math.max(newValue, 1), 32)
-    controllerValues.polyphonyCh = newValue
+    controllerValues.polyphony = newValue
   }
   // noinspection JSUnusedGlobalSymbols
   get recThreshold(): number {
@@ -88,5 +91,24 @@ export class SamplerBaseControllers implements Controllers {
     const { controllerValues } = this
     newValue = Math.min(Math.max(newValue, 0), 10000)
     controllerValues.recThreshold = newValue
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get tickLength(): number {
+    return this.controllerValues.tickLength
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set tickLength(newValue: number) {
+    const { controllerValues } = this
+    newValue = Math.min(Math.max(newValue, 0), 2048)
+    controllerValues.tickLength = newValue
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get record(): Record {
+    return this.controllerValues.record
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set record(newValue: Record) {
+    const { controllerValues } = this
+    controllerValues.record = newValue
   }
 }

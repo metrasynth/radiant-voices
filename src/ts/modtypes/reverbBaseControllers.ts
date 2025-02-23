@@ -8,6 +8,9 @@ import { ReverbControllerValues } from "./reverbControllerValues"
 // @ts-ignore
 // noinspection ES6UnusedImports
 import { Mode } from "./reverbEnums"
+// @ts-ignore
+// noinspection ES6UnusedImports
+import { AllPassFilter } from "./reverbEnums"
 export class ReverbBaseControllers implements Controllers {
   constructor(
     readonly module: ModuleType,
@@ -82,11 +85,11 @@ export class ReverbBaseControllers implements Controllers {
     controllerValues.mode = newValue
   }
   // noinspection JSUnusedGlobalSymbols
-  get allPassFilter(): boolean {
+  get allPassFilter(): AllPassFilter {
     return this.controllerValues.allPassFilter
   }
   // noinspection JSUnusedGlobalSymbols
-  set allPassFilter(newValue: boolean) {
+  set allPassFilter(newValue: AllPassFilter) {
     const { controllerValues } = this
     controllerValues.allPassFilter = newValue
   }

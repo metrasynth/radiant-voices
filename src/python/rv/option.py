@@ -35,7 +35,7 @@ class Option:
     def __set__(self, instance, value):
         if None not in {self.min, self.max}:
             value = max(self.min, min(self.max, value))
-        else:
+        elif self.size == 1:
             value = bool(value)
             if self.inverted:
                 value = not value

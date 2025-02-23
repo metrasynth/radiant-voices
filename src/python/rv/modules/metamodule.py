@@ -14,7 +14,7 @@ from rv.project import Project
 from rv.readers.reader import read_sunvox_file
 from slugify import slugify as _slugify
 
-MAX_USER_DEFINED_CONTROLLERS = 27
+MAX_USER_DEFINED_CONTROLLERS = 96
 USER_DEFINED_RE = re.compile(r"user_defined_\d+")
 
 
@@ -31,7 +31,7 @@ class UserDefined(Controller):
     label = None
 
     def __init__(self, number):
-        self.name = "user_defined_{}".format(number + 1)
+        self.name = f"user_defined_{number + 1}"
         self.number = number + 6
         super().__init__((0, 44100), 0, attached=False)
 
@@ -91,12 +91,18 @@ class MetaModule(BaseMetaModule, Module):
 
     class MappingArray(ArrayChunk):
         chnm = 1
-        length = 64
+        length = MAX_USER_DEFINED_CONTROLLERS
         type = "HH"
         element_size = 2 * 2
 
         def default(self, _):
             return MetaModule.Mapping((0, 0))
+
+        def _set_bytes(self, value):
+            super(MetaModule.MappingArray, self)._set_bytes(value)
+
+            while len(self.values) < self.length:
+                self.values.append(MetaModule.Mapping((0, 0)))
 
         @property
         def encoded_values(self):
@@ -122,12 +128,14 @@ class MetaModule(BaseMetaModule, Module):
                     continue
                 controller_index = mapping.controller
                 controller_values = list(mod.controllers.values())
+                if controller_index >= len(controller_values):
+                    continue
                 controller = controller_values[controller_index]
                 user_defined_controller.value_type = controller.instance_value_type(mod)
                 user_defined_controller.default = controller.default
-                metamodule.controller_values[
-                    user_defined_controller.name
-                ] = mod.controller_values[controller.name]
+                metamodule.controller_values[user_defined_controller.name] = (
+                    mod.controller_values[controller.name]
+                )
 
     (
         user_defined_1,
@@ -157,10 +165,79 @@ class MetaModule(BaseMetaModule, Module):
         user_defined_25,
         user_defined_26,
         user_defined_27,
-    ) = [UserDefinedProxy(__i) for __i in range(27)]
+        user_defined_28,
+        user_defined_29,
+        user_defined_30,
+        user_defined_31,
+        user_defined_32,
+        user_defined_33,
+        user_defined_34,
+        user_defined_35,
+        user_defined_36,
+        user_defined_37,
+        user_defined_38,
+        user_defined_39,
+        user_defined_40,
+        user_defined_41,
+        user_defined_42,
+        user_defined_43,
+        user_defined_44,
+        user_defined_45,
+        user_defined_46,
+        user_defined_47,
+        user_defined_48,
+        user_defined_49,
+        user_defined_50,
+        user_defined_51,
+        user_defined_52,
+        user_defined_53,
+        user_defined_54,
+        user_defined_55,
+        user_defined_56,
+        user_defined_57,
+        user_defined_58,
+        user_defined_59,
+        user_defined_60,
+        user_defined_61,
+        user_defined_62,
+        user_defined_63,
+        user_defined_64,
+        user_defined_65,
+        user_defined_66,
+        user_defined_67,
+        user_defined_68,
+        user_defined_69,
+        user_defined_70,
+        user_defined_71,
+        user_defined_72,
+        user_defined_73,
+        user_defined_74,
+        user_defined_75,
+        user_defined_76,
+        user_defined_77,
+        user_defined_78,
+        user_defined_79,
+        user_defined_80,
+        user_defined_81,
+        user_defined_82,
+        user_defined_83,
+        user_defined_84,
+        user_defined_85,
+        user_defined_86,
+        user_defined_87,
+        user_defined_88,
+        user_defined_89,
+        user_defined_90,
+        user_defined_91,
+        user_defined_92,
+        user_defined_93,
+        user_defined_94,
+        user_defined_95,
+        user_defined_96,
+    ) = [UserDefinedProxy(__i) for __i in range(MAX_USER_DEFINED_CONTROLLERS)]
 
     def __init__(self, **kwargs):
-        project = kwargs.get("project", None)
+        project = kwargs.get("project")
         self.user_defined = [
             UserDefined(i) for i in range(MAX_USER_DEFINED_CONTROLLERS)
         ]
@@ -207,13 +284,13 @@ class MetaModule(BaseMetaModule, Module):
 
     @property
     def chnk(self):
-        return 8 + self.user_defined_controllers
+        return 8 + MAX_USER_DEFINED_CONTROLLERS
 
     @property
     def user_defined_aliases(self):
         return (
             [
-                "u_{}".format(slugify(ctl.label).lower()) if ctl.label else None
+                f"u_{slugify(ctl.label).lower()}" if ctl.label else None
                 for ctl in self.user_defined
                 if ctl.attached(self)
             ]
@@ -226,7 +303,7 @@ class MetaModule(BaseMetaModule, Module):
             mapping_index = controller.number - self.user_defined[0].number
             mapping = self.mappings.values[mapping_index]
             mod = self.project.modules[mapping.module]
-            controller_index = mapping.controller - 1
+            controller_index = mapping.controller
             controllers = list(mod.controllers.items())
             ctl_name, ctl = controllers[controller_index]
             t = ctl.instance_value_type(mod)
@@ -276,7 +353,7 @@ class MetaModule(BaseMetaModule, Module):
         elif chunk.chnm == 0:
             self.load_project(chunk)
         elif chunk.chnm == 1:
-            self.mappings.length = len(chunk.chdt) // self.mappings.element_size
+            # self.mappings.length = len(chunk.chdt) // self.mappings.element_size
             self.mappings.reset()
             self.mappings.bytes = chunk.chdt
         elif chunk.chnm >= 8:

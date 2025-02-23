@@ -54,29 +54,41 @@ export namespace Sampler {
     Sustain = 2,
     Loop = 4,
   }
+  export enum Record {
+    // noinspection JSUnusedGlobalSymbols
+    Stop = 0,
+    Pause = 1,
+    Start = 2,
+  }
   export enum CtlNum {
     Volume = 1,
     Panning = 2,
     SampleInterpolation = 3,
     EnvelopeInterpolation = 4,
-    PolyphonyCh = 5,
+    Polyphony = 5,
     RecThreshold = 6,
+    TickLength = 7,
+    Record = 8,
   }
   interface SamplerControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     panning: ControllerMidiMap
     sampleInterpolation: ControllerMidiMap
     envelopeInterpolation: ControllerMidiMap
-    polyphonyCh: ControllerMidiMap
+    polyphony: ControllerMidiMap
     recThreshold: ControllerMidiMap
+    tickLength: ControllerMidiMap
+    record: ControllerMidiMap
   }
   interface SamplerOptionValues extends OptionValues {
     startRecordingOnProjectPlay: boolean
-    stopRecordingOnProjectStop: boolean
     recordInMono: boolean
     recordWithReducedSampleRate: boolean
     recordIn_16Bit: boolean
+    stopRecordingOnProjectStop: boolean
     ignoreVelocityForVolume: boolean
+    increasedFreqComputationAccuracy: boolean
+    fitToPattern: boolean
   }
   class SamplerOptions implements Options {
     constructor(readonly optionValues: SamplerOptionValues) {}
@@ -87,14 +99,6 @@ export namespace Sampler {
     // noinspection JSUnusedGlobalSymbols
     set startRecordingOnProjectPlay(newValue: boolean) {
       this.optionValues.startRecordingOnProjectPlay = newValue
-    }
-    // noinspection JSUnusedGlobalSymbols
-    get stopRecordingOnProjectStop(): boolean {
-      return this.optionValues.stopRecordingOnProjectStop
-    }
-    // noinspection JSUnusedGlobalSymbols
-    set stopRecordingOnProjectStop(newValue: boolean) {
-      this.optionValues.stopRecordingOnProjectStop = newValue
     }
     // noinspection JSUnusedGlobalSymbols
     get recordInMono(): boolean {
@@ -121,6 +125,14 @@ export namespace Sampler {
       this.optionValues.recordIn_16Bit = newValue
     }
     // noinspection JSUnusedGlobalSymbols
+    get stopRecordingOnProjectStop(): boolean {
+      return this.optionValues.stopRecordingOnProjectStop
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set stopRecordingOnProjectStop(newValue: boolean) {
+      this.optionValues.stopRecordingOnProjectStop = newValue
+    }
+    // noinspection JSUnusedGlobalSymbols
     get ignoreVelocityForVolume(): boolean {
       return this.optionValues.ignoreVelocityForVolume
     }
@@ -128,10 +140,26 @@ export namespace Sampler {
     set ignoreVelocityForVolume(newValue: boolean) {
       this.optionValues.ignoreVelocityForVolume = newValue
     }
+    // noinspection JSUnusedGlobalSymbols
+    get increasedFreqComputationAccuracy(): boolean {
+      return this.optionValues.increasedFreqComputationAccuracy
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set increasedFreqComputationAccuracy(newValue: boolean) {
+      this.optionValues.increasedFreqComputationAccuracy = newValue
+    }
+    // noinspection JSUnusedGlobalSymbols
+    get fitToPattern(): boolean {
+      return this.optionValues.fitToPattern
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set fitToPattern(newValue: boolean) {
+      this.optionValues.fitToPattern = newValue
+    }
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Sampler"
-    flags = 33881
+    flags = 0x8459
     readonly typeName = "Sampler"
     readonly optionsChnm = 257
     readonly controllerSetters = [
@@ -148,10 +176,16 @@ export namespace Sampler {
         this.controllerValues.envelopeInterpolation = val
       },
       (val: number) => {
-        this.controllerValues.polyphonyCh = val
+        this.controllerValues.polyphony = val
       },
       (val: number) => {
         this.controllerValues.recThreshold = val
+      },
+      (val: number) => {
+        this.controllerValues.tickLength = val
+      },
+      (val: number) => {
+        this.controllerValues.record = val
       },
     ]
     readonly controllerValues: SamplerControllerValues = {
@@ -159,8 +193,10 @@ export namespace Sampler {
       panning: 0,
       sampleInterpolation: SampleInterpolation.Spline,
       envelopeInterpolation: EnvelopeInterpolation.Linear,
-      polyphonyCh: 8,
+      polyphony: 8,
       recThreshold: 4,
+      tickLength: 128,
+      record: Record.Stop,
     }
     readonly controllers: SamplerControllers = new SamplerControllers(
       this,
@@ -172,16 +208,20 @@ export namespace Sampler {
       panning: new ControllerMidiMap(),
       sampleInterpolation: new ControllerMidiMap(),
       envelopeInterpolation: new ControllerMidiMap(),
-      polyphonyCh: new ControllerMidiMap(),
+      polyphony: new ControllerMidiMap(),
       recThreshold: new ControllerMidiMap(),
+      tickLength: new ControllerMidiMap(),
+      record: new ControllerMidiMap(),
     }
     readonly optionValues: SamplerOptionValues = {
       startRecordingOnProjectPlay: false,
-      stopRecordingOnProjectStop: false,
       recordInMono: false,
       recordWithReducedSampleRate: false,
       recordIn_16Bit: false,
+      stopRecordingOnProjectStop: false,
       ignoreVelocityForVolume: false,
+      increasedFreqComputationAccuracy: false,
+      fitToPattern: false,
     }
     readonly options: SamplerOptions = new SamplerOptions(this.optionValues)
     readonly o = this.options
@@ -209,10 +249,16 @@ export namespace Sampler {
           cv.envelopeInterpolation = value
           break
         case 5:
-          cv.polyphonyCh = value
+          cv.polyphony = value
           break
         case 6:
           cv.recThreshold = value
+          break
+        case 7:
+          cv.tickLength = value
+          break
+        case 8:
+          cv.record = value
           break
       }
     }
@@ -222,8 +268,10 @@ export namespace Sampler {
       yield cv.panning
       yield cv.sampleInterpolation
       yield cv.envelopeInterpolation
-      yield cv.polyphonyCh
+      yield cv.polyphony
       yield cv.recThreshold
+      yield cv.tickLength
+      yield cv.record
     }
     setMidiMaps(midiMaps: MidiMap[]) {
       this.midiMaps.volume = midiMaps[0] || {
@@ -250,13 +298,25 @@ export namespace Sampler {
         messageParameter: 0,
         slope: 0,
       }
-      this.midiMaps.polyphonyCh = midiMaps[4] || {
+      this.midiMaps.polyphony = midiMaps[4] || {
         channel: 0,
         messageType: 0,
         messageParameter: 0,
         slope: 0,
       }
       this.midiMaps.recThreshold = midiMaps[5] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.tickLength = midiMaps[6] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.record = midiMaps[7] || {
         channel: 0,
         messageType: 0,
         messageParameter: 0,
@@ -269,19 +329,23 @@ export namespace Sampler {
       a.push(this.midiMaps.panning)
       a.push(this.midiMaps.sampleInterpolation)
       a.push(this.midiMaps.envelopeInterpolation)
-      a.push(this.midiMaps.polyphonyCh)
+      a.push(this.midiMaps.polyphony)
       a.push(this.midiMaps.recThreshold)
+      a.push(this.midiMaps.tickLength)
+      a.push(this.midiMaps.record)
       return a
     }
     rawOptionBytes(): Uint8Array {
-      const bytes = new Uint8Array(6)
+      const bytes = new Uint8Array(8)
       const { optionValues: ov } = this
       bytes[0] |= (Number(ov.startRecordingOnProjectPlay) & (2 ** 1 - 1)) << 0
-      bytes[4] |= (Number(ov.stopRecordingOnProjectStop) & (2 ** 1 - 1)) << 0
       bytes[1] |= (Number(ov.recordInMono) & (2 ** 1 - 1)) << 0
       bytes[2] |= (Number(ov.recordWithReducedSampleRate) & (2 ** 1 - 1)) << 0
       bytes[3] |= (Number(ov.recordIn_16Bit) & (2 ** 1 - 1)) << 0
+      bytes[4] |= (Number(ov.stopRecordingOnProjectStop) & (2 ** 1 - 1)) << 0
       bytes[5] |= (Number(ov.ignoreVelocityForVolume) & (2 ** 1 - 1)) << 0
+      bytes[6] |= (Number(ov.increasedFreqComputationAccuracy) & (2 ** 1 - 1)) << 0
+      bytes[7] |= (Number(ov.fitToPattern) & (2 ** 8 - 1)) << 0
       return bytes
     }
     setOptions(dataChunks: ModuleDataChunks) {
@@ -296,17 +360,21 @@ export namespace Sampler {
         this.optionValues.startRecordingOnProjectPlay = Boolean(
           (chdt[0] >> 0) & (2 ** 1 - 1)
         )
-        this.optionValues.stopRecordingOnProjectStop = Boolean(
-          (chdt[4] >> 0) & (2 ** 1 - 1)
-        )
         this.optionValues.recordInMono = Boolean((chdt[1] >> 0) & (2 ** 1 - 1))
         this.optionValues.recordWithReducedSampleRate = Boolean(
           (chdt[2] >> 0) & (2 ** 1 - 1)
         )
         this.optionValues.recordIn_16Bit = Boolean((chdt[3] >> 0) & (2 ** 1 - 1))
+        this.optionValues.stopRecordingOnProjectStop = Boolean(
+          (chdt[4] >> 0) & (2 ** 1 - 1)
+        )
         this.optionValues.ignoreVelocityForVolume = Boolean(
           (chdt[5] >> 0) & (2 ** 1 - 1)
         )
+        this.optionValues.increasedFreqComputationAccuracy = Boolean(
+          (chdt[6] >> 0) & (2 ** 1 - 1)
+        )
+        this.optionValues.fitToPattern = (chdt[7] >> 0) & (2 ** 8 - 1)
       }
     }
   }

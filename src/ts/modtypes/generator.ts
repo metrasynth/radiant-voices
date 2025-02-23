@@ -36,7 +36,7 @@ export namespace Generator {
     Panning = 3,
     Attack = 4,
     Release = 5,
-    PolyphonyCh = 6,
+    Polyphony = 6,
     Mode = 7,
     Sustain = 8,
     FreqModulationByInput = 9,
@@ -48,7 +48,7 @@ export namespace Generator {
     panning: ControllerMidiMap
     attack: ControllerMidiMap
     release: ControllerMidiMap
-    polyphonyCh: ControllerMidiMap
+    polyphony: ControllerMidiMap
     mode: ControllerMidiMap
     sustain: ControllerMidiMap
     freqModulationByInput: ControllerMidiMap
@@ -60,7 +60,7 @@ export namespace Generator {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Generator"
-    flags = 89
+    flags = 0x59
     readonly typeName = "Generator"
     readonly controllerSetters = [
       (val: number) => {
@@ -79,7 +79,7 @@ export namespace Generator {
         this.controllerValues.release = val
       },
       (val: number) => {
-        this.controllerValues.polyphonyCh = val
+        this.controllerValues.polyphony = val
       },
       (val: number) => {
         this.controllerValues.mode = val
@@ -100,8 +100,8 @@ export namespace Generator {
       panning: 0,
       attack: 0,
       release: 0,
-      polyphonyCh: 8,
-      mode: Mode.Stereo,
+      polyphony: 8,
+      mode: Mode.Mono,
       sustain: true,
       freqModulationByInput: 0,
       dutyCycle: 511,
@@ -117,7 +117,7 @@ export namespace Generator {
       panning: new ControllerMidiMap(),
       attack: new ControllerMidiMap(),
       release: new ControllerMidiMap(),
-      polyphonyCh: new ControllerMidiMap(),
+      polyphony: new ControllerMidiMap(),
       mode: new ControllerMidiMap(),
       sustain: new ControllerMidiMap(),
       freqModulationByInput: new ControllerMidiMap(),
@@ -153,7 +153,7 @@ export namespace Generator {
           cv.release = value
           break
         case 6:
-          cv.polyphonyCh = value
+          cv.polyphony = value
           break
         case 7:
           cv.mode = value
@@ -176,7 +176,7 @@ export namespace Generator {
       yield cv.panning
       yield cv.attack
       yield cv.release
-      yield cv.polyphonyCh
+      yield cv.polyphony
       yield cv.mode
       yield Number(cv.sustain)
       yield cv.freqModulationByInput
@@ -213,7 +213,7 @@ export namespace Generator {
         messageParameter: 0,
         slope: 0,
       }
-      this.midiMaps.polyphonyCh = midiMaps[5] || {
+      this.midiMaps.polyphony = midiMaps[5] || {
         channel: 0,
         messageType: 0,
         messageParameter: 0,
@@ -251,7 +251,7 @@ export namespace Generator {
       a.push(this.midiMaps.panning)
       a.push(this.midiMaps.attack)
       a.push(this.midiMaps.release)
-      a.push(this.midiMaps.polyphonyCh)
+      a.push(this.midiMaps.polyphony)
       a.push(this.midiMaps.mode)
       a.push(this.midiMaps.sustain)
       a.push(this.midiMaps.freqModulationByInput)

@@ -48,7 +48,7 @@ def test_generator(read_write_read_synth):
     assert mod.panning == -85
     assert mod.attack == 359
     assert mod.release == 115
-    assert mod.polyphony_ch == 6
+    assert mod.polyphony == 6
     assert mod.mode == mod.Mode.mono
     assert mod.sustain
     assert mod.freq_modulation_by_input == 99

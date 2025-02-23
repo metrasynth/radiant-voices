@@ -33,7 +33,7 @@ class Base{{ modtype_name }}:
     name = {{ modtype_name | repr }}
     mtype = {{ (modtype.type or modtype_name) | repr }}
     mgroup = {{ modtype.group | repr }}
-    flags = {{ (modtype.defaultFlags or 0) | repr }}
+    flags = default_flags = {{ (modtype.defaultFlags or 0) | hex }}
 
 {% for ename, e in (modtype.enums or {}).items() %}
     class {{ ename }}(IntEnum):
@@ -104,7 +104,11 @@ class Base{{ modtype_name }}:
         {% if ospec.exclusive_of %}
             exclusive_of={{ ospec.exclusive_of | repr }},
         {% endif %}
-        default={{ ospec.default | repr }}
+        {% if ospec.enum %}
+            default={{ ospec.enum }}.{{ ospec.default }},
+        {% else %}
+            default={{ ospec.default | repr }},
+        {% endif %}
     )
     {%- endfor %}
 {%- endfor %}

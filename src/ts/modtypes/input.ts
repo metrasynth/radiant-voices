@@ -32,7 +32,7 @@ export namespace Input {
   }
   export class Module extends ModuleBase implements ModuleType {
     name = "Input"
-    flags = 73
+    flags = 0x49
     readonly typeName = "Input"
     readonly controllerSetters = [
       (val: number) => {

@@ -45,14 +45,14 @@ export class Pitch2CtlBaseControllers implements Controllers {
     controllerValues.firstNote = newValue
   }
   // noinspection JSUnusedGlobalSymbols
-  get numberOfSemitones(): number {
-    return this.controllerValues.numberOfSemitones
+  get range(): number {
+    return this.controllerValues.range
   }
   // noinspection JSUnusedGlobalSymbols
-  set numberOfSemitones(newValue: number) {
+  set range(newValue: number) {
     const { controllerValues } = this
     newValue = Math.min(Math.max(newValue, 0), 256)
-    controllerValues.numberOfSemitones = newValue
+    controllerValues.range = newValue
   }
   // noinspection JSUnusedGlobalSymbols
   get outMin(): number {
