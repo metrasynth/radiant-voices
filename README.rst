@@ -36,18 +36,18 @@ Our collective imagination is the limit!
     https://en.wikipedia.org/wiki/Graph_drawing
 
 
-Support for multiple languages
-------------------------------
-
-Multiple programming languages are supported.
-
-This is accomplished by combining a structured file format specification
-with a code generation framework.
+Supported programming languages
+-------------------------------
 
 Supported languages currently include:
 
-- Python 3.8+
-- Typescript
+- Python 3.11+
+
+While Radiant Voices currently only targets Python,
+the project is structured to be able to handle multiple programming languages.
+
+This is accomplished by combining a structured file format specification
+with a custom code generation framework.
 
 
 Interaction with the SunVox DLL
@@ -100,7 +100,7 @@ as well as a specification defined in YAML format.
 Requirements
 ------------
 
-- A supported programming language.
+- Python 3.11+
 
 - OS and platform supported by `sunvox-dll-python`_, if working with
   the native SunVox DLL.
