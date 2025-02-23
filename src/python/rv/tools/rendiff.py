@@ -70,8 +70,7 @@ def main():
         from tqdm import tqdm
     except ImportError:
         log.error(
-            'Please "pip install -r requirements/tools.txt" '
-            "to use sunvox.tools.export"
+            'Please "pip install -r requirements/tools.txt" to use sunvox.tools.export'
         )
         return 1
 

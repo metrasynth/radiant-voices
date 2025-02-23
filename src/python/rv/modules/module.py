@@ -300,7 +300,7 @@ class Module(metaclass=ModuleMeta):
             attrs.append(f"index={self.index}")
         if type(self) is not Module and self.name != self.mtype:
             attrs.append(f"name={self.name}")
-        return f'<{" ".join(attrs)}>'
+        return f"<{' '.join(attrs)}>"
 
     def __lshift__(self, other):
         self.parent.connect(other, self)

@@ -133,9 +133,9 @@ class MetaModule(BaseMetaModule, Module):
                 controller = controller_values[controller_index]
                 user_defined_controller.value_type = controller.instance_value_type(mod)
                 user_defined_controller.default = controller.default
-                metamodule.controller_values[
-                    user_defined_controller.name
-                ] = mod.controller_values[controller.name]
+                metamodule.controller_values[user_defined_controller.name] = (
+                    mod.controller_values[controller.name]
+                )
 
     (
         user_defined_1,

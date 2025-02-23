@@ -246,10 +246,8 @@ def module_layout(n, seed=13, offset=(512, 512), mult=(256, 256), tries=50):
 
     def is_neighbour(p, q):
         return (
-            (
-                (p[0] == q[0] and abs(p[1] - q[1]) == 1)
-                or (p[1] == q[1] and abs(p[0] - q[0]) == 1)
-            )
+            (p[0] == q[0] and abs(p[1] - q[1]) == 1)
+            or (p[1] == q[1] and abs(p[0] - q[0]) == 1)
         ) and (abs(p[0] - q[0]) != 1 or abs(p[1] - q[1]) != 1)
 
     def normalise(r):

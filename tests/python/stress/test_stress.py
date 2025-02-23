@@ -1,4 +1,5 @@
 """If `sunvox/` is adjacent to this repo, load and save (to memory) all SunVox files"""
+
 from io import BytesIO
 from pathlib import Path
 
