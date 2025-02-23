@@ -5,6 +5,8 @@ Changelog
 2.0.0.2.1.2.0
 -------------
 
+This is a major release after a long period of development.
+
 The themes of this release are:
 
 - Support for SunVox 2.0 file format:
@@ -19,31 +21,23 @@ The themes of this release are:
 
   - Including units of measure as metadata instead of inside the controller name.
 
+- Version number reflects the most recent supported version of SunVox.
 
-Additions (all versions)
-........................
+- Retire the TypeScript port of the project:
 
+  - The TypeScript port was taking too much effort to maintain, with little benefit.
 
+  - Radiant Voices can be imported by PyScript_ if needed in a browser.
 
-
-Changes (all versions)
-......................
-
-- Documentation cleanup.
+.. _PyScript: https://pyscript.net/
 
 
+Additions, changes, and bug fixes
+.................................
 
-Additions (Python version)
-..........................
+Too many to list here!
 
-- Python 3.10 is now supported (in addition to Python 3.8 and Python 3.9).
-
-
-Bug fixes (Python version)
-..........................
-
-- ``rv.controller.Controller.pattern_value()`` now returns correct values for
-  ``compact`` ranges.
+Future releases in the 2.x series will include a more detailed changelog.
 
 
 1.0.4
