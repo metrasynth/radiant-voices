@@ -22,6 +22,11 @@ tools = [
     "tqdm>=4.67.1",
     "rich>=13.9.4",
 ]
+docs = [
+    "plantweb>=1.2.1",
+    "sphinx>=8.2.1",
+    "sphinx_rtd_theme>=3.0.2",
+]
 
 [build-system]
 requires = ["hatchling"]
@@ -37,11 +42,6 @@ dev = [
     "pytest-watch>=4.2.0",
     "numpy>=2.2.3",
     "pytest-xdist>=3.6.1",
-]
-docs = [
-    "plantweb>=1.2.1",
-    "sphinx>=8.2.1",
-    "sphinx_rtd_theme>=3.0.2",
 ]
 genrv = [
     "pyyaml>=6.0.2",
