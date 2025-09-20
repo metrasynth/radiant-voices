@@ -1,8 +1,12 @@
+from __future__ import annotations
+
 import re
 from io import BytesIO
 from itertools import chain
 from string import digits
 from struct import pack
+
+from slugify import slugify as _slugify
 
 import rv
 from rv.chunks import ArrayChunk
@@ -12,7 +16,6 @@ from rv.modules import Module
 from rv.modules.base.metamodule import BaseMetaModule
 from rv.project import Project
 from rv.readers.reader import read_sunvox_file
-from slugify import slugify as _slugify
 
 MAX_USER_DEFINED_CONTROLLERS = 96
 USER_DEFINED_RE = re.compile(r"user_defined_\d+")
@@ -94,6 +97,7 @@ class MetaModule(BaseMetaModule, Module):
         length = MAX_USER_DEFINED_CONTROLLERS
         type = "HH"
         element_size = 2 * 2
+        values: list[MetaModule.Mapping]
 
         def default(self, _):
             return MetaModule.Mapping((0, 0))
@@ -106,9 +110,7 @@ class MetaModule(BaseMetaModule, Module):
 
         @property
         def encoded_values(self):
-            return list(
-                chain.from_iterable((x.module, x.controller) for x in self.values)
-            )
+            return list(chain.from_iterable((x.module, x.controller) for x in self.values))
 
         @property
         def python_type(self):
@@ -133,9 +135,7 @@ class MetaModule(BaseMetaModule, Module):
                 controller = controller_values[controller_index]
                 user_defined_controller.value_type = controller.instance_value_type(mod)
                 user_defined_controller.default = controller.default
-                metamodule.controller_values[user_defined_controller.name] = (
-                    mod.controller_values[controller.name]
-                )
+                metamodule.controller_values[user_defined_controller.name] = mod.controller_values[controller.name]
 
     (
         user_defined_1,
@@ -238,10 +238,8 @@ class MetaModule(BaseMetaModule, Module):
 
     def __init__(self, **kwargs):
         project = kwargs.get("project")
-        self.user_defined = [
-            UserDefined(i) for i in range(MAX_USER_DEFINED_CONTROLLERS)
-        ]
-        super(MetaModule, self).__init__(**kwargs)
+        self.user_defined = [UserDefined(i) for i in range(MAX_USER_DEFINED_CONTROLLERS)]
+        super().__init__(**kwargs)
         self.mappings = self.MappingArray()
         self.project = project or Project()
         self.project.metamodule = self
@@ -278,9 +276,7 @@ class MetaModule(BaseMetaModule, Module):
                 return ctl.__set__(self, value)
 
     def __dir__(self):
-        return list(super().__dir__()) + [
-            name for name in self.user_defined_aliases if name
-        ]
+        return list(super().__dir__()) + [name for name in self.user_defined_aliases if name]
 
     @property
     def chnk(self):
@@ -315,7 +311,9 @@ class MetaModule(BaseMetaModule, Module):
     def on_embedded_controller_changed(self, module, controller, value):
         for i, mapping in enumerate(self.mappings.values):
             module_matches = mapping.module == module.index
-            controller_matches = mapping.controller == controller.number
+            controller_matches = (
+                mapping.controller == controller.number - 1
+            )  # Fix: controller.number is 1-based, mapping.controller is 0-based
             if module_matches and controller_matches:
                 name = self.user_defined[i].name
                 setattr(self, name, value)
@@ -325,9 +323,7 @@ class MetaModule(BaseMetaModule, Module):
 
     def recompute_controller_attachment(self):
         ctl_count = self.user_defined_controllers
-        attached_values = [True] * ctl_count + [False] * (
-            MAX_USER_DEFINED_CONTROLLERS - ctl_count
-        )
+        attached_values = [True] * ctl_count + [False] * (MAX_USER_DEFINED_CONTROLLERS - ctl_count)
         for controller, attached in zip(self.user_defined, attached_values):
             if attached:
                 controller.attach(self)

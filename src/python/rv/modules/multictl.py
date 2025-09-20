@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from enum import Enum
 from itertools import chain
 
@@ -90,6 +92,7 @@ class MultiCtl(BaseMultiCtl, Module):
         length = 16
         type = "IIIIIIII"
         element_size = 4 * 8
+        values: list[MultiCtl.Mapping]
 
         def default(self, _):
             return MultiCtl.Mapping((0, 0x8000, 0, 0, 0, 0, 0, 0))
