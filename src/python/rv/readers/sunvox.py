@@ -156,11 +156,17 @@ class SunVoxReader(Reader):
                 continue
             in_links = mod.in_links
             in_link_slots = mod.in_link_slots
+            # Extend in_link_slots to match in_links length (SunVox internal format)
+            while len(in_link_slots) < len(in_links):
+                in_link_slots.append(-1)
             for in_link_idx, in_link in enumerate(in_links):
-                out_link_idx = in_link_slots[in_link_idx]
+                out_link_idx = in_link_slots[in_link_idx] if in_link_idx < len(in_link_slots) else -1
+                # Skip invalid module links (corrupted files may reference non-existent modules)
+                if in_link < 0 or in_link >= len(self.object.modules):
+                    continue
                 src_mod = self.object.modules[in_link]
                 if not src_mod:
-                    raise RuntimeError()
+                    continue
                 out_links = src_mod.out_links
                 out_link_slots = src_mod.out_link_slots
                 while out_link_idx >= len(out_links):
