@@ -40,6 +40,13 @@ class ModuleReader(Reader):
         new_module.flags = self.object.flags | new_module.default_flags
         new_module.name = self.object.name
         new_module.mtype = mtype
+        # Copy MIDI flags from the old object
+        if hasattr(self.object, 'midi_in_always'):
+            new_module.midi_in_always = self.object.midi_in_always
+        if hasattr(self.object, 'midi_in_never'):
+            new_module.midi_in_never = self.object.midi_in_never
+        if hasattr(self.object, 'midi_in_channel'):
+            new_module.midi_in_channel = self.object.midi_in_channel
         self._controller_keys = [
             name
             for name, controller in new_module.controllers.items()
@@ -78,7 +85,8 @@ class ModuleReader(Reader):
     def process_SMII(self, data):
         (x,) = unpack("<I", data)
         self.object.midi_in_always = bool(x & 1)
-        self.object.midi_in_channel = x >> 1
+        self.object.midi_in_never = bool(x & 0x40)
+        self.object.midi_in_channel = (x >> 1) & 0x1F
 
     def process_SMIN(self, data):
         data = data[: data.find(0)] if 0 in data else data

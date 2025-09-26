@@ -279,6 +279,7 @@ class Module(metaclass=ModuleMeta):
         self.scale = kw.get("scale", 256)
         self.color = kw.get("color", (255, 255, 255))
         self.midi_in_always = kw.get("midi_in_always", False)
+        self.midi_in_never = kw.get("midi_in_never", False)
         self.midi_in_channel = kw.get("midi_in_channel", 0)
         self.midi_out_name = kw.get("midi_out_name")
         self.midi_out_channel = kw.get("midi_out_channel", 0)
@@ -399,7 +400,7 @@ class Module(metaclass=ModuleMeta):
         yield b"SCOL", pack("BBB", *self.color)
         yield (
             b"SMII",
-            pack("<I", int(self.midi_in_always) + (self.midi_in_channel << 1)),
+            pack("<I", int(self.midi_in_always) + (int(self.midi_in_never) << 6) + (self.midi_in_channel << 1)),
         )
         if self.midi_out_name:
             yield b"SMIN", self.midi_out_name.encode(ENCODING) + b"\0"
