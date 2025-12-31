@@ -400,7 +400,12 @@ class Module(metaclass=ModuleMeta):
         yield b"SCOL", pack("BBB", *self.color)
         yield (
             b"SMII",
-            pack("<I", int(self.midi_in_always) + (int(self.midi_in_never) << 6) + (self.midi_in_channel << 1)),
+            pack(
+                "<I",
+                int(self.midi_in_always)
+                + (int(self.midi_in_never) << 6)
+                + (self.midi_in_channel << 1),
+            ),
         )
         if self.midi_out_name:
             yield b"SMIN", self.midi_out_name.encode(ENCODING) + b"\0"

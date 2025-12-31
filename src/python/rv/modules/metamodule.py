@@ -110,7 +110,9 @@ class MetaModule(BaseMetaModule, Module):
 
         @property
         def encoded_values(self):
-            return list(chain.from_iterable((x.module, x.controller) for x in self.values))
+            return list(
+                chain.from_iterable((x.module, x.controller) for x in self.values)
+            )
 
         @property
         def python_type(self):
@@ -135,7 +137,9 @@ class MetaModule(BaseMetaModule, Module):
                 controller = controller_values[controller_index]
                 user_defined_controller.value_type = controller.instance_value_type(mod)
                 user_defined_controller.default = controller.default
-                metamodule.controller_values[user_defined_controller.name] = mod.controller_values[controller.name]
+                metamodule.controller_values[user_defined_controller.name] = (
+                    mod.controller_values[controller.name]
+                )
 
     (
         user_defined_1,
@@ -238,7 +242,9 @@ class MetaModule(BaseMetaModule, Module):
 
     def __init__(self, **kwargs):
         project = kwargs.get("project")
-        self.user_defined = [UserDefined(i) for i in range(MAX_USER_DEFINED_CONTROLLERS)]
+        self.user_defined = [
+            UserDefined(i) for i in range(MAX_USER_DEFINED_CONTROLLERS)
+        ]
         super().__init__(**kwargs)
         self.mappings = self.MappingArray()
         self.project = project or Project()
@@ -276,7 +282,9 @@ class MetaModule(BaseMetaModule, Module):
                 return ctl.__set__(self, value)
 
     def __dir__(self):
-        return list(super().__dir__()) + [name for name in self.user_defined_aliases if name]
+        return list(super().__dir__()) + [
+            name for name in self.user_defined_aliases if name
+        ]
 
     @property
     def chnk(self):
@@ -323,7 +331,9 @@ class MetaModule(BaseMetaModule, Module):
 
     def recompute_controller_attachment(self):
         ctl_count = self.user_defined_controllers
-        attached_values = [True] * ctl_count + [False] * (MAX_USER_DEFINED_CONTROLLERS - ctl_count)
+        attached_values = [True] * ctl_count + [False] * (
+            MAX_USER_DEFINED_CONTROLLERS - ctl_count
+        )
         for controller, attached in zip(self.user_defined, attached_values):
             if attached:
                 controller.attach(self)

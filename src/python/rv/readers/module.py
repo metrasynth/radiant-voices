@@ -41,11 +41,11 @@ class ModuleReader(Reader):
         new_module.name = self.object.name
         new_module.mtype = mtype
         # Copy MIDI flags from the old object
-        if hasattr(self.object, 'midi_in_always'):
+        if hasattr(self.object, "midi_in_always"):
             new_module.midi_in_always = self.object.midi_in_always
-        if hasattr(self.object, 'midi_in_never'):
+        if hasattr(self.object, "midi_in_never"):
             new_module.midi_in_never = self.object.midi_in_never
-        if hasattr(self.object, 'midi_in_channel'):
+        if hasattr(self.object, "midi_in_channel"):
             new_module.midi_in_channel = self.object.midi_in_channel
         self._controller_keys = [
             name
