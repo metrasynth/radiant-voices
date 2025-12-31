@@ -983,6 +983,12 @@ module_types:
           bit: 0
           size: 1
           default: false
+      - always_play_osc2:
+          number: 0x71
+          byte: 14
+          bit: 0
+          size: 1
+          default: false
     chunks:
       - name: drawn_waveform
         type: DrawnWaveform

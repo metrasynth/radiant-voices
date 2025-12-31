@@ -203,3 +203,11 @@ class BaseAnalogGenerator:
         size=1,
         default=False,
     )
+    always_play_osc2 = Option(
+        name="always_play_osc2",
+        number=113,
+        byte=14,
+        bit=0,
+        size=1,
+        default=False,
+    )

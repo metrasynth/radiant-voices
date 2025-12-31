@@ -134,6 +134,7 @@ export namespace AnalogGenerator {
     velocityDependentFilterResonance: boolean
     trueZeroAttackRelease: boolean
     increasedFreqComputationAccuracy: boolean
+    alwaysPlayOsc2: boolean
   }
   class AnalogGeneratorOptions implements Options {
     constructor(readonly optionValues: AnalogGeneratorOptionValues) {}
@@ -248,6 +249,14 @@ export namespace AnalogGenerator {
     // noinspection JSUnusedGlobalSymbols
     set increasedFreqComputationAccuracy(newValue: boolean) {
       this.optionValues.increasedFreqComputationAccuracy = newValue
+    }
+    // noinspection JSUnusedGlobalSymbols
+    get alwaysPlayOsc2(): boolean {
+      return this.optionValues.alwaysPlayOsc2
+    }
+    // noinspection JSUnusedGlobalSymbols
+    set alwaysPlayOsc2(newValue: boolean) {
+      this.optionValues.alwaysPlayOsc2 = newValue
     }
   }
   export class Module extends ModuleBase implements ModuleType {
@@ -391,6 +400,7 @@ export namespace AnalogGenerator {
       velocityDependentFilterResonance: false,
       trueZeroAttackRelease: false,
       increasedFreqComputationAccuracy: false,
+      alwaysPlayOsc2: false,
     }
     readonly options: AnalogGeneratorOptions = new AnalogGeneratorOptions(
       this.optionValues
@@ -661,7 +671,7 @@ export namespace AnalogGenerator {
       return a
     }
     rawOptionBytes(): Uint8Array {
-      const bytes = new Uint8Array(14)
+      const bytes = new Uint8Array(15)
       const { optionValues: ov } = this
       bytes[0] |= (Number(ov.volumeEnvelopeScalingPerKey) & (2 ** 1 - 1)) << 0
       bytes[1] |= (Number(ov.filterEnvelopeScalingPerKey) & (2 ** 1 - 1)) << 0
@@ -677,6 +687,7 @@ export namespace AnalogGenerator {
       bytes[11] |= (Number(ov.velocityDependentFilterResonance) & (2 ** 1 - 1)) << 0
       bytes[12] |= (Number(ov.trueZeroAttackRelease) & (2 ** 1 - 1)) << 0
       bytes[13] |= (Number(ov.increasedFreqComputationAccuracy) & (2 ** 1 - 1)) << 0
+      bytes[14] |= (Number(ov.alwaysPlayOsc2) & (2 ** 1 - 1)) << 0
       return bytes
     }
     setOptions(dataChunks: ModuleDataChunks) {
@@ -720,6 +731,7 @@ export namespace AnalogGenerator {
         this.optionValues.increasedFreqComputationAccuracy = Boolean(
           (chdt[13] >> 0) & (2 ** 1 - 1)
         )
+        this.optionValues.alwaysPlayOsc2 = Boolean((chdt[14] >> 0) & (2 ** 1 - 1))
       }
     }
   }

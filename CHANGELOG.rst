@@ -15,6 +15,9 @@ Additions
   MIDI input on modules. This corresponds to the MIDI input behavior where
   a module never responds to MIDI events.
 
+- Adds ``AnalogGenerator.always_play_osc2`` option (SunVox 2.1.3).
+  When enabled, plays the additional oscillator even if Osc2=0.
+
 Fixes
 .....
 
