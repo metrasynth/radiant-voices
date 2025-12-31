@@ -2,6 +2,16 @@ Changelog
 =========
 
 
+2.0.1.2.1.4.0
+-------------
+
+Additions
+.........
+
+- Adds ``rv-iff`` CLI tool for dumping IFF chunk structure of SunVox files.
+  Install with ``uv tool install -e ".[tools]"`` and run with ``rv-iff path/to/file.sunvox``.
+
+
 2.0.0.2.1.2.1
 -------------
 

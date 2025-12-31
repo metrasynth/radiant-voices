@@ -1,6 +1,6 @@
 [project]
 name = "radiant-voices"
-version = "2.0.0.2.1.2.1"
+version = "2.0.1.2.1.4.0"
 description = "Create, read, modify, and write SunVox files."
 readme = "README.rst"
 authors = [
@@ -16,6 +16,7 @@ dependencies = [
 
 [project.optional-dependencies]
 tools = [
+    "hexdump>=3.3",
     "numpy>=2.2.3",
     "scipy>=1.15.2",
     "sunvox-dll-python>=0.3.6.2.1.2.1",
@@ -27,6 +28,9 @@ docs = [
     "sphinx>=8.2.1",
     "sphinx_rtd_theme>=3.0.2",
 ]
+
+[project.scripts]
+rv-iff = "rv.lib.iff:dump_tool"
 
 [build-system]
 requires = ["hatchling"]
