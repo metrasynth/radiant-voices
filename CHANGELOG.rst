@@ -11,6 +11,19 @@ Additions
 - Adds ``rv-iff`` CLI tool for dumping IFF chunk structure of SunVox files.
   Install with ``uv tool install -e ".[tools]"`` and run with ``rv-iff path/to/file.sunvox``.
 
+- Adds ``Module.midi_in_never`` attribute, supporting the "Never" option for
+  MIDI input on modules. This corresponds to the MIDI input behavior where
+  a module never responds to MIDI events.
+
+Fixes
+.....
+
+- Gracefully handles orphaned module connections when loading corrupted
+  or hand-edited SunVox files. Previously would raise ``RuntimeError``.
+
+- Fixes ``MetaModule.on_embedded_controller_changed()`` to correctly match
+  controller mappings (controller numbers are 1-based, mappings are 0-based).
+
 
 2.0.0.2.1.2.1
 -------------

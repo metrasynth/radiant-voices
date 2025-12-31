@@ -616,13 +616,6 @@ chunk_types:
     length: 3
     element_type: unsigned int8
 
-  ListenMode:
-    parent_type: Enum
-    value_type: unsigned int8
-    values:
-      only_when_selected: 0
-      always: 1
-
   MidiChannel:
     parent_type: unsigned int32
     min: 0
@@ -632,10 +625,16 @@ chunk_types:
     parent_type: Struct
     storage_bytes: 4
     members:
-      - listen_mode: { start: 0, length: 1 }
-        type: ListenMode
+      - always: { start: 0, length: 1 }
+        type: bool
       - midi_channel: { start: 1, length: 5 }
         type: MidiChannel
+      - never: { start: 6, length: 1 }
+        type: bool
+    # MIDI input behavior:
+    #   always=0, never=0: Only when selected
+    #   always=1, never=0: Always
+    #   always=0, never=1: Never
 
   MidiBank:
     parent_type: signed int32

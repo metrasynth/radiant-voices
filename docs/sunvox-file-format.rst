@@ -421,18 +421,21 @@ Value   Purpose
 MIDI in
 .......
 
-The first bit is a flag:
+Bit structure:
 
 ======  ==========================
-Value   Purpose
+Bit     Purpose
 ======  ==========================
-0       MIDI In only when selected
-1       MIDI In always
+0       Always flag (1 = MIDI In always)
+1-5     MIDI channel (0 = all channels)
+6       Never flag (1 = MIDI In never)
 ======  ==========================
 
-The remaining bits are the MIDI channel the module will respond to,
-shifted left by 1 bit, or 0 if it should respond to all channels
-that SunVox is globally listening to.
+The MIDI input behavior is determined by the flags:
+
+- ``always=0, never=0``: MIDI In only when selected
+- ``always=1, never=0``: MIDI In always
+- ``always=0, never=1``: MIDI In never
 
 Controller MIDI mappings
 ........................
