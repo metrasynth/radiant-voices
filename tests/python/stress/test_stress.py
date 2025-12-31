@@ -1,10 +1,16 @@
-"""If `sunvox/` is adjacent to this repo, load and save (to memory) all SunVox files"""
+"""If `sunvox/` is adjacent to this repo, load and save (to memory) all SunVox files
+
+Run with: pytest -m stress
+Exclude with: pytest -m "not stress"
+"""
 
 from io import BytesIO
 from pathlib import Path
 
 import pytest
 from rv.api import read_sunvox_file
+
+pytestmark = pytest.mark.stress
 
 sunvox_dir = Path(__file__).parents[4] / "sunvox"
 filenames = []
