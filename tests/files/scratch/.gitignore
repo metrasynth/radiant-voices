@@ -1,0 +1,3 @@
+# Ignore scratch files except this .gitignore
+*
+!.gitignore
