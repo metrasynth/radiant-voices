@@ -9,3 +9,4 @@ def test_modulator(read_write_read_synth):
     assert mod.modulation_type == mod.ModulationType.max_abs
     assert mod.channels == mod.Channels.mono
     assert mod.max_phase_modulation_delay == mod.MaxPhaseModulationDelay.sec_0_5
+    assert mod.pm_interpolation == mod.PmInterpolation.linear
