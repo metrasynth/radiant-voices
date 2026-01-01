@@ -18,6 +18,13 @@ Additions
 - Adds ``AnalogGenerator.always_play_osc2`` option (SunVox 2.1.3).
   When enabled, plays the additional oscillator even if Osc2=0.
 
+- Adds ``Modulator.max_phase_modulation_delay`` values ``sec_8``, ``sec_16``,
+  and ``sec_32`` (SunVox 2.1.3).
+  Extends the maximum phase modulation delay options to 8, 16, and 32 seconds.
+
+- Adds ``Modulator.pm_interpolation`` controller (SunVox 2.1.3).
+  Controls interpolation for phase modulation: off, linear, or spline.
+
 - Adds ``Sampler.reverse`` controller (SunVox 2.1.3).
   When enabled, plays samples backwards.
 
