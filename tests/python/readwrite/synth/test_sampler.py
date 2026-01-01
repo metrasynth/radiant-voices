@@ -17,6 +17,9 @@ def test_sampler(read_write_read_synth):
     assert mod.rec_threshold == 2448
     assert mod.tick_length == 627
     assert mod.record == mod.Record.stop
+    assert mod.reverse is False
+    assert mod.attack == 0
+    assert mod.release == 32768
 
     assert mod.start_recording_on_project_play is True
     assert mod.stop_recording_on_project_stop is False
