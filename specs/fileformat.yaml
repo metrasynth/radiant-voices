@@ -2400,6 +2400,7 @@ module_types:
       - rec_threshold: { min: 0, max: 10000, default: 4 }
       - tick_length: { min: 0, max: 2048, default: 128 }
       - record: { enum: Record, default: "stop" }
+      - reverse: { bool: true, default: false }
     options_chnm: 257
     options:
       # These are in the order they appear in psynths_sampler.cpp#sampler_options,

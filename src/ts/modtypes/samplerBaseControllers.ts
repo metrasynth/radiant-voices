@@ -111,4 +111,13 @@ export class SamplerBaseControllers implements Controllers {
     const { controllerValues } = this
     controllerValues.record = newValue
   }
+  // noinspection JSUnusedGlobalSymbols
+  get reverse(): boolean {
+    return this.controllerValues.reverse
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set reverse(newValue: boolean) {
+    const { controllerValues } = this
+    controllerValues.reverse = newValue
+  }
 }

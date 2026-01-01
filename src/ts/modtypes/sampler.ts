@@ -69,6 +69,7 @@ export namespace Sampler {
     RecThreshold = 6,
     TickLength = 7,
     Record = 8,
+    Reverse = 9,
   }
   interface SamplerControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
@@ -79,6 +80,7 @@ export namespace Sampler {
     recThreshold: ControllerMidiMap
     tickLength: ControllerMidiMap
     record: ControllerMidiMap
+    reverse: ControllerMidiMap
   }
   interface SamplerOptionValues extends OptionValues {
     startRecordingOnProjectPlay: boolean
@@ -187,6 +189,9 @@ export namespace Sampler {
       (val: number) => {
         this.controllerValues.record = val
       },
+      (val: number) => {
+        this.controllerValues.reverse = Boolean(val)
+      },
     ]
     readonly controllerValues: SamplerControllerValues = {
       volume: 256,
@@ -197,6 +202,7 @@ export namespace Sampler {
       recThreshold: 4,
       tickLength: 128,
       record: Record.Stop,
+      reverse: false,
     }
     readonly controllers: SamplerControllers = new SamplerControllers(
       this,
@@ -212,6 +218,7 @@ export namespace Sampler {
       recThreshold: new ControllerMidiMap(),
       tickLength: new ControllerMidiMap(),
       record: new ControllerMidiMap(),
+      reverse: new ControllerMidiMap(),
     }
     readonly optionValues: SamplerOptionValues = {
       startRecordingOnProjectPlay: false,
@@ -260,6 +267,9 @@ export namespace Sampler {
         case 8:
           cv.record = value
           break
+        case 9:
+          cv.reverse = Boolean(value)
+          break
       }
     }
     *rawControllerValues(): Generator<number> {
@@ -272,6 +282,7 @@ export namespace Sampler {
       yield cv.recThreshold
       yield cv.tickLength
       yield cv.record
+      yield Number(cv.reverse)
     }
     setMidiMaps(midiMaps: MidiMap[]) {
       this.midiMaps.volume = midiMaps[0] || {
@@ -322,6 +333,12 @@ export namespace Sampler {
         messageParameter: 0,
         slope: 0,
       }
+      this.midiMaps.reverse = midiMaps[8] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []
@@ -333,6 +350,7 @@ export namespace Sampler {
       a.push(this.midiMaps.recThreshold)
       a.push(this.midiMaps.tickLength)
       a.push(this.midiMaps.record)
+      a.push(this.midiMaps.reverse)
       return a
     }
     rawOptionBytes(): Uint8Array {

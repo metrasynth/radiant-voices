@@ -37,4 +37,5 @@ export interface SamplerControllerValues extends ControllerValues {
   recThreshold: number
   tickLength: number
   record: Record
+  reverse: boolean
 }

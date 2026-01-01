@@ -64,6 +64,7 @@ class BaseSampler:
     rec_threshold = Controller((0, 10000), 4)
     tick_length = Controller((0, 2048), 128)
     record = Controller(Record, Record.stop)
+    reverse = Controller(bool, False)
     start_recording_on_project_play = Option(
         name="start_recording_on_project_play",
         number=127,
