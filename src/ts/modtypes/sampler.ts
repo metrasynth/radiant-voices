@@ -70,6 +70,8 @@ export namespace Sampler {
     TickLength = 7,
     Record = 8,
     Reverse = 9,
+    Attack = 10,
+    Release = 11,
   }
   interface SamplerControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
@@ -81,6 +83,8 @@ export namespace Sampler {
     tickLength: ControllerMidiMap
     record: ControllerMidiMap
     reverse: ControllerMidiMap
+    attack: ControllerMidiMap
+    release: ControllerMidiMap
   }
   interface SamplerOptionValues extends OptionValues {
     startRecordingOnProjectPlay: boolean
@@ -192,6 +196,12 @@ export namespace Sampler {
       (val: number) => {
         this.controllerValues.reverse = Boolean(val)
       },
+      (val: number) => {
+        this.controllerValues.attack = val
+      },
+      (val: number) => {
+        this.controllerValues.release = val
+      },
     ]
     readonly controllerValues: SamplerControllerValues = {
       volume: 256,
@@ -203,6 +213,8 @@ export namespace Sampler {
       tickLength: 128,
       record: Record.Stop,
       reverse: false,
+      attack: 0,
+      release: 32768,
     }
     readonly controllers: SamplerControllers = new SamplerControllers(
       this,
@@ -219,6 +231,8 @@ export namespace Sampler {
       tickLength: new ControllerMidiMap(),
       record: new ControllerMidiMap(),
       reverse: new ControllerMidiMap(),
+      attack: new ControllerMidiMap(),
+      release: new ControllerMidiMap(),
     }
     readonly optionValues: SamplerOptionValues = {
       startRecordingOnProjectPlay: false,
@@ -270,6 +284,12 @@ export namespace Sampler {
         case 9:
           cv.reverse = Boolean(value)
           break
+        case 10:
+          cv.attack = value
+          break
+        case 11:
+          cv.release = value
+          break
       }
     }
     *rawControllerValues(): Generator<number> {
@@ -283,6 +303,8 @@ export namespace Sampler {
       yield cv.tickLength
       yield cv.record
       yield Number(cv.reverse)
+      yield cv.attack
+      yield cv.release
     }
     setMidiMaps(midiMaps: MidiMap[]) {
       this.midiMaps.volume = midiMaps[0] || {
@@ -339,6 +361,18 @@ export namespace Sampler {
         messageParameter: 0,
         slope: 0,
       }
+      this.midiMaps.attack = midiMaps[9] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.release = midiMaps[10] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []
@@ -351,6 +385,8 @@ export namespace Sampler {
       a.push(this.midiMaps.tickLength)
       a.push(this.midiMaps.record)
       a.push(this.midiMaps.reverse)
+      a.push(this.midiMaps.attack)
+      a.push(this.midiMaps.release)
       return a
     }
     rawOptionBytes(): Uint8Array {

@@ -38,4 +38,6 @@ export interface SamplerControllerValues extends ControllerValues {
   tickLength: number
   record: Record
   reverse: boolean
+  attack: number
+  release: number
 }

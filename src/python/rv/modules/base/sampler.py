@@ -65,6 +65,8 @@ class BaseSampler:
     tick_length = Controller((0, 2048), 128)
     record = Controller(Record, Record.stop)
     reverse = Controller(bool, False)
+    attack = Controller((0, 32768), 0)
+    release = Controller((0, 32768), 32768)
     start_recording_on_project_play = Option(
         name="start_recording_on_project_play",
         number=127,

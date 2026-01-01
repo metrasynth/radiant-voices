@@ -2401,6 +2401,8 @@ module_types:
       - tick_length: { min: 0, max: 2048, default: 128 }
       - record: { enum: Record, default: "stop" }
       - reverse: { bool: true, default: false }
+      - attack: { min: 0, max: 32768, default: 0 }
+      - release: { min: 0, max: 32768, default: 32768 }
     options_chnm: 257
     options:
       # These are in the order they appear in psynths_sampler.cpp#sampler_options,

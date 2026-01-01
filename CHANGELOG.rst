@@ -21,6 +21,10 @@ Additions
 - Adds ``Sampler.reverse`` controller (SunVox 2.1.3).
   When enabled, plays samples backwards.
 
+- Adds ``Sampler.attack`` and ``Sampler.release`` controllers (SunVox 2.1.4).
+  These control the attack and release times when the volume envelope is enabled.
+  Values range from 0 (instant) to 32768 (infinite).
+
 - Updates default SunVox version written to files from 2.1.2.1 to 2.1.4.0.
 
 Fixes

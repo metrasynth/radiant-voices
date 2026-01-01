@@ -120,4 +120,24 @@ export class SamplerBaseControllers implements Controllers {
     const { controllerValues } = this
     controllerValues.reverse = newValue
   }
+  // noinspection JSUnusedGlobalSymbols
+  get attack(): number {
+    return this.controllerValues.attack
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set attack(newValue: number) {
+    const { controllerValues } = this
+    newValue = Math.min(Math.max(newValue, 0), 32768)
+    controllerValues.attack = newValue
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get release(): number {
+    return this.controllerValues.release
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set release(newValue: number) {
+    const { controllerValues } = this
+    newValue = Math.min(Math.max(newValue, 0), 32768)
+    controllerValues.release = newValue
+  }
 }
