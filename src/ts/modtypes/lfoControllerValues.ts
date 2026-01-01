@@ -36,4 +36,6 @@ export interface LfoControllerValues extends ControllerValues {
   freqScale: number
   smoothTransitions: SmoothTransitions
   sineQuality: SineQuality
+  transpose: number
+  finetune: number
 }

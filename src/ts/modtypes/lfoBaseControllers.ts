@@ -86,6 +86,12 @@ export class LfoBaseControllers implements Controllers {
       case FrequencyUnit.LineDiv_3:
         newValue = Math.min(Math.max(newValue, 1), 256)
         break
+      case FrequencyUnit.Semitone:
+        newValue = Math.min(Math.max(newValue, 0), 256)
+        break
+      case FrequencyUnit.SemitoneDiv_100:
+        newValue = Math.min(Math.max(newValue, 0), 25600)
+        break
     }
     controllerValues.freq = newValue
   }
@@ -173,5 +179,25 @@ export class LfoBaseControllers implements Controllers {
   set sineQuality(newValue: SineQuality) {
     const { controllerValues } = this
     controllerValues.sineQuality = newValue
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get transpose(): number {
+    return this.controllerValues.transpose
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set transpose(newValue: number) {
+    const { controllerValues } = this
+    newValue = Math.min(Math.max(newValue, 0), 256)
+    controllerValues.transpose = newValue
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get finetune(): number {
+    return this.controllerValues.finetune
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set finetune(newValue: number) {
+    const { controllerValues } = this
+    newValue = Math.min(Math.max(newValue, 0), 512)
+    controllerValues.finetune = newValue
   }
 }

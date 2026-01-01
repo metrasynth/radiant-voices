@@ -35,6 +35,8 @@ export enum FrequencyUnit {
   Line = 4,
   LineDiv_2 = 5,
   LineDiv_3 = 6,
+  Semitone = 7,
+  SemitoneDiv_100 = 8,
 }
 export enum SmoothTransitions {
   // noinspection JSUnusedGlobalSymbols

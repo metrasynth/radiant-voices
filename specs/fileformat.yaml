@@ -1808,6 +1808,8 @@ module_types:
         "line": 4
         "line/2": 5
         "line/3": 6
+        "semitone": 7
+        "semitone/100": 8
       SmoothTransitions:
         "off": 0
         "waveform": 1
@@ -1831,6 +1833,8 @@ module_types:
             line: { min: 1, max: 256 }
             line/2: { min: 1, max: 256 }
             line/3: { min: 1, max: 256 }
+            semitone: { min: 0, max: 256 }
+            semitone/100: { min: 0, max: 25600 }
       - waveform: { enum: Waveform, default: "sin2" }
       - set_phase: { min: 0, max: 256, default: 0 }
       - channels: { enum: Channels, default: "stereo" }
@@ -1840,6 +1844,8 @@ module_types:
       - freq_scale: { min: 0, max: 200, default: 100, units: "%" }
       - smooth_transitions: { enum: SmoothTransitions, default: "waveform" }
       - sine_quality: { enum: SineQuality, default: "auto" }
+      - transpose: { min: 0, max: 256, default: 128 }
+      - finetune: { min: 0, max: 512, default: 256 }
 
   Loop:
     defaultFlags: 0x451  # exists | initialized | effect | get_speed_changes

@@ -41,6 +41,8 @@ class BaseLfo:
         line = 4
         line_div_2 = 5
         line_div_3 = 6
+        semitone = 7
+        semitone_div_100 = 8
 
     class SmoothTransitions(IntEnum):
         off = 0
@@ -66,6 +68,8 @@ class BaseLfo:
                 FrequencyUnit.line: WarnOnlyRange(1, 256),
                 FrequencyUnit.line_div_2: WarnOnlyRange(1, 256),
                 FrequencyUnit.line_div_3: WarnOnlyRange(1, 256),
+                FrequencyUnit.semitone: WarnOnlyRange(0, 256),
+                FrequencyUnit.semitone_div_100: WarnOnlyRange(0, 25600),
             },
             WarnOnlyRange(1, 2048),
         ),
@@ -80,3 +84,5 @@ class BaseLfo:
     freq_scale = Controller((0, 200), 100)
     smooth_transitions = Controller(SmoothTransitions, SmoothTransitions.waveform)
     sine_quality = Controller(SineQuality, SineQuality.auto)
+    transpose = Controller((0, 256), 128)
+    finetune = Controller((0, 512), 256)

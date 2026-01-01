@@ -25,6 +25,12 @@ Additions
   These control the attack and release times when the volume envelope is enabled.
   Values range from 0 (instant) to 32768 (infinite).
 
+- Adds ``Lfo.frequency_unit`` values ``semitone`` and ``semitone/100`` (SunVox 2.1.4).
+  These allow LFO frequency to be specified in musical semitones.
+
+- Adds ``Lfo.transpose`` and ``Lfo.finetune`` controllers (SunVox 2.1.4).
+  These provide pitch adjustment when using semitone frequency units.
+
 - Updates default SunVox version written to files from 2.1.2.1 to 2.1.4.0.
 
 Fixes

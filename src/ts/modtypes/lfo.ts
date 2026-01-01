@@ -43,6 +43,8 @@ export namespace Lfo {
     Line = 4,
     LineDiv_2 = 5,
     LineDiv_3 = 6,
+    Semitone = 7,
+    SemitoneDiv_100 = 8,
   }
   export enum SmoothTransitions {
     // noinspection JSUnusedGlobalSymbols
@@ -70,6 +72,8 @@ export namespace Lfo {
     FreqScale = 11,
     SmoothTransitions = 12,
     SineQuality = 13,
+    Transpose = 14,
+    Finetune = 15,
   }
   interface LfoControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
@@ -85,6 +89,8 @@ export namespace Lfo {
     freqScale: ControllerMidiMap
     smoothTransitions: ControllerMidiMap
     sineQuality: ControllerMidiMap
+    transpose: ControllerMidiMap
+    finetune: ControllerMidiMap
   }
   interface LfoOptionValues extends OptionValues {}
   class LfoOptions implements Options {
@@ -134,6 +140,12 @@ export namespace Lfo {
       (val: number) => {
         this.controllerValues.sineQuality = val
       },
+      (val: number) => {
+        this.controllerValues.transpose = val
+      },
+      (val: number) => {
+        this.controllerValues.finetune = val
+      },
     ]
     readonly controllerValues: LfoControllerValues = {
       volume: 256,
@@ -149,6 +161,8 @@ export namespace Lfo {
       freqScale: 100,
       smoothTransitions: SmoothTransitions.Waveform,
       sineQuality: SineQuality.Auto,
+      transpose: 128,
+      finetune: 256,
     }
     readonly controllers: LfoControllers = new LfoControllers(
       this,
@@ -169,6 +183,8 @@ export namespace Lfo {
       freqScale: new ControllerMidiMap(),
       smoothTransitions: new ControllerMidiMap(),
       sineQuality: new ControllerMidiMap(),
+      transpose: new ControllerMidiMap(),
+      finetune: new ControllerMidiMap(),
     }
     readonly optionValues: LfoOptionValues = {}
     readonly options: LfoOptions = new LfoOptions(this.optionValues)
@@ -223,6 +239,12 @@ export namespace Lfo {
         case 13:
           cv.sineQuality = value
           break
+        case 14:
+          cv.transpose = value
+          break
+        case 15:
+          cv.finetune = value
+          break
       }
     }
     *rawControllerValues(): Generator<number> {
@@ -240,6 +262,8 @@ export namespace Lfo {
       yield cv.freqScale
       yield cv.smoothTransitions
       yield cv.sineQuality
+      yield cv.transpose
+      yield cv.finetune
     }
     setMidiMaps(midiMaps: MidiMap[]) {
       this.midiMaps.volume = midiMaps[0] || {
@@ -320,6 +344,18 @@ export namespace Lfo {
         messageParameter: 0,
         slope: 0,
       }
+      this.midiMaps.transpose = midiMaps[13] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
+      this.midiMaps.finetune = midiMaps[14] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []
@@ -336,6 +372,8 @@ export namespace Lfo {
       a.push(this.midiMaps.freqScale)
       a.push(this.midiMaps.smoothTransitions)
       a.push(this.midiMaps.sineQuality)
+      a.push(this.midiMaps.transpose)
+      a.push(this.midiMaps.finetune)
       return a
     }
   }
