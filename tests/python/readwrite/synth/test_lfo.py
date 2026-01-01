@@ -14,3 +14,5 @@ def test_lfo(read_write_read_synth):
     assert mod.frequency_unit == mod.FrequencyUnit.tick
     assert mod.duty_cycle == 64
     assert not mod.generator
+    assert mod.transpose == 128
+    assert mod.finetune == 256
