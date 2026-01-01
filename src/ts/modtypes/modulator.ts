@@ -41,18 +41,29 @@ export namespace Modulator {
     Sec_1 = 4,
     Sec_2 = 5,
     Sec_4 = 6,
+    Sec_8 = 7,
+    Sec_16 = 8,
+    Sec_32 = 9,
+  }
+  export enum PmInterpolation {
+    // noinspection JSUnusedGlobalSymbols
+    Off = 0,
+    Linear = 1,
+    Spline = 2,
   }
   export enum CtlNum {
     Volume = 1,
     ModulationType = 2,
     Channels = 3,
     MaxPhaseModulationDelay = 4,
+    PmInterpolation = 5,
   }
   interface ModulatorControllerMidiMaps extends ControllerMidiMaps {
     volume: ControllerMidiMap
     modulationType: ControllerMidiMap
     channels: ControllerMidiMap
     maxPhaseModulationDelay: ControllerMidiMap
+    pmInterpolation: ControllerMidiMap
   }
   interface ModulatorOptionValues extends OptionValues {}
   class ModulatorOptions implements Options {
@@ -75,12 +86,16 @@ export namespace Modulator {
       (val: number) => {
         this.controllerValues.maxPhaseModulationDelay = val
       },
+      (val: number) => {
+        this.controllerValues.pmInterpolation = val
+      },
     ]
     readonly controllerValues: ModulatorControllerValues = {
       volume: 256,
       modulationType: ModulationType.Amplitude,
       channels: Channels.Stereo,
       maxPhaseModulationDelay: MaxPhaseModulationDelay.Sec_0_04,
+      pmInterpolation: PmInterpolation.Linear,
     }
     readonly controllers: ModulatorControllers = new ModulatorControllers(
       this,
@@ -92,6 +107,7 @@ export namespace Modulator {
       modulationType: new ControllerMidiMap(),
       channels: new ControllerMidiMap(),
       maxPhaseModulationDelay: new ControllerMidiMap(),
+      pmInterpolation: new ControllerMidiMap(),
     }
     readonly optionValues: ModulatorOptionValues = {}
     readonly options: ModulatorOptions = new ModulatorOptions(this.optionValues)
@@ -119,6 +135,9 @@ export namespace Modulator {
         case 4:
           cv.maxPhaseModulationDelay = value
           break
+        case 5:
+          cv.pmInterpolation = value
+          break
       }
     }
     *rawControllerValues(): Generator<number> {
@@ -127,6 +146,7 @@ export namespace Modulator {
       yield cv.modulationType
       yield cv.channels
       yield cv.maxPhaseModulationDelay
+      yield cv.pmInterpolation
     }
     setMidiMaps(midiMaps: MidiMap[]) {
       this.midiMaps.volume = midiMaps[0] || {
@@ -153,6 +173,12 @@ export namespace Modulator {
         messageParameter: 0,
         slope: 0,
       }
+      this.midiMaps.pmInterpolation = midiMaps[4] || {
+        channel: 0,
+        messageType: 0,
+        messageParameter: 0,
+        slope: 0,
+      }
     }
     midiMapsArray(): MidiMap[] {
       const a: MidiMap[] = []
@@ -160,6 +186,7 @@ export namespace Modulator {
       a.push(this.midiMaps.modulationType)
       a.push(this.midiMaps.channels)
       a.push(this.midiMaps.maxPhaseModulationDelay)
+      a.push(this.midiMaps.pmInterpolation)
       return a
     }
   }

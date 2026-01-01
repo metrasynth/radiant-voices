@@ -14,6 +14,9 @@ import { Channels } from "./modulatorEnums"
 // @ts-ignore
 // noinspection ES6UnusedImports
 import { MaxPhaseModulationDelay } from "./modulatorEnums"
+// @ts-ignore
+// noinspection ES6UnusedImports
+import { PmInterpolation } from "./modulatorEnums"
 export class ModulatorBaseControllers implements Controllers {
   constructor(
     readonly module: ModuleType,
@@ -55,5 +58,14 @@ export class ModulatorBaseControllers implements Controllers {
   set maxPhaseModulationDelay(newValue: MaxPhaseModulationDelay) {
     const { controllerValues } = this
     controllerValues.maxPhaseModulationDelay = newValue
+  }
+  // noinspection JSUnusedGlobalSymbols
+  get pmInterpolation(): PmInterpolation {
+    return this.controllerValues.pmInterpolation
+  }
+  // noinspection JSUnusedGlobalSymbols
+  set pmInterpolation(newValue: PmInterpolation) {
+    const { controllerValues } = this
+    controllerValues.pmInterpolation = newValue
   }
 }

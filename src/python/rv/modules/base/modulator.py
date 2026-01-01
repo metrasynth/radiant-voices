@@ -40,6 +40,14 @@ class BaseModulator:
         sec_1 = 4
         sec_2 = 5
         sec_4 = 6
+        sec_8 = 7
+        sec_16 = 8
+        sec_32 = 9
+
+    class PmInterpolation(IntEnum):
+        off = 0
+        linear = 1
+        spline = 2
 
     volume = Controller((0, 512), 256)
     modulation_type = Controller(ModulationType, ModulationType.amplitude)
@@ -47,3 +55,4 @@ class BaseModulator:
     max_phase_modulation_delay = Controller(
         MaxPhaseModulationDelay, MaxPhaseModulationDelay.sec_0_04
     )
+    pm_interpolation = Controller(PmInterpolation, PmInterpolation.linear)

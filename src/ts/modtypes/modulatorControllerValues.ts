@@ -13,9 +13,13 @@ import { Channels } from "./modulatorEnums"
 // @ts-ignore
 // noinspection ES6UnusedImports
 import { MaxPhaseModulationDelay } from "./modulatorEnums"
+// @ts-ignore
+// noinspection ES6UnusedImports
+import { PmInterpolation } from "./modulatorEnums"
 export interface ModulatorControllerValues extends ControllerValues {
   volume: number
   modulationType: ModulationType
   channels: Channels
   maxPhaseModulationDelay: MaxPhaseModulationDelay
+  pmInterpolation: PmInterpolation
 }

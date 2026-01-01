@@ -2006,11 +2006,19 @@ module_types:
         "sec_1": 4
         "sec_2": 5
         "sec_4": 6
+        "sec_8": 7
+        "sec_16": 8
+        "sec_32": 9
+      PmInterpolation:
+        "off": 0
+        "linear": 1
+        "spline": 2
     controllers:
       - volume: { min: 0, max: 512, default: 256 }
       - modulation_type: { enum: ModulationType, default: "amplitude" }
       - channels: { enum: Channels, default: "stereo" }
       - max_phase_modulation_delay: { enum: MaxPhaseModulationDelay, default: "sec_0_04" }
+      - pm_interpolation: { enum: PmInterpolation, default: "linear" }
 
   MultiCtl:
     defaultFlags: 0x60051  # exists | initialized | effect | no_scope_buffer | output_is_empty

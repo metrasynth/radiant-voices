@@ -33,4 +33,13 @@ export enum MaxPhaseModulationDelay {
   Sec_1 = 4,
   Sec_2 = 5,
   Sec_4 = 6,
+  Sec_8 = 7,
+  Sec_16 = 8,
+  Sec_32 = 9,
+}
+export enum PmInterpolation {
+  // noinspection JSUnusedGlobalSymbols
+  Off = 0,
+  Linear = 1,
+  Spline = 2,
 }
