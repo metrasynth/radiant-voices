@@ -15,6 +15,7 @@ class SunSynthReader(Reader):
 
     def process_VERS(self, data):
         self.object.loaded_sunsynth_version = tuple(reversed(unpack("BBBB", data)))
+        self.object.sunsynth_version = self.object.loaded_sunsynth_version
 
     def process_SFFF(self, data):
         self.rewind(data)

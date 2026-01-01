@@ -29,6 +29,7 @@ class SunVoxReader(Reader):
 
     def process_VERS(self, data):
         self.object.loaded_sunvox_version = tuple(reversed(unpack("BBBB", data)))
+        self.object.sunvox_version = self.object.loaded_sunvox_version
 
     def process_BVER(self, data):
         self.object.based_on_version = tuple(reversed(unpack("BBBB", data)))

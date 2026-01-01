@@ -38,7 +38,7 @@ class Project(Container):
     def __init__(self):
         self.modules = []
         self.output = self.attach_module(Output())
-        self.sunvox_version = (2, 1, 2, 1)
+        self.sunvox_version = (2, 1, 4, 0)
         self.based_on_version = self.loaded_sunvox_version = self.sunvox_version
         self.flags = 0
         self.initial_bpm = 125

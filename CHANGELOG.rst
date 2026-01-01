@@ -18,6 +18,8 @@ Additions
 - Adds ``AnalogGenerator.always_play_osc2`` option (SunVox 2.1.3).
   When enabled, plays the additional oscillator even if Osc2=0.
 
+- Updates default SunVox version written to files from 2.1.2.1 to 2.1.4.0.
+
 Fixes
 .....
 
