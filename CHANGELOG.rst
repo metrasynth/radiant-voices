@@ -5,6 +5,9 @@ Changelog
 2.0.1.2.1.4.0
 -------------
 
+This release adds support for new SunVox 2.1.3 and 2.1.4 file format features,
+plus general improvements and bug fixes.
+
 Additions
 .........
 
@@ -15,30 +18,36 @@ Additions
   MIDI input on modules. This corresponds to the MIDI input behavior where
   a module never responds to MIDI events.
 
-- Adds ``AnalogGenerator.always_play_osc2`` option (SunVox 2.1.3).
+- Updates default SunVox version written to files from 2.1.2.1 to 2.1.4.0.
+
+SunVox 2.1.3 support
+....................
+
+- Adds ``AnalogGenerator.always_play_osc2`` option.
   When enabled, plays the additional oscillator even if Osc2=0.
 
 - Adds ``Modulator.max_phase_modulation_delay`` values ``sec_8``, ``sec_16``,
-  and ``sec_32`` (SunVox 2.1.3).
+  and ``sec_32``.
   Extends the maximum phase modulation delay options to 8, 16, and 32 seconds.
 
-- Adds ``Modulator.pm_interpolation`` controller (SunVox 2.1.3).
+- Adds ``Modulator.pm_interpolation`` controller.
   Controls interpolation for phase modulation: off, linear, or spline.
 
-- Adds ``Sampler.reverse`` controller (SunVox 2.1.3).
+- Adds ``Sampler.reverse`` controller.
   When enabled, plays samples backwards.
 
-- Adds ``Sampler.attack`` and ``Sampler.release`` controllers (SunVox 2.1.4).
+SunVox 2.1.4 support
+....................
+
+- Adds ``Sampler.attack`` and ``Sampler.release`` controllers.
   These control the attack and release times when the volume envelope is enabled.
   Values range from 0 (instant) to 32768 (infinite).
 
-- Adds ``Lfo.frequency_unit`` values ``semitone`` and ``semitone/100`` (SunVox 2.1.4).
+- Adds ``Lfo.frequency_unit`` values ``semitone`` and ``semitone/100``.
   These allow LFO frequency to be specified in musical semitones.
 
-- Adds ``Lfo.transpose`` and ``Lfo.finetune`` controllers (SunVox 2.1.4).
+- Adds ``Lfo.transpose`` and ``Lfo.finetune`` controllers.
   These provide pitch adjustment when using semitone frequency units.
-
-- Updates default SunVox version written to files from 2.1.2.1 to 2.1.4.0.
 
 Fixes
 .....
